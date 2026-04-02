@@ -327,6 +327,7 @@ contexts:
 
   using_namespace:
     - include: namespace_variables
+    - include: type_arguments
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -334,9 +335,6 @@ contexts:
       push: maybe_pointer
     - match: \.
       scope: meta.path.cs punctuation.accessor.dot.cs
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
@@ -406,19 +404,19 @@ contexts:
       captures:
         1: keyword.declaration.class.cs
         2: entity.name.class.cs
-      push: [class_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+      push: [class_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
     - match: \b(record)\s+(?:(struct)\s+)?({{name}})
       captures:
         1: keyword.declaration.class.record.cs
         2: keyword.declaration.struct.record.cs
         3: entity.name.class.cs
-      push: [record_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+      push: [record_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
     - match: (?:\b(ref)\s+)?\b(struct)\s+({{name}})
       captures:
         1: storage.modifier.cs
         2: keyword.declaration.struct.cs
         3: entity.name.struct.cs
-      push: [struct_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+      push: [struct_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
     - match: \b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?
       scope: meta.enum.cs
       captures:
@@ -458,7 +456,7 @@ contexts:
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
-      push: [interface_signature, data_type_constraint, data_type_parameter]
+      push: [interface_signature, data_type_constraint, maybe_type_parameters]
 
   extension_declaration:
     - match: \bextension\b
@@ -466,9 +464,7 @@ contexts:
       push: extension_declaration_maybe_generic
 
   extension_declaration_maybe_generic:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
+    - include: type_arguments
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       set: [method_body, method_params]
@@ -490,47 +486,33 @@ contexts:
     - match: \b(delegate)\s+
       captures:
         1: storage.type.delegate.cs
-      push: delegate_type
-
-  delegate_type:
-    - meta_scope: meta.delegate.cs
-    - match: \s
-      set: delegate_name
-    - include: type
+      push:
+        - delegate_parameters
+        - maybe_type_parameters
+        - delegate_name
+        - type_no_space
 
   delegate_name:
-    - match: '\s+'
-      scope: meta.delegate.cs
-    - match: '({{name}})(\s*)(<)'
-      captures:
-        1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.cs
-        3: meta.delegate.cs meta.generic.cs punctuation.definition.generic.begin.cs
-      set:
-        - meta_content_scope: meta.delegate.cs meta.generic.cs
-        - match: '>'
-          scope: meta.delegate.cs meta.generic.cs punctuation.definition.generic.end.cs
-          set:
-            - match: '\s+'
-              scope: meta.delegate.cs
-            - match: \(
-              scope: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
-              set: delegate_params
-        - include: type_parameter
-    - match: '({{name}})(\s*)(\()'
-      captures:
-        1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.cs
-        3: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
-      set: delegate_params
-    - match: '(?=\S)'
+    - match: '{{name}}'
+      scope: variable.other.member.delegate.cs
+      pop: true
+    - match: (?=\S)
       pop: true
 
-  delegate_params:
-    - meta_content_scope: meta.delegate.parameters.cs
+  delegate_parameters:
+    - meta_scope: meta.delegate.cs
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: inside_delegate_parameters
+    - match: (?=\S)
+      pop: true
+
+  inside_delegate_parameters:
+    - clear_scopes: 1
+    - meta_scope: meta.delegate.parameters.cs
     - match: \)
       scope: punctuation.section.parameters.end.cs
-      set: delegate_end
+      pop: 2
     - match: (?=\S)
       push: [method_param, method_param_type]
 
@@ -539,12 +521,6 @@ contexts:
       captures:
         1: punctuation.terminator.statement.cs
       pop: 1
-
-  delegate_end:
-    - include: terminator
-    - match: \s*(?=\S)
-      scope: invalid.illegal.expected.colon
-      pop: true
 
   maybe_constructor_parameters:
     - match: \(
@@ -623,13 +599,6 @@ contexts:
     - include: extension_declaration
     - include: method_declaration
     - include: stray_close_bracket
-
-  data_type_parameter:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_parameter
-    - match: (?=\S)
-      pop: true
 
   data_type_constraint:
     - match: ':'
@@ -748,7 +717,7 @@ contexts:
       captures:
         1: support.type.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: [method_name_or_member_variable, type_argument]
+      push: [method_name_or_member_variable, inside_type_argument]
     - match: '(~{{name}})(\s*)(\()'
       captures:
         1: meta.method.cs entity.name.function.destructor.cs
@@ -876,7 +845,7 @@ contexts:
       push:
         - meta_scope: meta.method.cs
         - meta_content_scope: meta.generic.cs
-        - include: type_parameter
+        - include: inside_type_parameter
     - match: '(this)\s*(\[)'
       captures:
         1: variable.language.this.cs
@@ -1873,7 +1842,7 @@ contexts:
     - match: \s*(<)
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
+      push: inside_type_argument
     - match: (?=[]})>,;>:]|=>)
       pop: true
 
@@ -1896,12 +1865,24 @@ contexts:
     - match: ','
       scope: punctuation.separator.type.cs
 
-  type_argument:
+  type_arguments:
+    - match: '<'
+      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+      push: inside_type_argument
+
+  inside_type_argument:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
     - include: type
 
-  type_parameter:
+  maybe_type_parameters:
+    - match: '<'
+      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+      push: inside_type_parameter
+    - match: (?=\S)
+      pop: true
+
+  inside_type_parameter:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
     - include: type_common_except_bare_custom_type
@@ -2671,7 +2652,7 @@ contexts:
               pop: true
             - match: (?=[,);}])
               pop: true
-        - include: type_argument
+        - include: inside_type_argument
     - match: '({{base_type}}){{type_suffix_capture}}'
       captures:
         1: storage.type.cs
