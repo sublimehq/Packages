@@ -115,6 +115,40 @@ contexts:
     - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
 
+  documentation:
+    - meta_include_prototype: false
+    - meta_content_scope: comment.line.documentation.cs
+    - match: '(<)({{name}})'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.begin.cs
+      push:
+        - meta_include_prototype: false
+        - match: '({{name}})\s*(=)'
+          captures:
+            1: entity.other.attribute-name.cs
+            2: punctuation.separator.argument.value.cs
+        - match: '/?>'
+          scope: punctuation.definition.tag.end.cs
+          pop: true
+        - match: '"[^"]*"'
+          scope: string.quoted.double.cs
+        - match: $
+          pop: true
+    - match: '(</)({{name}})(>)'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.end.cs
+        3: punctuation.definition.tag.end.cs
+    - match: '^\s*(///)'
+      captures:
+        1: punctuation.definition.comment.documentation.cs
+    - match: '^\s*(?!///)'
+      pop: true
+    - include: comments_in
+    - match: '[\w\s]+|.'
+      scope: text.documentation.cs
+
   shebang:
     - meta_include_prototype: false
     - match: ^\s*(\#!)
@@ -2841,40 +2875,6 @@ contexts:
         - include: line_of_code_in
     - match: (?=\S)
       pop: true
-
-  documentation:
-    - meta_include_prototype: false
-    - meta_content_scope: comment.line.documentation.cs
-    - match: '(<)({{name}})'
-      captures:
-        1: punctuation.definition.tag.begin.cs
-        2: entity.name.tag.begin.cs
-      push:
-        - meta_include_prototype: false
-        - match: '({{name}})\s*(=)'
-          captures:
-            1: entity.other.attribute-name.cs
-            2: punctuation.separator.argument.value.cs
-        - match: '/?>'
-          scope: punctuation.definition.tag.end.cs
-          pop: true
-        - match: '"[^"]*"'
-          scope: string.quoted.double.cs
-        - match: $
-          pop: true
-    - match: '(</)({{name}})(>)'
-      captures:
-        1: punctuation.definition.tag.begin.cs
-        2: entity.name.tag.end.cs
-        3: punctuation.definition.tag.end.cs
-    - match: '^\s*(///)'
-      captures:
-        1: punctuation.definition.comment.documentation.cs
-    - match: '^\s*(?!///)'
-      pop: true
-    - include: comments_in
-    - match: '[\w\s]+|.'
-      scope: text.documentation.cs
 
   regex_string:
     - match: '"'
