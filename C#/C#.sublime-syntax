@@ -723,9 +723,54 @@ contexts:
     - include: record_declaration
     - include: struct_declaration
     - include: delegate_declaration
+    - include: event_declaration
     - include: extension_declaration
     - include: method_declaration
     - include: stray_close_bracket
+
+###[ EVENT MEMBER DECLARATIONS ]###############################################
+
+  event_declaration:
+    - match: \b(event)\b\s*
+      captures:
+        1: storage.modifier.cs
+      push: [event_declaration_name, type_no_space]
+
+  event_declaration_name:
+    - match: '({{name}})(\.)'
+      captures:
+        1: entity.other.inherited-class.cs
+        2: punctuation.accessor.dot.cs
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+      set: event_declaration_after_name
+    - match: (?=\S)
+      pop: true
+
+  event_declaration_after_name:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: event_handler_declaration_body
+    - match: (?==)
+      set: member_variables_declaration
+    - match: (?=\S)
+      pop: true
+
+  event_handler_declaration_body:
+    - meta_scope: meta.block.cs
+    - include: attribute
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: \b(add)\b
+      scope: keyword.declaration.function.accessor.add.cs
+      push: method_body
+    - match: \b(remove)\b
+      scope: keyword.declaration.function.accessor.remove.cs
+      push: method_body
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
@@ -795,53 +840,11 @@ contexts:
         1: punctuation.terminator.statement.cs
       pop: 1
 
-###[ EVENT MEMBER HANDLER DECLARATIONS ]#######################################
-
-  event_handler_declaration:
-    - match: '({{name}})(\.)'
-      captures:
-        1: entity.other.inherited-class.cs
-        2: punctuation.accessor.dot.cs
-    - match: '{{name}}'
-      scope: variable.other.member.cs
-      set: event_handler_declaration_after_name
-    - match: (?=\S)
-      pop: true
-
-  event_handler_declaration_after_name:
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set: event_handler_declaration_body
-    - match: (?==)
-      set: member_variables_declaration
-    - match: (?=\S)
-      pop: true
-
-  event_handler_declaration_body:
-    - meta_scope: meta.block.cs
-    - include: attribute
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: true
-    - match: \b(add)\b
-      scope: keyword.declaration.function.accessor.add.cs
-      push: method_body
-    - match: \b(remove)\b
-      scope: keyword.declaration.function.accessor.remove.cs
-      push: method_body
-
-###[ METHOD DECLARATIONS ]#####################################################
+###[ METHOD MEMBER DECLARATIONS ]##############################################
 
   method_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
-    - match: \b(event)\b\s*
-      captures:
-        1: storage.modifier.cs
-      push: [event_handler_declaration, type_no_space]
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
     - match: '\b(?:implicit|explicit)\b'
