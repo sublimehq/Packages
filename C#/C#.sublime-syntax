@@ -150,6 +150,50 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
+  attribute:
+    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
+      captures:
+        1: punctuation.definition.annotation.begin.cs
+        2: storage.modifier.target.cs
+        3: punctuation.separator.key-value.cs
+      push: attribute_in
+    - match: \[
+      scope: punctuation.definition.annotation.begin.cs
+      push: attribute_in
+
+  attribute_in:
+    - meta_scope: meta.annotation.cs
+    - include: namespace_variables
+    - match: (GeneratedRegex)\s*(\()
+      captures:
+        1: variable.annotation.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      set: [attribute_arguments, arguments, regex_string]
+    - match: (?={{namespaced_name}})
+      push: attribute_name
+    - match: \s*(\()
+      captures:
+        1: meta.group.cs punctuation.section.group.begin.cs
+      set: [attribute_arguments, arguments]
+    - match: ','
+      scope: punctuation.separator.annotation.cs
+    - match: \]
+      scope: punctuation.definition.annotation.end.cs
+      pop: true
+
+  attribute_name:
+    - meta_content_scope: variable.annotation.cs
+    - include: type_common_except_bare_custom_type
+    - match: (?=\()
+      pop: 1
+
+  attribute_arguments:
+    - meta_content_scope: meta.annotation.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+    - match: ''
+      set: attribute_in
+
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
     - match: '\b(define|undef)\s+({{name}})\b'
@@ -1022,43 +1066,6 @@ contexts:
       scope: invalid.illegal.cs
       pop: true
 
-  attribute:
-    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
-      captures:
-        1: punctuation.definition.annotation.begin.cs
-        2: storage.modifier.target.cs
-        3: punctuation.separator.key-value.cs
-      push: attribute_in
-    - match: \[
-      scope: punctuation.definition.annotation.begin.cs
-      push: attribute_in
-
-  attribute_in:
-    - meta_scope: meta.annotation.cs
-    - include: namespace_variables
-    - match: (GeneratedRegex)\s*(\()
-      captures:
-        1: variable.annotation.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments, regex_string]
-    - match: (?={{namespaced_name}})
-      push: annotation_name
-    - match: \s*(\()
-      captures:
-        1: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments]
-    - match: ','
-      scope: punctuation.separator.annotation.cs
-    - match: \]
-      scope: punctuation.definition.annotation.end.cs
-      pop: true
-
-  annotation_name:
-    - meta_content_scope: variable.annotation.cs
-    - include: type_common_except_bare_custom_type
-    - match: (?=\()
-      pop: 1
-
   code_block_in:
     - match: (?=\S)
       push: line_of_code
@@ -1636,13 +1643,6 @@ contexts:
       fail: tuple_or_group
     - include: lambdas
     - include: line_of_code_in_no_semicolon
-
-  attribute_arguments:
-    - meta_content_scope: meta.annotation.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: attribute_in
 
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
