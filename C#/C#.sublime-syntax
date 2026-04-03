@@ -500,7 +500,11 @@ contexts:
       captures:
         1: keyword.declaration.class.cs
         2: entity.name.class.cs
-      push: [class_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
+      push:
+        - class_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
 
   class_signature:
     - meta_scope: meta.class.cs
@@ -556,7 +560,10 @@ contexts:
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
-      push: [interface_signature, data_type_constraint, maybe_type_parameters]
+      push:
+        - interface_signature
+        - data_type_constraint
+        - maybe_type_parameters
 
   interface_signature:
     - meta_scope: meta.interface.cs
@@ -575,7 +582,11 @@ contexts:
         1: keyword.declaration.class.record.cs
         2: keyword.declaration.struct.record.cs
         3: entity.name.class.cs
-      push: [record_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
+      push:
+        - record_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
 
   record_signature:
     - meta_scope: meta.class.record.cs
@@ -597,7 +608,11 @@ contexts:
         1: storage.modifier.cs
         2: keyword.declaration.struct.cs
         3: entity.name.struct.cs
-      push: [struct_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
+      push:
+        - struct_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
 
   struct_signature:
     - meta_scope: meta.struct.cs
