@@ -623,6 +623,110 @@ contexts:
     - meta_content_scope: meta.struct.body.cs
     - include: data_type_expect_block
 
+###[ TYPE DECLARATION SIGNATURES ]#############################################
+
+  maybe_constructor_parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: constructor_params
+    - match: (?=\S)
+      pop: true
+
+  constructor_params:
+    - clear_scopes: 1
+    - meta_scope: meta.class.constructor.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 2
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  data_type_constraint:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: type_constraint
+    - match: (?=where\b)
+      set: type_constraint
+    - match: (?=[{;(])
+      pop: true
+
+  type_constraint:
+    - include: type_constraint_common
+    - match: '{{name}}'
+      scope: entity.other.inherited-class.cs
+      push: inherited_class_arguments
+    - include: type
+
+  inherited_class_arguments:
+    - match: (?=\()
+      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
+    - match: (?=\S)
+      pop: true
+
+  inherited_class_arguments-begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      pop: true
+
+  inside_inherited_class_arguments:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: true
+    - match: ''
+      pop: true
+
+  type_constraint_common:
+    - match: (?=\{)
+      pop: true
+    - include: namespace_variables
+    - match: '\b(where)\s+(?:({{base_type}})|({{name}}))\s*(:)'
+      captures:
+        1: storage.modifier.cs
+        2: storage.type.cs
+        3: support.type.cs
+        4: punctuation.separator.type.cs
+    - match: '(class|struct|interface)'
+      scope: storage.type.cs
+    - match: 'new\s*\(\s*\)'
+      scope: keyword.operator.new.cs
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+    - match: '({{name}})?(\.)'
+      captures:
+        1: meta.path.cs
+        2: meta.path.cs punctuation.accessor.dot.cs
+    - match: ','
+      scope: punctuation.separator.inherited-class.cs
+
+  data_type_expect_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      push: data_type_inside_block
+    - include: terminator
+    - match: \S*
+      scope: invalid.illegal.cs
+      pop: true
+
+  data_type_inside_block:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 2
+    - include: attribute
+    - include: class_declaration
+    - include: enum_declaration
+    - include: interface_declaration
+    - include: record_declaration
+    - include: struct_declaration
+    - include: delegate_declaration
+    - include: extension_declaration
+    - include: method_declaration
+    - include: stray_close_bracket
+
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
   extension_declaration:
@@ -690,110 +794,6 @@ contexts:
       captures:
         1: punctuation.terminator.statement.cs
       pop: 1
-
-###[ DECLARATION SIGNATURES ]##################################################
-
-  maybe_constructor_parameters:
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      push: constructor_params
-    - match: (?=\S)
-      pop: true
-
-  constructor_params:
-    - clear_scopes: 1
-    - meta_scope: meta.class.constructor.parameters.cs
-    - match: \)
-      scope: punctuation.section.parameters.end.cs
-      pop: 2
-    - match: (?=\S)
-      push: [method_param, method_param_type]
-
-  data_type_expect_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      push: data_type_inside_block
-    - include: terminator
-    - match: \S*
-      scope: invalid.illegal.cs
-      pop: true
-
-  data_type_inside_block:
-    - meta_scope: meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 2
-    - include: attribute
-    - include: class_declaration
-    - include: enum_declaration
-    - include: interface_declaration
-    - include: record_declaration
-    - include: struct_declaration
-    - include: delegate_declaration
-    - include: extension_declaration
-    - include: method_declaration
-    - include: stray_close_bracket
-
-  data_type_constraint:
-    - match: ':'
-      scope: punctuation.separator.type.cs
-      set: type_constraint
-    - match: (?=where\b)
-      set: type_constraint
-    - match: (?=[{;(])
-      pop: true
-
-  type_constraint:
-    - include: type_constraint_common
-    - match: '{{name}}'
-      scope: entity.other.inherited-class.cs
-      push: inherited_class_arguments
-    - include: type
-
-  inherited_class_arguments:
-    - match: (?=\()
-      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
-    - match: (?=\S)
-      pop: true
-
-  inherited_class_arguments-begin:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      pop: true
-
-  inside_inherited_class_arguments:
-    - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: true
-    - match: ''
-      pop: true
-
-  type_constraint_common:
-    - match: (?=\{)
-      pop: true
-    - include: namespace_variables
-    - match: '\b(where)\s+(?:({{base_type}})|({{name}}))\s*(:)'
-      captures:
-        1: storage.modifier.cs
-        2: storage.type.cs
-        3: support.type.cs
-        4: punctuation.separator.type.cs
-    - match: '(class|struct|interface)'
-      scope: storage.type.cs
-    - match: 'new\s*\(\s*\)'
-      scope: keyword.operator.new.cs
-    - match: '{{base_type}}'
-      scope: storage.type.cs
-    - match: '({{name}})?(\.)'
-      captures:
-        1: meta.path.cs
-        2: meta.path.cs punctuation.accessor.dot.cs
-    - match: ','
-      scope: punctuation.separator.inherited-class.cs
 
 ###[ EVENT MEMBER HANDLER DECLARATIONS ]#######################################
 
