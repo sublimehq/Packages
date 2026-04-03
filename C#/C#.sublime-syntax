@@ -80,7 +80,8 @@ contexts:
     - match: ''
       push: [statements, shebang]
 
-    # comments
+###[ COMMENTS ]################################################################
+
   comments:
     - match: '^\s*(///)'
       captures:
@@ -166,6 +167,8 @@ contexts:
     - match: $\n?
       pop: 1
 
+###[ MERGE CONFLICT MARKERS ]##################################################
+
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
     - match: ^(<{7})(?:\s+(\S.*?))?$\n?
@@ -183,6 +186,8 @@ contexts:
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
+
+###[ ANNOTATIONS ]#############################################################
 
   attribute:
     - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
@@ -227,6 +232,8 @@ contexts:
       scope: punctuation.section.group.end.cs
     - match: ''
       set: attribute_in
+
+###[ PREPROCESSOR DIRECTIVES ]#################################################
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
@@ -345,6 +352,8 @@ contexts:
     - match: \S
       scope: invalid.illegal.cs
 
+###[ GLOBAL STATEMENTS ]#######################################################
+
   statements:
     - include: stray_close_bracket
     - match: '\{'
@@ -371,6 +380,8 @@ contexts:
   stray_close_bracket:
     - match: '[})\]]'
       scope: invalid.illegal.stray.brace.cs
+
+###[ USING DECLARATIONS ]######################################################
 
   using:
     - match: \bglobal\b
@@ -420,6 +431,8 @@ contexts:
       scope: invalid.illegal.expected-namespace.cs
     - match: '$'
       pop: true
+
+###[ NAMESPACE DECLARATIONS ]##################################################
 
   namespace_declaration:
     # package declaration
@@ -472,6 +485,8 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: true
     - include: statements
+
+###[ CLASS DECLARATIONS ]######################################################
 
   class_declaration:
     - match: \b(static|unsafe|abstract|partial|readonly|required|sealed)\b
@@ -529,12 +544,16 @@ contexts:
               - match: ','
                 scope: punctuation.separator.enum.cs
 
+###[ INTERFACE DECLARATIONS ]##################################################
+
   interface_declaration:
     - match: '(interface)\s+({{name}})'
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
       push: [interface_signature, data_type_constraint, maybe_type_parameters]
+
+###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
   extension_declaration:
     - match: \bextension\b
@@ -548,6 +567,8 @@ contexts:
       set: [method_body, method_params]
     - match: (?=\S)
       pop: true
+
+###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
   delegate_declaration:
     # delegate function pointer declaration
@@ -599,6 +620,8 @@ contexts:
       captures:
         1: punctuation.terminator.statement.cs
       pop: 1
+
+###[ DECLARATION SIGNATURES ]##################################################
 
   maybe_constructor_parameters:
     - match: \(
@@ -739,6 +762,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
+###[ EVENT MEMBER HANDLER DECLARATIONS ]#######################################
+
   event_handler_declaration:
     - match: '({{name}})(\.)'
       captures:
@@ -774,6 +799,8 @@ contexts:
     - match: \b(remove)\b
       scope: keyword.declaration.function.accessor.remove.cs
       push: method_body
+
+###[ METHOD DECLARATIONS ]#####################################################
 
   method_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
@@ -1223,6 +1250,8 @@ contexts:
       set: variables_declaration
     - match: '(?=\S)'
       set: line_of_code_in
+
+###[ EXPRESSIONS ]#############################################################
 
   lambdas:
     - match: ({{name}})\s+(=>)\s*
@@ -1763,6 +1792,8 @@ contexts:
       pop: true
     - include: line_of_code_in
 
+###[ FUNCTION POINTER TYPES ]##################################################
+
   funcptr_types:
     # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
     - match: (delegate)\s*(\*)
@@ -1829,6 +1860,8 @@ contexts:
     - match: (?:in|out|ref|readonly)\b
       scope: storage.modifier.cs
     - include: type
+
+###[ TYPES ]###################################################################
 
   type:
     - include: type_common
@@ -1929,6 +1962,8 @@ contexts:
     - include: type
     - match: ''
       pop: true
+
+###[ LITERALS ]################################################################
 
   # bools, numbers, chars, simple strings
   literals:
@@ -2455,6 +2490,8 @@ contexts:
     - match: (?=[^,\s{}])
       push: line_of_code_in
 
+###[ EXCEPTION STATEMENTS ]####################################################
+
   try_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -2521,6 +2558,8 @@ contexts:
         - include: code_block_in
     - match: (?=\S)
       pop: true
+
+###[ STATEMENT BLOCKS ]########################################################
 
   using_block:
     - meta_content_scope: meta.group.cs
@@ -2650,6 +2689,8 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+###[ SWITCH EXPRESSIONS ]######################################################
+
   switch_expression:
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -2721,6 +2762,8 @@ contexts:
     - match: (?=\S)
       set: line_of_code_in_no_semicolon
 
+###[ FOR STATEMENTS ]##########################################################
+
   for_var_assignment:
     - match: '='
       scope: keyword.operator.assignment.cs
@@ -2736,6 +2779,8 @@ contexts:
       set: line_of_code_in
     - match: (?=\)|\})
       pop: true
+
+###[ VARIABLE DECLARATIONS ]###################################################
 
   var_declaration:
     - match: (var)\s*(\()
