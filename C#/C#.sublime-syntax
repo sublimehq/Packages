@@ -729,10 +729,6 @@ contexts:
         1: entity.name.function.constructor.cs
         2: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       push: [constructor_prebody, method_params]
-    - match: '({{name}})\s*(\.)'
-      captures:
-        1: support.type.cs
-        2: punctuation.accessor.dot.cs
     - match: \b(?:({{base_type}})|({{name}}))
       captures:
         1: storage.type.cs
@@ -754,6 +750,7 @@ contexts:
   method_name_or_member_variable:
     - match: '\.'
       scope: punctuation.accessor.dot.cs
+      push: expect_type_member
     - match: '(operator)\s*({{unary_op}}|([^\s(]*))\s*(\()'
       captures:
         1: storage.modifier.other.cs
@@ -768,6 +765,15 @@ contexts:
         - member_lambda
         - method_name
       pop: true
+
+  expect_type_member:
+    - match: (?=\S)
+      set: type_member
+
+  type_member:
+    - match: (?=this\b)
+      pop: true
+    - include: type_no_space
 
   member_plain:
     - meta_include_prototype: false
