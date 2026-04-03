@@ -502,6 +502,16 @@ contexts:
         2: entity.name.class.cs
       push: [class_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
 
+  class_signature:
+    - meta_scope: meta.class.cs
+    - include: terminator
+    - match: (?=\S)
+      set: class_body
+
+  class_body:
+    - meta_content_scope: meta.class.body.cs
+    - include: data_type_expect_block
+
 ###[ RECORD DECLARATIONS ]#####################################################
 
   record_declaration:
@@ -512,6 +522,18 @@ contexts:
         3: entity.name.class.cs
       push: [record_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
 
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: (?=\S)
+      set: record_body
+
+  record_body:
+    - meta_content_scope: meta.class.record.body.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - include: data_type_expect_block
+
 ###[ STRUCT DECLARATIONS ]#####################################################
 
   struct_declaration:
@@ -521,6 +543,15 @@ contexts:
         2: keyword.declaration.struct.cs
         3: entity.name.struct.cs
       push: [struct_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
+
+  struct_signature:
+    - meta_scope: meta.struct.cs
+    - match: (?=\S)
+      set: struct_body
+
+  struct_body:
+    - meta_content_scope: meta.struct.body.cs
+    - include: data_type_expect_block
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
@@ -567,6 +598,15 @@ contexts:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
       push: [interface_signature, data_type_constraint, maybe_type_parameters]
+
+  interface_signature:
+    - meta_scope: meta.interface.cs
+    - match: (?=\S)
+      set: interface_body
+
+  interface_body:
+    - meta_content_scope: meta.interface.body.cs
+    - include: data_type_expect_block
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
@@ -653,46 +693,6 @@ contexts:
       pop: 2
     - match: (?=\S)
       push: [method_param, method_param_type]
-
-  class_signature:
-    - meta_scope: meta.class.cs
-    - include: terminator
-    - match: (?=\S)
-      set: class_body
-
-  class_body:
-    - meta_content_scope: meta.class.body.cs
-    - include: data_type_expect_block
-
-  interface_signature:
-    - meta_scope: meta.interface.cs
-    - match: (?=\S)
-      set: interface_body
-
-  interface_body:
-    - meta_content_scope: meta.interface.body.cs
-    - include: data_type_expect_block
-
-  record_signature:
-    - meta_scope: meta.class.record.cs
-    - match: (?=\S)
-      set: record_body
-
-  record_body:
-    - meta_content_scope: meta.class.record.body.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - include: data_type_expect_block
-
-  struct_signature:
-    - meta_scope: meta.struct.cs
-    - match: (?=\S)
-      set: struct_body
-
-  struct_body:
-    - meta_content_scope: meta.struct.body.cs
-    - include: data_type_expect_block
 
   data_type_expect_block:
     - match: \{
