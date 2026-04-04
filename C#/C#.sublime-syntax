@@ -2114,75 +2114,6 @@ contexts:
       pop: true
     - include: line_of_code_in
 
-###[ FUNCTION POINTER TYPES ]##################################################
-
-  funcptr_types:
-    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-    - match: (delegate)\s*(\*)
-      captures:
-        1: storage.type.delegate.cs
-        2: keyword.operator.pointer.cs
-      push:
-        - funcptr_type_meta
-        - funcptr_parameter_list
-        - funcptr_type_modifier
-
-  funcptr_type_meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.type.funcptr.cs
-    - match: ''
-      pop: true
-
-  funcptr_type_modifier:
-    - match: \s*(managed)\b
-      captures:
-        1: storage.modifier.delegate.cs
-      pop: 1
-    - match: \s*(unmanaged)\b
-      captures:
-        1: storage.modifier.delegate.cs
-      set: funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
-
-  funcptr_type_calling_convention:
-    - match: \s*(\[)
-      captures:
-        1: meta.brackets.cs punctuation.section.brackets.begin.cs
-      set: inside_funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
-
-  inside_funcptr_type_calling_convention:
-    - meta_content_scope: meta.brackets.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.type.cs
-    - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
-      scope: storage.modifier.funcptr.cs
-    - include: type
-
-  funcptr_parameter_list:
-    - match: \s*(<)
-      captures:
-        1: meta.generic.cs punctuation.definition.generic.begin.cs
-      set: inside_funcptr_parameter_list
-    - match: (?=[^\n])
-      pop: true
-
-  inside_funcptr_parameter_list:
-    - meta_content_scope: meta.generic.cs
-    - match: '>'
-      scope: meta.generic.cs punctuation.definition.generic.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.type.cs
-    - match: (?:in|out|ref|readonly)\b
-      scope: storage.modifier.cs
-    - include: type
-
 ###[ TYPES ]###################################################################
 
   type:
@@ -2284,6 +2215,75 @@ contexts:
     - include: type
     - match: ''
       pop: true
+
+###[ FUNCTION POINTER TYPES ]##################################################
+
+  funcptr_types:
+    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+    - match: (delegate)\s*(\*)
+      captures:
+        1: storage.type.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - funcptr_type_meta
+        - funcptr_parameter_list
+        - funcptr_type_modifier
+
+  funcptr_type_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.type.funcptr.cs
+    - match: ''
+      pop: true
+
+  funcptr_type_modifier:
+    - match: \s*(managed)\b
+      captures:
+        1: storage.modifier.delegate.cs
+      pop: 1
+    - match: \s*(unmanaged)\b
+      captures:
+        1: storage.modifier.delegate.cs
+      set: funcptr_type_calling_convention
+    - match: (?=[^\n])
+      pop: true
+
+  funcptr_type_calling_convention:
+    - match: \s*(\[)
+      captures:
+        1: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set: inside_funcptr_type_calling_convention
+    - match: (?=[^\n])
+      pop: true
+
+  inside_funcptr_type_calling_convention:
+    - meta_content_scope: meta.brackets.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
+      scope: storage.modifier.funcptr.cs
+    - include: type
+
+  funcptr_parameter_list:
+    - match: \s*(<)
+      captures:
+        1: meta.generic.cs punctuation.definition.generic.begin.cs
+      set: inside_funcptr_parameter_list
+    - match: (?=[^\n])
+      pop: true
+
+  inside_funcptr_parameter_list:
+    - meta_content_scope: meta.generic.cs
+    - match: '>'
+      scope: meta.generic.cs punctuation.definition.generic.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - match: (?:in|out|ref|readonly)\b
+      scope: storage.modifier.cs
+    - include: type
 
 ###[ LITERALS ]################################################################
 
