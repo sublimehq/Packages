@@ -1195,15 +1195,18 @@ foo({ _: Unit => () })
 //            ^^ keyword.declaration.function.arrow
 
   stuff: _*
-//       ^^ keyword.operator.varargs.scala
+//       ^ variable.language.anonymous.scala
+//        ^ keyword.operator.quantifier.scala
 
 {
   case _ @ _* =>
-//         ^^ keyword.operator.varargs.scala
+//         ^ variable.language.anonymous.scala
+//          ^ keyword.operator.quantifier.scala
 }
 
   val _ @ _* = things
-//        ^^ keyword.operator.varargs.scala
+//        ^ variable.language.anonymous.scala
+//         ^ keyword.operator.quantifier.scala
 
 s"testing ${things} and more!"
 //          ^^^^^^ - string
@@ -1486,9 +1489,9 @@ new {
 }
 
 def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
-//               ^ keyword.operator.varargs.scala
-//                                    ^ keyword.operator.varargs.scala
-//                                             ^ keyword.operator.varargs.scala
+//               ^ keyword.operator.quantifier.scala
+//                                    ^ keyword.operator.quantifier.scala
+//                                             ^ keyword.operator.quantifier.scala
 //                                                         ^ - support
 
 def foo[A[_] <: B](a: Int + String): Unit
@@ -1502,7 +1505,7 @@ def foo[A[_] <: B](a: Int + String): Unit
 //                                ^ punctuation.section.group.end.scala
 
 class Foo(a: String*)
-//                 ^ keyword.operator.varargs.scala
+//                 ^ keyword.operator.quantifier.scala
 
 class Foo(a: String* )
 //                  ^ - keyword
@@ -1981,7 +1984,8 @@ Data.Boolean()
         prop { k: Int Refined RPositive => }
 
 tail: _ *
-//    ^^^ keyword.operator.varargs.scala
+//    ^ variable.language.anonymous.scala
+//      ^ keyword.operator.quantifier.scala
 
     val Message(
       Address(from),
