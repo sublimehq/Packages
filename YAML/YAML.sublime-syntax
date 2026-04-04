@@ -78,9 +78,6 @@ variables:
   ns_anchor_char: '[^\s\[\]/{/},]'
   ns_anchor_name: '{{ns_anchor_char}}+'
 
-  # double-quoted scalar
-  c_ns_esc_char: \\(?:[0abtnvfre "/\\N_Lp]|x[\dA-Fa-f]{2}|u[\dA-Fa-f]{4}|U[\dA-Fa-f]{8})
-
   # plain scalar begin and end patterns
   ns_plain_first_plain_in: |- # c=plain-in
     (?x:
@@ -524,13 +521,19 @@ contexts:
     # schemes with background color definitions.
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.quoted.double.yaml
-    - match: '{{c_ns_esc_char}}'
-      scope: constant.character.escape.double-quoted.yaml
-    - match: \\\n
-      scope: constant.character.escape.double-quoted.newline.yaml
     - match: \"
       scope: punctuation.definition.string.end.yaml
       pop: 1
+    - match: \\[ 0_abefLnNPprtv/\\"]
+      scope: constant.character.escape.yaml
+    - match: \\x\h{2}
+      scope: constant.character.escape.unicode.8bit.yaml
+    - match: \\u\h{4}
+      scope: constant.character.escape.unicode.16bit.yaml
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.yaml
+    - match: \\.
+      scope: invalid.illegal.escape.yaml
 
   flow-scalar-single-quoted-in:
     # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted

@@ -32,25 +32,127 @@
 #^^^^^^^^^^^^ string.quoted.double - invalid
 #           ^ punctuation.definition.string.end
 
-"\" \0 \\ \x1b \u12c4 \U1234F678"
-#^^                              constant.character.escape
-#   ^^                           constant.character.escape
-#      ^^                        constant.character.escape
-#         ^^^^                   constant.character.escape
-#              ^^^^^^            constant.character.escape
-#                     ^^^^^^^^^^ constant.character.escape
-#                    ^           -constant
 
-"\x1 \u123 \U1234567"
-#^^^^^^^^^^^^^^^^^^^ -constant.character.escape
+# [42]  ns-esc-null ::= “0”
+# Escaped ASCII null (#x0) character.
+  "\0"
+#  ^^ constant.character.escape
 
-"\x123 \u12345 \U123456789"
-#^^^^                      constant.character.escape
-#    ^                     -constant.character.escape
-#      ^^^^^^              constant.character.escape
-#            ^             -constant.character.escape
-#              ^^^^^^^^^^  constant.character.escape
-#                        ^ -constant.character.escape
+# [43]  ns-esc-bell ::= “a”
+# Escaped ASCII bell (#x7) character.
+  "\a"
+#  ^^ constant.character.escape
+
+# [44]  ns-esc-backspace  ::= “b”
+# Escaped ASCII backspace (#x8) character.
+  "\b"
+#  ^^ constant.character.escape
+
+# [45]  ns-esc-horizontal-tab ::= “t” | #x9
+# Escaped ASCII horizontal tab (#x9) character.
+  "\t"
+#  ^^ constant.character.escape
+
+# [46]  ns-esc-line-feed  ::= “n”
+# Escaped ASCII line feed (#xA) character.
+  "\n"
+#  ^^ constant.character.escape
+
+# [47]  ns-esc-vertical-tab ::= “v”
+# Escaped ASCII vertical tab (#xB) character.
+  "\v"
+#  ^^ constant.character.escape
+
+# [48]  ns-esc-form-feed  ::= “f”
+# Escaped ASCII form feed (#xC) character.
+  "\f"
+#  ^^ constant.character.escape
+
+# [49]  ns-esc-carriage-return  ::= “r”
+# Escaped ASCII carriage return (#xD) character.
+  "\r"
+#  ^^ constant.character.escape
+
+# [50]  ns-esc-escape ::= “e”
+# Escaped ASCII escape (#x1B) character.
+  "\e"
+#  ^^ constant.character.escape
+
+# [51]  ns-esc-space  ::= #x20
+# Escaped ASCII space (#x20) character.
+  "\ "
+#  ^^ constant.character.escape
+
+# [52]  ns-esc-double-quote ::= “"”
+# Escaped ASCII double quote (#x22).
+  "\""
+#  ^^ constant.character.escape
+
+# [53]  ns-esc-slash  ::= “/”
+# Escaped ASCII slash (#x2F), for JSON compatibility.
+  "\/"
+#  ^^ constant.character.escape
+
+# [54]  ns-esc-backslash  ::= “\”
+# Escaped ASCII back slash (#x5C).
+  "\\"
+#  ^^ constant.character.escape
+
+# [55]  ns-esc-next-line  ::= “N”
+# Escaped Unicode next line (#x85) character.
+  "\N"
+#  ^^ constant.character.escape
+
+# [56]  ns-esc-non-breaking-space ::= “_”
+# Escaped Unicode non-breaking space (#xA0) character.
+  "\_"
+#  ^^ constant.character.escape
+
+# [57]  ns-esc-line-separator ::= “L”
+# Escaped Unicode line separator (#x2028) character.
+  "\L"
+#  ^^ constant.character.escape
+
+# [58]  ns-esc-paragraph-separator  ::= “P”
+# Escaped Unicode paragraph separator (#x2029) character.
+  "\P"
+#  ^^ constant.character.escape
+
+# [59]  ns-esc-8-bit  ::= “x” ( ns-hex-digit × 2 )
+# Escaped 8-bit Unicode character.
+  "\ "
+#  ^^ constant.character.escape
+
+# [60]  ns-esc-16-bit ::= “u” ( ns-hex-digit × 4 )
+# Escaped 16-bit Unicode character.
+  "\ "
+#  ^^ constant.character.escape
+
+# [61]  ns-esc-32-bit ::= “U” ( ns-hex-digit × 8 )
+# Escaped 32-bit Unicode character.
+  "\ "
+#  ^^ constant.character.escape
+
+  "\. \m \? \z"
+#  ^^^^^^^^^^^ - constant.character.escape
+#  ^^ invalid.illegal.escape.yaml
+#     ^^ invalid.illegal.escape.yaml
+#        ^^ invalid.illegal.escape.yaml
+#           ^^ invalid.illegal.escape.yaml
+
+  "\x123 \u12345 \U123456789"
+#  ^^^^ constant.character.escape.unicode.8bit.yaml
+#      ^ - constant.character.escape - invalid
+#        ^^^^^^ constant.character.escape.unicode.16bit.yaml
+#              ^ - constant.character.escape - invalid
+#                ^^^^^^^^^^ constant.character.escape.unicode.32bit.yaml
+#                          ^ - constant.character.escape - invalid
+
+  "\x1 \u123 \U1234567"
+#  ^^^^^^^^^^^^^^^^^^^ - constant.character.escape
+#  ^^ invalid.illegal.escape.yaml
+#      ^^ invalid.illegal.escape.yaml
+#            ^^ invalid.illegal.escape.yaml
 
 # The following can't be tested because there must be a newline after the
 # backslash and comments are not allowed in strings.
