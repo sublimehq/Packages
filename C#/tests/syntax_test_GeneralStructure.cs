@@ -33,6 +33,12 @@ namespace YourNamespace
 ///                ^^^^ variable.other.member
 ///                     ^ keyword.operator.assignment
 
+        Some.Thing sumthin = new();  // #4494
+///     ^^^^ support.type.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^^ support.type.cs
+///                ^^^^^^^ variable.other.member.cs
+
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
 ///                                ^ keyword.operator.assignment
@@ -1425,10 +1431,34 @@ void Main () { // method outside a class, i.e. a LINQPad script
 }
 /// <- punctuation.section.block.end
 
-public class AfterTopLevelMethod {
+public class AfterTopLevelMethod : IDrawingObject {
 ///^^^ storage.modifier.access
 ///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
+///                              ^ punctuation.separator.type.cs
+///                                ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
+
+    Global.Type var = null;
+/// ^^^^^^ support.type.cs
+///       ^ punctuation.accessor.dot.cs
+///        ^^^^ support.type.cs
+///             ^^^ variable.other.member.cs
+///                 ^ keyword.operator.assignment.cs
+///                   ^^^^ constant.language.null.cs
+///                       ^ punctuation.terminator.statement.cs
+
+    void IDrawingObject.DoInternalStuff() {}
+///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+///                                    ^^ meta.method.parameters.cs
+///                                      ^ meta.method.cs
+///                                       ^^ meta.method.body.cs meta.block.cs
+///      ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
+///                    ^ punctuation.accessor.dot.cs
+///                     ^^^^^^^^^^^^^^^ entity.name.function.cs
+///                                    ^ punctuation.section.parameters.begin.cs
+///                                     ^ punctuation.section.parameters.end.cs
+///                                       ^ punctuation.section.block.begin.cs
+///                                        ^ punctuation.section.block.end.cs
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
     protected event EventHandler IDrawingObject.OnDraw
