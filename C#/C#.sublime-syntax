@@ -755,7 +755,7 @@ contexts:
       scope: punctuation.section.block.begin.cs
       set: event_handler_declaration_body
     - match: (?==)
-      set: member_variables_declaration
+      set: member_variable_declarations
     - match: (?=\S)
       pop: true
 
@@ -935,7 +935,7 @@ contexts:
     - match: (?={{name}})
       branch_point: method_or_member_variable_name
       branch:
-        - member_plain
+        - member_variable
         - member_lambda
         - method_name
       pop: true
@@ -949,29 +949,50 @@ contexts:
       pop: true
     - include: type_no_space
 
-  member_plain:
+  member_variable:
     - meta_include_prototype: false
     - match: '{{name}}'
       scope: variable.other.member.cs
-      set: member_plain_value
+      set: member_variable_value
     - match: (?=\S)
       pop: true
 
-  member_plain_value:
+  member_variable_value:
     - match: '[.<\{\[\(]|=>'
       fail: method_or_member_variable_name
     - match: (?==)
-      set: member_variables_declaration
+      set: member_variable_declarations
     - match: ','
       scope: punctuation.separator.variables.cs
-      set: member_plain
+      set: member_variable
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\})
-      pop: true
     - match: (?=\S)
       pop: true
+
+  member_variable_declarations:
+    - match: '='
+      scope: keyword.operator.assignment.cs
+      push:
+        - member_variable_declaration_value
+        - maybe_pointer
+    - match: '(?=\{)'
+      push: method_accessor
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: (?=[]})>;])
+      pop: true
+
+  member_variable_declaration_value:
+    - match: (?=;|,)
+      pop: true
+    - include: line_of_code_in
 
   member_lambda:
     - meta_include_prototype: false
@@ -1680,29 +1701,6 @@ contexts:
         - include: line_of_code
 
 ###[ EXPRESSIONS ]#############################################################
-
-  member_variables_declaration:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - member_variables_declaration_value
-        - maybe_pointer
-    - match: '(?=\{)'
-      push: method_accessor
-    - match: '{{name}}'
-      scope: variable.other.member.cs
-    - match: ','
-      scope: punctuation.separator.variables.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - match: (?=[]})>;])
-      pop: true
-
-  member_variables_declaration_value:
-    - match: (?=;|,)
-      pop: true
-    - include: line_of_code_in
 
   keywords:
     - include: funcptr_types
