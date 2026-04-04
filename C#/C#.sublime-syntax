@@ -18,53 +18,6 @@ first_line_match: |-
   | ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
   )
 
-variables:
-  shebang_language: \bdotnet\s+run\b
-
-  # operators
-  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
-
-  # numbers
-  dec_digits: (?:[\d_]*\d)
-  dec_exponent: (?:[eE][-+]??{{dec_digits}})
-  float_suffix: '[fFdDmM]'
-  integer_suffix: '[uU][lL]?|[lL][uU]?'
-
-  # characters
-  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
-  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
-
-  visibility: \b(?:public|private|protected|internal|protected\s+internal|file)\b
-  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
-  type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
-  generic_declaration: \s*(<[^={};]*>)?\s*
-
-  brackets_capture: '((\[)(,*)(\]))'
-  type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
-
-  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
-  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
-  namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
-
-  start_char: '(?:{{unicode_char}}|[_\p{L}])'
-  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
-  name_normal: '{{start_char}}{{other_char}}*\b'
-  cap_name: '(\p{Lu}{{other_char}})'
-
-  method_param_type_modifier: \b(?:out|ref|this|params|in)\b
-
-  sql_indicator: |-
-    (?x: \s* (?:
-    # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
-    # ddl statements
-    | ADD | ALTER | CREATE | DROP
-    # conditional
-    | IF \s+ (?: NOT \s+ )? EXISTS
-    # declaration
-    | DECLARE | WITH | BEGIN
-    ) \s )
-
 contexts:
   prototype:
     - include: comments
@@ -2964,3 +2917,52 @@ contexts:
     # immediately pop, but not before newlines
     - match: (?=[^\n])
       pop: true
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  shebang_language: \bdotnet\s+run\b
+
+  # operators
+  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
+
+  # numbers
+  dec_digits: (?:[\d_]*\d)
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  float_suffix: '[fFdDmM]'
+  integer_suffix: '[uU][lL]?|[lL][uU]?'
+
+  # characters
+  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
+  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
+
+  visibility: \b(?:public|private|protected|internal|protected\s+internal|file)\b
+  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
+  type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
+  generic_declaration: \s*(<[^={};]*>)?\s*
+
+  brackets_capture: '((\[)(,*)(\]))'
+  type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
+
+  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
+  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
+  namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
+
+  start_char: '(?:{{unicode_char}}|[_\p{L}])'
+  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
+  name_normal: '{{start_char}}{{other_char}}*\b'
+  cap_name: '(\p{Lu}{{other_char}})'
+
+  method_param_type_modifier: \b(?:out|ref|this|params|in)\b
+
+  sql_indicator: |-
+    (?x: \s* (?:
+    # dml statements
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
+    # ddl statements
+    | ADD | ALTER | CREATE | DROP
+    # conditional
+    | IF \s+ (?: NOT \s+ )? EXISTS
+    # declaration
+    | DECLARE | WITH | BEGIN
+    ) \s )
