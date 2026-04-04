@@ -2065,6 +2065,28 @@ contexts:
         2: constant.numeric.suffix.cs
     - include: strings
 
+###[ REGULAR EXPRESSIONS ]#####################################################
+
+  regex_string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - match: '@"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - match: (?=\S)
+      pop: 1
+
 ###[ STRINGS ]#################################################################
 
   strings:
@@ -2962,23 +2984,3 @@ contexts:
         - include: line_of_code_in
     - match: (?=\S)
       pop: true
-
-  regex_string:
-    - match: '"'
-      scope: punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
-      embed_scope: meta.string.cs meta.regexp.cs
-      escape: '"'
-      escape_captures:
-        0: punctuation.definition.string.end.cs
-      pop: 1
-    - match: '@"'
-      scope: punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
-      embed_scope: meta.string.cs meta.regexp.cs
-      escape: '"'
-      escape_captures:
-        0: punctuation.definition.string.end.cs
-      pop: 1
-    - match: (?=\S)
-      pop: 1
