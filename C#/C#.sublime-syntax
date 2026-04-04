@@ -888,6 +888,39 @@ contexts:
     - match: (?=\()
       push: [method_name_or_member_variable, type_tuple]
 
+  constructor_prebody:
+    - meta_scope: meta.method.constructor.cs
+    - match: ':'
+      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
+      set:
+        - match: \s+
+          scope: meta.method.constructor.prebody.cs
+        - match: (?:(this)|(base))\s*(\()
+          captures:
+            1: variable.language.this.cs
+            2: variable.language.super.cs
+            3: meta.group.cs punctuation.section.group.begin.cs
+          set: [constructor_initializer, arguments]
+        - match: '(?=\{)'
+          set: method_body
+    - match: '(?=\{|=>)'
+      set: method_body
+
+  constructor_initializer:
+    - meta_scope: meta.method.constructor.prebody.cs
+    - meta_content_scope: meta.group.cs
+    - match: '\)'
+      scope: punctuation.section.group.end.cs
+    - match: ''
+      set: constructor_initializer_after
+
+  constructor_initializer_after:
+    - meta_content_scope: meta.method.constructor.prebody.cs
+    - match: '(?=\{)'
+      set: method_body
+    - match: '(?=\S)'
+      pop: true
+
   method_name_or_member_variable:
     - match: '\.'
       scope: punctuation.accessor.dot.cs
@@ -1066,39 +1099,6 @@ contexts:
       captures:
         1: storage.modifier.parameter.cs
     - include: type_no_space
-
-  constructor_prebody:
-    - meta_scope: meta.method.constructor.cs
-    - match: ':'
-      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
-      set:
-        - match: \s+
-          scope: meta.method.constructor.prebody.cs
-        - match: (?:(this)|(base))\s*(\()
-          captures:
-            1: variable.language.this.cs
-            2: variable.language.super.cs
-            3: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_initializer, arguments]
-        - match: '(?=\{)'
-          set: method_body
-    - match: '(?=\{|=>)'
-      set: method_body
-
-  constructor_initializer:
-    - meta_scope: meta.method.constructor.prebody.cs
-    - meta_content_scope: meta.group.cs
-    - match: '\)'
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: constructor_initializer_after
-
-  constructor_initializer_after:
-    - meta_content_scope: meta.method.constructor.prebody.cs
-    - match: '(?=\{)'
-      set: method_body
-    - match: '(?=\S)'
-      pop: true
 
   method_body:
     - meta_scope: meta.method.cs
@@ -2044,6 +2044,19 @@ contexts:
       scope: punctuation.section.braces.begin.cs
       set: initializer_constructor
 
+  initializer_constructor:
+    - meta_content_scope: meta.instance.cs meta.braces.cs
+    - match: \}
+      scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.braces.begin.cs
+      push: initializer_constructor
+    - match: ','
+      scope: punctuation.separator.array-element.cs
+    - match: (?=[^,\s{}])
+      push: line_of_code_in
+
   function_call_begin_paren:
     - meta_content_scope: meta.function-call.cs
     - match: \(
@@ -2818,21 +2831,6 @@ contexts:
         4: variable.other.cs
 
   string_prototype: []
-
-###[ INITIALIZERS ]############################################################
-
-  initializer_constructor:
-    - meta_content_scope: meta.instance.cs meta.braces.cs
-    - match: \}
-      scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
-      pop: true
-    - match: \{
-      scope: punctuation.section.braces.begin.cs
-      push: initializer_constructor
-    - match: ','
-      scope: punctuation.separator.array-element.cs
-    - match: (?=[^,\s{}])
-      push: line_of_code_in
 
 ###[ SWITCH EXPRESSIONS ]######################################################
 
