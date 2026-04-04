@@ -1681,41 +1681,6 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  lambdas:
-    - match: ({{name}})\s+(=>)\s*
-      captures:
-        1: variable.parameter.cs
-        2: keyword.declaration.function.arrow.cs
-      push: lambda_expect_body
-    - include: parenthesized_lambdas
-
-  parenthesized_lambdas:
-    - match: \((?=[^()]*\)\s+=>)
-      scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
-      push: inside_parenthesized_lambda
-
-  inside_parenthesized_lambda:
-    - meta_content_scope: meta.function.anonymous.cs meta.group.cs
-    - match: '{{method_param_type_modifier}}(?=\s)'
-      scope: storage.modifier.parameter.cs
-    - match: '{{name}}(?=\s*[\),/])'
-      scope: variable.parameter.cs
-    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
-      push: type_no_space
-    - match: ','
-      scope: punctuation.separator.parameter.function.cs
-    - match: (\))\s*(=>)
-      captures:
-        1: meta.group.cs punctuation.section.group.end.cs
-        2: keyword.declaration.function.arrow.cs
-      set: lambda_expect_body
-
-  lambda_expect_body:
-    - meta_scope: meta.function.anonymous.cs
-    - match: '(?=;)'
-      pop: true
-    - include: line_of_code_in
-
   member_variables_declaration:
     - match: '='
       scope: keyword.operator.assignment.cs
@@ -2214,6 +2179,43 @@ contexts:
         - include: line_of_code_in_no_semicolon
         - match: (?=[;)])
           pop: true
+
+###[ LAMBDA EXPRESSIONS ]######################################################
+
+  lambdas:
+    - match: ({{name}})\s+(=>)\s*
+      captures:
+        1: variable.parameter.cs
+        2: keyword.declaration.function.arrow.cs
+      push: lambda_expect_body
+    - include: parenthesized_lambdas
+
+  parenthesized_lambdas:
+    - match: \((?=[^()]*\)\s+=>)
+      scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
+      push: inside_parenthesized_lambda
+
+  inside_parenthesized_lambda:
+    - meta_content_scope: meta.function.anonymous.cs meta.group.cs
+    - match: '{{method_param_type_modifier}}(?=\s)'
+      scope: storage.modifier.parameter.cs
+    - match: '{{name}}(?=\s*[\),/])'
+      scope: variable.parameter.cs
+    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
+      push: type_no_space
+    - match: ','
+      scope: punctuation.separator.parameter.function.cs
+    - match: (\))\s*(=>)
+      captures:
+        1: meta.group.cs punctuation.section.group.end.cs
+        2: keyword.declaration.function.arrow.cs
+      set: lambda_expect_body
+
+  lambda_expect_body:
+    - meta_scope: meta.function.anonymous.cs
+    - match: '(?=;)'
+      pop: true
+    - include: line_of_code_in
 
 ###[ SWITCH EXPRESSIONS ]######################################################
 
