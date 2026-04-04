@@ -1796,23 +1796,6 @@ contexts:
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 
-  inside_anonymous_class:
-    - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.class.cs
-    - match: '({{name}})\s*(=)'
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push:
-        - line_of_code_in
-        - maybe_pointer
-    - match: (?=\S)
-      push: line_of_code_in
-
   maybe_an_anonymous_class:
     - meta_content_scope: meta.instance.cs
     - match: \{
@@ -1853,6 +1836,23 @@ contexts:
           scope: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, arguments]
         - include: type
+
+  inside_anonymous_class:
+    - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.class.cs
+    - match: '({{name}})\s*(=)'
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push:
+        - line_of_code_in
+        - maybe_pointer
+    - match: (?=\S)
+      push: line_of_code_in
 
   line_of_code_in:
     - match: (?=\bvar\b)
