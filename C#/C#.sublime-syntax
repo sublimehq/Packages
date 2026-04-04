@@ -1854,12 +1854,6 @@ contexts:
           set: [constructor_arguments, arguments]
         - include: type
 
-  maybe_type_or_null:
-    - match: null\b
-      scope: constant.language.null.cs
-      pop: 2
-    - include: type_no_space
-
   line_of_code_in:
     - match: (?=\bvar\b)
       pop: true
@@ -2292,6 +2286,17 @@ contexts:
 
 ###[ TYPES ]###################################################################
 
+  maybe_type_or_null:
+    - match: null\b
+      scope: constant.language.null.cs
+      pop: 2
+    - include: type_no_space
+
+  type_no_space:
+    - include: type
+    - match: ''
+      pop: true
+
   type:
     - include: type_common
     - match: (?=\()
@@ -2386,11 +2391,6 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{name}}'
       scope: variable.parameter.type.cs
-
-  type_no_space:
-    - include: type
-    - match: ''
-      pop: true
 
 ###[ FUNCTION POINTER TYPES ]##################################################
 
