@@ -2029,6 +2029,23 @@ contexts:
     - include: lambdas
     - include: line_of_code_in_no_semicolon
 
+###[ ACCESSOR EXPRESSIONS ]####################################################
+
+  accessor_arguments:
+    - meta_content_scope: meta.brackets.cs
+    - match: '({{name}})\s*(:)'
+      captures:
+        1: variable.other.parameter.cs
+        2: punctuation.separator.key-value.parameter.cs
+    - match: ','
+      scope: punctuation.separator.accessor.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      pop: true
+    - include: line_of_code_in
+
+###[ CONSTRUCTOR EXPRESSIONS ]#################################################
+
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
     - match: \)
@@ -2056,6 +2073,8 @@ contexts:
       scope: punctuation.separator.array-element.cs
     - match: (?=[^,\s{}])
       push: line_of_code_in
+
+###[ FUNCTION CALL EXPRESSIONS ]###############################################
 
   function_call_begin_paren:
     - meta_content_scope: meta.function-call.cs
@@ -2113,19 +2132,6 @@ contexts:
         - include: line_of_code_in_no_semicolon
         - match: (?=[;)])
           pop: true
-
-  accessor_arguments:
-    - meta_content_scope: meta.brackets.cs
-    - match: '({{name}})\s*(:)'
-      captures:
-        1: variable.other.parameter.cs
-        2: punctuation.separator.key-value.parameter.cs
-    - match: ','
-      scope: punctuation.separator.accessor.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
-      pop: true
-    - include: line_of_code_in
 
 ###[ SWITCH EXPRESSIONS ]######################################################
 
