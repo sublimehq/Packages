@@ -1979,11 +1979,23 @@ contexts:
     - match: (?=\S)
       pop: true
 
+###[ GROUP AND TUPLE EXPRESSIONS ]#############################################
+
   group_begin:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
       set: group
+
+  group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: true
+    - match: ','
+      fail: tuple_or_group
+    - include: lambdas
+    - include: line_of_code_in_no_semicolon
 
   tuple_begin:
     - meta_include_prototype: false
@@ -2017,16 +2029,6 @@ contexts:
           set: function_call_begin_paren
         - include: type
         - include: line_of_code_in_no_semicolon
-    - include: line_of_code_in_no_semicolon
-
-  group:
-    - meta_scope: meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: true
-    - match: ','
-      fail: tuple_or_group
-    - include: lambdas
     - include: line_of_code_in_no_semicolon
 
 ###[ ACCESSOR EXPRESSIONS ]####################################################
