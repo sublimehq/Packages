@@ -80,7 +80,8 @@ contexts:
     - match: ''
       push: [statements, shebang]
 
-    # comments
+###[ COMMENTS ]################################################################
+
   comments:
     - match: '^\s*(///)'
       captures:
@@ -115,6 +116,59 @@ contexts:
     - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
 
+  documentation:
+    - meta_include_prototype: false
+    - meta_content_scope: comment.line.documentation.cs
+    - match: '(<)({{name}})'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.begin.cs
+      push:
+        - meta_include_prototype: false
+        - match: '({{name}})\s*(=)'
+          captures:
+            1: entity.other.attribute-name.cs
+            2: punctuation.separator.argument.value.cs
+        - match: '/?>'
+          scope: punctuation.definition.tag.end.cs
+          pop: true
+        - match: '"[^"]*"'
+          scope: string.quoted.double.cs
+        - match: $
+          pop: true
+    - match: '(</)({{name}})(>)'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.end.cs
+        3: punctuation.definition.tag.end.cs
+    - match: '^\s*(///)'
+      captures:
+        1: punctuation.definition.comment.documentation.cs
+    - match: '^\s*(?!///)'
+      pop: true
+    - include: comments_in
+    - match: '[\w\s]+|.'
+      scope: text.documentation.cs
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.cs
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if C# is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.cs
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.cs
+    - match: $\n?
+      pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
     - match: ^(<{7})(?:\s+(\S.*?))?$\n?
@@ -132,6 +186,54 @@ contexts:
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
+
+###[ ANNOTATIONS ]#############################################################
+
+  attribute:
+    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
+      captures:
+        1: punctuation.definition.annotation.begin.cs
+        2: storage.modifier.target.cs
+        3: punctuation.separator.key-value.cs
+      push: attribute_in
+    - match: \[
+      scope: punctuation.definition.annotation.begin.cs
+      push: attribute_in
+
+  attribute_in:
+    - meta_scope: meta.annotation.cs
+    - include: namespace_variables
+    - match: (GeneratedRegex)\s*(\()
+      captures:
+        1: variable.annotation.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      set: [attribute_arguments, arguments, regex_string]
+    - match: (?={{namespaced_name}})
+      push: attribute_name
+    - match: \s*(\()
+      captures:
+        1: meta.group.cs punctuation.section.group.begin.cs
+      set: [attribute_arguments, arguments]
+    - match: ','
+      scope: punctuation.separator.annotation.cs
+    - match: \]
+      scope: punctuation.definition.annotation.end.cs
+      pop: true
+
+  attribute_name:
+    - meta_content_scope: variable.annotation.cs
+    - include: type_common_except_bare_custom_type
+    - match: (?=\()
+      pop: 1
+
+  attribute_arguments:
+    - meta_content_scope: meta.annotation.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+    - match: ''
+      set: attribute_in
+
+###[ PREPROCESSOR DIRECTIVES ]#################################################
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
@@ -241,23 +343,6 @@ contexts:
         3: variable.other.section.cs
         4: meta.fold.end.cs
 
-  shebang:
-    - meta_include_prototype: false
-    - match: ^\s*(\#!)
-      captures:
-        1: punctuation.definition.comment.cs
-      set: shebang-body
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if C# is embedded.
-      pop: 1
-
-  shebang-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.shebang.cs
-    - match: '{{shebang_language}}'
-      scope: constant.language.shebang.cs
-    - match: $\n?
-      pop: 1
-
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
   option_done:
@@ -266,6 +351,8 @@ contexts:
       pop: true
     - match: \S
       scope: invalid.illegal.cs
+
+###[ GLOBAL STATEMENTS ]#######################################################
 
   statements:
     - include: stray_close_bracket
@@ -293,6 +380,8 @@ contexts:
   stray_close_bracket:
     - match: '[})\]]'
       scope: invalid.illegal.stray.brace.cs
+
+###[ USING DECLARATIONS ]######################################################
 
   using:
     - match: \bglobal\b
@@ -342,6 +431,8 @@ contexts:
       scope: invalid.illegal.expected-namespace.cs
     - match: '$'
       pop: true
+
+###[ NAMESPACE DECLARATIONS ]##################################################
 
   namespace_declaration:
     # package declaration
@@ -394,6 +485,8 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: true
     - include: statements
+
+###[ CLASS DECLARATIONS ]######################################################
 
   class_declaration:
     - match: \b(static|unsafe|abstract|partial|readonly|required|sealed)\b
@@ -451,12 +544,16 @@ contexts:
               - match: ','
                 scope: punctuation.separator.enum.cs
 
+###[ INTERFACE DECLARATIONS ]##################################################
+
   interface_declaration:
     - match: '(interface)\s+({{name}})'
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
       push: [interface_signature, data_type_constraint, maybe_type_parameters]
+
+###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
   extension_declaration:
     - match: \bextension\b
@@ -470,6 +567,8 @@ contexts:
       set: [method_body, method_params]
     - match: (?=\S)
       pop: true
+
+###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
   delegate_declaration:
     # delegate function pointer declaration
@@ -521,6 +620,8 @@ contexts:
       captures:
         1: punctuation.terminator.statement.cs
       pop: 1
+
+###[ DECLARATION SIGNATURES ]##################################################
 
   maybe_constructor_parameters:
     - match: \(
@@ -661,6 +762,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
+###[ EVENT MEMBER HANDLER DECLARATIONS ]#######################################
+
   event_handler_declaration:
     - match: '({{name}})(\.)'
       captures:
@@ -696,6 +799,8 @@ contexts:
     - match: \b(remove)\b
       scope: keyword.declaration.function.accessor.remove.cs
       push: method_body
+
+###[ METHOD DECLARATIONS ]#####################################################
 
   method_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
@@ -1028,43 +1133,6 @@ contexts:
       scope: invalid.illegal.cs
       pop: true
 
-  attribute:
-    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
-      captures:
-        1: punctuation.definition.annotation.begin.cs
-        2: storage.modifier.target.cs
-        3: punctuation.separator.key-value.cs
-      push: attribute_in
-    - match: \[
-      scope: punctuation.definition.annotation.begin.cs
-      push: attribute_in
-
-  attribute_in:
-    - meta_scope: meta.annotation.cs
-    - include: namespace_variables
-    - match: (GeneratedRegex)\s*(\()
-      captures:
-        1: variable.annotation.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments, regex_string]
-    - match: (?={{namespaced_name}})
-      push: annotation_name
-    - match: \s*(\()
-      captures:
-        1: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments]
-    - match: ','
-      scope: punctuation.separator.annotation.cs
-    - match: \]
-      scope: punctuation.definition.annotation.end.cs
-      pop: true
-
-  annotation_name:
-    - meta_content_scope: variable.annotation.cs
-    - include: type_common_except_bare_custom_type
-    - match: (?=\()
-      pop: 1
-
   code_block_in:
     - match: (?=\S)
       push: line_of_code
@@ -1188,6 +1256,8 @@ contexts:
       set: variables_declaration
     - match: '(?=\S)'
       set: line_of_code_in
+
+###[ EXPRESSIONS ]#############################################################
 
   lambdas:
     - match: ({{name}})\s+(=>)\s*
@@ -1643,13 +1713,6 @@ contexts:
     - include: lambdas
     - include: line_of_code_in_no_semicolon
 
-  attribute_arguments:
-    - meta_content_scope: meta.annotation.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: attribute_in
-
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
     - match: \)
@@ -1735,6 +1798,8 @@ contexts:
       pop: true
     - include: line_of_code_in
 
+###[ FUNCTION POINTER TYPES ]##################################################
+
   funcptr_types:
     # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
     - match: (delegate)\s*(\*)
@@ -1801,6 +1866,8 @@ contexts:
     - match: (?:in|out|ref|readonly)\b
       scope: storage.modifier.cs
     - include: type
+
+###[ TYPES ]###################################################################
 
   type:
     - include: type_common
@@ -1901,6 +1968,8 @@ contexts:
     - include: type
     - match: ''
       pop: true
+
+###[ LITERALS ]################################################################
 
   # bools, numbers, chars, simple strings
   literals:
@@ -2427,6 +2496,8 @@ contexts:
     - match: (?=[^,\s{}])
       push: line_of_code_in
 
+###[ EXCEPTION STATEMENTS ]####################################################
+
   try_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -2493,6 +2564,8 @@ contexts:
         - include: code_block_in
     - match: (?=\S)
       pop: true
+
+###[ STATEMENT BLOCKS ]########################################################
 
   using_block:
     - meta_content_scope: meta.group.cs
@@ -2622,6 +2695,8 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+###[ SWITCH EXPRESSIONS ]######################################################
+
   switch_expression:
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -2693,6 +2768,8 @@ contexts:
     - match: (?=\S)
       set: line_of_code_in_no_semicolon
 
+###[ FOR STATEMENTS ]##########################################################
+
   for_var_assignment:
     - match: '='
       scope: keyword.operator.assignment.cs
@@ -2708,6 +2785,8 @@ contexts:
       set: line_of_code_in
     - match: (?=\)|\})
       pop: true
+
+###[ VARIABLE DECLARATIONS ]###################################################
 
   var_declaration:
     - match: (var)\s*(\()
@@ -2847,40 +2926,6 @@ contexts:
         - include: line_of_code_in
     - match: (?=\S)
       pop: true
-
-  documentation:
-    - meta_include_prototype: false
-    - meta_content_scope: comment.line.documentation.cs
-    - match: '(<)({{name}})'
-      captures:
-        1: punctuation.definition.tag.begin.cs
-        2: entity.name.tag.begin.cs
-      push:
-        - meta_include_prototype: false
-        - match: '({{name}})\s*(=)'
-          captures:
-            1: entity.other.attribute-name.cs
-            2: punctuation.separator.argument.value.cs
-        - match: '/?>'
-          scope: punctuation.definition.tag.end.cs
-          pop: true
-        - match: '"[^"]*"'
-          scope: string.quoted.double.cs
-        - match: $
-          pop: true
-    - match: '(</)({{name}})(>)'
-      captures:
-        1: punctuation.definition.tag.begin.cs
-        2: entity.name.tag.end.cs
-        3: punctuation.definition.tag.end.cs
-    - match: '^\s*(///)'
-      captures:
-        1: punctuation.definition.comment.documentation.cs
-    - match: '^\s*(?!///)'
-      pop: true
-    - include: comments_in
-    - match: '[\w\s]+|.'
-      scope: text.documentation.cs
 
   regex_string:
     - match: '"'
