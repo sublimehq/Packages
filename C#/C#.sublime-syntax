@@ -449,8 +449,7 @@ contexts:
   namespace_declaration_meta:
     - meta_include_prototype: false
     - meta_scope: meta.namespace.cs
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   namespace_declaration_name:
     - match: ({{name}})\s*(\.)
@@ -672,8 +671,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: true
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   type_constraint_common:
     - match: (?=\{)
@@ -2103,8 +2101,7 @@ contexts:
     - match: \)
       scope: meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
       pop: true
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   arguments:
     - match: (out)\s
@@ -2266,8 +2263,7 @@ contexts:
 
   type_no_space:
     - include: type
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   type:
     - include: type_common
@@ -2379,8 +2375,7 @@ contexts:
   funcptr_type_meta:
     - meta_include_prototype: false
     - meta_scope: meta.type.funcptr.cs
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   funcptr_type_modifier:
     - match: \s*(managed)\b
@@ -2391,16 +2386,14 @@ contexts:
       captures:
         1: storage.modifier.delegate.cs
       set: funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
+    - include: immediately_pop
 
   funcptr_type_calling_convention:
     - match: \s*(\[)
       captures:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
       set: inside_funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
+    - include: immediately_pop
 
   inside_funcptr_type_calling_convention:
     - meta_content_scope: meta.brackets.cs
@@ -2418,8 +2411,7 @@ contexts:
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
       set: inside_funcptr_parameter_list
-    - match: (?=[^\n])
-      pop: true
+    - include: immediately_pop
 
   inside_funcptr_parameter_list:
     - meta_content_scope: meta.generic.cs
@@ -2966,4 +2958,9 @@ contexts:
 
   else_pop:
     - match: (?=\S)
+      pop: true
+
+  immediately_pop:
+    # immediately pop, but not before newlines
+    - match: (?=[^\n])
       pop: true
