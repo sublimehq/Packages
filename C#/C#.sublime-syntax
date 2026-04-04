@@ -472,15 +472,13 @@ contexts:
     - match: '{{name}}'
       scope: entity.name.namespace.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   namespace_declaration_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: namespace_declaration_block_body
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   namespace_declaration_block_body:
     - meta_scope: meta.block.cs
@@ -629,8 +627,7 @@ contexts:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       push: constructor_params
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   constructor_params:
     - clear_scopes: 1
@@ -660,8 +657,7 @@ contexts:
   inherited_class_arguments:
     - match: (?=\()
       push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inherited_class_arguments-begin:
     - meta_include_prototype: false
@@ -744,8 +740,7 @@ contexts:
     - match: '{{name}}'
       scope: variable.other.member.cs
       set: event_declaration_after_name
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   event_declaration_after_name:
     - match: ';'
@@ -756,8 +751,7 @@ contexts:
       set: event_handler_declaration_body
     - match: (?==)
       set: member_variable_declarations
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   event_handler_declaration_body:
     - meta_scope: meta.block.cs
@@ -784,8 +778,7 @@ contexts:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       set: [method_body, method_params]
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
 ###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
@@ -814,16 +807,14 @@ contexts:
     - match: '{{name}}'
       scope: variable.other.member.delegate.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   delegate_parameters:
     - meta_scope: meta.delegate.cs
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       push: inside_delegate_parameters
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_delegate_parameters:
     - clear_scopes: 1
@@ -954,8 +945,7 @@ contexts:
     - match: '{{name}}'
       scope: variable.other.member.cs
       set: member_variable_value
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   member_variable_value:
     - match: '[.<\{\[\(]|=>'
@@ -968,8 +958,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   member_variable_declarations:
     - match: '='
@@ -1001,8 +990,7 @@ contexts:
       set:
         - member_lambda_value
         - member_lambda_operator
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   member_lambda_operator:
     - match: =>
@@ -1168,8 +1156,7 @@ contexts:
               set:
                 - meta_content_scope: meta.property.cs
                 - include: line_of_code_in
-            - match: (?=\S)
-              pop: true
+            - include: else_pop
         - match: (?:\b(readonly)\b\s+)?\b(get)\b
           captures:
             1: storage.modifier.cs
@@ -1463,10 +1450,8 @@ contexts:
             scope: punctuation.section.block.end.cs
             pop: true
           - include: code_block_in
-      - match: (?=\S)
-        pop: true
-    - match: (?=\S)
-      pop: true
+      - include: else_pop
+    - include: else_pop
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
@@ -1518,8 +1503,7 @@ contexts:
             - include: code_block_in
         - match: (?=\S)
           set: line_of_code
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   switch_condition:
     - match: '\('
@@ -1530,8 +1514,7 @@ contexts:
           scope: punctuation.section.group.end.cs
           pop: true
         - include: line_of_code_in
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   switch_block:
     - match: \{
@@ -1575,8 +1558,7 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: code_block_in
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   catch_expr:
     - match: '(catch)\s*(\()'
@@ -1587,8 +1569,7 @@ contexts:
     - match: 'catch'
       scope: keyword.control.exception.catch.cs
       push: trycatch_block
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   catch_block:
     - meta_content_scope: meta.group.cs
@@ -1618,8 +1599,7 @@ contexts:
     - match: finally\b
       scope: keyword.control.exception.finally.cs
       set: trycatch_block
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   trycatch_block:
     - match: \{
@@ -1630,8 +1610,7 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: code_block_in
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
 ###[ LOOP STATEMENTS ]#########################################################
 
@@ -1672,8 +1651,7 @@ contexts:
     - match: \b(while)\b
       scope: keyword.control.loop.while.cs
       set: while_condition
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   while_condition:
     - match: \(
@@ -1684,8 +1662,7 @@ contexts:
           scope: punctuation.section.group.end.cs
           pop: true
         - include: line_of_code_in
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   while_block:
     - match: \{
@@ -2013,8 +1990,7 @@ contexts:
     - match: '[*&]'
       scope: keyword.operator.pointer.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
 ###[ GROUP AND TUPLE EXPRESSIONS ]#############################################
 
@@ -2120,8 +2096,7 @@ contexts:
     - match: \(
       scope: meta.group.cs punctuation.section.group.begin.cs
       set: [function_call_arguments, arguments]
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
@@ -2254,8 +2229,7 @@ contexts:
     - match: \{
       scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs punctuation.section.block.begin.cs
       set: pattern_matching_object
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   pattern_matching_object:
     - meta_content_scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
@@ -2378,8 +2352,7 @@ contexts:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: inside_type_parameter
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_type_parameter:
     - meta_content_scope: meta.generic.cs
@@ -2538,8 +2511,7 @@ contexts:
       escape_captures:
         0: punctuation.definition.string.end.cs
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: else_pop
 
 ###[ STRINGS ]#################################################################
 
@@ -2692,8 +2664,7 @@ contexts:
         - include: string_placeholder_escapes
         - include: string_placeholders
         - include: extended_verbatim_string_placeholders
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   extended_verbatim_string_placeholders:
     - match: (\{)(\d+)
@@ -2732,8 +2703,7 @@ contexts:
         - include: string_prototype
         - include: string_placeholder_escapes
         - include: verbatim_format_string_interpolations
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   verbatim_format_string_interpolations:
     - match: \{
@@ -2801,8 +2771,7 @@ contexts:
         - match: (?=""")
           pop: true
         - include: string_prototype
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_raw_string:
     - meta_include_prototype: false
@@ -2992,3 +2961,9 @@ contexts:
         4: variable.other.cs
 
   string_prototype: []
+
+###[ PROTOTYPES ]##############################################################
+
+  else_pop:
+    - match: (?=\S)
+      pop: true
