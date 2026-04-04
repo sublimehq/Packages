@@ -725,7 +725,7 @@ contexts:
     - include: delegate_declaration
     - include: event_declaration
     - include: extension_declaration
-    - include: method_declaration
+    - include: member_declaration
     - include: stray_close_bracket
 
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
@@ -840,9 +840,9 @@ contexts:
         1: punctuation.terminator.statement.cs
       pop: 1
 
-###[ METHOD MEMBER DECLARATIONS ]##############################################
+###[ MEMBER DECLARATIONS ]#####################################################
 
-  method_declaration:
+  member_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: \bdelegate\b
@@ -1361,7 +1361,7 @@ contexts:
     # C#7/9, nested method
     - match: (?=(?:\b(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
       push:
-        - include: method_declaration
+        - include: member_declaration
         - match: ''
           pop: true
     - match: \bconst\b
