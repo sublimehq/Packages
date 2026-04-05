@@ -257,7 +257,7 @@ contexts:
         3: entity.name.tag.html punctuation.separator.namespace.html
         4: entity.name.tag.localname.html
         5: punctuation.accessor.dot.jsp
-        6: keyword.control.directive.jsp
+        6: keyword.directive.jsp
       push: tag-jsp-directive-attributes
     - match: (?i)(</)(jsp)(:)(directive){{tag_name_break}}
       captures:
@@ -266,7 +266,7 @@ contexts:
         3: entity.name.tag.html punctuation.separator.namespace.html
         4: entity.name.tag.localname.html
         5: punctuation.accessor.dot.jsp
-        6: keyword.control.directive.jsp
+        6: keyword.directive.jsp
       push: tag-jsp-directive-end
 
   tag-jsp-directive-attributes:
@@ -491,7 +491,7 @@ contexts:
       scope: punctuation.section.embedded.end.jsp
       pop: 1
     - match: \w+
-      scope: keyword.control.directive.jsp
+      scope: keyword.directive.jsp
       push: jsp-embedded-directives-content
 
   jsp-embedded-directives-content:

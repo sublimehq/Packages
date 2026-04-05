@@ -1204,14 +1204,14 @@ preprocessor_control_tests() -> .
     -if
 %   ^^^^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^ keyword.control.directive.conditional.erlang
+%    ^^ keyword.directive.conditional.erlang
 
     -if ().
 %   ^^^^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %       ^^ meta.preprocessor.conditional.arguments.erlang
 %         ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^ keyword.control.directive.conditional.erlang
+%    ^^ keyword.directive.conditional.erlang
 %       ^ punctuation.section.arguments.begin.erlang
 %        ^ punctuation.section.arguments.end.erlang
 %         ^ punctuation.terminator.clause.erlang
@@ -1221,7 +1221,7 @@ preprocessor_control_tests() -> .
 %          ^^^ meta.preprocessor.conditional.arguments.erlang
 %             ^^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%      ^^ keyword.control.directive.conditional.erlang
+%      ^^ keyword.directive.conditional.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.section.arguments.end.erlang
 %              ^ punctuation.terminator.clause.erlang
@@ -1231,7 +1231,7 @@ preprocessor_control_tests() -> .
 %      ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.conditional.arguments.erlang
 %                          ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^ keyword.control.directive.conditional.erlang
+%    ^^ keyword.directive.conditional.erlang
 %      ^ punctuation.section.arguments.begin.erlang
 %       ^ punctuation.definition.macro.erlang
 %       ^^^^^^^^^^^^ constant.language.macro.erlang
@@ -1245,7 +1245,7 @@ preprocessor_control_tests() -> .
 %        ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.conditional.arguments.erlang
 %                            ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^ keyword.directive.conditional.erlang
 %        ^ punctuation.section.arguments.begin.erlang
 %         ^ punctuation.definition.macro.erlang
 %         ^^^^^^^^^^^^ constant.language.macro.erlang
@@ -1259,7 +1259,7 @@ preprocessor_control_tests() -> .
 %         ^^^^^^^^^^^^ meta.preprocessor.conditional.arguments.erlang
 %                     ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^ keyword.directive.conditional.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^^^^^^^^^^ constant.other.macro.erlang
 %                    ^ punctuation.section.arguments.end.erlang
@@ -1270,7 +1270,7 @@ preprocessor_control_tests() -> .
 %         ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.conditional.arguments.erlang
 %                             ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^ keyword.directive.conditional.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^^^^^^^^^^ constant.other.macro.erlang
 %                     ^^^^^^^ invalid.illegal.expect-arguments-end.erlang
@@ -1280,24 +1280,24 @@ preprocessor_control_tests() -> .
     4 -ifndef
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.control.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.attribute.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.attribute.erlang
 
     4 -ifndef()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.control.erlang
-%      ^ variable.function.erlang - keyword.control.directive.attribute.erlang
+%      ^ variable.function.erlang - keyword.directive.attribute.erlang
 
     -ifndef
 %   ^^^^^^^^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^^ keyword.directive.conditional.erlang
 
     -ifndef()
 %   ^^^^^^^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %          ^^ meta.preprocessor.conditional.arguments.erlang
 %            ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^^ keyword.directive.conditional.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -1307,7 +1307,7 @@ preprocessor_control_tests() -> .
 %          ^^^^^^^^^^^^ meta.preprocessor.conditional.arguments.erlang
 %                      ^ meta.preprocessor.conditional.erlang - meta.preprocessor.conditional.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^^ keyword.directive.conditional.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^^^^^^^ constant.other.macro.erlang
 %                     ^ punctuation.section.arguments.end.erlang
@@ -1316,48 +1316,48 @@ preprocessor_control_tests() -> .
     4 -else
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.control.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.attribute.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.attribute.erlang
 
     4 -else()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.control.erlang
-%      ^ variable.function.erlang - keyword.control.directive.attribute.erlang
+%      ^ variable.function.erlang - keyword.directive.attribute.erlang
 
     -else.
 %   ^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^ keyword.directive.conditional.erlang
 %        ^ punctuation.terminator.clause.erlang
 
     - else .
 %   ^^^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%     ^^^^ keyword.control.directive.conditional.erlang
+%     ^^^^ keyword.directive.conditional.erlang
 %          ^ punctuation.terminator.clause.erlang
 
     -else().
 %   ^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^ keyword.directive.conditional.erlang
 %        ^^ invalid.illegal.expect-terminator.erlang
 %          ^ punctuation.terminator.clause.erlang
 
     -endif.
 %   ^^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^ keyword.directive.conditional.erlang
 %         ^ punctuation.terminator.clause.erlang
 
     - endif .
 %   ^^^^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%     ^^^^^ keyword.control.directive.conditional.erlang
+%     ^^^^^ keyword.directive.conditional.erlang
 %           ^ punctuation.terminator.clause.erlang
 
     -endif().
 %   ^^^^^^^ meta.preprocessor.conditional.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.conditional.erlang
+%    ^^^^^ keyword.directive.conditional.erlang
 %         ^^ invalid.illegal.expect-terminator.erlang
 %           ^ punctuation.terminator.clause.erlang
 
@@ -1368,23 +1368,23 @@ preprocessor_undef_tests() -> .
     4 -undef
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.undef.erlang
-%      ^^^^^ constant.language.exception.reason.erlang - keyword.control.directive.undef.erlang
+%      ^^^^^ constant.language.exception.reason.erlang - keyword.directive.undef.erlang
 
     4 -undef()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.undef.erlang
-%      ^ variable.function.erlang - keyword.control.directive.undef.erlang
+%      ^ variable.function.erlang - keyword.directive.undef.erlang
 
     -undef
 %   ^^^^^^^ meta.preprocessor.undef.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.undef.erlang
+%    ^^^^^ keyword.directive.undef.erlang
 
     -undef(
 %   ^^^^^^ meta.preprocessor.undef.erlang - meta.preprocessor.undef.arguments.erlang
 %         ^^ meta.preprocessor.undef.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.undef.erlang
+%    ^^^^^ keyword.directive.undef.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 
     -undef)
@@ -1399,7 +1399,7 @@ preprocessor_undef_tests() -> .
 %         ^^ meta.preprocessor.undef.arguments.erlang
 %           ^ meta.preprocessor.undef.erlang - meta.preprocessor.undef.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.undef.erlang
+%    ^^^^^ keyword.directive.undef.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.section.arguments.end.erlang
 %           ^ invalid.illegal.expect-terminator.erlang
@@ -1409,7 +1409,7 @@ preprocessor_undef_tests() -> .
 %         ^^ meta.preprocessor.undef.arguments.erlang
 %           ^ meta.preprocessor.undef.erlang - meta.preprocessor.undef.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.undef.erlang
+%    ^^^^^ keyword.directive.undef.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.section.arguments.end.erlang
 %           ^ punctuation.terminator.clause.erlang
@@ -1419,7 +1419,7 @@ preprocessor_undef_tests() -> .
 %         ^^^^^^ meta.preprocessor.undef.arguments.erlang
 %               ^ meta.preprocessor.undef.erlang - meta.preprocessor.undef.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.undef.erlang
+%    ^^^^^ keyword.directive.undef.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^^^^ entity.name.constant.macro.erlang
 %              ^ punctuation.section.arguments.end.erlang
@@ -1430,7 +1430,7 @@ preprocessor_undef_tests() -> .
 %           ^^^^^^^^^^^^^^^^ meta.preprocessor.undef.arguments.erlang
 %                           ^^^^^^^^^ meta.preprocessor.undef.erlang - meta.preprocessor.undef.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%     ^^^^^ keyword.control.directive.undef.erlang
+%     ^^^^^ keyword.directive.undef.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %             ^^^^ entity.name.constant.macro.erlang
 %                  ^^^^^^^ invalid.illegal.expect-arguments-end.erlang
@@ -1445,23 +1445,23 @@ preprocessor_define_tests() -> .
     4 -define
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.define.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.define.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.define.erlang
 
     4 -define()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.define.erlang
-%      ^ variable.function.erlang - keyword.control.directive.define.erlang
+%      ^ variable.function.erlang - keyword.directive.define.erlang
 
     -define
 %   ^^^^^^^^ meta.preprocessor.define.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 
     -define(
 %   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %          ^^ meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 
     -define)
@@ -1477,7 +1477,7 @@ preprocessor_define_tests() -> .
 %          ^^ meta.preprocessor.define.arguments.erlang
 %            ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -1487,7 +1487,7 @@ preprocessor_define_tests() -> .
 %          ^^ meta.preprocessor.define.arguments.erlang
 %            ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ punctuation.terminator.clause.erlang
@@ -1497,7 +1497,7 @@ preprocessor_define_tests() -> .
 %          ^^^ meta.preprocessor.define.arguments.erlang
 %             ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ punctuation.section.arguments.end.erlang
@@ -1508,7 +1508,7 @@ preprocessor_define_tests() -> .
 %          ^ meta.preprocessor.define.arguments.erlang
 %           ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.terminator.clause.erlang
 %            ^ invalid.illegal.stray.erlang
@@ -1518,7 +1518,7 @@ preprocessor_define_tests() -> .
 %          ^^^^ meta.preprocessor.define.arguments.erlang
 %              ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ punctuation.separator.expressions.erlang
@@ -1530,7 +1530,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                 ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang - entity - invalid
 %           ^^^^ entity.name.constant.macro.erlang
 %               ^ punctuation.separator.arguments.erlang - entity - invalid
@@ -1542,7 +1542,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                    ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ - entity
 %            ^^^^ entity.name.constant.macro.erlang
@@ -1556,7 +1556,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                        ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.constant.macro.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -1570,7 +1570,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                          ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^^^ entity.name.constant.macro.erlang
 %                 ^ punctuation.separator.arguments.erlang
@@ -1584,7 +1584,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                         ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^^ constant.other.macro.erlang
 %                ^ punctuation.separator.arguments.erlang
@@ -1598,7 +1598,7 @@ preprocessor_define_tests() -> .
 %          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
 %                                              ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.constant.macro.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -1617,7 +1617,7 @@ preprocessor_define_tests() -> .
 %                       ^^^^^^^^^^^^ meta.sequence.tuple.erlang
 %                                    ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.constant.macro.erlang
 %                     ^ punctuation.separator.arguments.erlang
@@ -1644,7 +1644,7 @@ preprocessor_define_tests() -> .
 %                             ^^^ meta.function-call.arguments.erlang
 %                                         ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.define.erlang
+%    ^^^^^^ keyword.directive.define.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^^^ entity.name.constant.macro.erlang
 %                 ^ punctuation.section.parameters.begin.erlang
@@ -1724,17 +1724,17 @@ preprocessor_export_tests() -> .
     4 -export
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.export.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.export.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.export.erlang
 
     4 -export()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.export.erlang
-%      ^ variable.function.erlang - keyword.control.directive.export.erlang
+%      ^ variable.function.erlang - keyword.directive.export.erlang
 
     -export
 %   ^^^^^^^^ meta.preprocessor.export.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^ keyword.directive.export.erlang
 
     -export(
         illegal
@@ -1751,7 +1751,7 @@ preprocessor_export_tests() -> .
 %   ^^^^^^^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %          ^^ meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^ keyword.directive.export.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 
     -export)
@@ -1766,7 +1766,7 @@ preprocessor_export_tests() -> .
 %          ^^ meta.preprocessor.export.arguments.erlang
 %            ^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^ keyword.directive.export.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -1776,7 +1776,7 @@ preprocessor_export_tests() -> .
 %          ^^ meta.preprocessor.export.arguments.erlang
 %            ^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^ keyword.directive.export.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ punctuation.terminator.clause.erlang
@@ -1800,7 +1800,7 @@ preprocessor_export_tests() -> .
 %                                                     ^ meta.reference.function.arity.erlang
 %                                                        ^^^^^^ meta.reference.function.name.erlang
 %                                                              ^ meta.reference.function.erlang - meta.reference.identifier - mete.reference.arity%   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^ keyword.directive.export.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.sequence.begin.erlang
 %            ^^^^^^^^^^ variable.function.erlang
@@ -1830,23 +1830,23 @@ preprocessor_export_tests() -> .
     4 -export_type
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.export.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.export.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.export.erlang
 
     4 -export_type()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.export.erlang
-%      ^ variable.function.erlang - keyword.control.directive.export.erlang
+%      ^ variable.function.erlang - keyword.directive.export.erlang
 
     -export_type
 %   ^^^^^^^^^^^^^ meta.preprocessor.export.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^^^^^^ keyword.directive.export.erlang
 
     -export_type(
 %   ^^^^^^^^^^^^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %               ^^ meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^^^^^^ keyword.directive.export.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 
     -export_type)
@@ -1861,7 +1861,7 @@ preprocessor_export_tests() -> .
 %               ^^ meta.preprocessor.export.arguments.erlang
 %                 ^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^^^^^^ keyword.directive.export.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                ^ punctuation.section.arguments.end.erlang
 %                 ^ invalid.illegal.expect-terminator.erlang
@@ -1871,7 +1871,7 @@ preprocessor_export_tests() -> .
 %               ^^ meta.preprocessor.export.arguments.erlang
 %                 ^ meta.preprocessor.export.erlang - meta.preprocessor.export.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^^^^^^ keyword.directive.export.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                ^ punctuation.section.arguments.end.erlang
 %                 ^ punctuation.terminator.clause.erlang
@@ -1896,7 +1896,7 @@ preprocessor_export_tests() -> .
 %                                                             ^^^^^^ meta.reference.function.name.erlang
 %                                                                   ^ meta.reference.function.erlang - meta.reference.identifier - mete.reference.arity
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.export.erlang
+%    ^^^^^^^^^^^ keyword.directive.export.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                ^ punctuation.section.sequence.begin.erlang
 %                 ^^^^^^^^^^ variable.function.erlang
@@ -1928,35 +1928,35 @@ preprocessor_import_tests() -> .
     4 -import
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.import.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.import.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.import.erlang
 
     4 -import()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.import.erlang
-%      ^ variable.function.erlang - keyword.control.directive.import.erlang
+%      ^ variable.function.erlang - keyword.directive.import.erlang
 
     -import
 %   ^^^^^^^^ meta.preprocessor.import.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 
     -import.
 %   ^^^^^^^^ meta.preprocessor.import.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 
     -import).
 %   ^^^^^^^^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %           ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ invalid.illegal.stray-arguments-end.erlang
 
     -import(
 %   ^^^^^^^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %          ^^ meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 
     -import)
@@ -1971,7 +1971,7 @@ preprocessor_import_tests() -> .
 %          ^^ meta.preprocessor.import.arguments.erlang
 %            ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -1981,7 +1981,7 @@ preprocessor_import_tests() -> .
 %          ^^ meta.preprocessor.import.arguments.erlang
 %            ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ punctuation.terminator.clause.erlang
@@ -1991,7 +1991,7 @@ preprocessor_import_tests() -> .
 %          ^^^ meta.preprocessor.import.arguments.erlang
 %             ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ punctuation.section.arguments.end.erlang
@@ -2002,7 +2002,7 @@ preprocessor_import_tests() -> .
 %          ^^^^ meta.preprocessor.import.arguments.erlang
 %              ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ invalid.illegal.expect-list.erlang
@@ -2014,7 +2014,7 @@ preprocessor_import_tests() -> .
 %          ^^^^^^^ meta.preprocessor.import.arguments.erlang
 %                 ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.namespace.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -2026,7 +2026,7 @@ preprocessor_import_tests() -> .
 %          ^^^^^^^ meta.preprocessor.import.arguments.erlang
 %                 ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ invalid.illegal.expect-atom.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -2038,7 +2038,7 @@ preprocessor_import_tests() -> .
 %          ^^^^^^^^^^^^^ meta.preprocessor.import.arguments.erlang
 %                       ^ meta.preprocessor.import.erlang - meta.preprocessor.import.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.atom.begin.erlang
 %            ^^^^^^^^ entity.name.namespace.erlang
@@ -2067,7 +2067,7 @@ preprocessor_import_tests() -> .
 %                                                         ^^^^^^ meta.reference.function.name.erlang
 %                                                               ^ meta.reference.function.erlang - meta.reference.identifier - mete.reference.arity
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.section.sequence.begin.erlang
 %             ^^^^^^^^^^ variable.function.erlang
@@ -2112,7 +2112,7 @@ preprocessor_import_tests() -> .
 %                                                                ^^^^^^ meta.reference.function.name.erlang
 %                                                                      ^ meta.reference.function.erlang - meta.reference.identifier - mete.reference.arity
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.import.erlang
+%    ^^^^^^ keyword.directive.import.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^^^ entity.name.namespace.erlang
 %                 ^ punctuation.separator.arguments.erlang
@@ -2146,23 +2146,23 @@ preprocessor_include_tests() -> .
     4 -include
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.include.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.include.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.include.erlang
 
     4 -include()
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.include.erlang
-%      ^ variable.function.erlang - keyword.control.directive.include.erlang
+%      ^ variable.function.erlang - keyword.directive.include.erlang
 
     -include
 %   ^^^^^^^^ meta.preprocessor.include.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 
     -include(
 %   ^^^^^^^^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %           ^^ meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 
     -include)
@@ -2177,7 +2177,7 @@ preprocessor_include_tests() -> .
 %           ^^ meta.preprocessor.include.arguments.erlang
 %             ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.section.arguments.end.erlang
 %             ^ invalid.illegal.expect-terminator.erlang
@@ -2187,7 +2187,7 @@ preprocessor_include_tests() -> .
 %           ^^ meta.preprocessor.include.arguments.erlang
 %             ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.section.arguments.end.erlang
 %             ^ punctuation.terminator.clause.erlang
@@ -2197,7 +2197,7 @@ preprocessor_include_tests() -> .
 %           ^^^^^^^^^ meta.preprocessor.include.arguments.erlang
 %                    ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^^^^^^^ invalid.illegal.expect-arguments-end.erlang
 %                   ^ punctuation.section.arguments.end.erlang
@@ -2208,7 +2208,7 @@ preprocessor_include_tests() -> .
 %           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.include.arguments.erlang
 %                                       ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^ keyword.directive.include.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.definition.string.begin.erlang
 %            ^^^^^^^^^^^^^^^^^^ string.quoted.double.erlang
@@ -2222,18 +2222,18 @@ preprocessor_include_tests() -> .
     4 -include_lib
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.include.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.include.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.include.erlang
 
     -include_lib
 %   ^^^^^^^^^^^^ meta.preprocessor.include.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^^^^^ keyword.directive.include.erlang
 
     -include_lib(
 %   ^^^^^^^^^^^^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %               ^^ meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^^^^^ keyword.directive.include.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 
     -include_lib)
@@ -2248,7 +2248,7 @@ preprocessor_include_tests() -> .
 %               ^^ meta.preprocessor.include.arguments.erlang
 %                 ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^^^^^ keyword.directive.include.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                ^ punctuation.section.arguments.end.erlang
 %                 ^ invalid.illegal.expect-terminator.erlang
@@ -2258,7 +2258,7 @@ preprocessor_include_tests() -> .
 %               ^^ meta.preprocessor.include.arguments.erlang
 %                 ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^^^^^ keyword.directive.include.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                ^ punctuation.section.arguments.end.erlang
 %                 ^ punctuation.terminator.clause.erlang
@@ -2268,7 +2268,7 @@ preprocessor_include_tests() -> .
 %               ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.include.arguments.erlang
 %                                  ^ meta.preprocessor.include.erlang - meta.preprocessor.include.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^^^^^ keyword.control.directive.include.erlang
+%    ^^^^^^^^^^^ keyword.directive.include.erlang
 %               ^ punctuation.section.arguments.begin.erlang
 %                                 ^ punctuation.section.arguments.end.erlang
 %                                  ^ punctuation.terminator.clause.erlang
@@ -2280,18 +2280,18 @@ preprocessor_module_tests() -> .
     4 -module
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.namespace.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.namespace.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.namespace.erlang
 
     -module
 %   ^^^^^^^^ meta.preprocessor.namespace.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 
     -module(
 %   ^^^^^^^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %          ^^ meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 
     -module)
@@ -2307,7 +2307,7 @@ preprocessor_module_tests() -> .
 %          ^^ meta.preprocessor.namespace.arguments.erlang
 %            ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -2317,7 +2317,7 @@ preprocessor_module_tests() -> .
 %          ^^ meta.preprocessor.namespace.arguments.erlang
 %            ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ punctuation.terminator.clause.erlang
@@ -2327,7 +2327,7 @@ preprocessor_module_tests() -> .
 %          ^^^ meta.preprocessor.namespace.arguments.erlang
 %             ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ invalid.illegal.expect-arguments-end.erlang
 %            ^ punctuation.section.arguments.end.erlang
@@ -2338,7 +2338,7 @@ preprocessor_module_tests() -> .
 %          ^^^^^^ meta.preprocessor.namespace.arguments.erlang
 %                ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang - entity
 %           ^^^^ entity.name.namespace.erlang
 %               ^ punctuation.section.arguments.end.erlang - entity
@@ -2349,7 +2349,7 @@ preprocessor_module_tests() -> .
 %          ^^^^^^ meta.preprocessor.namespace.arguments.erlang
 %                ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ invalid.illegal.expect-atom.erlang
 %               ^ punctuation.section.arguments.end.erlang
@@ -2360,7 +2360,7 @@ preprocessor_module_tests() -> .
 %          ^^^^^^^^^^^^ meta.preprocessor.namespace.arguments.erlang
 %                      ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.atom.begin.erlang
 %            ^^^^^^^^ entity.name.namespace.erlang
@@ -2373,7 +2373,7 @@ preprocessor_module_tests() -> .
 %          ^^^^^^^^^^^ meta.preprocessor.namespace.arguments.erlang
 %                     ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.macro.erlang
 %           ^^^^^^^^^ constant.other.macro.erlang
@@ -2385,7 +2385,7 @@ preprocessor_module_tests() -> .
 %          ^^^^^^^^^^^^ meta.preprocessor.namespace.arguments.erlang
 %                      ^ meta.preprocessor.namespace.erlang - meta.preprocessor.namespace.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.namespace.erlang
+%    ^^^^^^ keyword.directive.namespace.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.macro.erlang
 %           ^^^^^^^^^^ constant.other.macro.erlang
@@ -2400,25 +2400,25 @@ preprocessor_onload_tests() -> .
 
     4 -on_load
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
-%     ^ keyword.operator.arithmetic.erlang - keyword.control.directive.attribute.erlang
-%      ^ constant.other.symbol.erlang - keyword.control.directive.attribute.erlang
+%     ^ keyword.operator.arithmetic.erlang - keyword.directive.attribute.erlang
+%      ^ constant.other.symbol.erlang - keyword.directive.attribute.erlang
 
     -on_load
 %   ^^^^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^^^ keyword.directive.attribute.erlang
 
     -on_load(
 %   ^^^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^^^ keyword.directive.attribute.erlang
 %           ^^ meta.preprocessor.attribute.arguments.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 
     -on_load)
 %  ^^^^^^^^^ meta.preprocessor.attribute.arguments.erlang
 %            ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
-%   ^^^^^^^^ - keyword.control.directive
+%   ^^^^^^^^ - keyword.directive
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
 
@@ -2430,7 +2430,7 @@ preprocessor_onload_tests() -> .
 %                     ^ meta.reference.function.arity.erlang
 %                       ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^^^ keyword.directive.attribute.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^^^^^^^^ variable.function.erlang
 %                    ^ punctuation.separator.reference.erlang
@@ -2444,7 +2444,7 @@ preprocessor_onload_tests() -> .
 %            ^^^^^^^^^^^^^^^^^ meta.path.erlang
 %                              ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^^^ keyword.directive.attribute.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^^^^^^ variable.namespace.erlang
 %                   ^^^^^^^^ variable.function.erlang
@@ -2460,24 +2460,24 @@ preprocessor_other_tests() -> .
     4 -other
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %     ^ keyword.operator.arithmetic.erlang - keyword.declaration.other.erlang
-%      ^^^^^ constant.other.symbol.erlang - keyword.control.directive.attribute.erlang
+%      ^^^^^ constant.other.symbol.erlang - keyword.directive.attribute.erlang
 
     -other
 %   ^^^^^^^ meta.preprocessor.attribute.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 
     -other(
 %   ^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %         ^^ meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 
     -other)
 %  ^^^^^^^^ meta.preprocessor.attribute.arguments.erlang
 %          ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
-%   ^^^^^^ - keyword.control.directive.attribute.erlang
+%   ^^^^^^ - keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.end.erlang
 %          ^ invalid.illegal.expect-terminator.erlang
 
@@ -2486,7 +2486,7 @@ preprocessor_other_tests() -> .
 %         ^^ meta.preprocessor.attribute.arguments.erlang
 %           ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.section.arguments.end.erlang
 %           ^ invalid.illegal.expect-terminator.erlang
@@ -2496,7 +2496,7 @@ preprocessor_other_tests() -> .
 %         ^^ meta.preprocessor.attribute.arguments.erlang
 %           ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.section.arguments.end.erlang
 %           ^ punctuation.terminator.clause.erlang
@@ -2506,7 +2506,7 @@ preprocessor_other_tests() -> .
 %         ^^^ meta.preprocessor.attribute.arguments.erlang
 %            ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.separator.arguments.erlang
 %           ^ punctuation.section.arguments.end.erlang
@@ -2523,7 +2523,7 @@ preprocessor_other_tests() -> .
 %                    ^ meta.preprocessor.attribute.arguments.erlang - meta.sequence.list - meta.reference
 %                     ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %         ^ punctuation.section.arguments.begin.erlang
 %          ^ punctuation.section.sequence.begin.erlang - variable.function
 %           ^^^^ variable.function.erlang
@@ -2537,7 +2537,7 @@ preprocessor_other_tests() -> .
     -other Foo + bar, baz();.
 %   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^ keyword.directive.attribute.erlang
 %          ^^^ variable.other.readwrite.erlang
 %              ^ keyword.operator.arithmetic.erlang
 %                ^^^ constant.other.symbol.erlang
@@ -2552,7 +2552,7 @@ preprocessor_other_tests() -> .
 %   ^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang
 %    ^ punctuation.definition.atom.begin.erlang
-%    ^^^^^^^^^^ keyword.control.directive.attribute.erlang
+%    ^^^^^^^^^^ keyword.directive.attribute.erlang
 %             ^ punctuation.definition.atom.end.erlang
 %               ^^^ variable.other.readwrite.erlang
 %                   ^ keyword.operator.arithmetic.erlang
@@ -2564,23 +2564,23 @@ preprocessor_other_tests() -> .
 preprocessor_spec_tests() -> .
 
 5 -spec
-%  ^^^^ - keyword.control.directive.spec.erlang
+%  ^^^^ - keyword.directive.spec.erlang
 
 -spec.
 %<- meta.preprocessor.spec.erlang punctuation.definition.keyword.erlang
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 - spec .
 %^^^^^^^ source.erlang meta.preprocessor.spec.erlang
 %^ - keyword
-% ^^^^ keyword.control.directive.spec.erlang
+% ^^^^ keyword.directive.spec.erlang
 %     ^ - keyword
 
 -spec foo.
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang
 %        ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.terminator.clause.erlang
 
@@ -2589,7 +2589,7 @@ preprocessor_spec_tests() -> .
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang
 %        ^ source.erlang meta.preprocessor.spec.parameters.erlang
 %         ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.terminator.clause.erlang
@@ -2599,7 +2599,7 @@ preprocessor_spec_tests() -> .
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang
 %        ^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %          ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.sequence.begin.erlang
@@ -2610,7 +2610,7 @@ preprocessor_spec_tests() -> .
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang
 %        ^^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %           ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^^ punctuation.section.sequence.begin.erlang
@@ -2622,7 +2622,7 @@ preprocessor_spec_tests() -> .
 %        ^^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %           ^^ source.erlang meta.preprocessor.spec.erlang
 %              ^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.sequence.begin.erlang
@@ -2658,7 +2658,7 @@ preprocessor_spec_tests() -> .
 %                           ^^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type - meta.sequence.list
 %                                                    ^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang meta.sequence.list.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
 %                                                                ^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^^^ variable.parameter.erlang
@@ -2686,7 +2686,7 @@ preprocessor_spec_tests() -> .
 -spec Foo.
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.terminator.clause.erlang
 
@@ -2697,7 +2697,7 @@ preprocessor_spec_tests() -> .
 %          ^^^ source.erlang meta.preprocessor.spec.erlang
 %             ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                   ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.parameters.end.erlang
@@ -2763,7 +2763,7 @@ preprocessor_spec_tests() -> .
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
 %             ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
 %     ^^^^^^^ constant.language.macro.erlang
 %            ^ punctuation.accessor.double-colon.erlang
@@ -2773,7 +2773,7 @@ preprocessor_spec_tests() -> .
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
 %                ^ source.erlang meta.preprocessor.spec.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
 %     ^^^^^^^ constant.language.macro.erlang
 %            ^ punctuation.accessor.double-colon.erlang
@@ -2802,7 +2802,7 @@ preprocessor_spec_tests() -> .
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters
 %                   ^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
-%^^^^ keyword.control.directive.spec.erlang
+%^^^^ keyword.directive.spec.erlang
 %     ^ punctuation.definition.atom.begin.erlang
 %      ^^^^^^^^^^^ entity.name.function.erlang
 %                 ^ punctuation.definition.atom.end.erlang
@@ -2881,19 +2881,19 @@ preprocessor_spec_tests() -> .
 preprocessor_type_tests() -> .
 
 5 -type
-%  ^^^^ - keyword.control.directive.type.erlang
+%  ^^^^ - keyword.directive.type.erlang
 
 -type.
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 
 - type .
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor
 %^ - keyword
-% ^^^^ keyword.control.directive.type.erlang
+% ^^^^ keyword.directive.type.erlang
 %     ^ - keyword
 
 -type (.
@@ -2902,7 +2902,7 @@ preprocessor_type_tests() -> .
 %     ^ source.erlang meta.preprocessor.type.parameters.erlang
 %      ^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor - invalid
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ punctuation.section.parameters.begin.erlang
 %      ^ punctuation.terminator.clause.erlang
 
@@ -2911,7 +2911,7 @@ preprocessor_type_tests() -> .
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^ source.erlang meta.preprocessor.type.parameters.erlang
 %      ^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ punctuation.section.parameters.begin.erlang
 %      ^ punctuation.terminator.clause.erlang
 %       ^ invalid.illegal.stray.erlang - meta.preprocessor
@@ -2921,7 +2921,7 @@ preprocessor_type_tests() -> .
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
 %          ^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ punctuation.section.parameters.begin.erlang
 %      ^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
 %          ^ punctuation.terminator.clause.erlang
@@ -2930,14 +2930,14 @@ preprocessor_type_tests() -> .
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor - invalid
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ invalid.illegal.unexpected-list.erlang
 %      ^ punctuation.terminator.clause.erlang
 
 -type [.]
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ invalid.illegal.unexpected-list.erlang
 %      ^ punctuation.terminator.clause.erlang
 %       ^ invalid.illegal.stray.erlang - meta.preprocessor
@@ -2946,7 +2946,7 @@ preprocessor_type_tests() -> .
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %          ^ - meta.preprocessor - invalid
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^^ invalid.illegal.unexpected-list.erlang
 %         ^ punctuation.terminator.clause.erlang
 
@@ -2954,13 +2954,13 @@ preprocessor_type_tests() -> .
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor - invalid
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ invalid.illegal.unexpected-tuple.erlang
 %      ^ punctuation.terminator.clause.erlang
 -type {.}
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^ invalid.illegal.unexpected-tuple.erlang
 %      ^ punctuation.terminator.clause.erlang
 %       ^ invalid.illegal.stray.erlang - meta.preprocessor
@@ -2968,7 +2968,7 @@ preprocessor_type_tests() -> .
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %           ^ - meta.preprocessor - invalid
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^^^ invalid.illegal.unexpected-tuple.erlang
 %          ^ punctuation.terminator.clause.erlang
 
@@ -2978,7 +2978,7 @@ preprocessor_type_tests() -> .
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^ source.erlang meta.preprocessor.type.erlang
 %         ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.terminator.clause.erlang
 
@@ -2988,7 +2988,7 @@ preprocessor_type_tests() -> .
 %     ^^^^ source.erlang meta.preprocessor.type.name.erlang
 %         ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %                  ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %         ^^ punctuation.separator.type-head-body.erlang
 %            ^^^ storage.type.erlang
@@ -3001,7 +3001,7 @@ preprocessor_type_tests() -> .
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^ source.erlang meta.preprocessor.type.erlang
 %         ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %        ^ punctuation.terminator.clause.erlang
 
@@ -3011,7 +3011,7 @@ preprocessor_type_tests() -> .
 %     ^^^^ source.erlang meta.preprocessor.type.name.erlang
 %         ^^^ source.erlang meta.preprocessor.type.erlang
 %            ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %         ^^ punctuation.separator.type-head-body.erlang
 %           ^ punctuation.terminator.clause.erlang
@@ -3023,7 +3023,7 @@ preprocessor_type_tests() -> .
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
 %          ^ source.erlang meta.preprocessor.type.erlang
 %           ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.parameters.end.erlang
@@ -3036,7 +3036,7 @@ preprocessor_type_tests() -> .
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
 %          ^^^ source.erlang meta.preprocessor.type.erlang
 %             ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.parameters.end.erlang
@@ -3050,7 +3050,7 @@ preprocessor_type_tests() -> .
 %        ^^^^^^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
 %                  ^ source.erlang meta.preprocessor.type.erlang
 %                   ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %          ^^ punctuation.separator.variable-type.erlang
@@ -3065,7 +3065,7 @@ preprocessor_type_tests() -> .
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
 %          ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %                   ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ entity.name.type.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.parameters.end.erlang
@@ -3075,7 +3075,7 @@ preprocessor_type_tests() -> .
 -type :: int().
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^ punctuation.separator.type-head-body.erlang
 %        ^^^ storage.type.erlang
 %           ^ punctuation.section.arguments.begin.erlang
@@ -3124,7 +3124,7 @@ preprocessor_type_tests() -> .
 %                            ^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
 %                             ^ - meta.mapping
 %                              ^ - meta.preprocessor
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.section.parameters.begin.erlang
 %         ^ punctuation.section.parameters.end.erlang
@@ -3196,7 +3196,7 @@ preprocessor_type_tests() -> .
 %     ^^^^^ source.erlang meta.preprocessor.type.name.erlang
 %          ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
 %                           ^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
-%^^^^ keyword.control.directive.type.erlang
+%^^^^ keyword.directive.type.erlang
 %     ^^^^^ entity.name.type.erlang
 %          ^ punctuation.section.parameters.begin.erlang
 %           ^^^^^^^^ variable.parameter.erlang
@@ -3365,13 +3365,13 @@ preprocessor_record_tests() -> .
     -record
 %   ^^^^^^^^ meta.preprocessor.record.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 
     -record(
 %   ^^^^^^^ meta.preprocessor.record.erlang
 %          ^^ meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 
     -record)
 %^^^^^^^^^^^ meta.preprocessor.record.arguments.erlang
@@ -3385,7 +3385,7 @@ preprocessor_record_tests() -> .
 %          ^^ meta.preprocessor.record.arguments.erlang
 %            ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.section.arguments.end.erlang
 %            ^ invalid.illegal.expect-terminator.erlang
@@ -3395,7 +3395,7 @@ preprocessor_record_tests() -> .
 %           ^^ meta.preprocessor.record.arguments.erlang
 %             ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.section.arguments.end.erlang
 %             ^ invalid.illegal.expect-terminator.erlang
@@ -3405,7 +3405,7 @@ preprocessor_record_tests() -> .
 %          ^^^ meta.preprocessor.record.arguments.erlang
 %             ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ punctuation.section.arguments.end.erlang
@@ -3415,7 +3415,7 @@ preprocessor_record_tests() -> .
 %           ^^^ meta.preprocessor.record.arguments.erlang
 %              ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %           ^ punctuation.section.arguments.begin.erlang
 %            ^ punctuation.separator.arguments.erlang
 %             ^ punctuation.section.arguments.end.erlang
@@ -3426,7 +3426,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^ meta.preprocessor.record.arguments.erlang
 %                ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.record.erlang
 %               ^ punctuation.section.arguments.end.erlang
@@ -3437,7 +3437,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                 ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang - entity
 %           ^^^^^ constant.other.macro.erlang
 %                ^ punctuation.section.arguments.end.erlang - entity
@@ -3448,7 +3448,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                   ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang - entity
 %           ^^^^^^^ constant.other.macro.erlang
 %                  ^ punctuation.section.arguments.end.erlang - entity
@@ -3459,7 +3459,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^^^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                         ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.atom.begin.erlang
 %           ^^^^^^^^^^^^^ entity.name.record.erlang
@@ -3472,7 +3472,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                 ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.record.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -3484,7 +3484,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^^^^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                          ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.definition.atom.begin.erlang
 %           ^^^^^^^^^^^^^ entity.name.record.erlang
@@ -3498,7 +3498,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                 ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ invalid.illegal.expect-atom.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -3510,7 +3510,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^ meta.preprocessor.record.arguments.erlang
 %               ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ punctuation.separator.arguments.erlang
 %            ^ punctuation.section.fields.begin.erlang
@@ -3523,7 +3523,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                   ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.record.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -3537,7 +3537,7 @@ preprocessor_record_tests() -> .
 %          ^^^^^^^^^ meta.preprocessor.record.arguments.erlang
 %                   ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.record.erlang
 %                ^ punctuation.section.fields.begin.erlang
@@ -3573,7 +3573,7 @@ preprocessor_record_tests() -> .
 %                                                                                                        ^ - meta.field
 %                                                                                                                  ^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^^^^ entity.name.record.erlang
 %               ^ punctuation.separator.arguments.erlang
@@ -3618,7 +3618,7 @@ preprocessor_record_tests() -> .
 %   ^^^^^^^^ meta.preprocessor.record.erlang - meta.preprocessor.record.arguments.erlang
 %           ^^ meta.preprocessor.record.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
-%    ^^^^^^ keyword.control.directive.record.erlang
+%    ^^^^^^ keyword.directive.record.erlang
 %           ^ punctuation.section.arguments.begin.erlang
         name,
 %       ^^^^ entity.name.record.erlang

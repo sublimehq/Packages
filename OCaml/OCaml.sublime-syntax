@@ -273,9 +273,9 @@ contexts:
           pop: true
         - include: main
     - match: '^[ \t]*#[a-zA-Z]+'
-      scope: keyword.other.directive.ocaml
+      scope: keyword.directive.ocaml
     - match: '^[ \t]*#[0-9]*'
-      scope: keyword.other.directive.line-number.ocaml
+      scope: keyword.directive.line-number.ocaml
     - include: storagetypes
     - match: \b(mutable|ref)\b
       scope: storage.modifier.ocaml
