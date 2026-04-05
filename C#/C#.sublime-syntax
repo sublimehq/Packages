@@ -31,83 +31,93 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
-    - match: '^\s*(///)'
+    - match: ^\s*(///)
       captures:
-        1: comment.line.documentation.cs punctuation.definition.comment.documentation.cs
-      push: documentation
-    - match: '//'
+        1: punctuation.definition.comment.documentation.cs
+      push: inside_doc_comment
+    - match: //
       scope: punctuation.definition.comment.cs
-      push:
-        - meta_scope: comment.line.double-slash.cs
-        - match: $\n?
-          pop: 1
-        - include: comments_in
-    - match: '/\*'
+      push: inside_line_comment
+    - match: /\*+
       scope: punctuation.definition.comment.begin.cs
-      push:
-        - meta_scope: comment.block.cs
-        - match: '\*/'
-          scope: punctuation.definition.comment.end.cs
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.cs
-        - include: comments_in
-        - include: merge-conflict-markers
+      push: inside_block_comment
     - include: merge-conflict-markers
 
-  comments_in:
-    - match: \b(?i:todo|hack|xxx)\b
-      scope: comment.line.todo.cs
-    - match: '/!\\'
-      scope: comment.line.todo.cs
-    - match: \b(https?://\S*)\b
-      scope: markup.underline.link.cs
+  inside_block_comment:
+    - meta_scope: comment.block.cs
+    - match: \*+/
+      scope: punctuation.definition.comment.end.cs
+      pop: 1
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.cs
+    - include: comment_content
 
-  documentation:
+  inside_doc_comment:
     - meta_include_prototype: false
-    - meta_content_scope: comment.line.documentation.cs
-    - match: '(<)({{name}})'
+    - meta_scope: comment.line.documentation.cs
+    - match: ^\s*(///)
+      captures:
+        1: punctuation.definition.comment.documentation.cs
+    - match: ^
+      pop: 1
+    - match: (<)({{name}})
       captures:
         1: punctuation.definition.tag.begin.cs
         2: entity.name.tag.begin.cs
-      push:
-        - meta_include_prototype: false
-        - match: '({{name}})\s*(=)'
-          captures:
-            1: entity.other.attribute-name.cs
-            2: punctuation.separator.argument.value.cs
-        - match: '/?>'
-          scope: punctuation.definition.tag.end.cs
-          pop: 1
-        - match: '"[^"]*"'
-          scope: string.quoted.double.cs
-        - match: $
-          pop: 1
-    - match: '(</)({{name}})(>)'
+      push: inside_doc_comment_tag
+    - match: (</)({{name}})(>)
+      scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.cs
         2: entity.name.tag.end.cs
         3: punctuation.definition.tag.end.cs
-    - match: '^\s*(///)'
+    - include: comment_content
+
+  inside_doc_comment_tag:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.xml
+    - match: /?>
+      scope: punctuation.definition.tag.end.cs
+      pop: 1
+    - match: ^\s*(///)
       captures:
         1: punctuation.definition.comment.documentation.cs
-    - match: '^\s*(?!///)'
+    - match: ^
+      pop: 2
+    - match: ({{name}})\s*(=)
+      captures:
+        1: entity.other.attribute-name.cs
+        2: punctuation.separator.key-value.cs
+    - match: \"
+      scope: punctuation.definition.string.begin.cs
+      push: inside_string
+
+  inside_line_comment:
+    - meta_scope: comment.line.double-slash.cs
+    - match: $\n?
       pop: 1
-    - include: comments_in
-    - match: '[\w\s]+|.'
-      scope: text.documentation.cs
+    - include: comment_content
+
+  comment_content:
+    - include: merge-conflict-markers
+    - match: \b(?i:todo|hack|xxx)\b
+      scope: comment.line.todo.cs
+    - match: /!\\
+      scope: comment.line.todo.cs
+    - match: \b(?:https?://\S*)\b
+      scope: markup.underline.link.cs
 
   shebang:
     - meta_include_prototype: false
     - match: ^\s*(\#!)
       captures:
         1: punctuation.definition.comment.cs
-      set: shebang-body
+      set: inside_shebang
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if C# is embedded.
       pop: 1
 
-  shebang-body:
+  inside_shebang:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.cs
     - match: '{{shebang_language}}'
