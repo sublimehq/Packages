@@ -195,125 +195,196 @@ contexts:
 ###[ PREPROCESSOR DIRECTIVES ]#################################################
 
   preprocessor_directives:
-    - match: '^\s*(#)\s*(region)\b\s*(\S.*)'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-        3: entity.name.section.cs meta.fold.begin.cs
-    - match: '^\s*(#)\s*(region)\b\s*'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs meta.fold.begin.cs
-    - match: '^\s*(#)\s*(endregion)\b[^\S\n]*(.*)($\n?)'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-        3: variable.other.section.cs
-        4: meta.fold.end.cs
-    - match: '^\s*((#)\s*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: punctuation.definition.preprocessor.cs
-      push: preprocessor_option
+    - match: ^(?=\s*#)
+      push: preprocessor_directive
 
-  preprocessor_option:
+  preprocessor_directive:
+    - meta_include_prototype: false
     - meta_scope: meta.preprocessor.cs
-    - match: '\b(define|undef)\s+({{name}})\b'
-      captures:
-        1: keyword.control.preprocessor.cs
-        2: entity.name.constant.cs
-    - match: '\b(el)?if\b'
-      scope: keyword.control.preprocessor.cs
-      push:
-        - match: '\(|\)'
-          scope: punctuation.section.parens.cs
-        - match: '&&|\|\||!'
-          scope: keyword.operator.logical.cs
-        - match: '\b(true|false)\b'
-          scope: constant.language.cs
-        - match: '{{name}}'
-          scope: constant.other.flag.cs
-        - include: option_done
-    - match: '\b(else|endif)\b'
-      scope: keyword.control.preprocessor.cs
-      push: option_done
-    # error, warning, region and endregion may be followed by any text.
-    # Comments doesn't apply in this case, see ECMA C# specification.
-    - match: '\b(error|warning)\b\s*(.*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: string.unquoted.cs
-
-    - match: '\b(line)\s+(default|hidden)\b'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-      push: option_done
-    - match: '\b(line)\s+(\d*)\s+((").*("))?'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-        3: string.quoted.double.cs
-        4: punctuation.definition.string.begin.cs
-        5: punctuation.definition.string.end.cs
-      push: option_done
-    - match: '\b(pragma)\s+(checksum)\s+'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-      push:
-        - match: '"{'
-          scope: punctuation.definition.string.begin.cs
-          push:
-            - meta_scope: string.quoted.double.hash.cs
-            - match: '[-\h]+'
-              scope: meta.number.integer.hexadecimal.cs constant.numeric.value.cs
-            - match: '}"'
-              scope: punctuation.definition.string.end.cs
-              pop: 1
-            - match: \.
-              scope: invalid.illegal.cs
-              pop: 1
-        - match: '"'
-          scope: punctuation.definition.string.begin.cs
-          push: inside_string
-        - include: option_done
-
-    - match: '(pragma)\s+(warning)\b'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-      push:
-        - match: \b(disable|restore)\b(?:\s+([\p{L}_-]+))?
-          captures:
-            1: keyword.other.preprocessor.cs
-            2: string.unquoted.warning.cs
-        - include: comments
-        - match: $
-          pop: 1
-    - match: '\b(nullable)\s+(enable|disable|restore)(?:\s+(annotations|warnings))?\b'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-        3: keyword.other.preprocessor.cs
-
-    - match: (:)(\w+)
+    # Note: Repeated `\s*(#)` is required as some of them are to be scoped
+    #       fold markers to support syntax based folding of blocks.
+    - match: \s*(#:)(\w+)\b(?:\s*(\S.*?))?{{wspace_eol}}
       captures:
         1: punctuation.definition.preprocessor.cs
         2: variable.language.cs
-    - match: $
+        3: meta.string.cs string.unquoted.cs
+      pop: 1
+    - match: \s*(#)\s*(region)\b(?:\s*(\S.*?))?({{wspace_eol}})
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.region.cs
+        3: entity.name.section.cs
+        4: meta.fold.block.begin.cs
+      pop: 1
+    - match: \s*(#)\s*(endregion)\b(?:\s*(\S.*?))?{{wspace_eol}}
+      captures:
+        1: meta.fold.block.end.cs punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.endregion.cs
+        3: variable.other.section.cs
+      pop: 1
+    - match: \s*(#)\s*(?:(error)|(warning))\b(?:\s*(\S.*?))?{{wspace_eol}}
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.error.cs
+        3: keyword.control.directive.warning.cs
+        4: meta.string.cs string.unquoted.cs
+      pop: 1
+    - match: \s*(#)\s*(line)\b
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.line.cs
+      set: preprocessor_line
+    - match: \s*(#)\s*(if)\b
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.conditional.if.cs
+      set: preprocessor_if_condition
+    - match: \s*(#)\s*(elif)\b
+      captures:
+        1: meta.fold.block.end.cs punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.conditional.elseif.cs
+      set: preprocessor_if_condition
+    - match: \s*(#)\s*(else)\b
+      captures:
+        1: meta.fold.block.end.cs punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.conditional.else.cs
+      set: expect_preprocessor_fold_begin
+    - match: \s*(#)\s*(endif)\b
+      captures:
+        1: meta.fold.block.end.cs punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.conditional.end.cs
+      set: expect_preprocessor_end
+    - match: \s*(#)\s*(?:(define)|(undef))\b(?:\s*({{name}}))?
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.define.cs
+        3: keyword.control.directive.undefine.cs
+        4: entity.name.constant.preprocessor.cs
+      set: expect_preprocessor_end
+    - match: \s*(#)\s*(nullable)(?:\s+(enable|disable|restore)(?:\s+(annotations|warnings))?)?\b
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.nullable.cs
+        3: keyword.control.directive.other.cs
+        4: constant.language.messages.cs
+      set: expect_preprocessor_end
+    - match: \s*(#)\s*(pragma)\b
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: keyword.control.directive.pragma.cs
+      set: preprocessor_pragma_name
+    - match: \s*(#)\s*({{name}})
+      captures:
+        1: punctuation.definition.preprocessor.cs
+    - match: $\n?|(?=\s*/[/*])
       pop: 1
 
-  # Pops out at the end of the line and handles comments.
-  # Marks the rest of the line as invalid.
-  option_done:
-    - include: comments
-    - match: $
+  preprocessor_if_condition:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      push: inside_preprocessor_if_condition_group
+    - match: (?:&&|\|\||!)
+      scope: keyword.operator.logical.cs
+    - include: language_constants
+    - match: '{{name}}'
+      scope: constant.other.preprocessor.cs
+    - include: expect_preprocessor_fold_begin
+
+  inside_preprocessor_if_condition_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
       pop: 1
-    - match: \S
+    - include: preprocessor_if_condition
+
+  preprocessor_line:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: \"
+      scope: punctuation.definition.string.begin.cs
+      push: inside_string
+    - match: (?:default|hidden)\b
+      scope: constant.language.preprocessor.cs
+    - match: \d+
+      scope: meta.number.integer.decimal.cs constant.numeric.value.cs
+    - include: expect_preprocessor_end
+
+  preprocessor_pragma_name:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: checksum\b
+      scope: meta.preprocessor.cs entity.name.pragma.checksum.cs
+      set: preprocessor_pragma_checksum_args
+    - match: warning\b
+      scope: meta.preprocessor.cs entity.name.pragma.warning.cs
+      set: preprocessor_pragma_warning_args
+    - match: '{{name}}'
+      scope: meta.preprocessor.cs entity.name.pragma.other.cs
+      set: preprocessor_pragma_other_args
+    - include: expect_preprocessor_end
+
+  preprocessor_pragma_checksum_args:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: \"\{
+      scope: punctuation.definition.string.begin.cs
+      push: inside_preprocessor_pragma_checksum_hash
+    - match: \"
+      scope: punctuation.definition.string.begin.cs
+      push: inside_string
+    - include: expect_preprocessor_end
+
+  inside_preprocessor_pragma_checksum_hash:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.hash.cs string.quoted.double.cs
+    - meta_content_scope: meta.number.integer.hexadecimal.cs constant.numeric.value.cs
+    - match: \}\"
+      scope: punctuation.definition.string.end.cs
+      pop: 1
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
+      pop: 1
+    - match: '[^-\h]+'
+      scope: invalid.illegal.cs
+
+  preprocessor_pragma_other_args:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: \"
+      scope: punctuation.definition.string.begin.cs
+      push: inside_string
+    - match: \d+
+      scope: meta.number.integer.decimal.cs constant.numeric.value.cs
+    - match: '[\p{L}_-]+'
+      scope: meta.string.cs string.unquoted.cs
+    - include: expect_preprocessor_end
+
+  preprocessor_pragma_warning_args:
+    - meta_content_scope: meta.preprocessor.cs
+    - match: (disable|restore)(?:\s+([\p{L}_-]+))?
+      scope: meta.preprocessor.cs
+      captures:
+        1: keyword.control.directive.other.cs
+        2: meta.string.cs string.unquoted.cs
+      set: expect_preprocessor_end
+    - include: expect_preprocessor_end
+
+  expect_preprocessor_end:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.cs
+    - match: $\n?|(?=\s*/[/*])
+      scope: meta.preprocessor.cs
+      pop: 1
+    - match: \S+
+      scope: invalid.illegal.cs
+
+  expect_preprocessor_fold_begin:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.cs
+    - match: '{{wspace_eol}}'
+      scope: meta.preprocessor.cs meta.fold.block.begin.cs
+      pop: 1
+    - match: \s*(?=/[/*])
+      scope: meta.fold.block.begin.cs
+      pop: 1
+    - match: \S+
       scope: invalid.illegal.cs
 
 ###[ GLOBAL STATEMENTS ]#######################################################
@@ -2383,13 +2454,7 @@ contexts:
 
   # bools, numbers, chars, simple strings
   literals:
-    # language constants
-    - match: \bfalse\b
-      scope: constant.language.boolean.false.cs
-    - match: \btrue\b
-      scope: constant.language.boolean.true.cs
-    - match: \bnull\b
-      scope: constant.language.null.cs
+    - include: language_constants
     # characters
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
@@ -2438,6 +2503,14 @@ contexts:
         1: constant.numeric.value.cs
         2: constant.numeric.suffix.cs
     - include: strings
+
+  language_constants:
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.cs
+    - match: \btrue\b
+      scope: constant.language.boolean.true.cs
+    - match: \bnull\b
+      scope: constant.language.null.cs
 
 ###[ REGULAR EXPRESSIONS ]#####################################################
 
@@ -2954,6 +3027,8 @@ variables:
   other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
   name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '(\p{Lu}{{other_char}})'
+
+  wspace_eol: '\s*(?:\n|$)'
 
   method_param_type_modifier: \b(?:out|ref|this|params|in)\b
 
