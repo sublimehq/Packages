@@ -2022,7 +2022,7 @@ contexts:
         5: constant.numeric.value.exponent.cs
         6: constant.numeric.suffix.cs
         7: constant.numeric.suffix.cs
-    - match: (0|[1-9]{{dec_digits}}?)({{integer_suffix}})?
+    - match: ({{dec_digits}})({{integer_suffix}})?
       scope: meta.number.integer.decimal.cs
       captures:
         1: constant.numeric.value.cs
