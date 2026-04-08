@@ -191,6 +191,10 @@ class Foo {
 ///           ^^^^^^^^^^^^^^ meta.number.integer.hexadecimal
         int abc = _123;
 ///               ^^^^ variable.other
+        float abc = _0.5;
+///                 ^^ variable.other
+///                   ^ punctuation.accessor.dot.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 
         switch (sh) {
             case Shape shape when sh.Area == 0:

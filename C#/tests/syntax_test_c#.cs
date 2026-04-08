@@ -146,7 +146,7 @@ public class Coo
     {}
 }
 
-class Syntax
+class TestNumbers
 {
     public decimal decimal1 = 1.0m;
     //                        ^^^^ meta.number.float.decimal.cs
@@ -337,6 +337,15 @@ class Syntax
     public ulong bad = 0x1UU;
     //                    ^ constant.numeric.suffix.cs
     //                     ^ - constant.numeric.suffix.cs
+
+    public int zero = 0 + 00 + 0_0;
+    //                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    //                    ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    //                         ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    public int one = 1 + 01 + 0_1;
+    //               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    //                   ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    //                        ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 }
 
 class Car
