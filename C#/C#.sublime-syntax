@@ -18,62 +18,10 @@ first_line_match: |-
   | ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
   )
 
-variables:
-  shebang_language: \bdotnet\s+run\b
-
-  # operators
-  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
-
-  # numbers
-  dec_digits: (?:[\d_]*\d)
-  dec_exponent: (?:[eE][-+]??{{dec_digits}})
-  float_suffix: '[fFdDmM]'
-  integer_suffix: '[uU][lL]?|[lL][uU]?'
-
-  # characters
-  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
-  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
-
-  visibility: \b(?:public|private|protected|internal|protected\s+internal|file)\b
-  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
-  type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
-  generic_declaration: \s*(<[^={};]*>)?\s*
-
-  brackets_capture: '((\[)(,*)(\]))'
-  type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
-
-  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
-  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
-  namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
-
-  start_char: '(?:{{unicode_char}}|[_\p{L}])'
-  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
-  name_normal: '{{start_char}}{{other_char}}*\b'
-  cap_name: '(\p{Lu}{{other_char}})'
-
-  method_param_type_modifier: \b(?:out|ref|this|params|in)\b
-
-  sql_indicator: |-
-    (?x: \s* (?:
-    # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
-    # ddl statements
-    | ADD | ALTER | CREATE | DROP
-    # conditional
-    | IF \s+ (?: NOT \s+ )? EXISTS
-    # declaration
-    | DECLARE | WITH | BEGIN
-    ) \s )
-
 contexts:
   prototype:
     - include: comments
-    - include: preprocessor_region
-    - match: '^\s*((#)\s*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: punctuation.definition.preprocessor.cs
-      push: preprocessor_option
+    - include: preprocessor_directives
 
   main:
     - meta_include_prototype: false
@@ -235,6 +183,31 @@ contexts:
 
 ###[ PREPROCESSOR DIRECTIVES ]#################################################
 
+  preprocessor_directives:
+    - match: '^\s*(#)\s*(region)\b\s*(\S.*)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: entity.name.section.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(region)\b\s*'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(endregion)\b[^\S\n]*(.*)($\n?)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: variable.other.section.cs
+        4: meta.fold.end.cs
+    - match: '^\s*((#)\s*)'
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: punctuation.definition.preprocessor.cs
+      push: preprocessor_option
+
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
     - match: '\b(define|undef)\s+({{name}})\b'
@@ -323,26 +296,6 @@ contexts:
     - match: $
       pop: true
 
-  preprocessor_region:
-    - match: '^\s*(#)\s*(region)\b\s*(\S.*)'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-        3: entity.name.section.cs meta.fold.begin.cs
-    - match: '^\s*(#)\s*(region)\b\s*'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs meta.fold.begin.cs
-    - match: '^\s*(#)\s*(endregion)\b[^\S\n]*(.*)($\n?)'
-      scope: meta.preprocessor.region.cs
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
-        3: variable.other.section.cs
-        4: meta.fold.end.cs
-
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
   option_done:
@@ -367,7 +320,10 @@ contexts:
     - include: attribute
     - include: using
     - include: class_declaration
+    - include: enum_declaration
     - include: interface_declaration
+    - include: record_declaration
+    - include: struct_declaration
     - include: namespace_declaration
     - include: delegate_declaration
     # allows coloration of code outside a class
@@ -446,8 +402,7 @@ contexts:
   namespace_declaration_meta:
     - meta_include_prototype: false
     - meta_scope: meta.namespace.cs
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   namespace_declaration_name:
     - match: ({{name}})\s*(\.)
@@ -469,15 +424,13 @@ contexts:
     - match: '{{name}}'
       scope: entity.name.namespace.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   namespace_declaration_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: namespace_declaration_block_body
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   namespace_declaration_block_body:
     - meta_scope: meta.block.cs
@@ -497,19 +450,25 @@ contexts:
       captures:
         1: keyword.declaration.class.cs
         2: entity.name.class.cs
-      push: [class_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
-    - match: \b(record)\s+(?:(struct)\s+)?({{name}})
-      captures:
-        1: keyword.declaration.class.record.cs
-        2: keyword.declaration.struct.record.cs
-        3: entity.name.class.cs
-      push: [record_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
-    - match: (?:\b(ref)\s+)?\b(struct)\s+({{name}})
-      captures:
-        1: storage.modifier.cs
-        2: keyword.declaration.struct.cs
-        3: entity.name.struct.cs
-      push: [struct_signature, data_type_constraint, maybe_constructor_parameters, maybe_type_parameters]
+      push:
+        - class_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
+
+  class_signature:
+    - meta_scope: meta.class.cs
+    - include: terminator
+    - match: (?=\S)
+      set: class_body
+
+  class_body:
+    - meta_content_scope: meta.class.body.cs
+    - include: data_type_expect_block
+
+###[ ENUM DECLARATIONS ]#######################################################
+
+  enum_declaration:
     - match: \b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?
       scope: meta.enum.cs
       captures:
@@ -551,7 +510,212 @@ contexts:
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
-      push: [interface_signature, data_type_constraint, maybe_type_parameters]
+      push:
+        - interface_signature
+        - data_type_constraint
+        - maybe_type_parameters
+
+  interface_signature:
+    - meta_scope: meta.interface.cs
+    - match: (?=\S)
+      set: interface_body
+
+  interface_body:
+    - meta_content_scope: meta.interface.body.cs
+    - include: data_type_expect_block
+
+###[ RECORD DECLARATIONS ]#####################################################
+
+  record_declaration:
+    - match: \b(record)\s+(?:(struct)\s+)?({{name}})
+      captures:
+        1: keyword.declaration.class.record.cs
+        2: keyword.declaration.struct.record.cs
+        3: entity.name.class.cs
+      push:
+        - record_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
+
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: (?=\S)
+      set: record_body
+
+  record_body:
+    - meta_content_scope: meta.class.record.body.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - include: data_type_expect_block
+
+###[ STRUCT DECLARATIONS ]#####################################################
+
+  struct_declaration:
+    - match: (?:\b(ref)\s+)?\b(struct)\s+({{name}})
+      captures:
+        1: storage.modifier.cs
+        2: keyword.declaration.struct.cs
+        3: entity.name.struct.cs
+      push:
+        - struct_signature
+        - data_type_constraint
+        - maybe_constructor_parameters
+        - maybe_type_parameters
+
+  struct_signature:
+    - meta_scope: meta.struct.cs
+    - match: (?=\S)
+      set: struct_body
+
+  struct_body:
+    - meta_content_scope: meta.struct.body.cs
+    - include: data_type_expect_block
+
+###[ TYPE DECLARATION SIGNATURES ]#############################################
+
+  maybe_constructor_parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: constructor_params
+    - include: else_pop
+
+  constructor_params:
+    - clear_scopes: 1
+    - meta_scope: meta.class.constructor.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 2
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  data_type_constraint:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: type_constraint
+    - match: (?=where\b)
+      set: type_constraint
+    - match: (?=[{;(])
+      pop: true
+
+  type_constraint:
+    - include: type_constraint_common
+    - match: '{{name}}'
+      scope: entity.other.inherited-class.cs
+      push: inherited_class_arguments
+    - include: type
+
+  inherited_class_arguments:
+    - match: (?=\()
+      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
+    - include: else_pop
+
+  inherited_class_arguments-begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      pop: true
+
+  inside_inherited_class_arguments:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: true
+    - include: immediately_pop
+
+  type_constraint_common:
+    - match: (?=\{)
+      pop: true
+    - include: namespace_variables
+    - match: '\b(where)\s+(?:({{base_type}})|({{name}}))\s*(:)'
+      captures:
+        1: storage.modifier.cs
+        2: storage.type.cs
+        3: support.type.cs
+        4: punctuation.separator.type.cs
+    - match: '(class|struct|interface)'
+      scope: storage.type.cs
+    - match: 'new\s*\(\s*\)'
+      scope: keyword.operator.new.cs
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+    - match: '({{name}})?(\.)'
+      captures:
+        1: meta.path.cs
+        2: meta.path.cs punctuation.accessor.dot.cs
+    - match: ','
+      scope: punctuation.separator.inherited-class.cs
+
+  data_type_expect_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      push: data_type_inside_block
+    - include: terminator
+    - match: \S*
+      scope: invalid.illegal.cs
+      pop: true
+
+  data_type_inside_block:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 2
+    - include: attribute
+    - include: class_declaration
+    - include: enum_declaration
+    - include: interface_declaration
+    - include: record_declaration
+    - include: struct_declaration
+    - include: delegate_declaration
+    - include: event_declaration
+    - include: extension_declaration
+    - include: member_declaration
+    - include: stray_close_bracket
+
+###[ EVENT MEMBER DECLARATIONS ]###############################################
+
+  event_declaration:
+    - match: \b(event)\b\s*
+      captures:
+        1: storage.modifier.cs
+      push: [event_declaration_name, type_no_space]
+
+  event_declaration_name:
+    - match: '({{name}})(\.)'
+      captures:
+        1: entity.other.inherited-class.cs
+        2: punctuation.accessor.dot.cs
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+      set: event_declaration_after_name
+    - include: else_pop
+
+  event_declaration_after_name:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: event_handler_declaration_body
+    - match: (?==)
+      set: member_variable_declarations
+    - include: else_pop
+
+  event_handler_declaration_body:
+    - meta_scope: meta.block.cs
+    - include: attribute
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: \b(add)\b
+      scope: keyword.declaration.function.accessor.add.cs
+      push: method_body
+    - match: \b(remove)\b
+      scope: keyword.declaration.function.accessor.remove.cs
+      push: method_body
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
@@ -565,8 +729,7 @@ contexts:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       set: [method_body, method_params]
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
 ###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
@@ -595,16 +758,14 @@ contexts:
     - match: '{{name}}'
       scope: variable.other.member.delegate.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   delegate_parameters:
     - meta_scope: meta.delegate.cs
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       push: inside_delegate_parameters
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_delegate_parameters:
     - clear_scopes: 1
@@ -621,194 +782,11 @@ contexts:
         1: punctuation.terminator.statement.cs
       pop: 1
 
-###[ DECLARATION SIGNATURES ]##################################################
+###[ MEMBER DECLARATIONS ]#####################################################
 
-  maybe_constructor_parameters:
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      push: constructor_params
-    - match: (?=\S)
-      pop: true
-
-  constructor_params:
-    - clear_scopes: 1
-    - meta_scope: meta.class.constructor.parameters.cs
-    - match: \)
-      scope: punctuation.section.parameters.end.cs
-      pop: 2
-    - match: (?=\S)
-      push: [method_param, method_param_type]
-
-  class_signature:
-    - meta_scope: meta.class.cs
-    - include: terminator
-    - match: (?=\S)
-      set: class_body
-
-  class_body:
-    - meta_content_scope: meta.class.body.cs
-    - include: data_type_expect_block
-
-  interface_signature:
-    - meta_scope: meta.interface.cs
-    - match: (?=\S)
-      set: interface_body
-
-  interface_body:
-    - meta_content_scope: meta.interface.body.cs
-    - include: data_type_expect_block
-
-  record_signature:
-    - meta_scope: meta.class.record.cs
-    - match: (?=\S)
-      set: record_body
-
-  record_body:
-    - meta_content_scope: meta.class.record.body.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - include: data_type_expect_block
-
-  struct_signature:
-    - meta_scope: meta.struct.cs
-    - match: (?=\S)
-      set: struct_body
-
-  struct_body:
-    - meta_content_scope: meta.struct.body.cs
-    - include: data_type_expect_block
-
-  data_type_expect_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      push: data_type_inside_block
-    - include: terminator
-    - match: \S*
-      scope: invalid.illegal.cs
-      pop: true
-
-  data_type_inside_block:
-    - meta_scope: meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 2
-    - include: attribute
-    - include: class_declaration
-    - include: interface_declaration
-    - include: delegate_declaration
-    - include: extension_declaration
-    - include: method_declaration
-    - include: stray_close_bracket
-
-  data_type_constraint:
-    - match: ':'
-      scope: punctuation.separator.type.cs
-      set: type_constraint
-    - match: (?=where\b)
-      set: type_constraint
-    - match: (?=[{;(])
-      pop: true
-
-  type_constraint:
-    - include: type_constraint_common
-    - match: '{{name}}'
-      scope: entity.other.inherited-class.cs
-      push: inherited_class_arguments
-    - include: type
-
-  inherited_class_arguments:
-    - match: (?=\()
-      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
-    - match: (?=\S)
-      pop: true
-
-  inherited_class_arguments-begin:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      pop: true
-
-  inside_inherited_class_arguments:
-    - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: true
-    - match: ''
-      pop: true
-
-  type_constraint_common:
-    - match: (?=\{)
-      pop: true
-    - include: namespace_variables
-    - match: '\b(where)\s+(?:({{base_type}})|({{name}}))\s*(:)'
-      captures:
-        1: storage.modifier.cs
-        2: storage.type.cs
-        3: support.type.cs
-        4: punctuation.separator.type.cs
-    - match: '(class|struct|interface)'
-      scope: storage.type.cs
-    - match: 'new\s*\(\s*\)'
-      scope: keyword.operator.new.cs
-    - match: '{{base_type}}'
-      scope: storage.type.cs
-    - match: '({{name}})?(\.)'
-      captures:
-        1: meta.path.cs
-        2: meta.path.cs punctuation.accessor.dot.cs
-    - match: ','
-      scope: punctuation.separator.inherited-class.cs
-
-###[ EVENT MEMBER HANDLER DECLARATIONS ]#######################################
-
-  event_handler_declaration:
-    - match: '({{name}})(\.)'
-      captures:
-        1: entity.other.inherited-class.cs
-        2: punctuation.accessor.dot.cs
-    - match: '{{name}}'
-      scope: variable.other.member.cs
-      set: event_handler_declaration_after_name
-    - match: (?=\S)
-      pop: true
-
-  event_handler_declaration_after_name:
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set: event_handler_declaration_body
-    - match: (?==)
-      set: member_variables_declaration
-    - match: (?=\S)
-      pop: true
-
-  event_handler_declaration_body:
-    - meta_scope: meta.block.cs
-    - include: attribute
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: true
-    - match: \b(add)\b
-      scope: keyword.declaration.function.accessor.add.cs
-      push: method_body
-    - match: \b(remove)\b
-      scope: keyword.declaration.function.accessor.remove.cs
-      push: method_body
-
-###[ METHOD DECLARATIONS ]#####################################################
-
-  method_declaration:
+  member_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
-    - match: \b(event)\b\s*
-      captures:
-        1: storage.modifier.cs
-      push: [event_handler_declaration, type_no_space]
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
     - match: '\b(?:implicit|explicit)\b'
@@ -852,6 +830,39 @@ contexts:
     - match: (?=\()
       push: [method_name_or_member_variable, type_tuple]
 
+  constructor_prebody:
+    - meta_scope: meta.method.constructor.cs
+    - match: ':'
+      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
+      set:
+        - match: \s+
+          scope: meta.method.constructor.prebody.cs
+        - match: (?:(this)|(base))\s*(\()
+          captures:
+            1: variable.language.this.cs
+            2: variable.language.super.cs
+            3: meta.group.cs punctuation.section.group.begin.cs
+          set: [constructor_initializer, arguments]
+        - match: '(?=\{)'
+          set: method_body
+    - match: '(?=\{|=>)'
+      set: method_body
+
+  constructor_initializer:
+    - meta_scope: meta.method.constructor.prebody.cs
+    - meta_content_scope: meta.group.cs
+    - match: '\)'
+      scope: punctuation.section.group.end.cs
+    - match: ''
+      set: constructor_initializer_after
+
+  constructor_initializer_after:
+    - meta_content_scope: meta.method.constructor.prebody.cs
+    - match: '(?=\{)'
+      set: method_body
+    - match: '(?=\S)'
+      pop: true
+
   method_name_or_member_variable:
     - match: '\.'
       scope: punctuation.accessor.dot.cs
@@ -866,7 +877,7 @@ contexts:
     - match: (?={{name}})
       branch_point: method_or_member_variable_name
       branch:
-        - member_plain
+        - member_variable
         - member_lambda
         - method_name
       pop: true
@@ -880,29 +891,48 @@ contexts:
       pop: true
     - include: type_no_space
 
-  member_plain:
+  member_variable:
     - meta_include_prototype: false
     - match: '{{name}}'
       scope: variable.other.member.cs
-      set: member_plain_value
-    - match: (?=\S)
-      pop: true
+      set: member_variable_value
+    - include: else_pop
 
-  member_plain_value:
+  member_variable_value:
     - match: '[.<\{\[\(]|=>'
       fail: method_or_member_variable_name
     - match: (?==)
-      set: member_variables_declaration
+      set: member_variable_declarations
     - match: ','
       scope: punctuation.separator.variables.cs
-      set: member_plain
+      set: member_variable
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\})
+    - include: else_pop
+
+  member_variable_declarations:
+    - match: '='
+      scope: keyword.operator.assignment.cs
+      push:
+        - member_variable_declaration_value
+        - maybe_pointer
+    - match: '(?=\{)'
+      push: method_accessor
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\S)
+    - match: (?=[]})>;])
       pop: true
+
+  member_variable_declaration_value:
+    - match: (?=;|,)
+      pop: true
+    - include: line_of_code_in
 
   member_lambda:
     - meta_include_prototype: false
@@ -911,8 +941,7 @@ contexts:
       set:
         - member_lambda_value
         - member_lambda_operator
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   member_lambda_operator:
     - match: =>
@@ -1031,39 +1060,6 @@ contexts:
         1: storage.modifier.parameter.cs
     - include: type_no_space
 
-  constructor_prebody:
-    - meta_scope: meta.method.constructor.cs
-    - match: ':'
-      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
-      set:
-        - match: \s+
-          scope: meta.method.constructor.prebody.cs
-        - match: (?:(this)|(base))\s*(\()
-          captures:
-            1: variable.language.this.cs
-            2: variable.language.super.cs
-            3: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_initializer, arguments]
-        - match: '(?=\{)'
-          set: method_body
-    - match: '(?=\{|=>)'
-      set: method_body
-
-  constructor_initializer:
-    - meta_scope: meta.method.constructor.prebody.cs
-    - meta_content_scope: meta.group.cs
-    - match: '\)'
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: constructor_initializer_after
-
-  constructor_initializer_after:
-    - meta_content_scope: meta.method.constructor.prebody.cs
-    - match: '(?=\{)'
-      set: method_body
-    - match: '(?=\S)'
-      pop: true
-
   method_body:
     - meta_scope: meta.method.cs
     - match: (?=where\b)
@@ -1111,8 +1107,7 @@ contexts:
               set:
                 - meta_content_scope: meta.property.cs
                 - include: line_of_code_in
-            - match: (?=\S)
-              pop: true
+            - include: else_pop
         - match: (?:\b(readonly)\b\s+)?\b(get)\b
           captures:
             1: storage.modifier.cs
@@ -1132,6 +1127,114 @@ contexts:
     - match: \S
       scope: invalid.illegal.cs
       pop: true
+
+###[ VAR DECLARATIONS ]########################################################
+
+  var_declaration_including_tuple:
+    - include: var_declaration
+    - include: type_tuple
+
+  var_declaration:
+    - match: (var)\s*(\()
+      captures:
+        1: storage.type.variable.cs
+        2: meta.sequence.tuple.cs punctuation.section.sequence.begin.cs
+      set:
+        - meta_content_scope: meta.sequence.tuple.cs
+        - match: \)
+          scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
+          pop: true
+        - match: _\b
+          scope: variable.language.anonymous.cs
+        - match: '{{name}}'
+          scope: variable.other.cs
+        - match: ','
+          scope: punctuation.separator.sequence.cs
+    - match: '(var)\s+({{name}})\s*'
+      captures:
+        1: storage.type.variable.cs
+        2: variable.other.cs
+      pop: true
+    - include: var_declaration_explicit
+
+  var_declaration_explicit:
+    - match: '({{name}})\s*(\.)'
+      captures:
+        1: support.type.cs
+        2: punctuation.accessor.dot.cs
+    - match: '({{name}})\s*(<)'
+      captures:
+        1: support.type.cs
+        2: meta.generic.cs punctuation.definition.generic.begin.cs
+      set:
+        - meta_content_scope: meta.generic.cs
+        - match: '>'
+          scope: meta.generic.cs punctuation.definition.generic.end.cs
+          set:
+            - match: '({{name}})\s*'
+              captures:
+                1: variable.other.cs
+              pop: true
+            - match: (?=[,);}])
+              pop: true
+        - include: inside_type_argument
+    - match: '({{base_type}}){{type_suffix_capture}}'
+      captures:
+        1: storage.type.cs
+        2: storage.type.nullable.cs
+        3: meta.brackets.cs
+        4: punctuation.section.brackets.begin.cs
+        5: punctuation.separator.cs
+        6: punctuation.section.brackets.end.cs
+        7: keyword.operator.pointer.cs
+      set:
+        - match: '({{name}})\s*'
+          captures:
+            1: variable.other.cs
+          pop: true
+        - match: (?=[,);}])
+          pop: true
+    - match: '(?:({{name}}){{type_suffix_capture}})(?:\s+({{name}}))?\s*'
+      captures:
+        1: support.type.cs
+        2: storage.type.nullable.cs
+        3: meta.brackets.cs
+        4: punctuation.section.brackets.begin.cs
+        5: punctuation.separator.cs
+        6: punctuation.section.brackets.end.cs
+        7: keyword.operator.pointer.cs
+        8: variable.other.cs
+      pop: true
+    - match: (?=\))
+      pop: true
+
+  variables_declaration:
+    - match: '='
+      scope: keyword.operator.assignment.cs
+      push:
+        - variables_declaration_value
+        - maybe_pointer
+    - match: '{{name}}'
+      scope: variable.other.cs
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: (?=\{|\}|\)|>|\])
+      pop: true
+
+  variables_declaration_value:
+    - match: (?=;|,)
+      pop: true
+    - match: (?=\{)
+      push:
+        - match: (?=[^,\s{}])
+          pop: true
+        - include: initializer_constructor
+    - include: line_of_code_in
+
+###[ STATEMENTS ]##############################################################
 
   code_block_in:
     - match: (?=\S)
@@ -1217,7 +1320,7 @@ contexts:
     # C#7/9, nested method
     - match: (?=(?:\b(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
       push:
-        - include: method_declaration
+        - include: member_declaration
         - match: ''
           pop: true
     - match: \bconst\b
@@ -1257,247 +1360,275 @@ contexts:
     - match: '(?=\S)'
       set: line_of_code_in
 
-###[ EXPRESSIONS ]#############################################################
+  expression_block:
+    - meta_content_scope: meta.group.cs
+    - match: \)
+      scope: meta.group.cs punctuation.section.group.end.cs
+      set:
+        - match: \{
+          scope: meta.block.cs punctuation.section.block.begin.cs
+          set:
+            - meta_content_scope: meta.block.cs
+            - match: \}
+              scope: meta.block.cs punctuation.section.block.end.cs
+              pop: true
+            - include: code_block_in
+        - match: (?=\S)
+          set: line_of_code
 
-  lambdas:
-    - match: ({{name}})\s+(=>)\s*
-      captures:
-        1: variable.parameter.cs
-        2: keyword.declaration.function.arrow.cs
-      push: lambda_expect_body
-    - include: parenthesized_lambdas
-
-  parenthesized_lambdas:
-    - match: \((?=[^()]*\)\s+=>)
-      scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
-      push: inside_parenthesized_lambda
-
-  inside_parenthesized_lambda:
-    - meta_content_scope: meta.function.anonymous.cs meta.group.cs
-    - match: '{{method_param_type_modifier}}(?=\s)'
-      scope: storage.modifier.parameter.cs
-    - match: '{{name}}(?=\s*[\),/])'
-      scope: variable.parameter.cs
-    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
-      push: type_no_space
-    - match: ','
-      scope: punctuation.separator.parameter.function.cs
-    - match: (\))\s*(=>)
-      captures:
-        1: meta.group.cs punctuation.section.group.end.cs
-        2: keyword.declaration.function.arrow.cs
-      set: lambda_expect_body
-
-  lambda_expect_body:
-    - meta_scope: meta.function.anonymous.cs
-    - match: '(?=;)'
-      pop: true
-    - include: line_of_code_in
-
-  member_variables_declaration:
+  using_var_assignment:
     - match: '='
       scope: keyword.operator.assignment.cs
       push:
-        - member_variables_declaration_value
+        - line_of_code_in
         - maybe_pointer
-    - match: '(?=\{)'
-      push: method_accessor
-    - match: '{{name}}'
-      scope: variable.other.member.cs
+    - match: (?=;|\)|\})
+      pop: true
     - match: ','
-      scope: punctuation.separator.variables.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - match: (?=[]})>;])
-      pop: true
+      scope: punctuation.separator.expression.cs
+      push: line_of_code_in
 
-  member_variables_declaration_value:
-    - match: (?=;|,)
-      pop: true
-    - include: line_of_code_in
+  using_block:
+    - meta_content_scope: meta.group.cs
+    - match: \)
+      scope: meta.group.cs punctuation.section.group.end.cs
+      set:
+      - match: \{
+        scope: punctuation.section.block.begin.cs
+        set:
+          - meta_scope: meta.block.cs
+          - match: \}
+            scope: punctuation.section.block.end.cs
+            pop: true
+          - include: code_block_in
+      - include: else_pop
+    - include: else_pop
 
-  variables_declaration:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - variables_declaration_value
-        - maybe_pointer
-    - match: '{{name}}'
-      scope: variable.other.cs
-    - match: ','
-      scope: punctuation.separator.variables.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
-    - match: (?=\{|\}|\)|>|\])
-      pop: true
+###[ CONDITIONAL STATEMENTS ]##################################################
 
-  variables_declaration_value:
-    - match: (?=;|,)
-      pop: true
-    - match: (?=\{)
-      push:
-        - match: (?=[^,\s{}])
-          pop: true
-        - include: initializer_constructor
-    - include: line_of_code_in
-
-  keywords:
-    - include: funcptr_types
-    - match: (?:(this)|(base))\s*(\[)
+  if_condition:
+    - match: '\s*(\()'
       captures:
-        1: variable.language.this.cs
-        2: variable.language.super.cs
-        3: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push: accessor_arguments
-    - match: \bthis\b
-      scope: variable.language.this.cs
-    - match: \bbase\b
-      scope: variable.language.super.cs
-    - match: \bawait\b
-      scope: keyword.control.other.cs
-    - match: \b(nameof)(\()
-      captures:
-        1: keyword.other.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      push:
+        1: meta.group.cs punctuation.section.group.begin.cs
+      set:
         - meta_content_scope: meta.group.cs
-        - match: \)
-          scope: meta.group.cs punctuation.section.group.end.cs
+        - match: '\s*(\))'
+          captures:
+            1: meta.group.cs punctuation.section.group.end.cs
           pop: true
-        - match: '({{base_type}})\b'
-          scope: storage.type.cs
-        # We don't if these are types of variables, so we guess that
-        # uppercase names are types, and others are variables
-        - match: '(?=\p{Ll}){{name}}(?=\s*\))'
-          scope: variable.other.cs
-        - include: type
-    - match: \b(typeof|default)(\()
+        - include: line_of_code_in
+    - match: (?=[^(])
+      pop: true
+
+  if_block:
+    - match: \{
+      scope: meta.block.cs punctuation.section.block.begin.cs
+      set:
+        - meta_content_scope: meta.block.cs
+        - match: \}
+          scope: meta.block.cs punctuation.section.block.end.cs
+          pop: true
+        - include: code_block_in
+    - match: (?=\S)
+      set:
+        - match: (?=else\b)
+          pop: true
+        - include: line_of_code
+
+  else_block:
+    - match: (else\s+if)\b\s*
       captures:
-        1: keyword.operator.reflection.cs
+        1: keyword.control.conditional.elseif.cs
+      push: [if_block, if_condition]
+    - match: (else)\s*
+      scope: keyword.control.conditional.else.cs
+      set:
+        - match: \s*(\{)
+          captures:
+            1: meta.block.cs punctuation.section.block.begin.cs
+          set:
+            - meta_content_scope: meta.block.cs
+            - match: \}
+              scope: meta.block.cs punctuation.section.block.end.cs
+              pop: true
+            - include: code_block_in
+        - match: (?=\S)
+          set: line_of_code
+    - include: else_pop
+
+  switch_condition:
+    - match: '\('
+      scope: punctuation.section.group.begin.cs
+      set:
+        - meta_scope: meta.group.cs
+        - match: '\)'
+          scope: punctuation.section.group.end.cs
+          pop: true
+        - include: line_of_code_in
+    - include: else_pop
+
+  switch_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - match: '\b(default)\s*(:)'
+          captures:
+            1: keyword.control.switch.case.cs
+            2: punctuation.separator.case-statement.cs
+        - match: '\b(case)\b'
+          scope: keyword.control.switch.case.cs
+          push:
+            - match: '{{name}}(?=\s*:)'
+              scope: constant.other.cs
+            - match: '\bwhen\b'
+              scope: keyword.control.switch.case.when.cs
+            - match: '(?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s+when\b)'
+              push: var_declaration_explicit
+            - match: ':'
+              scope: punctuation.separator.case-statement.cs
+              pop: true
+            - include: line_of_code_in
+            - match: $
+              pop: true
+        - include: code_block_in
+    - match: '(?=\S)'
+      pop: true
+
+###[ EXCEPTION STATEMENTS ]####################################################
+
+  try_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - include: code_block_in
+    - include: else_pop
+
+  catch_expr:
+    - match: '(catch)\s*(\()'
+      captures:
+        1: keyword.control.exception.catch.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      push:
-        - meta_content_scope: meta.group.cs
-        - match: \)
-          scope: meta.group.cs punctuation.section.group.end.cs
-          pop: true
-        - include: type
-    - match: \b(as|is(?:\s+not)?)\s+
-      captures:
-        1: keyword.operator.reflection.cs
-      push: [maybe_pattern_matching_object, maybe_type_or_null]
-    - match: \b(checked|unchecked)\b
-      scope: keyword.other.cs
-      push:
+      push: [catch_block, var_declaration_explicit]
+    - match: 'catch'
+      scope: keyword.control.exception.catch.cs
+      push: trycatch_block
+    - include: else_pop
+
+  catch_block:
+    - meta_content_scope: meta.group.cs
+    - match: \)
+      scope: meta.group.cs punctuation.section.group.end.cs
+      set: catch_when
+
+  catch_when:
+    - match: \bwhen\b
+      scope: keyword.control.exception.when.cs
+      set:
         - match: \(
           scope: punctuation.section.group.begin.cs
           set:
             - meta_scope: meta.group.cs
             - match: \)
               scope: punctuation.section.group.end.cs
-              pop: true
+              set: trycatch_block
             - include: line_of_code_in
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - include: code_block_in
-        - match: \S
-          scope: invalid.illegal.expected.block.cs
-    - match: \b(unsafe)\b
-      scope: keyword.other.cs
-      push:
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - include: code_block_in
-        - match: \S
-          scope: invalid.illegal.expected.block.cs
-    - match: \b(new)\b
-      scope: meta.instance.cs keyword.operator.new.cs
-      push: maybe_an_anonymous_class
-    - match: \b(with)\s+(\{)
-      captures:
-        1: keyword.operator.with.cs
-        2: meta.instance.cs meta.braces.cs punctuation.section.braces.begin.cs
-      push: initializer_constructor #maybe_an_anonymous_class
-    - match: \b(and|not|or)\s+
-      captures:
-        1: keyword.operator.logical.cs
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
+        - match: (?=\S)
+          set: trycatch_block
+    - match: '(?=\S)'
+      set: trycatch_block
 
-  inside_anonymous_class:
-    - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.class.cs
-    - match: '({{name}})\s*(=)'
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push:
-        - line_of_code_in
-        - maybe_pointer
-    - match: (?=\S)
-      push: line_of_code_in
+  finally_block:
+    - meta_scope: meta.block.trycatch.cs
+    - match: finally\b
+      scope: keyword.control.exception.finally.cs
+      set: trycatch_block
+    - include: else_pop
 
-  maybe_an_anonymous_class:
-    - meta_content_scope: meta.instance.cs
+  trycatch_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
-      # Found an anonymous class
-      set: inside_anonymous_class
-    - match: (?=[^{\s])
-      # This is not an anonymous class
       set:
-        - meta_content_scope: meta.instance.cs
-        - match: '{{brackets_capture}}'
-          captures:
-            1: meta.brackets.cs
-            2: punctuation.section.brackets.begin.cs
-            3: punctuation.separator.cs
-            4: punctuation.section.brackets.end.cs
-        - match: \[
-          scope: punctuation.section.brackets.begin.cs
-          push:
-            - meta_scope: meta.brackets.cs
-            - match: ','
-              scope: punctuation.separator.argument.cs
-              push: line_of_code_in
-            - match: \]
-              scope: punctuation.section.brackets.end.cs
-              pop: true
-            - match: '(?=\S)'
-              push: line_of_code_in
-        - match: (?:\s*((\()\s*(\)))\s*)?(\{)
-          scope: meta.instance.cs
-          captures:
-            1: meta.group.cs
-            2: punctuation.section.group.begin.cs
-            3: punctuation.section.group.end.cs
-            4: meta.braces.cs punctuation.section.braces.begin.cs
-          set: initializer_constructor
-        - match: \(
-          scope: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_arguments, arguments]
-        - include: type
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - include: code_block_in
+    - include: else_pop
 
-  maybe_type_or_null:
-    - match: null\b
-      scope: constant.language.null.cs
-      pop: 2
-    - include: type_no_space
+###[ LOOP STATEMENTS ]#########################################################
+
+  for_var_assignment:
+    - match: '='
+      scope: keyword.operator.assignment.cs
+      set:
+        - line_of_code_in
+        - maybe_pointer
+    - match: (?=;|\)|\})
+      pop: true
+
+  foreach_var_assignment:
+    - match: \bin\b
+      scope: keyword.control.loop.in.cs
+      set: line_of_code_in
+    - match: (?=\)|\})
+      pop: true
+
+  for_block:
+    - meta_content_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      set:
+      - match: \{
+        scope: punctuation.section.block.begin.cs
+        set:
+          - meta_scope: meta.block.cs
+          - match: \}
+            scope: punctuation.section.block.end.cs
+            pop: true
+          - include: code_block_in
+      - match: (?=\S)
+        set:
+          - include: line_of_code
+
+  do_condition:
+    - match: \b(while)\b
+      scope: keyword.control.loop.while.cs
+      set: while_condition
+    - include: else_pop
+
+  while_condition:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - meta_scope: meta.group.cs
+        - match: '\)'
+          scope: punctuation.section.group.end.cs
+          pop: true
+        - include: line_of_code_in
+    - include: else_pop
+
+  while_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: '\}'
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - include: code_block_in
+    - match: (?=\S)
+      set:
+        - include: line_of_code
+
+###[ EXPRESSIONS ]#############################################################
 
   line_of_code_in:
     - match: (?=\bvar\b)
@@ -1656,18 +1787,179 @@ contexts:
     - match: (?=[]}>,]|{{reserved}})
       pop: true
 
+  keywords:
+    - include: funcptr_types
+    - match: (?:(this)|(base))\s*(\[)
+      captures:
+        1: variable.language.this.cs
+        2: variable.language.super.cs
+        3: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push: accessor_arguments
+    - match: \bthis\b
+      scope: variable.language.this.cs
+    - match: \bbase\b
+      scope: variable.language.super.cs
+    - match: \bawait\b
+      scope: keyword.control.other.cs
+    - match: \b(nameof)(\()
+      captures:
+        1: keyword.other.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      push:
+        - meta_content_scope: meta.group.cs
+        - match: \)
+          scope: meta.group.cs punctuation.section.group.end.cs
+          pop: true
+        - match: '({{base_type}})\b'
+          scope: storage.type.cs
+        # We don't if these are types of variables, so we guess that
+        # uppercase names are types, and others are variables
+        - match: '(?=\p{Ll}){{name}}(?=\s*\))'
+          scope: variable.other.cs
+        - include: type
+    - match: \b(typeof|default)(\()
+      captures:
+        1: keyword.operator.reflection.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      push:
+        - meta_content_scope: meta.group.cs
+        - match: \)
+          scope: meta.group.cs punctuation.section.group.end.cs
+          pop: true
+        - include: type
+    - match: \b(as|is(?:\s+not)?)\s+
+      captures:
+        1: keyword.operator.reflection.cs
+      push: [maybe_pattern_matching_object, maybe_type_or_null]
+    - match: \b(checked|unchecked)\b
+      scope: keyword.other.cs
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.cs
+          set:
+            - meta_scope: meta.group.cs
+            - match: \)
+              scope: punctuation.section.group.end.cs
+              pop: true
+            - include: line_of_code_in
+        - match: \{
+          scope: punctuation.section.block.begin.cs
+          set:
+            - meta_scope: meta.block.cs
+            - match: \}
+              scope: punctuation.section.block.end.cs
+              pop: true
+            - include: code_block_in
+        - match: \S
+          scope: invalid.illegal.expected.block.cs
+    - match: \b(unsafe)\b
+      scope: keyword.other.cs
+      push:
+        - match: \{
+          scope: punctuation.section.block.begin.cs
+          set:
+            - meta_scope: meta.block.cs
+            - match: \}
+              scope: punctuation.section.block.end.cs
+              pop: true
+            - include: code_block_in
+        - match: \S
+          scope: invalid.illegal.expected.block.cs
+    - match: \b(new)\b
+      scope: meta.instance.cs keyword.operator.new.cs
+      push: maybe_an_anonymous_class
+    - match: \b(with)\s+(\{)
+      captures:
+        1: keyword.operator.with.cs
+        2: meta.instance.cs meta.braces.cs punctuation.section.braces.begin.cs
+      push: initializer_constructor #maybe_an_anonymous_class
+    - match: \b(and|not|or)\s+
+      captures:
+        1: keyword.operator.logical.cs
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
+
+  maybe_an_anonymous_class:
+    - meta_content_scope: meta.instance.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      # Found an anonymous class
+      set: inside_anonymous_class
+    - match: (?=[^{\s])
+      # This is not an anonymous class
+      set:
+        - meta_content_scope: meta.instance.cs
+        - match: '{{brackets_capture}}'
+          captures:
+            1: meta.brackets.cs
+            2: punctuation.section.brackets.begin.cs
+            3: punctuation.separator.cs
+            4: punctuation.section.brackets.end.cs
+        - match: \[
+          scope: punctuation.section.brackets.begin.cs
+          push:
+            - meta_scope: meta.brackets.cs
+            - match: ','
+              scope: punctuation.separator.argument.cs
+              push: line_of_code_in
+            - match: \]
+              scope: punctuation.section.brackets.end.cs
+              pop: true
+            - match: '(?=\S)'
+              push: line_of_code_in
+        - match: (?:\s*((\()\s*(\)))\s*)?(\{)
+          scope: meta.instance.cs
+          captures:
+            1: meta.group.cs
+            2: punctuation.section.group.begin.cs
+            3: punctuation.section.group.end.cs
+            4: meta.braces.cs punctuation.section.braces.begin.cs
+          set: initializer_constructor
+        - match: \(
+          scope: meta.group.cs punctuation.section.group.begin.cs
+          set: [constructor_arguments, arguments]
+        - include: type
+
+  inside_anonymous_class:
+    - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.class.cs
+    - match: '({{name}})\s*(=)'
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push:
+        - line_of_code_in
+        - maybe_pointer
+    - match: (?=\S)
+      push: line_of_code_in
+
   maybe_pointer:
     - match: '[*&]'
       scope: keyword.operator.pointer.cs
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
+
+###[ GROUP AND TUPLE EXPRESSIONS ]#############################################
 
   group_begin:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
       set: group
+
+  group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: true
+    - match: ','
+      fail: tuple_or_group
+    - include: lambdas
+    - include: line_of_code_in_no_semicolon
 
   tuple_begin:
     - meta_include_prototype: false
@@ -1703,15 +1995,22 @@ contexts:
         - include: line_of_code_in_no_semicolon
     - include: line_of_code_in_no_semicolon
 
-  group:
-    - meta_scope: meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: true
+###[ ACCESSOR EXPRESSIONS ]####################################################
+
+  accessor_arguments:
+    - meta_content_scope: meta.brackets.cs
+    - match: '({{name}})\s*(:)'
+      captures:
+        1: variable.other.parameter.cs
+        2: punctuation.separator.key-value.parameter.cs
     - match: ','
-      fail: tuple_or_group
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
+      scope: punctuation.separator.accessor.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      pop: true
+    - include: line_of_code_in
+
+###[ CONSTRUCTOR EXPRESSIONS ]#################################################
 
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
@@ -1728,21 +2027,34 @@ contexts:
       scope: punctuation.section.braces.begin.cs
       set: initializer_constructor
 
+  initializer_constructor:
+    - meta_content_scope: meta.instance.cs meta.braces.cs
+    - match: \}
+      scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.braces.begin.cs
+      push: initializer_constructor
+    - match: ','
+      scope: punctuation.separator.array-element.cs
+    - match: (?=[^,\s{}])
+      push: line_of_code_in
+
+###[ FUNCTION CALL EXPRESSIONS ]###############################################
+
   function_call_begin_paren:
     - meta_content_scope: meta.function-call.cs
     - match: \(
       scope: meta.group.cs punctuation.section.group.begin.cs
       set: [function_call_arguments, arguments]
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
     - match: \)
       scope: meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
       pop: true
-    - match: ''
-      pop: true
+    - include: immediately_pop
 
   arguments:
     - match: (out)\s
@@ -1785,89 +2097,126 @@ contexts:
         - match: (?=[;)])
           pop: true
 
-  accessor_arguments:
-    - meta_content_scope: meta.brackets.cs
-    - match: '({{name}})\s*(:)'
+###[ LAMBDA EXPRESSIONS ]######################################################
+
+  lambdas:
+    - match: ({{name}})\s+(=>)\s*
       captures:
-        1: variable.other.parameter.cs
-        2: punctuation.separator.key-value.parameter.cs
+        1: variable.parameter.cs
+        2: keyword.declaration.function.arrow.cs
+      push: lambda_expect_body
+    - include: parenthesized_lambdas
+
+  parenthesized_lambdas:
+    - match: \((?=[^()]*\)\s+=>)
+      scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
+      push: inside_parenthesized_lambda
+
+  inside_parenthesized_lambda:
+    - meta_content_scope: meta.function.anonymous.cs meta.group.cs
+    - match: '{{method_param_type_modifier}}(?=\s)'
+      scope: storage.modifier.parameter.cs
+    - match: '{{name}}(?=\s*[\),/])'
+      scope: variable.parameter.cs
+    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
+      push: type_no_space
     - match: ','
-      scope: punctuation.separator.accessor.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      scope: punctuation.separator.parameter.function.cs
+    - match: (\))\s*(=>)
+      captures:
+        1: meta.group.cs punctuation.section.group.end.cs
+        2: keyword.declaration.function.arrow.cs
+      set: lambda_expect_body
+
+  lambda_expect_body:
+    - meta_scope: meta.function.anonymous.cs
+    - match: '(?=;)'
       pop: true
     - include: line_of_code_in
 
-###[ FUNCTION POINTER TYPES ]##################################################
+###[ SWITCH EXPRESSIONS ]######################################################
 
-  funcptr_types:
-    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-    - match: (delegate)\s*(\*)
-      captures:
-        1: storage.type.delegate.cs
-        2: keyword.operator.pointer.cs
-      push:
-        - funcptr_type_meta
-        - funcptr_parameter_list
-        - funcptr_type_modifier
+  switch_expression:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - match: '=>'
+          scope: punctuation.separator.case-expression.cs
+          push:
+            - match: ','
+              scope: punctuation.terminator.case-expression.cs
+              pop: true
+            - include: line_of_code_in
+        - match: \b_\b
+          scope: variable.language.anonymous.cs
+        - match: '\bwhen\b'
+          scope: keyword.control.switch.case.when.cs
+        - match: \(
+          scope: punctuation.section.sequence.begin.cs
+          push:
+            - meta_scope: meta.sequence.tuple.cs
+            - match: \)
+              scope: punctuation.section.sequence.end.cs
+              pop: true
+            - match: ','
+              scope: punctuation.separator.sequence.cs
+            - match: _\b
+              scope: variable.language.anonymous.cs
+            - include: line_of_code_in_no_semicolon # needed for "when" syntax?
+        - match: (?={{namespaced_name}}\s+(?:\{|(?!{{reserved}}|when\b){{name}}))
+          push: [maybe_pattern_matching_object, var_declaration]
+        - match: (?=\bvar\b)
+          push: var_declaration
+        - match: (?=\{)
+          push: maybe_pattern_matching_object
+        - include: line_of_code_in_no_semicolon
 
-  funcptr_type_meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.type.funcptr.cs
-    - match: ''
-      pop: true
+  maybe_pattern_matching_object:
+    - match: \{
+      scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs punctuation.section.block.begin.cs
+      set: pattern_matching_object
+    - include: else_pop
 
-  funcptr_type_modifier:
-    - match: \s*(managed)\b
-      captures:
-        1: storage.modifier.delegate.cs
-      pop: 1
-    - match: \s*(unmanaged)\b
-      captures:
-        1: storage.modifier.delegate.cs
-      set: funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
-
-  funcptr_type_calling_convention:
-    - match: \s*(\[)
-      captures:
-        1: meta.brackets.cs punctuation.section.brackets.begin.cs
-      set: inside_funcptr_type_calling_convention
-    - match: (?=[^\n])
-      pop: true
-
-  inside_funcptr_type_calling_convention:
-    - meta_content_scope: meta.brackets.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.type.cs
-    - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
-      scope: storage.modifier.funcptr.cs
-    - include: type
-
-  funcptr_parameter_list:
-    - match: \s*(<)
-      captures:
-        1: meta.generic.cs punctuation.definition.generic.begin.cs
-      set: inside_funcptr_parameter_list
-    - match: (?=[^\n])
-      pop: true
-
-  inside_funcptr_parameter_list:
-    - meta_content_scope: meta.generic.cs
-    - match: '>'
-      scope: meta.generic.cs punctuation.definition.generic.end.cs
+  pattern_matching_object:
+    - meta_content_scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
+    - match: \}
+      scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs punctuation.section.block.end.cs
       pop: true
     - match: ','
-      scope: punctuation.separator.type.cs
-    - match: (?:in|out|ref|readonly)\b
-      scope: storage.modifier.cs
-    - include: type
+      scope: punctuation.separator.property.cs
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.other.member.cs
+        2: punctuation.accessor.dot.cs
+    - match: '({{name}})\s*(:)?'
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push: maybe_nested_pattern_matching_object
+
+  maybe_nested_pattern_matching_object:
+    - match: (?=\{)
+      push: maybe_pattern_matching_object
+    - match: (?=\bvar\b)
+      set: var_declaration
+    - match: (?=\S)
+      set: line_of_code_in_no_semicolon
 
 ###[ TYPES ]###################################################################
+
+  maybe_type_or_null:
+    - match: null\b
+      scope: constant.language.null.cs
+      pop: 2
+    - include: type_no_space
+
+  type_no_space:
+    - include: type
+    - include: immediately_pop
 
   type:
     - include: type_common
@@ -1952,8 +2301,7 @@ contexts:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: inside_type_parameter
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_type_parameter:
     - meta_content_scope: meta.generic.cs
@@ -1964,10 +2312,70 @@ contexts:
     - match: '{{name}}'
       scope: variable.parameter.type.cs
 
-  type_no_space:
-    - include: type
-    - match: ''
+###[ FUNCTION POINTER TYPES ]##################################################
+
+  funcptr_types:
+    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+    - match: (delegate)\s*(\*)
+      captures:
+        1: storage.type.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - funcptr_type_meta
+        - funcptr_parameter_list
+        - funcptr_type_modifier
+
+  funcptr_type_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.type.funcptr.cs
+    - include: immediately_pop
+
+  funcptr_type_modifier:
+    - match: \s*(managed)\b
+      captures:
+        1: storage.modifier.delegate.cs
+      pop: 1
+    - match: \s*(unmanaged)\b
+      captures:
+        1: storage.modifier.delegate.cs
+      set: funcptr_type_calling_convention
+    - include: immediately_pop
+
+  funcptr_type_calling_convention:
+    - match: \s*(\[)
+      captures:
+        1: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set: inside_funcptr_type_calling_convention
+    - include: immediately_pop
+
+  inside_funcptr_type_calling_convention:
+    - meta_content_scope: meta.brackets.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
+      scope: storage.modifier.funcptr.cs
+    - include: type
+
+  funcptr_parameter_list:
+    - match: \s*(<)
+      captures:
+        1: meta.generic.cs punctuation.definition.generic.begin.cs
+      set: inside_funcptr_parameter_list
+    - include: immediately_pop
+
+  inside_funcptr_parameter_list:
+    - meta_content_scope: meta.generic.cs
+    - match: '>'
+      scope: meta.generic.cs punctuation.definition.generic.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - match: (?:in|out|ref|readonly)\b
+      scope: storage.modifier.cs
+    - include: type
 
 ###[ LITERALS ]################################################################
 
@@ -2028,6 +2436,27 @@ contexts:
         1: constant.numeric.value.cs
         2: constant.numeric.suffix.cs
     - include: strings
+
+###[ REGULAR EXPRESSIONS ]#####################################################
+
+  regex_string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - match: '@"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - include: else_pop
 
 ###[ STRINGS ]#################################################################
 
@@ -2180,8 +2609,7 @@ contexts:
         - include: string_placeholder_escapes
         - include: string_placeholders
         - include: extended_verbatim_string_placeholders
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   extended_verbatim_string_placeholders:
     - match: (\{)(\d+)
@@ -2220,8 +2648,7 @@ contexts:
         - include: string_prototype
         - include: string_placeholder_escapes
         - include: verbatim_format_string_interpolations
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   verbatim_format_string_interpolations:
     - match: \{
@@ -2289,8 +2716,7 @@ contexts:
         - match: (?=""")
           pop: true
         - include: string_prototype
-    - match: (?=\S)
-      pop: true
+    - include: else_pop
 
   inside_raw_string:
     - meta_include_prototype: false
@@ -2481,468 +2907,62 @@ contexts:
 
   string_prototype: []
 
-###[ INITIALIZERS ]############################################################
+###[ PROTOTYPES ]##############################################################
 
-  initializer_constructor:
-    - meta_content_scope: meta.instance.cs meta.braces.cs
-    - match: \}
-      scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
-      pop: true
-    - match: \{
-      scope: punctuation.section.braces.begin.cs
-      push: initializer_constructor
-    - match: ','
-      scope: punctuation.separator.array-element.cs
-    - match: (?=[^,\s{}])
-      push: line_of_code_in
-
-###[ EXCEPTION STATEMENTS ]####################################################
-
-  try_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - include: code_block_in
+  else_pop:
     - match: (?=\S)
       pop: true
 
-  catch_expr:
-    - match: '(catch)\s*(\()'
-      captures:
-        1: keyword.control.exception.catch.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      push: [catch_block, var_declaration_explicit]
-    - match: 'catch'
-      scope: keyword.control.exception.catch.cs
-      push: trycatch_block
-    - match: (?=\S)
+  immediately_pop:
+    # immediately pop, but not before newlines
+    - match: (?=[^\n])
       pop: true
 
-  catch_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: meta.group.cs punctuation.section.group.end.cs
-      set: catch_when
+###[ VARIABLES ]###############################################################
 
-  catch_when:
-    - match: \bwhen\b
-      scope: keyword.control.exception.when.cs
-      set:
-        - match: \(
-          scope: punctuation.section.group.begin.cs
-          set:
-            - meta_scope: meta.group.cs
-            - match: \)
-              scope: punctuation.section.group.end.cs
-              set: trycatch_block
-            - include: line_of_code_in
-        - match: (?=\S)
-          set: trycatch_block
-    - match: '(?=\S)'
-      set: trycatch_block
+variables:
+  shebang_language: \bdotnet\s+run\b
 
-  finally_block:
-    - meta_scope: meta.block.trycatch.cs
-    - match: finally\b
-      scope: keyword.control.exception.finally.cs
-      set: trycatch_block
-    - match: (?=\S)
-      pop: true
+  # operators
+  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
 
-  trycatch_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - include: code_block_in
-    - match: (?=\S)
-      pop: true
+  # numbers
+  dec_digits: (?:[\d_]*\d)
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  float_suffix: '[fFdDmM]'
+  integer_suffix: '[uU][lL]?|[lL][uU]?'
 
-###[ STATEMENT BLOCKS ]########################################################
+  # characters
+  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
+  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
-  using_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: meta.group.cs punctuation.section.group.end.cs
-      set:
-      - match: \{
-        scope: punctuation.section.block.begin.cs
-        set:
-          - meta_scope: meta.block.cs
-          - match: \}
-            scope: punctuation.section.block.end.cs
-            pop: true
-          - include: code_block_in
-      - match: (?=\S)
-        pop: true
-    - match: (?=\S)
-      pop: true
+  visibility: \b(?:public|private|protected|internal|protected\s+internal|file)\b
+  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
+  type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
+  generic_declaration: \s*(<[^={};]*>)?\s*
 
-  expression_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: meta.group.cs punctuation.section.group.end.cs
-      set:
-        - match: \{
-          scope: meta.block.cs punctuation.section.block.begin.cs
-          set:
-            - meta_content_scope: meta.block.cs
-            - match: \}
-              scope: meta.block.cs punctuation.section.block.end.cs
-              pop: true
-            - include: code_block_in
-        - match: (?=\S)
-          set: line_of_code
+  brackets_capture: '((\[)(,*)(\]))'
+  type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
-  if_condition:
-    - match: '\s*(\()'
-      captures:
-        1: meta.group.cs punctuation.section.group.begin.cs
-      set:
-        - meta_content_scope: meta.group.cs
-        - match: '\s*(\))'
-          captures:
-            1: meta.group.cs punctuation.section.group.end.cs
-          pop: true
-        - include: line_of_code_in
-    - match: (?=[^(])
-      pop: true
+  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
+  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
+  namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
 
-  if_block:
-    - match: \{
-      scope: meta.block.cs punctuation.section.block.begin.cs
-      set:
-        - meta_content_scope: meta.block.cs
-        - match: \}
-          scope: meta.block.cs punctuation.section.block.end.cs
-          pop: true
-        - include: code_block_in
-    - match: (?=\S)
-      set:
-        - match: (?=else\b)
-          pop: true
-        - include: line_of_code
+  start_char: '(?:{{unicode_char}}|[_\p{L}])'
+  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
+  name_normal: '{{start_char}}{{other_char}}*\b'
+  cap_name: '(\p{Lu}{{other_char}})'
 
-  else_block:
-    - match: (else\s+if)\b\s*
-      captures:
-        1: keyword.control.conditional.elseif.cs
-      push: [if_block, if_condition]
-    - match: (else)\s*
-      scope: keyword.control.conditional.else.cs
-      set:
-        - match: \s*(\{)
-          captures:
-            1: meta.block.cs punctuation.section.block.begin.cs
-          set:
-            - meta_content_scope: meta.block.cs
-            - match: \}
-              scope: meta.block.cs punctuation.section.block.end.cs
-              pop: true
-            - include: code_block_in
-        - match: (?=\S)
-          set: line_of_code
-    - match: (?=\S)
-      pop: true
+  method_param_type_modifier: \b(?:out|ref|this|params|in)\b
 
-  switch_condition:
-    - match: '\('
-      scope: punctuation.section.group.begin.cs
-      set:
-        - meta_scope: meta.group.cs
-        - match: '\)'
-          scope: punctuation.section.group.end.cs
-          pop: true
-        - include: line_of_code_in
-    - match: (?=\S)
-      pop: true
-
-  switch_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - match: '\b(default)\s*(:)'
-          captures:
-            1: keyword.control.switch.case.cs
-            2: punctuation.separator.case-statement.cs
-        - match: '\b(case)\b'
-          scope: keyword.control.switch.case.cs
-          push:
-            - match: '{{name}}(?=\s*:)'
-              scope: constant.other.cs
-            - match: '\bwhen\b'
-              scope: keyword.control.switch.case.when.cs
-            - match: '(?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s+when\b)'
-              push: var_declaration_explicit
-            - match: ':'
-              scope: punctuation.separator.case-statement.cs
-              pop: true
-            - include: line_of_code_in
-            - match: $
-              pop: true
-        - include: code_block_in
-    - match: '(?=\S)'
-      pop: true
-
-###[ SWITCH EXPRESSIONS ]######################################################
-
-  switch_expression:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - match: '=>'
-          scope: punctuation.separator.case-expression.cs
-          push:
-            - match: ','
-              scope: punctuation.terminator.case-expression.cs
-              pop: true
-            - include: line_of_code_in
-        - match: \b_\b
-          scope: variable.language.anonymous.cs
-        - match: '\bwhen\b'
-          scope: keyword.control.switch.case.when.cs
-        - match: \(
-          scope: punctuation.section.sequence.begin.cs
-          push:
-            - meta_scope: meta.sequence.tuple.cs
-            - match: \)
-              scope: punctuation.section.sequence.end.cs
-              pop: true
-            - match: ','
-              scope: punctuation.separator.sequence.cs
-            - match: _\b
-              scope: variable.language.anonymous.cs
-            - include: line_of_code_in_no_semicolon # needed for "when" syntax?
-        - match: (?={{namespaced_name}}\s+(?:\{|(?!{{reserved}}|when\b){{name}}))
-          push: [maybe_pattern_matching_object, var_declaration]
-        - match: (?=\bvar\b)
-          push: var_declaration_including_tuple
-        - match: (?=\{)
-          push: maybe_pattern_matching_object
-        - include: line_of_code_in_no_semicolon
-
-  maybe_pattern_matching_object:
-    - match: \{
-      scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs punctuation.section.block.begin.cs
-      set: pattern_matching_object
-    - match: (?=\S)
-      pop: true
-
-  pattern_matching_object:
-    - meta_content_scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
-    - match: \}
-      scope: meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs punctuation.section.block.end.cs
-      pop: true
-    - match: ','
-      scope: punctuation.separator.property.cs
-    - match: ({{name}})\s*(\.)
-      captures:
-        1: variable.other.member.cs
-        2: punctuation.accessor.dot.cs
-    - match: '({{name}})\s*(:)?'
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push: maybe_nested_pattern_matching_object
-
-  maybe_nested_pattern_matching_object:
-    - match: (?=\{)
-      push: maybe_pattern_matching_object
-    - match: (?=\bvar\b)
-      set: var_declaration_including_tuple
-    - match: (?=\S)
-      set: line_of_code_in_no_semicolon
-
-###[ FOR STATEMENTS ]##########################################################
-
-  for_var_assignment:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      set:
-        - line_of_code_in
-        - maybe_pointer
-    - match: (?=;|\)|\})
-      pop: true
-
-  foreach_var_assignment:
-    - match: \bin\b
-      scope: keyword.control.loop.in.cs
-      set: line_of_code_in
-    - match: (?=\)|\})
-      pop: true
-
-###[ VARIABLE DECLARATIONS ]###################################################
-
-  var_declaration:
-    - match: (var)\s*(\()
-      captures:
-        1: storage.type.variable.cs
-        2: meta.sequence.tuple.cs punctuation.section.sequence.begin.cs
-      set:
-        - meta_content_scope: meta.sequence.tuple.cs
-        - match: \)
-          scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
-          pop: true
-        - match: _\b
-          scope: variable.language.anonymous.cs
-        - match: '{{name}}'
-          scope: variable.other.cs
-        - match: ','
-          scope: punctuation.separator.sequence.cs
-    - match: '(var)\s+({{name}})\s*'
-      captures:
-        1: storage.type.variable.cs
-        2: variable.other.cs
-      pop: true
-    - include: var_declaration_explicit
-
-  var_declaration_including_tuple:
-    - include: var_declaration
-    - include: type_tuple
-
-  var_declaration_explicit:
-    - match: '({{name}})\s*(\.)'
-      captures:
-        1: support.type.cs
-        2: punctuation.accessor.dot.cs
-    - match: '({{name}})\s*(<)'
-      captures:
-        1: support.type.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      set:
-        - meta_content_scope: meta.generic.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set:
-            - match: '({{name}})\s*'
-              captures:
-                1: variable.other.cs
-              pop: true
-            - match: (?=[,);}])
-              pop: true
-        - include: inside_type_argument
-    - match: '({{base_type}}){{type_suffix_capture}}'
-      captures:
-        1: storage.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
-      set:
-        - match: '({{name}})\s*'
-          captures:
-            1: variable.other.cs
-          pop: true
-        - match: (?=[,);}])
-          pop: true
-    - match: '(?:({{name}}){{type_suffix_capture}})(?:\s+({{name}}))?\s*'
-      captures:
-        1: support.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
-        8: variable.other.cs
-      pop: true
-    - match: (?=\))
-      pop: true
-
-  using_var_assignment:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - line_of_code_in
-        - maybe_pointer
-    - match: (?=;|\)|\})
-      pop: true
-    - match: ','
-      scope: punctuation.separator.expression.cs
-      push: line_of_code_in
-
-  for_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      set:
-      - match: \{
-        scope: punctuation.section.block.begin.cs
-        set:
-          - meta_scope: meta.block.cs
-          - match: \}
-            scope: punctuation.section.block.end.cs
-            pop: true
-          - include: code_block_in
-      - match: (?=\S)
-        set:
-          - include: line_of_code
-
-  while_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: '\}'
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - include: code_block_in
-    - match: (?=\S)
-      set:
-        - include: line_of_code
-
-  do_condition:
-    - match: \b(while)\b
-      scope: keyword.control.loop.while.cs
-      set: while_condition
-    - match: (?=\S)
-      pop: true
-
-  while_condition:
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      set:
-        - meta_scope: meta.group.cs
-        - match: '\)'
-          scope: punctuation.section.group.end.cs
-          pop: true
-        - include: line_of_code_in
-    - match: (?=\S)
-      pop: true
-
-  regex_string:
-    - match: '"'
-      scope: punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
-      embed_scope: meta.string.cs meta.regexp.cs
-      escape: '"'
-      escape_captures:
-        0: punctuation.definition.string.end.cs
-      pop: 1
-    - match: '@"'
-      scope: punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
-      embed_scope: meta.string.cs meta.regexp.cs
-      escape: '"'
-      escape_captures:
-        0: punctuation.definition.string.end.cs
-      pop: 1
-    - match: (?=\S)
-      pop: 1
+  sql_indicator: |-
+    (?x: \s* (?:
+    # dml statements
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
+    # ddl statements
+    | ADD | ALTER | CREATE | DROP
+    # conditional
+    | IF \s+ (?: NOT \s+ )? EXISTS
+    # declaration
+    | DECLARE | WITH | BEGIN
+    ) \s )
