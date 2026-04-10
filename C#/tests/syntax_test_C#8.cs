@@ -343,7 +343,8 @@ namespace CommonTests.Attributes;
 public class CustomAutoDataAttribute() : AutoDataAttribute(
     () =>
 ///^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
-/// ^^^^^ meta.function.anonymous.cs meta.group.cs
+/// ^^ meta.function.anonymous.cs meta.group.cs
+///   ^^^^ meta.function.anonymous.cs - meta.function meta.group
 /// ^ punctuation.section.group.begin.cs
 ///  ^ punctuation.section.group.end.cs
 ///    ^^ keyword.declaration.function.arrow.cs

@@ -401,7 +401,7 @@ public class Program {
 //^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
 //^^^^^^^ meta.block.cs
 //      ^ punctuation.section.block.end.cs
-//        ^^^^^ keyword.control.conditional.else.cs
+//        ^^^^ keyword.control.conditional.else.cs
 //             ^ meta.block.cs punctuation.section.block.begin.cs
             Console.WriteLine ("false");
         }
