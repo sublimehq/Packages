@@ -7,38 +7,61 @@ using System;
 namespace HelloWorld
 {
     /// <summary>
-//* ^^^ punctuation.definition.comment.documentation.cs
+//* <- comment.line.documentation
+//* ^^^ punctuation.definition.comment.documentation
 //* ^^^^^^^^^^^^^^ comment.line.documentation
+//*     ^^^^^^^^^ meta.tag.xml
 //*     ^ punctuation.definition.tag.begin
 //*      ^^^^^^^ entity.name.tag.begin
 //*             ^ punctuation.definition.tag.end
-//*    ^ text.documentation
-//*     ^^^^^^^^^ - text.documentation
-//*              ^ text.documentation
     /// This class is testing comments
-//* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation
-//*    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.documentation
+//* <- comment.line.documentation
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation
     /// </summary>
+//* <- comment.line.documentation
+//*^^^^^^^^^^^^^^^^ comment.line.documentation
+//*     ^^^^^^^^^^ meta.tag.xml
 //*     ^^ punctuation.definition.tag.begin
 //*       ^^^^^^^ entity.name.tag.end
 //*              ^ punctuation.definition.tag.end
     /// <see href="http://foo.com">Reference</see>
-//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - text.documentation
+//* <- comment.line.documentation
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation
+//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml
 //*     ^ punctuation.definition.tag.begin
 //*      ^^^ entity.name.tag
 //*          ^^^^ entity.other.attribute-name
-//*              ^ punctuation.separator.argument.value
+//*              ^ punctuation.separator.key-value
+//*               ^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+//*               ^ punctuation.definition.string.begin
+//*                              ^ punctuation.definition.string.end
 //*                               ^ punctuation.definition.tag.end
-//*                                ^^^^^^^^^ text.documentation
+//*                                         ^^^^^^ meta.tag.xml
+//*                                         ^^ punctuation.definition.tag.begin
+//*                                              ^ punctuation.definition.tag.end
+    /// <see
+    ///    href="http://foo.com">Reference</see>
+//* <- comment.line.documentation
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml
+//* ^^^ punctuation.definition.comment.documentation
+//*        ^^^^ entity.other.attribute-name
+//*            ^ punctuation.separator.key-value
+//*             ^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+//*             ^ punctuation.definition.string.begin
+//*                            ^ punctuation.definition.string.end
+//*                             ^ punctuation.definition.tag.end
+//*                                       ^^^^^^ meta.tag.xml
+//*                                       ^^ punctuation.definition.tag.begin
+//*                                            ^ punctuation.definition.tag.end
     /**
         *
-//*     ^ meta.namespace.cs meta.block.cs comment.block.cs punctuation.definition.comment.cs 
+//*     ^ meta.namespace meta.block comment.block punctuation.definition.comment
     */
     class Hello
     {
         /// <summary>
         /// Computes matrix-matrix product of a sparse matrix stored in the CSC format.
-//*         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.documentation
         /// </summary>
         void dcscmm(Transpose TransA, int m, int n, int k,
             double alpha,
