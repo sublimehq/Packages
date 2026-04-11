@@ -745,7 +745,7 @@ Assert.Equal(43, bytes[1]);
 bytes[2] = 44; // throws IndexOutOfRangeException
 
 public readonly ref struct Span<T>
-///             ^^^^^^^^^^^^^^^^^^^ meta.struct
+///                 ^^^^^^^^^^^^^^^ meta.struct
 ///  ^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^ storage.modifier

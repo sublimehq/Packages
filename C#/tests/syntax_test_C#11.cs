@@ -631,9 +631,9 @@ public class CompanyFeaturesService(
 ///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 ///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^^^^ entity.name.class
-///                                ^ meta.class.constructor.parameters punctuation.section.parameters.begin
+///                                ^ meta.class.parameters punctuation.section.parameters.begin
   ILogger<CompanyFeaturesService> logger) : ICompanyFeaturesService
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.parameters
 /// ^^^^^ support.type
 ///      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
 ///      ^ punctuation.definition.generic.begin
@@ -651,7 +651,7 @@ public readonly struct Distance(double dx, double dy)
 /// ^^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^^^^^^^^^^^^^ meta.struct
-///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
+///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.struct.parameters
 ///                            ^ punctuation.section.parameters.begin
 ///                             ^^^^^^ storage.type
 ///                                    ^^ variable.parameter
@@ -668,11 +668,11 @@ public readonly struct Distance(double dx, double dy)
 
   file record struct Person(string Name);
 ///^^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.constructor.parameters
-///                        ^^^^^^^^^^^^^ meta.class.constructor.parameters
-///    ^^^^^^ keyword.declaration.class.record
-///           ^^^^^^ keyword.declaration.struct.record
-///                  ^^^^^^ entity.name.class
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record.parameters
+///                        ^^^^^^^^^^^^^ meta.record.parameters
+///    ^^^^^^ keyword.declaration.record
+///           ^^^^^^ keyword.declaration.struct
+///                  ^^^^^^ entity.name.struct
 ///                        ^ punctuation.section.parameters.begin
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter

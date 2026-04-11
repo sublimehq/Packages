@@ -25,11 +25,11 @@ namespace Example;
 
 public record struct Person(string Name);
 /// ^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.constructor.parameters
-///                        ^^^^^^^^^^^^^ meta.class.constructor.parameters
-///    ^^^^^^ keyword.declaration.class.record
-///           ^^^^^^ keyword.declaration.struct.record
-///                  ^^^^^^ entity.name.class
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record meta.record
+///                        ^^^^^^^^^^^^^ meta.record.parameters - meta.record meta.record
+///    ^^^^^^ keyword.declaration.record
+///           ^^^^^^ keyword.declaration.struct
+///                  ^^^^^^ entity.name.struct
 ///                        ^ punctuation.section.parameters.begin
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter
@@ -38,12 +38,12 @@ public record struct Person(string Name);
 
 public readonly record struct Person(string Name);
 ///^^^ storage.modifier.access
-///             ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.record meta.class.record
-///                                 ^^^^^^^^^^^^^ meta.class.constructor.parameters - meta.class.record meta.class.record
+///             ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record meta.record
+///                                 ^^^^^^^^^^^^^ meta.record.parameters - meta.record meta.record
 ///    ^^^^^^^^ storage.modifier
-///             ^^^^^^ keyword.declaration.class.record
-///                    ^^^^^^ keyword.declaration.struct.record
-///                           ^^^^^^ entity.name.class
+///             ^^^^^^ keyword.declaration.record
+///                    ^^^^^^ keyword.declaration.struct
+///                           ^^^^^^ entity.name.struct
 ///                                 ^ punctuation.section.parameters.begin
 ///                                  ^^^^^^ storage.type
 ///                                         ^^^^ variable.parameter

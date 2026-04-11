@@ -15,6 +15,193 @@ namespace YourNamespace
 ///       ^^^^^^^^^^^^^ entity.name.namespace.cs
 {
 ///<- punctuation.section.block.begin
+
+    abstract
+/// ^^^^^^^^ storage.modifier.cs
+
+    new
+/// ^^^ storage.modifier.cs
+
+    partial
+/// ^^^^^^^ storage.modifier.cs
+
+    readonly
+/// ^^^^^^^^ storage.modifier.cs
+
+    required
+/// ^^^^^^^^ storage.modifier.cs
+
+    sealed
+/// ^^^^^^ storage.modifier.cs
+
+    static
+/// ^^^^^^ storage.modifier.cs
+
+    unsafe
+/// ^^^^^^ storage.modifier.cs
+
+    public
+/// ^^^^^^ storage.modifier.access.cs
+
+    protected
+/// ^^^^^^^^^ storage.modifier.access.cs
+
+    private
+/// ^^^^^^^ storage.modifier.access.cs
+
+    internal
+/// ^^^^^^^^ storage.modifier.access.cs
+
+    class
+/// ^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+
+;   class YourClass
+/// ^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+
+    class YourClass :
+///^^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                 ^^ meta.class.base.cs
+///                 ^ punctuation.separator.type.cs
+
+;   class YourClass : any
+/// ^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                 ^^^^^^ meta.class.base.cs
+///                 ^ punctuation.separator.type.cs
+///                   ^^^ entity.other.inherited-class.cs
+
+;   class YourClass : char
+/// ^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                 ^^^^^^^ meta.class.base.cs
+///                 ^ punctuation.separator.type.cs
+///                   ^^^^ storage.type.cs
+
+;   class YourClass : Foo, Bar  {}
+/// ^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                 ^^^^^^^^^^^^ meta.class.base.cs
+///                 ^ punctuation.separator.type.cs
+///                   ^^^ entity.other.inherited-class.cs
+///                      ^ punctuation.separator.inherited-class.cs
+///                        ^^^ entity.other.inherited-class.cs
+///                             ^^ meta.class.body.cs meta.block.cs
+///                             ^ punctuation.section.block.begin.cs
+///                              ^ punctuation.section.block.end.cs
+
+;   class YourClass<T1, T2> : Foo<T1>, Bar<T2> {}
+/// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                ^^^^^^^^ meta.generic.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^^ variable.parameter.type.cs
+///                   ^ punctuation.separator.type.cs
+///                     ^^ variable.parameter.type.cs
+///                       ^ punctuation.definition.generic.end.cs
+///                         ^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
+///                         ^ punctuation.separator.type.cs
+///                           ^^^ entity.other.inherited-class.cs
+///                              ^^^^ meta.generic.cs
+///                              ^ punctuation.definition.generic.begin.cs
+///                               ^^ support.type.cs
+///                                 ^ punctuation.definition.generic.end.cs
+///                                  ^ punctuation.separator.inherited-class.cs
+///                                    ^^^ entity.other.inherited-class.cs
+///                                       ^^^^ meta.generic.cs
+///                                       ^ punctuation.definition.generic.begin.cs
+///                                        ^^ support.type.cs
+///                                          ^ punctuation.definition.generic.end.cs
+///                                            ^^ meta.class.body.cs meta.block.cs
+///                                            ^ punctuation.section.block.begin.cs
+///                                             ^ punctuation.section.block.end.cs
+
+;   class YourClass<T1, T2>
+        where T1: class
+///^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
+///     ^^^^^^^^^^^^^^^^ meta.constraints.cs
+///     ^^^^^ storage.modifier.where.cs
+///           ^^ support.type.cs
+///             ^ punctuation.separator.type.cs
+///               ^^^^^ storage.type.cs
+        where T1: struct
+///^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs meta.constraints.cs
+///     ^^^^^ storage.modifier.where.cs
+///           ^^ support.type.cs
+///             ^ punctuation.separator.type.cs
+///               ^^^^^^ storage.type.cs
+        where T2: Printable, IKeyProvider<T1>, new()
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs meta.constraints.cs
+///     ^^^^^ storage.modifier.where.cs
+///           ^^ support.type.cs
+///             ^ punctuation.separator.type.cs
+///               ^^^^^^^^^ support.type.cs
+///                        ^ punctuation.separator.types.cs
+///                          ^^^^^^^^^^^^ support.type.cs
+///                                      ^^^^ meta.generic.cs
+///                                      ^ punctuation.definition.generic.begin.cs
+///                                       ^^ support.type.cs
+///                                         ^ punctuation.definition.generic.end.cs
+///                                          ^ punctuation.separator.types.cs
+///                                            ^^^^^ meta.constructor.cs
+///                                            ^^^ keyword.operator.new.cs
+///                                               ^^ meta.group.cs
+///                                               ^ punctuation.section.group.begin.cs
+///                                                ^ punctuation.section.group.end.cs
+
+    class YourClass<[attr] T1[], [attr] T2[]> where T1: IEnumerable<[attr] T2[]> {
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^^^^^^ meta.annotation.cs
+///                 ^ punctuation.definition.annotation.begin.cs
+///                  ^^^^ variable.annotation.cs
+///                      ^ punctuation.definition.annotation.end.cs
+///                        ^^ variable.parameter.type.cs
+///                          ^ meta.brackets.cs punctuation.section.brackets.begin.cs
+///                           ^ meta.brackets.cs punctuation.section.brackets.end.cs
+///                            ^ punctuation.separator.type.cs
+///                              ^^^^^^ meta.annotation.cs
+///                              ^ punctuation.definition.annotation.begin.cs
+///                               ^^^^ variable.annotation.cs
+///                                   ^ punctuation.definition.annotation.end.cs
+///                                     ^^ variable.parameter.type.cs
+///                                       ^ meta.brackets.cs punctuation.section.brackets.begin.cs
+///                                        ^ meta.brackets.cs punctuation.section.brackets.end.cs
+///                                         ^ punctuation.definition.generic.end.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constraints.cs
+///                                           ^^^^^ storage.modifier.where.cs
+///                                                 ^^ support.type.cs
+///                                                   ^ punctuation.separator.type.cs
+///                                                     ^^^^^^^^^^^ support.type.cs
+///                                                                ^^^^^^^^^^^^^ meta.generic.cs
+///                                                                ^ punctuation.definition.generic.begin.cs
+///                                                                 ^^^^^^ meta.annotation.cs
+///                                                                 ^ punctuation.definition.annotation.begin.cs
+///                                                                  ^^^^ variable.annotation.cs
+///                                                                      ^ punctuation.definition.annotation.end.cs
+///                                                                        ^^ support.type.cs
+///                                                                          ^^ meta.brackets.cs
+///                                                                          ^ punctuation.section.brackets.begin.cs
+///                                                                           ^ punctuation.section.brackets.end.cs
+///                                                                            ^ punctuation.definition.generic.end.cs
+///                                                                              ^^ meta.class.body.cs meta.block.cs
+///                                                                              ^ punctuation.section.block.begin.cs
+
+    }
+///^^ meta.class.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+
     class YourClass
 /// ^ keyword.declaration.class
 ///        ^ entity.name.class
@@ -162,10 +349,63 @@ namespace YourNamespace
 ///                                    ^^^^^ constant.language
     }
 
+    struct
+/// ^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+
+;   struct YourStruct
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+
+;   struct YourStruct :
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+///                   ^^ meta.struct.base.cs
+///                   ^ punctuation.separator.type.cs
+
+;   struct YourStruct : any
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+///                   ^^^^^^ meta.struct.base.cs
+///                   ^ punctuation.separator.type.cs
+///                     ^^^ entity.other.inherited-class.cs
+
+;   struct YourStruct : char
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+///                   ^^^^^^^ meta.struct.base.cs
+///                   ^ punctuation.separator.type.cs
+///                     ^^^^ storage.type.cs
+
+;   struct YourStruct : nint
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+///                   ^^^^^^^ meta.struct.base.cs
+///                   ^ punctuation.separator.type.cs
+///                     ^^^^ storage.type.cs
+
+;   struct YourStruct : Foo, Bar  {}
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
+///                   ^^^^^^^^^^^^ meta.struct.base.cs
+///                   ^ punctuation.separator.type.cs
+///                     ^^^ entity.other.inherited-class.cs
+///                        ^ punctuation.separator.inherited-class.cs
+///                          ^^^ entity.other.inherited-class.cs
+///                               ^^ meta.struct.body.cs meta.block.cs
+///                               ^ punctuation.section.block.begin.cs
+///                                ^ punctuation.section.block.end.cs
+
     struct YourStruct
-/// ^^^^^^^^^^^^^^^^^ meta.struct
-/// ^ keyword.declaration.struct
-///         ^ entity.name.struct
+/// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
+/// ^^^^^^ keyword.declaration.struct.cs
+///        ^^^^^^^^^^ entity.name.struct.cs
     {
 ///^^ meta.struct
 //  ^ meta.block punctuation.section.block.begin
@@ -173,7 +413,87 @@ namespace YourNamespace
 ///^^ meta.struct meta.block
 //  ^ punctuation.section.block.end
 
-    interface IYourInterface
+    interface
+/// ^^^^^^^^^^ meta.interface.cs
+/// ^^^^^^^^^ keyword.declaration.interface.cs
+
+;   interface IInterface
+/// ^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
+/// ^^^^^^^^^ keyword.declaration.interface.cs
+///           ^^^^^^^^^^ entity.name.interface.cs
+
+;   interface IInterface :
+/// ^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
+/// ^^^^^^^^^ keyword.declaration.interface.cs
+///           ^^^^^^^^^^ entity.name.interface.cs
+///                      ^^ meta.interface.base.cs
+///                      ^ punctuation.separator.type.cs
+
+;   partial interface IInterface : IBase1, IBase2
+/// ^^^^^^^ storage.modifier.cs
+///         ^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
+///         ^^^^^^^^^ keyword.declaration.interface.cs
+///                   ^^^^^^^^^^ entity.name.interface.cs
+///                              ^^^^^^^^^^^^^^^^^ meta.interface.base.cs
+///                              ^ punctuation.separator.type.cs
+///                                ^^^^^^ entity.other.inherited-class.cs
+///                                      ^ punctuation.separator.inherited-class.cs
+///                                        ^^^^^^ entity.other.inherited-class.cs
+
+;   interface IInterface<in T1, [attr] out T2> : IBase1<T1>, IBase2<T2> where T1 : class, IBase2<T2> where T2 : unmanaged
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
+/// ^^^^^^^^^ keyword.declaration.interface.cs
+///           ^^^^^^^^^^ entity.name.interface.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
+///                     ^ punctuation.definition.generic.begin.cs
+///                      ^^ storage.modifier.cs
+///                         ^^ variable.parameter.type.cs
+///                           ^ punctuation.separator.type.cs
+///                             ^^^^^^ meta.annotation.cs
+///                             ^ punctuation.definition.annotation.begin.cs
+///                              ^^^^ variable.annotation.cs
+///                                  ^ punctuation.definition.annotation.end.cs
+///                                    ^^^ storage.modifier.cs
+///                                        ^^ variable.parameter.type.cs
+///                                          ^ punctuation.definition.generic.end.cs
+///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.base.cs
+///                                            ^ punctuation.separator.type.cs
+///                                              ^^^^^^ entity.other.inherited-class.cs
+///                                                    ^^^^ meta.generic.cs
+///                                                    ^ punctuation.definition.generic.begin.cs
+///                                                     ^^ support.type.cs
+///                                                       ^ punctuation.definition.generic.end.cs
+///                                                        ^ punctuation.separator.inherited-class.cs
+///                                                          ^^^^^^ entity.other.inherited-class.cs
+///                                                                ^^^^ meta.generic.cs
+///                                                                ^ punctuation.definition.generic.begin.cs
+///                                                                 ^^ support.type.cs
+///                                                                   ^ punctuation.definition.generic.end.cs
+///                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs meta.constraints.cs
+///                                                                     ^^^^^ storage.modifier.where.cs
+///                                                                           ^^ support.type.cs
+///                                                                              ^ punctuation.separator.type.cs
+///                                                                                ^^^^^ storage.type.cs
+///                                                                                     ^ punctuation.separator.types.cs
+///                                                                                       ^^^^^^ support.type.cs
+///                                                                                             ^^^^ meta.generic.cs
+///                                                                                             ^ punctuation.definition.generic.begin.cs
+///                                                                                              ^^ support.type.cs
+///                                                                                                ^ punctuation.definition.generic.end.cs
+///                                                                                                  ^^^^^ storage.modifier.where.cs
+///                                                                                                        ^^ support.type.cs
+///                                                                                                           ^ punctuation.separator.type.cs
+///                                                                                                             ^^^^^^^^^ storage.type.cs
+
+;   interface IInterface : nint
+/// ^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
+/// ^^^^^^^^^ keyword.declaration.interface.cs
+///           ^^^^^^^^^^ entity.name.interface.cs
+///                      ^^^^^^^ meta.interface.base.cs
+///                      ^ punctuation.separator.type.cs
+///                        ^^^^ storage.type.cs
+
+;   interface IYourInterface
 /// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
 /// ^ keyword.declaration.interface
 ///           ^ entity.name.interface
@@ -206,6 +526,58 @@ namespace YourNamespace
 ///                                           ^ punctuation.section.parameters.end
 ///                                            ^ punctuation.terminator
 
+    enum
+/// ^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+
+    enum YourEnum
+/// ^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+
+    enum YourEnum :
+/// ^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+///               ^^ meta.enum.base.cs
+///               ^ punctuation.separator.type.cs
+
+    enum YourEnum : ResolvesToInt
+/// ^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+///               ^^^^^^^^^^^^^^^ meta.enum.base.cs
+///               ^ punctuation.separator.type.cs
+///                 ^^^^^^^^^^^^^ support.type.cs
+
+    enum YourEnum : char
+/// ^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+///               ^^^^^^ meta.enum.base.cs
+///               ^ punctuation.separator.type.cs
+///                 ^^^^ invalid.illegal.type.cs
+
+    enum YourEnum : nint
+/// ^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+///               ^^^^^^ meta.enum.base.cs
+///               ^ punctuation.separator.type.cs
+///                 ^^^^ storage.type.cs
+
+    enum YourEnum : int {}
+///^^^^^^^^^^^^^^^ meta.enum.cs
+/// ^^^^ keyword.declaration.enum.cs
+///      ^^^^^^^^ entity.name.enum.cs
+///               ^^^^^ meta.enum.base.cs
+///                    ^ meta.enum.cs
+///               ^ punctuation.separator.type.cs
+///                 ^^^ storage.type.cs
+///                     ^^ meta.enum.body.cs meta.block.cs
+///                     ^ punctuation.section.block.begin.cs
+///                      ^ punctuation.section.block.end.cs
+
     enum YourEnum
 /// ^^^^^^^^^^^^^ meta.enum
 /// ^ keyword.declaration.enum
@@ -221,17 +593,42 @@ namespace YourNamespace
 /// ^ punctuation.section.block.end
 ///  ^ punctuation.terminator
 
-    public enum Things
+    public enum Things : sbyte
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^^^^^^^^^ meta.enum.cs
+///        ^^^^ keyword.declaration.enum.cs
+///             ^^^^^^ entity.name.enum.cs
+///                    ^^^^^^^ meta.enum.base.cs
+///                    ^ punctuation.separator.type.cs
+///                      ^^^^^ storage.type.cs
     {
         [Stuff("1")]
-///     ^^^^^^^^^^^^ meta.annotation
-        Item1,
-///     ^ entity.name.constant
+///^^^^^^^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
+///     ^^^^^^^^^^^^ meta.annotation.cs
+///     ^ punctuation.definition.annotation.begin.cs
+///                ^ punctuation.definition.annotation.end.cs
+        Item1 = 0,
+///^^^^^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
+///     ^^^^^ entity.name.constant.cs
+///           ^ keyword.operator.assignment.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.separator.enum.cs
         Item2,
+///^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
+///     ^^^^^ entity.name.constant.cs
+///          ^ punctuation.separator.enum.cs
         [Stuff]
-///     ^^^^^^^ meta.annotation
+///^^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
+///     ^^^^^^^ meta.annotation.cs
+///     ^ punctuation.definition.annotation.begin.cs
+///      ^^^^^ variable.annotation.cs
+///           ^ punctuation.definition.annotation.end.cs
         Item3
+///^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
+///     ^^^^^ entity.name.constant.cs
     }
+///^^ meta.enum.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
 
     namespace YourNestedNamespace
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace meta.namespace
@@ -265,31 +662,17 @@ namespace YourNamespace
 ///^^ meta.class meta.block
 /// ^ punctuation.section.block.end
 
-    class WithGeneric<T1, T2> where T1: IEnumerable<T2> {}
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-///                  ^^^^^^^^ meta.generic
-///                  ^ punctuation.definition.generic.begin
-///                     ^ punctuation.separator.type
-///                         ^ punctuation.definition.generic.end
-///                             ^ storage.modifier
-///                                 ^^ support.type
-///                                         ^ entity.other.inherited-class
-///                                                ^^^^ meta.generic
-///                                                ^  punctuation.definition.generic.begin
-///                                                 ^^  support.type
-///                                                   ^  punctuation.definition.generic.end
-
 namespace TestNamespace . Test
-///^^^^^^^ meta.namespace.cs meta.namespace.cs - meta.path
-///       ^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs meta.namespace.cs meta.path.cs
-///                           ^ meta.namespace.cs meta.namespace.cs - meta.path
+///^^^^^^^ meta.namespace.body.cs meta.namespace.cs - meta.path
+///       ^^^^^^^^^^^^^^^^^^^^ meta.namespace.body.cs meta.namespace.cs meta.path.cs
+///                           ^ meta.namespace.body.cs meta.namespace.cs - meta.path
 ///<- keyword.declaration.namespace
 ///^^^^^^ keyword.declaration.namespace.cs
 ///       ^^^^^^^^^^^^^ variable.namespace.cs
 ///                     ^ punctuation.accessor.dot.cs
 ///                       ^^^^ entity.name.namespace.cs
 {
-/// <- meta.namespace.cs meta.namespace.cs meta.block.cs punctuation.section.block.begin.cs
+/// <- meta.namespace.body.cs meta.namespace.body.cs meta.block.cs punctuation.section.block.begin.cs
 
     using NodeName = SomeNamespace.SomeClass;
 
@@ -651,10 +1034,11 @@ namespace TestNamespace . Test
 ///                                                                  ^^^^^^^^^ variable.parameter
 
             where T : BaseComponent
-///         ^ storage.modifier
-///               ^ support.type
-///                 ^ punctuation.separator
-///                   ^ entity.other.inherited-class
+///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.constraints.cs
+///         ^^^^^ storage.modifier.where.cs
+///               ^ support.type.cs
+///                 ^ punctuation.separator.type.cs
+///                   ^^^^^^^^^^^^^ support.type.cs
         {
             var test = "Test";
 ///         ^ storage.type.variable

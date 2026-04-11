@@ -419,9 +419,9 @@ namespace CommonTests.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public class CustomAutoDataAttribute() : AutoDataAttribute(
     () =>
-///^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
-/// ^^ meta.function.anonymous.cs meta.group.cs
-///   ^^^^ meta.function.anonymous.cs - meta.function meta.group
+///^^^^^^^ meta.class.base.cs meta.constructor.arguments.cs meta.group.cs
+/// ^^^^^^ meta.function.anonymous.cs
+/// ^^ meta.group.cs
 /// ^ punctuation.section.group.begin.cs
 ///  ^ punctuation.section.group.end.cs
 ///    ^^ keyword.declaration.function.arrow.cs
@@ -430,10 +430,10 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(
         fixture.Customizations.Add(new DateOnlySpecimenBuilder());
         return fixture;
     });
-///^^^ meta.class.constructor.arguments.cs meta.group.cs
+///^^^ meta.class.base.cs meta.constructor.arguments.cs meta.group.cs
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.section.group.end.cs
-///   ^ meta.class.cs punctuation.terminator.statement.cs
+///   ^ punctuation.terminator.statement.cs
 
 
 

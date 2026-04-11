@@ -406,6 +406,7 @@ contexts:
           pop: 1
         - include: statements
     - include: attributes
+    - include: modifiers
     - include: using_declaration
     - include: class_declaration
     - include: enum_declaration
@@ -488,19 +489,13 @@ contexts:
   namespace_declaration:
     # package declaration
     - match: namespace\b
-      scope: keyword.declaration.namespace.cs
+      scope: meta.namespace.cs keyword.declaration.namespace.cs
       push:
-        - namespace_declaration_meta
         - namespace_declaration_block
         - namespace_declaration_name
 
-  namespace_declaration_meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.namespace.cs
-    - include: immediately_pop
-
   namespace_declaration_name:
-    - match: ({{name}})\s*(\.)
+    - match: ({{unreserved_name}})\s*(\.)
       captures:
         1: variable.namespace.cs
         2: punctuation.accessor.dot.cs
@@ -509,26 +504,27 @@ contexts:
 
   qualified_namespace_declaration_name:
     - meta_scope: meta.path.cs
-    - match: ({{name}})\s*(\.)
+    - match: ({{unreserved_name}})\s*(\.)
       captures:
         1: variable.namespace.cs
         2: punctuation.accessor.dot.cs
     - include: unqualified_namespace_declaration_name
 
   unqualified_namespace_declaration_name:
-    - match: '{{name}}'
+    - match: '{{unreserved_name}}'
       scope: entity.name.namespace.cs
       pop: 1
     - include: else_pop
 
   namespace_declaration_block:
+    - meta_content_scope: meta.namespace.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
-      set: namespace_declaration_block_body
+      set: inside_namespace_declaration_block
     - include: else_pop
 
-  namespace_declaration_block_body:
-    - meta_scope: meta.block.cs
+  inside_namespace_declaration_block:
+    - meta_scope: meta.namespace.body.cs meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
@@ -537,226 +533,63 @@ contexts:
 ###[ CLASS DECLARATIONS ]######################################################
 
   class_declaration:
-    - match: (?:static|unsafe|abstract|partial|readonly|required|sealed)\b
-      scope: storage.modifier.cs
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
-    - match: (class)\s+({{name}})
-      captures:
-        1: keyword.declaration.class.cs
-        2: entity.name.class.cs
+    - match: class\b
+      scope: meta.class.cs keyword.declaration.class.cs
       push:
-        - class_signature
-        - data_type_constraint
-        - maybe_constructor_parameters
+        - class_block
+        - class_base
+        - class_parameter_list
         - type_parameter_list
+        - class_declaration_name
 
-  class_signature:
-    - meta_scope: meta.class.cs
-    - include: terminator
-    - match: (?=\S)
-      set: class_body
-
-  class_body:
-    - meta_content_scope: meta.class.body.cs
-    - include: data_type_expect_block
-
-###[ ENUM DECLARATIONS ]#######################################################
-
-  enum_declaration:
-    - match: (enum)\s+({{name}})(?:\s*(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong)\b)?
-      scope: meta.enum.cs
-      captures:
-        1: keyword.declaration.enum.cs
-        2: entity.name.enum.cs
-        3: punctuation.separator.key-value.type.cs
-        4: storage.type.cs
-      push:
-        - meta_content_scope: meta.enum.cs
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.enum.body.cs meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              set:
-                - match: ';'
-                  scope: punctuation.terminator.statement.cs
-                  pop: 1
-                - include: else_pop
-            - include: attributes
-            - match: '{{name}}'
-              scope: entity.name.constant.cs
-            - match: '='
-              scope: keyword.operator.assignment.cs
-              push:
-                - line_of_code_in
-                - maybe_pointer
-            - match: ','
-              scope: punctuation.separator.enum.cs
-
-###[ INTERFACE DECLARATIONS ]##################################################
-
-  interface_declaration:
-    - match: '(interface)\s+({{name}})'
-      captures:
-        1: keyword.declaration.interface.cs
-        2: entity.name.interface.cs
-      push:
-        - interface_signature
-        - data_type_constraint
-        - type_parameter_list
-
-  interface_signature:
-    - meta_scope: meta.interface.cs
-    - match: (?=\S)
-      set: interface_body
-
-  interface_body:
-    - meta_content_scope: meta.interface.body.cs
-    - include: data_type_expect_block
-
-###[ RECORD DECLARATIONS ]#####################################################
-
-  record_declaration:
-    - match: (record)\s+(?:(struct)\s+)?({{name}})
-      captures:
-        1: keyword.declaration.class.record.cs
-        2: keyword.declaration.struct.record.cs
-        3: entity.name.class.cs
-      push:
-        - record_signature
-        - data_type_constraint
-        - maybe_constructor_parameters
-        - type_parameter_list
-
-  record_signature:
-    - meta_scope: meta.class.record.cs
-    - match: (?=\S)
-      set: record_body
-
-  record_body:
-    - meta_content_scope: meta.class.record.body.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
+  class_declaration_name:
+    - match: '{{unreserved_name}}'
+      scope: entity.name.class.cs
       pop: 1
-    - include: data_type_expect_block
-
-###[ STRUCT DECLARATIONS ]#####################################################
-
-  struct_declaration:
-    - match: (?:(ref)\s+)?(struct)\s+({{name}})
-      captures:
-        1: storage.modifier.cs
-        2: keyword.declaration.struct.cs
-        3: entity.name.struct.cs
-      push:
-        - struct_signature
-        - data_type_constraint
-        - maybe_constructor_parameters
-        - type_parameter_list
-
-  struct_signature:
-    - meta_scope: meta.struct.cs
-    - match: (?=\S)
-      set: struct_body
-
-  struct_body:
-    - meta_content_scope: meta.struct.body.cs
-    - include: data_type_expect_block
-
-###[ TYPE DECLARATION SIGNATURES ]#############################################
-
-  maybe_constructor_parameters:
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      push: constructor_params
     - include: else_pop
 
-  constructor_params:
+  class_parameter_list:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_class_parameter_list
+    - include: else_pop
+
+  inside_class_parameter_list:
     - clear_scopes: 1
-    - meta_scope: meta.class.constructor.parameters.cs
+    - meta_scope: meta.class.parameters.cs
     - match: \)
       scope: punctuation.section.parameters.end.cs
-      pop: 2
+      pop: 1
     - match: (?=\S)
       push: [method_param, method_param_type]
 
-  data_type_constraint:
+  class_base:
     - match: ':'
       scope: punctuation.separator.type.cs
-      set: type_constraint
+      set: inside_class_base
     - match: (?=where\b)
-      set: type_constraint
-    - match: (?=[{;(])
-      pop: 1
-
-  type_constraint:
-    - include: type_constraint_common
-    - match: '{{name}}'
-      scope: entity.other.inherited-class.cs
-      push: inherited_class_arguments
-    - include: type
-
-  inherited_class_arguments:
-    - match: (?=\()
-      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
+      set: type_constraints
     - include: else_pop
 
-  inherited_class_arguments-begin:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      pop: 1
-
-  inside_inherited_class_arguments:
+  inside_class_base:
     - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: 1
-    - include: immediately_pop
+    - meta_scope: meta.class.base.cs
+    - include: inherited_classes
 
-  type_constraint_common:
-    - match: (?=\{)
-      pop: 1
-    - include: namespace_variables
-    - match: (where)(?:\s+(?:({{base_type}})|({{name}}))\s*(:)?)?
-      captures:
-        1: storage.modifier.cs
-        2: storage.type.cs
-        3: support.type.cs
-        4: punctuation.separator.type.cs
-    - match: (?:class|struct|interface)\b
-      scope: storage.type.cs
-    - match: new\s*\(\s*\)
-      scope: keyword.operator.new.cs
-    - match: '{{base_type}}'
-      scope: storage.type.cs
-    - match: ({{name}})?(\.)
-      scope: meta.path.cs
-      captures:
-        1: support.type.cs
-        2: punctuation.accessor.dot.cs
-    - match: ','
-      scope: punctuation.separator.inherited-class.cs
-
-  data_type_expect_block:
+  class_block:
+    - meta_content_scope: meta.class.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
-      push: data_type_inside_block
-    - include: terminator
-    - match: \S*
-      scope: invalid.illegal.cs
-      pop: 1
+      set: inside_class_block
+    - include: else_pop
 
-  data_type_inside_block:
-    - meta_scope: meta.block.cs
+  inside_class_block:
+    - meta_scope: meta.class.body.cs meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
-      pop: 2
+      pop: 1
     - include: attributes
+    - include: modifiers
     - include: class_declaration
     - include: enum_declaration
     - include: interface_declaration
@@ -767,6 +600,285 @@ contexts:
     - include: extension_declaration
     - include: member_declaration
     - include: stray_close_bracket
+
+###[ ENUM DECLARATIONS ]#######################################################
+
+  enum_declaration:
+    - match: enum\b
+      scope: meta.enum.cs keyword.declaration.enum.cs
+      push:
+        - enum_block
+        - enum_base
+        - enum_declaration_name
+
+  enum_declaration_name:
+    - match: '{{unreserved_name}}'
+      scope: entity.name.enum.cs
+      pop: 1
+    - include: else_pop
+
+  enum_base:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: inside_enum_base
+    - include: else_pop
+
+  inside_enum_base:
+    - clear_scopes: 1
+    - meta_scope: meta.enum.base.cs
+    - match: (?:byte|sbyte|short|ushort|int|uint|nint|nuint|long|ulong)\b
+      scope: storage.type.cs
+      pop: 1
+    - match: '{{base_type}}'
+      scope: invalid.illegal.type.cs
+      pop: 1
+    - match: '{{unreserved_name}}'
+      scope: support.type.cs
+      pop: 1
+    - include: else_pop
+
+  enum_block:
+    - meta_content_scope: meta.enum.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_enum_block
+    - include: else_pop
+
+  inside_enum_block:
+    - meta_scope: meta.enum.body.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 1
+    - include: attributes
+    - match: '{{unreserved_name}}'
+      scope: entity.name.constant.cs
+    - match: =
+      scope: keyword.operator.assignment.cs
+      push:
+        - line_of_code_in
+        - maybe_pointer
+    - match: ','
+      scope: punctuation.separator.enum.cs
+
+###[ INTERFACE DECLARATIONS ]##################################################
+
+  interface_declaration:
+    - match: interface\b
+      scope: meta.interface.cs keyword.declaration.interface.cs
+      push:
+        - interface_block
+        - interface_base
+        - type_parameter_list
+        - interface_declaration_name
+
+  interface_declaration_name:
+    - match: '{{unreserved_name}}'
+      scope: entity.name.interface.cs
+      pop: 1
+    - include: else_pop
+
+  interface_base:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: inside_interface_base
+    - match: (?=where\b)
+      set: type_constraints
+    - include: else_pop
+
+  inside_interface_base:
+    - clear_scopes: 1
+    - meta_scope: meta.interface.base.cs
+    - include: inherited_classes
+
+  interface_block:
+    - meta_content_scope: meta.interface.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_interface_block
+    - include: else_pop
+
+  inside_interface_block:
+    - meta_scope: meta.interface.body.cs meta.block.cs
+    - include: inside_class_block
+
+###[ RECORD DECLARATIONS ]#####################################################
+
+  record_declaration:
+    - match: record\b
+      scope: meta.record.cs keyword.declaration.record.cs
+      push:
+        - record_block
+        - record_base
+        - record_parameter_list
+        - type_parameter_list
+        - record_name
+
+  record_name:
+    - match: struct\b
+      scope: keyword.declaration.struct.cs
+      set: struct_declaration_name
+    - match: class\b
+      scope: keyword.declaration.class.cs
+      set: class_declaration_name
+    - include: class_declaration_name
+
+  record_parameter_list:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_record_parameter_list
+    - include: else_pop
+
+  inside_record_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.record.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  record_base:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: inside_record_base
+    - match: (?=where\b)
+      set: type_constraints
+    - include: else_pop
+
+  inside_record_base:
+    - clear_scopes: 1
+    - meta_scope: meta.record.base.cs
+    - include: inherited_classes
+
+  record_block:
+    - meta_content_scope: meta.record.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_record_block
+    - include: else_pop
+
+  inside_record_block:
+    - meta_scope: meta.record.body.cs meta.block.cs
+    - include: inside_class_block
+
+###[ STRUCT DECLARATIONS ]#####################################################
+
+  struct_declaration:
+    - match: struct\b
+      scope: meta.struct.cs keyword.declaration.struct.cs
+      push:
+        - struct_block
+        - struct_base
+        - struct_parameter_list
+        - type_parameter_list
+        - struct_declaration_name
+
+  struct_declaration_name:
+    - match: '{{unreserved_name}}'
+      scope: entity.name.struct.cs
+      pop: 1
+    - include: else_pop
+
+  struct_parameter_list:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_struct_parameter_list
+    - include: else_pop
+
+  inside_struct_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.struct.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  struct_base:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: inside_struct_base
+    - match: (?=where\b)
+      set: type_constraints
+    - include: else_pop
+
+  inside_struct_base:
+    - clear_scopes: 1
+    - meta_scope: meta.struct.base.cs
+    - include: inherited_classes
+
+  struct_block:
+    - meta_content_scope: meta.struct.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_struct_block
+    - include: else_pop
+
+  inside_struct_block:
+    - meta_scope: meta.struct.body.cs meta.block.cs
+    - include: inside_class_block
+
+###[ TYPE DECLARATION SIGNATURES ]#############################################
+
+  inherited_classes:
+    - match: (?=where\b)
+      set: type_constraints
+    - match: ','
+      scope: punctuation.separator.inherited-class.cs
+    - include: namespace_variables
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+    - match: ({{unreserved_name}})?(\.)
+      scope: meta.path.cs
+      captures:
+        1: support.type.cs
+        2: punctuation.accessor.dot.cs
+    - match: '{{unreserved_name}}'
+      scope: entity.other.inherited-class.cs
+      push:
+        - inherited_class_argument_list
+        - type_argument_list
+    - include: else_pop
+
+  inherited_class_argument_list:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_inherited_class_argument_list
+    - include: else_pop
+
+  inside_inherited_class_argument_list:
+    - meta_include_prototype: false
+    - meta_scope: meta.constructor.arguments.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - include: arguments
+
+  type_constraints:
+    - meta_scope: meta.constraints.cs
+    - match: (where)\b\s*({{unreserved_name}})?\s*(:)?
+      captures:
+        1: storage.modifier.where.cs
+        2: support.type.cs
+        3: punctuation.separator.type.cs
+      push: primary_constraint
+    - match: ','
+      scope: punctuation.separator.types.cs
+    - match: (new)\s*((\()\s*(\)))
+      scope: meta.constructor.cs
+      captures:
+        1: keyword.operator.new.cs
+        2: meta.group.cs
+        3: punctuation.section.group.begin.cs
+        4: punctuation.section.group.end.cs
+    - include: type
+    - include: else_pop
+
+  primary_constraint:
+    - match: (?:class|struct|unmanaged)\b
+      scope: storage.type.cs
+      pop: 1
+    - include: else_pop
 
 ###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
@@ -877,12 +989,6 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member_declaration:
-    - match: (?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b
-      scope: storage.modifier.cs
-    - match: (?:implicit|explicit)\b
-      scope: storage.modifier.cs
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
     - match: operator\b
       scope: storage.modifier.cs
       push: method_name_or_member_variable
@@ -1126,7 +1232,7 @@ contexts:
   method_param:
     - match: '{{name}}'
       scope: variable.parameter.cs
-    - match: '='
+    - match: =
       scope: keyword.operator.assignment.cs
       push:
         - line_of_code_in
@@ -1155,8 +1261,7 @@ contexts:
   method_body:
     - meta_scope: meta.method.cs
     - match: (?=where\b)
-      scope: storage.modifier.other.cs
-      push: type_constraint
+      push: type_constraints
     - match: (=>)
       scope: keyword.declaration.function.arrow.cs
       set:
@@ -1412,7 +1517,8 @@ contexts:
     - include: keywords
     # C#7/9, nested method
     - match: (?=(?:(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
-      push:
+      set:
+        - include: modifiers
         - include: member_declaration
         - match: ''
           pop: 1
@@ -2039,6 +2145,12 @@ contexts:
       pop: 1
     - include: else_pop
 
+  modifiers:
+    - match: '{{modifiers}}'
+      scope: storage.modifier.cs
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
+
 ###[ GROUP AND TUPLE EXPRESSIONS ]#############################################
 
   group_begin:
@@ -2333,7 +2445,9 @@ contexts:
     - include: immediately_pop
 
   type:
-    - include: type_common
+    - include: type_common_except_bare_custom_type
+    - match: '{{unreserved_name}}'
+      scope: support.type.cs
     - match: (?=\()
       push: type_tuple
 
@@ -2355,10 +2469,6 @@ contexts:
   type_common_except_bare_custom_type:
     - include: namespace_variables
     - include: funcptr_types
-    - match: (?:class|struct|enum)\b
-      scope: storage.type.other.cs
-    - match: 'new\s*\(\s*\)'
-      scope: keyword.operator.new.cs
     - match: '{{base_type}}'
       scope: storage.type.cs
     - match: '{{brackets_capture}}'
@@ -2382,11 +2492,6 @@ contexts:
     - match: (?=[]})>,;>:]|=>)
       pop: 1
 
-  type_common:
-    - include: type_common_except_bare_custom_type
-    - match: '{{name}}'
-      scope: support.type.cs
-
 ###[ TYPE PARAMETER LISTS ]####################################################
 
   type_argument_lists:
@@ -2394,10 +2499,17 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: inside_type_argument_list
 
+  type_argument_list:
+    - match: '<'
+      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+      set: inside_type_argument_list
+    - include: else_pop
+
   inside_type_argument_list:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
-    - include: type
+    - match: (?=\S)
+      push: [type_suffix, type]
 
   type_parameter_list:
     - match: '<'
@@ -2408,10 +2520,9 @@ contexts:
   inside_type_parameter_list:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
-    - match: (?:in|out)\b
-      scope: storage.modifier.cs
     - match: '{{name}}'
       scope: variable.parameter.type.cs
+      push: type_suffix
 
   type_arg_param_common:
     - match: (>){{type_suffix_capture}}
@@ -2426,6 +2537,22 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.type.cs
+    - include: attributes
+    - match: (?:in|out|ref|readonly)\b
+      scope: storage.modifier.cs
+
+  type_suffix:
+    - meta_include_prototype: false
+    - match: \s*{{type_suffix_capture}}
+      captures:
+        1: storage.type.nullable.cs
+        2: meta.brackets.cs
+        3: punctuation.section.brackets.begin.cs
+        4: punctuation.separator.cs
+        5: punctuation.section.brackets.end.cs
+        6: keyword.operator.pointer.cs
+      pop: 1
+    - include: immediately_pop
 
 ###[ FUNCTION POINTER TYPES ]##################################################
 
@@ -3056,7 +3183,9 @@ variables:
   escape_uni16: \\u\h{4}
   escape_uni32: \\U\h{8}
 
-  visibility: (?:public|private|protected|internal|protected\s+internal|file)\b
+  modifiers: (?:abstract|async|const|explicit|extern|implicit|new|override|partial|readonly|ref|required|sealed|static|unsafe|virtual|volatile)\b
+  visibility: (?:file|internal|private|protected|public)\b
+
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^={};]*>)?\s*
@@ -3067,6 +3196,8 @@ variables:
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(?:@?{{name_normal}})'
   namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
+
+  unreserved_name: (?:@|(?!{{reserved}}\b)){{name_normal}}
 
   start_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_\p{L}])'
   other_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_0-9\p{L}])'
