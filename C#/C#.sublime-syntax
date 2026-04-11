@@ -105,7 +105,7 @@ contexts:
       scope: comment.line.todo.cs
     - match: /!\\
       scope: comment.line.todo.cs
-    - match: \b(?:https?://\S*)\b
+    - match: \b[a-z+]+://\S*(?:[:/#?&=]|\b)
       scope: markup.underline.link.cs
 
   shebang:
