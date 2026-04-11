@@ -258,13 +258,13 @@ export default$
 
 let x = import.meta;
 //      ^^^^^^^^^^^ - meta.import
-//      ^^^^^^ keyword.import
+//      ^^^^^^ keyword.control.import
 //            ^ punctuation.accessor
 //             ^^^^ variable.language.import
 
     import.meta;
 //  ^^^^^^^^^^^ - meta.import
-//  ^^^^^^ keyword.import
+//  ^^^^^^ keyword.control.import
 //        ^ punctuation.accessor
 //         ^^^^ variable.language.import
 
@@ -276,7 +276,7 @@ let x = import.meta;
 //   ^^^^ variable.language.import
 
     import('foo');
-//  ^^^^^^ keyword.import
+//  ^^^^^^ keyword.control.import
 //        ^^^^^^^ meta.group
 
     import
