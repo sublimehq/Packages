@@ -198,10 +198,10 @@ class Foo {
 
         switch (sh) {
             case Shape shape when sh.Area == 0:
-///         ^^^^ keyword.control.switch.case
+///         ^^^^ keyword.control.conditional.case
 ///              ^^^^^ support.type
 ///                    ^^^^^ variable.other
-///                          ^^^^ keyword.control.switch.case.when
+///                          ^^^^ keyword.control.conditional.when
 ///                               ^^ variable.other
 ///                                 ^ punctuation.accessor.dot
 ///                                  ^^^^ variable.other
@@ -211,23 +211,23 @@ class Foo {
                 Console.WriteLine($"The shape: {sh.GetType().Name} with no dimensions");
                 break;
             case int? example when example == 5:
-///         ^^^^ keyword.control.switch.case
+///         ^^^^ keyword.control.conditional.case
 ///              ^^^ storage.type
 ///                 ^ storage.type.nullable
 ///                   ^^^^^^^ variable.other
-///                           ^^^^ keyword.control.switch.case.when
+///                           ^^^^ keyword.control.conditional.when
 ///                                ^^^^^^^ variable.other
 ///                                        ^^ keyword.operator.comparison
 ///                                           ^ meta.number.integer.decimal constant.numeric.value
 ///                                            ^ punctuation.separator.case-statement
             case Shape<Shape> shape when shape.Area > 0:
-///         ^^^^ keyword.control.switch.case
+///         ^^^^ keyword.control.conditional.case
 ///              ^^^^^ support.type
 ///                   ^ punctuation.definition.generic.begin
 ///                    ^^^^^ support.type
 ///                         ^ punctuation.definition.generic.end
 ///                           ^^^^^ variable.other
-///                                 ^^^^ keyword.control.switch.case.when
+///                                 ^^^^ keyword.control.conditional.when
 ///                                      ^^^^^ variable.other
 ///                                           ^ punctuation.accessor.dot
 ///                                            ^^^^ variable.other

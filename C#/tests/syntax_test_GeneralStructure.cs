@@ -370,7 +370,7 @@ namespace TestNamespace . Test
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
 
             switch (foo) {
-///         ^^^^^^ keyword.control.flow.switch
+///         ^^^^^^ keyword.control.conditional.switch
 ///                ^^^^^ meta.group
 ///                ^ punctuation.section.group.begin
 ///                 ^^^ variable.other
@@ -385,7 +385,7 @@ namespace TestNamespace . Test
                     break;
 ///                 ^ keyword.control
                 case BLBodyBattleLibrary.ContextType.TapUp:
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^^^^^^^^^^^^^^^^^ variable.other
 ///                                     ^ punctuation.accessor.dot
 ///                                      ^^^^^^^^^^^ variable.other
@@ -393,27 +393,27 @@ namespace TestNamespace . Test
 ///                                                  ^^^^^ constant.other
 ///                                                       ^ punctuation.separator.case-statement
                 case BindingFlags.Static:
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^^^^^^^^^^ variable.other
 ///                              ^ punctuation.accessor.dot
 ///                               ^^^^^^ constant.other
 ///                                     ^ punctuation.separator.case-statement
                 case test:
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^^ constant.other
 ///                      ^ punctuation.separator.case-statement
                 case this.test;
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^^ variable.language.this
 ///                      ^ punctuation.accessor.dot
                 case 1*2:
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^ constant.numeric
 ///                   ^ keyword.operator
 ///                    ^ constant.numeric
 ///                     ^ punctuation.separator.case-statement
                 case bar("hello"):
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^ variable.function
 ///                     ^ punctuation.section.group.begin
 ///                      ^^^^^^^ string.quoted.double
@@ -421,7 +421,7 @@ namespace TestNamespace . Test
 ///                              ^ punctuation.separator.case-statement
                     break;
                 case abc.def:
-///             ^^^^ keyword.control.switch.case
+///             ^^^^ keyword.control.conditional.case
 ///                  ^^^ variable.other
 ///                     ^ punctuation.accessor.dot
 ///                      ^^^ constant.other
@@ -1157,14 +1157,14 @@ namespace TestNamespace . Test
                 result += 4;
                 goto case 'b';
 ///             ^^^^ keyword.control.flow.goto
-///                  ^^^^ keyword.control.switch.case
+///                  ^^^^ keyword.control.conditional.case
 ///                       ^^^ meta.string string.quoted.single
 ///                       ^ punctuation.definition.string.begin
 ///                        ^ constant.character.literal
 ///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
-///         ^^^^ keyword.control.switch.case - invalid
+///         ^^^^ keyword.control.conditional.case - invalid
 ///              ^^^ meta.string string.quoted.single
 ///              ^ punctuation.definition.string.begin
 ///               ^ constant.character.literal

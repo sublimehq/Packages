@@ -53,7 +53,7 @@ public static decimal CalculateToll(object vehicle) =>
         DeliveryTruck t when t.GrossWeightClass > 5000 => 10.00m + 5.00m,
 ///     ^^^^^^^^^^^^^ support.type
 ///                   ^ variable.other
-///                     ^^^^ keyword.control.switch.case.when
+///                     ^^^^ keyword.control.conditional.when
 ///                          ^ variable.other
 ///                           ^ punctuation.accessor.dot
 ///                            ^^^^^^^^^^^^^^^^ variable.other
@@ -259,7 +259,7 @@ static Quadrant GetQuadrant(Point point) => point switch
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
 /// ^^^ storage.type.variable
 ///     ^^^^^^ meta.sequence.tuple
-///            ^^^^ keyword.control.switch.case.when
+///            ^^^^ keyword.control.conditional.when
 ///                 ^ variable.other
 ///                   ^ keyword.operator.comparison
 ///                     ^ constant.numeric.value

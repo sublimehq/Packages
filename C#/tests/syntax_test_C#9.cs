@@ -51,14 +51,14 @@ if (myValue is > 0 and <= 10)
 switch (myValue)
 {
     case <= 0:
-/// ^^^^ keyword.control.switch.case
+/// ^^^^ keyword.control.conditional.case
 ///      ^^ keyword.operator.comparison
 ///         ^ constant.numeric.value
 ///          ^ punctuation.separator.case-statement
         Console.WriteLine("Less than or equal to 0");
         break;
     case > 0 and <= 10:
-/// ^^^^ keyword.control.switch.case
+/// ^^^^ keyword.control.conditional.case
 ///      ^ keyword.operator.comparison
 ///        ^ constant.numeric.value
 ///          ^^^ keyword.operator.logical
@@ -116,7 +116,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///     ^^^^^^^^^^^^^^^^ variable.other
 ///                     ^ punctuation.accessor.dot
 ///                      ^^^^^^^^^^^^^^^^ variable.other
-///                                       ^^^^ keyword.control.switch.case.when
+///                                       ^^^^ keyword.control.conditional.when
 ///                                            ^ keyword.operator.logical
 ///                                             ^^^^^ variable.other
 ///                                                   ^^ punctuation.separator.case-expression
@@ -224,7 +224,7 @@ public class TollCalculator
             Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
 ///         ^^^ support.type
 ///             ^ variable.other
-///               ^^^^ keyword.control.switch.case.when
+///               ^^^^ keyword.control.conditional.when
 ///                      ^^^^^^ meta.cast storage.type
             Bus b when ((double)b.Riders / (double)b.Capacity) > 0.90 => 5.00m - 1.00m,
             Bus b => 5.00m,
