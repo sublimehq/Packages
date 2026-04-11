@@ -387,7 +387,7 @@ while (true)
 
     x = yield * 42;
 //      ^^^^^ keyword.control.flow.yield
-//            ^ keyword.generator.asterisk
+//            ^ keyword.operator.generator.asterisk
 
     x = yield
     function f() {}

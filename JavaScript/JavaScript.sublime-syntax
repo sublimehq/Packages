@@ -1662,7 +1662,7 @@ contexts:
         - match: $
           pop: 1
         - match: \*
-          scope: keyword.generator.asterisk.js
+          scope: keyword.operator.generator.asterisk.js
           set: expression-begin
         - match: (?=\S)
           set: expression-begin
