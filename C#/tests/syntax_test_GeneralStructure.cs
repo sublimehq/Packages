@@ -14,6 +14,10 @@ namespace YourNamespace
 /// ^ keyword.declaration.class
 ///        ^ entity.name.class
     {
+        Int;
+///     ^^^ support.type.cs
+///        ^ punctuation.terminator.statement.cs
+
         Int x;
 ///     ^^^ support.type
 ///         ^ variable.other.member

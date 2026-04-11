@@ -881,6 +881,8 @@ contexts:
         - member_lambda
         - method_name
       pop: 1
+    - include: terminator
+    - include: else_pop
 
   expect_type_member:
     - match: (?=\S)
