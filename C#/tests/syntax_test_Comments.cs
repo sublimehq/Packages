@@ -57,7 +57,9 @@ namespace HelloWorld
     /**
         *
 //*     ^ meta.namespace meta.block comment.block punctuation.definition.comment
-    */
+    **/
+//*^^^^ comment.block.cs
+//* ^^^ punctuation.definition.comment.end.cs
     class Hello
     {
         /// <summary>
