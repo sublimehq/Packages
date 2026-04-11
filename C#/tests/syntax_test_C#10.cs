@@ -1,18 +1,22 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 global using Newtonsoft.Json;
-/// ^^ storage.modifier
-///    ^^^^^ keyword.control.import
-///          ^^^^^^^^^^^^^^^ meta.path
-///                    ^ punctuation.accessor.dot
-///                         ^ punctuation.terminator - meta.path
+/// <- meta.using.cs storage.modifier.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^ storage.modifier.cs
+///    ^^^^^ keyword.declaration.using.cs
+///          ^^^^^^^^^^^^^^^ meta.path.cs
+///                    ^ punctuation.accessor.dot.cs
+///                         ^ punctuation.terminator.statement.cs
 global using static Console.WriteLine;
-/// ^^ storage.modifier
-///    ^^^^^ keyword.control.import
-///          ^^^^^^ keyword.control.import
-///                 ^^^^^^^^^^^^^^^^^ meta.path
-///                        ^ punctuation.accessor.dot
-///                                  ^ punctuation.terminator
+/// <- meta.using.cs storage.modifier.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^ storage.modifier.cs
+///    ^^^^^ keyword.declaration.using.cs
+///          ^^^^^^ storage.modifier.static.cs
+///                 ^^^^^^^^^^^^^^^^^ meta.path.cs
+///                        ^ punctuation.accessor.dot.cs
+///                                  ^ punctuation.terminator.statement.cs
 
 namespace Example;
 ///^^^^^^ meta.namespace keyword.declaration.namespace

@@ -435,23 +435,35 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                                                                                         ^ punctuation.section.block.end
 
 using ServiceProvider sp = services.BuildServiceProvider();
-/// ^ keyword.control.using
-///   ^^^^^^^^^^^^^^^ support.type
-///                   ^^ variable.other
-///                      ^ keyword.operator.assignment
-///                        ^^^^^^^^ variable.other
-///                                ^ punctuation.accessor.dot
-///                                 ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-///                                 ^^^^^^^^^^^^^^^^^^^^ variable.function
-///                                                     ^ punctuation.section.group.begin - invalid
-///                                                      ^ punctuation.section.group.end - invalid
-using IDisposable sub = pageContentObservable.Subscribe(Console.WriteLine);
-/// ^ keyword.control.using
-///   ^^^^^^^^^^^ support.type
-///               ^^^ variable.other
-///                   ^ keyword.operator.assignment
-///                     ^^^^^^^^^^^^^^^^^^^^^ variable.other
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^^^^^^^^^ support.type.cs
+///                   ^^ variable.other.cs
+///                      ^ keyword.operator.assignment.cs
+///                        ^^^^^^^^ variable.other.cs
+///                                ^ punctuation.accessor.dot.cs
+///                                 ^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs variable.function.cs
+///                                                     ^^ meta.function-call.cs meta.group.cs
+///                                                     ^ punctuation.section.group.begin.cs
+///                                                      ^ punctuation.section.group.end.cs
+///                                                       ^ punctuation.terminator.statement.cs
 
+using IDisposable sub = pageContentObservable.Subscribe(Console.WriteLine);
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^^^^^ support.type.cs
+///               ^^^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^ variable.other.cs
+///                                          ^ punctuation.accessor.dot.cs
+///                                           ^^^^^^^^^ meta.function-call.cs variable.function.cs
+///                                                    ^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs
+///                                                    ^ punctuation.section.group.begin.cs
+///                                                     ^^^^^^^ variable.other.cs
+///                                                            ^ punctuation.accessor.dot.cs
+///                                                             ^^^^^^^^^ variable.other.cs
+///                                                                      ^ punctuation.section.group.end.cs
+///                                                                       ^ punctuation.terminator.statement.cs
 
 // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
 

@@ -3,8 +3,10 @@
 // A Hello World! program in C#.
 ///<- comment.line
 using System;
-///<- keyword.control.import
-///    ^ meta.path
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ meta.path.cs
 ///         ^ punctuation.terminator.statement.cs
 
 namespace HelloWorld

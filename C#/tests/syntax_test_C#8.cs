@@ -4,27 +4,79 @@
 // https://devblogs.microsoft.com/dotnet/building-c-8-0/
 
 using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
-/// <- keyword.control.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
 ///   ^^^ storage.type.variable.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^^^^^ keyword.control.other.cs
 ///                    ^^^^^^ variable.other.cs
 ///                          ^ punctuation.accessor.dot.cs
-///                           ^^^^^^^^ meta.function-call.cs variable.function.cs
-///                                   ^ meta.function-call.cs meta.group.cs punctuation.section.group.begin.cs
-///                                    ^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs - meta.group meta.group
+///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
+///                           ^^^^^^^^ variable.function.cs
+///                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                                   ^ punctuation.section.group.begin.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
 ///                                    ^^^ keyword.operator.new.cs
 ///                                        ^^^ support.type.cs
-///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs meta.group.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.cs
+///                                            ^^ punctuation.definition.string.begin.cs
+///                                                                                 ^^^^^^^ meta.interpolation.cs
+///                                                                                 ^ punctuation.section.interpolation.begin.cs
+///                                                                                  ^^^^^ source.cs variable.other.cs
+///                                                                                       ^ punctuation.section.interpolation.end.cs
+///                                                                                        ^^^^^ string.quoted.double.cs
+///                                                                                             ^^^^^ meta.interpolation.cs
+///                                                                                             ^ punctuation.section.interpolation.begin.cs
+///                                                                                              ^^^ source.cs variable.other.cs
+///                                                                                                 ^ punctuation.section.interpolation.end.cs
+///                                                                                                  ^ string.quoted.double.cs punctuation.definition.string.end.cs
 ///                                                                                                   ^ punctuation.section.group.end.cs
-///                                                                                                    ^ meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
+///                                                                                                    ^ punctuation.section.group.end.cs
 ///                                                                                                     ^ punctuation.terminator.statement.cs
 
-List<int> numbers = null;
-int? i = null;
+using var (item, item) = await client.GetAsync();
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.variable.cs
+///       ^^^^^^^^^^^^ meta.sequence.tuple.cs
+///       ^ punctuation.section.sequence.begin.cs
+///        ^^^^ variable.other.cs
+///            ^ punctuation.separator.sequence.cs
+///              ^^^^ variable.other.cs
+///                  ^ punctuation.section.sequence.end.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^^^^^ keyword.control.other.cs
+///                            ^^^^^^ variable.other.cs
+///                                  ^ punctuation.accessor.dot.cs
+///                                   ^^^^^^^^ variable.function.cs
+///                                           ^^ meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                             ^ punctuation.terminator.statement.cs
+
+using List<int> item = await client.GetAsync();
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^ support.type.cs
+///       ^^^^^ meta.generic.cs
+///       ^ punctuation.definition.generic.begin.cs
+///        ^^^ storage.type.cs
+///           ^ punctuation.definition.generic.end.cs
+///             ^^^^ variable.other.cs
+///                  ^ keyword.operator.assignment.cs
+///                    ^^^^^ keyword.control.other.cs
+///                          ^^^^^^ variable.other.cs
+///                                ^ punctuation.accessor.dot.cs
+///                                 ^^^^^^^^^^ meta.function-call.cs
+///                                 ^^^^^^^^ variable.function.cs
+///                                         ^^ meta.group.cs
+///                                         ^ punctuation.section.group.begin.cs
+///                                          ^ punctuation.section.group.end.cs
+///                                           ^ punctuation.terminator.statement.cs
 
 numbers ??= new List<int>();
 ///     ^^^ keyword.operator.assignment.augmented
@@ -185,7 +237,7 @@ static async Task Main()
     var exampleAsyncDisposable = new ExampleAsyncDisposable();
     await using (exampleAsyncDisposable.ConfigureAwait(false))
 /// ^^^^^ keyword.control.other
-///       ^^^^^ keyword.control.using
+///       ^^^^^ keyword.declaration.using
     {
         // Interact with the exampleAsyncDisposable instance.
     }
@@ -194,7 +246,8 @@ static async Task Main()
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement#example
     using var socket = new ClientWebSocket();
-/// ^^^^^ keyword.control.using
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs meta.using.cs
+/// ^^^^^ keyword.declaration.using
 ///       ^^^ storage.type.variable
 ///           ^^^^^^ variable.other
 ///                  ^ keyword.operator.assignment
@@ -289,53 +342,77 @@ static Quadrant GetQuadrant(Point point) => point switch
 /// ^ - meta.block
 
     using var socket = new ClientWebSocket();
-/// ^^^^^ keyword.control.using
-///       ^^^ storage.type.variable
-///           ^^^^^^ variable.other
-///                  ^ keyword.operator.assignment
-///                    ^^^ keyword.operator.new
-///                        ^^^^^^^^^^^^^^^ support.type
-///                                       ^ punctuation.section.group.begin
-///                                        ^ punctuation.section.group.end
-///                                         ^ punctuation.terminator.statement
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+/// ^^^^^ keyword.declaration.using.cs
+///       ^^^ storage.type.variable.cs
+///           ^^^^^^ variable.other.cs
+///                  ^ keyword.operator.assignment.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                    ^^^ keyword.operator.new.cs
+///                        ^^^^^^^^^^^^^^^ support.type.cs
+///                                       ^^ meta.group.cs
+///                                       ^ punctuation.section.group.begin.cs
+///                                        ^ punctuation.section.group.end.cs
+///                                         ^ punctuation.terminator.statement.cs
+
     if (true) {
         using var socket = new ClientWebSocket();
-///     ^^^^^ keyword.control.using
-///           ^^^ storage.type.variable
-///               ^^^^^^ variable.other
-///                      ^ keyword.operator.assignment
-///                        ^^^ keyword.operator.new
-///                            ^^^^^^^^^^^^^^^ support.type
-///                                           ^ punctuation.section.group.begin
-///                                            ^ punctuation.section.group.end
-///                                             ^ punctuation.terminator.statement
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.variable.cs
+///               ^^^^^^ variable.other.cs
+///                      ^ keyword.operator.assignment.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^ keyword.operator.new.cs
+///                            ^^^^^^^^^^^^^^^ support.type.cs
+///                                           ^^ meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                             ^ punctuation.terminator.statement.cs
     } else {
         using var socket = new ClientWebSocket();
-///     ^^^^^ keyword.control.using
-///           ^^^ storage.type.variable
-///               ^^^^^^ variable.other
-///                      ^ keyword.operator.assignment
-///                        ^^^ keyword.operator.new
-///                            ^^^^^^^^^^^^^^^ support.type
-///                                           ^ punctuation.section.group.begin
-///                                            ^ punctuation.section.group.end
-///                                             ^ punctuation.terminator.statement
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.variable.cs
+///               ^^^^^^ variable.other.cs
+///                      ^ keyword.operator.assignment.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^ keyword.operator.new.cs
+///                            ^^^^^^^^^^^^^^^ support.type.cs
+///                                           ^^ meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                             ^ punctuation.terminator.statement.cs
     }
     try {
         using var socket = new ClientWebSocket();
-///     ^^^^^ keyword.control.using
-///           ^^^ storage.type.variable
-///               ^^^^^^ variable.other
-///                      ^ keyword.operator.assignment
-///                        ^^^ keyword.operator.new
-///                            ^^^^^^^^^^^^^^^ support.type
-///                                           ^ punctuation.section.group.begin
-///                                            ^ punctuation.section.group.end
-///                                             ^ punctuation.terminator.statement
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.variable.cs
+///               ^^^^^^ variable.other.cs
+///                      ^ keyword.operator.assignment.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^ keyword.operator.new.cs
+///                            ^^^^^^^^^^^^^^^ support.type.cs
+///                                           ^^ meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                             ^ punctuation.terminator.statement.cs
     }
 
 using AutoFixture;
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^^^^^ meta.path.cs
+///              ^ punctuation.terminator.statement.cs
 using AutoFixture.Xunit2;
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^^^^^^^^^^^^ meta.path.cs
+///              ^ punctuation.accessor.dot.cs
+///                     ^ punctuation.terminator.statement.cs
 
 namespace CommonTests.Attributes;
 

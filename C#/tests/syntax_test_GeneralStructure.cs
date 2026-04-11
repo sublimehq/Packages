@@ -2,6 +2,11 @@
 
 // A skeleton of a C# program
 using System;
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ meta.path.cs
+///         ^ punctuation.terminator.statement.cs
 
 namespace YourNamespace
 ///^^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs - meta.path

@@ -1,7 +1,9 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 using MyTuple = (float x, vec3 y);
-/// <- keyword.control.using.cs
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
 ///   ^^^^^^^ entity.name.type.cs
 ///           ^ keyword.operator.assignment.cs
 ///             ^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs

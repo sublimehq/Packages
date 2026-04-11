@@ -1,55 +1,85 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 using System.Text;
-/// <- keyword.control.import
-///    ^ meta.path
-///         ^ punctuation.accessor.dot
-///            ^ meta.path
-///              ^ punctuation.terminator
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^^^^^ meta.path.cs
+///         ^ punctuation.accessor.dot.cs
+///              ^ punctuation.terminator.statement.cs
 using static System.Math.Foo;
-/// <- keyword.control.import
-///      ^ keyword.control.import
-///                  ^ meta.path
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ storage.modifier.static.cs
+///          ^^^^^^^^^^^^^^^ meta.path.cs
+///                ^ punctuation.accessor.dot.cs
+///                     ^ punctuation.accessor.dot.cs
+///                         ^ punctuation.terminator.statement.cs
 using Project = PC.MyCompany.Project;
-/// <- keyword.control.import
-///    ^ meta.path
-///           ^ keyword.operator.assignment
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^ meta.path.cs
+///           ^ keyword.operator.assignment.cs
+///             ^^^^^^^^^^^^^^^^^^^^ meta.path.cs
+///               ^ punctuation.accessor.dot.cs
+///                         ^ punctuation.accessor.dot.cs
+///                                 ^ punctuation.terminator.statement.cs
 using Wrapped = PC.MyCompany.Project.Wrapper<float>;
-/// <- keyword.control.import
-///    ^ meta.path
-///           ^ keyword.operator.assignment
-///                                            ^ storage.type
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^ meta.path.cs
+///           ^ keyword.operator.assignment.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.cs
+///               ^ punctuation.accessor.dot.cs
+///                         ^ punctuation.accessor.dot.cs
+///                                 ^ punctuation.accessor.dot.cs
+///                                         ^^^^^^^ meta.generic.cs
+///                                         ^ punctuation.definition.generic.begin.cs
+///                                          ^^^^^ storage.type.cs
+///                                               ^ punctuation.definition.generic.end.cs
+///                                                ^ punctuation.terminator.statement.cs
 using col = global::System.Collections;
-///^^ keyword.control.import
-///   ^^^ meta.path
-///       ^ keyword.operator.assignment
-///         ^^^^^^ support.namespace
-///               ^^ punctuation.accessor.double-colon.namespace
-///                 ^^^^^^ meta.path
-///                       ^ punctuation.accessor.dot
-///                        ^^^^^^^^^^^ meta.path
-///                                   ^ punctuation.terminator
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ meta.path.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.cs
+///         ^^^^^^ support.namespace.global.cs
+///               ^^ punctuation.accessor.double-colon.namespace.cs
+///                       ^ punctuation.accessor.dot.cs
+///                                   ^ punctuation.terminator.statement.cs
 using sys = global::System;
-///^^ keyword.control.import
-///   ^^^ meta.path
-///       ^ keyword.operator.assignment
-///         ^^^^^^ support.namespace
-///               ^^ punctuation.accessor.double-colon.namespace
-///                 ^^^^^^ meta.path
-///                       ^ punctuation.terminator
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ meta.path.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^^^^^^^^^^^^ meta.path.cs
+///         ^^^^^^ support.namespace.global.cs
+///               ^^ punctuation.accessor.double-colon.namespace.cs
+///                       ^ punctuation.terminator.statement.cs
 using sys = custom::System;
-///^^ keyword.control.import
-///   ^^^ meta.path
-///       ^ keyword.operator.assignment
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ meta.path.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^^^^^^^^^^^^ meta.path.cs
 ///         ^^^^^^ variable.namespace.cs
-///               ^^ punctuation.accessor.double-colon.namespace
-///                 ^^^^^^ meta.path
-///                       ^ punctuation.terminator
+///               ^^ punctuation.accessor.double-colon.namespace.cs
+///                       ^ punctuation.terminator.statement.cs
 using abc = global:test;
-///   ^^^ meta.path
-///       ^ keyword.operator.assignment
-///         ^^^^^^ meta.path
-///               ^^^^^ invalid.illegal.expected-namespace
-///                    ^ punctuation.terminator
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ meta.path.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^^^^ meta.path.cs
+///               ^^^^^ invalid.illegal.expected-namespace.cs
+///                    ^ punctuation.terminator.statement.cs
 
 class Foo {
 
@@ -64,7 +94,7 @@ class Foo {
 
         using (Font font3 = new Font("Arial", 10.0f))
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///     ^ keyword.control.using
+///     ^ keyword.declaration.using
 ///           ^ punctuation.section.group.begin
 ///             ^ support.type
 ///                       ^ keyword.operator.assignment
@@ -83,7 +113,7 @@ class Foo {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.end
 
         using (Font font3 = new Font("Arial", 10.0f),
-///     ^ keyword.control.using
+///     ^ keyword.declaration.using
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///           ^ punctuation.section.group.begin
 ///                                                 ^ punctuation.separator
@@ -169,7 +199,7 @@ class Bar {
     public void Main ()
     {
         using(var reader = SomeCodeThatGetsAnIDisposable())
-///     ^^^^^ keyword.control.using.cs
+///     ^^^^^ keyword.declaration.using.cs
 ///          ^ punctuation.section.group.begin.cs
 ///           ^^^ storage.type.variable.cs
 ///                                                       ^ punctuation.section.group.end.cs
@@ -180,7 +210,7 @@ class Bar {
             }
         }
         using (var reader = SomeCodeThatGetsAnIDisposable())
-///     ^^^^^ keyword.control.using.cs
+///     ^^^^^ keyword.declaration.using.cs
 ///           ^ punctuation.section.group.begin.cs
 ///            ^^^ storage.type.variable.cs
 ///                                                        ^ punctuation.section.group.end.cs
