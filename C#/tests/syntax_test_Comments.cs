@@ -54,6 +54,46 @@ namespace HelloWorld
 //*                                       ^^^^^^ meta.tag.xml
 //*                                       ^^ punctuation.definition.tag.begin
 //*                                            ^ punctuation.definition.tag.end
+
+    /// ftp://
+//*     ^^^^^^ - markup.underline
+
+    /// http://
+//*     ^^^^^^^ - markup.underline
+
+    /// https://
+//*     ^^^^^^^^ - markup.underline
+
+    /// ftp://s
+//*     ^^^^^^^ markup.underline.link.cs
+
+    /// ftp://server/
+//*     ^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// ftp://server:21
+//*     ^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://todo.com/
+//*     ^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://todo.com:
+//*     ^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://todo.com:443#
+//*     ^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://todo.com:443#anchor?
+//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://todo.com:443#anchor?foo=bar&
+//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// https://to-do%204.com:443/api#anchor?foo=bar&arg=no_ne
+//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
+    /// git+https://hoster.com/user/repo
+//*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
+
     /**
         *
 //*     ^ meta.namespace meta.block comment.block punctuation.definition.comment
