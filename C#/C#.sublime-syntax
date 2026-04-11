@@ -48,7 +48,7 @@ contexts:
     - match: \*+/
       scope: punctuation.definition.comment.end.cs
       pop: 1
-    - match: ^\s*(\*)(?!/)
+    - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.cs
     - include: comment_content
