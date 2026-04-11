@@ -385,9 +385,13 @@ while (true)
     x = yield;
 //      ^^^^^ keyword.control.flow.yield
 
+    x = yield* 42;
+//      ^^^^^ keyword.control.flow.yield
+//           ^ storage.modifier.generator.js
+
     x = yield * 42;
 //      ^^^^^ keyword.control.flow.yield
-//            ^ keyword.operator.generator.asterisk
+//            ^ storage.modifier.generator.js
 
     x = yield
     function f() {}
