@@ -110,9 +110,8 @@ public static class EnumerableExtensions
 //                               ^ keyword.operator.logical.cs
 //                                ^^^^^^ variable.other.cs
 //                                      ^ punctuation.accessor.dot.cs
-//                                       ^^^^^ meta.function-call.cs
-//                                       ^^^ variable.function.cs
-//                                          ^^ meta.group.cs
+//                                       ^^^ meta.function-call.identifier.cs variable.function.cs
+//                                          ^^ meta.function-call.arguments.cs meta.group.cs
 //                                          ^ punctuation.section.group.begin.cs
 //                                           ^ punctuation.section.group.end.cs
 //                                            ^ punctuation.terminator.statement.cs
@@ -224,9 +223,8 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //                                                   ^^ keyword.declaration.function.arrow.cs
 //                                                      ^^^^^ variable.other.cs
 //                                                           ^ punctuation.accessor.dot.cs
-//                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                                                            ^^^^^^^^ variable.function.cs
-//                                                                    ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.group.cs - meta.function meta.function
+//                                                            ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                                                                    ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.function-call.arguments.cs meta.group.cs - meta.function meta.function
 //                                                                    ^ punctuation.section.group.begin.cs
 //                                                                     ^^^^ variable.other.cs
 //                                                                         ^ punctuation.separator.argument.cs
@@ -255,9 +253,8 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //                                        ^^ keyword.declaration.function.arrow.cs
 //                                           ^^^^^ variable.other.cs
 //                                                ^ punctuation.accessor.dot.cs
-//                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                                                 ^^^^^^^^ variable.function.cs
-//                                                         ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.group.cs - meta.function meta.function
+//                                                 ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                                                         ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.function-call.arguments.cs meta.group.cs - meta.function meta.function
 //                                                         ^ punctuation.section.group.begin.cs
 //                                                          ^^^^ variable.other.cs
 //                                                              ^ punctuation.separator.argument.cs
@@ -287,9 +284,8 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //                                              ^^ keyword.declaration.function.arrow.cs
 //                                                 ^^^^^ variable.other.cs
 //                                                      ^ punctuation.accessor.dot.cs
-//                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                                                       ^^^^^^^^ variable.function.cs
-//                                                               ^^^^^^^^^^^^^^^^^^ meta.group.cs
+//                                                       ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                                                               ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                               ^ punctuation.section.group.begin.cs
 //                                                                ^^^^ variable.other.cs
 //                                                                    ^ punctuation.separator.argument.cs
@@ -303,9 +299,8 @@ customer?.Order = GetCurrentOrder();
 //      ^^ punctuation.accessor.null-coalescing.cs
 //        ^^^^^ variable.other.cs
 //              ^ keyword.operator.assignment.cs
-//                ^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                ^^^^^^^^^^^^^^^ variable.function.cs
-//                               ^^ meta.group.cs
+//                ^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                               ^^ meta.function-call.arguments.cs meta.group.cs
 //                               ^ punctuation.section.group.begin.cs
 //                                ^ punctuation.section.group.end.cs
 //                                 ^ punctuation.terminator.statement.cs

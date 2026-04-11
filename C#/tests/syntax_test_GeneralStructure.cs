@@ -396,8 +396,8 @@ namespace YourNamespace
 ///            ^^^^ storage.type.cs
 ///                 ^^^^^^ variable.other.member.cs
 ///                        ^^ keyword.declaration.function.accessor.get.cs
-///                           ^^^^^^^ meta.function-call.cs variable.function.cs
-///                                  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs
+///                           ^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 ///                                  ^ punctuation.section.group.begin.cs
 ///                                   ^^^^^^^ support.type.cs
 ///                                          ^^^^^^ meta.generic.cs
@@ -868,7 +868,8 @@ namespace TestNamespace . Test
 ///                     ^ punctuation.separator.case-statement
                 case bar("hello"):
 ///             ^^^^ keyword.control.conditional.case
-///                  ^^^ variable.function
+///                  ^^^ meta.function-call.identifier variable.function
+///                     ^^^^^^^^^ meta.function-call.arguments meta.group
 ///                     ^ punctuation.section.group.begin
 ///                      ^^^^^^^ string.quoted.double
 ///                             ^ punctuation.section.group.end
@@ -884,7 +885,11 @@ namespace TestNamespace . Test
 ///             ^ keyword.control
 ///                    ^ punctuation.separator
                     do_something_else();
-///                 ^ variable.function
+///                 ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                  ^^ meta.function-call.arguments.cs meta.group.cs
+///                                  ^ punctuation.section.group.begin.cs
+///                                   ^ punctuation.section.group.end.cs
+///                                    ^ punctuation.terminator.statement.cs
                     break;
 ///                 ^ keyword.control
             }
@@ -2059,7 +2064,7 @@ class Test
         Something.SomeMethod(];
 ///                         ^ meta.function-call meta.group punctuation.section.group.begin
 ///                          ^ invalid.illegal.stray.brace
-///                           ^ invalid.illegal.expected-close-paren
+///                           ^ punctuation.terminator.statement.cs
     }
 /// ^ - invalid.illegal.stray.brace
 }

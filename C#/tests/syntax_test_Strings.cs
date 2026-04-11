@@ -176,25 +176,43 @@ Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | R
 ///                                                 ^ meta.string punctuation.definition.string.end - source.regexp
 ///                    ^^ keyword.control.anchor
 Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
-///       ^^^^^ meta.function-call support.type
-///            ^ meta.function-call punctuation.accessor.dot
-///             ^^^^^ meta.function-call variable.function
-///                  ^ meta.group punctuation.section.group.begin
-///                            ^^^^^^^^ meta.string source.regexp
-///                                    ^ meta.string string.quoted.double punctuation.definition.string.end - source.regexp
+///       ^^^^^ support.type.cs
+///            ^ punctuation.accessor.dot.cs
+///             ^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                  ^ punctuation.section.group.begin.cs
+///                   ^^^^^ variable.other.cs
+///                        ^ punctuation.separator.argument.cs
+///                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
+///                          ^^ punctuation.definition.string.begin.cs
+///                            ^^^^^^^^ source.regexp meta.mode.basic.regexp
+///                            ^^ keyword.control.anchor.regexp
+///                               ^^ keyword.control.character-class.regexp
+///                                 ^ keyword.operator.quantifier.regexp
+///                                  ^^ keyword.control.anchor.regexp
+///                                    ^ punctuation.definition.string.end.cs
+///                                     ^ punctuation.separator.argument.cs
+///                                       ^^^^^^^^^^^^ variable.other.cs
+///                                                   ^ punctuation.accessor.dot.cs
+///                                                    ^^^^^^^^^^ variable.other.cs
+///                                                              ^ punctuation.section.group.end.cs
+///                                                               ^ punctuation.terminator.statement.cs
 
 replaced = Regex.Replace(some_value, "(?!^)([A-Z])", " $1");
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-///        ^^^^^ support.type
-///             ^ punctuation.accessor.dot
-///              ^^^^^^^ variable.function
-///                     ^ punctuation.section.group.begin
-///                      ^^^^^^^^^^ variable.other
-///                                ^ punctuation.separator.argument
-///                                  ^ meta.string string.quoted.double punctuation.definition.string.begin
-///                                   ^^^^^^^^^^^^ meta.string source.regexp
-///                                               ^ meta.string string.quoted.double punctuation.definition.string.end - source.regexp
-///                                                ^ punctuation.separator.argument
+///        ^^^^^ support.type.cs
+///             ^ punctuation.accessor.dot.cs
+///              ^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                     ^ punctuation.section.group.begin.cs
+///                      ^^^^^^^^^^ variable.other.cs
+///                                ^ punctuation.separator.argument.cs
+///                                  ^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                  ^ punctuation.definition.string.begin.cs
+///                                   ^^^^^^^^^^^^ source.regexp meta.group.regexp meta.mode.basic.regexp
+///                                                ^ punctuation.separator.argument.cs
+///                                                  ^^^^^ meta.string.cs string.quoted.double.cs
+///                                                       ^ punctuation.section.group.end.cs
+///                                                        ^ punctuation.terminator.statement.cs
 
 Regex rx = new Regex(@"\bincomplete-missing-paren\b"
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance

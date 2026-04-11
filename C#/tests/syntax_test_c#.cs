@@ -344,9 +344,8 @@ public class Program {
 //                  ^ keyword.operator.assignment.cs
 //                    ^^^ variable.other.cs
 //                       ^ punctuation.accessor.dot.cs
-//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                        ^^^^^^^^^^^^^^^^ variable.function.cs
-//                                         ^^^^^^^^^^^^^ meta.group.cs
+//                        ^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                                         ^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                         ^ punctuation.section.group.begin.cs
 //                                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 //                                          ^ punctuation.definition.string.begin.cs

@@ -1858,13 +1858,13 @@ contexts:
         1: variable.function.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
       push:
-        - meta_scope: meta.function-call.cs
+        - meta_scope: meta.function-call.identifier.cs
         - meta_content_scope: meta.generic.cs
         - match: ','
           scope: punctuation.separator.type.cs
         - match: '>'
           scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set: function_call_begin_paren
+          set: function_call_argument_list
         - include: type
     - match: ({{name}})(<)(?={{namespaced_name}}>\s*\.)
       captures:
@@ -1878,8 +1878,7 @@ contexts:
           scope: meta.generic.cs punctuation.definition.generic.end.cs
           pop: 1
         - include: type
-    - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(\()
-      scope: meta.function-call.cs
+    - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(?=\s*\()
       captures:
         1: variable.other.cs
         2: punctuation.accessor.dot.cs
@@ -1889,15 +1888,11 @@ contexts:
         6: punctuation.accessor.dot.cs
         7: support.type.cs
         8: punctuation.accessor.dot.cs
-        9: variable.function.cs
-        10: meta.group.cs punctuation.section.group.begin.cs
-      push: [function_call_arguments, regex_arguments]
-    - match: '((?!{{reserved}}\b){{name}})\s*(\()'
-      scope: meta.function-call.cs
-      captures:
-        1: variable.function.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      push: [function_call_arguments, arguments]
+        9: meta.function-call.identifier.cs variable.function.cs
+      push: regex_function_call_argument_list
+    - match: '{{unreserved_name}}(?=\s*\()'
+      scope: meta.function-call.identifier.cs variable.function.cs
+      push: function_call_argument_list
     - match: '(\?)?\s*(\[)'
       captures:
         1: keyword.operator.null-coalescing.cs
@@ -2096,12 +2091,15 @@ contexts:
             4: punctuation.accessor.dot.cs
             5: variable.other.cs
             6: punctuation.accessor.dot.cs
-            7: support.type.cs
+            7: meta.function-call.identifier.cs support.type.cs
             8: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_arguments, regex_arguments]
+          set:
+            - inside_constructor_argument_list
+            - immediately_pop
+            - regex_string
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_arguments, arguments]
+          set: inside_constructor_argument_list
         - match: (?:\s*((\()\s*(\)))\s*)?(\{)
           captures:
             1: meta.group.cs
@@ -2111,7 +2109,7 @@ contexts:
           set: initializer_constructor
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_arguments, arguments]
+          set: inside_constructor_argument_list
         - include: type
 
   inside_anonymous_class:
@@ -2190,7 +2188,7 @@ contexts:
           scope: punctuation.separator.type.cs
         - match: '>'
           scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set: function_call_begin_paren
+          set: function_call_argument_list
         - include: type
         - include: line_of_code_in_no_semicolon
     - include: line_of_code_in_no_semicolon
@@ -2212,12 +2210,12 @@ contexts:
 
 ###[ CONSTRUCTOR EXPRESSIONS ]#################################################
 
-  constructor_arguments:
+  inside_constructor_argument_list:
     - meta_content_scope: meta.instance.cs meta.group.cs
     - match: \)
       scope: meta.instance.cs meta.group.cs punctuation.section.group.end.cs
       set: maybe_constructor_initializer
-    - include: maybe_constructor_initializer
+    - include: arguments
 
   maybe_constructor_initializer:
     - meta_content_scope: meta.instance.cs meta.group.cs
@@ -2242,74 +2240,60 @@ contexts:
 
 ###[ FUNCTION CALL EXPRESSIONS ]###############################################
 
-  function_call_begin_paren:
-    - meta_content_scope: meta.function-call.cs
+  regex_function_call_argument_list:
+    - meta_content_scope: meta.function-call.identifier.cs
     - match: \(
-      scope: meta.function-call.cs meta.group.cs punctuation.section.group.begin.cs
-      set: [function_call_arguments, arguments]
+      scope: punctuation.section.group.begin.cs
+      set: inside_regex_function_call_argument_list
     - include: else_pop
 
-  function_call_arguments:
-    - meta_content_scope: meta.function-call.cs meta.group.cs
+  inside_regex_function_call_argument_list:
+    - meta_scope: meta.function-call.arguments.cs meta.group.cs
     - match: \)
-      scope: meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
+      scope: punctuation.section.group.end.cs
       pop: 1
-    - include: immediately_pop
-
-  regex_arguments:
     - match: (?=[@$]*")
-      push: regex_string
+      push: [immediately_pop, regex_string]
+    - include: arguments
+
+  function_call_argument_list:
+    - meta_content_scope: meta.function-call.identifier.cs
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_function_call_argument_list
+    - include: else_pop
+
+  inside_function_call_argument_list:
+    - meta_scope: meta.function-call.arguments.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
     - include: arguments
 
   arguments:
-    - match: (out)\s
-      captures:
-        1: storage.modifier.argument.cs
-      push:
-        - match: (ref)\s
-          captures:
-            1: storage.modifier.argument.cs
-        - match: (?!{{namespaced_name}}{{type_suffix}}\s+{{name}})
-          pop: 1
-        - include: var_declaration
-    - match: (ref)\s
-      captures:
-        1: storage.modifier.argument.cs
-    - match: '({{name}})\s*(=)(?=[^>=])'
+    - match: (?=[;)\]}])
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.argument.cs
+    - match: out\b
+      scope: storage.modifier.argument.cs
+      push: out_argument
+    - match: ref\b
+      scope: storage.modifier.argument.cs
+    - match: ({{name}})\s*({{colon}}|{{equal}})
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-      push:
-        - line_of_code_in
-        - maybe_pointer
-    - match: '({{name}})\s*(:)'
-      captures:
-        1: variable.parameter.cs
-        2: punctuation.separator.argument.value.cs
+      push: maybe_pointer
+    - match: (?=\S)
       push: line_of_code_in
-    - include: semi_colon_before_close_paren
-    - match: (?=\S)
-      push:
-        - include: lambdas
-        - include: line_of_code_in_no_semicolon
-        - match: (?=[;)])
-          pop: 1
 
-  semi_colon_before_close_paren:
-    - match: ','
-      scope: punctuation.separator.argument.cs
-    - match: (?=\))
-      pop: 1
-    - match: ;
-      scope: invalid.illegal.expected-close-paren.cs
-      pop: 1
-    - include: stray_close_bracket
-    - match: (?=\S)
-      push:
-        - include: lambdas
-        - include: line_of_code_in_no_semicolon
-        - match: (?=[;)])
-          pop: 1
+  out_argument:
+    - match: ref\b
+      scope: storage.modifier.argument.cs
+    - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
+      set: var_declaration_explicit
+    - include: else_pop
 
 ###[ LAMBDA EXPRESSIONS ]######################################################
 
@@ -3167,6 +3151,9 @@ contexts:
 
 variables:
   shebang_language: \bdotnet\s+run\b
+
+  colon: :(?!:)
+  equal: =(?![=>])
 
   # numbers
   dec_digits: (?:[\d_]*\d)

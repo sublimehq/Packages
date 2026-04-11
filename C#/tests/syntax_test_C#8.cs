@@ -12,9 +12,8 @@ using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?st
 ///              ^^^^^ keyword.control.other.cs
 ///                    ^^^^^^ variable.other.cs
 ///                          ^ punctuation.accessor.dot.cs
-///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-///                           ^^^^^^^^ variable.function.cs
-///                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                           ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 ///                                   ^ punctuation.section.group.begin.cs
 ///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
 ///                                    ^^^ keyword.operator.new.cs
@@ -41,7 +40,7 @@ using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?st
 using var (item, item) = await client.GetAsync();
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.variable.cs
+///   ^^^ storage.type.cs
 ///       ^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///       ^ punctuation.section.sequence.begin.cs
 ///        ^^^^ variable.other.cs
@@ -52,8 +51,8 @@ using var (item, item) = await client.GetAsync();
 ///                      ^^^^^ keyword.control.other.cs
 ///                            ^^^^^^ variable.other.cs
 ///                                  ^ punctuation.accessor.dot.cs
-///                                   ^^^^^^^^ variable.function.cs
-///                                           ^^ meta.group.cs
+///                                   ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                           ^^ meta.function-call.arguments.cs meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^ punctuation.section.group.end.cs
 ///                                             ^ punctuation.terminator.statement.cs
@@ -71,9 +70,8 @@ using List<int> item = await client.GetAsync();
 ///                    ^^^^^ keyword.control.other.cs
 ///                          ^^^^^^ variable.other.cs
 ///                                ^ punctuation.accessor.dot.cs
-///                                 ^^^^^^^^^^ meta.function-call.cs
-///                                 ^^^^^^^^ variable.function.cs
-///                                         ^^ meta.group.cs
+///                                 ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                         ^^ meta.function-call.arguments.cs meta.group.cs
 ///                                         ^ punctuation.section.group.begin.cs
 ///                                          ^ punctuation.section.group.end.cs
 ///                                           ^ punctuation.terminator.statement.cs
@@ -167,11 +165,11 @@ public struct Point3D
     public int P1
         => M1 (M2 ());
 ///     ^^ keyword.declaration.function.accessor.get.cs
-///        ^^^ meta.function-call.cs
-///           ^ meta.function-call.cs meta.group.cs - meta.function-call meta.function-call
-///            ^^^ meta.function-call.cs meta.group.cs meta.function-call.cs - meta.group meta.group
-///               ^^ meta.function-call.cs meta.group.cs meta.function-call.cs meta.group.cs
-///                 ^ meta.function-call.cs meta.group.cs - meta.function-call meta.function-call
+///        ^^^ meta.function-call.identifier.cs
+///           ^ meta.function-call.arguments.cs meta.group.cs - meta.function-call meta.function-call
+///            ^^^ meta.function-call.arguments.cs meta.group.cs meta.function-call.identifier.cs - meta.group meta.group
+///               ^^ meta.function-call.arguments.cs meta.group.cs meta.function-call.arguments.cs meta.group.cs
+///                 ^ meta.function-call.arguments.cs meta.group.cs - meta.function-call meta.function-call
 ///                  ^ - meta.function-call
 ///        ^^ variable.function.cs
 ///           ^ punctuation.section.group.begin.cs
