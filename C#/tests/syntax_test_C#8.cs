@@ -48,7 +48,7 @@ interface ILogger
 public static decimal CalculateToll(object vehicle) =>
     vehicle switch
 /// ^^^^^^^ variable.other
-///         ^^^^^^ keyword.control.flow
+///         ^^^^^^ keyword.control.conditional.switch
     {
         DeliveryTruck t when t.GrossWeightClass > 5000 => 10.00m + 5.00m,
 ///     ^^^^^^^^^^^^^ support.type

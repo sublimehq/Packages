@@ -565,7 +565,7 @@ public static void M(string myString)
 */
 string message = $"The usage policy for {safetyScore} is {
     safetyScore switch
-///             ^^^^^^ meta.string.interpolated source keyword.control.flow
+///             ^^^^^^ meta.string.interpolated source keyword.control.conditional.switch
     {
         > 90 => "Unlimited usage",
         > 80 => "General usage, with daily safety check",

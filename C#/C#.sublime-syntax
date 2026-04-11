@@ -1741,7 +1741,7 @@ contexts:
           pop: 1
         - include: type
     - match: \bswitch\b
-      scope: keyword.control.flow.cs
+      scope: keyword.control.conditional.switch.cs
       push: switch_expression
     - match: '({{reserved}})\b'
       scope: keyword.other.cs

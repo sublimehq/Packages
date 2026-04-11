@@ -76,7 +76,7 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 Console.WriteLine(myValue);
 
 var message = myValue switch
-///                   ^^^^^^ keyword.control.flow
+///                   ^^^^^^ keyword.control.conditional.switch
 {
     <= 0 => "Less than or equal to 0",
 /// ^^ keyword.operator.comparison
@@ -129,7 +129,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
     return (bank.Status, isVip) switch
 /// ^^^^^^ keyword.control.flow.return
 ///        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                             ^^^^^^ keyword.control.flow
+///                             ^^^^^^ keyword.control.conditional.switch
     {
         (BankBranchStatus.Open, _) => true,
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
@@ -260,7 +260,7 @@ public class TollCalculator
 ///                             ^ punctuation.accessor.dot
 ///                              ^^^^^ variable.other
 ///                                   ^ punctuation.section.group.end
-///                                     ^^^^^^ keyword.control.flow
+///                                     ^^^^^^ keyword.control.conditional.switch
             {
 ///         ^ punctuation.section.block.begin
                 0 => 1.00m,
