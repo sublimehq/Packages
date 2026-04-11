@@ -1305,7 +1305,7 @@ contexts:
       scope: keyword.control.loop.while.cs
       set: [while_block, while_condition]
     - match: \b(else|case|catch|finally)\b
-      scope: keyword.control.cs invalid.illegal.unexpected.keyword.cs
+      scope: invalid.illegal.unexpected.keyword.cs
     - match: \b(return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
       set: line_of_code_in
