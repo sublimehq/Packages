@@ -4,7 +4,7 @@
 // https://devblogs.microsoft.com/dotnet/building-c-8-0/
 
 using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
 ///   ^^^ storage.type.variable.cs
 ///       ^^^^ variable.other.cs
@@ -342,7 +342,7 @@ static Quadrant GetQuadrant(Point point) => point switch
 /// ^ - meta.block
 
     using var socket = new ClientWebSocket();
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 /// ^^^^^ keyword.declaration.using.cs
 ///       ^^^ storage.type.variable.cs
 ///           ^^^^^^ variable.other.cs
@@ -353,11 +353,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///                                       ^^ meta.group.cs
 ///                                       ^ punctuation.section.group.begin.cs
 ///                                        ^ punctuation.section.group.end.cs
-///                                         ^ punctuation.terminator.statement.cs
+///                                         ^ punctuation.terminator.statement.cs - meta.using
 
     if (true) {
         using var socket = new ClientWebSocket();
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^ storage.type.variable.cs
 ///               ^^^^^^ variable.other.cs
@@ -368,10 +368,10 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///                                           ^^ meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^ punctuation.section.group.end.cs
-///                                             ^ punctuation.terminator.statement.cs
+///                                             ^ punctuation.terminator.statement.cs - meta.using
     } else {
         using var socket = new ClientWebSocket();
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^ storage.type.variable.cs
 ///               ^^^^^^ variable.other.cs
@@ -382,11 +382,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///                                           ^^ meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^ punctuation.section.group.end.cs
-///                                             ^ punctuation.terminator.statement.cs
+///                                             ^ punctuation.terminator.statement.cs - meta.using
     }
     try {
         using var socket = new ClientWebSocket();
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^ storage.type.variable.cs
 ///               ^^^^^^ variable.other.cs
@@ -397,22 +397,22 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///                                           ^^ meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^ punctuation.section.group.end.cs
-///                                             ^ punctuation.terminator.statement.cs
+///                                             ^ punctuation.terminator.statement.cs - meta.using
     }
 
 using AutoFixture;
 /// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
 ///   ^^^^^^^^^^^ meta.path.cs
-///              ^ punctuation.terminator.statement.cs
+///              ^ punctuation.terminator.statement.cs - meta.using
 using AutoFixture.Xunit2;
 /// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
 ///   ^^^^^^^^^^^^^^^^^^ meta.path.cs
 ///              ^ punctuation.accessor.dot.cs
-///                     ^ punctuation.terminator.statement.cs
+///                     ^ punctuation.terminator.statement.cs - meta.using
 
 namespace CommonTests.Attributes;
 

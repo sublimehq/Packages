@@ -3,10 +3,10 @@
 // A skeleton of a C# program
 using System;
 /// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
 ///   ^^^^^^ meta.path.cs
-///         ^ punctuation.terminator.statement.cs
+///         ^ punctuation.terminator.statement.cs - meta.using
 
 namespace YourNamespace
 ///^^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs - meta.path
@@ -933,7 +933,7 @@ namespace TestNamespace . Test
 ///              ^ variable.other.cs
 ///                ^ keyword.operator.assignment.cs
 ///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                   ^ punctuation.separator.variables.cs
+///                   ^ punctuation.separator.expression.cs
 ///                     ^ variable.other.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -981,7 +981,7 @@ namespace TestNamespace . Test
 ///                  ^ variable.other.cs
 ///                    ^ keyword.operator.assignment.cs
 ///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                       ^ punctuation.separator.variables.cs
+///                       ^ punctuation.separator.expression.cs
 ///                         ^ variable.other.cs
 ///                           ^ keyword.operator.assignment.cs
 ///                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs

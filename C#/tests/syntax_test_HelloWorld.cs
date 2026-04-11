@@ -4,10 +4,10 @@
 ///<- comment.line
 using System;
 /// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
 ///   ^^^^^^ meta.path.cs
-///         ^ punctuation.terminator.statement.cs
+///         ^ punctuation.terminator.statement.cs - meta.using
 
 namespace HelloWorld
 ///^^^^^^^^^^^^^^^^^ meta.namespace - meta.path

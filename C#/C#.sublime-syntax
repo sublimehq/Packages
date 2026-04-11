@@ -396,7 +396,6 @@ contexts:
 ###[ GLOBAL STATEMENTS ]#######################################################
 
   statements:
-    - include: stray_close_bracket
     - match: '\{'
       scope: punctuation.section.block.begin.cs
       push:
@@ -405,6 +404,8 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: 1
         - include: statements
+    - include: stray_close_bracket
+    - include: terminators
     - include: attributes
     - include: modifiers
     - include: using_declaration
@@ -461,6 +462,8 @@ contexts:
   using_namespace:
     - include: namespace_variables
     - include: type_argument_lists
+    - match: (?=;|{{reserved}}\b)
+      pop: 1
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -468,13 +471,8 @@ contexts:
       push: maybe_pointer
     - match: \.
       scope: meta.path.cs punctuation.accessor.dot.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
-    - match: '$'
-      pop: 1
 
   namespace_variables:
     - match: (?:(global)|({{name}}))\s*(::)
@@ -588,6 +586,8 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
+    - include: stray_close_bracket
+    - include: terminators
     - include: attributes
     - include: modifiers
     - include: class_declaration
@@ -599,7 +599,6 @@ contexts:
     - include: event_declaration
     - include: extension_declaration
     - include: member_declaration
-    - include: stray_close_bracket
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
@@ -923,12 +922,6 @@ contexts:
     - match: (?=\S)
       push: [method_param, method_param_type]
 
-  terminator:
-    - match: \s*(;)
-      captures:
-        1: punctuation.terminator.statement.cs
-      pop: 1
-
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
 
   event_declaration:
@@ -948,9 +941,6 @@ contexts:
     - include: else_pop
 
   event_declaration_after_name:
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: event_handler_declaration_body
@@ -1077,7 +1067,6 @@ contexts:
         - member_lambda
         - method_name
       pop: 1
-    - include: terminator
     - include: else_pop
 
   expect_type_member:
@@ -1104,9 +1093,6 @@ contexts:
     - match: ','
       scope: punctuation.separator.variables.cs
       set: member_variable
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
     - include: else_pop
 
   member_variable_declarations:
@@ -1121,9 +1107,6 @@ contexts:
       scope: variable.other.member.cs
     - match: ','
       scope: punctuation.separator.variables.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
     - match: (?=[]})>;])
       pop: 1
 
@@ -1205,9 +1188,7 @@ contexts:
           pop: 1
     - match: '(?=\s*\{)'
       set: method_accessor
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
+    - match: else_pop
 
   method_body_transition:
     - match: ''
@@ -1415,11 +1396,7 @@ contexts:
       scope: variable.other.cs
     - match: ','
       scope: punctuation.separator.variables.cs
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
-    - match: (?=\{|\}|\)|>|\])
-      pop: 1
+    - include: else_pop
 
   variables_declaration_value:
     - match: (?=;|,)
@@ -1445,16 +1422,16 @@ contexts:
     - match: switch\b
       scope: keyword.control.conditional.switch.cs
       set: [switch_block, switch_condition]
-    - match: (for)\s*(\()(?=(?:{{name}}|var)\s(?!=))
+    - match: (for)\s*(\()(?=(?:{{name}}|var)\b(?!\s*=))
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, for_increment, line_of_code_in, variables_declaration, var_declaration]
+      set: [for_block, for_condition, var_declaration]
     - match: (for)\s*(\()
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, for_increment, line_of_code_in, variables_declaration]
+      set: [for_block, for_condition]
     - match: (foreach)\s*(\()
       captures:
         1: keyword.control.loop.foreach.cs
@@ -1747,9 +1724,10 @@ contexts:
 
 ###[ LOOP STATEMENTS ]#########################################################
 
-  for_increment:
+  for_condition:
     - match: ','
       scope: punctuation.separator.expression.cs
+    - include: terminators
     - include: line_of_code_in
 
   foreach_var_assignment:
@@ -1809,11 +1787,9 @@ contexts:
   line_of_code_in:
     - match: (?=var\b)
       pop: 1
+    - include: terminator
     - include: lambdas
     - include: line_of_code_in_no_semicolon
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
     - match: (?=\))
       pop: 1
 
@@ -2618,6 +2594,17 @@ contexts:
     - match: (?:in|out|ref|readonly)\b
       scope: storage.modifier.cs
     - include: type
+
+###[ OPERATORS ]###############################################################
+
+  terminators:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+
+  terminator:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: 1
 
 ###[ LITERALS ]################################################################
 
