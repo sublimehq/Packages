@@ -1174,6 +1174,13 @@ namespace TestNamespace . Test
             case 'c':
                 result += 8;
                 break;
+
+            default:
+///         ^^^^^^^ keyword.control.conditional.default
+///                ^ punctuation.separator.case-statement
+                break;
+///             ^^^^^ keyword.control.flow.break
+///                  ^ punctuation.terminator.statement
         }
 
     int foo;

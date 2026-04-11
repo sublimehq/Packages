@@ -1488,7 +1488,7 @@ contexts:
           pop: 1
         - match: \b(default)\s*(:)
           captures:
-            1: keyword.control.conditional.case.cs
+            1: keyword.control.conditional.default.cs
             2: punctuation.separator.case-statement.cs
         - match: \bcase\b
           scope: keyword.control.conditional.case.cs
