@@ -2946,7 +2946,7 @@ variables:
   type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
-  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
+  name: '(?:@?{{name_normal}})'
   namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
 
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
