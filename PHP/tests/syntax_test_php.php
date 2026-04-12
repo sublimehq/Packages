@@ -6172,7 +6172,7 @@ h1 {
 @counter-style <?php $counter; ?> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block
 //                                ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css
-//^^^^^^^^^^^^ keyword.control.directive.css - punctuation
+//^^^^^^^^^^^^ keyword.directive.at-rule.css - punctuation
 //             ^^^^^^^^^^^^^^^^^^ entity.other.counter-style-name.css meta.embedded.php
 //             ^^^^^ punctuation.section.embedded.begin.php
 //                  ^^^^^^^^^^^ source.php.embedded.css
@@ -6181,7 +6181,7 @@ h1 {
 @counter-style my-<?php $counter; ?> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block
 //                                   ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css
-//^^^^^^^^^^^^ keyword.control.directive.css - punctuation
+//^^^^^^^^^^^^ keyword.directive.at-rule.css - punctuation
 //             ^^^ entity.other.counter-style-name.css - meta.embedded
 //                ^^^^^^^^^^^^^^^^^^ entity.other.counter-style-name.css meta.embedded.php
 //                ^^^^^ punctuation.section.embedded.begin.php

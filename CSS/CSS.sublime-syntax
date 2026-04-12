@@ -470,7 +470,7 @@ contexts:
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
   at-charset:
     - match: (@)(?i:charset){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -492,7 +492,7 @@ contexts:
   # https://drafts.csswg.org/css-contain-3/#container-rule
   at-container:
     - match: (@)(?i:container){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -503,7 +503,7 @@ contexts:
 
   nested-at-container:
     - match: (@)(?i:container){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -536,7 +536,7 @@ contexts:
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
     - match: (@)(?i:counter-style){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -594,7 +594,7 @@ contexts:
   # https://??
   at-custom-media:
     - match: (@)(?i:custom-media){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -622,7 +622,7 @@ contexts:
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
   at-document:
     - match: (@)(?i:document){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -650,7 +650,7 @@ contexts:
   # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
   at-font-face:
     - match: (@)(?i:font-face){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -669,7 +669,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
   at-import:
     - match: (@)(?i:import){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -694,7 +694,7 @@ contexts:
   # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
   at-keyframes:
     - match: (@)(?i:keyframes){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -763,7 +763,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
   at-layer:
     - match: (@)(?i:layer){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -773,7 +773,7 @@ contexts:
 
   nested-at-layer:
     - match: (@)(?i:layer){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -821,7 +821,7 @@ contexts:
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
   at-media:
     - match: (@)(?i:media){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -831,7 +831,7 @@ contexts:
 
   nested-at-media:
     - match: (@)(?i:media){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -850,7 +850,7 @@ contexts:
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
     - match: (@)(?i:namespace){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -879,7 +879,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -913,7 +913,7 @@ contexts:
 
   at-page-margin:
     - match: (@){{page_margin_names}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -931,7 +931,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
   at-property:
     - match: (@)(?i:property){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -956,7 +956,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@scope
   at-scope:
     - match: (@)(?i:scope){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -1000,7 +1000,7 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
   at-scroll-timeline:
     - match: (@)(?i:scroll-timeline){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -1030,7 +1030,7 @@ contexts:
   # https://drafts.csswg.org/css-conditional-3/#at-supports
   at-supports:
     - match: (@)(?i:supports){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:
@@ -1040,7 +1040,7 @@ contexts:
 
   nested-at-supports:
     - match: (@)(?i:supports){{break}}
-      scope: keyword.control.directive.css
+      scope: keyword.directive.at-rule.css
       captures:
         1: punctuation.definition.keyword.css
       push:

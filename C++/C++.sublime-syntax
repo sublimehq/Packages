@@ -295,7 +295,7 @@ contexts:
             - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
               scope: meta.preprocessor.c++
               captures:
-                1: keyword.control.import.c++
+                1: keyword.directive.conditional.if.c++
               set:
                 - match: '\}'
                   scope: punctuation.section.block.end.c++
@@ -1843,16 +1843,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.if.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.end.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1869,16 +1869,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.if.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
@@ -1913,16 +1913,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1940,16 +1940,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.if.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
@@ -1966,7 +1966,7 @@ contexts:
   preprocessor-rule-other-global:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c++
+        1: keyword.directive.conditional.if.c++
       push:
         - meta_scope: meta.preprocessor.c++
         - include: scope:source.c#preprocessor-line-continuation
@@ -1987,7 +1987,7 @@ contexts:
   preprocessor-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -2002,7 +2002,7 @@ contexts:
     - meta_scope: meta.block.c++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
       set: preprocessor-block-finish-global
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -2015,7 +2015,7 @@ contexts:
     - meta_scope: meta.block.c++
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.if.c++
       set: preprocessor-block-finish-if-branch-global
     - match: \}
       scope: punctuation.section.block.end.c++
@@ -2025,7 +2025,7 @@ contexts:
   preprocessor-block-finish-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: keyword.directive.conditional.endif.c++
       pop: true
     - match: \}
       scope: punctuation.section.block.end.c++
@@ -2045,16 +2045,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.if.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -2071,16 +2071,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        2: keyword.directive.conditional.if.c++
         3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++ keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.directive.conditional.else.c++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
@@ -2096,7 +2096,7 @@ contexts:
   preprocessor-rule-other-statements:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c++
+        1: keyword.directive.conditional.if.c++
       push:
         - meta_scope: meta.preprocessor.c++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2117,7 +2117,7 @@ contexts:
   preprocessor-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -2152,11 +2152,11 @@ contexts:
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.elseif.c++
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
       set: preprocessor-if-branch-function-call-arguments-finish
     - include: expressions
 
@@ -2171,7 +2171,7 @@ contexts:
     - meta_scope: meta.block.c++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.endif.c++
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -2184,7 +2184,7 @@ contexts:
     - meta_scope: meta.block.c++
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.if.c++
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
       scope: punctuation.section.block.end.c++
@@ -2194,7 +2194,7 @@ contexts:
   preprocessor-block-finish-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: keyword.directive.conditional.endif.c++
       pop: true
     - match: \}
       scope: meta.block.c++ punctuation.section.block.end.c++
@@ -2223,7 +2223,7 @@ contexts:
   preprocessor-macro-define:
     - match: ^\s*(\#\s*define)\b
       captures:
-        1: meta.preprocessor.macro.c++ keyword.control.import.define.c++
+        1: meta.preprocessor.macro.c++ keyword.directive.define.c++
       push:
         - meta_content_scope: meta.preprocessor.macro.c++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2317,9 +2317,19 @@ contexts:
           pop: true
 
   preprocessor-other:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else|line|pragma|undef))\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else))\b
       captures:
-        1: keyword.control.import.c++
+        1: keyword.directive.conditional.c++
+      push:
+        - meta_scope: meta.preprocessor.c++
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprocessor-line-ending
+        - include: scope:source.c#preprocessor-comments
+        - match: \bdefined\b
+          scope: keyword.control.c++
+    - match: ^\s*(#\s*(?:line|pragma|undef))\b
+      captures:
+        1: keyword.directive.other.c++
       push:
         - meta_scope: meta.preprocessor.c++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2329,10 +2339,10 @@ contexts:
           scope: keyword.control.c++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++ keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.directive.conditional.endif.c++
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
-        1: keyword.control.import.error.c++
+        1: keyword.directive.error.c++
       push:
         - meta_scope: meta.preprocessor.diagnostic.c++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2343,7 +2353,7 @@ contexts:
           scope: string.unquoted.c++
     - match: ^\s*(#\s*(?:include|include_next|embed|import))\b
       captures:
-        1: keyword.control.import.include.c++
+        1: keyword.directive.include.c++
       push:
         - meta_scope: meta.preprocessor.include.c++
         - include: scope:source.c#preprocessor-line-continuation
