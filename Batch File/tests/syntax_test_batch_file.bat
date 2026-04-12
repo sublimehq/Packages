@@ -728,7 +728,7 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.label.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 ::           ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::              ^^ variable.parameter.dosbatch
+::              ^^ variable.language.positional.dosbatch
 
    CALL :foo%bar% 10
 ::^ - meta.function-call
@@ -2355,7 +2355,7 @@ put arg1 arg2
 ::      ^^^ meta.function-call.identifier.dosbatch - meta.interpolation
 ::         ^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
-::  ^^^^ variable.parameter.dosbatch
+::  ^^^^ variable.language.positional.dosbatch
 ::      ^^^ variable.function.dosbatch
 
    %out%put arg1 arg2
@@ -2451,7 +2451,7 @@ put arg1 arg2
 
    %~dp0..\cmd
 :: ^^^^^^^^^^^ meta.function-call.identifier.dosbatch
-:: ^^^^^ meta.interpolation.dosbatch variable.parameter.dosbatch
+:: ^^^^^ meta.interpolation.dosbatch variable.language.positional.dosbatch
 ::      ^^ constant.other.path.parent.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
 ::         ^^^ variable.function.dosbatch
@@ -3171,17 +3171,17 @@ no continuation
 ::                        ^ meta.string.dosbatch - meta.interpolation
 ::                         ^^^ meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^ - meta.string - meta.interpolation
-::      ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
-::       ^ variable.parameter.dosbatch - punctuation
+::      ^ variable.language.positional.dosbatch punctuation.definition.variable.dosbatch
+::       ^ variable.language.positional.dosbatch - punctuation
 ::        ^ string.unquoted.dosbatch - variable
-::         ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
-::          ^ variable.parameter.dosbatch - punctuation
+::         ^ variable.language.positional.dosbatch punctuation.definition.variable.dosbatch
+::          ^ variable.language.positional.dosbatch - punctuation
 ::           ^ string.unquoted.dosbatch - variable
-::            ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
-::             ^^^^^^^^^^^ variable.parameter.dosbatch - punctuation
+::            ^ variable.language.positional.dosbatch punctuation.definition.variable.dosbatch
+::             ^^^^^^^^^^^ variable.language.positional.dosbatch - punctuation
 ::                        ^ string.unquoted.dosbatch - variable
-::                         ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
-::                          ^^ variable.parameter.dosbatch - punctuation
+::                         ^ variable.language.positional.dosbatch punctuation.definition.variable.dosbatch
+::                          ^^ variable.language.positional.dosbatch - punctuation
 ::                            ^ - string - variable
 
    ECHO %errorlevel% !errorlevel!
