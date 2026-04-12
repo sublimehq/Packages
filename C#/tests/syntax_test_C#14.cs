@@ -5,17 +5,18 @@ namespace CustomExtensionMembers;
 public static class MyExtensions
 {
     extension(string str)
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
-//  ^^^^^^^^^ keyword.declaration.trait.cs
+//  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
+//           ^^^^^^^^^^^^ meta.extension.parameters.cs
 //           ^ punctuation.section.parameters.begin.cs
-//            ^^^^^^^^^^^ meta.method.parameters.cs
 //            ^^^^^^ storage.type.cs
 //                   ^^^ variable.parameter.cs
 //                      ^ punctuation.section.parameters.end.cs
     {
-//  ^ meta.block.cs punctuation.section.block.begin.cs
+//^^ meta.extension.cs
+//  ^^ meta.extension.body.cs meta.block.cs
+//  ^ punctuation.section.block.begin.cs
         public int WordCount() =>
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^ storage.type.cs
 //                 ^^^^^^^^^ meta.method.cs entity.name.function.cs
@@ -39,11 +40,9 @@ public static class IntExtensions
 
     // Take note of the extra ref keyword here
     extension(ref int number)
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
-//  ^^^^^^^^^ keyword.declaration.trait.cs
-//           ^^^^^^^^^^^^^^^^ meta.method.cs
+//  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
+//           ^^^^^^^^^^^^^^^^ meta.extension.parameters.cs
 //           ^ punctuation.section.parameters.begin.cs
-//            ^^^^^^^^^^^^^^^ meta.method.parameters.cs
 //            ^^^ storage.modifier.parameter.cs
 //                ^^^ storage.type.cs
 //                    ^^^^^^ variable.parameter.cs
@@ -51,27 +50,27 @@ public static class IntExtensions
     {
         public void RefIncrement()
             => number++;
-//^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
-//^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+//^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.method.cs
 //          ^^ keyword.declaration.function.arrow.cs
 //             ^^^^^^ variable.other.cs
 //                   ^^ keyword.operator.arithmetic.cs
 //                     ^ punctuation.terminator.statement.cs
     }
+//^^^ meta.extension.body.cs meta.block.cs
+//  ^ punctuation.section.block.end.cs
 }
 
 public static class EnumerableExtensions
 {
     extension<T>(IEnumerable<T> target)
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+//  ^^^^^^^^^^^^ meta.extension.cs
 //  ^^^^^^^^^ keyword.declaration.trait.cs
 //           ^^^ meta.generic.cs
 //           ^ punctuation.definition.generic.begin.cs
 //            ^ variable.parameter.type.cs
 //             ^ punctuation.definition.generic.end.cs
-//              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+//              ^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.parameters.cs
 //              ^ punctuation.section.parameters.begin.cs
-//               ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 //               ^^^^^^^^^^^ support.type.cs
 //                          ^^^ meta.generic.cs
 //                          ^ punctuation.definition.generic.begin.cs
@@ -79,12 +78,23 @@ public static class EnumerableExtensions
 //                            ^ punctuation.definition.generic.end.cs
 //                              ^^^^^^ variable.parameter.cs
 //                                    ^ punctuation.section.parameters.end.cs
+        where T : IEquatable<T>
+//^^^^^^ meta.extension.cs
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.cs meta.constraints.cs
+//      ^^^^^ storage.modifier.where.cs
+//            ^ support.type.cs
+//              ^ punctuation.separator.type.cs
+//                ^^^^^^^^^^ support.type.cs
+//                          ^^^ meta.generic.cs
+//                          ^ punctuation.definition.generic.begin.cs
+//                           ^ support.type.cs
+//                            ^ punctuation.definition.generic.end.cs
     {
-// ^^ meta.class.body.cs meta.block.cs
-// ^ meta.method.cs
-//  ^ meta.method.body.cs meta.block.cs punctuation.section.block.begin.cs
+//^^ meta.extension.cs meta.constraints.cs
+//  ^^ meta.extension.body.cs meta.block.cs
+//  ^ punctuation.section.block.begin.cs
         public bool IsEmpty() => !target.Any();
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^^ storage.type.cs
 //                  ^^^^^^^ meta.method.cs entity.name.function.cs
@@ -103,12 +113,68 @@ public static class EnumerableExtensions
 //                                           ^ punctuation.section.group.end.cs
 //                                            ^ punctuation.terminator.statement.cs
     }
-// ^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+//^^^ meta.extension.body.cs meta.block.cs
 //  ^ punctuation.section.block.end.cs
 }
 //  <- meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
 
 // <- - meta.block
+
+public static class EnumExtensions
+{
+    private static Grades minimumPassingGrade = Grades.D;
+
+    extension(Grades grade)
+//  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
+//           ^^^^^^^^^^^^^^ meta.extension.parameters.cs
+//           ^ punctuation.section.parameters.begin.cs
+//            ^^^^^^ support.type.cs
+//                   ^^^^^ variable.parameter.cs
+//                        ^ punctuation.section.parameters.end.cs
+//                         ^ meta.extension.cs
+    {
+//^^ meta.extension.cs
+//  ^^ meta.extension.body.cs meta.block.cs
+//  ^ punctuation.section.block.begin.cs
+        public static Grades MinimumPassingGrade
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
+//      ^^^^^^ storage.modifier.access.cs
+//             ^^^^^^ storage.modifier.cs
+//                    ^^^^^^ support.type.cs
+//                           ^^^^^^^^^^^^^^^^^^^ meta.property.cs variable.other.member.cs
+        {
+            get => minimumPassingGrade;
+            set => minimumPassingGrade = value;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.cs meta.block.cs
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+//          ^^^ keyword.declaration.function.accessor.set.cs
+//              ^^ keyword.declaration.function.arrow.cs
+//                 ^^^^^^^^^^^^^^^^^^^ variable.other.cs
+//                                     ^ keyword.operator.assignment.cs
+//                                       ^^^^^ variable.language.cs
+//                                            ^ punctuation.terminator.statement.cs
+        }
+//^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.cs meta.block.cs
+//      ^ punctuation.section.block.end.cs
+//       ^ meta.extension.body.cs meta.block.cs meta.property.cs - meta.block meta.block meta.block
+
+        public bool Passing => grade >= minimumPassingGrade;
+// <- - meta.property
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
+//      ^^^^^^ storage.modifier.access.cs
+//             ^^^^ storage.type.cs
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+//                  ^^^^^^^ variable.other.member.cs
+//                          ^^ keyword.declaration.function.accessor.get.cs
+//                             ^^^^^ variable.other.cs
+//                                   ^^ keyword.operator.comparison.cs
+//                                      ^^^^^^^^^^^^^^^^^^^ variable.other.cs
+//                                                         ^ punctuation.terminator.statement.cs
+    }
+//^^^ meta.extension.body.cs meta.block.cs
+//  ^ punctuation.section.block.end.cs
+}
+// <- meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
 
 // ----------------------------------
 // https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14

@@ -965,16 +965,59 @@ contexts:
 
   extension_declaration:
     - match: extension\b
-      scope: keyword.declaration.trait.cs
+      scope: meta.extension.cs keyword.declaration.trait.cs
       push:
-        - extension_declaration_maybe_generic
+        - extension_block
+        - extension_base
+        - extension_parameter_list
         - type_parameter_list
 
-  extension_declaration_maybe_generic:
+  extension_parameter_list:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
-      set: [method_body, method_params]
+      set: inside_extension_parameter_list
     - include: else_pop
+
+  inside_extension_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.extension.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  extension_base:
+    - match: ':'
+      scope: punctuation.separator.type.cs
+      set: inside_extension_base
+    - match: (?=where\b)
+      set: type_constraints
+    - include: else_pop
+
+  inside_extension_base:
+    - clear_scopes: 1
+    - meta_scope: meta.extension.base.cs
+    - include: inherited_classes
+
+  extension_block:
+    - meta_content_scope: meta.extension.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_extension_block
+    - include: else_pop
+
+  inside_extension_block:
+    - meta_scope: meta.extension.body.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 1
+    - include: stray_close_bracket
+    - include: terminators
+    - include: attributes
+    - include: modifiers
+    - include: member_declaration
+    - include: code_block_in
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
@@ -1280,12 +1323,13 @@ contexts:
           scope: meta.property.cs meta.block.cs punctuation.section.block.end.cs
           set:
             - meta_content_scope: meta.property.cs
-            - match: =
-              scope: keyword.operator.assignment.cs
+            - match: \s*(=)
+              captures:
+                1: keyword.operator.assignment.cs
               set:
                 - meta_scope: meta.property.cs
                 - include: line_of_code_in
-            - include: else_pop
+            - include: immediately_pop
         - match: (?:\b(readonly)\b\s+)?\b(get)\b
           captures:
             1: storage.modifier.cs
