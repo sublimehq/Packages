@@ -8,21 +8,29 @@
 #:package Humanizer@2.14.1
 #!^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
 #!^^^^^^^ variable.language.cs
-#!       ^^^^^^^^^^^^^^^^^ - variable - invalid
+#!       ^ - string - variable - invalid
+#!        ^^^^^^^^^^^^^^^^ meta.string.cs string.unquoted.cs - variable - invalid
+#!                        ^ - string - variable - invalid
 #:sdk Microsoft.NET.Sdk.Web
 #!^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
 #!^^^ variable.language.cs
-#!   ^^^^^^^^^^^^^^^^^^^^^^^ - variable - invalid
+#!   ^ - string - variable - invalid
+#!    ^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.unquoted.cs - variable - invalid
+#!                         ^ - string - variable - invalid
 #:property LangVersion preview
 #!^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
 #!^^^^^^^^ variable.language.cs
-#!        ^^^^^^^^^^^^^^^^^^^^^ - variable - invalid
+#!        ^ - string - variable - invalid
+#!         ^^^^^^^^^^^^^^^^^^^ meta.string.cs string.unquoted.cs - variable - invalid
+#!                            ^ - string - variable - invalid
 
   #:package Microsoft.AspNetCore.OpenApi@10.*-*
 #!^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
-#!^ keyword.other.preprocessor.cs punctuation.definition.preprocessor.cs
-#! ^ punctuation.definition.preprocessor.cs
+#!^^ punctuation.definition.preprocessor.cs
 #!  ^^^^^^^ variable.language.cs
+#!         ^ - string - variable - invalid
+#!          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.unquoted.cs - variable - invalid
+#!                                             ^ - string - variable - invalid
 
 
 var builder = WebApplication.CreateBuilder();
