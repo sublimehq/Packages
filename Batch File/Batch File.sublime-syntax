@@ -1827,7 +1827,7 @@ contexts:
     - match: '{{parameter}}'
       scope:
         meta.interpolation.dosbatch
-        variable.parameter.dosbatch
+        variable.language.positional.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       push: clear-string-scope
