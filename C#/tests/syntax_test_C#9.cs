@@ -51,14 +51,14 @@ if (myValue is > 0 and <= 10)
 switch (myValue)
 {
     case <= 0:
-/// ^^^^ keyword.control.switch.case
+/// ^^^^ keyword.control.conditional.case
 ///      ^^ keyword.operator.comparison
 ///         ^ constant.numeric.value
 ///          ^ punctuation.separator.case-statement
         Console.WriteLine("Less than or equal to 0");
         break;
     case > 0 and <= 10:
-/// ^^^^ keyword.control.switch.case
+/// ^^^^ keyword.control.conditional.case
 ///      ^ keyword.operator.comparison
 ///        ^ constant.numeric.value
 ///          ^^^ keyword.operator.logical
@@ -76,7 +76,7 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 Console.WriteLine(myValue);
 
 var message = myValue switch
-///                   ^^^^^^ keyword.control.flow
+///                   ^^^^^^ keyword.control.conditional.switch
 {
     <= 0 => "Less than or equal to 0",
 /// ^^ keyword.operator.comparison
@@ -116,7 +116,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///     ^^^^^^^^^^^^^^^^ variable.other
 ///                     ^ punctuation.accessor.dot
 ///                      ^^^^^^^^^^^^^^^^ variable.other
-///                                       ^^^^ keyword.control.switch.case.when
+///                                       ^^^^ keyword.control.conditional.when
 ///                                            ^ keyword.operator.logical
 ///                                             ^^^^^ variable.other
 ///                                                   ^^ punctuation.separator.case-expression
@@ -129,7 +129,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
     return (bank.Status, isVip) switch
 /// ^^^^^^ keyword.control.flow.return
 ///        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                             ^^^^^^ keyword.control.flow
+///                             ^^^^^^ keyword.control.conditional.switch
     {
         (BankBranchStatus.Open, _) => true,
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
@@ -224,7 +224,7 @@ public class TollCalculator
             Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
 ///         ^^^ support.type
 ///             ^ variable.other
-///               ^^^^ keyword.control.switch.case.when
+///               ^^^^ keyword.control.conditional.when
 ///                      ^^^^^^ meta.cast storage.type
             Bus b when ((double)b.Riders / (double)b.Capacity) > 0.90 => 5.00m - 1.00m,
             Bus b => 5.00m,
@@ -260,7 +260,7 @@ public class TollCalculator
 ///                             ^ punctuation.accessor.dot
 ///                              ^^^^^ variable.other
 ///                                   ^ punctuation.section.group.end
-///                                     ^^^^^^ keyword.control.flow
+///                                     ^^^^^^ keyword.control.conditional.switch
             {
 ///         ^ punctuation.section.block.begin
                 0 => 1.00m,
