@@ -1,0 +1,143 @@
+[
+//  {
+//      "keys": ["ctrl+alt+l"],
+//      "command": "restructuredtext_encapsulate_literal",
+//      "context":
+//      [
+//          { "key": "selector", "operand": "text.restructuredtext"},
+//          { "key": "selection_empty", "operand": false, "match_all": true },
+//      ]
+//  },
+
+//  {
+//      "keys": ["ctrl+alt+t"],
+//      "command": "restructuredtext_encapsulate_interpreted_text_role",
+//      "args": {
+//          "role_name": "term"
+//      },
+//      "context":
+//      [
+//          { "key": "selector", "operand": "text.restructuredtext"},
+//          { "key": "selection_empty", "operand": false, "match_all": true },
+//      ]
+//  },
+
+    // Auto-pair asterisks
+    {
+        "keys": ["*"],
+        "command": "insert_snippet",
+        "args": {"contents": "*${0:$SELECTION}*"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext - markup.raw" }
+        ]
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "text.restructuredtext - markup.raw" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\*$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^\\*", "match_all": true }
+        ]
+    },
+
+    // Auto-pair colon
+    {
+        "keys": [":"],
+        "command": "insert_snippet",
+        "args": {"contents": ":${0:$SELECTION}:"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext - markup.raw" }
+        ]
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "text.restructuredtext - markup.raw" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": ":$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^:", "match_all": true }
+        ]
+    },
+
+    // Auto-pair underscore
+    {
+        "keys": ["_"],
+        "command": "insert_snippet",
+        "args": {"contents": "_${0:$SELECTION}_"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext - markup.raw" }
+        ]
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "text.restructuredtext - markup.raw" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "_$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^_", "match_all": true }
+        ]
+    },
+
+    // Auto-pair backticks
+    {
+        "keys": ["`"],
+        "command": "insert_snippet",
+        "args": {"contents": "`$0`"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext - markup.raw - text.restructuredtext.embedded" },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "[\\w`]$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|\\.|,|$)", "match_all": true }
+        ]
+    },
+    {
+        "keys": ["`"],
+        "command": "insert_snippet",
+        "args": {"contents": "`${0:$SELECTION}`"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext - markup.raw - text.restructuredtext.embedded" }
+        ]
+    },
+    {
+        "keys": ["`"],
+        "command": "move",
+        "args": {"by": "characters", "forward": true},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "selector", "operand": "text.restructuredtext markup.raw.inline - markup.raw.block - text.restructuredtext.embedded" },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "punctuation.definition.raw.begin.restructuredtext" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "`$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    }
+]
