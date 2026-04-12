@@ -148,49 +148,55 @@ contexts:
 
 ###[ ANNOTATIONS ]#############################################################
 
-  attribute:
-    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
-      captures:
-        1: punctuation.definition.annotation.begin.cs
-        2: storage.modifier.target.cs
-        3: punctuation.separator.key-value.cs
-      push: attribute_in
+  attributes:
     - match: \[
       scope: punctuation.definition.annotation.begin.cs
-      push: attribute_in
+      push:
+        - inside_attribute
+        - attribute_modifier
 
-  attribute_in:
+  attribute_modifier:
+    - match: (assembly|module|field|event|method|param|property|return|type)\s*(:)
+      captures:
+        1: storage.modifier.target.cs
+        2: punctuation.separator.key-value.cs
+      pop: 1
+    - include: else_pop
+
+  inside_attribute:
     - meta_scope: meta.annotation.cs
+    - match: \]
+      scope: punctuation.definition.annotation.end.cs
+      pop: 1
+    - match: \(
+      scope: meta.group.cs punctuation.section.group.begin.cs
+      push: inside_argument_list
+    - match: ','
+      scope: punctuation.separator.annotation.cs
     - include: namespace_variables
     - match: (GeneratedRegex)\s*(\()
       captures:
         1: variable.annotation.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments, regex_string]
-    - match: (?={{namespaced_name}})
+      push:
+        - inside_argument_list
+        - immediately_pop
+        - regex_string
+    - match: (?={{name}})
       push: attribute_name
-    - match: \s*(\()
-      captures:
-        1: meta.group.cs punctuation.section.group.begin.cs
-      set: [attribute_arguments, arguments]
-    - match: ','
-      scope: punctuation.separator.annotation.cs
-    - match: \]
-      scope: punctuation.definition.annotation.end.cs
-      pop: 1
 
   attribute_name:
+    - meta_include_prototype: false
     - meta_content_scope: variable.annotation.cs
     - include: type_common_except_bare_custom_type
-    - match: (?=\()
-      pop: 1
+    - include: immediately_pop
 
-  attribute_arguments:
-    - meta_content_scope: meta.annotation.cs meta.group.cs
+  inside_argument_list:
+    - meta_content_scope: meta.group.cs
     - match: \)
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: attribute_in
+      scope: meta.group.cs punctuation.section.group.end.cs
+      pop: 1
+    - include: arguments
 
 ###[ PREPROCESSOR DIRECTIVES ]#################################################
 
@@ -328,7 +334,7 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: 1
         - include: statements
-    - include: attribute
+    - include: attributes
     - include: using
     - include: class_declaration
     - include: enum_declaration
@@ -500,7 +506,7 @@ contexts:
                   scope: punctuation.terminator.statement.cs
                   pop: 1
                 - include: else_pop
-            - include: attribute
+            - include: attributes
             - match: '{{name}}'
               scope: entity.name.constant.cs
             - match: '='
@@ -671,7 +677,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 2
-    - include: attribute
+    - include: attributes
     - include: class_declaration
     - include: enum_declaration
     - include: interface_declaration
@@ -714,7 +720,7 @@ contexts:
 
   event_handler_declaration_body:
     - meta_scope: meta.block.cs
-    - include: attribute
+    - include: attributes
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
@@ -1056,7 +1062,7 @@ contexts:
       pop: 1
 
   method_param_type:
-    - include: attribute
+    - include: attributes
     - include: lambdas
 
     - match: (?=[^\s\[;])
@@ -1128,7 +1134,7 @@ contexts:
           push: method_body
         - match: '{{visibility}}'
           scope: storage.modifier.access.cs
-        - include: attribute
+        - include: attributes
     - match: '=>'
       scope: keyword.declaration.function.arrow.cs
       set:
