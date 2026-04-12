@@ -160,7 +160,7 @@ someFunction({
 //  ^^^ entity.name.function variable.other.readwrite
 //        ^^^^^^^^^^^ meta.function - meta.function meta.function
 //        ^^^^^^^^ keyword.declaration.function
-//                ^ keyword.declaration.generator
+//                ^ storage.modifier.generator.js
     {
 
     }

@@ -1662,7 +1662,7 @@ contexts:
         - match: $
           pop: 1
         - match: \*
-          scope: keyword.generator.asterisk.js
+          scope: storage.modifier.generator.js
           set: expression-begin
         - match: (?=\S)
           set: expression-begin
@@ -1867,7 +1867,7 @@ contexts:
 
   function-declaration-expect-generator-star:
     - match: \*
-      scope: keyword.declaration.generator.js
+      scope: storage.modifier.generator.js
       pop: 1
     - include: else-pop
 
