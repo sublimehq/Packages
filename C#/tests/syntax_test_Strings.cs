@@ -8,23 +8,63 @@ var character = 'y';
 ///              ^ constant.character.literal.cs
 ///               ^ punctuation.definition.string.end.cs
 ///                ^ punctuation.terminator.statement.cs
+
+var escape = '\'';
+///          ^^^^ meta.string.cs string.quoted.single.cs
+///          ^ punctuation.definition.string.begin.cs
+///           ^^ constant.character.escape.cs
+///             ^ punctuation.definition.string.end.cs
+///              ^ punctuation.terminator.statement.cs
+
+var short_unicode = '\u1234';
+///                 ^^^^^^^^ meta.string.cs string.quoted.single.cs
+///                 ^ punctuation.definition.string.begin.cs
+///                  ^^^^^^ constant.character.escape.unicode.16bit.cs
+///                        ^ punctuation.definition.string.end.cs
+
+var long_unicode = '\U12345678';
+///                ^^^^^^^^^^^^ meta.string.cs string.quoted.single.cs
+///                ^ punctuation.definition.string.begin.cs
+///                 ^^^^^^^^^^ constant.character.escape.unicode.32bit.cs
+///                           ^ punctuation.definition.string.end.cs
+
+var invalid_empty = '';
+///                 ^^ invalid.illegal.character.cs
+
+var invalid_quote = ''';
+///                 ^^^ invalid.illegal.character.cs
+
+var invalid_escape = '\';
+///                  ^^^ invalid.illegal.character.cs
+
 var character_too_long = 'no';
 /// ^^^^^^^^^^^^^^^^^^ variable.other.cs
 ///                    ^ keyword.operator.assignment.cs
-///                      ^^^^ invalid.illegal.not_a_char.cs
+///                      ^^^^ invalid.illegal.character.cs
 ///                          ^ punctuation.terminator.statement.cs
+
+"hex \x1 \x12 \x123 \xADF0"
+///  ^^^ constant.character.escape.hex.cs
+///     ^ - constant
+///      ^^^^ constant.character.escape.hex.cs
+///          ^ - constant
+///           ^^^^^ constant.character.escape.hex.cs
+///                ^ - constant
+///                 ^^^^^^ constant.character.escape.hex.cs
+///                       ^ punctuation.definition.string.end.cs
 
 "short unicode \u1234";
 ///<- string.quoted.double.cs
-///            ^^^^^^ constant.character.escape.cs
+///            ^^^^^^ constant.character.escape.unicode.16bit.cs
 
 "long unicode \U12345678";
 ///<- string.quoted.double.cs
-///           ^^^^^^^^^^ constant.character.escape.cs
+///           ^^^^^^^^^^ constant.character.escape.unicode.32bit.cs
 
-"invalid escape \u12";
+"invalid escape \u12 \1";
 ///<- string.quoted.double.cs
 ///             ^ invalid.illegal.lone-escape.cs
+///                  ^ invalid.illegal.lone-escape.cs
 
 "simple escapes \' \" \\ \0 \a \b \f \n \r \t \v";
 ///<- string.quoted.double.cs
