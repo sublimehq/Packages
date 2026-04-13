@@ -2798,7 +2798,7 @@ contexts:
 
   import-meta-expression:
     - match: import{{identifier_break}}
-      scope: keyword.import.js
+      scope: keyword.control.import.js
       set: import-expression-end
 
   import-expression-end:
