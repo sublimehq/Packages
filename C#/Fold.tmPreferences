@@ -73,11 +73,11 @@
             </dict>
             <dict>
                 <key>begin</key>
-                <string>meta.preprocessor.region meta.fold.begin</string>
+                <string>meta.fold.block.begin</string>
                 <key>end</key>
-                <string>meta.preprocessor.region meta.fold.end</string>
+                <string>meta.fold.block.end</string>
                 <key>excludeTrailingNewlines</key>
-                <false/>
+                <true/>
             </dict>
         </array>
     </dict>

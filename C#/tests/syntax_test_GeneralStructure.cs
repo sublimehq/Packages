@@ -1055,12 +1055,15 @@ namespace TestNamespace . Test
 
         #region Empty region 01 // not a comment !
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor
-///     ^^^^^^^  keyword.other.preprocessor
+///     ^ punctuation.definition.preprocessor - keyword
+///      ^^^^^^ keyword.control.directive.region
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section
 ///                             ^^^^^^^ - comment
 
         #endregion Empty region 01
-///     ^^^^^^^^^^  keyword.other.preprocessor
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
+///     ^ punctuation.definition.preprocessor - keyword
+///      ^^^^^^^^^ keyword.control.directive.endregion
 ///                ^^^^^^^^^^^^^^^ variable.other.section
     }
 /// ^ punctuation.section.block.end
