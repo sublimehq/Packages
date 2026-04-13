@@ -349,7 +349,7 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#directive/YAML/
     - match: (YAML)[ \t]+(\d+\.\d+)
       captures:
-        1: keyword.directive.yaml.yaml
+        1: keyword.control.directive.yaml.yaml
         2: constant.numeric.yaml-version.yaml
       set: directive-finish
     # %TAG directive
@@ -363,7 +363,7 @@ contexts:
         )?
       # handle and prefix are optional for when typing
       captures:
-        1: keyword.directive.tag.yaml
+        1: keyword.control.directive.tag.yaml
         2: storage.type.tag-handle.yaml
         3: support.type.tag-prefix.yaml
       set: directive-finish

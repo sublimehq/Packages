@@ -298,17 +298,17 @@ contexts:
     - match: (-)\s*(ifdef|ifndef){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.conditional.erlang
+        2: keyword.control.directive.conditional.erlang
       push: [preproc-control-meta, preproc-control-definitions]
     - match: (-)\s*(if|elif){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.conditional.erlang
+        2: keyword.control.directive.conditional.erlang
       push: [preproc-control-meta, preproc-control-expressions]
     - match: (-)\s*(else|endif){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.conditional.erlang
+        2: keyword.control.directive.conditional.erlang
       push: preproc-control-meta
 
   preproc-control-meta:
@@ -344,7 +344,7 @@ contexts:
     - match: (-)\s*(undef){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.undef.erlang
+        2: keyword.control.directive.undef.erlang
       push:
         - preproc-undef-end
         - preproc-undef-arguments
@@ -373,7 +373,7 @@ contexts:
     - match: (-)\s*(define){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.define.erlang
+        2: keyword.control.directive.define.erlang
       push:
         - preproc-define-end
         - preproc-define-arguments
@@ -418,7 +418,7 @@ contexts:
     - match: (-)\s*(export(_type)?){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.export.erlang
+        2: keyword.control.directive.export.erlang
       push:
         - preproc-export-end
         - preproc-export-arguments
@@ -460,7 +460,7 @@ contexts:
     - match: (-)\s*(import){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.import.erlang
+        2: keyword.control.directive.import.erlang
       push:
         - preproc-import-end
         - preproc-import-arguments
@@ -491,7 +491,7 @@ contexts:
     - match: (-)\s*(include(_lib)?){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.include.erlang
+        2: keyword.control.directive.include.erlang
       push:
         - preproc-include-end
         - preproc-include-arguments
@@ -526,7 +526,7 @@ contexts:
     - match: (-)\s*(module){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.namespace.erlang
+        2: keyword.control.directive.namespace.erlang
       push:
         - preproc-module-end
         - preproc-module-arguments
@@ -564,13 +564,13 @@ contexts:
 
   preproc-attribute-keyword:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang keyword.directive.attribute.erlang
+      scope: meta.atom.erlang keyword.control.directive.attribute.erlang
       pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang keyword.directive.attribute.erlang
+        - meta_scope: meta.atom.erlang keyword.control.directive.attribute.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -627,7 +627,7 @@ contexts:
     - match: (-)\s*(record){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.record.erlang
+        2: keyword.control.directive.record.erlang
       push:
         - preproc-record-end
         - preproc-record-arguments
@@ -659,7 +659,7 @@ contexts:
     - match: (-)\s*(callback|spec){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.spec.erlang
+        2: keyword.control.directive.spec.erlang
       push:
         - meta_scope: meta.preprocessor.spec.erlang
         - include: terminator-clause-pop
@@ -734,7 +734,7 @@ contexts:
     - match: (-)\s*(opaque|type){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
-        2: keyword.directive.type.erlang
+        2: keyword.control.directive.type.erlang
       push:
         - preproc-type-end
         - preproc-type-name

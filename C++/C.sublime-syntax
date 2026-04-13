@@ -509,7 +509,7 @@ contexts:
       scope: meta.section.c
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.pragma.c
+        2: keyword.control.directive.pragma.c
         3: meta.toc-list.pragma-mark.c
 
   # Used by "inc" snippets to prevent double ##include
@@ -994,16 +994,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.endif.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.else.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.else.c
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1019,11 +1019,11 @@ contexts:
   preprocessor-if-true:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       pop: true
     - match: ^\s*(#\s*else)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.else.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.else.c
       push:
         - meta_content_scope: comment.block.preprocessor.else-branch.c
         - match: (?=^\s*#\s*endif\b)
@@ -1034,7 +1034,7 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - include: preprocessor-if-true
@@ -1067,16 +1067,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.endif.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.else.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.else.c
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1094,7 +1094,7 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - include: preprocessor-if-true
@@ -1109,7 +1109,7 @@ contexts:
   preprocessor-rule-other-global:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.directive.conditional.if.c
+        1: keyword.control.directive.conditional.if.c
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
@@ -1130,7 +1130,7 @@ contexts:
   preprocessor-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1145,7 +1145,7 @@ contexts:
     - meta_scope: meta.block.c
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       set: preprocessor-block-finish-global
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1158,7 +1158,7 @@ contexts:
     - meta_scope: meta.block.c
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.if.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.if.c
       set: preprocessor-block-finish-if-branch-global
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1168,7 +1168,7 @@ contexts:
   preprocessor-block-finish-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       pop: true
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1188,16 +1188,16 @@ contexts:
     - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.endif.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c keyword.directive.conditional.else.c
+            1: meta.preprocessor.c keyword.control.directive.conditional.else.c
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1214,7 +1214,7 @@ contexts:
     - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
-        2: keyword.directive.conditional.if.c
+        2: keyword.control.directive.conditional.if.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - include: preprocessor-if-true
@@ -1228,7 +1228,7 @@ contexts:
   preprocessor-rule-other-statements:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.directive.conditional.if.c
+        1: keyword.control.directive.conditional.if.c
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
@@ -1249,7 +1249,7 @@ contexts:
   preprocessor-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -1277,11 +1277,11 @@ contexts:
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.elseif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.elseif.c
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       set: preprocessor-if-branch-function-call-arguments-finish
     - include: expressions
 
@@ -1296,7 +1296,7 @@ contexts:
     - meta_scope: meta.block.c
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -1309,7 +1309,7 @@ contexts:
     - meta_scope: meta.block.c
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.if.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.if.c
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1319,7 +1319,7 @@ contexts:
   preprocessor-block-finish-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
       pop: true
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1348,7 +1348,7 @@ contexts:
   preprocessor-macro-define:
     - match: ^\s*(#\s*define)\b
       captures:
-        1: meta.preprocessor.macro.c keyword.directive..define.c
+        1: meta.preprocessor.macro.c keyword.control.directive..define.c
       push:
         - meta_content_scope: meta.preprocessor.macro.c
         - include: preprocessor-line-continuation
@@ -1447,7 +1447,7 @@ contexts:
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else))\b
       captures:
-        1: keyword.directive.conditional.elseif.c
+        1: keyword.control.directive.conditional.elseif.c
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
@@ -1457,7 +1457,7 @@ contexts:
           scope: keyword.control.c
     - match: ^\s*(#\s*(?:line|pragma|undef))\b
       captures:
-        1: keyword.directive.other.c
+        1: keyword.control.directive.other.c
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
@@ -1467,10 +1467,10 @@ contexts:
           scope: keyword.control.c
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.directive.conditional.endif.c
+        1: meta.preprocessor.c keyword.control.directive.conditional.endif.c
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
-        1: keyword.directive.error.c
+        1: keyword.control.directive.error.c
       push:
         - meta_scope: meta.preprocessor.diagnostic.c
         - include: preprocessor-line-continuation
@@ -1481,7 +1481,7 @@ contexts:
           scope: string.unquoted.c
     - match: ^\s*(#\s*(?:include|include_next|embed|import))\b
       captures:
-        1: keyword.directive.include.c
+        1: keyword.control.directive.include.c
       push:
         - meta_scope: meta.preprocessor.include.c
         - include: preprocessor-line-continuation

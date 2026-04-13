@@ -10,7 +10,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
 
         @media <% print(myMedia) %> {
-//      ^^^^^^ meta.at-rule.media.css keyword.directive.at-rule.css
+//      ^^^^^^ meta.at-rule.media.css keyword.control.directive.css
 //             ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.embedded.scriptlet.jsp
 //                                  ^ meta.at-rule.media.css meta.block.css punctuation.section.block.begin.css
         }
@@ -310,7 +310,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.directive.jsp
 //                               ^ - meta
 //  ^^^ punctuation.section.embedded.begin.jsp
-//      ^^^^^^^ keyword.directive.jsp
+//      ^^^^^^^ keyword.control.directive.jsp
 //              ^^^^ entity.other.attribute-name.jsp
 //                  ^ punctuation.separator.key-value.jsp
 //                   ^^^^^^^^^ string.quoted.double.jsp
@@ -442,7 +442,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^ entity.name.tag.localname.html
 //                ^ punctuation.accessor.dot.jsp
-//                 ^^^^^^^ keyword.directive.jsp
+//                 ^^^^^^^ keyword.control.directive.jsp
 //                         ^^^^ meta.attribute-with-value.href.html entity.other.attribute-name.href.html
 //                             ^ meta.attribute-with-value.href.html punctuation.separator.key-value.html
 //                              ^^^^^^^^^ meta.attribute-with-value.href.html string.quoted.double.html
@@ -457,7 +457,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^ entity.name.tag.localname.html
 //                ^ punctuation.accessor.dot.jsp
-//                 ^^^^^^^ keyword.directive.jsp
+//                 ^^^^^^^ keyword.control.directive.jsp
 //                         ^^^^ meta.attribute-with-value.href.html entity.other.attribute-name.href.html
 //                             ^ meta.attribute-with-value.href.html punctuation.separator.key-value.html
 //                              ^^^^^^^^^ meta.attribute-with-value.href.html string.quoted.double.html

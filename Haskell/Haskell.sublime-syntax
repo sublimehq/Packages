@@ -345,7 +345,7 @@ contexts:
     - match: ^\s*((#)\s*\w+)
       scope: meta.preprocessor.c
       captures:
-        1: keyword.directive.other.c
+        1: keyword.control.directive.other.c
         2: punctuation.definition.preprocessor.c
 
   preprocessor-pragmas:
@@ -361,15 +361,15 @@ contexts:
     - include: comments
     # known directives
     - match: LANGUAGE{{break}}
-      scope: keyword.directive.language.haskell
+      scope: keyword.control.directive.language.haskell
       set: preprocessor-pragma-language-value
     - match: (?:OPTIONS|OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
-      scope: keyword.directive.options.haskell
+      scope: keyword.control.directive.options.haskell
       set: preprocessor-pragma-options-value
     - match: (?:COMPLETE|INLINE|INLINABLE|MINIMAL|NOINLINE){{break}}
       scope:
         meta.preprocessor.pragma.directive.haskell
-        keyword.directive.builtin.haskell
+        keyword.control.directive.builtin.haskell
       embed: preprocessor-pragma-signature-value
       pop: 1
       escape: '#-\}'
@@ -379,8 +379,8 @@ contexts:
     - match: (SPECIALIZE)(?:\s+(?:(INLINE|NOINLINE)|(instance)))?{{break}}
       scope: meta.preprocessor.pragma.directive.haskell
       captures:
-        1: keyword.directive.builtin.haskell
-        2: keyword.directive.builtin.haskell
+        1: keyword.control.directive.builtin.haskell
+        2: keyword.control.directive.builtin.haskell
         3: keyword.declaration.instance.haskell
       embed: preprocessor-pragma-signature-value
       pop: 1
@@ -389,7 +389,7 @@ contexts:
         0: meta.preprocessor.pragma.value.haskell
            punctuation.section.preprocessor.end.haskell
     - match: '{{pragma_directives}}'
-      scope: keyword.directive.builtin.haskell
+      scope: keyword.control.directive.builtin.haskell
       set: preprocessor-pragma-other-value
     # maybe incomplete directive
     # maintain meta scope to support completions

@@ -230,7 +230,7 @@ struct foo {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
 /*                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group meta.group */
-/* <- keyword.directive.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
 /*                                                              ^ keyword.operator.word */
@@ -250,7 +250,7 @@ struct foo {
 #define max(a, b, \
 /*^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */ \
 /*         ^^^^^^^^ meta.preprocessor.macro.parameters */ \
-/* <- keyword.directive.define */ \
+/* <- keyword.control.directive.define */ \
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
@@ -279,13 +279,13 @@ int func() {
 /*  ^ entity.name.function */
     #if( EXTAL == 40000 )       /* 40 MHz */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.block */
-/*  ^ keyword.directive */
+/*  ^ keyword.control.directive */
         #define PLL_RFD_PHI1    10      // PLL0_PH1 = 40MHz
-/*      ^ keyword.directive */
+/*      ^ keyword.control.directive */
 /*                              ^^ meta.number constant.numeric.value */
 /*                                      ^ comment.line */
     #endif
-/*  ^ keyword.directive */
+/*  ^ keyword.control.directive */
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
@@ -296,7 +296,7 @@ int f(int x, \
 
 #define CONST0 16 // Comment
 #define CONST1 8
-/* <- keyword.directive.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant */
 
 #if defined(VARIABLE) | // comment_line \
@@ -305,23 +305,23 @@ int f(int x, \
 /*^^^^^^^^^^^^^^^ meta.preprocessor */
 /*  ^ keyword.control */
 # error This is a long error message that need to   \
-/* <- keyword.directive */ \
+/* <- keyword.control.directive */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
 #error "Explicitly quoted string wrapped, \
     ensuring that the string quoting stops at some point \
     "
 #warning This is a short warning
-/* <- keyword.directive */
+/* <- keyword.control.directive */
 #endif
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
 
 #define MACRO_WITH_CURLY_BRACE {
-/* <- keyword.directive.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant */
 
 #define MACRO_WITH_CURLY_BRACE_2 }
-/* <- keyword.directive.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant */
 
 bool still_C_code_here = true;
@@ -639,17 +639,17 @@ int foo(int val, float val2[])
         return 0;
 /*      ^^^^^^ keyword.control.flow.return */
 #if CROSS_SCOPE_MACRO
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     } else if (result > 0) {
         return 1;
 #endif
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     }
 /*  ^ meta.block meta.block punctuation.section.block.end */
 /*   ^ - meta.block meta.block */
 
 #ifdef FOO
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     int foobar
 /*      ^^^^^^ - entity.name.function */
     ;
@@ -657,19 +657,19 @@ int foo(int val, float val2[])
     if (val == -1) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #elifdef BAR
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     if (val == -2) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #elifndef BAZ
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     if (val == -3) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #else
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
     if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
- /* <- keyword.directive */
+ /* <- keyword.control.directive */
         val += 1;
     }
 /*  ^ meta.block meta.block punctuation.section.block.end */
@@ -687,15 +687,15 @@ GetTextMetrics(
     )
 {
 #ifdef UNICODE
-/* <- keyword.directive */
+/* <- keyword.control.directive */
     return GetTextMetricsW(
 /*         ^ variable.function */
 #else
-/* <- keyword.directive */
+/* <- keyword.control.directive */
     return GetTextMetricsA(
 /*         ^ variable.function */
 #endif
-/* <- keyword.directive */
+/* <- keyword.control.directive */
         hdc,
         lptm
         );
@@ -906,26 +906,26 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 
 #import <Cocoa/Cocoa.h>
-/* <- meta.preprocessor.import keyword.directive.import */
+/* <- meta.preprocessor.import keyword.control.directive.import */
 
 #include <uchar.h>
-/* <- meta.preprocessor.include keyword.directive.include */
+/* <- meta.preprocessor.include keyword.control.directive.include */
 
 #include "foobar.h"
-/* <- keyword.directive.include */
+/* <- keyword.control.directive.include */
 /*       ^ punctuation.definition.string.begin */
 /*        ^^^^^^^^ string.quoted.double.include */
 /*                ^ punctuation.definition.string.end */
 
 #include <cstdlib>
-/* <- keyword.directive.include */
+/* <- keyword.control.directive.include */
 /*       ^ punctuation.definition.string.begin */
 /*        ^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
 
 #ifdef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
 #include_next <math.h>
-/* <- keyword.directive.include */
+/* <- keyword.control.directive.include */
 /*            ^ punctuation.definition.string.begin */
 /*             ^^^^^^ string.quoted.other.lt-gt.include */
 /*                   ^ punctuation.definition.string.end */
@@ -933,11 +933,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 
 static const unsigned char image_png[] = {
 #embed <image.png>
-/* <- keyword.directive.include */
+/* <- keyword.control.directive.include */
 };
 
 #include<iostream>
-/* <- keyword.directive.include */
+/* <- keyword.control.directive.include */
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */

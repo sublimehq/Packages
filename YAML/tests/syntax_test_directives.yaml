@@ -9,7 +9,7 @@
 # http://yaml.org/spec/1.2/spec.html#directive/YAML/
 
 %YAML 1.2
-#^^^^     keyword.directive.yaml
+#^^^^     keyword.control.directive.yaml
 #     ^^^ constant.numeric.yaml-version
 # <- meta.directive punctuation.definition.directive.begin
 %YAML 9821.2213213 # comment
@@ -24,14 +24,14 @@
 # http://yaml.org/spec/1.2/spec.html#directive/TAG/
 
 %TAG
-#^^^ meta.directive keyword.directive.tag
+#^^^ meta.directive keyword.control.directive.tag
 # <- meta.directive
 %TAG !
-#^^^ keyword.directive.tag
+#^^^ keyword.control.directive.tag
 #    ^ storage.type.tag-handle
 %TAG ! tag:example.com,2000:app/
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive
-#^^^                             keyword.directive.tag
+#^^^                             keyword.control.directive.tag
 #    ^                           storage.type.tag-handle
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.tag-prefix
 %TAG !! tag:example.com,2000:app/

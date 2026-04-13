@@ -158,7 +158,7 @@
 --                                            ^^^ meta.preprocessor.pragma.value.haskell
 --                                               ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^ keyword.directive.builtin.haskell
+--      ^^^^^^^ keyword.control.directive.builtin.haskell
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - keyword
 --                       ^ punctuation.separator.sequence.haskell
 --                                            ^^^ punctuation.section.preprocessor.end.haskell
@@ -167,7 +167,7 @@
 --  ^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --              ^ meta.preprocessor.pragma.value.language.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^ keyword.directive.language.haskell
+--      ^^^^^^^^ keyword.control.directive.language.haskell
         -- Type level programming
 --      ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
         DataKinds, PolyKinds,
@@ -208,7 +208,7 @@
 --          ^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
 --                        ^^^ meta.preprocessor.pragma.value.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^ keyword.directive.builtin.haskell
+--      ^^^^ keyword.control.directive.builtin.haskell
 --           ^^ constant.numeric.value.haskell
 --              ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --                        ^^^ punctuation.section.preprocessor.end.haskell
@@ -219,7 +219,7 @@
 --                                         ^^^ meta.preprocessor.pragma.value.haskell
 --                                            ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^ keyword.directive.options.haskell
+--      ^^^^^^^ keyword.control.directive.options.haskell
 --              ^^^^^^^^^^^ constant.other.pragma.haskell
 --              ^ punctuation.definition.constant.haskell
 --                          ^^^^^^^^^^^^^^ constant.other.pragma.haskell
@@ -232,7 +232,7 @@
 --                            ^^^ meta.preprocessor.pragma.value.haskell
 --                               ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^^ keyword.directive.options.haskell
+--      ^^^^^^^^^^^ keyword.control.directive.options.haskell
 --                  ^^^^^^^^^ constant.other.pragma.haskell
 --                  ^ punctuation.definition.constant.haskell
 --                            ^^^ punctuation.section.preprocessor.end.haskell
@@ -243,7 +243,7 @@
 --                               ^^^ meta.preprocessor.pragma.value.haskell
 --                                  ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^^^^^^ keyword.directive.options.haskell
+--      ^^^^^^^^^^^^^^^ keyword.control.directive.options.haskell
 --                      ^^^^^^^^ constant.other.pragma.haskell
 --                               ^^^ punctuation.section.preprocessor.end.haskell
 
@@ -252,8 +252,8 @@
 --                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                                                         ^^^ meta.preprocessor.pragma.value.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^ keyword.directive.builtin.haskell
---                 ^^^^^^ keyword.directive.builtin.haskell
+--      ^^^^^^^^^^ keyword.control.directive.builtin.haskell
+--                 ^^^^^^ keyword.control.directive.builtin.haskell
 --                        ^^^^^^ entity.name.function.haskell
 --                               ^^ punctuation.separator.type.haskell
 --                                  ^^^^ support.type.prelude.haskell
@@ -266,7 +266,7 @@
 --                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                                                ^^^ meta.preprocessor.pragma.value.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^ keyword.directive.builtin.haskell
+--      ^^^^^^^^^^ keyword.control.directive.builtin.haskell
 --                 ^^^^^^^^ keyword.declaration.instance.haskell
 --                                                ^^^ punctuation.section.preprocessor.end.haskell
 
@@ -276,7 +276,7 @@
 --                              ^^^ meta.preprocessor.pragma.value.haskell
 --                                 ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^ keyword.directive.builtin.haskell
+--      ^^^^^^^ keyword.control.directive.builtin.haskell
 --              ^^^^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --                              ^^^ punctuation.section.preprocessor.end.haskell
 
@@ -285,7 +285,7 @@
 --                               ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.preprocessor.pragma.value.other.haskell
 --                                                    ^^^ meta.declaration.module.haskell meta.preprocessor.pragma.value.haskell
 --                ^^^ punctuation.section.preprocessor.begin.haskell
---                    ^^^^^^^^^^ keyword.directive.builtin.haskell
+--                    ^^^^^^^^^^ keyword.control.directive.builtin.haskell
 --                               ^^^^^^^^^^^^^^^^^^^^ string.quoted.double.haskell
 --                                                    ^^^ punctuation.section.preprocessor.end.haskell
 
@@ -295,7 +295,7 @@
 --               ^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
 --                          ^^^ meta.preprocessor.pragma.value.haskell
 --       ^^^ punctuation.section.preprocessor.begin.haskell
---           ^^^ keyword.directive.builtin.haskell
+--           ^^^ keyword.control.directive.builtin.haskell
 --                          ^^^ punctuation.section.preprocessor.end.haskell
 --                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell
 --                              ^ punctuation.section.group.begin.haskell
@@ -308,12 +308,12 @@
     #if 0
 --  ^^^ meta.preprocessor.c
 --  ^ punctuation.definition.preprocessor.c
---  ^^^ keyword.directive.other.c
+--  ^^^ keyword.control.directive.other.c
 
     #endif
 --  ^^^^^^ meta.preprocessor.c
 --  ^ punctuation.definition.preprocessor.c
---  ^^^^^^ keyword.directive.other.c
+--  ^^^^^^ keyword.control.directive.other.c
 
 
 -- [ MODULE DECLARATIONS ] ----------------------------------------------------
