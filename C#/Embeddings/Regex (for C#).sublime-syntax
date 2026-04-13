@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+name: Regular Expressions (C#)
+scope: source.regexp.cs
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp (Basic).sublime-syntax
+
+variables:
+  capture_group_name: (?:[a-zA-Z_]\w*)
+
+
+contexts:
+  anchors:
+    # Full replacement to un-match $ backrefs
+    - match: \\[bBAZzG]|\^|\$(?![\d{])
+      scope: keyword.control.anchor.regexp
+      push: maybe-unexpected-quantifiers
+
+  group-start:
+    - meta_prepend: true
+    - match: \?(<)({{capture_group_name}})(>)
+      scope: keyword.other.named-capture-group.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: entity.name.capture-group.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+
+  backrefs:
+    - meta_prepend: true
+    - match: \$(\d+)
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: variable.other.backref-and-recursion.regexp
+    - match: \${({{capture_group_name}})}
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: variable.other.backref-and-recursion.regexp
