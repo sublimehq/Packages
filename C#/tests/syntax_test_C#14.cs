@@ -67,7 +67,7 @@ public static class EnumerableExtensions
 //  ^^^^^^^^^ keyword.declaration.trait.cs
 //           ^^^ meta.generic.cs
 //           ^ punctuation.definition.generic.begin.cs
-//            ^ support.type.cs
+//            ^ variable.parameter.type.cs
 //             ^ punctuation.definition.generic.end.cs
 //              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 //              ^ punctuation.section.parameters.begin.cs
