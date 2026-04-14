@@ -2461,24 +2461,18 @@ contexts:
   literals:
     - include: language_constants
     # characters
-    - match: '''\'''
-      scope: invalid.illegal.lone-escape.cs
-    - match: (')({{escaped_char}})(')
-      scope: meta.string.cs
-             string.quoted.single.cs
+    - match: (')(?:({{escape_base}})|({{escape_hex}})|({{escape_uni16}})|({{escape_uni32}})|([^'\\]))(')
+      scope: meta.string.cs string.quoted.single.cs
       captures:
         1: punctuation.definition.string.begin.cs
         2: constant.character.escape.cs
-        3: punctuation.definition.string.end.cs
-    - match: (')(.)(')
-      scope: meta.string.cs
-             string.quoted.single.cs
-      captures:
-        1: punctuation.definition.string.begin.cs
-        2: constant.character.literal.cs
-        3: punctuation.definition.string.end.cs
-    - match: (')[^']+(')
-      scope: invalid.illegal.not_a_char.cs
+        3: constant.character.escape.hex.cs
+        4: constant.character.escape.unicode.16bit.cs
+        5: constant.character.escape.unicode.32bit.cs
+        6: constant.character.literal.cs
+        7: punctuation.definition.string.end.cs
+    - match: \'.*\'
+      scope: invalid.illegal.character.cs
     # numbers
     - match: (0[xX])([\h_]*\h)({{integer_suffix}})?
       scope: meta.number.integer.hexadecimal.cs
@@ -2940,8 +2934,15 @@ contexts:
 ###[ STRING PROTOTYPES ]#######################################################
 
   string_escapes:
-    - match: '{{escaped_char}}'
+    # https://github.com/dotnet/csharpstandard/blob/standard-v6/standard/lexical-structure.md#6455-character-literals
+    - match: '{{escape_base}}'
       scope: constant.character.escape.cs
+    - match: '{{escape_hex}}'
+      scope: constant.character.escape.hex.cs
+    - match: '{{escape_uni16}}'
+      scope: constant.character.escape.unicode.16bit.cs
+    - match: '{{escape_uni32}}'
+      scope: constant.character.escape.unicode.32bit.cs
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
@@ -3013,8 +3014,10 @@ variables:
   integer_suffix: '[uU][lL]?|[lL][uU]?'
 
   # characters
-  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
-  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
+  escape_base: \\[0abfnrtv"'\\]
+  escape_hex: \\x\h{1,4}
+  escape_uni16: \\u\h{4}
+  escape_uni32: \\U\h{8}
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal|file)\b
   base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
@@ -3028,8 +3031,8 @@ variables:
   name: '(?:@?{{name_normal}})'
   namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
 
-  start_char: '(?:{{unicode_char}}|[_\p{L}])'
-  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
+  start_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_\p{L}])'
+  other_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_0-9\p{L}])'
   name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '(\p{Lu}{{other_char}})'
 
