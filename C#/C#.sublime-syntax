@@ -1,10 +1,8 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
-# Copyright (c) 2016 Sublime Text HQ Pty, @gwenzek,
-#     Matthew Winter @wintermi, Adam Lickel @lickel
-# MIT license: https://opensource.org/licenses/mit-license.php
-
+# https://learn.microsoft.com/en-us/dotnet/csharp/specification/
+# https://github.com/dotnet/csharpstandard/blob/standard-v7/standard/
+# https://www.sublimetext.com/docs/syntax.html
 name: C#
 scope: source.cs
 version: 2
