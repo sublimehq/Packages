@@ -187,28 +187,28 @@ int main(){
 /////////////////////////////////////////////
 
 #ifndef IGUARD_
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
 #define IGUARD_
- /* <- keyword.control.import.define */
+ /* <- keyword.control.directive.define */
 struct foo* alloc_foo();
 /* <- keyword.declaration */
        /* <- - entity.name.type */
             /* <- entity.name.function */
 #endif
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
 
 // The following example ensures that comments at the end of preprocessor
 // directives don't mess with context transitions
 int func() {
 /*  ^ entity.name.function */
     #if( EXTAL == 40000 )       /* 40 MHz */
-/*  ^ keyword.control.import */
+/*  ^ keyword.control.directive */
         #define PLL_RFD_PHI1    10      // PLL0_PH1 = 40MHz
-/*      ^ keyword.control.import */
+/*      ^ keyword.control.directive */
 /*                              ^^ meta.number */
 /*                                      ^ comment.line */
     #endif
-/*  ^ keyword.control.import */
+/*  ^ keyword.control.directive */
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
@@ -223,12 +223,12 @@ int g(int x = 5 \
 
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
-/* <- keyword.control.import.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant */
 
 #define MACRO_WITH_CURLY_BRACE_2 }
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
-/* <- keyword.control.import.define */
+/* <- keyword.control.directive.define */
 /*      ^ entity.name.constant */
 
 FOOBAR
@@ -298,7 +298,7 @@ some_namespace::some_function(int a_parameter, double another_parameter) {
 #define max(a, b, \
 /*^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */ \
 /*         ^^^^^^^^ meta.preprocessor.macro.parameters */ \
-/* <- keyword.control.import.define */ \
+/* <- keyword.control.directive.define */ \
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
@@ -1733,19 +1733,19 @@ void test_in_extern_c_block()
 /* temporary C++ preprocessor block */
 #ifdef __cplusplus
 /*                <- meta.preprocessor */
-/*   <- keyword.control.import */
+/*   <- keyword.control.directive */
 # ifndef _Bool
 /*            <- meta.preprocessor */
-/*      <- keyword.control.import */
+/*      <- keyword.control.directive */
    typedef bool _Bool;   /* semi-hackish: C++ has no _Bool; bool is builtin */
 /* ^ keyword.declaration */
 /*              ^ entity.name.type.typedef */
 # endif
 /*     <- meta.preprocessor */
-/*     <- keyword.control.import */
+/*     <- keyword.control.directive */
 #endif
 /*    <- meta.preprocessor */
-/*    <- keyword.control.import */
+/*    <- keyword.control.directive */
 
 void test_in_extern_c_block()
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
@@ -2269,13 +2269,13 @@ class Adapter2 : public Abstraction, private Scenario {
 
 class Adapter : public Abstraction
     #if defined ASPECTO_MACRO
-/*  ^^^ keyword.control.import  */
+/*  ^^^ keyword.control.directive  */
     , public Scenario
 /*  ^ punctuation.separator */
 /*    ^ storage.modifier */
 /*           ^ entity.other.inherited-class */
     #endif
-/*  ^^^^^^ keyword.control.import  */
+/*  ^^^^^^ keyword.control.directive  */
 {
 
 }
@@ -2610,11 +2610,11 @@ int foo(int val, float val2[], bool val3 = false)
     if (result == 0) {
         return 0;
 #if CROSS_SCOPE_MACRO
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
     } else if (result > 0) {
         return 1;
 #endif
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
     }
 /*  ^ meta.block meta.block punctuation.section.block.end */
 /*   ^ - meta.block meta.block */
@@ -2631,7 +2631,7 @@ int foo(int val, float val2[], bool val3 = false)
 #endif
 
 #ifdef FOO
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
     int foobar
 /*      ^^^^^^ - entity.name.function */
     ;
@@ -2639,11 +2639,11 @@ int foo(int val, float val2[], bool val3 = false)
     if (val == -1) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #else
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
     if (val == -2) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
- /* <- keyword.control.import */
+ /* <- keyword.control.directive */
         val += 1;
     }
 /*  ^ meta.block punctuation.section.block.end */
@@ -2692,15 +2692,15 @@ GetTextMetrics(
     )
 {
 #ifdef UNICODE
-/* <- keyword.control.import */
+/* <- keyword.control.directive */
     return GetTextMetricsW(
 /*         ^ variable.function */
 #else
-/* <- keyword.control.import */
+/* <- keyword.control.directive */
     return GetTextMetricsA(
 /*         ^ variable.function */
 #endif
-/* <- keyword.control.import */
+/* <- keyword.control.directive */
         hdc,
         lptm
         );
@@ -2975,33 +2975,33 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 
 #import <Cocoa/Cocoa.h>
-/* <- meta.preprocessor.import keyword.control.import.import */
+/* <- meta.preprocessor.import keyword.control.directive.import */
 
 #include <uchar.h>
-/* <- meta.preprocessor.include keyword.control.import.include */
+/* <- meta.preprocessor.include keyword.control.directive.include */
 
 #include "foobar.h"
-/* <- keyword.control.import.include */
+/* <- keyword.control.directive.include */
 /*       ^ punctuation.definition.string.begin */
 /*        ^^^^^^^^ string.quoted.double.include */
 /*                ^ punctuation.definition.string.end */
 
 #include <cstdlib>
-/* <- keyword.control.import.include */
+/* <- keyword.control.directive.include */
 /*       ^ punctuation.definition.string.begin */
 /*        ^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
 
 #ifdef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
 #include_next <math.h>
-/* <- keyword.control.import.include */
+/* <- keyword.control.directive.include */
 /*            ^ punctuation.definition.string.begin */
 /*             ^^^^^^ string.quoted.other.lt-gt.include */
 /*                   ^ punctuation.definition.string.end */
 #endif
 
 #include<iostream>
-/* <- keyword.control.import.include */
+/* <- keyword.control.directive.include */
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */

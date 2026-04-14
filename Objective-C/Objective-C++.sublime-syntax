@@ -82,7 +82,7 @@ contexts:
             - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
               scope: meta.preprocessor.objc++
               captures:
-                1: keyword.control.import.objc++
+                1: keyword.control.directive.conditional.if.objc++
               set:
                 - match: '\}'
                   scope: punctuation.section.block.end.objc++
@@ -424,16 +424,16 @@ contexts:
     - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -450,16 +450,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.objc++
             - match: (?=^\s*#\s*endif\b)
@@ -1684,16 +1684,16 @@ contexts:
     - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1710,16 +1710,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.objc++
             - match: (?=^\s*#\s*endif\b)
@@ -1754,16 +1754,16 @@ contexts:
     - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1781,16 +1781,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.objc++
             - match: (?=^\s*#\s*endif\b)
@@ -1807,7 +1807,7 @@ contexts:
   preprocessor-rule-other-global:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.objc++
+        1: keyword.control.directive.conditional.if.objc++
       push:
         - meta_scope: meta.preprocessor.objc++
         - include: scope:source.c#preprocessor-line-continuation
@@ -1828,7 +1828,7 @@ contexts:
   preprocessor-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1843,7 +1843,7 @@ contexts:
     - meta_scope: meta.block.objc++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
       set: preprocessor-block-finish-global
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1856,7 +1856,7 @@ contexts:
     - meta_scope: meta.block.objc++
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.if.objc++
       set: preprocessor-block-finish-if-branch-global
     - match: \}
       scope: punctuation.section.block.end.objc++
@@ -1866,7 +1866,7 @@ contexts:
   preprocessor-block-finish-if-branch-global:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.objc++
+        1: keyword.control.directive.conditional.endif.objc++
       pop: true
     - match: \}
       scope: punctuation.section.block.end.objc++
@@ -1886,16 +1886,16 @@ contexts:
     - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1912,16 +1912,16 @@ contexts:
     - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.objc++
-        2: keyword.control.import.objc++
+        2: keyword.control.directive.conditional.if.objc++
         3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
           pop: true
         - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.objc++ keyword.control.import.else.objc++
+            1: meta.preprocessor.objc++ keyword.control.directive.conditional.else.objc++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.objc++
             - match: (?=^\s*#\s*endif\b)
@@ -1937,7 +1937,7 @@ contexts:
   preprocessor-rule-other-statements:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.objc++
+        1: keyword.control.directive.conditional.if.objc++
       push:
         - meta_scope: meta.preprocessor.objc++
         - include: scope:source.c#preprocessor-line-continuation
@@ -1958,7 +1958,7 @@ contexts:
   preprocessor-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
       pop: true
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -1993,11 +1993,11 @@ contexts:
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.elseif.objc++
       set: preprocessor-if-branch-statements
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
       set: preprocessor-if-branch-function-call-arguments-finish
     - include: expressions
 
@@ -2012,7 +2012,7 @@ contexts:
     - meta_scope: meta.block.objc++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -2025,7 +2025,7 @@ contexts:
     - meta_scope: meta.block.objc++
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.if.objc++
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
       scope: punctuation.section.block.end.objc++
@@ -2035,7 +2035,7 @@ contexts:
   preprocessor-block-finish-if-branch-statements:
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.objc++
+        1: keyword.control.directive.conditional.endif.objc++
       pop: true
     - match: \}
       scope: meta.block.objc++ punctuation.section.block.end.objc++
@@ -2064,7 +2064,7 @@ contexts:
   preprocessor-macro-define:
     - match: ^\s*(\#\s*define)\b
       captures:
-        1: meta.preprocessor.macro.objc++ keyword.control.import.define.objc++
+        1: meta.preprocessor.macro.objc++ keyword.control.directive.define.objc++
       push:
         - meta_content_scope: meta.preprocessor.macro.objc++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2141,9 +2141,19 @@ contexts:
     - include: expressions
 
   preprocessor-other:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else|line|pragma|undef))\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else))\b
       captures:
-        1: keyword.control.import.objc++
+        1: keyword.control.directive.conditional.objc++
+      push:
+        - meta_scope: meta.preprocessor.objc++
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprocessor-line-ending
+        - include: scope:source.c#preprocessor-comments
+        - match: \bdefined\b
+          scope: keyword.control.objc++
+    - match: ^\s*(#\s*(?:line|pragma|undef))\b
+      captures:
+        1: keyword.control.directive.other.objc++
       push:
         - meta_scope: meta.preprocessor.objc++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2153,10 +2163,10 @@ contexts:
           scope: keyword.control.objc++
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.objc++ keyword.control.import.objc++
+        1: meta.preprocessor.objc++ keyword.control.directive.conditional.endif.objc++
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
-        1: keyword.control.import.error.objc++
+        1: keyword.control.directive.error.objc++
       push:
         - meta_scope: meta.preprocessor.diagnostic.objc++
         - include: scope:source.c#preprocessor-line-continuation
@@ -2167,13 +2177,13 @@ contexts:
           scope: string.unquoted.objc++
     - match: ^\s*(#\s*(?:include|include_next|embed))\b
       captures:
-        1: keyword.control.import.include.objc++
+        1: keyword.control.directive.include.objc++
       push:
         - meta_scope: meta.preprocessor.include.objc++
         - include: preprocessor-other-include-common
     - match: ^\s*(#\s*import)\b
       captures:
-        1: keyword.control.import.import.objc++
+        1: keyword.control.directive.import.objc++
       push:
         - meta_scope: meta.preprocessor.import.objc++
         - include: preprocessor-other-include-common
