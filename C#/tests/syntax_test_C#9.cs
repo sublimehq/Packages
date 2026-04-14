@@ -477,10 +477,10 @@ delegate*<delegate*<string, int>, delegate*<string, int>>;
 ///                                        ^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs meta.type.funcptr.cs meta.generic.cs
 ///                                                     ^ meta.type.funcptr.cs meta.generic.cs - meta.type.funcptr meta.type.funcptr
 ///                                                      ^ - meta.type
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
 ///      ^ punctuation.definition.generic.begin.cs
-///       ^^^^^^^^ storage.type.delegate.cs
+///       ^^^^^^^^ keyword.declaration.delegate.cs
 ///               ^ keyword.operator.pointer.cs
 ///                ^ punctuation.definition.generic.begin.cs
 ///                 ^^^^^^ storage.type.cs
@@ -488,7 +488,7 @@ delegate*<delegate*<string, int>, delegate*<string, int>>;
 ///                         ^^^ storage.type.cs
 ///                            ^ punctuation.definition.generic.end.cs
 ///                             ^ punctuation.separator.type.cs
-///                               ^^^^^^^^ storage.type.delegate.cs
+///                               ^^^^^^^^ keyword.declaration.delegate.cs
 ///                                       ^ keyword.operator.pointer.cs
 ///                                        ^ punctuation.definition.generic.begin.cs
 ///                                         ^^^^^^ storage.type.cs
@@ -500,9 +500,9 @@ delegate*<delegate*<string, int>, delegate*<string, int>>;
 
 //This method has a managed calling convention. This is the same as leaving the managed keyword off.
 delegate* managed<int, int>;
-/// <- meta.type.funcptr.cs storage.type.delegate.cs
+/// <- meta.type.funcptr.cs keyword.declaration.delegate.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
 ///      ^ - keyword - storage
 ///       ^^^^^^^ storage.modifier.delegate.cs
@@ -517,9 +517,9 @@ delegate* managed<int, int>;
 // This method will be invoked using whatever the default unmanaged calling convention on the runtime
 // platform is. This is platform and architecture dependent and is determined by the CLR at runtime.
 delegate* unmanaged<int, int>;
-/// <- meta.type.funcptr.cs storage.type.delegate.cs
+/// <- meta.type.funcptr.cs keyword.declaration.delegate.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
 ///      ^ - keyword - storage
 ///       ^^^^^^^^^ storage.modifier.delegate.cs
@@ -534,9 +534,9 @@ delegate* unmanaged<int, int>;
 // This method will be invoked using the cdecl calling convention
 // Cdecl maps to System.Runtime.CompilerServices.CallConvCdecl
 delegate* unmanaged[Cdecl] <int, int>;
-/// <- meta.type.funcptr.cs storage.type.delegate.cs
+/// <- meta.type.funcptr.cs keyword.declaration.delegate.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
 ///      ^ - keyword - storage
 ///       ^^^^^^^^^ storage.modifier.delegate.cs
@@ -556,9 +556,9 @@ delegate* unmanaged[Cdecl] <int, int>;
 // Stdcall maps to System.Runtime.CompilerServices.CallConvStdcall
 // SuppressGCTransition maps to System.Runtime.CompilerServices.CallConvSuppressGCTransition
 delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly ref char>;
-/// <- meta.type.funcptr.cs storage.type.delegate.cs
+/// <- meta.type.funcptr.cs keyword.declaration.delegate.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
 ///      ^ - keyword - storage
 ///       ^^^^^^^^^ storage.modifier.delegate.cs
@@ -584,7 +584,7 @@ delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly re
 
 delegate*
 ///^^^^^^^ meta.type.funcptr.cs
-///^^^^^ storage.type.delegate.cs
+///^^^^^ keyword.declaration.delegate.cs
 ///     ^ keyword.operator.pointer.cs
     unmanaged
 ///^^^^^^^^^^^ meta.type.funcptr.cs
@@ -629,7 +629,7 @@ unsafe class TestFunctionPointers {
 
     void M(Action<int> a, delegate*<int, void> f) {
 ///                       ^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///                       ^^^^^^^^ storage.type.delegate.cs
+///                       ^^^^^^^^ keyword.declaration.delegate.cs
 ///                               ^ keyword.operator.pointer.cs
 ///                                ^^^^^^^^^^^ meta.generic.cs
 ///                                ^ punctuation.definition.generic.begin.cs
@@ -642,7 +642,7 @@ unsafe class TestFunctionPointers {
 
         delegate*<int, int, int> p1 = &TestFunctionPointers.Log;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///     ^^^^^^^^ storage.type.delegate.cs
+///     ^^^^^^^^ keyword.declaration.delegate.cs
 ///             ^ keyword.operator.pointer.cs
 ///              ^^^^^^^^^^^^^^^ meta.generic.cs
 ///              ^ punctuation.definition.generic.begin.cs
@@ -662,7 +662,7 @@ unsafe class TestFunctionPointers {
 
         delegate* managed<int, int, int> p2 = &TestFunctionPointers.Log;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///     ^^^^^^^^ storage.type.delegate.cs
+///     ^^^^^^^^ keyword.declaration.delegate.cs
 ///             ^ keyword.operator.pointer.cs
 ///              ^ - keyword - storage
 ///               ^^^^^^^ storage.modifier.delegate.cs
@@ -684,7 +684,7 @@ unsafe class TestFunctionPointers {
 
         delegate* unmanaged<int, int, int> p3 = &TestFunctionPointers.Log;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///     ^^^^^^^^ storage.type.delegate.cs
+///     ^^^^^^^^ keyword.declaration.delegate.cs
 ///             ^ keyword.operator.pointer.cs
 ///              ^ - keyword - storage
 ///               ^^^^^^^^^ storage.modifier.delegate.cs
@@ -706,7 +706,7 @@ unsafe class TestFunctionPointers {
 
         delegate* instance<Instance, string> f = &ToString;
 ///     ^^^^^^^^^ meta.type.funcptr.cs
-///     ^^^^^^^^ storage.type.delegate.cs
+///     ^^^^^^^^ keyword.declaration.delegate.cs
 ///             ^ keyword.operator.pointer.cs
 ///               ^^^^^^^^ support.type.cs
 ///                       ^^^^^^^^^^^^^^^^^^ meta.generic.cs
@@ -729,7 +729,7 @@ unsafe class TestFunctionPointers {
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                 ^ punctuation.section.parameters.begin.cs
 ///                  ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///                  ^^^^^^^^ storage.type.delegate.cs
+///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
 ///                           ^^^^^^ meta.generic.cs
 ///                           ^ punctuation.definition.generic.begin.cs
@@ -742,7 +742,7 @@ unsafe class TestFunctionPointers {
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                 ^ punctuation.section.parameters.begin.cs
 ///                  ^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///                  ^^^^^^^^ storage.type.delegate.cs
+///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
 ///                            ^^^^^^ meta.generic.cs
 ///                            ^ punctuation.definition.generic.begin.cs
@@ -755,7 +755,7 @@ unsafe class TestFunctionPointers {
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                 ^ punctuation.section.parameters.begin.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///                  ^^^^^^^^ storage.type.delegate.cs
+///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
 ///                           ^ - keyword - storage
 ///                            ^^^^^^^^^ storage.modifier.delegate.cs
@@ -772,7 +772,7 @@ unsafe class TestFunctionPointers {
     delegate*<void> _ptr;
 /// ^^^^^^^^^ meta.type.funcptr.cs - meta.generic
 ///          ^^^^^^ meta.type.funcptr.cs meta.generic.cs
-/// ^^^^^^^^ storage.type.delegate.cs
+/// ^^^^^^^^ keyword.declaration.delegate.cs
 ///         ^ keyword.operator.pointer.cs
 ///          ^ punctuation.definition.generic.begin.cs
 ///           ^^^^ storage.type.cs
@@ -786,7 +786,7 @@ unsafe class TestFunctionPointers {
 ///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                     ^ punctuation.section.parameters.begin.cs
 ///                      ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
-///                      ^^^^^^^^ storage.type.delegate.cs
+///                      ^^^^^^^^ keyword.declaration.delegate.cs
 ///                              ^ keyword.operator.pointer.cs
 ///                               ^^^^^^ meta.generic.cs
 ///                               ^ punctuation.definition.generic.begin.cs

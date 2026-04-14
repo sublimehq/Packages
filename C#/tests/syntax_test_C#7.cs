@@ -762,9 +762,9 @@ public readonly ref struct Span<T>
 }
 
 public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg) ;
-///    ^^^^^^^^ storage.type.delegate
+///    ^^^^^^^^ keyword.declaration.delegate
 ///             ^^^^ storage.type
-///                  ^^^^^^^^^^ variable.other.member.delegate
+///                  ^^^^^^^^^^ entity.name.type.delegate
 ///                            ^^^^^^^^^^^^ meta.generic
 ///                             ^ variable.parameter.type
 ///                              ^ punctuation.separator.type

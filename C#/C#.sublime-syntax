@@ -768,6 +768,55 @@ contexts:
     - include: member_declaration
     - include: stray_close_bracket
 
+###[ DELEGATE MEMBER DECLARATIONS ]############################################
+
+  delegate_declaration:
+    # function pointer declaration
+    - match: (delegate)\s*(\*)
+      captures:
+        1: keyword.declaration.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - variables_declaration
+        - funcptr_type_meta
+        - funcptr_parameter_list
+        - funcptr_type_modifier
+    # delegate type declaration
+    - match: delegate\b
+      scope: meta.delegate.cs keyword.declaration.delegate.cs
+      push:
+        - delegate_parameter_list
+        - type_parameter_list
+        - delegate_declaration_name
+        - expect_type
+
+  delegate_declaration_name:
+    - match: '{{name}}'
+      scope: entity.name.type.delegate.cs
+      pop: 1
+    - include: else_pop
+
+  delegate_parameter_list:
+    - meta_content_scope: meta.delegate.cs
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_delegate_parameter_list
+    - include: else_pop
+
+  inside_delegate_parameter_list:
+    - meta_scope: meta.delegate.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  terminator:
+    - match: \s*(;)
+      captures:
+        1: punctuation.terminator.statement.cs
+      pop: 1
+
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
 
   event_declaration:
@@ -825,64 +874,11 @@ contexts:
       set: [method_body, method_params]
     - include: else_pop
 
-###[ DELEGATE MEMBER DECLARATIONS ]############################################
-
-  delegate_declaration:
-    # delegate function pointer declaration
-    - match: (delegate)\s*(\*)
-      captures:
-        1: storage.type.delegate.cs
-        2: keyword.operator.pointer.cs
-      push:
-        - variables_declaration
-        - funcptr_type_meta
-        - funcptr_parameter_list
-        - funcptr_type_modifier
-    # delegate function declaration
-    - match: (delegate)\b\s*
-      captures:
-        1: storage.type.delegate.cs
-      push:
-        - delegate_parameters
-        - type_parameter_list
-        - delegate_name
-        - type_no_space
-
-  delegate_name:
-    - match: '{{name}}'
-      scope: variable.other.member.delegate.cs
-      pop: 1
-    - include: else_pop
-
-  delegate_parameters:
-    - meta_scope: meta.delegate.cs
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      push: inside_delegate_parameters
-    - include: else_pop
-
-  inside_delegate_parameters:
-    - clear_scopes: 1
-    - meta_scope: meta.delegate.parameters.cs
-    - match: \)
-      scope: punctuation.section.parameters.end.cs
-      pop: 2
-    - match: (?=\S)
-      push: [method_param, method_param_type]
-
-  terminator:
-    - match: \s*(;)
-      captures:
-        1: punctuation.terminator.statement.cs
-      pop: 1
-
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member_declaration:
     - match: (?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b
       scope: storage.modifier.cs
-    - match: delegate\b
-      scope: storage.type.delegate.cs
     - match: (?:implicit|explicit)\b
       scope: storage.modifier.cs
     - match: '{{visibility}}'
@@ -2328,6 +2324,10 @@ contexts:
       pop: 2
     - include: type_no_space
 
+  expect_type:
+    - match: (?=\S)
+      set: type_no_space
+
   type_no_space:
     - include: type
     - include: immediately_pop
@@ -2433,7 +2433,7 @@ contexts:
     # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
     - match: (delegate)\s*(\*)
       captures:
-        1: storage.type.delegate.cs
+        1: keyword.declaration.delegate.cs
         2: keyword.operator.pointer.cs
       push:
         - funcptr_type_meta

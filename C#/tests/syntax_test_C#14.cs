@@ -115,9 +115,9 @@ public static class EnumerableExtensions
 
 delegate bool TryParse<T>(string text, out T result);
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.cs
-//^^^^^^ storage.type.delegate.cs
+//^^^^^^ keyword.declaration.delegate.cs
 //       ^^^^ storage.type.cs
-//            ^^^^^^^^ variable.other.member.delegate.cs
+//            ^^^^^^^^ entity.name.type.delegate.cs
 //                    ^^^ meta.generic.cs
 //                    ^ punctuation.definition.generic.begin.cs
 //                     ^ variable.parameter.type.cs

@@ -186,9 +186,9 @@ namespace YourNamespace
 
     delegate FooBar YourDelegate(int a);
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
-///  ^ storage.type.delegate
+///  ^ keyword.declaration.delegate
 ///           ^ support.type
-///                  ^ variable.other.member.delegate
+///                  ^ entity.name.type.delegate
 ///                             ^^^^^^^ meta.delegate.parameters
 ///                              ^ storage.type
 ///                                  ^ variable.parameter
@@ -196,9 +196,9 @@ namespace YourNamespace
 
     public delegate FooBar YourDelegate (int a);
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
-///        ^^^^^^^^ storage.type.delegate
+///        ^^^^^^^^ keyword.declaration.delegate
 ///                 ^^^^^^ support.type
-///                        ^^^^^^^^^^^^ variable.other.member.delegate
+///                        ^^^^^^^^^^^^ entity.name.type.delegate
 ///                                     ^^^^^^^ meta.delegate.parameters
 ///                                     ^ punctuation.section.parameters.begin
 ///                                      ^^^ storage.type
@@ -935,19 +935,19 @@ namespace TestNamespace . Test
 
         delegate int del(int i);
 ///     ^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
-///     ^ storage.type.delegate
+///     ^ keyword.declaration.delegate
 ///              ^ storage.type
-///                  ^ variable.other.member.delegate
+///                  ^ entity.name.type.delegate
 ///                     ^^^^^^^ meta.delegate.parameters
 ///                      ^ storage.type
 ///                          ^ variable.parameter
 
         public delegate TOutput Converter<TInput, TOutput> (TInput from);
 ///     ^ storage.modifier
-///            ^ storage.type.delegate
+///            ^ keyword.declaration.delegate
 ///                     ^ support.type
 ///                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
-///                             ^ variable.other.member.delegate
+///                             ^ entity.name.type.delegate
 ///                                      ^^^^^^^^^^^^^^^^^ meta.generic
 ///                                      ^ punctuation.definition.generic.begin
 ///                                       ^^^^^^ variable.parameter.type
