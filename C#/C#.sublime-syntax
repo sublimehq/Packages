@@ -2164,8 +2164,7 @@ contexts:
 
   regex_arguments:
     - match: (?=[@$]*")
-      push:
-        - include: regex_string
+      push: regex_string
     - include: arguments
 
   arguments:
