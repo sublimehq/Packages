@@ -169,3 +169,39 @@ var verbatim_singleline_sql_interpolated = $@"
     no sql here
 /// ^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.sql
 """;
+
+Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+///            ^^^^^ meta.instance support.type
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string source.regexp
+///                                                 ^ meta.string punctuation.definition.string.end - source.regexp
+///                    ^^ keyword.control.anchor
+Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
+///       ^^^^^ meta.function-call support.type
+///            ^ meta.function-call punctuation.accessor.dot
+///             ^^^^^ meta.function-call variable.function
+///                  ^ meta.group punctuation.section.group.begin
+///                            ^^^^^^^^ meta.string source.regexp
+///                                    ^ meta.string string.quoted.double punctuation.definition.string.end - source.regexp
+
+replaced = Regex.Replace(some_value, "(?!^)([A-Z])", " $1");
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+///        ^^^^^ support.type
+///             ^ punctuation.accessor.dot
+///              ^^^^^^^ variable.function
+///                     ^ punctuation.section.group.begin
+///                      ^^^^^^^^^^ variable.other
+///                                ^ punctuation.separator.argument
+///                                  ^ meta.string string.quoted.double punctuation.definition.string.begin
+///                                   ^^^^^^^^^^^^ meta.string source.regexp
+///                                               ^ meta.string string.quoted.double punctuation.definition.string.end - source.regexp
+///                                                ^ punctuation.separator.argument
+
+Regex rx = new Regex(@"\bincomplete-missing-paren\b"
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///        ^^^ keyword.operator.new
+///            ^^^^^ support.type
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+///                  ^^ string.quoted.double punctuation.definition.string.begin
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+///                                                ^ punctuation.definition.string.end - source.regexp
+///                    ^^ keyword.control.anchor

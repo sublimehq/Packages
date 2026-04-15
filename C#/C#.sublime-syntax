@@ -1789,6 +1789,20 @@ contexts:
           scope: meta.generic.cs punctuation.definition.generic.end.cs
           pop: 1
         - include: type
+    - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(\()
+      scope: meta.function-call.cs
+      captures:
+        1: variable.other.cs
+        2: punctuation.accessor.dot.cs
+        3: variable.other.cs
+        4: punctuation.accessor.dot.cs
+        5: variable.other.cs
+        6: punctuation.accessor.dot.cs
+        7: support.type.cs
+        8: punctuation.accessor.dot.cs
+        9: variable.function.cs
+        10: meta.group.cs punctuation.section.group.begin.cs
+      push: [function_call_arguments, regex_arguments]
     - match: '((?!{{reserved}}\b){{name}})\s*(\()'
       scope: meta.function-call.cs
       captures:
@@ -1986,6 +2000,20 @@ contexts:
               pop: 1
             - match: '(?=\S)'
               push: line_of_code_in
+        - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)\s*(\()
+          captures:
+            1: variable.other.cs
+            2: punctuation.accessor.dot.cs
+            3: variable.other.cs
+            4: punctuation.accessor.dot.cs
+            5: variable.other.cs
+            6: punctuation.accessor.dot.cs
+            7: support.type.cs
+            8: meta.group.cs punctuation.section.group.begin.cs
+          set: [constructor_arguments, regex_arguments]
+        - match: \(
+          scope: meta.group.cs punctuation.section.group.begin.cs
+          set: [constructor_arguments, arguments]
         - match: (?:\s*((\()\s*(\)))\s*)?(\{)
           captures:
             1: meta.group.cs
@@ -2134,6 +2162,11 @@ contexts:
       pop: 1
     - include: immediately_pop
 
+  regex_arguments:
+    - match: (?=[@$]*")
+      push: regex_string
+    - include: arguments
+
   arguments:
     - match: (out)\s
       captures:
@@ -2160,6 +2193,15 @@ contexts:
         1: variable.parameter.cs
         2: punctuation.separator.argument.value.cs
       push: line_of_code_in
+    - include: semi_colon_before_close_paren
+    - match: (?=\S)
+      push:
+        - include: lambdas
+        - include: line_of_code_in_no_semicolon
+        - match: (?=[;)])
+          pop: 1
+
+  semi_colon_before_close_paren:
     - match: ','
       scope: punctuation.separator.argument.cs
     - match: (?=\))
@@ -2516,7 +2558,7 @@ contexts:
   regex_string:
     - match: '"'
       scope: meta.string.cs string.quoted.double.cs punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
+      embed: scope:source.regexp.cs
       embed_scope: meta.string.cs string.quoted.double.cs source.regexp
       escape: '"'
       escape_captures:
@@ -2524,7 +2566,7 @@ contexts:
       pop: 1
     - match: '@"'
       scope: meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-      embed: scope:source.regexp
+      embed: scope:source.regexp.cs
       embed_scope: meta.string.cs string.quoted.double.verbatim.cs source.regexp
       escape: '"'
       escape_captures:
