@@ -1789,17 +1789,19 @@ contexts:
           scope: meta.generic.cs punctuation.definition.generic.end.cs
           pop: 1
         - include: type
-    - match: ((?:(?:System(\.))?Text(\.))?RegularExpressions(\.))?(Regex)(\.)(Match|IsMatch|Replace)(\()
+    - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(\()
       scope: meta.function-call.cs
       captures:
-        1: meta.namespace.cs
-        2: punctuation.accessor.dot.namespace.cs
-        3: punctuation.accessor.dot.namespace.cs
-        4: punctuation.accessor.dot.namespace.cs
-        5: support.class.cs
-        6: punctuation.accessor.dot.namespace.cs
-        7: variable.function.cs
-        8: meta.group.cs punctuation.section.group.begin.cs
+        1: variable.other.cs
+        2: punctuation.accessor.dot.cs
+        3: variable.other.cs
+        4: punctuation.accessor.dot.cs
+        5: variable.other.cs
+        6: punctuation.accessor.dot.cs
+        7: support.type.cs
+        8: punctuation.accessor.dot.cs
+        9: variable.function.cs
+        10: meta.group.cs punctuation.section.group.begin.cs
       push: [function_call_arguments, regex_arguments]
     - match: '((?!{{reserved}}\b){{name}})\s*(\()'
       scope: meta.function-call.cs
@@ -1998,14 +2000,16 @@ contexts:
               pop: 1
             - match: '(?=\S)'
               push: line_of_code_in
-        - match: ((?:(?:System(\.))?Text(\.))?RegularExpressions(\.))?(Regex)\s*(\()
+        - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)\s*(\()
           captures:
-            1: meta.namespace.cs
+            1: variable.other.cs
             2: punctuation.accessor.dot.cs
-            3: punctuation.accessor.dot.cs
+            3: variable.other.cs
             4: punctuation.accessor.dot.cs
-            5: support.type.cs
-            6: meta.group.cs punctuation.section.group.begin.cs
+            5: variable.other.cs
+            6: punctuation.accessor.dot.cs
+            7: support.type.cs
+            8: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, regex_arguments]
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
