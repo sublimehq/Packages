@@ -1843,7 +1843,7 @@ inline [[nodiscard]] [[gnu::hot]] static auto nodiscard_func() -> void;
 
 
 [[deprecated("no longer used")]] static auto attribute_with_arg_func() -> void;
-/* <-- meta.attribute.c++ punctuation.section.attribute.begin.c++> */
+/* <- meta.attribute.c++ punctuation.section.attribute.begin.c++ */
 /*^^^^^^^^^^ storage.modifier.c++ */
 /*          ^^^^^^^^^^^^^^^^^^ meta.group.c++ */
 /*            ^^^^^^^^^^^^^^^ string.quoted.double.c */
