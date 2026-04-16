@@ -241,6 +241,8 @@ contexts:
         - meta_scope: meta.attribute.c
         - match: '\b(deprecated|__deprecated__|fallthrough|__fallthrough__|nodiscard|__nodiscard__|maybe_unused|__maybe_unused__|noreturn|__noreturn__|unsequenced|__unsequenced__|reproducible|__reproducible__)\b'
           scope: storage.modifier.c
+        - match: ','
+          scope: punctuation.separator.c
         - include: parens
         - match: \]\]
           scope: punctuation.section.attribute.end.c

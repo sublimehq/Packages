@@ -1178,9 +1178,9 @@ inline [[nodiscard]] [[gnu::hot]] static void nodiscard_func();
 inline [[gnu::always_inline, nodiscard]] void gnu_attributes_func();
 /*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*     ^^ meta.attribute.c punctuation.section.attribute.begin.c */
-/*                         ^ meta.attribute.c punctuation.separator.c */
-/*                           ^^^^^^^^^ meta.attribute.c storage.modifier.c */
-/*                                    ^^ meta.attribute.c punctuation.section.attribute.end.c */
+/*                         ^ punctuation.separator.c */
+/*                           ^^^^^^^^^ storage.modifier.c */
+/*                                    ^^ punctuation.section.attribute.end.c */
 /*                                            ^^^^^^^^^^^^^^^^^^^ entity.name.function.c */
 
 
