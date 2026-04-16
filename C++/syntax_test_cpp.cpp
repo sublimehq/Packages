@@ -1827,6 +1827,62 @@ long double operator "" _km (long double x);
 /*                          ^^^^^^^^^^^^^^^ meta.function.parameters */
 /*          ^^^^^^^^^^^^^^^ entity.name.function */
 
+
+
+inline [[nodiscard]] [[gnu::hot]] static auto nodiscard_func() -> void;
+/* <- storage.modifier.c++ */
+/*     ^^^^^^^^^^^^^ meta.attribute.c++ */
+/*     ^^ punctuation.section.attribute.begin.c++ */
+/*       ^^^^^^^^^ storage.modifier.c++ */
+/*                ^^ punctuation.section.attribute.end.c++ */
+/*                   ^^^^^^^^^^^^ meta.attribute.c++ */
+/*                   ^^  punctuation.section.attribute.begin.c++ */
+/*                             ^^  punctuation.section.attribute.end.c++ */
+/*                                ^^^^^^ storage.modifier.c++ */
+/*                                            ^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+
+[[deprecated("no longer used")]] static auto attribute_with_arg_func() -> void;
+/* <-- meta.attribute.c++ punctuation.section.attribute.begin.c++> */
+/*^^^^^^^^^^ storage.modifier.c++ */
+/*          ^^^^^^^^^^^^^^^^^^ meta.group.c++ */
+/*            ^^^^^^^^^^^^^^^ string.quoted.double.c */
+/*                           ^ punctuation.section.group.end.c++ */
+/*                            ^^ punctuation.section.attribute.end.c++ */
+/*                                            ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+inline [[gnu::always_inline, nodiscard]] constexpr auto gnu_attributes_func() -> void;
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c++ */
+/*     ^^ meta.attribute.c++ punctuation.section.attribute.begin.c++ */
+/*                         ^ meta.attribute.c++ punctuation.separator.c++ */
+/*                           ^^^^^^^^^ meta.attribute.c++ storage.modifier.c++ */
+/*                                    ^^ meta.attribute.c++ punctuation.section.attribute.end.c++ */
+/*                                                      ^^^^^^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+[[using gnu: always_inline, hot]] constexpr auto gnu_namespace_attributes_func() -> void;
+/* <- meta.attribute.c++ punctuation.section.attribute.begin.c++ */
+/*^^^^^ meta.attribute.c++ keyword.control.c++ */
+/*         ^ meta.attribute.c++ punctuation.separator.c++ */
+/*                        ^ meta.attribute.c++ punctuation.separator.c++ */
+/*                             ^^ meta.attribute.c++ punctuation.section.attribute.end.c++ */
+/*                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+struct S{
+
+    [[noreturn, ...]] static auto pack_attribute_func() -> void;
+/*  ^^^^^^^^^^^^^^^^^ meta.block.c++ meta.attribute.c++ */
+/*  ^^  punctuation.section.attribute.begin.c++ */
+/*    ^^^^^^^^ storage.modifier.c++ */
+/*            ^ punctuation.separator.c++ */
+/*              ^^^ keyword.operator.variadic.c++ */
+/*                 ^^ punctuation.section.attribute.end.c++ */
+/*                                ^^^^^^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+}
+
+
+
+
 /////////////////////////////////////////////
 // Namespace
 /////////////////////////////////////////////
