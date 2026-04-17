@@ -396,14 +396,9 @@ contexts:
 ###[ GLOBAL STATEMENTS ]#######################################################
 
   statements:
-    - match: '\{'
+    - match: \{
       scope: punctuation.section.block.begin.cs
-      push:
-        - meta_scope: meta.block.cs
-        - match: '\}'
-          scope: punctuation.section.block.end.cs
-          pop: 1
-        - include: statements
+      push: inside_global_block
     - include: stray_close_bracket
     - include: terminators
     - include: attributes
@@ -414,17 +409,20 @@ contexts:
     - include: interface_declaration
     - include: record_declaration
     - include: struct_declaration
-    - include: namespace_declaration
     - include: delegate_declaration
+    - include: namespace_declaration
     # allows coloration of code outside a class
-    - match: (?=\S)
-      push:
-        - match: (?={{visibility}}|(?:class|delegate|interface|namespace|readonly|record|required|static)\b)
-          pop: 1
-        - include: line_of_code
+    - include: code_block_in
+
+  inside_global_block:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 1
+    - include: statements
 
   stray_close_bracket:
-    - match: '[})\]]'
+    - match: '[]})]'
       scope: invalid.illegal.stray.brace.cs
 
 ###[ USING DECLARATIONS ]######################################################
