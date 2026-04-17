@@ -2420,18 +2420,21 @@ contexts:
 
   string-path-pattern-ansi-c-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_scope: string.quoted.single.shell
     - include: string-ansi-c-body
     - include: string-quoted-pathlist-separators
 
   string-path-pattern-double-quoted-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_scope: string.quoted.double.shell
     - include: string-double-quoted-body
     - include: string-quoted-pathlist-separators
 
   string-path-pattern-single-quoted-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_scope: string.quoted.single.shell
     - include: string-single-quoted-body
     - include: string-quoted-pathlist-separators
@@ -2483,14 +2486,17 @@ contexts:
     - include: path-separators
 
   path-pattern-ansi-c-body:
+    - meta_include_prototype: false
     - include: literal-ansi-c-body
     - include: path-separators
 
   path-pattern-double-quoted-body:
+    - meta_include_prototype: false
     - include: literal-double-quoted-body
     - include: path-separators
 
   path-pattern-single-quoted-body:
+    - meta_include_prototype: false
     - include: literal-single-quoted-body
     - include: path-separators
 
