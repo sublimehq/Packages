@@ -1939,18 +1939,25 @@ public class AfterTopLevelMethod : IDrawingObject {
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
     protected event EventHandler IDrawingObject.OnDraw
-/// ^^^^^^^^^ storage.modifier.access
-///           ^^^^^ storage.modifier
-///                 ^^^^^^^^^^^^ support.type
-///                              ^^^^^^^^^^^^^^ entity.other.inherited-class
-///                                            ^ punctuation.accessor.dot
-///                                             ^^^^^^ variable.other.member
+/// ^^^^^^^^^ storage.modifier.access.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.event.cs
+///           ^^^^^ keyword.declaration.event.cs
+///                 ^^^^^^^^^^^^ support.type.cs
+///                              ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
+///                                            ^ punctuation.accessor.dot.cs
+///                                             ^^^^^^ variable.other.member.cs
     {
-/// ^ punctuation.section.block.begin
+///^ meta.event.cs - meta.accessors
+/// ^^ meta.event.cs meta.accessors.cs meta.block.cs
+/// ^ punctuation.section.block.begin.cs
         add
-///     ^^^ meta.method keyword.declaration.function.accessor.add
+///     ^^^^ meta.method.cs
+///     ^^^ keyword.declaration.function.accessor.add.cs
         {
-///     ^ punctuation.section.block.begin
+///^^^^^^^ meta.event.cs meta.accessors.cs meta.block.cs
+///^^^^^ meta.method.cs
+///     ^^ meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
             lock (objectLock)
 ///         ^^^^ keyword.control.other.lock
 ///               ^^^^^^^^^^ variable.other
@@ -1961,22 +1968,37 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///     ^ punctuation.section.block.end
 ///      ^ - meta.method
         remove
-///     ^^^^^^ meta.method keyword.declaration.function.accessor.remove
+///     ^^^^^^ meta.event.cs meta.accessors.cs meta.method keyword.declaration.function.accessor.remove
         {
+///^^^^^^^ meta.event.cs meta.accessors.cs meta.block.cs
+///^^^^^ meta.method.cs
+///     ^^ meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
             lock (objectLock)
             {
                 PreDrawEvent -= value;
             }
         }
+///^^^^^^^ meta.event.cs meta.accessors.cs meta.block.cs
+///^^^^^^ meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
     }
-/// ^ punctuation.section.block.end
+///^^ meta.event.cs meta.accessors.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
 
-    public event SampleEventHandler SampleEvent;
-/// ^^^^^^ storage.modifier.access
-///        ^^^^^ storage.modifier
-///              ^^^^^^^^^^^^^^^^^^ support.type
-///                                 ^^^^^^^^^^^ variable.other.member
-///                                            ^ punctuation.terminator.statement
+    public event SampleEventHandler IDrawingObject.SampleEvent, IDrawingObject.AnotherEvent;
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.event.cs
+///        ^^^^^ keyword.declaration.event.cs
+///              ^^^^^^^^^^^^^^^^^^ support.type.cs
+///                                 ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
+///                                               ^ punctuation.accessor.dot.cs
+///                                                ^^^^^^^^^^^ variable.other.member.cs
+///                                                           ^ punctuation.separator.variables.cs
+///                                                             ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
+///                                                                           ^ punctuation.accessor.dot.cs
+///                                                                            ^^^^^^^^^^^^ variable.other.member.cs
+///                                                                                        ^ punctuation.terminator.statement.cs
 
     public static implicit operator AfterTopLevelMethod(int[] some_ints)
 ///        ^^^^^^ storage.modifier
@@ -1994,7 +2016,7 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///                                         ^ punctuation.section.block.begin
 ///                                           ^ punctuation.section.block.end
     event Action<float> eventAction;
-/// ^^^^^ storage.modifier
+/// ^^^^^ keyword.declaration.event.cs
     event Action<float> eventActionDelegate = delegate { };
 ///                                         ^ keyword.operator.assignment
 ///                                           ^^^^^^^^ keyword.other

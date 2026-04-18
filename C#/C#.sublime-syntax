@@ -925,41 +925,65 @@ contexts:
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
 
   event_declaration:
-    - match: (event)\b\s*
-      captures:
-        1: storage.modifier.cs
-      push: [event_declaration_name, type_no_space]
+    - match: event\b
+      scope: meta.event.cs keyword.declaration.event.cs
+      push:
+        - event_declaration_meta
+        - event_declaration_initializer
+        - event_declaration_name
+        - expect_type
+
+  event_declaration_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.event.cs
+    - include: immediately_pop
 
   event_declaration_name:
-    - match: '({{name}})(\.)'
-      captures:
-        1: entity.other.inherited-class.cs
-        2: punctuation.accessor.dot.cs
-    - match: '{{name}}'
+    - match: \.
+      scope: punctuation.accessor.dot.cs
+    - match: '{{unreserved_name}}(?=\s*(?:<[^(]*>\s*)?\.)'
+      scope: entity.other.inherited-class.cs
+      push:
+        - type_suffix
+        - type_argument_list
+    - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
-      set: event_declaration_after_name
+      pop: 1
     - include: else_pop
 
-  event_declaration_after_name:
+  event_declaration_initializer:
     - match: \{
       scope: punctuation.section.block.begin.cs
-      set: event_handler_declaration_body
-    - match: (?==)
-      set: member_variable_declarations
-    - include: else_pop
+      set: inside_event_accessor_declaration
+    - match: (?=\S)
+      set: event_variable_declarations
 
-  event_handler_declaration_body:
-    - meta_scope: meta.block.cs
-    - include: attributes
+  event_variable_declarations:
+    - match: \.
+      scope: punctuation.accessor.dot.cs
+    - match: '{{unreserved_name}}(?=\s*(?:<[^(]*>\s*)?\.)'
+      scope: entity.other.inherited-class.cs
+      push:
+        - type_suffix
+        - type_argument_list
+    - include: member_variable_declarations
+
+  inside_event_accessor_declaration:
+    - meta_scope: meta.accessors.cs meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
+    - include: stray_close_bracket
+    - include: terminators
+    - include: attributes
     - match: add\b
       scope: keyword.declaration.function.accessor.add.cs
       push: method_body
     - match: remove\b
       scope: keyword.declaration.function.accessor.remove.cs
       push: method_body
+    - match: '{{name}}'
+      scope: invalid.illegal.unexpected-token.cs
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
@@ -1301,9 +1325,11 @@ contexts:
       pop: 1
 
   method_body_brace_begin:
+    - meta_content_scope: meta.method.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: method_body_braces_inside
+    - include: else_pop
 
   method_body_braces_inside:
     - meta_scope: meta.method.body.cs meta.block.cs
