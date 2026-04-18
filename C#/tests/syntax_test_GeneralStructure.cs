@@ -1205,25 +1205,74 @@ namespace TestNamespace . Test
             yield return 314;
         }
 
-        List<int>.this[int key]{ get; set; }
-///     ^ support.type
-///         ^^^^^ meta.generic
-///         ^ punctuation.definition.generic.begin
-///             ^ punctuation.definition.generic.end
-///              ^ punctuation.accessor
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
-///               ^^^^^^^^^^^^^^^ - meta.method
-///                                  ^ - meta.method
-///                                       ^^^ - meta.method
-///               ^^^^ variable.language.this
-///                   ^^^^^^^^^ meta.brackets
-///                   ^ punctuation.section.brackets.begin
-///                           ^ punctuation.section.brackets.end
-///                    ^^^ storage.type
-///                        ^^^ variable.parameter
-///                              ^^^ keyword.declaration.function.accessor
-///                                   ^^^ keyword.declaration.function.accessor
+        ////////////////////////////
+        // Indexer Declarations
+        ////////////////////////////
 
+        Item this[int key] => expression;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
+///          ^^^^ meta.indexer.cs
+///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
+///                       ^^^ meta.indexer.cs
+///                          ^^^^^^^^^^^ meta.indexer.body.cs
+///     ^^^^ support.type.cs
+///          ^^^^ variable.language.this.cs
+///              ^ punctuation.section.brackets.begin.cs
+///               ^^^ storage.type.cs
+///                   ^^^ variable.parameter.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                        ^^ keyword.declaration.function.accessor.get.cs
+///                           ^^^^^^^^^^ variable.other.cs
+///                                     ^ punctuation.terminator.statement.cs
+
+        Item this[int key]{ get; set; }
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
+///          ^^^^ meta.indexer.cs
+///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
+///                       ^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
+///     ^^^^ support.type.cs
+///          ^^^^ variable.language.this.cs
+///              ^ punctuation.section.brackets.begin.cs
+///               ^^^ storage.type.cs
+///                   ^^^ variable.parameter.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                       ^ punctuation.section.block.begin.cs
+///                         ^^^^ meta.method.cs
+///                         ^^^ keyword.declaration.function.accessor.get.cs
+///                            ^ punctuation.terminator.statement.cs
+///                              ^^^^ meta.method.cs
+///                              ^^^ keyword.declaration.function.accessor.set.cs
+///                                 ^ punctuation.terminator.statement.cs
+///                                   ^ punctuation.section.block.end.cs
+
+        Item IList<int>.this [int key] { internal get; protected set {  } }
+///          ^^^^^^^^^^^^^^^^ meta.indexer.cs
+///                          ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
+///                                   ^ meta.indexer.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
+///     ^^^^ support.type.cs
+///          ^^^^^ entity.other.inherited-class.cs
+///               ^^^^^ meta.generic.cs
+///               ^ punctuation.definition.generic.begin.cs
+///                ^^^ storage.type.cs
+///                   ^ punctuation.definition.generic.end.cs
+///                    ^ punctuation.accessor.dot.cs
+///                     ^^^^ variable.language.this.cs
+///                          ^ punctuation.section.brackets.begin.cs
+///                           ^^^ storage.type.cs
+///                               ^^^ variable.parameter.cs
+///                                  ^ punctuation.section.brackets.end.cs
+///                                    ^ punctuation.section.block.begin.cs
+///                                      ^^^^^^^^ storage.modifier.access.cs
+///                                               ^^^ meta.method.cs keyword.declaration.function.accessor.get.cs
+///                                                  ^ punctuation.terminator.statement.cs
+///                                                    ^^^^^^^^^ storage.modifier.access.cs
+///                                                              ^^^^ meta.method.cs
+///                                                              ^^^ keyword.declaration.function.accessor.set.cs
+///                                                                  ^^^^ meta.method.body.cs meta.block.cs
+///                                                                  ^ punctuation.section.block.begin.cs
+///                                                                     ^ punctuation.section.block.end.cs
+///                                                                       ^ punctuation.section.block.end.cs
 
         /////////////////////////////
         // methods with attributes //

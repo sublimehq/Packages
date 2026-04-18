@@ -1043,6 +1043,80 @@ contexts:
     - include: member_declaration
     - include: code_block_in
 
+###[ INDEXER DECLARATIONS ]####################################################
+
+  indexer_declaration:
+    - match: '{{name}}(?=\s*<[^(]*>\s*\.\s*this\b)'
+      scope: entity.other.inherited-class.cs
+      set:
+        - indexer_body
+        - indexer_parameter_list
+        - indexer_name
+        - type_argument_list
+    - match: this\b
+      scope: meta.indexer.cs variable.language.this.cs
+      set:
+        - indexer_body
+        - indexer_parameter_list
+
+  indexer_name:
+    - meta_include_prototype: false
+    - meta_scope: meta.indexer.cs meta.path.cs
+    - match: (\.)\s*(this)\b
+      captures:
+        1: punctuation.accessor.dot.cs
+        2: variable.language.this.cs
+      pop: 1
+    - include: else_pop
+
+  indexer_parameter_list:
+    - match: \[
+      scope: punctuation.section.brackets.begin.cs
+      set: inside_indexer_parameter_list
+    - include: else_pop
+
+  inside_indexer_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.indexer.parameters.cs meta.brackets.cs
+    - match: \]
+      scope: punctuation.section.brackets.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
+
+  indexer_body:
+    - meta_content_scope: meta.indexer.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_indexer_accessor_declaration
+    - match: =>
+      scope: meta.indexer.cs keyword.declaration.function.accessor.get.cs
+      set: indexer_expression
+    - include: else_pop
+
+  inside_indexer_accessor_declaration:
+    - meta_scope: meta.indexer.accessors.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 1
+    - include: stray_close_bracket
+    - include: terminators
+    - include: attributes
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
+    - match: get\b
+      scope: keyword.declaration.function.accessor.get.cs
+      push: method_body
+    - match: set\b
+      scope: keyword.declaration.function.accessor.set.cs
+      push: method_body
+    - match: '{{name}}'
+      scope: invalid.illegal.unexpected-token.cs
+
+  indexer_expression:
+    - meta_content_scope: meta.indexer.body.cs
+    - include: line_of_code_in
+
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member_declaration:
@@ -1203,6 +1277,7 @@ contexts:
     - include: line_of_code_in
 
   method_name:
+    - include: indexer_declaration
     - match: '({{name}})?\s*(\()'
       # here the name is optional since it may already have been matched by
       # '{{name}}\s*(<)' (see rule below)
@@ -1234,11 +1309,6 @@ contexts:
         - meta_scope: meta.method.cs
         - meta_content_scope: meta.generic.cs
         - include: inside_type_parameter_list
-    - match: '(this)\s*(\[)'
-      captures:
-        1: variable.language.this.cs
-        2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      set: [method_accessor, method_params_bracket]
     - match: '({{name}})\s*(\.)'
       scope: meta.method.cs
       captures:
@@ -1265,14 +1335,6 @@ contexts:
     - meta_content_scope: meta.method.parameters.cs
     - match: \)
       scope: meta.method.parameters.cs punctuation.section.parameters.end.cs
-      pop: 1
-    - match: (?=\S)
-      push: [method_param, method_param_type]
-
-  method_params_bracket:
-    - meta_content_scope: meta.brackets.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
     - match: (?=\S)
       push: [method_param, method_param_type]
