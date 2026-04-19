@@ -3,21 +3,6 @@
 class X
 // ^ keyword.declaration.class
 {
-    X () {
-//  ^ entity.name.function.constructor
-//  ^^^^ meta.method
-    }
-
-    X (string test) : base () {
-//  ^ entity.name.function.constructor
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor
-//  ^^^^^^^^^^^^^^^ meta.method.constructor - meta.method.constructor.prebody
-//                    ^^^^ variable.language
-//                  ^^^^^^^^^^ meta.method.constructor.prebody
-//                         ^ meta.group punctuation.section.group.begin
-//                          ^ meta.group punctuation.section.group.end
-    }
-
     [Usage("Foo bar")]
 //  ^^^^^^^^^^^^^^^^^^ meta.annotation
     // ^ variable.annotation
@@ -37,24 +22,6 @@ string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 //                                 ^^ constant.character.escape
 //                                                                     ^ string.quoted.double.verbatim - constant
 //                                                                          ^ string.quoted.double.verbatim punctuation.definition.string.end
-
-class A
-{
-   public A(int x, int y) {}
-   // ^ storage.modifier
-   //     ^ entity.name.function.constructor
-}
-class B: A
-{
-   public B(int x, int y): base(x + y, x - y) {}
-   //                       ^ variable.language
-}
-
-
-public class GenericList<T>
-{
-    void Add(T input) { }
-}
 
 class TestGenericList
 {

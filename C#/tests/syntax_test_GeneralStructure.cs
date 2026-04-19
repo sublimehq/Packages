@@ -198,13 +198,36 @@ namespace YourNamespace
 ///                                                                              ^^ meta.class.body.cs meta.block.cs
 ///                                                                              ^ punctuation.section.block.begin.cs
 
+        YourClass(T1 arg, int num) : this(arg) {  }
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
+///     ^^^^^^^^^ meta.method.cs entity.name.function.constructor.cs
+///              ^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///              ^ punctuation.section.parameters.begin.cs
+///               ^^ support.type.cs
+///                  ^^^ variable.parameter.cs
+///                     ^ punctuation.separator.parameter.function.cs
+///                       ^^^ storage.type.cs
+///                           ^^^ variable.parameter.cs
+///                              ^ punctuation.section.parameters.end.cs
+///                               ^^^^^^^^^^^^^ meta.method.cs
+///                                ^ punctuation.separator.function.cs
+///                                  ^^^^ meta.initializer.cs variable.language.this.cs
+///                                      ^^^^^ meta.initializer.arguments.cs meta.group.cs
+///                                      ^ punctuation.section.group.begin.cs
+///                                       ^^^ variable.other.cs
+///                                          ^ punctuation.section.group.end.cs
+///                                            ^^^^ meta.method.body.cs meta.block.cs
+///                                            ^ punctuation.section.block.begin.cs
+///                                               ^ punctuation.section.block.end.cs
+
     }
 ///^^ meta.class.body.cs meta.block.cs
 /// ^ punctuation.section.block.end.cs
 
     class YourClass
-/// ^ keyword.declaration.class
-///        ^ entity.name.class
+/// ^^^^^^^^^^^^^^^^ meta.class.cs
+/// ^^^^^ keyword.declaration.class.cs
+///       ^^^^^^^^^ entity.name.class.cs
     {
         Int;
 ///     ^^^ support.type.cs
@@ -266,6 +289,57 @@ namespace YourNamespace
 ///                        ^ punctuation.section.block.end
         }
 ///     ^ meta.property punctuation.section.block.end
+
+        YourClass () {
+///     ^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+///     ^^^^^^^^^^ meta.method.cs
+///               ^^ meta.method.parameters.cs
+///                 ^ meta.method.cs
+///                  ^^ meta.method.body.cs meta.block.cs
+///     ^^^^^^^^^ entity.name.function.constructor.cs
+///               ^ punctuation.section.parameters.begin.cs
+///                ^ punctuation.section.parameters.end.cs
+///                  ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.constructor.cs meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+
+        public YourClass ( int arg ) : this( arg ) {
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
+///            ^^^^^^^^^^ meta.method.cs
+///                      ^^^^^^^^^^^ meta.method.parameters.cs
+///                                 ^^^^^^^^^^^^^^^ meta.method.cs
+///                                                ^^ meta.method.body.cs meta.block.cs
+///            ^^^^^^^^^ entity.name.function.constructor.cs
+///                      ^ punctuation.section.parameters.begin.cs
+///                        ^^^ storage.type.cs
+///                            ^^^ variable.parameter.cs
+///                                ^ punctuation.section.parameters.end.cs
+///                                  ^ punctuation.separator.function.cs
+///                                    ^^^^ meta.initializer.cs variable.language.this.cs
+///                                        ^^^^^^^ meta.initializer.arguments.cs meta.group.cs
+///                                        ^ punctuation.section.group.begin.cs
+///                                          ^^^ variable.other.cs
+///                                              ^ punctuation.section.group.end.cs
+///                                                ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.constructor.cs meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+
+        ~YourClass () {
+///     ^^^^^^^^^^^^^^^^ meta.destructor.cs - meta.method meta.method
+///     ^^^^^^^^^^^ meta.method.cs
+///                ^^ meta.method.parameters.cs
+///                  ^ meta.method.cs
+///                   ^^ meta.method.body.cs meta.block.cs
+///     ^^^^^^^^^^ entity.name.function.destructor.cs
+///                ^ punctuation.section.parameters.begin.cs
+///                 ^ punctuation.section.parameters.end.cs
+///                   ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.destructor.cs meta.method.body.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
 
         public bool IsConst(Type value) => this is Const && (this as Const).Value.Equals(value);
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.method
@@ -679,11 +753,25 @@ namespace TestNamespace . Test
     public class Derived : Base
     {
         public Derived(DateTime exportDate) : base(exportDate) {
-///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-///            ^^^^^^^ entity.name.function.constructor
-///                                         ^^^^^^^^^^^^^^^^^^ meta.method.constructor
-///                                           ^^^^ variable.language.super
-///                                               ^^^^^^^^^^^^ meta.group
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
+///            ^^^^^^^ meta.method.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+///                                                            ^^ meta.method.body.cs meta.block.cs
+///            ^^^^^^^ entity.name.function.constructor.cs
+///                   ^ punctuation.section.parameters.begin.cs
+///                    ^^^^^^^^ support.type.cs
+///                             ^^^^^^^^^^ variable.parameter.cs
+///                                       ^ punctuation.section.parameters.end.cs
+///                                         ^ punctuation.separator.function.cs
+///                                           ^^^^ meta.initializer.cs variable.language.super.cs
+///                                               ^^^^^^^^^^^^ meta.initializer.arguments.cs meta.group.cs
+///                                               ^ punctuation.section.group.begin.cs
+///                                                ^^^^^^^^^^ variable.other.cs
+///                                                          ^ punctuation.section.group.end.cs
+///                                                            ^ punctuation.section.block.begin.cs
+
             if (true)
 ///         ^ keyword.control
 ///            ^^^^^^ meta.group

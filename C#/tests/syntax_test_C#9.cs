@@ -786,9 +786,11 @@ unsafe class TestFunctionPointers {
 ///                     ^ punctuation.terminator.statement.cs
 
     TestFunctionPointers(delegate*<void> ptr) => _ptr = ptr;
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor.cs
-/// ^^^^^^^^^^^^^^^^^^^^ entity.name.function.constructor.cs
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+/// ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                          ^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^^^^^^^^^^^^^ entity.name.function.constructor.cs
 ///                     ^ punctuation.section.parameters.begin.cs
 ///                      ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                      ^^^^^^^^ keyword.declaration.delegate.cs

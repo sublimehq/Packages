@@ -811,14 +811,19 @@ public ref int Find (int number, int[] numbers)
 public class MyClass {
     object obj;
     public MyClass () => obj = null;
-///        ^^^^^^^ meta.method.constructor entity.name.function.constructor
-///               ^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.method
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+///        ^^^^^^^^ meta.method.cs
+///                ^^ meta.method.parameters.cs
+///                  ^^^^^^^^^^^^^^ meta.method.cs
+///        ^^^^^^^ entity.name.function.constructor.cs
+///                ^ punctuation.section.parameters.begin.cs
+///                 ^ punctuation.section.parameters.end.cs
 ///                   ^^ keyword.declaration.function.arrow.cs
-///                      ^^^ variable.other
-///                          ^ keyword.operator.assignment
-///                            ^^^^ constant.language
-///                                ^ punctuation.terminator.statement
-///                                 ^ - meta.method
+///                      ^^^ variable.other.cs
+///                          ^ keyword.operator.assignment.cs
+///                            ^^^^ constant.language.null.cs
+///                                ^ punctuation.terminator.statement.cs
 }
 /// <- meta.class.body meta.block punctuation.section.block.end
 
@@ -828,31 +833,34 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
     public int Age { get; }
 
     public Person(string name, int age) => (Name, Age) = (name, age);
-/// ^^^^^^ storage.modifier.access
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor
-///        ^^^^^^ entity.name.function.constructor
-///              ^ punctuation.section.parameters.begin
-///               ^^^^^^ storage.type
-///                      ^^^^ variable.parameter
-///                          ^ punctuation.separator.parameter.function
-///                            ^^^ storage.type
-///                                ^^^ variable.parameter
-///                                   ^ punctuation.section.parameters.end
-///                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+///        ^^^^^^ meta.method.cs entity.name.function.constructor.cs
+///              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+///              ^ punctuation.section.parameters.begin.cs
+///               ^^^^^^ storage.type.cs
+///                      ^^^^ variable.parameter.cs
+///                          ^ punctuation.separator.parameter.function.cs
+///                            ^^^ storage.type.cs
+///                                ^^^ variable.parameter.cs
+///                                   ^ punctuation.section.parameters.end.cs
 ///                                     ^^ keyword.declaration.function.arrow.cs
-///                                        ^^^^^^^^^^^ meta.sequence.tuple
-///                                        ^ punctuation.section.sequence.begin
-///                                         ^^^^ variable.other
-///                                             ^ punctuation.separator.sequence
-///                                               ^^^ variable.other
-///                                                  ^ punctuation.section.sequence.end
-///                                                    ^ keyword.operator.assignment
-///                                                      ^ punctuation.section.sequence.begin
-///                                                       ^^^^ variable.other
-///                                                           ^ punctuation.separator.sequence
-///                                                             ^^^ variable.other
-///                                                                ^ punctuation.section.sequence.end
-///                                                                 ^ punctuation.terminator.statement
+///                                        ^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                        ^ punctuation.section.sequence.begin.cs
+///                                         ^^^^ variable.other.cs
+///                                             ^ punctuation.separator.sequence.cs
+///                                               ^^^ variable.other.cs
+///                                                  ^ punctuation.section.sequence.end.cs
+///                                                    ^ keyword.operator.assignment.cs
+///                                                      ^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                                      ^ punctuation.section.sequence.begin.cs
+///                                                       ^^^^ variable.other.cs
+///                                                           ^ punctuation.separator.sequence.cs
+///                                                             ^^^ variable.other.cs
+///                                                                ^ punctuation.section.sequence.end.cs
+///                                                                 ^ punctuation.terminator.statement.cs
+
 }
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#pattern-matching

@@ -598,6 +598,7 @@ contexts:
     - include: delegate_declaration
     - include: event_declaration
     - include: extension_declaration
+    - include: constructor_declaration
     - include: member_declaration
 
 ###[ ENUM DECLARATIONS ]#######################################################
@@ -879,6 +880,56 @@ contexts:
       pop: 1
     - include: else_pop
 
+###[ CONSTRUCTOR MEMBER DECLARATIONS ]#########################################
+
+  constructor_declaration:
+    - match: '~{{unreserved_name}}(?=\s*\()'
+      scope: entity.name.function.destructor.cs
+      push:
+        - destructor_meta
+        - method_body
+        - method_parameter_list
+    - match: '{{unreserved_name}}(?=\s*\()'
+      scope: entity.name.function.constructor.cs
+      push:
+        - constructor_meta
+        - method_body
+        - constructor_initializer
+        - method_parameter_list
+
+  constructor_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.constructor.cs
+    - include: immediately_pop
+
+  constructor_initializer:
+    - match: ':'
+      scope: punctuation.separator.function.cs
+      set: inside_constructor_initializer
+    - include: else_pop
+
+  inside_constructor_initializer:
+    - match: ((?:(this)|(base))\s*)(\()
+      captures:
+        1: meta.initializer.cs
+        2: variable.language.this.cs
+        3: variable.language.super.cs
+        4: meta.initializer.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+      set: inside_constructor_initializer_argument_list
+    - include: else_pop
+
+  inside_constructor_initializer_argument_list:
+    - meta_content_scope: meta.initializer.arguments.cs meta.group.cs
+    - match: \)
+      scope: meta.initializer.arguments.cs meta.group.cs punctuation.section.group.end.cs
+      pop: 1
+    - include: arguments
+
+  destructor_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.destructor.cs
+    - include: immediately_pop
+
 ###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
   delegate_declaration:
@@ -1128,17 +1179,6 @@ contexts:
         1: support.type.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
       push: [method_name_or_member_variable, inside_type_argument_list]
-    - match: (~{{name}})(\s*)(\()
-      captures:
-        1: meta.method.cs entity.name.function.destructor.cs
-        2: meta.method.cs
-        3: meta.method.parameters.cs punctuation.section.parameters.begin.cs
-      push: [constructor_prebody, method_params]
-    - match: ({{name}})\s*(\()
-      captures:
-        1: entity.name.function.constructor.cs
-        2: meta.method.parameters.cs punctuation.section.parameters.begin.cs
-      push: [constructor_prebody, method_params]
     - match: (?:({{base_type}})|({{name}}))
       captures:
         1: storage.type.cs
@@ -1156,39 +1196,6 @@ contexts:
           set: method_name_or_member_variable
     - match: (?=\()
       push: [method_name_or_member_variable, type_tuple]
-
-  constructor_prebody:
-    - meta_scope: meta.method.constructor.cs
-    - match: ':'
-      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
-      set:
-        - match: \s+
-          scope: meta.method.constructor.prebody.cs
-        - match: (?:(this)|(base))\s*(\()
-          captures:
-            1: variable.language.this.cs
-            2: variable.language.super.cs
-            3: meta.group.cs punctuation.section.group.begin.cs
-          set: [constructor_initializer, arguments]
-        - match: '(?=\{)'
-          set: method_body
-    - match: '(?=\{|=>)'
-      set: method_body
-
-  constructor_initializer:
-    - meta_scope: meta.method.constructor.prebody.cs
-    - meta_content_scope: meta.group.cs
-    - match: '\)'
-      scope: punctuation.section.group.end.cs
-    - match: ''
-      set: constructor_initializer_after
-
-  constructor_initializer_after:
-    - meta_content_scope: meta.method.constructor.prebody.cs
-    - match: '(?=\{)'
-      set: method_body
-    - match: '(?=\S)'
-      pop: 1
 
   method_name_or_member_variable:
     - match: '\.'
@@ -1330,6 +1337,21 @@ contexts:
   method_body_transition:
     - match: ''
       set: method_body
+
+  method_parameter_list:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_method_parameter_list
+    - include: else_pop
+
+  inside_method_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.method.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 1
+    - match: (?=\S)
+      push: [method_param, method_param_type]
 
   method_params:
     - meta_content_scope: meta.method.parameters.cs
