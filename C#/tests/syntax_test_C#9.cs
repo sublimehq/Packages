@@ -12,13 +12,13 @@ public record Person
     public string FirstName { get; init; }
 ///                           ^^^ keyword.declaration.function.accessor.get
 ///                              ^ punctuation.terminator
-///                                ^^^^ keyword.declaration.function.accessor.set
+///                                ^^^^ keyword.declaration.function.accessor.init
 ///                                    ^ punctuation.terminator
     public string LastName
     {
         get => lastName;
         init => lastName = (value ?? throw new ArgumentNullException(nameof(LastName)));
-///     ^^^^ keyword.declaration.function.accessor.set
+///     ^^^^ keyword.declaration.function.accessor.init
 ///          ^^ keyword.declaration.function.arrow
 ///             ^^^^^^^^ variable.other
 ///                               ^^ keyword.operator.null-coalescing

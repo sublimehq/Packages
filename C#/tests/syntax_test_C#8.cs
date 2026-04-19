@@ -158,17 +158,19 @@ public struct Point3D
 ///               ^^^ storage.modifier
 ///                   ^^^^^^^^ storage.modifier
 ///                            ^^^^^^^ support.type
-///                                    ^^^^^^^^^^^^^^^^^^^^^ meta.property.cs meta.method.cs
+///                                    ^^^^^^^^^ meta.property.cs meta.method.cs
 ///                                    ^^^^^^ variable.other.member
 ///                                           ^^ keyword.declaration.function.accessor.get
+///                                             ^^^^^^^^^^^ meta.property.cs meta.method.body.cs
 ///                                              ^^^ keyword.other
 ///                                                  ^^^^^^ variable.other
 ///                                                        ^ punctuation.terminator.statement
 
     public int P1
         => M1 (M2 ());
-///^^^^^^^^^^^^^^^^^^^ meta.property.cs meta.method.cs
+///^^^^^^^ meta.property.cs meta.method.cs
 ///     ^^ keyword.declaration.function.accessor.get.cs
+///       ^^^^^^^^^^^ meta.property.cs meta.method.body.cs
 ///        ^^^ meta.function-call.cs
 ///           ^ meta.function-call.cs meta.group.cs - meta.function-call meta.function-call
 ///            ^^^ meta.function-call.cs meta.group.cs meta.function-call.cs - meta.group meta.group

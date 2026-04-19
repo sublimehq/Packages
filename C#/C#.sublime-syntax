@@ -1212,7 +1212,7 @@ contexts:
       branch_point: method_or_member_variable_name
       branch:
         - member_variable
-        - member_lambda
+        - member_property
         - method_name
       pop: 1
     - include: else_pop
@@ -1244,44 +1244,40 @@ contexts:
     - include: else_pop
 
   member_variable_declarations:
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - match: (?=\{|=>)
+      push: property_body
     - match: '='
       scope: keyword.operator.assignment.cs
       push:
         - member_variable_declaration_value
         - maybe_pointer
-    - match: '(?=\{)'
-      push: method_accessor
-    - match: '{{name}}'
-      scope: variable.other.member.cs
-    - match: ','
-      scope: punctuation.separator.variables.cs
-    - match: (?=[]})>;])
-      pop: 1
+    - include: else_pop
 
   member_variable_declaration_value:
-    - match: (?=;|,)
+    - match: (?=;)
       pop: 1
     - include: line_of_code_in
 
-  member_lambda:
+  member_property:
     - meta_include_prototype: false
     - match: '{{name}}'
       scope: variable.other.member.cs
       set:
-        - member_lambda_value
-        - member_lambda_operator
+        - member_variable_declarations
+        - member_property_operator
     - include: else_pop
 
-  member_lambda_operator:
+  member_property_operator:
+    - meta_scope: meta.property.cs meta.method.cs
     - match: =>
       scope: keyword.declaration.function.accessor.get.cs
-      pop: 1
+      set: inside_property_expression
     - match: (?=\S)
       fail: method_or_member_variable_name
-
-  member_lambda_value:
-    - meta_scope: meta.property.cs meta.method.cs
-    - include: line_of_code_in
 
   method_name:
     - include: indexer_declaration
@@ -1330,8 +1326,8 @@ contexts:
           pop: 1
         - match: ''
           pop: 1
-    - match: '(?=\s*\{)'
-      set: method_accessor
+    - match: '(?=\s*(\{|=>))'
+      set: property_body
     - match: else_pop
 
   method_body_transition:
@@ -1423,42 +1419,62 @@ contexts:
     - include: stray_close_bracket
     - include: code_block_in
 
-  method_accessor:
-    - meta_scope: meta.property.cs
+###[ PROPERTY DECLARATIONS ]###################################################
+
+  property_body:
+    - meta_content_scope: meta.property.cs
     - match: \{
-      scope: meta.block.cs punctuation.section.block.begin.cs
-      set:
-        - meta_content_scope: meta.property.cs meta.block.cs
-        - match: \}
-          scope: meta.property.cs meta.block.cs punctuation.section.block.end.cs
-          set:
-            - meta_content_scope: meta.property.cs
-            - match: \s*(=)
-              captures:
-                1: keyword.operator.assignment.cs
-              set:
-                - meta_scope: meta.property.cs
-                - include: line_of_code_in
-            - include: immediately_pop
-        - match: (?:\b(readonly)\b\s+)?\b(get)\b
-          captures:
-            1: storage.modifier.cs
-            2: keyword.declaration.function.accessor.get.cs
-          push: method_body
-        - match: (?:set|init)\b
-          scope: keyword.declaration.function.accessor.set.cs
-          push: method_body
-        - match: '{{visibility}}'
-          scope: storage.modifier.access.cs
-        - include: attributes
-    - match: '=>'
-      scope: keyword.declaration.function.arrow.cs
-      set:
-        - meta_content_scope: meta.property.cs
-        - include: line_of_code_in
-    - match: \S
-      scope: invalid.illegal.cs
+      scope: punctuation.section.block.begin.cs
+      set: inside_property_accessor_declaration
+    - match: =>
+      scope: keyword.declaration.function.accessor.get.cs
+      set: inside_property_expression
+    - include: else_pop
+
+  inside_property_accessor_declaration:
+    - meta_scope: meta.property.accessors.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      set: property_initializer
+    - include: stray_close_bracket
+    - include: terminators
+    - include: attributes
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
+    - match: readonly\b
+      scope: storage.modifier.cs
+    - match: init\b
+      scope: keyword.declaration.function.accessor.init.cs
+      push: method_body
+    - match: get\b
+      scope: keyword.declaration.function.accessor.get.cs
+      push: method_body
+    - match: set\b
+      scope: keyword.declaration.function.accessor.set.cs
+      push: method_body
+    - match: '{{name}}'
+      scope: invalid.illegal.unexpected-token.cs
+
+  property_initializer:
+    - meta_content_scope: meta.property.cs
+    - match: \s*(=)
+      scope: meta.property.cs
+      captures:
+        1: keyword.operator.assignment.cs
+      set: property_initializer_value
+    - include: immediately_pop
+
+  property_initializer_value:
+    - meta_scope: meta.property.initializer.cs
+    - match: (?=;)
       pop: 1
+    - include: line_of_code_in
+
+  inside_property_expression:
+    - meta_content_scope: meta.property.cs meta.method.body.cs
+    - match: (?=;)
+      pop: 1
+    - include: line_of_code_in
 
 ###[ VAR DECLARATIONS ]########################################################
 

@@ -392,7 +392,7 @@ namespace YourNamespace
 ///                                                                      ^ meta.method.cs punctuation.terminator.statement.cs
 
         public bool IsZero => IsConst(Numeric<Type>.Zero);
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                  ^ variable.other.member
 ///                        ^^ keyword.declaration.function.accessor.get

@@ -145,7 +145,7 @@ public static class EnumExtensions
         {
             get => minimumPassingGrade;
             set => minimumPassingGrade = value;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.cs meta.block.cs
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.accessors.cs meta.block.cs
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 //          ^^^ keyword.declaration.function.accessor.set.cs
 //              ^^ keyword.declaration.function.arrow.cs
@@ -154,7 +154,7 @@ public static class EnumExtensions
 //                                       ^^^^^ variable.language.cs
 //                                            ^ punctuation.terminator.statement.cs
         }
-//^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.cs meta.block.cs
+//^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.accessors.cs meta.block.cs
 //      ^ punctuation.section.block.end.cs
 //       ^ meta.extension.body.cs meta.block.cs meta.property.cs - meta.block meta.block meta.block
 
@@ -163,9 +163,10 @@ public static class EnumExtensions
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^^ storage.type.cs
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+//                  ^^^^^^^^^^ meta.method.cs
 //                  ^^^^^^^ variable.other.member.cs
 //                          ^^ keyword.declaration.function.accessor.get.cs
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs
 //                             ^^^^^ variable.other.cs
 //                                   ^^ keyword.operator.comparison.cs
 //                                      ^^^^^^^^^^^^^^^^^^^ variable.other.cs
