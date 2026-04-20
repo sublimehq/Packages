@@ -1340,12 +1340,12 @@ contexts:
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, line_of_code_in, line_of_code_in, for_var_assignment, var_declaration]
+      set: [for_block, for_increment, line_of_code_in, variables_declaration, var_declaration]
     - match: \b(for)\s*(\()
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, line_of_code_in, line_of_code_in, line_of_code_in]
+      set: [for_block, for_increment, line_of_code_in, variables_declaration]
     - match: \b(foreach)\s*(\()
       captures:
         1: keyword.control.loop.foreach.cs
@@ -1646,14 +1646,10 @@ contexts:
 
 ###[ LOOP STATEMENTS ]#########################################################
 
-  for_var_assignment:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      set:
-        - line_of_code_in
-        - maybe_pointer
-    - match: (?=;|\)|\})
-      pop: 1
+  for_increment:
+    - match: ','
+      scope: punctuation.separator.expression.cs
+    - include: line_of_code_in
 
   foreach_var_assignment:
     - match: \bin\b
