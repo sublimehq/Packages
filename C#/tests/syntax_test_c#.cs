@@ -327,7 +327,7 @@ public interface IObjectRepository
 {
     bool CanGetObjects(IGetObjectsRequest request);
     dynamic GetObjects(IGetObjectsRequest request);
-//  ^^^^^^^ support.type
+//  ^^^^^^^ storage.type.cs
 //          ^^^^^^^^^^ entity.name.function
 //                                                ^ punctuation.terminator
 }
@@ -339,7 +339,7 @@ public class Program {
         var xml = new XmlDocument ();
         var outcome = xml.SelectSingleNode ("/whatever")?.Attributes? ["nope"];
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
-//      ^^^ storage.type.variable.cs
+//      ^^^ storage.type.cs
 //          ^^^^^^^ variable.other.cs
 //                  ^ keyword.operator.assignment.cs
 //                    ^^^ variable.other.cs

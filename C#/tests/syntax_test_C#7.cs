@@ -240,7 +240,7 @@ class Foo {
         if (int.TryParse(input, out var quantity))
 ///                             ^^^ storage.modifier.argument
 ///                                ^ - storage.modifier.argument
-///                                 ^^^ storage.type.variable
+///                                 ^^^ storage.type
 ///                                     ^^^^^^^^ variable.other
 ///                                             ^^ punctuation.section.group.end
             WriteLine(quantity);
@@ -335,7 +335,7 @@ class Foo {
 ///                            ^ punctuation.section.sequence.end
 ///                             ^ punctuation.terminator.statement
         var (a, b, c) = (1, 2, 3);
-///     ^^^ storage.type.variable
+///     ^^^ storage.type
 ///         ^^^^^^^^^ meta.sequence.tuple
 ///          ^ variable.other
 ///           ^ punctuation.separator.sequence
@@ -452,7 +452,7 @@ class Foo {
 ///                         ^ punctuation.section.sequence.end
 ///                           ^ keyword.operator.assignment
         var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
-///     ^^^ storage.type.variable
+///     ^^^ storage.type
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
 ///                                 ^ - meta.sequence
 ///         ^ punctuation.section.sequence.begin
@@ -493,7 +493,7 @@ class Foo {
 
         var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
         foreach (var (name, age) in dic.Select(x => (x.Key, x.Value)))
-///              ^^^ storage.type.variable
+///              ^^^ storage.type
 ///                  ^^^^^^^^^^^ meta.sequence.tuple
 ///                  ^ punctuation.section.sequence.begin
 ///                   ^^^^ variable.other
@@ -508,7 +508,7 @@ class Foo {
         var positions = new List<(int, int)> { (0, 1), (1, 2), (2, 4) };
         foreach (var(x, y) in positions)
 ///             ^ punctuation.section.group.begin
-///              ^^^storage.type.variable
+///              ^^^storage.type
 ///                 ^^^^^^ meta.sequence.tuple
 ///                 ^ punctuation.section.sequence.begin
 ///                  ^ variable.other
@@ -527,10 +527,10 @@ class Foo {
 ///             ^ punctuation.section.group.begin - meta.sequence
 ///              ^^^^^^^^^^^^^^ meta.sequence.tuple
 ///              ^ punctuation.section.sequence.begin
-///               ^^^ support.type
+///               ^^^ storage.type
 ///                   ^ variable.other
 ///                    ^ punctuation.separator.sequence
-///                      ^^^ support.type
+///                      ^^^ storage.type
 ///                          ^ variable.other
 ///                           ^ punctuation.section.sequence.end
 ///                             ^^ keyword.control.loop.in.cs

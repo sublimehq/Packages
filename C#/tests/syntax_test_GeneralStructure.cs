@@ -985,7 +985,7 @@ namespace TestNamespace . Test
 ///         ^ keyword.control
 ///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
                 var foo = "";
-///             ^ storage.type.variable
+///             ^ storage.type
 ///                       ^^ string.quoted.double
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
@@ -1129,7 +1129,7 @@ namespace TestNamespace . Test
 ///                   ^^^^^^^^^^^^^ support.type.cs
         {
             var test = "Test";
-///         ^ storage.type.variable
+///         ^ storage.type
 ///             ^ variable.other
 ///                  ^ keyword.operator.assignment
 ///                    ^ string.quoted.double
@@ -1178,17 +1178,17 @@ namespace TestNamespace . Test
 ///     ^ meta.class meta.block meta.method meta.block punctuation.section.block.begin
             //Your program starts here...
             var f = 1e-3f;
-///         ^^^ storage.type.variable
+///         ^^^ storage.type
 ///             ^ variable.other
 ///                 ^^^^ constant.numeric
 ///                     ^ constant.numeric.suffix
             var l = 11545L;
-///         ^^^ storage.type.variable
+///         ^^^ storage.type
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
 ///                      ^ constant.numeric.suffix
             var d = 11545D;
-///         ^^^ storage.type.variable
+///         ^^^ storage.type
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
 ///                      ^ constant.numeric.suffix

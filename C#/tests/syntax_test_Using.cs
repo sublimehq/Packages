@@ -141,7 +141,7 @@ class Foo {
 ///      ^ keyword.control.other.fixed
 ///           ^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///           ^ punctuation.section.group.begin
-///             ^ storage.type.variable
+///             ^ storage.type
 ///                                ^ punctuation.section.group.end
 
         fixed (double* valp = &val[offsetval], bp = &b[offsetb], cp = &c[offsetc])
@@ -201,7 +201,7 @@ class Bar {
         using(var reader = SomeCodeThatGetsAnIDisposable())
 ///     ^^^^^ keyword.declaration.using.cs
 ///          ^ punctuation.section.group.begin.cs
-///           ^^^ storage.type.variable.cs
+///           ^^^ storage.type.cs
 ///                                                       ^ punctuation.section.group.end.cs
         {
             foreach(var line in reader)
@@ -212,7 +212,7 @@ class Bar {
         using (var reader = SomeCodeThatGetsAnIDisposable())
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^ storage.type.variable.cs
+///            ^^^ storage.type.cs
 ///                                                        ^ punctuation.section.group.end.cs
         {
             foreach (var line in reader)

@@ -183,7 +183,7 @@ var location = @$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -257,7 +257,7 @@ var location = $$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
@@ -299,7 +299,7 @@ var location = @$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -373,7 +373,7 @@ var location = $$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
@@ -415,7 +415,7 @@ var location = @$$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -489,7 +489,7 @@ var location = $$$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin

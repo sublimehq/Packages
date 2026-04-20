@@ -6,7 +6,7 @@
 using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.variable.cs
+///   ^^^ storage.type.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^^^^^ keyword.control.other.cs
@@ -197,7 +197,7 @@ public struct Point3D
 
 void Example() {
     var originValue = Point3D.Origin;
-/// ^^^ storage.type.variable
+/// ^^^ storage.type
 
     ref readonly var originReference = ref Point3D.Origin;
 /// ^^^^^^^^^^^^ storage.modifier
@@ -248,7 +248,7 @@ static async Task Main()
     using var socket = new ClientWebSocket();
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs meta.using.cs
 /// ^^^^^ keyword.declaration.using
-///       ^^^ storage.type.variable
+///       ^^^ storage.type
 ///           ^^^^^^ variable.other
 ///                  ^ keyword.operator.assignment
 ///                    ^^^ keyword.operator.new
@@ -310,7 +310,7 @@ static Quadrant GetQuadrant(Point point) => point switch
 {
     (0, 0) => Quadrant.Origin,
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
-/// ^^^ storage.type.variable
+/// ^^^ storage.type
 ///     ^^^^^^ meta.sequence.tuple
 ///            ^^^^ keyword.control.conditional.when
 ///                 ^ variable.other
@@ -329,7 +329,7 @@ static Quadrant GetQuadrant(Point point) => point switch
     var (x, y) when x < 0 && y < 0 => Quadrant.Three,
     var (x, y) when x > 0 && y < 0 => Quadrant.Four,
     var (_, _) => Quadrant.OnBorder,
-/// ^^^ storage.type.variable
+/// ^^^ storage.type
 ///     ^^^^^^ meta.sequence.tuple
 ///      ^ variable.language.anonymous
 ///       ^ punctuation.separator.sequence
@@ -344,7 +344,7 @@ static Quadrant GetQuadrant(Point point) => point switch
     using var socket = new ClientWebSocket();
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 /// ^^^^^ keyword.declaration.using.cs
-///       ^^^ storage.type.variable.cs
+///       ^^^ storage.type.cs
 ///           ^^^^^^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
 ///                    ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
@@ -359,7 +359,7 @@ static Quadrant GetQuadrant(Point point) => point switch
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.variable.cs
+///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
@@ -373,7 +373,7 @@ static Quadrant GetQuadrant(Point point) => point switch
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.variable.cs
+///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
@@ -388,7 +388,7 @@ static Quadrant GetQuadrant(Point point) => point switch
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.variable.cs
+///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
@@ -449,7 +449,7 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                              ^ punctuation.section.block.begin.cs
 ///                                ^^^^^^^^^^^^ variable.other.member.cs
 ///                                            ^ keyword.operator.assignment.cs
-///                                              ^^^ storage.type.variable.cs
+///                                              ^^^ storage.type.cs
 ///                                                  ^^^^^^^^^ variable.other.cs
 ///                                                            ^ punctuation.section.block.end.cs
 ///                                                              ^^ keyword.operator.logical.cs
