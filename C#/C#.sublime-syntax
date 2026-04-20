@@ -599,6 +599,7 @@ contexts:
     - include: event_declaration
     - include: extension_declaration
     - include: constructor_declaration
+    - include: conversion_declaration
     - include: member_declaration
 
 ###[ ENUM DECLARATIONS ]#######################################################
@@ -1171,9 +1172,6 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member_declaration:
-    - match: operator\b
-      scope: storage.modifier.cs
-      push: method_name_or_member_variable
     - match: ({{name}})\s*(<)
       captures:
         1: support.type.cs
@@ -1198,16 +1196,10 @@ contexts:
       push: [method_name_or_member_variable, type_tuple]
 
   method_name_or_member_variable:
+    - include: operator_declaration
     - match: '\.'
       scope: punctuation.accessor.dot.cs
       push: expect_type_member
-    - match: '(operator)\s*({{unary_op}}|([^\s(]*))\s*(\()'
-      captures:
-        1: storage.modifier.other.cs
-        2: meta.method.cs entity.name.function.cs
-        3: invalid.illegal.operator.cs
-        4: meta.method.parameters.cs punctuation.section.parameters.begin.cs
-      set: [method_body_transition, method_params]
     - match: (?={{name}})
       branch_point: method_or_member_variable_name
       branch:
@@ -1418,6 +1410,45 @@ contexts:
       pop: 1
     - include: stray_close_bracket
     - include: code_block_in
+
+###[ OPERATOR DECLARATIONS ]###################################################
+
+  conversion_declaration:
+    - match: operator\b
+      scope: keyword.declaration.operator.cs
+      push:
+        - method_body
+        - method_parameter_list
+        - operator_type
+
+  operator_type:
+    - match: (?=\S)
+      set: inside_operator_type
+
+  inside_operator_type:
+    - include: type_common_except_bare_custom_type
+    - match: '{{unreserved_name}}'
+      scope: support.type.cs
+    - include: immediately_pop
+
+  operator_declaration:
+    - match: operator\b
+      scope: keyword.declaration.operator.cs
+      set:
+        - method_body
+        - method_parameter_list
+        - operator_name
+
+  operator_name:
+    # overloadable unary and binary operators
+    - match: (?:\+\+|--|<<|>>>?|<=?|>=?|==|!=|[-+*/%&|^~!]|false|true)(?=[\s(])
+      scope: entity.name.function.cs
+      pop: 1
+    # illegal operator tokens
+    - match: '[^\s(};]+'
+      scope: invalid.illegal.operator.cs
+      pop: 1
+    - include: else_pop
 
 ###[ PROPERTY DECLARATIONS ]###################################################
 
@@ -3324,9 +3355,6 @@ contexts:
 
 variables:
   shebang_language: \bdotnet\s+run\b
-
-  # operators
-  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
 
   # numbers
   dec_digits: (?:[\d_]*\d)

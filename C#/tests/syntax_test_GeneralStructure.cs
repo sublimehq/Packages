@@ -2137,16 +2137,6 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///                                                                            ^^^^^^^^^^^^ variable.other.member.cs
 ///                                                                                        ^ punctuation.terminator.statement.cs
 
-    public static implicit operator AfterTopLevelMethod(int[] some_ints)
-///        ^^^^^^ storage.modifier
-///               ^^^^^^^^ storage.modifier
-///                        ^^^^^^^^ storage.modifier
-///                                                     ^^^ meta.method.parameters storage.type
-///                                                           ^^^^^^^^^ meta.method.parameters variable.parameter
-    {
-        return new AfterTopLevelMethod(some_ints);
-    }
-
     Action<float> actionDelegate = delegate { };
 ///                              ^ keyword.operator.assignment
 ///                                ^^^^^^^^ keyword.other

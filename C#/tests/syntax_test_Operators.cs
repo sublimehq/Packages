@@ -5,7 +5,7 @@ class TestOperatorDefinitions {
     // Arithmetic Operators
 
     public bool operator + (int arg);
-///             ^^^^^^^^ storage.modifier.other.cs
+///             ^^^^^^^^ keyword.declaration.operator.cs
 ///                      ^ meta.method.cs entity.name.function.cs
 ///                        ^^^^^^^^^ meta.method.parameters.cs
 ///                        ^ punctuation.section.parameters.begin.cs
@@ -80,40 +80,208 @@ class TestOperatorDefinitions {
     public bool operator ! (int arg);
 ///                      ^ entity.name.function.cs
 
+    public bool operator true (int arg);
+///                      ^^^^ entity.name.function.cs
+
+    public bool operator false (int arg);
+///                      ^^^^^ entity.name.function.cs
+
+    // Not Overloadable Operators
+
     public bool operator || (int arg);
-///                      ^^ entity.name.function.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator && (int arg);
-///                      ^^ entity.name.function.cs
-
-    // Invalid Operators
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator += (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator -= (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator *= (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator /= (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator ?? (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator .? (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator => (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator -> (int arg);
-///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^ invalid.illegal.operator.cs
 
     public bool operator <<< (int arg);
-///                      ^^^ entity.name.function.cs invalid.illegal.operator.cs
+///                      ^^^ invalid.illegal.operator.cs
+
+    // Conversion Operators
+
+    operator TargetType(int arg) => null;
+/// ^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^^^^^^^^^ meta.method.parameters.cs
+///                    ^ punctuation.section.parameters.begin.cs
+///                     ^^^ storage.type.cs
+///                         ^^^ variable.parameter.cs
+///                            ^ punctuation.section.parameters.end.cs
+///                             ^^^^^^^^ meta.method.cs
+///                              ^^ keyword.declaration.function.arrow.cs
+///                                 ^^^^ constant.language.null.cs
+///                                     ^ punctuation.terminator.statement.cs
+
+    operator TargetType?(int arg) { return null };
+/// ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^ storage.type.nullable.cs
+///                     ^^^^^^^^^ meta.method.parameters.cs
+///                     ^ punctuation.section.parameters.begin.cs
+///                      ^^^ storage.type.cs
+///                          ^^^ variable.parameter.cs
+///                             ^ punctuation.section.parameters.end.cs
+///                              ^ meta.method.cs
+///                               ^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs
+///                               ^ punctuation.section.block.begin.cs
+///                                 ^^^^^^ keyword.control.flow.return.cs
+///                                        ^^^^ constant.language.null.cs
+///                                             ^ punctuation.section.block.end.cs
+///                                              ^ punctuation.terminator.statement.cs
+
+    operator TargetType?<T>(int arg) => null;
+/// ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^ storage.type.nullable.cs
+///                     ^^^ meta.generic.cs
+///                     ^ punctuation.definition.generic.begin.cs
+///                      ^ support.type.cs
+///                       ^ punctuation.definition.generic.end.cs
+///                        ^^^^^^^^^ meta.method.parameters.cs
+///                        ^ punctuation.section.parameters.begin.cs
+///                         ^^^ storage.type.cs
+///                             ^^^ variable.parameter.cs
+///                                ^ punctuation.section.parameters.end.cs
+///                                 ^^^^^^^^ meta.method.cs
+///                                  ^^ keyword.declaration.function.arrow.cs
+///                                     ^^^^ constant.language.null.cs
+///                                         ^ punctuation.terminator.statement.cs
+
+    operator TargetType[][,](int arg) => null;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^^^^^ meta.brackets.cs
+///                    ^ punctuation.section.brackets.begin.cs
+///                     ^ punctuation.section.brackets.end.cs
+///                      ^ punctuation.section.brackets.begin.cs
+///                       ^ punctuation.separator.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^^^^^^^^^ meta.method.parameters.cs
+///                         ^ punctuation.section.parameters.begin.cs
+///                          ^^^ storage.type.cs
+///                              ^^^ variable.parameter.cs
+///                                 ^ punctuation.section.parameters.end.cs
+///                                  ^^^^^^^^ meta.method.cs
+///                                   ^^ keyword.declaration.function.arrow.cs
+///                                      ^^^^ constant.language.null.cs
+///                                          ^ punctuation.terminator.statement.cs
+
+    operator TargetType[][,]?(int arg) => null;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^^^^^ meta.brackets.cs
+///                    ^ punctuation.section.brackets.begin.cs
+///                     ^ punctuation.section.brackets.end.cs
+///                      ^ punctuation.section.brackets.begin.cs
+///                       ^ punctuation.separator.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ storage.type.nullable.cs
+///                          ^^^^^^^^^ meta.method.parameters.cs
+///                          ^ punctuation.section.parameters.begin.cs
+///                           ^^^ storage.type.cs
+///                               ^^^ variable.parameter.cs
+///                                  ^ punctuation.section.parameters.end.cs
+///                                   ^^^^^^^^ meta.method.cs
+///                                    ^^ keyword.declaration.function.arrow.cs
+///                                       ^^^^ constant.language.null.cs
+///                                           ^ punctuation.terminator.statement.cs
+
+    operator TargetType<T>[][,]?(int arg) => null;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^^^^ support.type.cs
+///                    ^^^ meta.generic.cs
+///                    ^ punctuation.definition.generic.begin.cs
+///                     ^ support.type.cs
+///                      ^ punctuation.definition.generic.end.cs
+///                       ^^^^^ meta.brackets.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ punctuation.section.brackets.begin.cs
+///                          ^ punctuation.separator.cs
+///                           ^ punctuation.section.brackets.end.cs
+///                            ^ storage.type.nullable.cs
+///                             ^^^^^^^^^ meta.method.parameters.cs
+///                             ^ punctuation.section.parameters.begin.cs
+///                              ^^^ storage.type.cs
+///                                  ^^^ variable.parameter.cs
+///                                     ^ punctuation.section.parameters.end.cs
+///                                      ^^^^^^^^ meta.method.cs
+///                                       ^^ keyword.declaration.function.arrow.cs
+///                                          ^^^^ constant.language.null.cs
+///                                              ^ punctuation.terminator.statement.cs
+
+    operator dynamic(int arg) => null;
+/// ^^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^^ storage.type.cs
+///                 ^^^^^^^^^ meta.method.parameters.cs
+///                 ^ punctuation.section.parameters.begin.cs
+///                  ^^^ storage.type.cs
+///                      ^^^ variable.parameter.cs
+///                         ^ punctuation.section.parameters.end.cs
+///                          ^^^^^^^^ meta.method.cs
+///                           ^^ keyword.declaration.function.arrow.cs
+///                              ^^^^ constant.language.null.cs
+///                                  ^ punctuation.terminator.statement.cs
+
+    operator object(int arg) => null;
+/// ^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^ storage.type.cs
+///                ^^^^^^^^^ meta.method.parameters.cs
+///                ^ punctuation.section.parameters.begin.cs
+///                 ^^^ storage.type.cs
+///                     ^^^ variable.parameter.cs
+///                        ^ punctuation.section.parameters.end.cs
+///                         ^^^^^^^^ meta.method.cs
+///                          ^^ keyword.declaration.function.arrow.cs
+///                             ^^^^ constant.language.null.cs
+///                                 ^ punctuation.terminator.statement.cs
+
+    operator string(int arg) => null;
+/// ^^^^^^^^^^^^^^^ meta.method.cs
+/// ^^^^^^^^ keyword.declaration.operator.cs
+///          ^^^^^^ storage.type.cs
+///                ^^^^^^^^^ meta.method.parameters.cs
+///                ^ punctuation.section.parameters.begin.cs
+///                 ^^^ storage.type.cs
+///                     ^^^ variable.parameter.cs
+///                        ^ punctuation.section.parameters.end.cs
+///                         ^^^^^^^^ meta.method.cs
+///                          ^^ keyword.declaration.function.arrow.cs
+///                             ^^^^ constant.language.null.cs
+///                                 ^ punctuation.terminator.statement.cs
+
 }
 
 /// Operators /////////////////////////////////////////////////////////////////
