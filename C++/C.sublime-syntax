@@ -1348,7 +1348,7 @@ contexts:
   preprocessor-macro-define:
     - match: ^\s*(#\s*define)\b
       captures:
-        1: meta.preprocessor.macro.c keyword.control.directive..define.c
+        1: meta.preprocessor.macro.c keyword.control.directive.define.c
       push:
         - meta_content_scope: meta.preprocessor.macro.c
         - include: preprocessor-line-continuation
