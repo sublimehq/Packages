@@ -2345,7 +2345,7 @@
 --     ^ meta.function.identifier.haskell
 --      ^^^^^^^^^^^^^ - meta.function
 --      ^^ punctuation.separator.type.haskell
---         ^ variable.other..haskell
+--         ^ variable.other.haskell
 --           ^^ keyword.operator.arrow.haskell
 --              ^^^^ support.type.prelude.haskell
 
