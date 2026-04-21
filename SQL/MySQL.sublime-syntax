@@ -1202,6 +1202,9 @@ contexts:
       push: generated-always-as-expression
     - match: \b(?i:stored|virtual)\b
       scope: storage.modifier.sql
+    - match: \b(?i:comment)\b
+      scope: keyword.other.sql
+      push: single-string
 
   generated-always-as-expression:
     - include: maybe-group

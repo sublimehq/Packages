@@ -1215,7 +1215,17 @@ create table IF NOT EXISTS `testing123` (
     `fkey` INT UNSIGNED NULL REFERENCES test2(id),
 --                           ^^^^^^^^^^ storage.modifier.sql
     `version` tinytext DEFAULT NULL COMMENT 'important clarification',
+--  ^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--          ^ punctuation.definition.identifier.end.sql
 --            ^^^^^^^^ storage.type.sql
+--                     ^^^^^^^ storage.modifier.sql
+--                             ^^^^ constant.language.null.sql
+--                                  ^^^^^^^ keyword.other.sql
+--                                          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                          ^ punctuation.definition.string.begin.sql
+--                                                                  ^ punctuation.definition.string.end.sql
+--                                                                   ^ punctuation.separator.sequence.sql
     `percentage` float DEFAULT '0',
 
     `set` SET ('value1', 'value2') NOT NULL,
