@@ -205,7 +205,7 @@ namespace YourNamespace
 ///              ^ punctuation.section.parameters.begin.cs
 ///               ^^ support.type.cs
 ///                  ^^^ variable.parameter.cs
-///                     ^ punctuation.separator.parameter.function.cs
+///                     ^ punctuation.separator.parameter.cs
 ///                       ^^^ storage.type.cs
 ///                           ^^^ variable.parameter.cs
 ///                              ^ punctuation.section.parameters.end.cs
@@ -383,44 +383,67 @@ namespace YourNamespace
 ///                                           ^ punctuation.section.brackets.begin.cs
 ///                                            ^ punctuation.section.brackets.end.cs
 ///                                                ^ variable.parameter.cs
-///                                                 ^ punctuation.separator.parameter.function.cs
+///                                                 ^ punctuation.separator.parameter.cs
 ///                                                     ^^^ storage.type.cs
 ///                                                           ^ variable.parameter.cs
-///                                                            ^ punctuation.separator.parameter.function.cs
+///                                                            ^ punctuation.separator.parameter.cs
 ///                                                               ^^^^^^ storage.modifier.parameter.cs
 ///                                                                     ^ punctuation.section.parameters.end.cs
-///                                                                      ^ meta.method.cs punctuation.terminator.statement.cs
+///                                                                      ^ punctuation.terminator.statement.cs
 
         public bool IsZero => IsConst(Numeric<Type>.Zero);
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
-///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-///                  ^ variable.other.member
-///                        ^^ keyword.declaration.function.accessor.get
-///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-///                                   ^^^^^^^ support.type
-///                                          ^^^^^^ meta.generic
-///                                          ^ punctuation.definition.generic.begin
-///                                           ^^^^ support.type
-///                                               ^ punctuation.definition.generic.end
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^^^^^^^^^^^ meta.property.cs
+///            ^^^^ storage.type.cs
+///                 ^^^^^^ variable.other.member.cs
+///                        ^^ keyword.declaration.function.accessor.get.cs
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property.body.cs
+///                           ^^^^^^^ meta.function-call.cs variable.function.cs
+///                                  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs
+///                                  ^ punctuation.section.group.begin.cs
+///                                   ^^^^^^^ support.type.cs
+///                                          ^^^^^^ meta.generic.cs
+///                                          ^ punctuation.definition.generic.begin.cs
+///                                           ^^^^ support.type.cs
+///                                               ^ punctuation.definition.generic.end.cs
+///                                                ^ punctuation.accessor.dot.cs
+///                                                 ^^^^ variable.other.cs
+///                                                     ^ punctuation.section.group.end.cs
+///                                                      ^ punctuation.terminator.statement.cs
 
         public bool InlineProperty {get; private set; } = false;
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
-///                 ^^^^^^^^^^^^^^ variable.other.member
-///                                ^^^^^^^^^^^^^^^^^^^^ meta.property meta.block
-///                                 ^^^ keyword.declaration.function.accessor.get
-///                                      ^^^^^^^ storage.modifier.access
-///                                              ^^^ keyword.declaration.function.accessor.set
-///                                                     ^ keyword.operator.assignment
-///                                                       ^^^^^ constant.language
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^^^^^^^^^^^^^^^^^ meta.property.cs
+///            ^^^^ storage.type.cs
+///                 ^^^^^^^^^^^^^^ variable.other.member.cs
+///                                ^^^^^^^^^^^^^^^^^^^^ meta.property.accessors.cs meta.block.cs
+///                                ^ punctuation.section.block.begin.cs
+///                                 ^^^ meta.method.cs keyword.declaration.function.accessor.get.cs
+///                                    ^ punctuation.terminator.statement.cs
+///                                      ^^^^^^^ storage.modifier.access.cs
+///                                              ^^^ meta.method.cs keyword.declaration.function.accessor.set.cs
+///                                                 ^ punctuation.terminator.statement.cs
+///                                                   ^ punctuation.section.block.end.cs
+///                                                    ^^^^^^^^ meta.property.initializer.cs
+///                                                    ^^ meta.property.cs
+///                                                     ^ keyword.operator.assignment.cs
+///                                                       ^^^^^ constant.language.boolean.false.cs
+///                                                            ^ punctuation.terminator.statement.cs
 
         public new bool NewMethod() => false;
-///            ^^^ storage.modifier
-///                ^^^^ storage.type
-///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
-///                     ^^^^^^^^^ entity.name.function
-///                              ^^ meta.method.parameters
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^ storage.modifier.cs
+///                ^^^^ meta.method.return-value.cs storage.type.cs
+///                    ^^^^^^^^^^ meta.method.cs
+///                     ^^^^^^^^^ entity.name.function.cs
+///                              ^^ meta.method.parameters.cs
+///                              ^ punctuation.section.parameters.begin.cs
+///                               ^ punctuation.section.parameters.end.cs
+///                                ^^^ meta.method.cs
 ///                                 ^^ keyword.declaration.function.arrow.cs
-///                                    ^^^^^ constant.language
+///                                   ^^^^^^ meta.method.body.cs
+///                                    ^^^^^ constant.language.boolean.false.cs
+///                                         ^ punctuation.terminator.statement.cs
     }
 
     struct
@@ -1299,7 +1322,7 @@ namespace TestNamespace . Test
 
         Item this[int key] => expression;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
-///          ^^^^ meta.indexer.cs
+///     ^^^^^^^^^ meta.indexer.cs
 ///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                       ^^^ meta.indexer.cs
 ///                          ^^^^^^^^^^^ meta.indexer.body.cs
@@ -1315,7 +1338,7 @@ namespace TestNamespace . Test
 
         Item this[int key]{ get; set; }
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
-///          ^^^^ meta.indexer.cs
+///     ^^^^^^^^^ meta.indexer.cs
 ///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                       ^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
 ///     ^^^^ support.type.cs
@@ -1325,16 +1348,14 @@ namespace TestNamespace . Test
 ///                   ^^^ variable.parameter.cs
 ///                      ^ punctuation.section.brackets.end.cs
 ///                       ^ punctuation.section.block.begin.cs
-///                         ^^^^ meta.method.cs
-///                         ^^^ keyword.declaration.function.accessor.get.cs
+///                         ^^^ meta.method.cs keyword.declaration.function.accessor.get.cs
 ///                            ^ punctuation.terminator.statement.cs
-///                              ^^^^ meta.method.cs
-///                              ^^^ keyword.declaration.function.accessor.set.cs
+///                              ^^^ meta.method.cs keyword.declaration.function.accessor.set.cs
 ///                                 ^ punctuation.terminator.statement.cs
 ///                                   ^ punctuation.section.block.end.cs
 
         Item IList<int>.this [int key] { internal get; protected set {  } }
-///          ^^^^^^^^^^^^^^^^ meta.indexer.cs
+///     ^^^^^^^^^^^^^^^^^^^^^ meta.indexer.cs
 ///                          ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                                   ^ meta.indexer.cs
 ///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
@@ -1442,17 +1463,28 @@ namespace TestNamespace . Test
 ///                             ^ punctuation.section.group.end
 ///                              ^ punctuation.definition.annotation.end
 ///                               ^ - meta.annotation
-        void Test() {
-        }
+        void Test() {}
 
 
+        [SomeAttribute (Url="//")]
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - comment
+///     ^ punctuation.definition.annotation.begin
+///      ^^^^^^^^^^^^^ variable.annotation
+///                    ^ punctuation.section.group.begin
+///                     ^^^ variable.parameter
+///                        ^ keyword.operator.assignment
+///                         ^^^^ string.quoted.double
+///                             ^ punctuation.section.group.end
+///                              ^ punctuation.definition.annotation.end
+///                               ^ - meta.annotation
         int Method4 => 5;
-///     ^^^ storage.type
-///         ^^^^^^^ variable.other.member
-///                 ^^^^ meta.method
-///                 ^^ keyword.declaration.function
-///                    ^ constant.numeric
-///                     ^ punctuation.terminator
+///     ^^^^^^^^^^^^^^ meta.property.cs
+///     ^^^ storage.type.cs
+///         ^^^^^^^ variable.other.member.cs
+///                 ^^ keyword.declaration.function.accessor.get.cs
+///                   ^^ meta.property.body.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ punctuation.terminator.statement.cs
 
         delegate int del(int i);
 ///     ^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
@@ -1517,7 +1549,7 @@ namespace TestNamespace . Test
 ///                                        ^ punctuation.section.group.begin.cs
 ///                                        ^^^^^^^^^^^^^^ meta.group.cs
 ///                                         ^^^^^ variable.parameter.cs
-///                                              ^ punctuation.separator.parameter.function.cs
+///                                              ^ punctuation.separator.parameter.cs
 ///                                                ^^^^^ variable.parameter.cs
 ///                                                     ^ punctuation.section.group.end.cs
 ///                                                       ^^ keyword.declaration.function.arrow.cs
@@ -1741,7 +1773,7 @@ namespace TestNamespace . Test
 ///                                    ^^^^^^^^^^^^^^^^^ meta.function.anonymous
 ///                                    ^^^^^^ meta.group
 ///                                     ^ variable.parameter
-///                                      ^ punctuation.separator.parameter.function
+///                                      ^ punctuation.separator.parameter
 ///                                        ^ variable.parameter
 ///                                           ^^ keyword.declaration.function.arrow
 ///                                                     ^ punctuation.terminator.statement
@@ -2200,6 +2232,8 @@ public class MyClass
 ///      ^^^ variable.other.member
 
     bool var => return 0;
+/// ^^^^^^^^^^^ meta.property.cs
+///            ^^^^^^^^^ meta.property.body.cs
 /// ^^^^ storage.type
 ///      ^^^ variable.other.member
 ///          ^^ keyword.declaration.function.accessor.get
@@ -2213,6 +2247,8 @@ public class MyClass
 
     bool var
         => return 0;
+///    ^^^ meta.property.cs
+///       ^^^^^^^^^ meta.property.body.cs
 ///     ^^ keyword.declaration.function.accessor.get
 ///        ^^^^^^ keyword.other
 ///               ^ meta.number.integer.decimal constant.numeric.value

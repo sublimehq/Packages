@@ -397,7 +397,7 @@ public record Person(
 ///                                         ^ punctuation.definition.annotation.end
 ///                                          ^^^^^^ storage.type
 ///                                                 ^^^^^^^^^ variable.parameter
-///                                                          ^ punctuation.separator.parameter.function
+///                                                          ^ punctuation.separator.parameter
     [property: JsonPropertyName("lastName")]string LastName);
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.parameters meta.annotation
 /// ^ punctuation.definition.annotation.begin
@@ -782,14 +782,15 @@ unsafe class TestFunctionPointers {
 ///          ^ punctuation.definition.generic.begin.cs
 ///           ^^^^ storage.type.cs
 ///               ^ punctuation.definition.generic.end.cs
-///                 ^^^^ variable.other.cs
+///                 ^^^^ variable.other.member.cs
 ///                     ^ punctuation.terminator.statement.cs
 
     TestFunctionPointers(delegate*<void> ptr) => _ptr = ptr;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 /// ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                                          ^^^^^^^^^^^^^^ meta.method.cs
+///                                          ^^^ meta.method.cs
+///                                             ^^^^^^^^^^^ meta.method.body.cs
 /// ^^^^^^^^^^^^^^^^^^^^ entity.name.function.constructor.cs
 ///                     ^ punctuation.section.parameters.begin.cs
 ///                      ^^^^^^^^^^^^^^^ meta.type.funcptr.cs

@@ -542,23 +542,28 @@ class Foo {
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
-/// ^^^^^^^ storage.modifier.access
-///         ^^^^^^ storage.modifier
-///                ^ punctuation.section.sequence.begin
-///                 ^^^ storage.type
-///                     ^^^ variable.other
-///                        ^ punctuation.separator.sequence
-///                          ^^^ storage.type
-///                              ^^^ variable.other
-///                                 ^ punctuation.section.sequence.end
-///                                   ^^^^^ entity.name.function - entity.name.function.constructor
-///                                        ^ punctuation.section.parameters.begin
-///                                         ^^^^^^^^^^^ support.type
-///                                                    ^ punctuation.definition.generic.begin
-///                                                     ^^^ storage.type
-///                                                        ^ punctuation.definition.generic.end
-///                                                          ^^^^^^^ variable.parameter
-///                                                                 ^ punctuation.section.parameters.end
+/// ^^^^^^^ storage.modifier.access.cs
+///         ^^^^^^ storage.modifier.cs
+///                ^^^^^^^^^^^^^^^^^^ meta.method.return-value.cs meta.sequence.tuple.cs
+///                ^ punctuation.section.sequence.begin.cs
+///                 ^^^ storage.type.cs
+///                     ^^^ variable.other.cs
+///                        ^ punctuation.separator.sequence.cs
+///                          ^^^ storage.type.cs
+///                              ^^^ variable.other.cs
+///                                 ^ punctuation.section.sequence.end.cs
+///                                  ^^^^^^ meta.method.cs
+///                                   ^^^^^ entity.name.function.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                        ^ punctuation.section.parameters.begin.cs
+///                                         ^^^^^^^^^^^ support.type.cs
+///                                                    ^^^^^ meta.generic.cs
+///                                                    ^ punctuation.definition.generic.begin.cs
+///                                                     ^^^ storage.type.cs
+///                                                        ^ punctuation.definition.generic.end.cs
+///                                                          ^^^^^^^ variable.parameter.cs
+///                                                                 ^ punctuation.section.parameters.end.cs
+///                                                                  ^ meta.method.cs
     {
         int min = int.MaxValue;
         int max = int.MinValue;
@@ -624,7 +629,7 @@ class Foo {
 ///                                     ^^^ variable.other
 ///                                        ^ punctuation.section.sequence.end
 ///                                          ^^^ variable.parameter
-///                                             ^ punctuation.separator.parameter.function
+///                                             ^ punctuation.separator.parameter
 ///                                               ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
 ///                                                                     ^^^^^^^^ variable.parameter
 ///                                                                             ^ punctuation.section.parameters.end
@@ -637,7 +642,7 @@ class Foo {
 ///                            ^^^^^ storage.type
 ///                                  ^ punctuation.section.sequence.end
 ///                                    ^^^ variable.parameter - meta.sequence
-///                                       ^ punctuation.separator.parameter.function
+///                                       ^ punctuation.separator.parameter
 ///                                         ^^^^^^^^^^^^^ meta.sequence.tuple
 ///                                         ^ punctuation.section.sequence.begin
 ///                                          ^^^ storage.type
@@ -812,10 +817,11 @@ public class MyClass {
     object obj;
     public MyClass () => obj = null;
 /// ^^^^^^ storage.modifier.access.cs
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+///        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 ///        ^^^^^^^^ meta.method.cs
 ///                ^^ meta.method.parameters.cs
-///                  ^^^^^^^^^^^^^^ meta.method.cs
+///                  ^^^ meta.method.cs
+///                     ^^^^^^^^^^^ meta.method.body.cs
 ///        ^^^^^^^ entity.name.function.constructor.cs
 ///                ^ punctuation.section.parameters.begin.cs
 ///                 ^ punctuation.section.parameters.end.cs
@@ -834,14 +840,15 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 
     public Person(string name, int age) => (Name, Age) = (name, age);
 /// ^^^^^^ storage.modifier.access.cs
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 ///        ^^^^^^ meta.method.cs entity.name.function.constructor.cs
 ///              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+///                                    ^^^ meta.method.cs
+///                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs
 ///              ^ punctuation.section.parameters.begin.cs
 ///               ^^^^^^ storage.type.cs
 ///                      ^^^^ variable.parameter.cs
-///                          ^ punctuation.separator.parameter.function.cs
+///                          ^ punctuation.separator.parameter.cs
 ///                            ^^^ storage.type.cs
 ///                                ^^^ variable.parameter.cs
 ///                                   ^ punctuation.section.parameters.end.cs

@@ -655,7 +655,7 @@ public readonly struct Distance(double dx, double dy)
 ///                            ^ punctuation.section.parameters.begin
 ///                             ^^^^^^ storage.type
 ///                                    ^^ variable.parameter
-///                                      ^ punctuation.separator.parameter.function
+///                                      ^ punctuation.separator.parameter
 ///                                        ^^^^^^ storage.type
 ///                                               ^^ variable.parameter
 ///                                                 ^ punctuation.section.parameters.end
@@ -714,7 +714,7 @@ class SomeClass
 ///                                                    ^^ meta.method.parameters.cs
 ///                                                    ^ punctuation.section.parameters.begin.cs
 ///                                                     ^ punctuation.section.parameters.end.cs
-///                                                      ^ meta.method.cs punctuation.terminator.statement.cs
+///                                                      ^ punctuation.terminator.statement.cs - meta.method
 
     [GeneratedRegex(@"^some(?<named_capture>[^/]{1,100})$")]
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
