@@ -177,7 +177,7 @@ contexts:
 
   expression:
     # priority issues with matching ^\s*{{identifier}}
-    - match: ^\s+
+    - match: ^\s+(?={{identifier}})
       branch_point: try-function
       branch: [try-function, else-pop]
     - include: keyword.control-flow
@@ -383,7 +383,7 @@ contexts:
   type.enum-body:
     - meta_content_scope: meta.block.c
     - match: '{{identifier}}'
-      scope: entity.name.constant.c
+      scope: entity.name.constant.c variable.language.c
       push:
         - match: (?=,|})
           pop: 1
