@@ -879,7 +879,7 @@ contexts:
         - method_declaration
         - indexer_declaration
         - property_declaration
-        - member_variable_declaration
+        - field_declaration
 
   member_qualifiers:
     - match: \.
@@ -976,7 +976,7 @@ contexts:
       push:
         - event_declaration_meta
         - event_declaration_initializer
-        - event_declaration_name
+        - field_declaration_name
         - expect_type
 
   event_declaration_meta:
@@ -984,23 +984,12 @@ contexts:
     - meta_scope: meta.event.cs
     - include: immediately_pop
 
-  event_declaration_name:
-    - include: member_qualifiers
-    - match: '{{unreserved_name}}'
-      scope: variable.other.member.cs
-      pop: 1
-    - include: else_pop
-
   event_declaration_initializer:
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: inside_event_accessor_declaration
     - match: (?=\S)
-      set: event_variable_declarations
-
-  event_variable_declarations:
-    - include: member_qualifiers
-    - include: member_variable_declarations
+      set: inside_field_declarations
 
   inside_event_accessor_declaration:
     - meta_scope: meta.accessors.cs meta.block.cs
@@ -1072,6 +1061,43 @@ contexts:
     - include: modifiers
     - include: member_declaration
     - include: code_block_in
+
+###[ FIELD MEMBER DECLARATIONS ]###############################################
+
+  field_declaration:
+    - meta_include_prototype: false
+    - meta_scope: meta.field.cs
+    - match: ''
+      set:
+        - inside_field_declarations
+        - type_no_space
+
+  field_declaration_name:
+    - meta_include_prototype: false
+    - include: member_qualifiers
+    - match: '{{unreserved_name}}'
+      scope: variable.other.member.cs
+      pop: 1
+    - include: else_pop
+
+  inside_field_declarations:
+    - meta_scope: meta.field.cs
+    - include: member_qualifiers
+    - match: '{{unreserved_name}}'
+      scope: variable.other.member.cs
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - match: '='
+      scope: keyword.operator.assignment.cs
+      push:
+        - field_declaration_value
+        - maybe_pointer
+    - include: else_pop
+
+  field_declaration_value:
+    - match: (?=;)
+      pop: 2
+    - include: line_of_code_in
 
 ###[ INDEXER DECLARATIONS ]####################################################
 
@@ -1287,7 +1313,7 @@ contexts:
     - match: ''
       set:
         - property_body
-        - member_variable_name
+        - field_declaration_name
         - type_no_space
 
   property_body:
@@ -1340,58 +1366,6 @@ contexts:
 
   inside_property_expression:
     - meta_content_scope: meta.property.body.cs
-    - include: line_of_code_in
-
-###[ VARIABLE MEMBER DECLARATIONS ]############################################
-
-  member_variable_declaration:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - member_variable_meta
-        - member_variable_check
-        - member_variable_name
-        - type_no_space
-
-  member_variable_meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.variable.cs
-    - include: immediately_pop
-
-  member_variable_name:
-    - meta_include_prototype: false
-    - match: \.
-      scope: punctuation.accessor.dot.cs
-    - match: '{{name}}(?=\s*(?:<[^(]*>\s*)?\.)'
-      scope: entity.other.inherited-class.cs
-      push:
-        - type_suffix
-        - type_argument_list
-    - match: '{{unreserved_name}}'
-      scope: variable.other.member.cs
-      pop: 1
-    - include: else_pop
-
-  member_variable_check:
-    - match: (?=[,=])
-      set: member_variable_declarations
-    - include: else_pop
-
-  member_variable_declarations:
-    - match: '{{unreserved_name}}'
-      scope: variable.other.member.cs
-    - match: ','
-      scope: punctuation.separator.variables.cs
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - member_variable_declaration_value
-        - maybe_pointer
-    - include: else_pop
-
-  member_variable_declaration_value:
-    - match: (?=;)
-      pop: 2
     - include: line_of_code_in
 
 ###[ VAR DECLARATIONS ]########################################################

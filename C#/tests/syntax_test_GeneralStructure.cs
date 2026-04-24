@@ -2227,25 +2227,28 @@ public class MyClass
 
 public class MyClass
 {
-    bool var // missing semi-colon
-/// ^^^^ storage.type
-///      ^^^ variable.other.member
+    public bool var // missing semi-colon
+/// ^^^^^^ storage.modifier
+///        ^^^^ storage.type
+///             ^^^ variable.other.member
 
-    bool var => return 0;
-/// ^^^^^^^^^^^ meta.property.cs
-///            ^^^^^^^^^ meta.property.body.cs
-/// ^^^^ storage.type
-///      ^^^ variable.other.member
-///          ^^ keyword.declaration.function.accessor.get
-///             ^^^^^^ keyword.other
-///                    ^ meta.number.integer.decimal constant.numeric.value
-///                     ^ punctuation.terminator.statement
+    public bool var => return 0;
+///        ^^^^^^^^^^^ meta.property.cs
+///                   ^^^^^^^^^ meta.property.body.cs
+/// ^^^^^^ storage.modifier
+///        ^^^^ storage.type
+///             ^^^ variable.other.member
+///                 ^^ keyword.declaration.function.accessor.get
+///                    ^^^^^^ keyword.other
+///                           ^ meta.number.integer.decimal constant.numeric.value
+///                            ^ punctuation.terminator.statement
 
-    bool var // missing semi-colon
-/// ^^^^ storage.type
-///      ^^^ variable.other.member
+    public bool var // missing semi-colon
+/// ^^^^^^ storage.modifier
+///        ^^^^ storage.type
+///             ^^^ variable.other.member
 
-    bool var
+    public bool var
         => return 0;
 ///    ^^^ meta.property.cs
 ///       ^^^^^^^^^ meta.property.body.cs
@@ -2254,9 +2257,10 @@ public class MyClass
 ///               ^ meta.number.integer.decimal constant.numeric.value
 ///                ^ punctuation.terminator.statement
 
-    bool var // missing semi-colon
-/// ^^^^ storage.type
-///      ^^^ variable.other.member
+    public bool var // missing semi-colon
+/// ^^^^^^ storage.modifier
+///        ^^^^ storage.type
+///             ^^^ variable.other.member
 }
 /// <- meta.class.body meta.block punctuation.section.block.end
 /// ^ - meta
