@@ -364,7 +364,7 @@ contexts:
 
   preprocessor_pragma_warning_args:
     - meta_content_scope: meta.preprocessor.cs
-    - match: (disable|restore)(?:\s+([\p{L}_-]+))?
+    - match: (disable|restore)(?:\s+([\w-]+))?
       scope: meta.preprocessor.cs
       captures:
         1: keyword.control.directive.other.cs

@@ -28,7 +28,14 @@ using System;
 ///     ^^^^^^^ entity.name.pragma.warning.cs
 ///             ^^^^^^^ keyword.control.directive.other.cs
 ///                     ^^^^^^^^^^^^ meta.string.cs string.unquoted.cs
-#pragma warning restore warning-list
+
+#pragma warning restore CS8618
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold
+///^^^^ keyword.control.directive.pragma.cs
+///     ^^^^^^^ entity.name.pragma.warning.cs
+///             ^^^^^^^ keyword.control.directive.other.cs
+///                     ^^^^^^ meta.string.cs string.unquoted.cs
+
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold
 ///^^^^ keyword.control.directive.pragma.cs
