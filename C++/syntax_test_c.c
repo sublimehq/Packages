@@ -1151,6 +1151,40 @@ __notdeclspec(deprecated("bla")) void func2(int) {}
 /* <- meta.function-call variable.function                    */
 /*                                    ^ entity.name.function  */
 
+
+
+inline [[nodiscard]] [[gnu::hot]] static void nodiscard_func();
+/* <- storage.modifier.c */
+/*     ^^^^^^^^^^^^^ meta.attribute.c */
+/*     ^^ punctuation.section.attribute.begin.c */
+/*       ^^^^^^^^^ storage.modifier.c */
+/*                ^^ punctuation.section.attribute.end.c */
+/*                   ^^^^^^^^^^^^ meta.attribute.c */
+/*                   ^^  punctuation.section.attribute.begin.c */
+/*                             ^^  punctuation.section.attribute.end.c */
+/*                                ^^^^^^ storage.modifier.c */
+/*                                            ^^^^^^^^^^^^^^ entity.name.function.c */
+
+
+[[deprecated("no longer used")]] void attribute_with_arg_func();
+/* <- meta.attribute.c punctuation.section.attribute.begin.c */
+/*^^^^^^^^^^ storage.modifier.c */
+/*          ^^^^^^^^^^^^^^^^^^ meta.group.c */
+/*            ^^^^^^^^^^^^^^^ string.quoted.double.c */
+/*                           ^ punctuation.section.group.end.c */
+/*                            ^^ punctuation.section.attribute.end.c */
+/*                                    ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.c */
+
+inline [[gnu::always_inline, nodiscard]] void gnu_attributes_func();
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*     ^^ meta.attribute.c punctuation.section.attribute.begin.c */
+/*                         ^ punctuation.separator.c */
+/*                           ^^^^^^^^^ storage.modifier.c */
+/*                                    ^^ punctuation.section.attribute.end.c */
+/*                                            ^^^^^^^^^^^^^^^^^^^ entity.name.function.c */
+
+
+
 /////////////////////////////////////////////
 // Test function call in function parameters
 /////////////////////////////////////////////

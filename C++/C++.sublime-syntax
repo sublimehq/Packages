@@ -86,6 +86,12 @@ variables:
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
 
+  attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
+  attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+({{attribute_token}}|\.\.\.))'
+  attribute_namespace_list: '(using\s+{{identifier}}:\s*{{attribute_list}})'
+  attribute_body: '{{attribute_list}}|{{attribute_namespace_list}}'
+
+
 contexts:
   main:
     - include: preprocessor-global
@@ -309,7 +315,7 @@ contexts:
             - include: global
         - match: (?=\S)
           set: global-modifier
-    - match: ^\s*(?=\w)
+    - match: ^\s*(?=(\w|\[\[{{attribute_body}}\]\]))
       push: global-modifier
     - include: late-expressions
 
@@ -447,7 +453,40 @@ contexts:
   operators:
     - include: scope:source.c#operators
 
+  attribute_list:
+    - meta_scope: meta.attribute.c++
+    - match: '\b(noreturn|carries_dependency|deprecated|fallthrough|maybe_unused|nodiscard|likely|unlikely|no_unique_address|assume|indeterminate)\b'
+      scope: storage.modifier.c++
+    - include: parens
+    - match: ','
+      scope: punctuation.separator.c++
+    - match: '\.\.\.'
+      scope: keyword.operator.variadic.c++
+    - match: \]\]
+      scope: punctuation.section.attribute.end.c++
+      pop: true
+
+  attributes:
+    - match: '\[\[(?={{attribute_namespace_list}}\]\])'
+      scope: punctuation.section.attribute.begin.c++
+      push:
+        - meta_scope: meta.attribute.c++
+        - match: 'using'
+          scope:  keyword.control.c++
+          push:
+            - match: '{{identifier}}'
+              push:
+                - match: ':'
+                  scope: punctuation.separator.c++
+                  pop: 2
+        - match: (?=)
+          set: attribute_list
+    - match: '\[\[(?={{attribute_list}}\]\])'
+      scope: punctuation.section.attribute.begin.c++
+      push: attribute_list
+
   modifiers:
+    - include: attributes
     - include: unique-modifiers
     - include: scope:source.c#modifiers
 
@@ -1031,7 +1070,7 @@ contexts:
         - include: expressions
 
   brackets:
-    - match: \[
+    - match: \[(?!\[{{attribute_body}}\]\])
       scope: punctuation.section.brackets.begin.c++
       push:
         - meta_scope: meta.brackets.c++
@@ -1553,7 +1592,7 @@ contexts:
       captures:
         1: storage.modifier.c++
         2: punctuation.section.class.c++
-    - match: '^\s*(?=(?:~?\w+|::))'
+    - match: '^\s*(?=(?:~?\w+|::|\[\[{{attribute_body}}\]\]))'
       push: data-structures-modifier
     - include: expressions-minus-generic-type
 

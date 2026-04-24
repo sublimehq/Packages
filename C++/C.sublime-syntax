@@ -60,6 +60,9 @@ variables:
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|alignas|_Alignas|static_assert|_Static_assert|__declspec|__attribute__'
 
+  attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
+  attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+{{attribute_token}})'
+
 contexts:
   main:
     - include: preprocessor-global
@@ -231,9 +234,24 @@ contexts:
     - match: \b(sizeof|alignof|_Alignof|static_assert|_Static_assert)\b
       scope: keyword.operator.word.c
 
+  attributes:
+    - match: '\[\[(?={{attribute_list}}\]\])'
+      scope: punctuation.section.attribute.begin.c
+      push:
+        - meta_scope: meta.attribute.c
+        - match: '\b(deprecated|__deprecated__|fallthrough|__fallthrough__|nodiscard|__nodiscard__|maybe_unused|__maybe_unused__|noreturn|__noreturn__|unsequenced|__unsequenced__|reproducible|__reproducible__)\b'
+          scope: storage.modifier.c
+        - match: ','
+          scope: punctuation.separator.c
+        - include: parens
+        - match: \]\]
+          scope: punctuation.section.attribute.end.c
+          pop: true
+
   modifiers:
     - match: \b({{modifiers}})\b
       scope: storage.modifier.c
+    - include: attributes
 
   variables:
     - match: '\bg[A-Z]\w*\b'
@@ -524,7 +542,7 @@ contexts:
 
   global:
     - include: early-expressions
-    - match: '^\s*(?=\w+)'
+    - match: '^\s*(?=\w+|\[\[{{attribute_list}}\]\])'
       push: global-modifier
     - include: late-expressions
 
@@ -884,7 +902,7 @@ contexts:
         - include: expressions
 
   brackets:
-    - match: \[
+    - match: \[(?!\[{{attribute_list}}\]\])
       scope: punctuation.section.brackets.begin.c
       push:
         - meta_scope: meta.brackets.c
