@@ -642,8 +642,9 @@ contexts:
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
-    # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
+    # Allow a macro call. The lookahead permits up to two levels of nested
+    # parentheses in the macro arguments (e.g. `FOO(a = (b))`).
+    - match: '({{identifier}})\s*(\()(?=(?:[^()]|\((?:[^()]|\([^()]*\))*\))+\))'
       captures:
         1: variable.function.c
         2: meta.group.c punctuation.section.group.begin.c
@@ -1451,7 +1452,11 @@ contexts:
 
 
   preprocessor-convention-ignore-uppercase-calls-without-semicolon:
-    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
+    # The lookahead permits up to two levels of nested parentheses in the
+    # macro arguments (e.g. Unreal Engine's `USTRUCT(meta = (Abstract))`),
+    # so that macros which are the sole content of a line are still
+    # recognised when their arguments contain grouped expressions.
+    - match: ^\s*({{macro_identifier}})\s*(\()(?=(?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)\s*$)
       captures:
         1: variable.function.assumed-macro.c
         2: punctuation.section.group.begin.c

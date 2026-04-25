@@ -1187,8 +1187,9 @@ contexts:
       pop: true
     - include: angle-brackets
     - include: types
-    # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
+    # Allow a macro call. The lookahead permits up to two levels of nested
+    # parentheses in the macro arguments (e.g. `FOO(a = (b))`).
+    - match: '({{identifier}})\s*(\()(?=(?:[^()]|\((?:[^()]|\([^()]*\))*\))+\))'
       captures:
         1: variable.function.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
@@ -1379,7 +1380,7 @@ contexts:
     - match: ({{macro_identifier}})(?=\s+~?{{identifier}})
       captures:
         1: meta.assumed-macro.c
-    - match: '({{macro_identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{macro_identifier}})\s*(\()(?=(?:[^()]|\((?:[^()]|\([^()]*\))*\))+\))'
       captures:
         1: variable.function.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
