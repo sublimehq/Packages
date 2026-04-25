@@ -94,25 +94,83 @@ namespace HelloWorld
     /// git+https://hoster.com/user/repo
 //*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.cs
 
+    /**/
+//* ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*     ^ - comment
+
+    /***/
+//* ^^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*      ^ - comment
+
+    /*comment*/
+//* ^^^^^^^^^^^ comment.block.cs
+//* ^^ punctuation.definition.comment.begin.cs
+//*          ^^ punctuation.definition.comment.end.cs
+
+    /**comment**/
+//* ^^^^^^^^^^^^^ comment.block.cs
+//* ^^^ punctuation.definition.comment.begin.cs
+//*           ^^^ punctuation.definition.comment.end.cs
+
+    /***comment***/
+//* ^^^^^^^^^^^^^^^ comment.block.cs
+//* ^^^^ punctuation.definition.comment.begin.cs
+//*            ^^^^ punctuation.definition.comment.end.cs
+
+    /*
+//* ^^^ comment.block.cs
+//* ^^ punctuation.definition.comment.begin.cs
+    comment
+//*^^^^^^^^^ comment.block.cs
+    *
+//*^^^^ comment.block.cs
+//* ^ punctuation.definition.comment.cs
+    */
+//*^^^ comment.block.cs
+//* ^^ punctuation.definition.comment.end.cs
+
     /**
-        *
-//*     ^ meta.namespace meta.block comment.block punctuation.definition.comment
+//* ^^^^ comment.block.cs
+//* ^^^ punctuation.definition.comment.begin.cs
+    *
+//* ^ comment.block.cs punctuation.definition.comment.cs
+     *
+//*  ^ comment.block.cs punctuation.definition.comment.cs
+      *
+//*   ^ comment.block.cs punctuation.definition.comment.cs
+       *
+//*    ^ comment.block.cs punctuation.definition.comment.cs
     **/
 //*^^^^ comment.block.cs
 //* ^^^ punctuation.definition.comment.end.cs
+//*    ^ - comment
     class Hello
     {
         /// <summary>
         /// Computes matrix-matrix product of a sparse matrix stored in the CSC format.
         /// </summary>
-        void dcscmm(Transpose TransA, int m, int n, int k,
-            double alpha,
-            double[] val, int offsetval,
-            int[] idx, int offsetidx,
-            int[] pntrb, int offsetpntrb,
+//*^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.cs
+//*     ^^^ punctuation.definition.comment.documentation.cs
+//*         ^^^^^^^^^^ meta.tag.xml
+//*         ^^ punctuation.definition.tag.begin.cs
+//*           ^^^^^^^ entity.name.tag.end.cs
+//*                  ^ punctuation.definition.tag.end.cs
+        void dcscmm(/**/Transpose/**/ TransA, /**/ int /**/m,/**/int /**/ n /**/,/**/ int /**/k/**/, /**/
+//*                 ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                              ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                           ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                    ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                          ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                  ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                         ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                              ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                                       ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                                            ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
+//*                                                                                                  ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
             //int[] pntre, int offsetpntre,
-            double[] b, int offsetb, int ldb,
-            double beta,
-            double[] c, int offsetc, int ldc);
+//*         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.cs
+//*         ^^ punctuation.definition.comment.cs
+        ); /**/
+//*        ^^^^ comment.block.empty.cs punctuation.definition.comment.cs
     }
 }

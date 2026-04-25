@@ -39,6 +39,8 @@ contexts:
     - match: //
       scope: punctuation.definition.comment.cs
       push: inside_line_comment
+    - match: /\*\*+/
+      scope: comment.block.empty.cs punctuation.definition.comment.cs
     - match: /\*+
       scope: punctuation.definition.comment.begin.cs
       push: inside_block_comment
