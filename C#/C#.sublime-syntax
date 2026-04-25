@@ -189,7 +189,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: variable.annotation.cs
     - include: type_common_except_bare_custom_type
-    - include: immediately_pop
+    - include: noeol_pop
 
   inside_argument_list:
     - meta_content_scope: meta.group.cs
@@ -1124,7 +1124,7 @@ contexts:
       set:
         - line_of_code_in
         - maybe_pointer
-    - include: immediately_pop
+    - include: noeol_pop
 
   inside_field_declarations:
     - include: member_qualifiers
@@ -1300,7 +1300,7 @@ contexts:
     - include: type_common_except_bare_custom_type
     - match: '{{unreserved_name}}'
       scope: support.type.cs
-    - include: immediately_pop
+    - include: noeol_pop
 
   operator_declaration:
     - match: operator\b
@@ -2434,7 +2434,7 @@ contexts:
 
   type_no_space:
     - include: type
-    - include: immediately_pop
+    - include: noeol_pop
 
   type:
     - include: type_common_except_bare_custom_type
@@ -2537,7 +2537,7 @@ contexts:
         5: punctuation.section.brackets.end.cs
         6: keyword.operator.pointer.cs
       pop: 1
-    - include: immediately_pop
+    - include: noeol_pop
 
 ###[ FUNCTION POINTER TYPES ]##################################################
 
@@ -2566,14 +2566,14 @@ contexts:
       captures:
         1: storage.modifier.delegate.cs
       set: funcptr_type_calling_convention
-    - include: immediately_pop
+    - include: noeol_pop
 
   funcptr_type_calling_convention:
     - match: \s*(\[)
       captures:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
       set: inside_funcptr_type_calling_convention
-    - include: immediately_pop
+    - include: noeol_pop
 
   inside_funcptr_type_calling_convention:
     - meta_content_scope: meta.brackets.cs
@@ -2591,7 +2591,7 @@ contexts:
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
       set: inside_funcptr_parameter_list
-    - include: immediately_pop
+    - include: noeol_pop
 
   inside_funcptr_parameter_list:
     - meta_content_scope: meta.generic.cs
@@ -3155,6 +3155,10 @@ contexts:
       pop: 1
 
   immediately_pop:
+    - match: ''
+      pop: 1
+
+  noeol_pop:
     # immediately pop, but not before newlines
     - match: (?=[^\n])
       pop: 1
