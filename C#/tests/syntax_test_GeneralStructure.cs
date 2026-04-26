@@ -270,25 +270,25 @@ namespace YourNamespace
 ///     ^ storage.modifier
 ///            ^^^ support.type
 ///                  ^ variable.other.member
-///                             ^ meta.property punctuation.section.block.begin
+///                             ^ meta.accessors punctuation.section.block.begin
             get {return x;}
-///         ^^^^^^^^^^^^^^^ meta.property meta.method
+///         ^^^^ meta.accessors.cs meta.method.cs
 ///          ^ keyword.declaration.function.accessor.get
-///             ^^^^^^^^^^^ meta.property meta.method.body meta.block
+///             ^^^^^^^^^^^ meta.accessors.cs meta.method.body.cs meta.block.cs
 ///             ^ punctuation.section.block.begin
 ///                      ^ punctuation.terminator
 ///                       ^ punctuation.section.block.end
             set {x = value;}
-///         ^^^^^^^^^^^^^^^^ meta.property meta.method
+///         ^^^^ meta.accessors.cs meta.method.cs
 ///          ^ keyword.declaration.function.accessor.set
-///             ^^^^^^^^^^^^ meta.property meta.method.body meta.block
+///             ^^^^^^^^^^^^ meta.accessors.cs meta.method.body.cs meta.block.cs
 ///             ^ punctuation.section.block.begin
 ///              ^ variable.other
 ///                    ^ variable.language
 ///                       ^ punctuation.terminator
 ///                        ^ punctuation.section.block.end
         }
-///     ^ meta.property punctuation.section.block.end
+///     ^ meta.accessors.cs meta.block.cs punctuation.section.block.end.cs
 
         YourClass () {
 ///     ^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
@@ -393,11 +393,9 @@ namespace YourNamespace
 
         public bool IsZero => IsConst(Numeric<Type>.Zero);
 ///     ^^^^^^ storage.modifier.access.cs
-///            ^^^^^^^^^^^^^^ meta.property.cs
 ///            ^^^^ storage.type.cs
 ///                 ^^^^^^ variable.other.member.cs
 ///                        ^^ keyword.declaration.function.accessor.get.cs
-///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property.body.cs
 ///                           ^^^^^^^ meta.function-call.cs variable.function.cs
 ///                                  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs
 ///                                  ^ punctuation.section.group.begin.cs
@@ -413,10 +411,9 @@ namespace YourNamespace
 
         public bool InlineProperty {get; private set; } = false;
 ///     ^^^^^^ storage.modifier.access.cs
-///            ^^^^^^^^^^^^^^^^^^^^ meta.property.cs
 ///            ^^^^ storage.type.cs
 ///                 ^^^^^^^^^^^^^^ variable.other.member.cs
-///                                ^^^^^^^^^^^^^^^^^^^^ meta.property.accessors.cs meta.block.cs
+///                                ^^^^^^^^^^^^^^^^^^^^ meta.accessors.cs meta.block.cs
 ///                                ^ punctuation.section.block.begin.cs
 ///                                 ^^^ meta.method.cs keyword.declaration.function.accessor.get.cs
 ///                                    ^ punctuation.terminator.statement.cs
@@ -424,8 +421,6 @@ namespace YourNamespace
 ///                                              ^^^ meta.method.cs keyword.declaration.function.accessor.set.cs
 ///                                                 ^ punctuation.terminator.statement.cs
 ///                                                   ^ punctuation.section.block.end.cs
-///                                                    ^^^^^^^^ meta.property.initializer.cs
-///                                                    ^^ meta.property.cs
 ///                                                     ^ keyword.operator.assignment.cs
 ///                                                       ^^^^^ constant.language.boolean.false.cs
 ///                                                            ^ punctuation.terminator.statement.cs
@@ -433,8 +428,8 @@ namespace YourNamespace
         public new bool NewMethod() => false;
 ///     ^^^^^^ storage.modifier.access.cs
 ///            ^^^ storage.modifier.cs
-///                ^^^^ meta.method.return-value.cs storage.type.cs
-///                    ^^^^^^^^^^ meta.method.cs
+///                ^^^^ storage.type.cs
+///                     ^^^^^^^^^ meta.method.cs
 ///                     ^^^^^^^^^ entity.name.function.cs
 ///                              ^^ meta.method.parameters.cs
 ///                              ^ punctuation.section.parameters.begin.cs
@@ -1291,7 +1286,7 @@ namespace TestNamespace . Test
 ///                                   ^ variable.other.member
 
         IEnumerator<int> IEnumerable<int>.GetEnumerator()
-///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+///                                       ^^^^^^^^^^^^^^^ meta.method
 ///                      ^^^^^^^^^^^ entity.other.inherited-class
 ///                                 ^^^^^ meta.generic
 ///                                  ^^^ storage.type
@@ -1322,7 +1317,7 @@ namespace TestNamespace . Test
 
         Item this[int key] => expression;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
-///     ^^^^^^^^^ meta.indexer.cs
+///          ^^^^ meta.indexer.cs
 ///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                       ^^^ meta.indexer.cs
 ///                          ^^^^^^^^^^^ meta.indexer.body.cs
@@ -1338,7 +1333,7 @@ namespace TestNamespace . Test
 
         Item this[int key]{ get; set; }
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
-///     ^^^^^^^^^ meta.indexer.cs
+///          ^^^^ meta.indexer.cs
 ///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                       ^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
 ///     ^^^^ support.type.cs
@@ -1355,7 +1350,7 @@ namespace TestNamespace . Test
 ///                                   ^ punctuation.section.block.end.cs
 
         Item IList<int>.this [int key] { internal get; protected set {  } }
-///     ^^^^^^^^^^^^^^^^^^^^^ meta.indexer.cs
+///                     ^^^^^ meta.indexer.cs
 ///                          ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                                   ^ meta.indexer.cs
 ///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
@@ -1478,11 +1473,9 @@ namespace TestNamespace . Test
 ///                              ^ punctuation.definition.annotation.end
 ///                               ^ - meta.annotation
         int Method4 => 5;
-///     ^^^^^^^^^^^^^^ meta.property.cs
 ///     ^^^ storage.type.cs
 ///         ^^^^^^^ variable.other.member.cs
 ///                 ^^ keyword.declaration.function.accessor.get.cs
-///                   ^^ meta.property.body.cs
 ///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                     ^ punctuation.terminator.statement.cs
 
@@ -2094,7 +2087,7 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///                       ^ punctuation.terminator.statement.cs
 
     void IDrawingObject.DoInternalStuff() {}
-///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
+///                     ^^^^^^^^^^^^^^^ meta.method.cs
 ///                                    ^^ meta.method.parameters.cs
 ///                                      ^ meta.method.cs
 ///                                       ^^ meta.method.body.cs meta.block.cs
@@ -2233,8 +2226,6 @@ public class MyClass
 ///             ^^^ variable.other.member
 
     public bool var => return 0;
-///        ^^^^^^^^^^^ meta.property.cs
-///                   ^^^^^^^^^ meta.property.body.cs
 /// ^^^^^^ storage.modifier
 ///        ^^^^ storage.type
 ///             ^^^ variable.other.member
@@ -2250,8 +2241,6 @@ public class MyClass
 
     public bool var
         => return 0;
-///    ^^^ meta.property.cs
-///       ^^^^^^^^^ meta.property.body.cs
 ///     ^^ keyword.declaration.function.accessor.get
 ///        ^^^^^^ keyword.other
 ///               ^ meta.number.integer.decimal constant.numeric.value

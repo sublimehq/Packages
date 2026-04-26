@@ -544,7 +544,7 @@ class Foo {
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
 /// ^^^^^^^ storage.modifier.access.cs
 ///         ^^^^^^ storage.modifier.cs
-///                ^^^^^^^^^^^^^^^^^^ meta.method.return-value.cs meta.sequence.tuple.cs
+///                ^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                ^ punctuation.section.sequence.begin.cs
 ///                 ^^^ storage.type.cs
 ///                     ^^^ variable.other.cs
@@ -552,7 +552,7 @@ class Foo {
 ///                          ^^^ storage.type.cs
 ///                              ^^^ variable.other.cs
 ///                                 ^ punctuation.section.sequence.end.cs
-///                                  ^^^^^^ meta.method.cs
+///                                   ^^^^^ meta.method.cs
 ///                                   ^^^^^ entity.name.function.cs
 ///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                                        ^ punctuation.section.parameters.begin.cs

@@ -874,12 +874,18 @@ contexts:
 
   member_declaration:
     - match: (?=[(@]|{{start_char}})
-      branch_point: member_declaration
-      branch:
-        - method_declaration
-        - indexer_declaration
-        - property_declaration
-        - field_declaration
+      push:
+        - member_name
+        - type_suffix
+        - type_no_space
+
+  member_name:
+    - include: member_qualifiers
+    - include: method_declaration
+    - include: indexer_declaration
+    - include: operator_declaration
+    - include: field_declaration
+    - include: else_pop
 
   member_qualifiers:
     - match: \.
@@ -976,13 +982,21 @@ contexts:
       push:
         - event_declaration_meta
         - event_declaration_initializer
-        - field_declaration_name
+        - event_declaration_name
         - expect_type
 
   event_declaration_meta:
     - meta_include_prototype: false
     - meta_scope: meta.event.cs
     - include: immediately_pop
+
+  event_declaration_name:
+    - meta_include_prototype: false
+    - include: member_qualifiers
+    - match: '{{unreserved_name}}'
+      scope: variable.other.member.cs
+      pop: 1
+    - include: else_pop
 
   event_declaration_initializer:
     - match: \{
@@ -1065,23 +1079,56 @@ contexts:
 ###[ FIELD MEMBER DECLARATIONS ]###############################################
 
   field_declaration:
-    - meta_include_prototype: false
-    - meta_scope: meta.field.cs
-    - match: ''
-      set:
-        - inside_field_declarations
-        - type_no_space
-
-  field_declaration_name:
-    - meta_include_prototype: false
-    - include: member_qualifiers
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
-      pop: 1
-    - include: else_pop
+      set: field_body
+
+  field_body:
+    # property
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_field_accessor_declaration
+    - match: =>
+      scope: keyword.declaration.function.accessor.get.cs
+      set: line_of_code_in
+    # field
+    - match: (?=\S)
+      set: inside_field_declarations
+
+  inside_field_accessor_declaration:
+    - meta_scope: meta.accessors.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      set: field_accessor_initializer
+    - include: stray_close_bracket
+    - include: terminators
+    - include: attributes
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
+    - match: readonly\b
+      scope: storage.modifier.cs
+    - match: init\b
+      scope: meta.method.cs keyword.declaration.function.accessor.init.cs
+      push: method_body
+    - match: get\b
+      scope: meta.method.cs keyword.declaration.function.accessor.get.cs
+      push: method_body
+    - match: set\b
+      scope: meta.method.cs keyword.declaration.function.accessor.set.cs
+      push: method_body
+    - match: '{{name}}'
+      scope: invalid.illegal.unexpected-token.cs
+
+  field_accessor_initializer:
+    - match: \s*(=)
+      captures:
+        1: keyword.operator.assignment.cs
+      set:
+        - line_of_code_in
+        - maybe_pointer
+    - include: immediately_pop
 
   inside_field_declarations:
-    - meta_scope: meta.field.cs
     - include: member_qualifiers
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
@@ -1102,27 +1149,11 @@ contexts:
 ###[ INDEXER DECLARATIONS ]####################################################
 
   indexer_declaration:
-    - meta_include_prototype: false
-    - match: ''
+    - match: this\b
+      scope: meta.indexer.cs variable.language.this.cs
       set:
         - indexer_body
         - indexer_parameter_list
-        - indexer_name
-        - type_no_space
-
-  indexer_name:
-    - match: \.
-      scope: punctuation.accessor.dot.cs
-    - match: this\b
-      scope: variable.language.this.cs
-      pop: 1
-    - match: '{{unreserved_name}}'
-      scope: entity.other.inherited-class.cs
-      push:
-        - type_suffix
-        - type_argument_list
-    - match: (?=\S)
-      fail: member_declaration
 
   indexer_parameter_list:
     - match: \[
@@ -1175,29 +1206,12 @@ contexts:
 ###[ METHOD MEMBER DECLARATIONS ]##############################################
 
   method_declaration:
-    - meta_scope: meta.method.return-value.cs
-    - include: type
-    - match: ''
+    - match: '{{unreserved_name}}(?=\s*(?:<[^(]*>\s*)?\()'
+      scope: meta.method.cs entity.name.function.cs
       set:
         - method_body
-        - expect_method_parameter_list
-        - method_name
-
-  method_name:
-    - meta_include_prototype: false
-    - include: operator_declaration
-    - include: member_qualifiers
-    - match: '{{unreserved_name}}'
-      scope: entity.name.function.cs
-      set: type_parameter_list
-    - include: else_pop
-
-  expect_method_parameter_list:
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      set: inside_method_parameter_list
-    - match: (?=\S)
-      fail: member_declaration
+        - method_parameter_list
+        - type_parameter_list
 
   method_parameter_list:
     - match: \(
@@ -1293,7 +1307,10 @@ contexts:
   operator_declaration:
     - match: operator\b
       scope: meta.method.cs keyword.declaration.operator.cs
-      set: operator_name
+      set:
+        - method_body
+        - method_parameter_list
+        - operator_name
 
   operator_name:
     # overloadable unary and binary operators
@@ -1305,68 +1322,6 @@ contexts:
       scope: invalid.illegal.operator.cs
       pop: 1
     - include: else_pop
-
-###[ PROPERTY DECLARATIONS ]###################################################
-
-  property_declaration:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - property_body
-        - field_declaration_name
-        - type_no_space
-
-  property_body:
-    - meta_content_scope: meta.property.cs
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set: inside_property_accessor_declaration
-    - match: =>
-      scope: meta.property.cs keyword.declaration.function.accessor.get.cs
-      set: inside_property_expression
-    - match: (?=\S)
-      fail: member_declaration
-
-  inside_property_accessor_declaration:
-    - meta_scope: meta.property.accessors.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      set: property_initializer
-    - include: stray_close_bracket
-    - include: terminators
-    - include: attributes
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
-    - match: readonly\b
-      scope: storage.modifier.cs
-    - match: init\b
-      scope: meta.method.cs keyword.declaration.function.accessor.init.cs
-      push: method_body
-    - match: get\b
-      scope: meta.method.cs keyword.declaration.function.accessor.get.cs
-      push: method_body
-    - match: set\b
-      scope: meta.method.cs keyword.declaration.function.accessor.set.cs
-      push: method_body
-    - match: '{{name}}'
-      scope: invalid.illegal.unexpected-token.cs
-
-  property_initializer:
-    - meta_content_scope: meta.property.cs
-    - match: \s*(=)
-      scope: meta.property.cs
-      captures:
-        1: keyword.operator.assignment.cs
-      set: property_initializer_value
-    - include: immediately_pop
-
-  property_initializer_value:
-    - meta_scope: meta.property.initializer.cs
-    - include: line_of_code_in
-
-  inside_property_expression:
-    - meta_content_scope: meta.property.body.cs
-    - include: line_of_code_in
 
 ###[ VAR DECLARATIONS ]########################################################
 

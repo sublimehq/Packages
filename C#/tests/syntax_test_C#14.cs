@@ -145,11 +145,11 @@ public static class EnumExtensions
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^^^^ storage.modifier.cs
 //                    ^^^^^^ support.type.cs
-//                           ^^^^^^^^^^^^^^^^^^^ meta.property.cs variable.other.member.cs
+//                           ^^^^^^^^^^^^^^^^^^^ variable.other.member.cs
         {
             get => minimumPassingGrade;
             set => minimumPassingGrade = value;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.accessors.cs meta.block.cs
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs meta.accessors.cs meta.block.cs
 //          ^^^^^^ meta.method.cs
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs
 //          ^^^ keyword.declaration.function.accessor.set.cs
@@ -159,17 +159,15 @@ public static class EnumExtensions
 //                                       ^^^^^ variable.language.cs
 //                                            ^ punctuation.terminator.statement.cs
         }
-//^^^^^^^ meta.extension.body.cs meta.block.cs meta.property.accessors.cs meta.block.cs
+//^^^^^^^ meta.extension.body.cs meta.block.cs meta.accessors.cs meta.block.cs
 //      ^ punctuation.section.block.end.cs
-//       ^ meta.extension.body.cs meta.block.cs meta.property.cs - meta.block meta.block meta.block
+//       ^ meta.extension.body.cs meta.block.cs - meta.block meta.block meta.block
 
         public bool Passing => grade >= minimumPassingGrade;
 // <- - meta.property
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^^ storage.type.cs
-//                  ^^^^^^^^^^ meta.property.cs
-//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property.body.cs
 //                  ^^^^^^^ variable.other.member.cs
 //                          ^^ keyword.declaration.function.accessor.get.cs
 //                             ^^^^^ variable.other.cs
