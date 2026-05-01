@@ -7,8 +7,8 @@
               new Book { Title = "LINQ in Action" },
               new Book { Title = "LINQ for Fun" },
               new Book { Title = "Extreme LINQ" } };
-///                                              ^^ meta.instance
-///                                              ^ - meta.instance meta.instance
+///                                              ^^ meta.instantiation
+///                                              ^ - meta.instantiation meta.instantiation
 ///                                               ^ meta.braces punctuation.section.braces.end
 
             var titles =

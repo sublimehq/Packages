@@ -13,12 +13,11 @@ using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?st
 ///                    ^^^^^^ variable.other.cs
 ///                          ^ punctuation.accessor.dot.cs
 ///                           ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
-///                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
-///                                   ^ punctuation.section.group.begin.cs
-///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                                   ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+///                                    ^^^^^^^ meta.function-call.arguments.cs meta.group.cs meta.instantiation.cs - meta.group meta.group
 ///                                    ^^^ keyword.operator.new.cs
 ///                                        ^^^ support.type.cs
-///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs meta.instantiation.cs meta.group.cs
 ///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.cs
@@ -140,10 +139,20 @@ IEnumerable<string> GetEnrollees()
     }
 }
 
+Point p = new (3, 5);
+///       ^^^^^^^^^^ meta.instantiation.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ constant.numeric.value.cs
+///             ^ punctuation.separator.argument.cs
+///               ^ constant.numeric.value.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
 Point[] ps = { new (1, 4), new (3,-2), new (9, 5) }; // all Points
-///            ^^^ keyword.operator.new
-///                ^ punctuation.section.group.begin
-///                      ^ punctuation.separator.array-element
+///            ^^^^^^^^^^ meta.instantiation.cs
+///                ^^^^^^ meta.group.cs
+///                      ^ punctuation.separator.sequence.cs
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code
 public struct Point3D
@@ -343,12 +352,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///       ^^^ storage.type.cs
 ///           ^^^^^^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
-///                    ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                    ^^^ keyword.operator.new.cs
 ///                        ^^^^^^^^^^^^^^^ support.type.cs
-///                                       ^^ meta.group.cs
-///                                       ^ punctuation.section.group.begin.cs
-///                                        ^ punctuation.section.group.end.cs
+///                                       ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+///                                        ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.end.cs
 ///                                         ^ punctuation.terminator.statement.cs - meta.using
 
     if (true) {
@@ -358,12 +366,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
-///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                        ^^^ keyword.operator.new.cs
 ///                            ^^^^^^^^^^^^^^^ support.type.cs
-///                                           ^^ meta.group.cs
-///                                           ^ punctuation.section.group.begin.cs
-///                                            ^ punctuation.section.group.end.cs
+///                                           ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+///                                            ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.end.cs
 ///                                             ^ punctuation.terminator.statement.cs - meta.using
     } else {
         using var socket = new ClientWebSocket();
@@ -372,12 +379,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
-///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                        ^^^ keyword.operator.new.cs
 ///                            ^^^^^^^^^^^^^^^ support.type.cs
-///                                           ^^ meta.group.cs
-///                                           ^ punctuation.section.group.begin.cs
-///                                            ^ punctuation.section.group.end.cs
+///                                           ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+///                                            ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.end.cs
 ///                                             ^ punctuation.terminator.statement.cs - meta.using
     }
     try {
@@ -387,12 +393,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///           ^^^ storage.type.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
-///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instance.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                        ^^^ keyword.operator.new.cs
 ///                            ^^^^^^^^^^^^^^^ support.type.cs
-///                                           ^^ meta.group.cs
-///                                           ^ punctuation.section.group.begin.cs
-///                                            ^ punctuation.section.group.end.cs
+///                                           ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.begin.cs
+///                                            ^ meta.function-call.arguments.cs meta.group.cs punctuation.section.group.end.cs
 ///                                             ^ punctuation.terminator.statement.cs - meta.using
     }
 
@@ -441,7 +446,7 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^ variable.other.cs
 ///                           ^^ keyword.operator.reflection.cs
-///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
 ///                              ^ punctuation.section.block.begin.cs
 ///                                ^^^^^^^^^^^^ variable.other.member.cs
 ///                                            ^ keyword.operator.assignment.cs

@@ -53,7 +53,7 @@ public readonly record struct Person(string Name);
 if (obj is Person { Address: { City: "Seattle" } })
 ///     ^^ keyword.operator.reflection
 ///        ^^^^^^ support.type
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
 ///                 ^^^^^^^ variable.other.member
 ///                        ^ keyword.operator.assignment
 ///                          ^ punctuation.section.block.begin
@@ -67,7 +67,7 @@ if (obj is Person { Address: { City: "Seattle" } })
 if (obj is Person { Address.City: "Seattle" }) // Extended property pattern
 ///     ^^ keyword.operator.reflection
 ///        ^^^^^^ support.type
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
 ///                 ^^^^^^^ variable.other.member
 ///                        ^ punctuation.accessor.dot
 ///                         ^^^^ variable.other.member
@@ -88,7 +88,7 @@ static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Da
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                                           ^^^^ variable.other
 ///                                                ^^ keyword.operator.reflection
-///                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous meta.block
+///                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
 ///                                                   ^ punctuation.section.block.begin
 ///                                                     ^^^^ variable.other.member
 ///                                                         ^ keyword.operator.assignment

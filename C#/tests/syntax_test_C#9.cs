@@ -154,7 +154,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
     return bank switch
     {
         { Status: BankBranchStatus.Open } => true,
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous meta.block
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
 ///     ^ punctuation.section.block.begin
 ///       ^^^^^^ variable.other.member
 ///             ^ keyword.operator.assignment
@@ -187,7 +187,7 @@ public class TollCalculator
         Bus b           => 5.00m,
         DeliveryTruck t => 10.00m,
         { }             => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
-///     ^^^ meta.instance.property-subpattern meta.class.body.anonymous
+///     ^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
 ///     ^ punctuation.section.block.begin
 ///       ^ punctuation.section.block.end
 ///                     ^^ punctuation.separator.case-expression
@@ -206,7 +206,7 @@ public class TollCalculator
         {
             Car {Passengers: 0}        => 2.00m + 0.50m,
 ///         ^^^ support.type
-///             ^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous meta.block
+///             ^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
 ///              ^^^^^^^^^^ variable.other.member
 ///                        ^ keyword.operator.assignment
 ///                          ^ constant.numeric.value
@@ -286,15 +286,6 @@ public class TollCalculator
         };
 }
 
-
-Point p = new (3, 5);
-///       ^^^ keyword.operator.new
-///           ^ punctuation.section.group.begin
-///            ^ constant.numeric.value
-///             ^ punctuation.separator.argument
-///               ^ constant.numeric.value
-///                ^ punctuation.section.group.end
-///                 ^ punctuation.terminator.statement
 
 if (input is null) { }
 /// ^^^^^ variable.other

@@ -1298,7 +1298,7 @@ namespace TestNamespace . Test
 ///                                       ^^^^ entity.name.function
         {
             return new MyCustomIterator(this);
-///                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
 ///                ^ keyword.operator.new
 ///                    ^^^^^^^^^^^^^^^^ support.type
 ///                                    ^^^^^^ meta.group
@@ -1557,76 +1557,99 @@ namespace TestNamespace . Test
 
         void CodeContainingConstructors(){
             var array = new []{ "foo" };
-///                     ^^^^^^^^^^^^^^^ meta.instance
+///                     ^^^^^^^^^^^^^^^ meta.instantiation
 ///                         ^^ meta.brackets.cs
 ///                           ^^^^^^^^^ meta.braces
 ///                           ^ punctuation.section.braces.begin
 ///                                   ^ punctuation.section.braces.end
 
             var arrayWithType = new string<Foo>[] { "foobar" };
-///                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
 ///                                               ^^^^^^^^^^^^ meta.braces
 ///                                               ^ punctuation.section.braces.begin
 ///                                                          ^ punctuation.section.braces.end
 
             var list = new List<Foo> { "coconuts", "horses" };
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
 ///                                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces
 ///                                  ^ punctuation.section.braces.begin
 ///                                                         ^ punctuation.section.braces.end
             var dictionary = new Dictionary<string, string>
-///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
             {
-///         ^ meta.instance meta.braces punctuation.section.braces.begin
+///         ^ meta.instantiation meta.braces punctuation.section.braces.begin
                 ["woman"] = "floating",
                 ["floating"] = "wood"
             };
-///         ^ meta.instance meta.braces punctuation.section.braces.end
+///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
             var anonymous = new {
-///                         ^^^^^ meta.instance
-///                             ^ meta.class.body punctuation.section.block.begin
+///                         ^^^^^^ meta.instantiation.cs - meta.instantiation meta.instantiation
+///                             ^ meta.braces.cs punctuation.section.braces.begin.cs
                 Wood = "burning",
+///            ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs - meta.instantiation meta.instantiation
 ///             ^^^^ variable.other.member
 ///                  ^ keyword.operator.assignment
 ///                    ^^^^^^^^^ string.quoted.double
 ///                             ^ punctuation.separator
                 Burning = "sorcerer"
+///            ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs - meta.instantiation meta.instantiation
 ///             ^^^^^^^ variable.other.member
 ///                     ^ keyword.operator.assignment
 ///                       ^^^^^^^^^^ string.quoted.double
             };
-///         ^ meta.instance meta.class.body punctuation.section.block.end
+///         ^ meta.instantiation.cs meta.braces.cs punctuation.section.braces.end.cs
+
+            var array = new[counter];
+///                     ^^^^^^^^^^^^ meta.instantiation.cs
+///                     ^^^ keyword.operator.new.cs
+///                        ^^^^^^^^^ meta.brackets.cs
+///                        ^ punctuation.section.brackets.begin.cs
+///                         ^^^^^^^ variable.other.cs
+///                                ^ punctuation.section.brackets.end.cs
+///                                 ^ punctuation.terminator.statement.cs
 
             var anonArray = new[]
-///                         ^^^^^ meta.instance
+///                         ^^^^^ meta.instantiation
 ///                            ^^ meta.brackets
             {
-///         ^ meta.instance meta.braces punctuation.section.braces.begin
+///         ^ meta.instantiation meta.braces punctuation.section.braces.begin
                 new { name = "apple", diam = 4 },
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.anonymous
-///                 ^punctuation.section.block.begin
-///                   ^^^^ variable.other.member
-///                        ^ keyword.operator.assignment
-///                          ^^^^^^^ string.quoted.double
-///                                 ^ punctuation.separator
-///                                   ^^^^ variable.other.member
-///                                        ^ keyword.operator.assignment
-///                                          ^ constant.numeric
-///                                            ^ punctuation.section.block.end
+///             ^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs - meta.braces meta.braces
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs meta.braces.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.other.member.cs
+///                        ^ keyword.operator.assignment.cs
+///                          ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                          ^ punctuation.definition.string.begin.cs
+///                                ^ punctuation.definition.string.end.cs
+///                                 ^ punctuation.separator.sequence.cs
+///                                   ^^^^ variable.other.member.cs
+///                                        ^ keyword.operator.assignment.cs
+///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                            ^ punctuation.section.braces.end.cs
+///                                             ^ punctuation.separator.sequence.cs
                 new { name = "grape", diam = 1 }
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.anonymous
-///                 ^ punctuation.section.block.begin
-///                   ^^^^ variable.other.member
-///                        ^ keyword.operator.assignment
-///                          ^^^^^^^ string.quoted.double
-///                                 ^ punctuation.separator
-///                                   ^^^^ variable.other.member
-///                                        ^ keyword.operator.assignment
-///                                          ^ constant.numeric
-///                                            ^ punctuation.section.block.end
+///             ^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs - meta.braces meta.braces
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs meta.braces.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.other.member.cs
+///                        ^ keyword.operator.assignment.cs
+///                          ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                          ^ punctuation.definition.string.begin.cs
+///                                ^ punctuation.definition.string.end.cs
+///                                 ^ punctuation.separator.sequence.cs
+///                                   ^^^^ variable.other.member.cs
+///                                        ^ keyword.operator.assignment.cs
+///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                            ^ punctuation.section.braces.end.cs
             };
-///         ^ meta.instance meta.braces punctuation.section.braces.end
+///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
             new System.Drawing.Point(6, 11) { X = 5, Y = 10 };
 ///             ^^^^^^ support.type
@@ -1661,6 +1684,70 @@ namespace TestNamespace . Test
 ///                          ^^ constant.numeric
 ///                             ^ punctuation.section.braces.end
 ///                              ^ punctuation.terminator.statement
+
+            // Array creation expressions
+
+            // 'new' non_array_type '[' expression_list ']' rank_specifier* array_initializer?
+            new byte[,];
+///         ^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///             ^^^^ storage.type.cs
+///                 ^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ punctuation.separator.sequence.cs
+///                   ^ punctuation.section.brackets.end.cs
+///                    ^ punctuation.terminator.statement.cs
+
+            new byte[length,10];
+///         ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///             ^^^^ storage.type.cs
+///                 ^^^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^^^^^^ variable.other.cs
+///                        ^ punctuation.separator.sequence.cs
+///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.section.brackets.end.cs
+///                            ^ punctuation.terminator.statement.cs
+
+            new byte[length][,] {1, 2, 3};
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///             ^^^^ storage.type.cs
+///                 ^^^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^^^^^^ variable.other.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ punctuation.section.brackets.begin.cs
+///                          ^ punctuation.separator.sequence.cs
+///                           ^ punctuation.section.brackets.end.cs
+///                             ^^^^^^^^^ meta.braces.cs
+///                             ^ punctuation.section.braces.begin.cs
+///                              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                               ^ punctuation.separator.sequence.cs
+///                                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                  ^ punctuation.separator.sequence.cs
+///                                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                     ^ punctuation.section.braces.end.cs
+///                                      ^ punctuation.terminator.statement.cs
+
+            // 'new' rank_specifier array_initializer
+            new [,] {1, 2, 3};
+///         ^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///             ^^^ meta.brackets.cs
+///             ^ punctuation.section.brackets.begin.cs
+///              ^ punctuation.separator.sequence.cs
+///               ^ punctuation.section.brackets.end.cs
+///                 ^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.sequence.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.separator.sequence.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.section.braces.end.cs
+///                          ^ punctuation.terminator.statement.cs
         }
 ///     ^ punctuation.section.block
 

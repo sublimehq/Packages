@@ -744,15 +744,23 @@ void TestFoo() => Foo ("hello", 123, new Point (2, 3));
 
 // https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
 Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
-///                             ^ keyword.operator.ternary
-///                               ^^^ keyword.operator.new
-///                               ^^^^^^^^^^^^^^^^ meta.instance
-///                                                ^ keyword.operator.ternary - meta.instance
-///                                                  ^^^^^^^^^^ storage.modifier
-///                                                             ^^^^ storage.type
-///                                                                 ^ punctuation.section.brackets.begin
-///                                                                  ^^^^^^ variable.other
-///                                                                        ^ punctuation.section.brackets.end
+///                             ^ keyword.operator.ternary.cs
+///                               ^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                               ^^^ keyword.operator.new.cs
+///                                   ^^^^ storage.type.cs
+///                                       ^^^^^^^^ meta.brackets.cs
+///                                       ^ punctuation.section.brackets.begin.cs
+///                                        ^^^^^^ variable.other.cs
+///                                              ^ punctuation.section.brackets.end.cs
+///                                                ^ keyword.operator.ternary.cs
+///                                                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                                                  ^^^^^^^^^^ keyword.operator.stackalloc.cs
+///                                                             ^^^^ storage.type.cs
+///                                                                 ^^^^^^^^ meta.brackets.cs
+///                                                                 ^ punctuation.section.brackets.begin.cs
+///                                                                  ^^^^^^ variable.other.cs
+///                                                                        ^ punctuation.section.brackets.end.cs
+///                                                                         ^ punctuation.terminator.statement.cs
 bytes[0] = 42;
 bytes[1] = 43;
 Assert.Equal(42, bytes[0]);
@@ -791,7 +799,7 @@ void Test ()
 {
     int[] array = { 1, 15, -39, 0, 7, 14, -12 };
 ///                 ^ meta.number.integer.decimal constant.numeric.value
-///                  ^ punctuation.separator.array-element
+///                  ^ punctuation.separator.sequence
 ///                                            ^ punctuation.terminator.statement
     ref int place = ref Find (7, array); // aliases 7's place in the array
 /// ^^^ storage.modifier

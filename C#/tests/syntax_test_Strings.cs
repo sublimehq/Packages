@@ -171,7 +171,8 @@ var verbatim_singleline_sql_interpolated = $@"
 """;
 
 Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-///            ^^^^^ meta.instance support.type
+///            ^^^^^ meta.instantiation.cs meta.function-call.identifier.cs support.type.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.function-call.arguments.cs meta.group.cs
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string source.regexp
 ///                                                 ^ meta.string punctuation.definition.string.end - source.regexp
 ///                    ^^ keyword.control.anchor
@@ -215,7 +216,7 @@ replaced = Regex.Replace(some_value, "(?!^)([A-Z])", " $1");
 ///                                                        ^ punctuation.terminator.statement.cs
 
 Regex rx = new Regex(@"\bincomplete-missing-paren\b"
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
 ///        ^^^ keyword.operator.new
 ///            ^^^^^ support.type
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
