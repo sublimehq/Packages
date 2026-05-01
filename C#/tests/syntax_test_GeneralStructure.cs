@@ -2016,21 +2016,37 @@ namespace TestNamespace . Test
 ///                                                        ^ invalid.illegal.stray.brace
 
         var test = (Action)(() => "hello".Dump());
-///                 ^^^^^^ meta.cast support.type
-///                        ^ punctuation.section.group.begin
-///                         ^^ meta.function.anonymous meta.group
-///                            ^^ keyword.declaration.function.arrow
-///                                             ^ punctuation.section.group.end
+///                ^^^^^^^^ meta.cast.cs meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^^^^^^ support.type.cs
+///                       ^ punctuation.section.group.end.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                        ^ punctuation.section.group.begin.cs
+///                         ^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
+///                         ^^ meta.group.cs
+///                         ^ punctuation.section.group.begin.cs
+///                          ^ punctuation.section.group.end.cs
+///                            ^^ keyword.declaration.function.arrow.cs
+///                               ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                               ^ punctuation.definition.string.begin.cs
+///                                     ^ punctuation.definition.string.end.cs
+///                                      ^ punctuation.accessor.dot.cs
+///                                       ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                           ^^ meta.function-call.arguments.cs meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                             ^ punctuation.section.group.end.cs
+///                                              ^ punctuation.terminator.statement.cs
+
         test = (Action)(() => {});
-///            ^^^^^^^^ meta.cast
-///                    ^ meta.group punctuation.section.group.begin
-///                     ^^^^^^^ meta.function.anonymous
-///                     ^ meta.group punctuation.section.group.begin
-///                      ^ meta.group punctuation.section.group.end
-///                        ^^ keyword.declaration.function.arrow
-///                           ^ punctuation.section.block.begin
-///                            ^ punctuation.section.block.end
-///                             ^ meta.group punctuation.section.group.end
+///            ^^^^^^^^ meta.cast.cs meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^^ support.type.cs
+///                   ^ punctuation.section.group.end.cs
+///                    ^^^^^^^^^^ meta.group.cs
+///                    ^ punctuation.section.group.begin.cs
+///                             ^ punctuation.section.group.end.cs
+///                              ^ punctuation.terminator.statement.cs
         test.Invoke();
 
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
