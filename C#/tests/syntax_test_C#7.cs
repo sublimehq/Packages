@@ -430,6 +430,16 @@ class Foo {
 ///                                 ^^^^^^^^ support.type
 ///                                         ^ punctuation.section.group.end
 ///                                          ^ punctuation.terminator.statement
+        var abc = (any<T>(), fn())
+///               ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///               ^ punctuation.section.sequence.begin.cs
+///                ^^^^^^^^ meta.function-call
+///                ^^^ variable.function.cs
+///                   ^^^ meta.generic.cs
+///                          ^^ meta.function-call.identifier.cs variable.function.cs
+///                            ^^ meta.function-call.arguments.cs meta.group.cs
+///                              ^ punctuation.section.sequence.end.cs
+
         // https://docs.microsoft.com/en-us/dotnet/csharp/deconstruct
         (string city, _, double area) = QueryCityData("New York City");
 ///     ^ punctuation.section.sequence.begin

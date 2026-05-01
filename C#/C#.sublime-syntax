@@ -2176,21 +2176,8 @@ contexts:
       scope: keyword.operator.assignment.cs
     - match: _\b
       scope: variable.language.anonymous.cs
-    - match: (?!{{reserved}})(?={{namespaced_name}}{{type_suffix}}\s+{{name}})
+    - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
       push: var_declaration_explicit
-    - match: '({{name}})(<)'
-      captures:
-        1: support.type.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - meta_content_scope: meta.generic.cs
-        - match: ','
-          scope: punctuation.separator.type.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set: function_call_argument_list
-        - include: type
-        - include: line_of_code_in_no_semicolon
     - include: line_of_code_in_no_semicolon
 
 ###[ ACCESSOR EXPRESSIONS ]####################################################
