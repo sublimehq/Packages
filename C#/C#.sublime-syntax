@@ -2393,15 +2393,16 @@ contexts:
     - include: type_common_except_bare_custom_type
     - match: '{{unreserved_name}}'
       scope: support.type.cs
-    - match: (?=\()
-      push: type_tuple
+    - match: \(
+      scope: punctuation.section.sequence.begin.cs
+      push: inside_type_tuple
 
   type_tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.cs
-      set: type_tuple_content
+      set: inside_type_tuple
 
-  type_tuple_content:
+  inside_type_tuple:
     - meta_scope: meta.sequence.tuple.cs
     - match: \)
       scope: punctuation.section.sequence.end.cs
