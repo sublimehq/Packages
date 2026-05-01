@@ -1648,6 +1648,107 @@ namespace TestNamespace . Test
 ///                                        ^ keyword.operator.assignment.cs
 ///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                            ^ punctuation.section.braces.end.cs
+
+                // Anonymous class instantiation with base access
+
+                new { base }
+///             ^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.super.cs
+///                        ^ punctuation.section.braces.end.cs
+
+                new { base[arguments] }
+///             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.super.cs
+///                       ^^^^^^^^^^^ meta.brackets.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^^^^^^^^^ variable.other.cs
+///                                 ^ punctuation.section.brackets.end.cs
+///                                   ^ punctuation.section.braces.end.cs
+
+                new { base.member }
+///             ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.super.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                               ^ punctuation.section.braces.end.cs
+
+                new { base.member<int> }
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.super.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                              ^^^^^ meta.generic.cs
+///                              ^ punctuation.definition.generic.begin.cs
+///                               ^^^ storage.type.cs
+///                                  ^ punctuation.definition.generic.end.cs
+///                                    ^ punctuation.section.braces.end.cs
+
+                // Anonymous class instantiation with this access
+
+                new { this }
+///             ^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                        ^ punctuation.section.braces.end.cs
+
+                new { this[arguments] }
+///             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                       ^^^^^^^^^^^ meta.brackets.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^^^^^^^^^ variable.other.cs
+///                                 ^ punctuation.section.brackets.end.cs
+///                                   ^ punctuation.section.braces.end.cs
+
+                new { this.member }
+///             ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                               ^ punctuation.section.braces.end.cs
+
+                new { this.member<int> }
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                ^ meta.function-call.identifier.cs
+///                 ^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                              ^^^^^ meta.generic.cs
+///                              ^ punctuation.definition.generic.begin.cs
+///                               ^^^ storage.type.cs
+///                                  ^ punctuation.definition.generic.end.cs
+///                                    ^ punctuation.section.braces.end.cs
+
             };
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
@@ -2380,5 +2481,104 @@ public class TestModifierOrder
 ///                  ^^^^ support.type.cs
 ///                       ^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
 ///                                   ^^ meta.method.parameters.cs
+    }
+}
+
+
+public class TestExpressions
+{
+    void testItemAccess()
+    {
+        base[];
+///     ^^^^ variable.language.super.cs
+///         ^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ punctuation.section.brackets.end.cs
+///           ^ punctuation.terminator.statement.cs
+
+        base[,];
+///     ^^^^ variable.language.super.cs
+///         ^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ punctuation.separator.sequence.cs
+///           ^ punctuation.section.brackets.end.cs
+///            ^ punctuation.terminator.statement.cs
+
+        base[0, 1];
+///     ^^^^ variable.language.super.cs
+///         ^^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.section.brackets.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+        base?[0, 1]
+///     ^^^^ variable.language.super.cs
+///         ^ keyword.operator.null-coalescing.cs
+///          ^^^^^^ meta.brackets.cs
+///          ^ punctuation.section.brackets.begin.cs
+///           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///            ^ punctuation.separator.sequence.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.section.brackets.end.cs
+
+        list[][,];
+///     ^^^^ variable.other.cs
+///         ^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ punctuation.section.brackets.end.cs
+///           ^ punctuation.section.brackets.begin.cs
+///            ^ punctuation.separator.sequence.cs
+///             ^ punctuation.section.brackets.end.cs
+
+        list[0, 1][2, 3];
+///     ^^^^ variable.other.cs
+///         ^^^^^^^^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.section.brackets.end.cs
+///               ^ punctuation.section.brackets.begin.cs
+///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                 ^ punctuation.separator.sequence.cs
+///                   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                    ^ punctuation.section.brackets.end.cs
+///                     ^ punctuation.terminator.statement.cs
+
+        list
+            [0, 1]
+///         ^^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.section.brackets.end.cs
+            [2, 3];
+///         ^^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.section.brackets.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+        list[a: "value", b: 10];
+///     ^^^^ variable.other.cs
+///         ^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ variable.parameter.cs
+///           ^ keyword.operator.assignment.cs
+///             ^^^^^^^ meta.string.cs string.quoted.double.cs
+///             ^ punctuation.definition.string.begin.cs
+///                   ^ punctuation.definition.string.end.cs
+///                    ^ punctuation.separator.sequence.cs
+///                      ^ variable.parameter.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.section.brackets.end.cs
+///                            ^ punctuation.terminator.statement.cs
     }
 }

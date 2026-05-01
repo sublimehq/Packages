@@ -319,7 +319,7 @@ class Foo {
 ///                            ^^^^^^ variable.other
 ///                                  ^ punctuation.section.brackets.begin
 ///                                   ^ variable.other
-///                                    ^ punctuation.separator.accessor
+///                                    ^ punctuation.separator.sequence
 ///                                      ^ variable.other
 ///                                       ^ punctuation.section.brackets.end
 ///                                        ^ punctuation.terminator.statement
