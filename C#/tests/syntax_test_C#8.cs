@@ -9,7 +9,7 @@ using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?st
 ///   ^^^ storage.type.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
-///              ^^^^^ keyword.control.other.cs
+///              ^^^^^ keyword.control.flow.await.cs
 ///                    ^^^^^^ variable.other.cs
 ///                          ^ punctuation.accessor.dot.cs
 ///                           ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
@@ -47,7 +47,7 @@ using var (item, item) = await client.GetAsync();
 ///              ^^^^ variable.other.cs
 ///                  ^ punctuation.section.sequence.end.cs
 ///                    ^ keyword.operator.assignment.cs
-///                      ^^^^^ keyword.control.other.cs
+///                      ^^^^^ keyword.control.flow.await.cs
 ///                            ^^^^^^ variable.other.cs
 ///                                  ^ punctuation.accessor.dot.cs
 ///                                   ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
@@ -66,7 +66,7 @@ using List<int> item = await client.GetAsync();
 ///           ^ punctuation.definition.generic.end.cs
 ///             ^^^^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
-///                    ^^^^^ keyword.control.other.cs
+///                    ^^^^^ keyword.control.flow.await.cs
 ///                          ^^^^^^ variable.other.cs
 ///                                ^ punctuation.accessor.dot.cs
 ///                                 ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
@@ -94,7 +94,7 @@ using MyClass<int>.SubList<int>[] item = await client.GetAsync();
 ///                             ^ punctuation.section.brackets.end.cs
 ///                               ^^^^ variable.other.cs
 ///                                    ^ keyword.operator.assignment.cs
-///                                      ^^^^^ keyword.control.other.cs
+///                                      ^^^^^ keyword.control.flow.await.cs
 ///                                            ^^^^^^ variable.other.cs
 ///                                                  ^ punctuation.accessor.dot.cs
 ///                                                   ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
@@ -195,7 +195,7 @@ public struct Point3D
 ///                            ^^^^^^^ support.type
 ///                                    ^^^^^^ variable.other.member
 ///                                           ^^ keyword.declaration.function.accessor.get
-///                                              ^^^ keyword.other
+///                                              ^^^ storage.modifier.cs
 ///                                                  ^^^^^^ variable.other
 ///                                                        ^ punctuation.terminator.statement - meta.property - meta.method
 
@@ -230,10 +230,25 @@ public struct Point3D
 
 void Example() {
     var originValue = Point3D.Origin;
-/// ^^^ storage.type
+/// ^^^ storage.type.cs
+///     ^^^^^^^^^^^ variable.other.cs
+///                 ^ keyword.operator.assignment.cs
+///                   ^^^^^^^ variable.other.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^^ variable.other.cs
+///                                 ^ punctuation.terminator.statement.cs
 
     ref readonly var originReference = ref Point3D.Origin;
-/// ^^^^^^^^^^^^ storage.modifier
+/// ^^^ storage.modifier.cs
+///     ^^^^^^^^ storage.modifier.cs
+///              ^^^ storage.type.cs
+///                  ^^^^^^^^^^^^^^^ variable.other.cs
+///                                  ^ keyword.operator.assignment.cs
+///                                    ^^^ storage.modifier.cs
+///                                        ^^^^^^^ variable.other.cs
+///                                               ^ punctuation.accessor.dot.cs
+///                                                ^^^^^^ variable.other.cs
+///                                                      ^ punctuation.terminator.statement.cs
 }
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#static-local-functions
@@ -259,7 +274,8 @@ public static async System.Collections.Generic.IAsyncEnumerable<int> GenerateSeq
 }
 
 await foreach (var number in GenerateSequence())
-/// ^ keyword.control.other
+/// <- keyword.control.flow.await.cs
+/// ^ keyword.control.flow.await.cs
 ///   ^^^^^^^ keyword.control.loop.foreach
 {
     Console.WriteLine(number);
@@ -269,7 +285,7 @@ static async Task Main()
 {
     var exampleAsyncDisposable = new ExampleAsyncDisposable();
     await using (exampleAsyncDisposable.ConfigureAwait(false))
-/// ^^^^^ keyword.control.other
+/// ^^^^^ keyword.control.flow.await.cs
 ///       ^^^^^ keyword.declaration.using
     {
         // Interact with the exampleAsyncDisposable instance.
@@ -473,7 +489,7 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^ variable.other.cs
-///                           ^^ keyword.operator.reflection.cs
+///                           ^^ keyword.operator.comparison.type.cs
 ///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
 ///                              ^ punctuation.section.block.begin.cs
 ///                                ^^^^^^^^^^^^ variable.other.member.cs

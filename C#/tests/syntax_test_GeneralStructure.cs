@@ -351,13 +351,13 @@ namespace YourNamespace
 ///                                   ^ punctuation.section.parameters.end
 ///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^^ variable.language.this
-///                                             ^^ keyword.operator.reflection
+///                                             ^^ keyword.operator.comparison.type.cs
 ///                                                ^^^^^ support.type
 ///                                                      ^^ keyword.operator.logical.cs
 ///                                                         ^^^^^^^^^^^^^^^ meta.group
 ///                                                         ^ punctuation.section.group.begin
 ///                                                          ^^^^ variable.language.this
-///                                                               ^^ keyword.operator.reflection
+///                                                               ^^ keyword.operator.cast.cs
 ///                                                                  ^^^^^ support.type
 ///                                                                       ^ punctuation.section.group.end
 ///                                                                        ^ punctuation.accessor
@@ -1439,7 +1439,7 @@ namespace TestNamespace . Test
 ///                                 ^ entity.name.function
 ///                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
 ///                                                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                                                      ^^^^^^ keyword.operator
+///                                                      ^^^^^^ keyword.other.cs
 ///                                                            ^^^^^^^^^^^^^^^ meta.group meta.group
 ///                                                             ^^^^^^^^^^^^^ support.type
                                             [Bind(Prefix = "MyContent")] MyProcessModel model)
@@ -1851,25 +1851,6 @@ namespace TestNamespace . Test
 ///                          ^ punctuation.terminator.statement.cs
         }
 ///     ^ punctuation.section.block
-
-        void TestMethod(int argument) {
-            if (argument <= 0)
-                throw new ArgumentException("Value must be positive", nameof(argument));
-///                                                                   ^ keyword.other
-///                                                                          ^ variable.other
-            nameof(TestMethod);
-///         ^ keyword.other
-///                ^ support.type
-            nameof(int);
-///         ^ keyword.other
-///                ^ storage.type
-            nameof(YourNamespace<Foo>.foo);
-///         ^ keyword.other
-///                ^ support.type
-///                             ^^^^^ meta.generic
-///                                  ^ punctuation.accessor
-///                                   ^ variable.other
-        }
 
         #region Empty region 01 // not a comment !
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor
@@ -2596,5 +2577,401 @@ public class TestExpressions
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ punctuation.terminator.statement.cs
+    }
+
+    void testDefault()
+    {
+        default
+///     ^^^^^^^ keyword.other.cs
+
+        default(;)
+///     ^^^^^^^ keyword.other.cs
+///            ^ meta.group.cs punctuation.section.group.begin.cs
+///             ^ punctuation.terminator.statement.cs
+///              ^ invalid.illegal.stray.brace.cs
+
+        default(byte);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^ storage.type.cs
+///                 ^ punctuation.section.group.end.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        default(uint);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^ storage.type.cs
+///                 ^ punctuation.section.group.end.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        default(base);   // note: not supported here
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^ invalid.illegal.unexpected-token.cs
+///                 ^ punctuation.section.group.end.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        default(this);  // note: not supported here
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^ invalid.illegal.unexpected-token.cs
+///                 ^ punctuation.section.group.end.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        default(simple_name);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^^^^^^^ support.type.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        default(AnyType);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^^^ support.type.cs
+///                    ^ punctuation.section.group.end.cs
+///                     ^ punctuation.terminator.statement.cs
+
+        default(List<int>);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^ support.type.cs
+///                 ^^^^^ meta.generic.cs
+///                 ^ punctuation.definition.generic.begin.cs
+///                  ^^^ storage.type.cs
+///                     ^ punctuation.definition.generic.end.cs
+///                      ^ punctuation.section.group.end.cs
+///                       ^ punctuation.terminator.statement.cs
+
+        default(global::name);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^^ support.namespace.global.cs
+///                   ^^ punctuation.accessor.double-colon.namespace.cs
+///                     ^^^^ support.type.cs
+///                         ^ punctuation.section.group.end.cs
+///                          ^ punctuation.terminator.statement.cs
+
+        default(alias::name);
+///     ^^^^^^^ keyword.other.cs
+///            ^^^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^ variable.namespace.cs
+///                  ^^ punctuation.accessor.double-colon.namespace.cs
+///                    ^^^^ support.type.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ punctuation.terminator.statement.cs
+    }
+
+    void testNameOf()
+    {
+        nameof
+///     ^^^^^^ keyword.other.cs
+
+        nameof(;)
+///     ^^^^^^ keyword.other.cs
+///           ^ meta.group.cs punctuation.section.group.begin.cs
+///            ^ punctuation.terminator.statement.cs
+///             ^ invalid.illegal.stray.brace.cs
+
+        nameof(byte);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ storage.type.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        nameof(uint);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ storage.type.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        nameof(base);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.super.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        nameof(this);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.this.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        nameof(simple_name);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^^^^^^ variable.other.cs
+///                       ^ punctuation.section.group.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        nameof(AnyType);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^^ support.type.cs
+///                   ^ punctuation.section.group.end.cs
+///                    ^ punctuation.terminator.statement.cs
+
+        nameof(List<int>);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ support.type.cs
+///                ^^^^^ meta.generic.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^^^ storage.type.cs
+///                    ^ punctuation.definition.generic.end.cs
+///                     ^ punctuation.section.group.end.cs
+///                      ^ punctuation.terminator.statement.cs
+
+        nameof(global::name);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^ support.namespace.global.cs
+///                  ^^ punctuation.accessor.double-colon.namespace.cs
+///                    ^^^^ variable.other.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        nameof(alias::name);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^ variable.namespace.cs
+///                 ^^ punctuation.accessor.double-colon.namespace.cs
+///                   ^^^^ variable.other.cs
+///                       ^ punctuation.section.group.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        nameof(base.member)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.super.cs
+///                ^ punctuation.accessor.dot.cs
+///                 ^^^^^^ variable.other.cs
+///                       ^ punctuation.section.group.end.cs
+
+        nameof(base.member<T>)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.super.cs
+///                ^ punctuation.accessor.dot.cs
+///                 ^^^^^^ support.type.cs
+///                       ^^^ meta.generic.cs
+///                       ^ punctuation.definition.generic.begin.cs
+///                        ^ support.type.cs
+///                         ^ punctuation.definition.generic.end.cs
+///                          ^ punctuation.section.group.end.cs
+
+        nameof(this.member<T>)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.this.cs
+///                ^ punctuation.accessor.dot.cs
+///                 ^^^^^^ support.type.cs
+///                       ^^^ meta.generic.cs
+///                       ^ punctuation.definition.generic.begin.cs
+///                        ^ support.type.cs
+///                         ^ punctuation.definition.generic.end.cs
+///                          ^ punctuation.section.group.end.cs
+
+        nameof(this.member<T>.member)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ variable.language.this.cs
+///                ^ punctuation.accessor.dot.cs
+///                 ^^^^^^ support.type.cs
+///                       ^^^ meta.generic.cs
+///                       ^ punctuation.definition.generic.begin.cs
+///                        ^ support.type.cs
+///                         ^ punctuation.definition.generic.end.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^^ variable.other.cs
+///                                 ^ punctuation.section.group.end.cs
+
+        new Exc("Value must be positive", nameof(argument));
+///                                       ^^^^^^ keyword.other.cs
+///                                             ^^^^^^^^^^ meta.group.cs
+///                                             ^ punctuation.section.group.begin.cs
+///                                              ^^^^^^^^ variable.other.cs
+///                                                      ^ punctuation.section.group.end.cs
+    }
+
+    void testSizeOf()
+    {
+        sizeof
+///     ^^^^^^ keyword.other.cs
+
+        sizeof(;)
+///     ^^^^^^ keyword.other.cs
+///           ^ meta.group.cs punctuation.section.group.begin.cs
+///            ^ punctuation.terminator.statement.cs
+///             ^ invalid.illegal.stray.brace.cs
+
+        sizeof(byte)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ storage.type.cs
+///                ^ punctuation.section.group.end.cs
+
+        sizeof(u8)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^ support.type.cs
+///              ^ punctuation.section.group.end.cs
+    }
+
+    void testTypeOf()
+    {
+        typeof
+///     ^^^^^^ keyword.other.cs
+
+        typeof(;)
+///     ^^^^^^ keyword.other.cs
+///           ^ meta.group.cs punctuation.section.group.begin.cs
+///            ^ punctuation.terminator.statement.cs
+///             ^ invalid.illegal.stray.brace.cs
+
+        typeof(byte)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ storage.type.cs
+///                ^ punctuation.section.group.end.cs
+
+        typeof(u8)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^ support.type.cs
+///              ^ punctuation.section.group.end.cs
+
+        typeof(ns::u8)
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ meta.path.cs
+///            ^^ variable.namespace.cs
+///              ^^ punctuation.accessor.double-colon.namespace.cs
+///                ^^ support.type.cs
+///                  ^ punctuation.section.group.end.cs
+
+        typeof(ns::u8<T>[])
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ meta.path.cs
+///            ^^ variable.namespace.cs
+///              ^^ punctuation.accessor.double-colon.namespace.cs
+///                ^^ support.type.cs
+///                  ^^^ meta.generic.cs
+///                  ^ punctuation.definition.generic.begin.cs
+///                   ^ support.type.cs
+///                    ^ punctuation.definition.generic.end.cs
+///                     ^^ meta.brackets.cs
+///                     ^ punctuation.section.brackets.begin.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                       ^ punctuation.section.group.end.cs
+
+        typeof(System.Int32);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^ support.type.cs
+///                  ^ punctuation.accessor.dot.cs
+///                   ^^^^^ support.type.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        typeof(double[]);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^ storage.type.cs
+///                  ^^ meta.brackets.cs
+///                  ^ punctuation.section.brackets.begin.cs
+///                   ^ punctuation.section.brackets.end.cs
+///                    ^ punctuation.section.group.end.cs
+///                     ^ punctuation.terminator.statement.cs
+
+        typeof(void);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ storage.type.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        typeof(T);
+///     ^^^^^^ keyword.other.cs
+///           ^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ support.type.cs
+///             ^ punctuation.section.group.end.cs
+///              ^ punctuation.terminator.statement.cs
+
+        typeof(X<T>);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ support.type.cs
+///             ^^^ meta.generic.cs
+///             ^ punctuation.definition.generic.begin.cs
+///              ^ support.type.cs
+///               ^ punctuation.definition.generic.end.cs
+///                ^ punctuation.section.group.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        typeof(X<X<T>>);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ support.type.cs
+///             ^^^^^^ meta.generic.cs
+///             ^ punctuation.definition.generic.begin.cs
+///              ^ support.type.cs
+///               ^^^ meta.generic.cs
+///               ^ punctuation.definition.generic.begin.cs
+///                ^ support.type.cs
+///                 ^ punctuation.definition.generic.end.cs
+///                  ^ punctuation.definition.generic.end.cs
+///                   ^ punctuation.section.group.end.cs
+///                    ^ punctuation.terminator.statement.cs
+
+        typeof(X<>);
+///     ^^^^^^ keyword.other.cs
+///           ^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ support.type.cs
+///             ^^ meta.generic.cs
+///             ^ punctuation.definition.generic.begin.cs
+///              ^ punctuation.definition.generic.end.cs
+///               ^ punctuation.section.group.end.cs
+///                ^ punctuation.terminator.statement.cs
     }
 }

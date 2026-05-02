@@ -40,7 +40,7 @@ otherPerson = person with { LastName = "Hanselman" };
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/patterns3
 if (myValue is > 0 and <= 10)
 /// ^^^^^^^ variable.other
-///         ^^ keyword.operator.reflection
+///         ^^ keyword.operator.comparison.type
 ///            ^ keyword.operator.comparison
 ///              ^ constant.numeric.value
 ///                ^^^ keyword.operator.logical
@@ -289,18 +289,111 @@ public class TollCalculator
 
 if (input is null) { }
 /// ^^^^^ variable.other
-///       ^^ keyword.operator.reflection
+///       ^^ keyword.operator.comparison.type.cs
 ///          ^^^^ constant.language.null.cs
 
 if (input is not null) { }
 /// ^^^^^ variable.other
-///       ^^ keyword.operator.reflection
-///          ^^^ keyword.operator.reflection.cs
+///       ^^ keyword.operator.comparison.type.cs
+///          ^^^ keyword.operator.logical.cs
 ///              ^^^^ constant.language.null.cs
 
-if (e is not Customer) { }
-///   ^^^^^^ keyword.operator.reflection
+if (e is Customer) { }
+///^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^^^^^^ support.type
+
+if (e is Customer f) { }
+///^^^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^^^^^^ support.type
+///               ^ variable.other.cs
+
+if (e is not Customer { Member: "value" }) { }
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^ keyword.operator.logical.cs
 ///          ^^^^^^^^ support.type
+///                   ^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///                   ^ punctuation.section.block.begin.cs
+///                     ^^^^^^ variable.other.member.cs
+///                           ^ keyword.operator.assignment.cs
+///                             ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                     ^ punctuation.section.block.end.cs
+
+if (e is not Customer { Member: "value" } f) { }
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^ keyword.operator.logical.cs
+///          ^^^^^^^^ support.type
+///                   ^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///                   ^ punctuation.section.block.begin.cs
+///                     ^^^^^^ variable.other.member.cs
+///                           ^ keyword.operator.assignment.cs
+///                             ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                     ^ punctuation.section.block.end.cs
+///                                       ^ variable.other.cs
+///                                        ^ punctuation.section.group.end.cs
+
+if (e is { Member: {Member: "value"}}) { }
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
+///                ^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.class.body.cs meta.block.cs
+///                                 ^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
+///      ^ punctuation.section.block.begin.cs
+///        ^^^^^^ variable.other.member.cs
+///              ^ keyword.operator.assignment.cs
+///                ^ punctuation.section.block.begin.cs
+///                 ^^^^^^ variable.other.member.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                ^^ punctuation.section.block.end.cs
+///                                  ^ punctuation.section.group.end.cs
+
+if (e is var f) { }
+///^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^ storage.type.cs
+///          ^ variable.other.cs
+///           ^ punctuation.section.group.end.cs
+
+if (e is not var f) { }
+///^^^^^^^^^^^^^^^^ meta.group.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^ keyword.operator.logical.cs
+///          ^^^ storage.type.cs
+///              ^ variable.other.cs
+///               ^ punctuation.section.group.end.cs
+
+if (e is var (int i, k)) { }
+///^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///^ punctuation.section.group.begin.cs
+/// ^ variable.other.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^ storage.type.cs
+///          ^^^^^^^^^^ meta.sequence.tuple.cs
+///          ^ punctuation.section.sequence.begin.cs
+///           ^^^ storage.type.cs
+///               ^ variable.other.cs
+///                ^ punctuation.separator.sequence.cs
+///                  ^ variable.other.cs
+///                   ^ punctuation.section.sequence.end.cs
+///                    ^ punctuation.section.group.end.cs
+
+if (e is (int i, k)) { }
+///^^^^^^^^^^^^^^^^^ meta.group.cs
+///^ punctuation.section.group.begin.cs
+/// ^ variable.other.cs
+///   ^^ keyword.operator.comparison.type.cs
+///      ^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^ storage.type.cs
+///           ^ variable.other.cs
+///            ^ punctuation.separator.sequence.cs
+///              ^ support.type.cs
+///               ^ punctuation.section.sequence.end.cs
+///                ^ punctuation.section.group.end.cs
 
 public record A(int Num);
 ///    ^^^^^^^^ meta.record

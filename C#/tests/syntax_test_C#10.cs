@@ -51,7 +51,7 @@ public readonly record struct Person(string Name);
 ///                                              ^ punctuation.terminator.statement
 
 if (obj is Person { Address: { City: "Seattle" } })
-///     ^^ keyword.operator.reflection
+///     ^^ keyword.operator.comparison
 ///        ^^^^^^ support.type
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
 ///                 ^^^^^^^ variable.other.member
@@ -65,7 +65,7 @@ if (obj is Person { Address: { City: "Seattle" } })
     Console.WriteLine("Seattle");
 
 if (obj is Person { Address.City: "Seattle" }) // Extended property pattern
-///     ^^ keyword.operator.reflection
+///     ^^ keyword.operator.comparison
 ///        ^^^^^^ support.type
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
 ///                 ^^^^^^^ variable.other.member
@@ -87,7 +87,7 @@ static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Da
 ///                                        ^^ meta.method keyword.declaration.function.arrow
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                                           ^^^^ variable.other
-///                                                ^^ keyword.operator.reflection
+///                                                ^^ keyword.operator.comparison
 ///                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
 ///                                                   ^ punctuation.section.block.begin
 ///                                                     ^^^^ variable.other.member

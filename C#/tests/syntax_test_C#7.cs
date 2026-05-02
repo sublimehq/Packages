@@ -315,7 +315,7 @@ class Foo {
                 if (predicate(matrix[i, j]))
                     return ref matrix[i, j];
 ///                 ^^^^^^ keyword.control.flow.return
-///                        ^^^ keyword.other
+///                        ^^^ storage.modifier.cs
 ///                            ^^^^^^ variable.other
 ///                                  ^ punctuation.section.brackets.begin
 ///                                   ^ variable.other
@@ -414,7 +414,7 @@ class Foo {
         var abc = (this as object, input);
 ///               ^ punctuation.section.sequence.begin
 ///                ^^^^ variable.language.this
-///                     ^^ keyword.operator.reflection
+///                     ^^ keyword.operator.cast
 ///                        ^^^^^^ storage.type
 ///                              ^ punctuation.separator.sequence
 ///                                ^^^^^ variable.other
@@ -426,7 +426,7 @@ class Foo {
 ///                ^^^^^^^ variable.other
 ///                       ^ punctuation.accessor.dot
 ///                        ^^^^^ variable.other
-///                              ^^ keyword.operator.reflection
+///                              ^^ keyword.operator.cast
 ///                                 ^^^^^^^^ support.type
 ///                                         ^ punctuation.section.group.end
 ///                                          ^ punctuation.terminator.statement
@@ -806,7 +806,7 @@ void Test ()
 ///     ^^^ storage.type
 ///         ^^^^^ variable.other
 ///               ^ keyword.operator.assignment
-///                 ^^^ keyword.other
+///                 ^^^ storage.modifier.cs
 ///                     ^^^^ variable.function
     place = 9; // replaces 7 with 9 in the array
     Console.WriteLine (array [4]); // prints 9
@@ -824,7 +824,7 @@ public ref int Find (int number, int[] numbers)
         {
             return ref numbers [i]; // return the storage location, not the value
 ///         ^^^^^^ keyword.control.flow.return
-///                ^^^ keyword.other
+///                ^^^ storage.modifier.cs
 ///                    ^^^^^^^ variable.other
         }
     }
@@ -891,7 +891,7 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#pattern-matching
 if (input is int count)
 /// ^^^^^ variable.other
-///       ^^ keyword.operator.reflection
+///       ^^ keyword.operator.comparison.type.cs
 ///          ^^^ storage.type
 ///              ^^^^^ variable.other
     sum += count;

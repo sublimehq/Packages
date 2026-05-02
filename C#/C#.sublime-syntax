@@ -1805,7 +1805,7 @@ contexts:
     - match: switch\b
       scope: keyword.control.conditional.switch.cs
       push: switch_expression
-    - match: '({{reserved}})\b'
+    - match: '{{reserved}}\b'
       scope: keyword.other.cs
     - include: namespace_variables
     - match: '{{name}}'
@@ -1838,6 +1838,8 @@ contexts:
 
   keywords:
     - include: funcptr_types
+    - include: instantiations
+    - include: modifiers
     - match: this\b
       scope: variable.language.this.cs
       push:
@@ -1849,86 +1851,26 @@ contexts:
         - member_access
         - item_access
     - match: await\b
-      scope: keyword.control.other.cs
-    - match: (nameof)(\()
-      captures:
-        1: keyword.other.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      push:
-        - meta_content_scope: meta.group.cs
-        - match: \)
-          scope: meta.group.cs punctuation.section.group.end.cs
-          pop: 1
-        # We don't if these are types of variables, so we guess that
-        # uppercase names are types, and others are variables
-        - match: '(?=(?!{{base_type}})\p{Ll}){{name}}(?=\s*\))'
-          scope: variable.other.cs
-        - include: type
-    - match: (typeof|default)(\()
-      captures:
-        1: keyword.operator.reflection.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      push:
-        - meta_content_scope: meta.group.cs
-        - match: \)
-          scope: meta.group.cs punctuation.section.group.end.cs
-          pop: 1
-        - include: type
-    - match: (as|is(?:\s+not)?)\b\s*
-      captures:
-        1: keyword.operator.reflection.cs
-      push: [maybe_pattern_matching_object, maybe_type_or_null]
-    - match: (?:checked|unchecked)\b
-      scope: keyword.other.cs
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.cs
-          set:
-            - meta_scope: meta.group.cs
-            - match: \)
-              scope: punctuation.section.group.end.cs
-              pop: 1
-            - include: line_of_code_in
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: 1
-            - include: code_block_in
-        - match: \S
-          scope: invalid.illegal.expected.block.cs
-    - match: unsafe\b
-      scope: keyword.other.cs
-      push:
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: 1
-            - include: code_block_in
-        - match: \S
-          scope: invalid.illegal.expected.block.cs
-    - include: instantiations
+      scope: keyword.control.flow.await.cs
     - match: (?:and|not|or)\b
       scope: keyword.operator.logical.cs
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
-
-  maybe_pointer:
-    - match: '[*&]'
-      scope: keyword.operator.pointer.cs
-      pop: 1
-    - include: else_pop
-
-  modifiers:
-    - match: '{{modifiers}}'
-      scope: storage.modifier.cs
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
+    - match: unsafe\b
+      scope: keyword.other.cs
+    - match: (?:checked|unchecked)\b
+      scope: keyword.other.cs
+      push: maybe_expression_group
+    - match: as\b
+      scope: keyword.operator.cast.cs
+      push: expect_type
+    - match: is\b
+      scope: keyword.operator.comparison.type.cs
+      push: expect_type_pattern
+    - match: nameof\b
+      scope: keyword.other.cs
+      push: maybe_nameof_group
+    - match: (?:sizeof|typeof|default)\b
+      scope: keyword.other.cs
+      push: maybe_type_group
 
 ###[ ASSIGNMENT EXPRESSIONS ]##################################################
 
@@ -2032,6 +1974,54 @@ contexts:
     - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
       push: var_declaration
     - include: line_of_code_in_no_semicolon
+
+###[ GROUP EXPRESSIONS ]#######################################################
+
+  maybe_expression_group:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_expression_group
+    - include: else_pop
+
+  inside_expression_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - include: line_of_code_in
+
+  maybe_nameof_group:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_nameof_group
+    - include: else_pop
+
+  inside_nameof_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - include: instance_variables
+    # We don't if these are types of variables, so we guess that
+    # uppercase names are types, and others are variables
+    - match: (?=(?!{{base_type}})\p{Ll}){{name}}(?=\s*\))
+      scope: variable.other.cs
+    - include: type
+    - include: stray_names
+
+  maybe_type_group:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_type_group
+    - include: else_pop
+
+  inside_type_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - include: type
+    - include: stray_names
 
 ###[ FUNCTION CALL EXPRESSIONS ]###############################################
 
@@ -2301,13 +2291,26 @@ contexts:
     - match: (?=\S)
       set: line_of_code_in_no_semicolon
 
-###[ TYPES ]###################################################################
+###[ TYPE PATTERNS ]###########################################################
 
-  maybe_type_or_null:
+  expect_type_pattern:
+    - match: not\b
+      scope: keyword.operator.logical.cs
     - match: null\b
       scope: constant.language.null.cs
-      pop: 2
-    - include: type_no_space
+      pop: 1
+    - match: (?=\S)
+      set:
+        - maybe_pattern_matching_object
+        - var_declaration
+
+###[ TYPES ]###################################################################
+
+  modifiers:
+    - match: '{{modifiers}}'
+      scope: storage.modifier.cs
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
 
   expect_type:
     - match: (?=\S)
@@ -2499,6 +2502,12 @@ contexts:
 
 ###[ OPERATORS ]###############################################################
 
+  maybe_pointer:
+    - match: '[*&]'
+      scope: keyword.operator.pointer.cs
+      pop: 1
+    - include: else_pop
+
   terminators:
     - match: ';'
       scope: punctuation.terminator.statement.cs
@@ -2509,6 +2518,12 @@ contexts:
       pop: 1
 
 ###[ VARIABLES ]###############################################################
+
+  instance_variables:
+    - match: this\b
+      scope: variable.language.this.cs
+    - match: base\b
+      scope: variable.language.super.cs
 
   stray_names:
     - match: '{{name}}'
