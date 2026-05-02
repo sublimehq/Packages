@@ -452,7 +452,7 @@ contexts:
       set: type_tuple
     - match: (?=var\b|{{namespaced_name}}{{type_suffix}}?\s+{{name}})
       set:
-        - variables_declaration
+        - variable_declaration_list
         - var_declaration
     - match: (?=\S)
       set: using_namespace
@@ -1300,85 +1300,29 @@ contexts:
 
 ###[ VAR DECLARATIONS ]########################################################
 
-  var_declaration_including_tuple:
-    - include: var_declaration
-    - include: type_tuple
-
   var_declaration:
-    - match: (var)\s*(\()
-      captures:
-        1: storage.type.cs
-        2: meta.sequence.tuple.cs punctuation.section.sequence.begin.cs
-      set:
-        - meta_content_scope: meta.sequence.tuple.cs
-        - match: \)
-          scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
-          pop: 1
-        - match: _\b
-          scope: variable.language.anonymous.cs
-        - match: '{{name}}'
-          scope: variable.other.cs
-        - match: ','
-          scope: punctuation.separator.sequence.cs
-    - match: '(var)\s+({{name}})\s*'
-      captures:
-        1: storage.type.cs
-        2: variable.other.cs
-      pop: 1
-    - include: var_declaration_explicit
+    - match: var\b
+      scope: storage.type.cs
+      set: var_declarator
+    - match: (?=\S)
+      set: [variable_declaration_name, type_no_space]
 
-  var_declaration_explicit:
-    - match: '({{name}})\s*(\.)'
-      captures:
-        1: support.type.cs
-        2: punctuation.accessor.dot.cs
-    - match: '({{name}})\s*(<)'
-      captures:
-        1: support.type.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      set:
-        - meta_content_scope: meta.generic.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set:
-            - match: '({{name}})\s*'
-              captures:
-                1: variable.other.cs
-              pop: 1
-            - match: (?=[,);}])
-              pop: 1
-        - include: inside_type_argument_list
-    - match: '({{base_type}}|var){{type_suffix_capture}}'
-      captures:
-        1: storage.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
-      set:
-        - match: '({{name}})\s*'
-          captures:
-            1: variable.other.cs
-          pop: 1
-        - match: (?=[,);}])
-          pop: 1
-    - match: '(?:({{name}}){{type_suffix_capture}})(?:\s+({{name}}))?\s*'
-      captures:
-        1: support.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
-        8: variable.other.cs
-      pop: 1
-    - match: (?=\))
-      pop: 1
+  var_declarator:
+    - include: tuple
+    - include: variable_declaration_name
 
-  variables_declaration:
+  variable_declaration_name:
+    - match: _\b
+      scope: variable.language.anonymous.cs
+      pop: 1
+    - match: '{{unreserved_name}}'
+      scope: variable.other.cs
+      pop: 1
+    - include: else_pop
+
+  variable_declaration_list:
+    - match: _\b
+      scope: variable.language.anonymous.cs
     - match: '{{unreserved_name}}'
       scope: variable.other.cs
     - match: ','
@@ -1414,7 +1358,7 @@ contexts:
       captures:
         1: keyword.control.loop.foreach.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, foreach_var_assignment, var_declaration_including_tuple]
+      set: [for_block, foreach_var_assignment, var_declaration]
     - match: try\b
       scope: keyword.control.exception.try.cs
       set: [finally_block, catch_expr, try_block]
@@ -1427,7 +1371,7 @@ contexts:
       scope: keyword.declaration.using.cs
       push:
         - using_meta
-        - variables_declaration
+        - variable_declaration_list
         - var_declaration
     - match: (fixed)\s*(\()
       captures:
@@ -1500,7 +1444,7 @@ contexts:
     - match: (ref\s+(?:readonly\s+)?)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
       captures:
         1: storage.modifier.cs
-      set: [variables_declaration, type_no_space]
+      set: [variable_declaration_list, type_no_space]
     - match: ({{name}})\s*(:)(?!:)
       captures:
         1: entity.name.label.cs
@@ -1511,7 +1455,7 @@ contexts:
       captures:
         1: support.type.cs
         2: variable.other.cs
-      set: variables_declaration
+      set: variable_declaration_list
     - match: (?=\S)
       set: line_of_code_in
 
@@ -1625,7 +1569,7 @@ contexts:
             - match: when\b
               scope: keyword.control.conditional.when.cs
             - match: (?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s+when\b)
-              push: var_declaration_explicit
+              push: var_declaration
             - match: ':'
               scope: punctuation.separator.case-statement.cs
               pop: 1
@@ -1654,8 +1598,8 @@ contexts:
       captures:
         1: keyword.control.exception.catch.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      push: [catch_block, var_declaration_explicit]
-    - match: 'catch'
+      push: [catch_block, var_declaration]
+    - match: 'catch\b'
       scope: keyword.control.exception.catch.cs
       push: trycatch_block
     - include: else_pop
@@ -2093,7 +2037,7 @@ contexts:
     - match: _\b
       scope: variable.language.anonymous.cs
     - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
-      push: var_declaration_explicit
+      push: var_declaration
     - include: line_of_code_in_no_semicolon
 
 ###[ FUNCTION CALL EXPRESSIONS ]###############################################
@@ -2150,7 +2094,7 @@ contexts:
     - match: ref\b
       scope: storage.modifier.argument.cs
     - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
-      set: var_declaration_explicit
+      push: var_declaration
     - include: else_pop
 
 ###[ INSTANTIATION EXPRESSIONS ]###############################################
@@ -2401,7 +2345,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cs
     - match: (?=\S)
-      push: var_declaration_explicit
+      push: var_declaration
 
   type_common_except_bare_custom_type:
     - include: namespace_variables

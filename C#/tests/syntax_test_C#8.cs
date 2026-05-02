@@ -75,6 +75,34 @@ using List<int> item = await client.GetAsync();
 ///                                          ^ punctuation.section.group.end.cs
 ///                                           ^ punctuation.terminator.statement.cs
 
+using MyClass<int>.SubList<int>[] item = await client.GetAsync();
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^ support.type.cs
+///          ^^^^^ meta.generic.cs
+///          ^ punctuation.definition.generic.begin.cs
+///           ^^^ storage.type.cs
+///              ^ punctuation.definition.generic.end.cs
+///               ^ punctuation.accessor.dot.cs
+///                ^^^^^^^ support.type.cs
+///                       ^^^^^ meta.generic.cs
+///                       ^ punctuation.definition.generic.begin.cs
+///                        ^^^ storage.type.cs
+///                           ^ punctuation.definition.generic.end.cs
+///                            ^^ meta.brackets.cs
+///                            ^ punctuation.section.brackets.begin.cs
+///                             ^ punctuation.section.brackets.end.cs
+///                               ^^^^ variable.other.cs
+///                                    ^ keyword.operator.assignment.cs
+///                                      ^^^^^ keyword.control.other.cs
+///                                            ^^^^^^ variable.other.cs
+///                                                  ^ punctuation.accessor.dot.cs
+///                                                   ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                                           ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                           ^ punctuation.section.group.begin.cs
+///                                                            ^ punctuation.section.group.end.cs
+///                                                             ^ punctuation.terminator.statement.cs
+
 numbers ??= new List<int>();
 ///     ^^^ keyword.operator.assignment.augmented
 numbers.Add(i ??= 17);
@@ -111,9 +139,9 @@ public static decimal CalculateToll(object vehicle) =>
 ///                                                    ^^ punctuation.separator.case-expression
 ///                                                                     ^ punctuation.terminator.case-expression
         DeliveryTruck t when t.GrossWeightClass < 3000 => 10.00m - 2.00m,
-        DeliveryTruck _ => 10.00m, // TODO: scope the _ as a discard?
+        DeliveryTruck _ => 10.00m,
 ///     ^^^^^^^^^^^^^ support.type
-///                   ^ variable.other
+///                   ^ variable.language.anonymous
 ///                     ^^ meta.method meta.block punctuation.separator.case-expression
 
         _ => throw new ArgumentException("Not a known vehicle type", nameof(vehicle))
