@@ -573,26 +573,47 @@ MClassName0 module.MClassName0
 #                 ^ punctuation.accessor.dot.python
 #                  ^^^^^^^^^^^ support.class.python
 
-M_Class module.M_Class
-#^^^^^^ support.class.python
-#       ^^^^^^^^^^^^^^ meta.path.python
-#       ^^^^^^ variable.other.python
-#             ^ punctuation.accessor.dot.python
-#              ^^^^^^^ support.class.python
-
-M0_Class module.M0_Class
-#^^^^^^^ support.class.python
-#        ^^^^^^^^^^^^^^^ meta.path.python
-#        ^^^^^^ variable.other.python
-#              ^ punctuation.accessor.dot.python
-#               ^^^^^^^^ support.class.python
-
-ANY_CLASs module.ANY_CLASs
+MyClassV0 module.MyClassV0
 #^^^^^^^^ support.class.python
 #         ^^^^^^^^^^^^^^^^ meta.path.python
 #         ^^^^^^ variable.other.python
 #               ^ punctuation.accessor.dot.python
 #                ^^^^^^^^^ support.class.python
+
+M_Class module.M_Class
+#^^^^^^ variable.other.python
+#       ^^^^^^^^^^^^^^ meta.path.python
+#       ^^^^^^ variable.other.python
+#             ^ punctuation.accessor.dot.python
+#              ^^^^^^^ variable.other.python
+
+M0_Class module.M0_Class
+#^^^^^^^ variable.other.python
+#        ^^^^^^^^^^^^^^^ meta.path.python
+#        ^^^^^^ variable.other.python
+#              ^ punctuation.accessor.dot.python
+#               ^^^^^^^^ variable.other.python
+
+ANY_CLASs module.ANY_CLASs
+#^^^^^^^^ variable.other.python
+#         ^^^^^^^^^^^^^^^^ meta.path.python
+#         ^^^^^^ variable.other.python
+#               ^ punctuation.accessor.dot.python
+#                ^^^^^^^^^ variable.other.python
+
+AnyClass_0 module.AnyClass_0
+#^^^^^^^^^ variable.other.python
+#          ^^^^^^^^^^^^^^^^ meta.path.python
+#          ^^^^^^ variable.other.python
+#                ^ punctuation.accessor.dot.python
+#                 ^^^^^^^^^^ variable.other.python
+
+Any_Class0 module.Any_Class0
+#^^^^^^^^^ variable.other.python
+#          ^^^^^^^^^^^^^^^^ meta.path.python
+#          ^^^^^^ variable.other.python
+#                ^ punctuation.accessor.dot.python
+#                 ^^^^^^^^^^ variable.other.python
 
 _0variable module._0variable
 #^^^^^^^^^ variable.other.python
