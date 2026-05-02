@@ -4134,7 +4134,7 @@ variables:
   identifier_start: '[[:alpha:]_]'
   identifier_char: '[[:alnum:]_]'
   identifier_class: '_?[[:upper:]](?:[[:upper:][:digit:]]*[[:lower:]]+[[:alnum:]]*)?\b'
-  identifier_constant: '(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
+  identifier_constant: '(?:[_[:upper:]][_[:upper:][:digit:]]*)?[[:upper:]]{2,}[_[:upper:][:digit:]]*\b'  # require 2 consecutive upper-case letters
 
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)\b
 
