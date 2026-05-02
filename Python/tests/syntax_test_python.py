@@ -622,6 +622,20 @@ _0variable module._0variable
 #                ^ punctuation.accessor.dot.python
 #                 ^^^^^^^^^^ variable.other.python
 
+NaN module.NaN
+#^^ variable.other.python
+#   ^^^^^^^^^^ meta.path.python
+#   ^^^^^^ variable.other.python
+#         ^ punctuation.accessor.dot.python
+#          ^^^ variable.other.python
+
+NaT module.NaT
+#^^ variable.other.python
+#   ^^^^^^^^^^ meta.path.python
+#   ^^^^^^ variable.other.python
+#         ^ punctuation.accessor.dot.python
+#          ^^^ variable.other.python
+
 open.open.open.
 # <- meta.path.python variable.other.python
 #^^^^^^^^^^^^^^ meta.path.python - keyword - support
