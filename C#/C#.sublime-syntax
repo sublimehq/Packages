@@ -647,13 +647,9 @@ contexts:
     - include: attributes
     - match: '{{unreserved_name}}'
       scope: entity.name.constant.cs
-    - match: =
-      scope: keyword.operator.assignment.cs
-      push:
-        - line_of_code_in
-        - maybe_pointer
     - match: ','
       scope: punctuation.separator.enum.cs
+    - include: assignment_expressions
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
@@ -1121,9 +1117,7 @@ contexts:
     - match: \s*(=)
       captures:
         1: keyword.operator.assignment.cs
-      set:
-        - line_of_code_in
-        - maybe_pointer
+      set: assignment_value
     - include: noeol_pop
 
   inside_field_declarations:
@@ -1132,17 +1126,8 @@ contexts:
       scope: variable.other.member.cs
     - match: ','
       scope: punctuation.separator.variables.cs
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - field_declaration_value
-        - maybe_pointer
+    - include: assignment_expressions
     - include: else_pop
-
-  field_declaration_value:
-    - match: (?=;)
-      pop: 2
-    - include: line_of_code_in
 
 ###[ INDEXER DECLARATIONS ]####################################################
 
@@ -1232,7 +1217,7 @@ contexts:
       pop: 1
     - match: (?=\S)
       push:
-        - method_param_value
+        - assignment_expression
         - method_param_name
         - type_no_space
         - method_param_modifier
@@ -1247,14 +1232,6 @@ contexts:
     - match: '{{unreserved_name}}'
       scope: variable.parameter.cs
       pop: 1
-    - include: else_pop
-
-  method_param_value:
-    - match: =
-      scope: keyword.operator.assignment.cs
-      set:
-        - line_of_code_in
-        - maybe_pointer
     - include: else_pop
 
   method_body:
@@ -1402,26 +1379,12 @@ contexts:
       pop: 1
 
   variables_declaration:
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push:
-        - variables_declaration_value
-        - maybe_pointer
-    - match: '{{name}}'
+    - match: '{{unreserved_name}}'
       scope: variable.other.cs
     - match: ','
       scope: punctuation.separator.variables.cs
+    - include: assignment_expressions
     - include: else_pop
-
-  variables_declaration_value:
-    - match: (?=;|,)
-      pop: 1
-    - match: (?=\{)
-      push:
-        - match: (?=[^,\s{}])
-          pop: 1
-        - include: inside_variable_initializer
-    - include: line_of_code_in
 
 ###[ STATEMENTS ]##############################################################
 
@@ -2029,6 +1992,34 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
+
+###[ ASSIGNMENT EXPRESSIONS ]##################################################
+
+  assignment_expressions:
+    - match: =
+      scope: keyword.operator.assignment.cs
+      push: assignment_value
+
+  assignment_expression:
+    - match: =
+      scope: keyword.operator.assignment.cs
+      set: assignment_value
+    - include: else_pop
+
+  assignment_value:
+    - match: \{
+      scope: meta.braces.cs punctuation.section.braces.begin.cs
+      set: inside_variable_initializer
+    - match: (?=\S)
+      set:
+        - inside_assignment_value
+        - maybe_pointer
+
+  inside_assignment_value:
+    - match: (?=[,;)\]}])
+      pop: 1
+    - include: lambdas
+    - include: line_of_code_in_no_semicolon
 
 ###[ CAST, GROUP AND TUPLE EXPRESSIONS ]#######################################
 
