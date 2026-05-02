@@ -809,8 +809,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.inherited-class.cs
     - include: namespace_variables
-    - match: '{{base_type}}'
-      scope: storage.type.cs
+    - include: base_types
     - match: ({{unreserved_name}})?(\.)
       scope: meta.path.cs
       captures:
@@ -1805,8 +1804,7 @@ contexts:
         1: keyword.operator.null-coalescing.cs
         2: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: inside_item_access
-    - match: '{{base_type}}'
-      scope: storage.type.cs
+    - include: base_types
     - match: switch\b
       scope: keyword.control.conditional.switch.cs
       push: switch_expression
@@ -1864,11 +1862,9 @@ contexts:
         - match: \)
           scope: meta.group.cs punctuation.section.group.end.cs
           pop: 1
-        - match: '{{base_type}}'
-          scope: storage.type.cs
         # We don't if these are types of variables, so we guess that
         # uppercase names are types, and others are variables
-        - match: '(?=\p{Ll}){{name}}(?=\s*\))'
+        - match: '(?=(?!{{base_type}})\p{Ll}){{name}}(?=\s*\))'
           scope: variable.other.cs
         - include: type
     - match: (typeof|default)(\()
@@ -2350,8 +2346,7 @@ contexts:
   type_common_except_bare_custom_type:
     - include: namespace_variables
     - include: funcptr_types
-    - match: '{{base_type}}'
-      scope: storage.type.cs
+    - include: base_types
     - match: \s*(\[)
       captures:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
@@ -2370,6 +2365,10 @@ contexts:
       push: inside_type_argument_list
     - match: (?=[]})>,;>:]|=>)
       pop: 1
+
+  base_types:
+    - match: '{{base_type}}'
+      scope: storage.type.cs
 
   inside_rank_specifier:
     - meta_content_scope: meta.brackets.cs
