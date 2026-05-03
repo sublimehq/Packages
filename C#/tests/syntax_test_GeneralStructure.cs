@@ -839,51 +839,64 @@ namespace TestNamespace . Test
                     break;
 ///                 ^ keyword.control
                 case BLBodyBattleLibrary.ContextType.TapUp:
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^^^^^^^^^^^^^^^^^ variable.other
-///                                     ^ punctuation.accessor.dot
-///                                      ^^^^^^^^^^^ variable.other
-///                                                 ^ punctuation.accessor.dot
-///                                                  ^^^^^ constant.other
-///                                                       ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                  ^^^^^^^^^^^^^^^^^^^ support.type.cs
+///                                     ^ punctuation.accessor.dot.cs
+///                                      ^^^^^^^^^^^ entity.other.inherited-class.cs
+///                                                 ^ punctuation.accessor.dot.cs
+///                                                  ^^^^^ variable.other.member.cs
+///                                                       ^ punctuation.separator.case-statement.cs
                 case BindingFlags.Static:
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^^^^^^^^^^ variable.other
-///                              ^ punctuation.accessor.dot
-///                               ^^^^^^ constant.other
-///                                     ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                  ^^^^^^^^^^^^ support.type.cs
+///                              ^ punctuation.accessor.dot.cs
+///                               ^^^^^^ variable.other.member.cs
+///                                     ^ meta.case.cs punctuation.separator.case-statement.cs
                 case test:
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^^ constant.other
-///                      ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^ meta.case.pattern.cs
+///                  ^^^^ variable.other.cs
+///                      ^ meta.case.cs punctuation.separator.case-statement.cs
                 case this.test;
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^^ variable.language.this
-///                      ^ punctuation.accessor.dot
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^^^^^^ meta.case.pattern.cs
+///                  ^^^^ variable.language.this.cs
+///                      ^ punctuation.accessor.dot.cs
+///                       ^^^^ variable.other.member.cs
+///                           ^ punctuation.terminator.statement.cs
                 case 1*2:
-///             ^^^^ keyword.control.conditional.case
-///                  ^ constant.numeric
-///                   ^ keyword.operator
-///                    ^ constant.numeric
-///                     ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^ meta.case.pattern.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ keyword.operator.arithmetic.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ meta.case.cs punctuation.separator.case-statement.cs
                 case bar("hello"):
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^ meta.function-call.identifier variable.function
-///                     ^^^^^^^^^ meta.function-call.arguments meta.group
-///                     ^ punctuation.section.group.begin
-///                      ^^^^^^^ string.quoted.double
-///                             ^ punctuation.section.group.end
-///                              ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^^^^^^^^^ meta.case.pattern.cs
+///                  ^^^ meta.function-call.identifier.cs variable.function.cs
+///                     ^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                     ^ punctuation.section.group.begin.cs
+///                      ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                      ^ punctuation.definition.string.begin.cs
+///                            ^ punctuation.definition.string.end.cs
+///                             ^ punctuation.section.group.end.cs
+///                              ^ meta.case.cs punctuation.separator.case-statement.cs
                     break;
+///                 ^^^^^ keyword.control.flow.break.cs
+///                      ^ punctuation.terminator.statement.cs
                 case abc.def:
-///             ^^^^ keyword.control.conditional.case
-///                  ^^^ variable.other
-///                     ^ punctuation.accessor.dot
-///                      ^^^ constant.other
-///                         ^ punctuation.separator.case-statement
+///             ^^^^ meta.case.cs keyword.control.conditional.case.cs
+///                 ^^^^^^^^ meta.case.pattern.cs
+///                  ^^^ variable.other.cs
+///                     ^ punctuation.accessor.dot.cs
+///                      ^^^ variable.other.cs
+///                         ^ meta.case.cs punctuation.separator.case-statement.cs
                 default:
-///             ^ keyword.control
-///                    ^ punctuation.separator
+///             ^^^^^^^ keyword.control.conditional.default.cs
+///                    ^ punctuation.separator.case-statement.cs
                     do_something_else();
 ///                 ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                                  ^^ meta.function-call.arguments.cs meta.group.cs
@@ -891,9 +904,12 @@ namespace TestNamespace . Test
 ///                                   ^ punctuation.section.group.end.cs
 ///                                    ^ punctuation.terminator.statement.cs
                     break;
-///                 ^ keyword.control
+///                 ^^^^^ keyword.control.flow.break.cs
+///                      ^ punctuation.terminator.statement.cs
             }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
+///^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///         ^ punctuation.section.block.end.cs
+///          ^ - meta.switch
 
             while (true) {
 ///         ^ keyword.control

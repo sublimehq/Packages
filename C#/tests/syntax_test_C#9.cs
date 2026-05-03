@@ -38,15 +38,6 @@ otherPerson = person with { LastName = "Hanselman" };
 // https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/#improved-pattern-matching
 // https://dotnetcoretutorials.com/2020/08/10/relational-pattern-matching-in-c-9/
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/patterns3
-if (myValue is > 0 and <= 10)
-/// ^^^^^^^ variable.other
-///         ^^ keyword.operator.comparison.type
-///            ^ keyword.operator.comparison
-///              ^ constant.numeric.value
-///                ^^^ keyword.operator.logical
-///                    ^^ keyword.operator.comparison
-///                       ^^ constant.numeric.value
-    Console.WriteLine("More than 0 but less than or equal to 10");
 
 switch (myValue)
 {
@@ -73,219 +64,322 @@ switch (myValue)
 }
 
 var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
-Console.WriteLine(myValue);
+///                             ^^^^^^^ meta.switch.cs
+///                             ^^^^^^ keyword.control.conditional.switch.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///                                    ^ punctuation.section.block.begin.cs
+///                                      ^^^^^ meta.case.pattern.cs
+///                                      ^^^^ constant.language.boolean.true.cs
+///                                           ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                                             ^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///                                              ^^^ storage.type.cs
+///                                                 ^ punctuation.accessor.dot.cs
+///                                                  ^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                                       ^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                                                       ^ punctuation.section.group.begin.cs
+///                                                        ^^^^ variable.other.cs
+///                                                            ^^^ meta.brackets.cs
+///                                                            ^ punctuation.section.brackets.begin.cs
+///                                                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                              ^ punctuation.section.brackets.end.cs
+///                                                               ^ punctuation.section.group.end.cs
+///                                                                ^ punctuation.terminator.case-expression.cs
+///                                                                  ^^ meta.case.pattern.cs
+///                                                                  ^ variable.language.anonymous.cs
+///                                                                    ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                                                                      ^^^ meta.case.body.cs
+///                                                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                                         ^ punctuation.section.block.end.cs
+///                                                                          ^ punctuation.terminator.statement.cs
 
 var message = myValue switch
-///                   ^^^^^^ keyword.control.conditional.switch
+///                   ^^^^^^^ meta.switch.cs
+///                   ^^^^^^ keyword.control.conditional.switch.cs
 {
+/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.begin.cs
     <= 0 => "Less than or equal to 0",
-/// ^^ keyword.operator.comparison
-///    ^ constant.numeric.value
-///      ^^ punctuation.separator.case-expression
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-///                                  ^ punctuation.terminator.case-expression
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^^^^ meta.case.pattern.cs
+///      ^^ meta.case.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+/// ^^ keyword.operator.comparison.cs
+///    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///      ^^ punctuation.separator.case-expression.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                  ^ punctuation.terminator.case-expression.cs
     > 0 and <= 10 => "More than 0 but less than or equal to 10",
-/// ^ keyword.operator.comparison
-///   ^ constant.numeric.value
-///     ^^^ keyword.operator.logical
-///         ^^ keyword.operator.comparison
-///            ^^ constant.numeric.value
-///               ^^ punctuation.separator.case-expression
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^^^^^^^^^^^^^ meta.case.pattern.cs
+///               ^^ meta.case.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+/// ^ keyword.operator.comparison.cs
+///   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///     ^^^ keyword.operator.logical.cs
+///         ^^ keyword.operator.comparison.cs
+///            ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^^ punctuation.separator.case-expression.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                                            ^ punctuation.terminator.case-expression.cs
     _ => "More than 10"
-/// ^ variable.language.anonymous
-///   ^^ punctuation.separator.case-expression
+///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^ meta.case.pattern.cs
+///   ^^ meta.case.cs
+///     ^^^^^^^^^^^^^^^^ meta.case.body.cs
+/// ^ variable.language.anonymous.cs
+///   ^^ punctuation.separator.case-expression.cs
+///      ^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///      ^ punctuation.definition.string.begin.cs
+///                   ^ punctuation.definition.string.end.cs
 } + ".";
-/// <- punctuation.section.block.end
-///    ^ punctuation.terminator.statement
+/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
+///    ^ punctuation.terminator.statement.cs
 
-// https://dotnetcoretutorials.com/2019/06/25/switch-expressions-in-c-8/
-static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
-{
-    return bank.Status switch
-    {
-        BankBranchStatus.Open => true,
-///     ^^^^^^^^^^^^^^^^ variable.other
-///                     ^ punctuation.accessor.dot
-///                      ^^^^ variable.other
-///                           ^^ punctuation.separator.case-expression
-///                              ^^^^ constant.language
-///                                  ^ punctuation.terminator.case-expression
-        BankBranchStatus.Closed => false,
-        BankBranchStatus.VIPCustomersOnly when isVip => true,
-        BankBranchStatus.VIPCustomersOnly when !isVip => false
-///     ^^^^^^^^^^^^^^^^ variable.other
-///                     ^ punctuation.accessor.dot
-///                      ^^^^^^^^^^^^^^^^ variable.other
-///                                       ^^^^ keyword.control.conditional.when
-///                                            ^ keyword.operator.logical
-///                                             ^^^^^ variable.other
-///                                                   ^^ punctuation.separator.case-expression
-///                                                      ^^^^^ constant.language
-    };
-}
-
-static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
-{
-    return (bank.Status, isVip) switch
-/// ^^^^^^ keyword.control.flow.return
-///        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                             ^^^^^^ keyword.control.conditional.switch
-    {
-        (BankBranchStatus.Open, _) => true,
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///     ^ punctuation.section.sequence.begin
-///      ^^^^^^^^^^^^^^^^ variable.other
-///                      ^ punctuation.accessor.dot
-///                       ^^^^ variable.other
-///                           ^ punctuation.separator.sequence
-///                             ^ variable.language.anonymous
-///                              ^ punctuation.section.sequence.end
-///                                ^^ punctuation.separator.case-expression
-///                                   ^^^^ constant.language
-///                                       ^ punctuation.terminator.case-expression
-        (BankBranchStatus.Closed, _) => false,
-        (BankBranchStatus.VIPCustomersOnly, true) => true,
-        (BankBranchStatus.VIPCustomersOnly, false) => false
-    };
-}
-
-static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
+static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 {
     return bank switch
+///^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs
+/// ^^^^^^ keyword.control.flow.return.cs
+///        ^^^^ variable.other.cs
+///             ^^^^^^^ meta.switch.cs
+///             ^^^^^^ keyword.control.conditional.switch.cs
     {
-        { Status: BankBranchStatus.Open } => true,
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
-///     ^ punctuation.section.block.begin
-///       ^^^^^^ variable.other.member
-///             ^ keyword.operator.assignment
-///               ^^^^^^^^^^^^^^^^ variable.other
-///                               ^ punctuation.accessor.dot
-///                                ^^^^ variable.other
-///                                     ^ punctuation.section.block.end
-///                                       ^^ punctuation.separator.case-expression
-///                                          ^^^^ constant.language
-///                                              ^ punctuation.terminator.case-expression
-        { Status: BankBranchStatus.Closed } => false,
-        { Status: BankBranchStatus.VIPCustomersOnly } => isVip
+///^^^ meta.method.body.cs meta.block.cs
+///^ meta.switch.cs
+/// ^^ meta.switch.body.cs meta.block.cs
+/// ^ punctuation.section.block.begin.cs
+        { Status: BankStatus.Open } => true,
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                                 ^^ meta.case.cs
+///                                   ^^^^^ meta.case.body.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^^ variable.other.member.cs
+///             ^ keyword.operator.assignment.cs
+///               ^^^^^^^^^^ support.type.cs
+///                         ^ punctuation.accessor.dot.cs
+///                          ^^^^ variable.other.member.cs
+///                               ^ punctuation.section.block.end.cs
+///                                 ^^ punctuation.separator.case-expression.cs
+///                                    ^^^^ constant.language.boolean.true.cs
+///                                        ^ punctuation.terminator.case-expression.cs
+        { Status: BankStatus.VIPCustomersOnly } => isVip,
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                                             ^^ meta.case.cs
+///                                               ^^^^^^ meta.case.body.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^^ variable.other.member.cs
+///             ^ keyword.operator.assignment.cs
+///               ^^^^^^^^^^ support.type.cs
+///                         ^ punctuation.accessor.dot.cs
+///                          ^^^^^^^^^^^^^^^^ variable.other.member.cs
+///                                           ^ punctuation.section.block.end.cs
+///                                             ^^ punctuation.separator.case-expression.cs
+///                                                ^^^^^ variable.other.cs
+///                                                     ^ punctuation.terminator.case-expression.cs
+        { Status: { Foo: true }, Bar: var item } => false
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                                              ^^ meta.case.cs
+///                                                ^^^^^^ meta.case.body.cs
+///     ^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
+///               ^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.class.body.cs meta.block.cs
+///                            ^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^^ variable.other.member.cs
+///             ^ keyword.operator.assignment.cs
+///               ^ punctuation.section.block.begin.cs
+///                 ^^^ variable.other.member.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^^^^ constant.language.boolean.true.cs
+///                           ^ punctuation.section.block.end.cs
+///                            ^ punctuation.separator.property.cs
+///                              ^^^ variable.other.member.cs
+///                                 ^ keyword.operator.assignment.cs
+///                                   ^^^ storage.type.cs
+///                                       ^^^^ variable.other.cs
+///                                            ^ punctuation.section.block.end.cs
+///                                              ^^ punctuation.separator.case-expression.cs
+///                                                 ^^^^^ constant.language.boolean.false.cs
     };
+///^^^^ meta.method.body.cs meta.block.cs
+///^^ meta.switch.body.cs meta.block.cs
+///^ meta.case.body.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ punctuation.terminator.statement.cs
 }
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/pattern-matching
 public class TollCalculator
 {
-    public decimal CalculateToll(object vehicle) =>
+    public decimal testSwitchExpressionPatternMatching(object vehicle) =>
         vehicle switch
     {
         Car c           => 2.00m,
-///     ^^^ support.type
-///         ^ variable.other
-///                     ^^ punctuation.separator.case-expression
-///                        ^^^^ constant.numeric.value
-///                            ^ constant.numeric.suffix
-///                             ^ punctuation.terminator.case-expression
-        Taxi t          => 3.50m,
-        Bus b           => 5.00m,
-        DeliveryTruck t => 10.00m,
+///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                     ^^ meta.case.cs
+///                       ^^^^^^ meta.case.body.cs
+///     ^^^ support.type.cs
+///         ^ variable.other.cs
+///                     ^^ punctuation.separator.case-expression.cs
+///                             ^ punctuation.terminator.case-expression.cs
+
+        Car {Passengers: 0} => 2.00m + 0.50m,
+///     ^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///     ^^^ support.type.cs
+///         ^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+///          ^^^^^^^^^^ variable.other.member.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^ punctuation.section.block.end.cs
+///                         ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                           ^^^^^^^^^^^^^^ meta.case.body.cs
+///                                         ^ punctuation.terminator.case-expression.cs
+
+        not Car {Passengers: > 0} => 2.00m + 0.50m,
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///     ^^^ keyword.operator.logical.cs
+///         ^^^ support.type.cs
+///             ^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+///             ^ punctuation.section.block.begin.cs
+///              ^^^^^^^^^^ variable.other.member.cs
+///                        ^ keyword.operator.assignment.cs
+///                          ^ keyword.operator.comparison.cs
+///                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                             ^ punctuation.section.block.end.cs
+///                               ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                                 ^^^^^^^^^^^^^^ meta.case.body.cs
+///                                               ^ punctuation.terminator.case-expression.cs
+
+        Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
+///     ^^^^^^ meta.case.pattern.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
+///                                                               ^^ meta.case.cs
+///                                                                 ^^^^^^^^^^^^^^ meta.case.body.cs
+///     ^^^ support.type.cs
+///         ^ variable.other.cs
+///           ^^^^ keyword.control.conditional.when.cs
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^^^^^^^^ meta.cast.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
+///                  ^^^^^^ storage.type.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ variable.other.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^^ variable.other.cs
+///                                  ^ keyword.operator.arithmetic.cs
+///                                    ^^^^^^^^ meta.cast.cs meta.group.cs
+///                                    ^ punctuation.section.group.begin.cs
+///                                     ^^^^^^ storage.type.cs
+///                                           ^ punctuation.section.group.end.cs
+///                                            ^ variable.other.cs
+///                                             ^ punctuation.accessor.dot.cs
+///                                              ^^^^^^^^ variable.other.cs
+///                                                      ^ punctuation.section.group.end.cs
+///                                                        ^ keyword.operator.comparison.cs
+///                                                          ^^^^ meta.number.float.decimal.cs constant.numeric.value.cs
+///                                                               ^^ punctuation.separator.case-expression.cs
+///                                                                               ^ punctuation.terminator.case-expression.cs
+
+        Taxi t => 3.50m + (t.Fares) switch
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs - meta.switch meta.switch
+///                                 ^^^^^^^ meta.switch.body.cs meta.block.cs meta.switch.cs
+///     ^^^^^^^ meta.case.pattern.cs
+///            ^^ meta.case.cs
+///              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///     ^^^^ support.type.cs
+///          ^ variable.other.cs
+///            ^^ punctuation.separator.case-expression.cs
+///               ^^^^^ meta.number.float.decimal.cs
+///               ^^^^ constant.numeric.value.cs
+///                ^ punctuation.separator.decimal.cs
+///                   ^ constant.numeric.suffix.cs
+///                     ^ keyword.operator.arithmetic.cs
+///                       ^^^^^^^^^ meta.group.cs
+///                       ^ punctuation.section.group.begin.cs
+///                        ^ variable.other.cs
+///                         ^ punctuation.accessor.dot.cs
+///                          ^^^^^ variable.other.cs
+///                               ^ punctuation.section.group.end.cs
+///                                 ^^^^^^ keyword.control.conditional.switch.cs
+        {
+///^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.cs
+///     ^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+            0 => 1.00m,
+///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
+///         ^^ meta.case.pattern.cs
+///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^^ meta.case.cs punctuation.separator.case-expression.cs
+///             ^^^^^^ meta.case.body.cs
+///              ^^^^^ meta.number.float.decimal.cs
+///                   ^ punctuation.terminator.case-expression.cs
+            _ => -1.00m
+///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
+///         ^^ meta.case.pattern.cs
+///         ^ variable.language.anonymous.cs
+///           ^^ meta.case.cs punctuation.separator.case-expression.cs
+///             ^^^^^^^^ meta.case.body.cs
+///               ^^^^^ meta.number.float.decimal.cs
+        },
+///^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
+///      ^ meta.switch.body.cs meta.block.cs - meta.case - meta.switch meta.switch
+///     ^ punctuation.section.block.end.cs
+///      ^ punctuation.terminator.case-expression.cs
+
+        not { } => 2.4m,
+///     ^^^^^^^^ meta.case.pattern.cs
+///     ^^^ keyword.operator.logical.cs
+///         ^^^ meta.class.body.cs meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+///           ^ punctuation.section.block.end.cs
+///             ^^ meta.case.cs punctuation.separator.case-expression.cs
+///               ^^^^^ meta.case.body.cs
+///                    ^ punctuation.terminator.case-expression.cs
+
         { }             => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
-///     ^^^ meta.instantiation.property-subpattern meta.class.body.anonymous
-///     ^ punctuation.section.block.begin
-///       ^ punctuation.section.block.end
-///                     ^^ punctuation.separator.case-expression
-///                        ^^^^^ keyword.other
-///                              ^^^ keyword.operator.new
-///                                  ^^^^^^^^^^^^^^^^^ support.type
-        not null        => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)), // https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/#logical-patterns
-///     ^^^ keyword.operator.logical
-///         ^^^^ constant.language
+///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                     ^^ meta.case.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///     ^^^ meta.class.body.cs meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^ punctuation.section.block.end.cs
+///                     ^^ punctuation.separator.case-expression.cs
+
+        // https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/#logical-patterns
+
+        not null        => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
+///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///     ^^^ keyword.operator.logical.cs
+///         ^^^^ constant.language.null.cs
+///                     ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
         null            => throw new ArgumentNullException(nameof(vehicle))
-///     ^^^^ constant.language
-    };
-
-    public decimal CalculateToll(object vehicle) =>
-        vehicle switch
-        {
-            Car {Passengers: 0}        => 2.00m + 0.50m,
-///         ^^^ support.type
-///             ^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern meta.class.body.anonymous meta.block
-///              ^^^^^^^^^^ variable.other.member
-///                        ^ keyword.operator.assignment
-///                          ^ constant.numeric.value
-///                                    ^^ punctuation.separator.case-expression
-
-            Car {Passengers: 1}        => 2.0m,
-            Car {Passengers: 2}        => 2.0m - 0.50m,
-            Car c                      => 2.00m - 1.0m,
-
-            Taxi {Fares: 0}  => 3.50m + 1.00m,
-            Taxi {Fares: 1}  => 3.50m,
-            Taxi {Fares: 2}  => 3.50m - 0.50m,
-            Taxi t           => 3.50m - 1.00m,
-
-            Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
-///         ^^^ support.type
-///             ^ variable.other
-///               ^^^^ keyword.control.conditional.when
-///                      ^^^^^^ meta.cast storage.type
-            Bus b when ((double)b.Riders / (double)b.Capacity) > 0.90 => 5.00m - 1.00m,
-            Bus b => 5.00m,
-
-            DeliveryTruck t when (t.GrossWeightClass > 5000) => 10.00m + 5.00m,
-            DeliveryTruck t when (t.GrossWeightClass < 3000) => 10.00m - 2.00m,
-            DeliveryTruck t => 10.00m,
-
-            { }     => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
-            null    => throw new ArgumentNullException(nameof(vehicle))
-        };
-
-    public decimal CalculateToll(object vehicle) =>
-        vehicle switch
-        {
-            Car c => c.Passengers switch
-            {
-                0 => 2.00m + 0.5m,
-                1 => 2.0m,
-                2 => 2.0m - 0.5m,
-                _ => 2.00m - 1.0m
-            },
-
-            Taxi t => 3.50m + (t.Fares) switch
-///         ^^^^ support.type
-///              ^ variable.other
-///                ^^ punctuation.separator.case-expression
-///                   ^^^^ constant.numeric.value
-///                       ^ constant.numeric.suffix
-///                         ^ keyword.operator.arithmetic
-///                           ^ punctuation.section.group.begin
-///                            ^ variable.other
-///                             ^ punctuation.accessor.dot
-///                              ^^^^^ variable.other
-///                                   ^ punctuation.section.group.end
-///                                     ^^^^^^ keyword.control.conditional.switch
-            {
-///         ^ punctuation.section.block.begin
-                0 => 1.00m,
-///             ^ constant.numeric.value
-///               ^^ punctuation.separator.case-expression
-///                  ^^^^^ meta.number.float.decimal
-///                       ^ punctuation.terminator.case-expression
-                1 => 0m,
-                2 => -0.50m,
-                _ => -1.00m
-            },
-
-            Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
-            Bus b when ((double)b.Riders / (double)b.Capacity) > 0.90 => 5.00m - 1.00m,
-            Bus b => 5.00m,
-
-            DeliveryTruck t when (t.GrossWeightClass > 5000) => 10.00m + 5.00m,
-            DeliveryTruck t when (t.GrossWeightClass < 3000) => 10.00m - 2.00m,
-            DeliveryTruck t => 10.00m,
-
-            { }  => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
-            null => throw new ArgumentNullException(nameof(vehicle))
-        };
+///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///     ^^^^ constant.language.null.cs
+///                     ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+    }
+/// ^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
 }
+/// <- meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
 
+if (value is > 0 and <= 10 local) Console.Write($"Value is {local}.");
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///^ punctuation.section.group.begin.cs
+/// ^^^^^ variable.language.cs
+///       ^^ keyword.operator.comparison.type.cs
+///          ^ keyword.operator.comparison.cs
+///            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^^^ keyword.operator.logical.cs
+///                  ^^ keyword.operator.comparison.cs
+///                     ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^^^^^ variable.other.cs
+///                             ^ punctuation.section.group.end.cs
 
 if (input is null) { }
 /// ^^^^^ variable.other
@@ -391,7 +485,7 @@ if (e is (int i, k)) { }
 ///       ^^^ storage.type.cs
 ///           ^ variable.other.cs
 ///            ^ punctuation.separator.sequence.cs
-///              ^ support.type.cs
+///              ^ variable.other.cs
 ///               ^ punctuation.section.sequence.end.cs
 ///                ^ punctuation.section.group.end.cs
 

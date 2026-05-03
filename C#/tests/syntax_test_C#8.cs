@@ -330,65 +330,171 @@ Range phrase = 1..4;
 ///             ^^ keyword.operator.range
 
 // https://devblogs.microsoft.com/dotnet/do-more-with-patterns-in-c-8-0/
-public static RGBColor FromRainbow(Rainbow colorBand) =>
+
+public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
     colorBand switch
+/// ^^^^^^^^^ variable.other.cs
+///           ^^^^^^^ meta.switch.cs
+///           ^^^^^^ keyword.control.conditional.switch.cs
     {
+/// <- meta.switch.cs
+///^ meta.switch.cs
+/// ^^ meta.switch.body.cs meta.block.cs
+/// ^ punctuation.section.block.begin.cs
         Rainbow.Red    => new RGBColor(0xFF, 0x00, 0x00),
-        Rainbow.Orange => new RGBColor(0xFF, 0x7F, 0x00),
-        Rainbow.Yellow => new RGBColor(0xFF, 0xFF, 0x00),
-        Rainbow.Green  => new RGBColor(0x00, 0xFF, 0x00),
-        Rainbow.Blue   => new RGBColor(0x00, 0x00, 0xFF),
-        Rainbow.Indigo => new RGBColor(0x4B, 0x00, 0x82),
-        Rainbow.Violet => new RGBColor(0x94, 0x00, 0xD3),
-        _              => throw new ArgumentException(message: "invalid enum value", paramName: nameof(colorBand)),
+///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                    ^^ meta.case.cs
+///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///     ^^^^^^^ support.type.cs
+///            ^ punctuation.accessor.dot.cs
+///             ^^^ variable.other.member.cs
+///                    ^^ punctuation.separator.case-expression.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                       ^^^ keyword.operator.new.cs
+///                           ^^^^^^^^ support.type.cs
+///                                   ^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                                                     ^ punctuation.terminator.case-expression.cs
+        _              => throw new ArgumentException(),
+///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///     ^ variable.language.anonymous.cs
+///                    ^^ meta.case.cs
+///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///                    ^^ punctuation.separator.case-expression.cs
+///                       ^^^^^ keyword.other.cs
+///                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                             ^^^ keyword.operator.new.cs
+///                                ^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs
+///                                 ^^^^^^^^^^^^^^^^^ support.type.cs
+///                                                  ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                    ^ punctuation.terminator.case-expression.cs
     };
+///^^ meta.switch.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ punctuation.terminator.statement.cs - meta.switch
 
-public static string RockPaperScissors(string first, string second)
+public static string testSwitchExpressionStringTuplePatterns(string first, string second)
     => (first, second) switch
+///    ^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///    ^ punctuation.section.sequence.begin.cs
+///     ^^^^^ variable.other.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^^^^ variable.other.cs
+///                  ^ punctuation.section.sequence.end.cs
+///                    ^^^^^^^ meta.switch.cs
+///                    ^^^^^^ keyword.control.conditional.switch.cs
     {
+/// <- meta.switch.cs
+///^ meta.switch.cs
+/// ^^ meta.switch.body.cs meta.block.cs
+/// ^ punctuation.section.block.begin.cs
         ("rock", "paper") => "rock is covered by paper. Paper wins.",
-        ("rock", "scissors") => "rock breaks scissors. Rock wins.",
-        ("paper", "rock") => "paper covers rock. Paper wins.",
-        ("paper", "scissors") => "paper is cut by scissors. Scissors wins.",
-        ("scissors", "rock") => "scissors is broken by rock. Rock wins.",
-        ("scissors", "paper") => "scissors cuts paper. Scissors wins.",
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^^^^^^^^^^^^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
+///                      ^ meta.case.pattern.cs - meta.sequence
+///                       ^^ meta.case.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^^^ meta.string.cs string.quoted.double.cs
+///            ^ punctuation.separator.sequence.cs
+///              ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                     ^ punctuation.section.sequence.end.cs
+///                       ^^ punctuation.separator.case-expression.cs
+///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                                                 ^ punctuation.terminator.case-expression.cs
         (_, _) => "tie"
+///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
+///           ^ meta.case.pattern.cs - meta.sequence
+///            ^^ meta.case.cs
+///              ^^^^^^^ meta.case.body.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ variable.language.anonymous.cs
+///       ^ punctuation.separator.sequence.cs
+///         ^ variable.language.anonymous.cs
+///          ^ punctuation.section.sequence.end.cs
+///            ^^ punctuation.separator.case-expression.cs
+///               ^^^^^ meta.string.cs string.quoted.double.cs
     };
+/// <- meta.switch.body.cs meta.block.cs meta.case.body.cs
+///^ meta.switch.body.cs meta.block.cs meta.case.body.cs
+/// ^ meta.switch.body.cs meta.block.cs - meta.case
+/// ^ punctuation.section.block.end.cs
+///  ^ punctuation.terminator.statement.cs - meta.switch
 
-static Quadrant GetQuadrant(Point point) => point switch
+static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point switch
 {
     (0, 0) => Quadrant.Origin,
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^^^^^^ meta.case.pattern.cs
+///        ^^ meta.case.cs
+///          ^^^^^^^^^^^^^^^^ meta.case.body.cs
+/// ^^^^^^ meta.sequence.tuple.cs
+/// ^ punctuation.section.sequence.begin.cs
+///  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///   ^ punctuation.separator.sequence.cs
+///     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///      ^ punctuation.section.sequence.end.cs
+///        ^^ punctuation.separator.case-expression.cs
+///           ^^^^^^^^ variable.other.cs
+///                   ^ punctuation.accessor.dot.cs
+///                    ^^^^^^ variable.other.cs
+///                          ^ punctuation.terminator.case-expression.cs
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
-/// ^^^ storage.type
-///     ^^^^^^ meta.sequence.tuple
-///            ^^^^ keyword.control.conditional.when
-///                 ^ variable.other
-///                   ^ keyword.operator.comparison
-///                     ^ constant.numeric.value
-///                       ^^ keyword.operator.logical
-///                          ^ variable.other
-///                            ^ keyword.operator.comparison
-///                              ^ constant.numeric.value
-///                                ^^ punctuation.separator.case-expression
-///                                   ^^^^^^^^ variable.other
-///                                           ^ punctuation.accessor.dot
-///                                            ^^^ variable.other
-///                                               ^ punctuation.terminator.case-expression
-    var (x, y) when x < 0 && y > 0 => Quadrant.Two,
-    var (x, y) when x < 0 && y < 0 => Quadrant.Three,
-    var (x, y) when x > 0 && y < 0 => Quadrant.Four,
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^^^^^^^^^^ meta.case.pattern.cs
+///            ^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
+///                                ^^ meta.case.cs
+///                                  ^^^^^^^^^^^^^ meta.case.body.cs
+/// ^^^ storage.type.cs
+///     ^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ variable.other.cs
+///       ^ punctuation.separator.sequence.cs
+///         ^ variable.other.cs
+///          ^ punctuation.section.sequence.end.cs
+///            ^^^^ keyword.control.conditional.when.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.comparison.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^^ keyword.operator.logical.cs
+///                          ^ variable.other.cs
+///                            ^ keyword.operator.comparison.cs
+///                              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                ^^ punctuation.separator.case-expression.cs
+///                                   ^^^^^^^^ variable.other.cs
+///                                           ^ punctuation.accessor.dot.cs
+///                                            ^^^ variable.other.cs
+///                                               ^ punctuation.terminator.case-expression.cs
     var (_, _) => Quadrant.OnBorder,
-/// ^^^ storage.type
-///     ^^^^^^ meta.sequence.tuple
-///      ^ variable.language.anonymous
-///       ^ punctuation.separator.sequence
-///         ^ variable.language.anonymous
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^^^^^^^^^^ meta.case.pattern.cs
+///            ^^ meta.case.cs
+///              ^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+/// ^^^ storage.type.cs
+///     ^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ variable.language.anonymous.cs
+///       ^ punctuation.separator.sequence.cs
+///         ^ variable.language.anonymous.cs
+///          ^ punctuation.section.sequence.end.cs
+///            ^^ punctuation.separator.case-expression.cs
+///               ^^^^^^^^ variable.other.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^^^ variable.other.cs
+///                                ^ punctuation.terminator.case-expression.cs
     _ => Quadrant.Unknown
-/// ^ variable.language.anonymous
-///   ^^ punctuation.separator.case-expression
+///^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+/// ^^ meta.case.pattern.cs
+/// ^ variable.language.anonymous.cs
+///   ^^ meta.case.cs
+///     ^^^^^^^^^^^^^^^^^^ meta.case.body.cs
+///   ^^ punctuation.separator.case-expression.cs
+///      ^^^^^^^^ variable.other.cs
+///              ^ punctuation.accessor.dot.cs
+///               ^^^^^^^ variable.other.cs
 };
-/// <- punctuation.section.block.end
-/// ^ - meta.block
+/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
+ /// <- punctuation.terminator.statement.cs - meta.switch - meta.block
 
     using var socket = new ClientWebSocket();
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
@@ -490,7 +596,7 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^ variable.other.cs
 ///                           ^^ keyword.operator.comparison.type.cs
-///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
 ///                              ^ punctuation.section.block.begin.cs
 ///                                ^^^^^^^^^^^^ variable.other.member.cs
 ///                                            ^ keyword.operator.assignment.cs
