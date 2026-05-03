@@ -1012,8 +1012,7 @@ contexts:
     - match: remove\b
       scope: meta.method.cs keyword.declaration.function.accessor.remove.cs
       push: method_body
-    - match: '{{name}}'
-      scope: invalid.illegal.unexpected-token.cs
+    - include: stray_names
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
@@ -1109,8 +1108,7 @@ contexts:
     - match: set\b
       scope: meta.method.cs keyword.declaration.function.accessor.set.cs
       push: method_body
-    - match: '{{name}}'
-      scope: invalid.illegal.unexpected-token.cs
+    - include: stray_names
 
   field_accessor_initializer:
     - match: \s*(=)
@@ -1178,8 +1176,7 @@ contexts:
     - match: set\b
       scope: meta.method.cs keyword.declaration.function.accessor.set.cs
       push: method_body
-    - match: '{{name}}'
-      scope: invalid.illegal.unexpected-token.cs
+    - include: stray_names
 
   indexer_expression:
     - meta_content_scope: meta.indexer.body.cs
@@ -2510,6 +2507,12 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: 1
+
+###[ VARIABLES ]###############################################################
+
+  stray_names:
+    - match: '{{name}}'
+      scope: invalid.illegal.unexpected-token.cs
 
 ###[ LITERALS ]################################################################
 
