@@ -210,7 +210,7 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs
-//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.group.cs - meta.function meta.function
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^^^ storage.type.cs
 //                             ^^^^ variable.parameter.cs
@@ -219,12 +219,13 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //                                       ^^^ storage.type.cs
 //                                           ^^^^^^ variable.parameter.cs
 //                                                 ^ punctuation.section.group.end.cs
-//                                                  ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs - meta.function meta.function - meta.group
+//                                                  ^^^^ meta.function.anonymous.cs
 //                                                   ^^ keyword.declaration.function.arrow.cs
+//                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs
 //                                                      ^^^^^ variable.other.cs
 //                                                           ^ punctuation.accessor.dot.cs
 //                                                            ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
-//                                                                    ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.function-call.arguments.cs meta.group.cs - meta.function meta.function
+//                                                                    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                                    ^ punctuation.section.group.begin.cs
 //                                                                     ^^^^ variable.other.cs
 //                                                                         ^ punctuation.separator.argument.cs
@@ -241,20 +242,20 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs
-//                     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.group.cs - meta.function meta.function
+//                     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
 //                          ^ punctuation.separator.parameter.cs
 //                            ^^^ storage.modifier.parameter.cs
-//                               ^^^^^^^^^^^ - storage
 //                                ^^^^^^ variable.parameter.cs
 //                                      ^ punctuation.section.group.end.cs
-//                                       ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs - meta.function meta.function - meta.group
+//                                       ^^^^ meta.function.anonymous.cs
 //                                        ^^ keyword.declaration.function.arrow.cs
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs
 //                                           ^^^^^ variable.other.cs
 //                                                ^ punctuation.accessor.dot.cs
 //                                                 ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
-//                                                         ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs meta.function-call.arguments.cs meta.group.cs - meta.function meta.function
+//                                                         ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                         ^ punctuation.section.group.begin.cs
 //                                                          ^^^^ variable.other.cs
 //                                                              ^ punctuation.separator.argument.cs
@@ -271,17 +272,17 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs
-//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
-//                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
 //                          ^ punctuation.separator.parameter.cs
 //                            ^^^ storage.modifier.parameter.cs
-//                               ^^^^^^^^^^^^^^ - storage
 //                                ^^^^^ support.type.cs
 //                                      ^^^^^^ variable.parameter.cs
-//                                            ^ meta.group.cs punctuation.section.group.end.cs
+//                                            ^ punctuation.section.group.end.cs
+//                                             ^^^^ meta.function.anonymous.cs
 //                                              ^^ keyword.declaration.function.arrow.cs
+//                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs
 //                                                 ^^^^^ variable.other.cs
 //                                                      ^ punctuation.accessor.dot.cs
 //                                                       ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs

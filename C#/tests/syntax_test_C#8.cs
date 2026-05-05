@@ -571,10 +571,10 @@ namespace CommonTests.Attributes;
 public class CustomAutoDataAttribute() : AutoDataAttribute(
     () =>
 ///^^^^^^^ meta.class.base.cs meta.constructor.arguments.cs meta.group.cs
-/// ^^^^^^ meta.function.anonymous.cs
-/// ^^ meta.group.cs
+/// ^^ meta.function.anonymous.parameters.cs meta.group.cs
 /// ^ punctuation.section.group.begin.cs
 ///  ^ punctuation.section.group.end.cs
+///   ^^^^ meta.function.anonymous.cs
 ///    ^^ keyword.declaration.function.arrow.cs
     {
         var fixture = new Fixture();

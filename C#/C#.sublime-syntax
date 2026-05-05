@@ -1440,7 +1440,6 @@ contexts:
         - maybe_pointer
     - match: (?=var\s*\()
       push: var_declaration
-    - include: lambdas
     - match: (ref\s+(?:readonly\s+)?)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
       captures:
         1: storage.modifier.cs
@@ -1531,8 +1530,8 @@ contexts:
       pop: 1
     - match: (?=[,;)\]}])
       pop: 1
-    - match: _\b
-      scope: variable.language.anonymous.cs
+    - include: parens
+    - include: lambdas
     - include: line_of_code_in_no_semicolon
 
 ###[ EXCEPTION STATEMENTS ]####################################################
@@ -1649,12 +1648,15 @@ contexts:
     - match: (?=var\b)
       pop: 1
     - include: terminator
+    - include: parens
     - include: lambdas
     - include: line_of_code_in_no_semicolon
     - match: (?=\))
       pop: 1
 
   line_of_code_in_no_semicolon:
+    - match: _\b
+      scope: variable.language.anonymous.cs
     - match: value\b
       scope: variable.language.cs
     - include: keywords
@@ -1697,7 +1699,6 @@ contexts:
       scope: keyword.operator.null-coalescing.cs
       push: maybe_pointer
     # expressions
-    - include: parenthesized_lambdas
     - include: literals
     - match: '({{name}})(?={{generic_declaration}}\()\s*(<)'
       captures:
@@ -1759,13 +1760,6 @@ contexts:
           scope: keyword.operator.ternary.cs
           pop: 1
         - include: line_of_code_in
-    - match: '(\()\s*(\*)\s*({{name}})\s*(\))'
-      captures:
-        1: punctuation.section.group.begin.cs
-        2: keyword.operator.pointer.cs
-        3: variable.other.cs
-        4: punctuation.section.group.end.cs
-    - include: parens
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:
@@ -1837,15 +1831,74 @@ contexts:
   inside_assignment_value:
     - match: (?=[,;)\]}])
       pop: 1
+    - include: parens
     - include: lambdas
     - include: line_of_code_in_no_semicolon
 
-###[ CAST, GROUP AND TUPLE EXPRESSIONS ]#######################################
+###[ CONSTANT CAST, GROUP AND TUPLE EXPRESSIONS ]##############################
+
+  constant_parens:
+    # without lambdas for use in case guards
+    - match: (?=\()
+      branch_point: constant_parens
+      branch:
+        - constant_cast
+        - constant_group
+        - tuple
+
+  constant_cast:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - after_constant_cast
+        - inside_constant_cast
+        - expect_type
+
+  inside_constant_cast:
+    - meta_scope: meta.cast.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - match: (?=\S)
+      fail: constant_parens
+
+  after_constant_cast:
+    # cast expressions may be followed by:
+    # - `!`     : unary operator
+    # - `~`     : unary operator
+    # - `(`     : cast, lambda or group expression
+    # - literal : variable, type or method
+    - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
+      pop: 1
+    - match: (?=\S)
+      fail: constant_parens
+
+  constant_group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - inside_constant_group
+        - maybe_pointer
+
+  inside_constant_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - match: (?=,)
+      fail: constant_parens
+    - include: constant_parens
+    - include: line_of_code_in_no_semicolon
+
+###[ CAST, GROUP, LAMBDA AND TUPLE EXPRESSIONS ]###############################
 
   parens:
     - match: (?=\()
-      branch_point: tuple_or_group
+      branch_point: parens
       branch:
+        - lambda
         - cast
         - group
         - tuple
@@ -1865,7 +1918,7 @@ contexts:
       scope: punctuation.section.group.end.cs
       pop: 1
     - match: (?=\S)
-      fail: tuple_or_group
+      fail: parens
 
   after_cast:
     # cast expressions may be followed by:
@@ -1876,29 +1929,67 @@ contexts:
     - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
       pop: 1
     - match: (?=\S)
-      fail: tuple_or_group
+      fail: parens
 
   group:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
-      set: inside_group
+      set:
+        - inside_group
+        - maybe_pointer
 
   inside_group:
     - meta_scope: meta.group.cs
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - match: ','
-      fail: tuple_or_group
+    - match: (?=,)
+      fail: parens
+    - include: parens
     - include: lambdas
     - include: line_of_code_in_no_semicolon
+
+  lambda:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside_lambda_parameter_list
+
+  inside_lambda_parameter_list:
+    - meta_scope: meta.function.anonymous.parameters.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      set: lambda_arrow
+    - include: attributes
+    - match: ','
+      scope: punctuation.separator.parameter.cs
+    - match: '{{method_param_type_modifier}}(?=\s)'
+      scope: storage.modifier.parameter.cs
+    - match: '{{name}}(?=\s*[\),/])'
+      scope: variable.parameter.cs
+    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
+      push: type_no_space
+    - match: (?=\S)
+      fail: parens
+
+  lambda_arrow:
+    - meta_content_scope: meta.function.anonymous.cs
+    - match: =>
+      scope: meta.function.anonymous.cs keyword.declaration.function.arrow.cs
+      set: lambda_body
+    - match: (?=\{)
+      set: lambda_body
+    - match: (?=\S)
+      fail: parens
 
   tuple:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.sequence.begin.cs
-      set: inside_tuple
+      set:
+        - inside_tuple
+        - maybe_pointer
 
   inside_tuple:
     - meta_scope: meta.sequence.tuple.cs
@@ -1907,12 +1998,13 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.sequence.cs
+      push: maybe_pointer
     - match: '{{colon}}'
       scope: keyword.operator.assignment.cs
-    - match: _\b
-      scope: variable.language.anonymous.cs
     - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
       push: var_declaration
+    - include: parens
+    - include: lambdas
     - include: line_of_code_in_no_semicolon
 
 ###[ GROUP EXPRESSIONS ]#######################################################
@@ -1928,7 +2020,9 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - include: line_of_code_in
+    - include: parens
+    - include: lambdas
+    - include: line_of_code_in_no_semicolon
 
   maybe_nameof_group:
     - match: \(
@@ -2131,39 +2225,35 @@ contexts:
 ###[ LAMBDA EXPRESSIONS ]######################################################
 
   lambdas:
-    - match: ({{name}})\s+(=>)\s*
+    - match: ({{name}})(\s+(=>))
       captures:
-        1: variable.parameter.cs
-        2: keyword.declaration.function.arrow.cs
-      push: lambda_expect_body
-    - include: parenthesized_lambdas
+        1: meta.function.anonymous.parameters.cs variable.parameter.cs
+        2: meta.function.anonymous.cs
+        3: keyword.declaration.function.arrow.cs
+      push: lambda_body
 
-  parenthesized_lambdas:
-    - match: \((?=[^()]*\)\s+=>)
-      scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
-      push: inside_parenthesized_lambda
+  lambda_body:
+    - meta_content_scope: meta.function.anonymous.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_lambda_block
+    - match: (?=\S)
+      set: inside_lambda_expression
 
-  inside_parenthesized_lambda:
-    - meta_content_scope: meta.function.anonymous.cs meta.group.cs
-    - match: '{{method_param_type_modifier}}(?=\s)'
-      scope: storage.modifier.parameter.cs
-    - match: '{{name}}(?=\s*[\),/])'
-      scope: variable.parameter.cs
-    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
-      push: type_no_space
-    - match: ','
-      scope: punctuation.separator.parameter.cs
-    - match: (\))\s*(=>)
-      captures:
-        1: meta.group.cs punctuation.section.group.end.cs
-        2: keyword.declaration.function.arrow.cs
-      set: lambda_expect_body
-
-  lambda_expect_body:
-    - meta_scope: meta.function.anonymous.cs
-    - match: '(?=;)'
+  inside_lambda_block:
+    - meta_scope: meta.function.anonymous.body.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
       pop: 1
-    - include: line_of_code_in
+    - include: code_block_in
+
+  inside_lambda_expression:
+    - meta_content_scope: meta.function.anonymous.body.cs
+    - match: (?=[,;)\]}])
+      pop: 1
+    - include: parens
+    - include: lambdas
+    - include: line_of_code_in_no_semicolon
 
 ###[ SWITCH EXPRESSIONS ]######################################################
 
@@ -2203,8 +2293,7 @@ contexts:
       set: inside_switch_expression_case_expression
     - match: (?=[,;)\]}])
       pop: 1
-    - match: _\b
-      scope: variable.language.anonymous.cs
+    - include: constant_parens
     - include: line_of_code_in_no_semicolon
 
   inside_switch_expression_case_expression:
@@ -2469,6 +2558,7 @@ contexts:
     - match: '[*&]'
       scope: keyword.operator.pointer.cs
       pop: 1
+    - include: attributes
     - include: else_pop
 
   terminators:
