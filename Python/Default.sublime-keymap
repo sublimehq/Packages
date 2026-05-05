@@ -152,4 +152,14 @@
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s+(?:break|continue|pass|return\\b.*)$", "match_all": true }
         ],
     },
+    { "keys": ["keypad_enter"], "command": "run_macro_file", "args": {"file": "Packages/Python/Add Dedented Line.sublime-macro"}, "context":
+
+        [
+            { "key": "setting.auto_indent", "operand": true },
+            { "key": "selector", "operand": "source.python - source.python comment - source.python string" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "auto_complete_visible", "operand": false },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s+(?:break|continue|pass|return\\b.*)$", "match_all": true }
+        ],
+    },
 ]
