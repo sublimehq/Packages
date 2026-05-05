@@ -152,7 +152,6 @@
         ],
     },
     { "keys": ["keypad_enter"], "command": "run_macro_file", "args": {"file": "Packages/Python/Add Dedented Line.sublime-macro"}, "context":
-
         [
             { "key": "setting.auto_indent", "operand": true },
             { "key": "selector", "operand": "source.python - source.python comment - source.python string" },
