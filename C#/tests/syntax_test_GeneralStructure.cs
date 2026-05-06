@@ -2277,7 +2277,7 @@ public class MyClass
 ///        ^^^^ storage.type
 ///             ^^^ variable.other.member
 ///                 ^^ keyword.declaration.function.accessor.get
-///                    ^^^^^^ keyword.other
+///                    ^^^^^^ keyword.control.flow.return.cs
 ///                           ^ meta.number.integer.decimal constant.numeric.value
 ///                            ^ punctuation.terminator.statement
 
@@ -2289,7 +2289,7 @@ public class MyClass
     public bool var
         => return 0;
 ///     ^^ keyword.declaration.function.accessor.get
-///        ^^^^^^ keyword.other
+///        ^^^^^^ keyword.control.flow.return.cs
 ///               ^ meta.number.integer.decimal constant.numeric.value
 ///                ^ punctuation.terminator.statement
 

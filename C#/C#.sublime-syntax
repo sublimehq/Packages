@@ -1786,6 +1786,10 @@ contexts:
         - item_access
     - match: await\b
       scope: keyword.control.flow.await.cs
+    - match: (?:return|yield\s+return)\b
+      scope: keyword.control.flow.return.cs
+    - match: throw\b
+      scope: keyword.control.flow.throw.cs
     - match: (?:and|not|or)\b
       scope: keyword.operator.logical.cs
     - match: unsafe\b
