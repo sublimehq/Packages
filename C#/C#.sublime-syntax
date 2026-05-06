@@ -400,7 +400,6 @@ contexts:
       scope: punctuation.section.block.begin.cs
       push: inside_global_block
     - include: stray_close_bracket
-    - include: terminators
     - include: attributes
     - include: modifiers
     - include: using_declaration
@@ -1054,7 +1053,6 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - include: stray_close_bracket
-    - include: terminators
     - include: attributes
     - include: modifiers
     - include: member_declaration
@@ -1074,7 +1072,7 @@ contexts:
       set: inside_field_accessor_declaration
     - match: =>
       scope: keyword.declaration.function.accessor.get.cs
-      set: line_of_code_in
+      set: expression
     # field
     - match: (?=\S)
       set: inside_field_declarations
@@ -1172,7 +1170,7 @@ contexts:
 
   indexer_expression:
     - meta_content_scope: meta.indexer.body.cs
-    - include: line_of_code_in
+    - include: expression
 
 ###[ METHOD MEMBER DECLARATIONS ]##############################################
 
@@ -1240,12 +1238,11 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - include: stray_close_bracket
-    - include: terminators
     - include: code_block_in
 
   inside_method_expression:
     - meta_content_scope: meta.method.body.cs
-    - include: line_of_code_in
+    - include: expression
 
 ###[ OPERATOR DECLARATIONS ]###################################################
 
@@ -1321,6 +1318,7 @@ contexts:
 ###[ STATEMENTS ]##############################################################
 
   code_block_in:
+    - include: terminators
     - match: (?=\S)
       push: line_of_code
 
@@ -1385,7 +1383,7 @@ contexts:
       set: [while_block, while_condition]
     - match: (?:return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
-      set: line_of_code_in
+      set: expression
     - match: (continue|break|yield\s+break)\b\s*(;)?
       captures:
         1: keyword.control.flow.break.cs
@@ -1393,12 +1391,12 @@ contexts:
       pop: 1
     - match: throw\b
       scope: keyword.control.flow.throw.cs
-      set: line_of_code_in
+      set: expression
     - match: (goto)\s+(case)\b
       captures:
         1: keyword.control.flow.goto.cs
         2: keyword.control.conditional.case.cs
-      set: line_of_code_in
+      set: expression
     - match: (goto)\s+({{name}})\s*(;)
       captures:
         1: keyword.control.flow.goto.cs
@@ -1428,7 +1426,7 @@ contexts:
         2: variable.other.cs
         3: keyword.operator.assignment.cs
       set:
-        - line_of_code_in
+        - expression
         - maybe_pointer
     - match: (?=var\s*\()
       push: var_declaration
@@ -1436,7 +1434,7 @@ contexts:
       captures:
         1: storage.modifier.cs
       set: [variable_declaration_list, type_no_space]
-    - match: ({{name}})\s*(:)(?!:)
+    - match: ({{name}})\s*({{colon}})
       captures:
         1: entity.name.label.cs
         2: punctuation.separator.cs
@@ -1448,7 +1446,7 @@ contexts:
         2: variable.other.cs
       set: variable_declaration_list
     - match: (?=\S)
-      set: line_of_code_in
+      set: expression
 
   expression_block:
     - meta_content_scope: meta.group.cs
@@ -1520,11 +1518,7 @@ contexts:
     - match: '{{colon}}'
       scope: meta.case.cs punctuation.separator.case-statement.cs
       pop: 1
-    - match: (?=[,;)\]}])
-      pop: 1
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
+    - include: expression
 
 ###[ EXCEPTION STATEMENTS ]####################################################
 
@@ -1560,7 +1554,7 @@ contexts:
             - match: \)
               scope: punctuation.section.group.end.cs
               set: trycatch_block
-            - include: line_of_code_in
+            - include: expression
         - match: (?=\S)
           set: trycatch_block
     - match: '(?=\S)'
@@ -1583,14 +1577,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.expression.cs
     - include: terminators
-    - include: line_of_code_in
+    - include: expression
 
   foreach_var_assignment:
     - match: in\b
       scope: keyword.control.loop.in.cs
-      set: line_of_code_in
-    - match: (?=\)|\})
-      pop: 1
+      set: expression
+    - include: else_pop
 
   for_block:
     - meta_content_scope: meta.group.cs
@@ -1622,6 +1615,10 @@ contexts:
     - match: (?=\S)
       set: line_of_code
 
+  maybe_statement_block:
+    - include: statement_block
+    - include: else_pop
+
   statement_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -1636,17 +1633,24 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  line_of_code_in:
-    - match: (?=var\b)
+  constant_expression:
+    - match: (?=[,;)\]}])
       pop: 1
-    - include: terminator
+    - include: constant_parens
+    - include: expression_common
+
+  expressions:
+    - match: (?=\S)
+      push: expression
+
+  expression:
+    - match: (?=[,;)\]{}])
+      pop: 1
     - include: parens
     - include: lambdas
-    - include: line_of_code_in_no_semicolon
-    - match: (?=\))
-      pop: 1
+    - include: expression_common
 
-  line_of_code_in_no_semicolon:
+  expression_common:
     - match: _\b
       scope: variable.language.anonymous.cs
     - match: value\b
@@ -1747,25 +1751,21 @@ contexts:
       scope: invalid.illegal.reserved-char.cs
     - match: \?
       scope: keyword.operator.ternary.cs
-      push:
-        - match: ':'
-          scope: keyword.operator.ternary.cs
-          pop: 1
-        - include: line_of_code_in
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: 1
-        - include: code_block_in
-    - match: (?=[]}>,]|{{reserved}})
+      push: inside_ternary_expression
+
+  inside_ternary_expression:
+    - match: ':'
+      scope: keyword.operator.ternary.cs
       pop: 1
+    - include: expression
 
   keywords:
-    - include: funcptr_types
     - include: instantiations
     - include: modifiers
+    - include: funcptr_types
+    - match: delegate\b
+      scope: keyword.declaration.delegate.cs
+      push: maybe_statement_block
     - match: this\b
       scope: variable.language.this.cs
       push:
@@ -1821,15 +1821,8 @@ contexts:
       set: inside_variable_initializer
     - match: (?=\S)
       set:
-        - inside_assignment_value
+        - expression
         - maybe_pointer
-
-  inside_assignment_value:
-    - match: (?=[,;)\]}])
-      pop: 1
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
 
 ###[ CONSTANT CAST, GROUP AND TUPLE EXPRESSIONS ]##############################
 
@@ -1876,6 +1869,7 @@ contexts:
       scope: punctuation.section.group.begin.cs
       set:
         - inside_constant_group
+        - constant_expression
         - maybe_pointer
 
   inside_constant_group:
@@ -1883,10 +1877,8 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - match: (?=,)
+    - match: (?=\S)
       fail: constant_parens
-    - include: constant_parens
-    - include: line_of_code_in_no_semicolon
 
 ###[ CAST, GROUP, LAMBDA AND TUPLE EXPRESSIONS ]###############################
 
@@ -1933,6 +1925,7 @@ contexts:
       scope: punctuation.section.group.begin.cs
       set:
         - inside_group
+        - expression
         - maybe_pointer
 
   inside_group:
@@ -1940,11 +1933,8 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - match: (?=,)
+    - match: (?=\S)
       fail: parens
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
 
   lambda:
     - meta_include_prototype: false
@@ -1999,9 +1989,7 @@ contexts:
       scope: keyword.operator.assignment.cs
     - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
       push: var_declaration
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
+    - include: expression
 
 ###[ GROUP EXPRESSIONS ]#######################################################
 
@@ -2016,9 +2004,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
+    - include: expression
 
   maybe_nameof_group:
     - match: \(
@@ -2100,8 +2086,7 @@ contexts:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
       push: maybe_pointer
-    - match: (?=\S)
-      push: line_of_code_in
+    - include: expressions
 
   out_argument:
     - match: ref\b
@@ -2177,8 +2162,7 @@ contexts:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push: maybe_pointer
-    - match: (?=\S)
-      push: line_of_code_in
+    - include: expressions
 
 ###[ ITEM ACCESS EXPRESSIONS ]#################################################
 
@@ -2200,8 +2184,7 @@ contexts:
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-    - match: (?=\S)
-      push: line_of_code_in
+    - include: expressions
 
   maybe_member_access:
     - match: \.
@@ -2245,11 +2228,7 @@ contexts:
 
   inside_lambda_expression:
     - meta_content_scope: meta.function.anonymous.body.cs
-    - match: (?=[,;)\]}])
-      pop: 1
-    - include: parens
-    - include: lambdas
-    - include: line_of_code_in_no_semicolon
+    - include: expression
 
 ###[ SWITCH EXPRESSIONS ]######################################################
 
@@ -2262,7 +2241,10 @@ contexts:
     - meta_content_scope: meta.switch.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
-      set: inside_switch_expression_block
+      set:
+        - inside_switch_expression_block
+        - switch_expression_case_pattern
+        - expect_pattern
     - include: else_pop
 
   inside_switch_expression_block:
@@ -2270,10 +2252,12 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - match: (?=\S)
+    - match: ','
+      scope: punctuation.terminator.case-expression.cs
       push:
         - switch_expression_case_pattern
         - expect_pattern
+    - include: expression
 
   switch_expression_case_pattern:
     - meta_content_scope: meta.case.pattern.cs
@@ -2286,18 +2270,8 @@ contexts:
     - meta_content_scope: meta.case.guard.cs
     - match: =>
       scope: meta.case.cs punctuation.separator.case-expression.cs
-      set: inside_switch_expression_case_expression
-    - match: (?=[,;)\]}])
       pop: 1
-    - include: constant_parens
-    - include: line_of_code_in_no_semicolon
-
-  inside_switch_expression_case_expression:
-    - meta_content_scope: meta.case.body.cs
-    - match: ','
-      scope: punctuation.terminator.case-expression.cs
-      pop: 1
-    - include: line_of_code_in
+    - include: constant_expression
 
 ###[ TYPE PATTERNS ]###########################################################
 
@@ -2349,7 +2323,7 @@ contexts:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push:
-        - line_of_code_in
+        - expression
         - expect_pattern
 
 ###[ TYPES ]###################################################################
@@ -2425,8 +2399,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.sequence.cs
-    - match: (?=\S)
-      push: line_of_code_in
+    - include: expressions
 
 ###[ TYPE PARAMETER LISTS ]####################################################
 
@@ -2560,11 +2533,6 @@ contexts:
   terminators:
     - match: ';'
       scope: punctuation.terminator.statement.cs
-
-  terminator:
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: 1
 
 ###[ VARIABLES ]###############################################################
 
@@ -2765,7 +2733,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   string_placeholder_format:
     - match: ':(?=")'
@@ -2871,7 +2839,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: verbatim_string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   verbatim_string_placeholder_format:
     - match: ':(?="(?!"))'
@@ -2971,7 +2939,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   inside_raw_format_string_2:
     - meta_include_prototype: false
@@ -2995,7 +2963,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   inside_raw_format_string_3:
     - meta_include_prototype: false
@@ -3019,7 +2987,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   inside_raw_format_string_4:
     - meta_include_prototype: false
@@ -3043,7 +3011,7 @@ contexts:
       pop: 1
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
-    - include: line_of_code_in
+    - include: expression
 
   raw_string_placeholder_format:
     - match: ':'

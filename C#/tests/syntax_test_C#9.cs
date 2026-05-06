@@ -71,7 +71,6 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 ///                                      ^^^^^ meta.case.pattern.cs
 ///                                      ^^^^ constant.language.boolean.true.cs
 ///                                           ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                             ^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///                                              ^^^ storage.type.cs
 ///                                                 ^ punctuation.accessor.dot.cs
 ///                                                  ^^^^^ meta.function-call.identifier.cs variable.function.cs
@@ -87,7 +86,6 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 ///                                                                  ^^ meta.case.pattern.cs
 ///                                                                  ^ variable.language.anonymous.cs
 ///                                                                    ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                                                      ^^^ meta.case.body.cs
 ///                                                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                                         ^ punctuation.section.block.end.cs
 ///                                                                          ^ punctuation.terminator.statement.cs
@@ -101,7 +99,6 @@ var message = myValue switch
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 /// ^^^^^ meta.case.pattern.cs
 ///      ^^ meta.case.cs
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 /// ^^ keyword.operator.comparison.cs
 ///    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///      ^^ punctuation.separator.case-expression.cs
@@ -111,7 +108,6 @@ var message = myValue switch
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 /// ^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///               ^^ meta.case.cs
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 /// ^ keyword.operator.comparison.cs
 ///   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///     ^^^ keyword.operator.logical.cs
@@ -124,7 +120,6 @@ var message = myValue switch
 ///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 /// ^^ meta.case.pattern.cs
 ///   ^^ meta.case.cs
-///     ^^^^^^^^^^^^^^^^ meta.case.body.cs
 /// ^ variable.language.anonymous.cs
 ///   ^^ punctuation.separator.case-expression.cs
 ///      ^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
@@ -151,7 +146,6 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                 ^^ meta.case.cs
-///                                   ^^^^^ meta.case.body.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^^^^ variable.other.member.cs
@@ -167,7 +161,6 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                             ^^ meta.case.cs
-///                                               ^^^^^^ meta.case.body.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^^^^ variable.other.member.cs
@@ -183,7 +176,6 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                              ^^ meta.case.cs
-///                                                ^^^^^^ meta.case.body.cs
 ///     ^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
 ///               ^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.class.body.cs meta.block.cs
 ///                            ^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
@@ -206,7 +198,6 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
     };
 ///^^^^ meta.method.body.cs meta.block.cs
 ///^^ meta.switch.body.cs meta.block.cs
-///^ meta.case.body.cs
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.terminator.statement.cs
 }
@@ -220,7 +211,6 @@ public class TollCalculator
         Car c           => 2.00m,
 ///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                     ^^ meta.case.cs
-///                       ^^^^^^ meta.case.body.cs
 ///     ^^^ support.type.cs
 ///         ^ variable.other.cs
 ///                     ^^ punctuation.separator.case-expression.cs
@@ -236,7 +226,6 @@ public class TollCalculator
 ///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                       ^ punctuation.section.block.end.cs
 ///                         ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                           ^^^^^^^^^^^^^^ meta.case.body.cs
 ///                                         ^ punctuation.terminator.case-expression.cs
 
         not Car {Passengers: > 0} => 2.00m + 0.50m,
@@ -251,14 +240,12 @@ public class TollCalculator
 ///                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                             ^ punctuation.section.block.end.cs
 ///                               ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                 ^^^^^^^^^^^^^^ meta.case.body.cs
 ///                                               ^ punctuation.terminator.case-expression.cs
 
         Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
 ///     ^^^^^^ meta.case.pattern.cs
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
 ///                                                               ^^ meta.case.cs
-///                                                                 ^^^^^^^^^^^^^^ meta.case.body.cs
 ///     ^^^ support.type.cs
 ///         ^ variable.other.cs
 ///           ^^^^ keyword.control.conditional.when.cs
@@ -290,7 +277,6 @@ public class TollCalculator
 ///                                 ^^^^^^^ meta.switch.body.cs meta.block.cs meta.switch.cs
 ///     ^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
-///              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///     ^^^^ support.type.cs
 ///          ^ variable.other.cs
 ///            ^^ punctuation.separator.case-expression.cs
@@ -307,26 +293,19 @@ public class TollCalculator
 ///                               ^ punctuation.section.group.end.cs
 ///                                 ^^^^^^ keyword.control.conditional.switch.cs
         {
-///^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.cs
-///     ^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
             0 => 1.00m,
-///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
 ///         ^^ meta.case.pattern.cs
 ///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///           ^^ meta.case.cs punctuation.separator.case-expression.cs
-///             ^^^^^^ meta.case.body.cs
 ///              ^^^^^ meta.number.float.decimal.cs
 ///                   ^ punctuation.terminator.case-expression.cs
             _ => -1.00m
-///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
 ///         ^^ meta.case.pattern.cs
 ///         ^ variable.language.anonymous.cs
 ///           ^^ meta.case.cs punctuation.separator.case-expression.cs
-///             ^^^^^^^^ meta.case.body.cs
 ///               ^^^^^ meta.number.float.decimal.cs
         },
-///^^^^^^ meta.switch.body.cs meta.block.cs meta.case.body.cs meta.switch.body.cs meta.block.cs
 ///      ^ meta.switch.body.cs meta.block.cs - meta.case - meta.switch meta.switch
 ///     ^ punctuation.section.block.end.cs
 ///      ^ punctuation.terminator.case-expression.cs
@@ -338,13 +317,11 @@ public class TollCalculator
 ///         ^ punctuation.section.block.begin.cs
 ///           ^ punctuation.section.block.end.cs
 ///             ^^ meta.case.cs punctuation.separator.case-expression.cs
-///               ^^^^^ meta.case.body.cs
 ///                    ^ punctuation.terminator.case-expression.cs
 
         { }             => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
 ///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                     ^^ meta.case.cs
-///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///     ^^^ meta.class.body.cs meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^ punctuation.section.block.end.cs
@@ -357,12 +334,10 @@ public class TollCalculator
 ///     ^^^ keyword.operator.logical.cs
 ///         ^^^^ constant.language.null.cs
 ///                     ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
         null            => throw new ArgumentNullException(nameof(vehicle))
 ///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///     ^^^^ constant.language.null.cs
 ///                     ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
     }
 /// ^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
 }

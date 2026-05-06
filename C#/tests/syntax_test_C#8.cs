@@ -344,7 +344,6 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
         Rainbow.Red    => new RGBColor(0xFF, 0x00, 0x00),
 ///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                    ^^ meta.case.cs
-///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///     ^^^^^^^ support.type.cs
 ///            ^ punctuation.accessor.dot.cs
 ///             ^^^ variable.other.member.cs
@@ -358,7 +357,6 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
 ///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///     ^ variable.language.anonymous.cs
 ///                    ^^ meta.case.cs
-///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///                    ^^ punctuation.separator.case-expression.cs
 ///                       ^^^^^ keyword.control.flow.throw.cs
 ///                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
@@ -392,7 +390,6 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///     ^^^^^^^^^^^^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
 ///                      ^ meta.case.pattern.cs - meta.sequence
 ///                       ^^ meta.case.cs
-///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^^^ meta.string.cs string.quoted.double.cs
 ///            ^ punctuation.separator.sequence.cs
@@ -406,7 +403,6 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///     ^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
 ///           ^ meta.case.pattern.cs - meta.sequence
 ///            ^^ meta.case.cs
-///              ^^^^^^^ meta.case.body.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.language.anonymous.cs
 ///       ^ punctuation.separator.sequence.cs
@@ -415,8 +411,6 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///            ^^ punctuation.separator.case-expression.cs
 ///               ^^^^^ meta.string.cs string.quoted.double.cs
     };
-/// <- meta.switch.body.cs meta.block.cs meta.case.body.cs
-///^ meta.switch.body.cs meta.block.cs meta.case.body.cs
 /// ^ meta.switch.body.cs meta.block.cs - meta.case
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.terminator.statement.cs - meta.switch
@@ -427,7 +421,6 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 /// ^^^^^^^ meta.case.pattern.cs
 ///        ^^ meta.case.cs
-///          ^^^^^^^^^^^^^^^^ meta.case.body.cs
 /// ^^^^^^ meta.sequence.tuple.cs
 /// ^ punctuation.section.sequence.begin.cs
 ///  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -444,7 +437,6 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
 ///                                ^^ meta.case.cs
-///                                  ^^^^^^^^^^^^^ meta.case.body.cs
 /// ^^^ storage.type.cs
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
@@ -469,7 +461,6 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
-///              ^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 /// ^^^ storage.type.cs
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
@@ -487,7 +478,6 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 /// ^^ meta.case.pattern.cs
 /// ^ variable.language.anonymous.cs
 ///   ^^ meta.case.cs
-///     ^^^^^^^^^^^^^^^^^^ meta.case.body.cs
 ///   ^^ punctuation.separator.case-expression.cs
 ///      ^^^^^^^^ variable.other.cs
 ///              ^ punctuation.accessor.dot.cs

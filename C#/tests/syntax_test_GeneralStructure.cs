@@ -2211,14 +2211,14 @@ public class AfterTopLevelMethod : IDrawingObject {
 
     Action<float> actionDelegate = delegate { };
 ///                              ^ keyword.operator.assignment
-///                                ^^^^^^^^ keyword.other
+///                                ^^^^^^^^ keyword.declaration.delegate.cs
 ///                                         ^ punctuation.section.block.begin
 ///                                           ^ punctuation.section.block.end
     event Action<float> eventAction;
 /// ^^^^^ keyword.declaration.event.cs
     event Action<float> eventActionDelegate = delegate { };
 ///                                         ^ keyword.operator.assignment
-///                                           ^^^^^^^^ keyword.other
+///                                           ^^^^^^^^ keyword.declaration.delegate.cs
 ///                                                    ^ punctuation.section.block.begin
 ///                                                      ^ punctuation.section.block.end
 }
