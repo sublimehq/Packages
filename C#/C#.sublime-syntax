@@ -1651,27 +1651,9 @@ contexts:
     - include: expression_common
 
   expression_common:
-    - match: _\b
-      scope: variable.language.anonymous.cs
-    - match: value\b
-      scope: variable.language.cs
-    - include: keywords
-    - include: switch_expressions
-    # Cannot neg-ahead "(" because clauses can follow several of the sql words
-    - match: (?:let|select|equals|from|in|where|join|orderby|group|by|on|into|into|ascending|descending)\b(?!\s*[.,;+=&\|\[\]\)])
-      scope: keyword.other.sql.cs
-    # operators (Note: order matters!)
-    - match: '->'
+    # accessors and operators (Note: order matters!)
+    - match: ->
       scope: punctuation.accessor.arrow.cs
-      push: maybe_pointer
-    - match: \?\.
-      scope: punctuation.accessor.null-coalescing.cs
-      push: maybe_pointer
-    - match: \.\.
-      scope: keyword.operator.range.cs
-      push: maybe_pointer
-    - match: \.
-      scope: punctuation.accessor.dot.cs
       push: maybe_pointer
     - match: '(?x: << | >>>? | \?\? | [-+*/%|&^] )='
       scope: keyword.operator.assignment.augmented.cs
@@ -1688,15 +1670,45 @@ contexts:
     - match: '(?x: <=? | >=? | == | != )'
       scope: keyword.operator.comparison.cs
       push: maybe_pointer
-    - match: '='
+    - match: =
       scope: keyword.operator.assignment.cs
+      push: maybe_pointer
+    - match: \.\.
+      scope: keyword.operator.range.cs
+      push: maybe_pointer
+    - match: \.
+      scope: punctuation.accessor.dot.cs
       push: maybe_pointer
     - match: \?\?
       scope: keyword.operator.null-coalescing.cs
       push: maybe_pointer
-    # expressions
+    - match: \?\.
+      scope: punctuation.accessor.null-coalescing.cs
+      push: maybe_pointer
+    - match: (\?)?\s*(\[)
+      captures:
+        1: keyword.operator.null-coalescing.cs
+        2: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push: inside_item_access
+    - match: \?
+      scope: keyword.operator.ternary.cs
+      push:
+        - inside_ternary_expression
+        - maybe_pointer
+    # keywords
+    - match: '{{sql_keywords}}'
+      scope: keyword.other.sql.cs
+    - include: keywords
+    - include: switch_expressions
+    - include: base_types
     - include: literals
-    - match: '({{name}})(?={{generic_declaration}}\()\s*(<)'
+    # variables
+    - match: _\b
+      scope: variable.language.anonymous.cs
+    - match: value\b
+      scope: variable.language.cs
+    # expressions
+    - match: ({{name}})(?={{generic_declaration}}\()\s*(<)
       captures:
         1: variable.function.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
@@ -1733,25 +1745,14 @@ contexts:
         8: punctuation.accessor.dot.cs
         9: meta.function-call.identifier.cs variable.function.cs
       push: regex_function_call_argument_list
-    - match: '{{unreserved_name}}(?=\s*\()'
+    - match: '{{name}}(?=\s*\()'
       scope: meta.function-call.identifier.cs variable.function.cs
       push: function_call_argument_list
-    - match: '(\?)?\s*(\[)'
-      captures:
-        1: keyword.operator.null-coalescing.cs
-        2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push: inside_item_access
-    - include: base_types
-    - match: '{{reserved}}\b'
-      scope: keyword.other.cs
     - include: namespace_variables
     - match: '{{name}}'
       scope: variable.other.cs
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
-    - match: \?
-      scope: keyword.operator.ternary.cs
-      push: inside_ternary_expression
 
   inside_ternary_expression:
     - match: ':'
@@ -3158,3 +3159,7 @@ variables:
     # declaration
     | DECLARE | WITH | BEGIN
     ) \s )
+
+  sql_keywords: |-
+    (?x: let | select | equals | from | in | where | join | orderby | group | by
+    | on | into | into | ascending | descending )\b(?!\s*[.,;+=&\|\[\]\)])
