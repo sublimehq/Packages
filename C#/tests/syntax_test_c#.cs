@@ -86,11 +86,13 @@ public partial class Employee
         var @void = MakeGroup();
         //  ^^^^^ variable.other.cs - keyword
 
+        // void is technically illegal in this context and thus terminates expression
         var void = MakeGroup();
-        //  ^^^^ invalid.illegal - variable - keyword
+        //  ^^^^ - variable
 
+        // void is technically illegal in this context and thus terminates expression
         var subvoid1 = void.GetContents();
-        //             ^^^^ - variable # Technically illegal in this context, but at least it's not marked as a variable.
+        //             ^^^^ - variable
 
         var subvoid2 = @void.GetContents();
         //             ^^^^^ variable.other.cs - keyword

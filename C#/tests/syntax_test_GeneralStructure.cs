@@ -2339,6 +2339,101 @@ public class TestModifierOrder
 }
 
 
+class TestLocalDefinitions
+{
+    (vec3, vec3 vec) testTypeTuples()
+/// ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+/// ^ punctuation.section.sequence.begin.cs
+///  ^^^^ support.type.cs
+///      ^ punctuation.separator.sequence.cs
+///        ^^^^ support.type.cs
+///             ^^^ variable.other.cs
+///                ^ punctuation.section.sequence.end.cs
+///                  ^^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
+///                                ^^ meta.method.parameters.cs
+///                                ^ punctuation.section.parameters.begin.cs
+///                                 ^ punctuation.section.parameters.end.cs
+///                                  ^ meta.method.cs
+    {
+        (vec3, vec3) FuncName(in int i, in vec3 vec) => (ZERO3, ONE3);
+///     ^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^^ support.type.cs
+///                ^ punctuation.section.sequence.end.cs
+///                  ^^^^^^^^ meta.method.cs entity.name.function.constructor.cs
+///                          ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                          ^ punctuation.section.parameters.begin.cs
+///                           ^^ storage.modifier.parameter.cs
+///                              ^^^ storage.type.cs
+///                                  ^ variable.parameter.cs
+///                                   ^ punctuation.separator.parameter.cs
+///                                     ^^ storage.modifier.parameter.cs
+///                                        ^^^^ support.type.cs
+///                                             ^^^ variable.parameter.cs
+///                                                ^ punctuation.section.parameters.end.cs
+///                                                 ^^^ meta.method.cs
+///                                                  ^^ keyword.declaration.function.arrow.cs
+///                                                    ^^^^^^^^^^^^^^ meta.method.body.cs
+///                                                     ^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                                     ^ punctuation.section.sequence.begin.cs
+///                                                      ^^^^^ variable.other.cs
+///                                                           ^ punctuation.separator.sequence.cs
+///                                                             ^^^^ variable.other.cs
+///                                                                 ^ punctuation.section.sequence.end.cs
+///                                                                  ^ punctuation.terminator.statement.cs
+
+        (vec3 foo, vec3) var = FuncName();
+///     ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///           ^^^ variable.other.cs
+///              ^ punctuation.separator.sequence.cs
+///                ^^^^ support.type.cs
+///                    ^ punctuation.section.sequence.end.cs
+///                      ^^^ variable.other.cs
+///                          ^ keyword.operator.assignment.cs
+///                            ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                    ^^ meta.function-call.arguments.cs meta.group.cs
+///                                    ^ punctuation.section.group.begin.cs
+///                                     ^ punctuation.section.group.end.cs
+///                                      ^ punctuation.terminator.statement.cs
+
+        (vec3, vec3 bar) Var = FuncName();
+///     ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^^ support.type.cs
+///                 ^^^ variable.other.cs
+///                    ^ punctuation.section.sequence.end.cs
+///                      ^^^ variable.other.cs
+///                          ^ keyword.operator.assignment.cs
+///                            ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                    ^^ meta.function-call.arguments.cs meta.group.cs
+///                                    ^ punctuation.section.group.begin.cs
+///                                     ^ punctuation.section.group.end.cs
+///                                      ^ punctuation.terminator.statement.cs
+
+        (vec3, vec3) @var = FuncName();
+///     ^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^^ support.type.cs
+///                ^ punctuation.section.sequence.end.cs
+///                  ^^^^ variable.other.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                 ^^ meta.function-call.arguments.cs meta.group.cs
+///                                 ^ punctuation.section.group.begin.cs
+///                                  ^ punctuation.section.group.end.cs
+///                                   ^ punctuation.terminator.statement.cs
+    }
+}
+
+
 public class TestExpressions
 {
     void testItemAccess()

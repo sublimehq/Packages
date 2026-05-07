@@ -1414,22 +1414,20 @@ contexts:
           pop: 1
     - match: const\b
       scope: storage.modifier.cs
-    - match: (var|dynamic)\s+({{reserved}}|{{base_type}})\s*(=)
-      captures:
-        1: storage.type.cs
-        2: invalid.illegal.cs
-        3: keyword.operator.assignment.cs
-      set: maybe_pointer
-    - match: (var|dynamic)\s+({{name}})\s*(=)
-      captures:
-        1: storage.type.cs
-        2: variable.other.cs
-        3: keyword.operator.assignment.cs
+    - match: dynamic\b
+      scope: storage.type.cs
       set:
-        - expression
-        - maybe_pointer
-    - match: (?=var\s*\()
-      push: var_declaration
+        - variable_initializer
+        - variable_declaration_name
+    - match: var\b
+      scope: storage.type.cs
+      set:
+        - variable_declaration_list
+        - var_declarator
+    - match: (?=\([^)]*\)\s*{{name}}\s*[(=])
+      set:
+        - local_name
+        - type_tuple
     - match: (ref\s+(?:readonly\s+)?)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
       captures:
         1: storage.modifier.cs
@@ -1447,6 +1445,17 @@ contexts:
       set: variable_declaration_list
     - match: (?=\S)
       set: expression
+
+  local_name:
+    - match: '{{unreserved_name}}(?=\s*\()'
+      scope: meta.method.cs entity.name.function.constructor.cs
+      set:
+        - method_body
+        - method_parameter_list
+    - match: (?=\S)
+      set:
+        - variable_initializer
+        - variable_declaration_name
 
   expression_block:
     - meta_content_scope: meta.group.cs
@@ -3117,7 +3126,7 @@ variables:
   name: '(?:@?{{name_normal}})'
   namespaced_name: (?:(?:{{name}}{{generic_declaration}}?\s*\.\s*)*{{name}}{{generic_declaration}}?)
 
-  unreserved_name: (?:@|(?!{{reserved}}\b)){{name_normal}}
+  unreserved_name: (?:@|(?!{{reserved}}\b|{{base_type}}\b)){{name_normal}}
 
   start_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_\p{L}])'
   other_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_0-9\p{L}])'
