@@ -472,14 +472,6 @@ contexts:
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
 
-  namespace_variables:
-    - match: (?:(global)|({{name}}))\s*(::)
-      scope: meta.path.cs
-      captures:
-        1: support.namespace.global.cs
-        2: variable.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
-
 ###[ NAMESPACE DECLARATIONS ]##################################################
 
   namespace_declaration:
@@ -2581,6 +2573,14 @@ contexts:
       scope: variable.language.this.cs
     - match: base\b
       scope: variable.language.super.cs
+
+  namespace_variables:
+    - match: (?:(global)|({{name}}))\s*(::)
+      scope: meta.path.cs
+      captures:
+        1: support.namespace.global.cs
+        2: variable.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
 
   stray_names:
     - match: '{{name}}'
