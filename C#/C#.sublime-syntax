@@ -1702,37 +1702,16 @@ contexts:
     - include: switch_expressions
     - include: base_types
     - include: literals
-    # variables
+    # language variables
     - match: _\b
       scope: variable.language.anonymous.cs
     - match: value\b
       scope: variable.language.cs
+    - include: namespace_variables
     # expressions
-    - match: ({{name}})(?={{generic_declaration}}\()\s*(<)
-      captures:
-        1: variable.function.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - meta_scope: meta.function-call.identifier.cs
-        - meta_content_scope: meta.generic.cs
-        - match: ','
-          scope: punctuation.separator.type.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set: function_call_argument_list
-        - include: type
-    - match: ({{name}})(<)(?={{namespaced_name}}>\s*\.)
-      captures:
-        1: support.type.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - meta_content_scope: meta.generic.cs
-        - match: ','
-          scope: punctuation.separator.type.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          pop: 1
-        - include: type
+    - match: '{{name}}(?=\s*<)(?={{generic_declaration}}\.)'
+      scope: support.type.cs
+      push: type_argument_list
     - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(?=\s*\()
       captures:
         1: variable.other.cs
@@ -1745,10 +1724,11 @@ contexts:
         8: punctuation.accessor.dot.cs
         9: meta.function-call.identifier.cs variable.function.cs
       push: regex_function_call_argument_list
-    - match: '{{name}}(?=\s*\()'
+    - match: '{{name}}(?={{generic_declaration}}\()'
       scope: meta.function-call.identifier.cs variable.function.cs
-      push: function_call_argument_list
-    - include: namespace_variables
+      push:
+        - function_call_argument_list
+        - type_argument_list
     - match: '{{name}}'
       scope: variable.other.cs
     - match: '@'
