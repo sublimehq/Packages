@@ -292,7 +292,7 @@ contexts:
       push: inside_preprocessor_if_condition_group
     - match: (?:&&|\|\||!)
       scope: keyword.operator.logical.cs
-    - include: language_constants
+    - include: constants
     - match: '{{name}}'
       scope: constant.other.preprocessor.cs
     - include: expect_preprocessor_fold_begin
@@ -1701,7 +1701,10 @@ contexts:
     - include: keywords
     - include: switch_expressions
     - include: base_types
-    - include: literals
+    - include: constants
+    - include: characters
+    - include: numbers
+    - include: strings
     # language variables
     - match: _\b
       scope: variable.language.anonymous.cs
@@ -2537,10 +2540,7 @@ contexts:
 
 ###[ LITERALS ]################################################################
 
-  # bools, numbers, chars, simple strings
-  literals:
-    - include: language_constants
-    # characters
+  characters:
     - match: (')(?:({{escape_base}})|({{escape_hex}})|({{escape_uni16}})|({{escape_uni32}})|([^'\\]))(')
       scope: meta.string.cs string.quoted.single.cs
       captures:
@@ -2553,7 +2553,16 @@ contexts:
         7: punctuation.definition.string.end.cs
     - match: \'.*\'
       scope: invalid.illegal.character.cs
-    # numbers
+
+  constants:
+    - match: false\b
+      scope: constant.language.boolean.false.cs
+    - match: true\b
+      scope: constant.language.boolean.true.cs
+    - match: null\b
+      scope: constant.language.null.cs
+
+  numbers:
     - match: (0[xX])([\h_]*\h)({{integer_suffix}})?
       scope: meta.number.integer.hexadecimal.cs
       captures:
@@ -2581,15 +2590,6 @@ contexts:
       captures:
         1: constant.numeric.value.cs
         2: constant.numeric.suffix.cs
-    - include: strings
-
-  language_constants:
-    - match: false\b
-      scope: constant.language.boolean.false.cs
-    - match: true\b
-      scope: constant.language.boolean.true.cs
-    - match: null\b
-      scope: constant.language.null.cs
 
 ###[ REGULAR EXPRESSIONS ]#####################################################
 
