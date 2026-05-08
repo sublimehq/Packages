@@ -23,32 +23,134 @@ namespace Example;
 ///       ^^^^^^^ meta.namespace entity.name.namespace
 ///              ^ punctuation.terminator.statement
 
-public record struct Person(string Name);
-/// ^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record meta.record
-///                        ^^^^^^^^^^^^^ meta.record.parameters - meta.record meta.record
-///    ^^^^^^ keyword.declaration.record
-///           ^^^^^^ keyword.declaration.struct
-///                  ^^^^^^ entity.name.struct
-///                        ^ punctuation.section.parameters.begin
-///                         ^^^^^^ storage.type
-///                                ^^^^ variable.parameter
-///                                    ^ punctuation.section.parameters.end
-///                                     ^ punctuation.terminator.statement
+/**
+ * Record Classes
+ */
 
-public readonly record struct Person(string Name);
-///^^^ storage.modifier.access
-///             ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record meta.record
-///                                 ^^^^^^^^^^^^^ meta.record.parameters - meta.record meta.record
-///    ^^^^^^^^ storage.modifier
-///             ^^^^^^ keyword.declaration.record
-///                    ^^^^^^ keyword.declaration.struct
-///                           ^^^^^^ entity.name.struct
-///                                 ^ punctuation.section.parameters.begin
-///                                  ^^^^^^ storage.type
-///                                         ^^^^ variable.parameter
-///                                             ^ punctuation.section.parameters.end
-///                                              ^ punctuation.terminator.statement
+public record Person;
+///^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^^ entity.name.class.cs
+///                 ^ punctuation.terminator.statement.cs
+
+public record { };
+///^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^ meta.record.body.cs meta.block.cs
+///           ^ punctuation.section.block.begin.cs
+///             ^ punctuation.section.block.end.cs
+///              ^ punctuation.terminator.statement.cs
+
+public record class Person;
+///^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^ keyword.declaration.class.cs
+///                 ^^^^^^ entity.name.class.cs
+///                       ^ punctuation.terminator.statement.cs
+
+public record class Person(string Name);
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^ keyword.declaration.class.cs
+///                 ^^^^^^ entity.name.class.cs
+///                       ^^^^^^^^^^^^^ meta.record.parameters.cs
+///                       ^ punctuation.section.parameters.begin.cs
+///                        ^^^^^^ storage.type.cs
+///                               ^^^^ variable.parameter.cs
+///                                   ^ punctuation.section.parameters.end.cs
+///                                    ^ punctuation.terminator.statement.cs
+
+public record class { };
+///^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^ keyword.declaration.class.cs
+///                 ^^^ meta.record.body.cs meta.block.cs
+///                 ^ punctuation.section.block.begin.cs
+///                   ^ punctuation.section.block.end.cs
+///                    ^ punctuation.terminator.statement.cs
+
+public record class Person { };
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^ keyword.declaration.class.cs
+///                 ^^^^^^ entity.name.class.cs
+///                        ^^^ meta.record.body.cs meta.block.cs
+///                        ^ punctuation.section.block.begin.cs
+///                          ^ punctuation.section.block.end.cs
+///                           ^ punctuation.terminator.statement.cs
+
+/**
+ * Record Structs
+ */
+
+public record struct Person;
+///^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^^ keyword.declaration.struct.cs
+///                  ^^^^^^ entity.name.struct.cs
+///                        ^ punctuation.terminator.statement.cs
+
+public record struct {  };
+///^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^^ keyword.declaration.struct.cs
+///                  ^^^^ meta.record.body.cs meta.block.cs
+///                  ^ punctuation.section.block.begin.cs
+///                     ^ punctuation.section.block.end.cs
+///                      ^ punctuation.terminator.statement.cs
+
+public record struct Person(string Name);
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///    ^^^^^^ keyword.declaration.record.cs
+///           ^^^^^^ keyword.declaration.struct.cs
+///                  ^^^^^^ entity.name.struct.cs
+///                        ^^^^^^^^^^^^^ meta.record.parameters.cs
+///                        ^ punctuation.section.parameters.begin.cs
+///                         ^^^^^^ storage.type.cs
+///                                ^^^^ variable.parameter.cs
+///                                    ^ punctuation.section.parameters.end.cs
+///                                     ^ punctuation.terminator.statement.cs
+
+public readonly record struct Person(string Name) {  };
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.record meta.record
+///^^^ storage.modifier.access.cs
+///    ^^^^^^^^ storage.modifier.cs
+///             ^^^^^^^^^^^^^^^^^^^^ meta.record.cs
+///             ^^^^^^ keyword.declaration.record.cs
+///                    ^^^^^^ keyword.declaration.struct.cs
+///                           ^^^^^^ entity.name.struct.cs
+///                                 ^^^^^^^^^^^^^ meta.record.parameters.cs
+///                                 ^ punctuation.section.parameters.begin.cs
+///                                  ^^^^^^ storage.type.cs
+///                                         ^^^^ variable.parameter.cs
+///                                             ^ punctuation.section.parameters.end.cs
+///                                              ^ meta.record.cs
+///                                               ^^^^ meta.record.body.cs meta.block.cs
+///                                               ^ punctuation.section.block.begin.cs
+///                                                  ^ punctuation.section.block.end.cs
+///                                                   ^ punctuation.terminator.statement.cs
+
+/**
+ * Reflections and member pattern matching
+ */
 
 if (obj is Person { Address: { City: "Seattle" } })
 ///     ^^ keyword.operator.comparison
