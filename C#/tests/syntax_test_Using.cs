@@ -93,12 +93,15 @@ class Foo {
 ///     ^^^^^^^^ variable.other.cs - keyword
 
         using (Font font3 = new Font("Arial", 10.0f))
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///     ^ keyword.declaration.using
-///           ^ punctuation.section.group.begin
-///             ^ support.type
-///                       ^ keyword.operator.assignment
-///                                                 ^ punctuation.section.group.end
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ support.type.cs
+///                 ^^^^^ variable.other.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                                                 ^ punctuation.section.group.end.cs
         {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.begin
             // Use font3
@@ -113,13 +116,21 @@ class Foo {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.end
 
         using (Font font3 = new Font("Arial", 10.0f),
-///     ^ keyword.declaration.using
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///           ^ punctuation.section.group.begin
-///                                                 ^ punctuation.separator
+///     ^^^^^^ meta.using.cs - meta.group
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ support.type.cs
+///                 ^^^^^ variable.other.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                                                 ^ punctuation.separator.variables.cs
             font4 = new Font("Arial", 10.0f))
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                                         ^ punctuation.section.group.end
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs meta.group.cs
+///         ^^^^^ variable.other.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                                         ^ punctuation.section.group.end.cs
         {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.begin
             // Use font3 and font4.

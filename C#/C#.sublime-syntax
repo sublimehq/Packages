@@ -1371,17 +1371,11 @@ contexts:
       scope: keyword.control.loop.while.cs
       set: maybe_expression_group
     # other
-    - match: (using)\s*(\()
-      captures:
-        1: keyword.declaration.using.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [using_block, line_of_code]
     - match: using\b
       scope: keyword.declaration.using.cs
-      push:
+      set:
         - using_meta
-        - variable_declaration_list
-        - var_declaration
+        - using_statement
     - match: (fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
@@ -1483,22 +1477,6 @@ contexts:
             - include: code_block_in
         - match: (?=\S)
           set: line_of_code
-
-  using_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: meta.group.cs punctuation.section.group.end.cs
-      set:
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: 1
-            - include: code_block_in
-        - include: else_pop
-    - include: else_pop
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
@@ -1604,6 +1582,28 @@ contexts:
       scope: keyword.control.loop.in.cs
       set: expression
     - include: else_pop
+
+###[ USING STATEMENTS ]########################################################
+
+  using_statement:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - inside_using_group
+        - var_declaration
+    - match: (?=\S)
+      set:
+        - variable_declaration_list
+        - var_declaration
+
+  inside_using_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.variables.cs
+    - include: expression
 
 ###[ EXPRESSIONS ]#############################################################
 
