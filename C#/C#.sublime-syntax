@@ -1370,17 +1370,15 @@ contexts:
     - match: while\b
       scope: keyword.control.loop.while.cs
       set: maybe_expression_group
-    # other
+    # declarations
+    - match: fixed\b
+      scope: keyword.declaration.fixed.cs
+      set: fixed_group
     - match: using\b
       scope: keyword.declaration.using.cs
       set:
         - using_meta
         - using_statement
-    - match: (fixed)\s*(\()
-      captures:
-        1: keyword.control.other.fixed.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [expression_block, line_of_code]
     - match: (lock)\s*(\()
       captures:
         1: keyword.control.other.lock.cs
@@ -1531,6 +1529,23 @@ contexts:
       scope: keyword.control.conditional.when.cs
       set: maybe_expression_group
     - include: else_pop
+
+###[ FIXED STATEMENTS ]########################################################
+
+  fixed_group:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - inside_fixed_group
+        - var_declaration
+    - include: else_pop
+
+  inside_fixed_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - include: variable_declaration_list
 
 ###[ FOR STATEMENTS ]##########################################################
 

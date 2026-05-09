@@ -141,27 +141,69 @@ class Foo {
     public void dcsrmm(double[] val, int offsetval, int[] idx, int offsetidx, int[] pntrb, int offsetpntrb, double[] b, int offsetb, int ldb, double beta, double[] c, int offsetc, int ldc)
     {
         fixed (Double* bp = &b[offsetb])
-///      ^ keyword.control.other.fixed
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///           ^ punctuation.section.group.begin
-///              ^ support.type
-///                  ^ keyword.operator.pointer
-///                                    ^ punctuation.section.group.end
+///     ^^^^^ keyword.declaration.fixed.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^ support.type.cs
+///                  ^ keyword.operator.pointer.cs
+///                    ^^ variable.other.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^ keyword.operator.pointer.cs
+///                          ^ variable.other.cs
+///                           ^^^^^^^^^ meta.brackets.cs
+///                           ^ punctuation.section.brackets.begin.cs
+///                            ^^^^^^^ variable.other.cs
+///                                   ^ punctuation.section.brackets.end.cs
+///                                    ^ punctuation.section.group.end.cs
 
         fixed (var cp = &c[offsetc])
-///      ^ keyword.control.other.fixed
-///           ^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///           ^ punctuation.section.group.begin
-///             ^ storage.type
-///                                ^ punctuation.section.group.end
+///     ^^^^^ keyword.declaration.fixed.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ storage.type.cs
+///                ^^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^ keyword.operator.pointer.cs
+///                      ^ variable.other.cs
+///                       ^^^^^^^^^ meta.brackets.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^^^^^^^ variable.other.cs
+///                               ^ punctuation.section.brackets.end.cs
+///                                ^ punctuation.section.group.end.cs
 
         fixed (double* valp = &val[offsetval], bp = &b[offsetb], cp = &c[offsetc])
-///      ^ keyword.control.other.fixed
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///           ^ punctuation.section.group.begin
-///              ^ storage.type
-///                                          ^ punctuation.separator.variables
-///                                                                              ^ punctuation.section.group.end
+///     ^^^^^ keyword.declaration.fixed.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^ storage.type.cs
+///                  ^ keyword.operator.pointer.cs
+///                    ^^^^ variable.other.cs
+///                         ^ keyword.operator.assignment.cs
+///                           ^ keyword.operator.pointer.cs
+///                            ^^^ variable.other.cs
+///                               ^^^^^^^^^^^ meta.brackets.cs
+///                               ^ punctuation.section.brackets.begin.cs
+///                                ^^^^^^^^^ variable.other.cs
+///                                         ^ punctuation.section.brackets.end.cs
+///                                          ^ punctuation.separator.variables.cs
+///                                            ^^ variable.other.cs
+///                                               ^ keyword.operator.assignment.cs
+///                                                 ^ keyword.operator.pointer.cs
+///                                                  ^ variable.other.cs
+///                                                   ^^^^^^^^^ meta.brackets.cs
+///                                                   ^ punctuation.section.brackets.begin.cs
+///                                                    ^^^^^^^ variable.other.cs
+///                                                           ^ punctuation.section.brackets.end.cs
+///                                                            ^ punctuation.separator.variables.cs
+///                                                              ^^ variable.other.cs
+///                                                                 ^ keyword.operator.assignment.cs
+///                                                                   ^ keyword.operator.pointer.cs
+///                                                                    ^ variable.other.cs
+///                                                                     ^^^^^^^^^ meta.brackets.cs
+///                                                                     ^ punctuation.section.brackets.begin.cs
+///                                                                      ^^^^^^^ variable.other.cs
+///                                                                             ^ punctuation.section.brackets.end.cs
+///                                                                              ^ punctuation.section.group.end.cs
         {
             cblas_dcsrmm(valp, idxp, pntrbp, bp, ldb, beta, cp, ldc);
         }
