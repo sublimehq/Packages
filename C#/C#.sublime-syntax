@@ -1379,11 +1379,10 @@ contexts:
       set:
         - using_meta
         - using_statement
-    - match: (lock)\s*(\()
-      captures:
-        1: keyword.control.other.lock.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [expression_block, line_of_code]
+    # control flow statements
+    - match: lock\b
+      scope: keyword.control.flow.lock.cs
+      set: maybe_expression_group
     - match: (?:return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
       set: expression
@@ -1459,22 +1458,6 @@ contexts:
       set:
         - variable_initializer
         - variable_declaration_name
-
-  expression_block:
-    - meta_content_scope: meta.group.cs
-    - match: \)
-      scope: meta.group.cs punctuation.section.group.end.cs
-      set:
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: 1
-            - include: code_block_in
-        - match: (?=\S)
-          set: line_of_code
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 

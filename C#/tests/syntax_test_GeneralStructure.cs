@@ -1842,8 +1842,11 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///     ^^ meta.method.body.cs meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
             lock (objectLock)
-///         ^^^^ keyword.control.other.lock
-///               ^^^^^^^^^^ variable.other
+///         ^^^^ keyword.control.flow.lock.cs
+///              ^^^^^^^^^^^^ meta.group.cs
+///              ^ punctuation.section.group.begin.cs
+///               ^^^^^^^^^^ variable.other.cs
+///                         ^ punctuation.section.group.end.cs
             {
                 PreDrawEvent += value;
             }
