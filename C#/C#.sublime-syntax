@@ -1380,20 +1380,21 @@ contexts:
         - using_meta
         - using_statement
     # control flow statements
+    - match: (?:break|yield\s+break)\b
+      scope: keyword.control.flow.break.cs
+      pop: 1
+    - match: continue\b
+      scope: keyword.control.flow.continue.cs
+      pop: 1
+    - match: goto\b
+      scope: keyword.control.flow.goto.cs
+      set: goto_target
     - match: lock\b
       scope: keyword.control.flow.lock.cs
       set: maybe_expression_group
     - match: (?:return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
       set: expression
-    - match: (continue|break|yield\s+break)\b\s*(;)?
-      captures:
-        1: keyword.control.flow.break.cs
-        2: punctuation.terminator.statement.cs
-      pop: 1
-    - match: goto\b
-      scope: keyword.control.flow.goto.cs
-      set: goto_target
     - match: throw\b
       scope: keyword.control.flow.throw.cs
       set: expression
