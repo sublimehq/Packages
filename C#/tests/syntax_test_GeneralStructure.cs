@@ -911,97 +911,6 @@ namespace TestNamespace . Test
 ///         ^ punctuation.section.block.end.cs
 ///          ^ - meta.switch
 
-            try {
-///         ^ keyword.control
-///             ^ meta.method meta.block meta.block punctuation.section.block.begin
-            } catch (ArgumentException e)
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-///           ^ keyword.control
-///                 ^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                 ^ punctuation.section.group.begin
-///                                     ^ punctuation.section.group.end
-///                  ^^^^^^^^^^^^^^^^^ support.type
-///                                    ^ variable.other
-            {
-///         ^ meta.method meta.block meta.block punctuation.section.block.begin
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-            catch (FaultException<ServiceFault>)
-///         ^^^^^ keyword.control.exception.catch
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///               ^ punctuation.section.group.begin
-///                ^^^^^^^^^^^^^^ support.type
-///                              ^ punctuation.definition.generic.begin
-///                               ^^^^^^^^^^^^ support.type
-///                                           ^ punctuation.definition.generic.end
-///                                            ^ punctuation.section.group.end
-            {
-///         ^ punctuation.section.block.begin
-                throw;
-///             ^^^^^ keyword.control.flow.throw
-///                  ^ punctuation
-            }
-            catch (FaultException<ServiceFault> e)
-///         ^^^^^ keyword.control.exception.catch
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///               ^ punctuation.section.group.begin
-///                ^^^^^^^^^^^^^^ support.type
-///                              ^ punctuation.definition.generic.begin
-///                               ^^^^^^^^^^^^ support.type
-///                                           ^ punctuation.definition.generic.end
-///                                            ^ - support - variable
-///                                             ^ variable.other
-///                                              ^ punctuation.section.group.end
-            {
-///         ^ punctuation.section.block.begin
-                throw;
-///             ^^^^^ keyword.control.flow.throw
-///                  ^ punctuation
-            }
-///         ^ punctuation.section.block.end
-
-            try {
-///         ^ keyword.control
-///             ^ meta.method meta.block meta.block punctuation.section.block.begin
-            } catch (ArgumentException e) when (e.ParamName == "foo")
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-///           ^ keyword.control
-///                 ^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                 ^ punctuation.section.group.begin
-///                                     ^ punctuation.section.group.end
-///                                       ^ keyword.control
-///                                            ^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                                            ^ punctuation.section.group.begin
-///                                                         ^^ keyword.operator
-///                                                            ^^^^ string.quoted.double
-///                                                                 ^ punctuation.section.group.end
-            {
-///         ^ meta.method meta.block meta.block punctuation.section.block.begin
-            } catch (System.ArgumentException e) {
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                                             ^ - meta.group
-///                 ^ punctuation.section.group.begin
-///                  ^^^^^^ support.type
-///                        ^ punctuation.accessor.dot
-///                         ^^^^^^^^^^^^^^^^^ support.type
-///                                           ^ variable.other
-///                                            ^ punctuation.section.group.end
-                System.String blah = "test";
-///             ^^^^^^ support.type
-///                   ^ punctuation.accessor.dot
-///                    ^^^^^^ support.type
-///                           ^^^^ variable.other
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-
-            finally {
-///         ^ keyword.control
-///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
-                var foo = "";
-///             ^ storage.type
-///                       ^^ string.quoted.double
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
         }
 
         public virtual void Instantiate<T>(string componentId, out T component)
@@ -2194,6 +2103,182 @@ public class TestModifierOrder
 
 class TestControlStatements
 {
+    public void testExceptions()
+    {
+        catch
+///     ^^^^^ keyword.control.exception.catch.cs
+
+        catch ( {}
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///             ^^ meta.block.cs
+///             ^ punctuation.section.block.begin.cs
+///              ^ punctuation.section.block.end.cs
+
+        catch ( ;
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///             ^ punctuation.terminator.statement.cs
+
+        catch ) ;
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^ invalid.illegal.stray.brace.cs
+///             ^ punctuation.terminator.statement.cs
+
+        { catch ( }
+///     ^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^ keyword.control.exception.catch.cs
+///             ^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///               ^ punctuation.section.block.end.cs
+
+        { catch ) }
+///     ^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^ keyword.control.exception.catch.cs
+///             ^ invalid.illegal.stray.brace.cs
+///               ^ punctuation.section.block.end.cs
+
+        catch (test in )
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^ support.type.cs
+///                 ^^ variable.other.cs
+///                    ^ punctuation.section.group.end.cs
+
+        finally
+///     ^^^^^^^ keyword.control.exception.finally.cs
+
+        try
+///     ^^^ keyword.control.exception.try.cs
+
+        try {
+///     ^^^ keyword.control.exception.try.cs
+///         ^^ meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+        } catch (ArgumentException e)
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^^ keyword.control.exception.catch.cs
+///             ^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^^^^^^^^^^^^^^ support.type.cs
+///                                ^ variable.other.cs
+///                                 ^ punctuation.section.group.end.cs
+        {
+///     ^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+        catch (FaultException<ServiceFault>)
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^^^^^^^^^ support.type.cs
+///                          ^^^^^^^^^^^^^^ meta.generic.cs
+///                          ^ punctuation.definition.generic.begin.cs
+///                           ^^^^^^^^^^^^ support.type.cs
+///                                       ^ punctuation.definition.generic.end.cs
+///                                        ^ punctuation.section.group.end.cs
+        {
+///     ^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+            throw;
+///        ^^^^^^^^ meta.block.cs
+///         ^^^^^ keyword.control.flow.throw.cs
+///              ^ punctuation.terminator.statement.cs
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+        catch (FaultException<ServiceFault> e)
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^^^^^^^^^^^^ support.type.cs
+///                          ^^^^^^^^^^^^^^ meta.generic.cs
+///                          ^ punctuation.definition.generic.begin.cs
+///                           ^^^^^^^^^^^^ support.type.cs
+///                                       ^ punctuation.definition.generic.end.cs
+///                                         ^ variable.other.cs
+///                                          ^ punctuation.section.group.end.cs
+        {
+///     ^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+            throw;
+///        ^^^^^^^^ meta.block.cs
+///         ^^^^^ keyword.control.flow.throw.cs
+///              ^ punctuation.terminator.statement.cs
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+
+        try {
+///     ^^^ keyword.control.exception.try.cs
+///         ^^ meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+        } catch (ArgumentException e) when (e.ParamName == "foo")
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^^ keyword.control.exception.catch.cs
+///             ^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^^^^^^^^^^^^^^ support.type.cs
+///                                ^ variable.other.cs
+///                                 ^ punctuation.section.group.end.cs
+///                                   ^^^^ keyword.control.conditional.when.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                                        ^ punctuation.section.group.begin.cs
+///                                         ^ variable.other.cs
+///                                          ^ punctuation.accessor.dot.cs
+///                                           ^^^^^^^^^ variable.other.cs
+///                                                     ^^ keyword.operator.comparison.cs
+///                                                        ^^^^^ meta.string.cs string.quoted.double.cs
+///                                                        ^ punctuation.definition.string.begin.cs
+///                                                            ^ punctuation.definition.string.end.cs
+///                                                             ^ punctuation.section.group.end.cs
+        {
+///     ^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+        } catch (System.ArgumentException e) {
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^^ keyword.control.exception.catch.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^^^ support.type.cs
+///                    ^ punctuation.accessor.dot.cs
+///                     ^^^^^^^^^^^^^^^^^ support.type.cs
+///                                       ^ variable.other.cs
+///                                        ^ punctuation.section.group.end.cs
+///                                          ^^ meta.block.cs
+///                                          ^ punctuation.section.block.begin.cs
+            System.String blah = "test";
+///         ^^^^^^ support.type
+///               ^ punctuation.accessor.dot
+///                ^^^^^^ support.type
+///                       ^^^^ variable.other
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+
+        finally {
+///^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+///             ^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^^^^^^^ keyword.control.exception.finally.cs
+///             ^ punctuation.section.block.begin.cs
+            var foo = "";
+///         ^ storage.type
+///                   ^^ string.quoted.double
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+    }
+
     public void testForLoops()
     {
         for
