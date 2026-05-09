@@ -2656,6 +2656,175 @@ class TestControlStatements
 
 class TestLocalDefinitions
 {
+    void testLocalDefinitionModifiers()
+    {
+        const
+///     ^^^^^ storage.modifier.cs
+
+        const var i = 0;
+///     ^^^^^ storage.modifier.cs
+///           ^^^ storage.type.cs
+///               ^ variable.other.cs
+///                 ^ keyword.operator.assignment.cs
+///                   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                    ^ punctuation.terminator.statement.cs
+
+        static
+///     ^^^^^^ storage.modifier.cs
+
+        static int i = 0, k = 1;
+///     ^^^^^^ storage.modifier.cs
+///            ^^^ storage.type.cs
+///                ^ variable.other.cs
+///                  ^ keyword.operator.assignment.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ punctuation.separator.variables.cs
+///                       ^ variable.other.cs
+///                         ^ keyword.operator.assignment.cs
+///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                            ^ punctuation.terminator.statement.cs
+
+        unsafe
+///     ^^^^^^ storage.modifier.cs
+
+        unsafe type* k = &ptr;
+///     ^^^^^^ storage.modifier.cs
+///            ^^^^ support.type.cs
+///                ^ keyword.operator.pointer.cs
+///                  ^ variable.other.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^ keyword.operator.pointer.cs
+///                       ^^^ variable.other.cs
+///                          ^ punctuation.terminator.statement.cs
+    }
+
+    void testLocalDefinitionBaseTypes()
+    {
+        dynamic
+///     ^^^^^^^ storage.type.cs
+
+        dynamic i = 0, k = 1;
+///     ^^^^^^^ storage.type.cs
+///             ^ variable.other.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^ punctuation.separator.variables.cs
+///                    ^ variable.other.cs
+///                      ^ keyword.operator.assignment.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        var
+///     ^^^ storage.type.cs
+        var
+///     ^^^ variable.other.cs
+
+        var var = 0;
+///     ^^^ storage.type.cs
+///         ^^^ variable.other.cs
+///             ^ keyword.operator.assignment.cs
+///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                ^ punctuation.terminator.statement.cs
+
+        long
+///     ^^^^ storage.type.cs
+
+        long i = 0, k = 1;
+///     ^^^^ storage.type.cs
+///          ^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.separator.variables.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.terminator.statement.cs
+
+        long?
+///     ^^^^ storage.type.cs
+///         ^ storage.type.nullable.cs
+
+        long[]
+///     ^^^^ storage.type.cs
+///         ^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ punctuation.section.brackets.end.cs
+
+        long[] i = 0, k = 1;
+///     ^^^^ storage.type.cs
+///         ^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^ punctuation.section.brackets.end.cs
+///            ^ variable.other.cs
+///              ^ keyword.operator.assignment.cs
+///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                 ^ punctuation.separator.variables.cs
+///                   ^ variable.other.cs
+///                     ^ keyword.operator.assignment.cs
+///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        global::int i = 0, k = 1;
+///     ^^^^^^ support.namespace.global.cs
+///           ^^ punctuation.accessor.double-colon.namespace.cs
+///             ^^^ storage.type.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^ variable.other.cs
+///                          ^ keyword.operator.assignment.cs
+///                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                             ^ punctuation.terminator.statement.cs
+    }
+
+    void testLocalDefinitionUserTypes()
+    {
+        Type i = 0, k = 1;
+///     ^^^^ support.type.cs
+///          ^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.separator.variables.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.terminator.statement.cs
+
+        global::Type i = 0, k = 1;
+///     ^^^^^^ support.namespace.global.cs
+///           ^^ punctuation.accessor.double-colon.namespace.cs
+///             ^^^^ support.type.cs
+///                  ^ variable.other.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^ punctuation.separator.variables.cs
+///                         ^ variable.other.cs
+///                           ^ keyword.operator.assignment.cs
+///                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                              ^ punctuation.terminator.statement.cs
+
+        any::namespace::Type<T>.Type<T> i = 0;
+///     ^^^ variable.namespace.cs
+///        ^^ punctuation.accessor.double-colon.namespace.cs
+///          ^^^^^^^^^ variable.namespace.cs
+///                   ^^ punctuation.accessor.double-colon.namespace.cs
+///                     ^^^^ support.type.cs
+///                         ^^^ meta.generic.cs
+///                         ^ punctuation.definition.generic.begin.cs
+///                          ^ support.type.cs
+///                           ^ punctuation.definition.generic.end.cs
+///                            ^ punctuation.accessor.dot.cs
+///                             ^^^^ support.type.cs
+///                                 ^^^ meta.generic.cs
+///                                 ^ punctuation.definition.generic.begin.cs
+///                                  ^ support.type.cs
+///                                   ^ punctuation.definition.generic.end.cs
+///                                     ^ variable.other.cs
+///                                       ^ keyword.operator.assignment.cs
+///                                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                          ^ punctuation.terminator.statement.cs
+    }
+
     (vec3, vec3 vec) testTypeTuples()
 /// ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 /// ^ punctuation.section.sequence.begin.cs
@@ -2677,7 +2846,7 @@ class TestLocalDefinitions
 ///          ^ punctuation.separator.sequence.cs
 ///            ^^^^ support.type.cs
 ///                ^ punctuation.section.sequence.end.cs
-///                  ^^^^^^^^ meta.method.cs entity.name.function.constructor.cs
+///                  ^^^^^^^^ meta.method.cs entity.name.function.cs
 ///                          ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                          ^ punctuation.section.parameters.begin.cs
 ///                           ^^ storage.modifier.parameter.cs
@@ -2698,6 +2867,36 @@ class TestLocalDefinitions
 ///                                                             ^^^^ variable.other.cs
 ///                                                                 ^ punctuation.section.sequence.end.cs
 ///                                                                  ^ punctuation.terminator.statement.cs
+
+        (vec3 foo, vec3) FuncName(in int i, in vec3 vec) => (ZERO3, ONE3);
+///     ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///           ^^^ variable.other.cs
+///              ^ punctuation.separator.sequence.cs
+///                ^^^^ support.type.cs
+///                    ^ punctuation.section.sequence.end.cs
+///                      ^^^^^^^^ meta.method.cs entity.name.function.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                              ^ punctuation.section.parameters.begin.cs
+///                               ^^ storage.modifier.parameter.cs
+///                                  ^^^ storage.type.cs
+///                                      ^ variable.parameter.cs
+///                                       ^ punctuation.separator.parameter.cs
+///                                         ^^ storage.modifier.parameter.cs
+///                                            ^^^^ support.type.cs
+///                                                 ^^^ variable.parameter.cs
+///                                                    ^ punctuation.section.parameters.end.cs
+///                                                     ^^^ meta.method.cs
+///                                                      ^^ keyword.declaration.function.arrow.cs
+///                                                        ^^^^^^^^^^^^^^ meta.method.body.cs
+///                                                         ^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                                         ^ punctuation.section.sequence.begin.cs
+///                                                          ^^^^^ variable.other.cs
+///                                                               ^ punctuation.separator.sequence.cs
+///                                                                 ^^^^ variable.other.cs
+///                                                                     ^ punctuation.section.sequence.end.cs
+///                                                                      ^ punctuation.terminator.statement.cs
 
         (vec3 foo, vec3) var = FuncName();
 ///     ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs

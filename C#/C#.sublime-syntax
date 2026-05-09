@@ -1370,15 +1370,6 @@ contexts:
     - match: while\b
       scope: keyword.control.loop.while.cs
       set: maybe_expression_group
-    # declarations
-    - match: fixed\b
-      scope: keyword.declaration.fixed.cs
-      set: fixed_group
-    - match: using\b
-      scope: keyword.declaration.using.cs
-      set:
-        - using_meta
-        - using_statement
     # control flow statements
     - match: (?:break|yield\s+break)\b
       scope: keyword.control.flow.break.cs
@@ -1398,46 +1389,41 @@ contexts:
     - match: throw\b
       scope: keyword.control.flow.throw.cs
       set: expression
-    - include: keywords
-    # C#7/9, nested method
-    - match: (?=(?:(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
+    # declarations
+    - match: fixed\b
+      scope: keyword.declaration.fixed.cs
+      set: fixed_group
+    - match: using\b
+      scope: keyword.declaration.using.cs
       set:
-        - include: terminators
-        - include: modifiers
-        - include: member_declaration
-        - match: ''
-          pop: 1
-    - match: const\b
-      scope: storage.modifier.cs
-    - match: dynamic\b
-      scope: storage.type.cs
-      set:
-        - variable_initializer
-        - variable_declaration_name
+        - using_meta
+        - using_statement
     - match: var\b
       scope: storage.type.cs
       set:
-        - variable_declaration_list
+        - assignment_expression
         - var_declarator
+    - include: keywords
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+      set:
+        - local_name
+        - type_suffix
+    - match: (?={{namespaced_name}}{{type_suffix}}?\s+{{name}})
+      set:
+        - local_name
+        - type_no_space
     - match: (?=\([^)]*\)\s*{{name}}\s*[(=])
       set:
         - local_name
         - type_tuple
-    - match: (ref\s+(?:readonly\s+)?)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
-      captures:
-        1: storage.modifier.cs
-      set: [variable_declaration_list, type_no_space]
+    # labels
     - match: ({{name}})\s*({{colon}})
       captures:
         1: entity.name.label.cs
         2: punctuation.separator.cs
       pop: 1
-    - include: namespace_variables
-    - match: ({{name}})\s+({{name}})
-      captures:
-        1: support.type.cs
-        2: variable.other.cs
-      set: variable_declaration_list
+    # expressions
     - match: (?=\S)
       set: expression
 
@@ -1451,15 +1437,9 @@ contexts:
     - include: else_pop
 
   local_name:
-    - match: '{{unreserved_name}}(?=\s*\()'
-      scope: meta.method.cs entity.name.function.constructor.cs
-      set:
-        - method_body
-        - method_parameter_list
+    - include: method_declaration
     - match: (?=\S)
-      set:
-        - variable_initializer
-        - variable_declaration_name
+      set: variable_declaration_list
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
@@ -3084,7 +3064,7 @@ variables:
 
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(?:@?{{name_normal}})'
-  namespaced_name: (?:(?:{{name}}{{generic_declaration}}?\s*\.\s*)*{{name}}{{generic_declaration}}?)
+  namespaced_name: (?:(?:{{name}}\s*::\s*)*(?:{{name}}{{generic_declaration}}?{{type_suffix}}?\s*\.\s*)*{{name}}{{generic_declaration}}?)
 
   unreserved_name: (?:@|(?!{{reserved}}\b|{{base_type}}\b)){{name_normal}}
 
