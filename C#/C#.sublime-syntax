@@ -1346,11 +1346,9 @@ contexts:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [for_block, for_condition]
-    - match: (foreach)\s*(\()
-      captures:
-        1: keyword.control.loop.foreach.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, foreach_var_assignment, var_declaration]
+    - match: foreach\b
+      scope: keyword.control.loop.foreach.cs
+      set: foreach_group
     - match: try\b
       scope: keyword.control.exception.try.cs
       set: [finally_block, catch_expr, try_block]
@@ -1588,12 +1586,6 @@ contexts:
     - include: terminators
     - include: expression
 
-  foreach_var_assignment:
-    - match: in\b
-      scope: keyword.control.loop.in.cs
-      set: expression
-    - include: else_pop
-
   for_block:
     - meta_content_scope: meta.group.cs
     - match: \)
@@ -1609,6 +1601,21 @@ contexts:
           - include: code_block_in
       - match: (?=\S)
         set: line_of_code
+
+  foreach_group:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - inside_expression_group
+        - foreach_in
+        - var_declaration
+    - include: else_pop
+
+  foreach_in:
+    - match: in\b
+      scope: keyword.control.loop.in.cs
+      set: expression
+    - include: else_pop
 
   do_condition:
     - match: while\b

@@ -503,52 +503,65 @@ class Foo {
 
         var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
         foreach (var (name, age) in dic.Select(x => (x.Key, x.Value)))
-///              ^^^ storage.type
-///                  ^^^^^^^^^^^ meta.sequence.tuple
-///                  ^ punctuation.section.sequence.begin
-///                   ^^^^ variable.other
-///                       ^ punctuation.separator.sequence
-///                         ^^^ variable.other
-///                            ^ punctuation.section.sequence.end
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^ storage.type.cs
+///                  ^^^^^^^^^^^ meta.sequence.tuple.cs
+///                  ^ punctuation.section.sequence.begin.cs
+///                   ^^^^ variable.other.cs
+///                       ^ punctuation.separator.sequence.cs
+///                         ^^^ variable.other.cs
+///                            ^ punctuation.section.sequence.end.cs
 ///                              ^^ keyword.control.loop.in.cs
+///                                 ^^^ variable.other.cs
+///                                    ^ punctuation.accessor.dot.cs
+///                                     ^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                                                 ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                                 ^ punctuation.section.sequence.begin.cs
+///                                                                ^ punctuation.section.sequence.end.cs
+///                                                                 ^^ punctuation.section.group.end.cs
         {
             Console.WriteLine($"{name} is {age} years old.");
         }
 
         var positions = new List<(int, int)> { (0, 1), (1, 2), (2, 4) };
         foreach (var(x, y) in positions)
-///             ^ punctuation.section.group.begin
-///              ^^^storage.type
-///                 ^^^^^^ meta.sequence.tuple
-///                 ^ punctuation.section.sequence.begin
-///                  ^ variable.other
-///                   ^ punctuation.separator.sequence
-///                     ^ variable.other
-///                      ^ punctuation.section.sequence.end
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^ storage.type.cs
+///                 ^^^^^^ meta.sequence.tuple.cs
+///                 ^ punctuation.section.sequence.begin.cs
+///                  ^ variable.other.cs
+///                   ^ punctuation.separator.sequence.cs
+///                     ^ variable.other.cs
+///                      ^ punctuation.section.sequence.end.cs
 ///                        ^^ keyword.control.loop.in.cs
-///                           ^^^^^^^^^ variable.other
-///                                    ^ punctuation.section.group.end
+///                           ^^^^^^^^^ variable.other.cs
+///                                    ^ punctuation.section.group.end.cs
         {
             Console.WriteLine($"x={x} y={y}");
         }
 
-        foreach ((var a, var b) in positions)
-///     ^^^^^^^ meta.class.body meta.block meta.method.body meta.block keyword.control.loop.foreach
-///             ^ punctuation.section.group.begin - meta.sequence
-///              ^^^^^^^^^^^^^^ meta.sequence.tuple
-///              ^ punctuation.section.sequence.begin
-///               ^^^ storage.type
-///                   ^ variable.other
-///                    ^ punctuation.separator.sequence
-///                      ^^^ storage.type
-///                          ^ variable.other
-///                           ^ punctuation.section.sequence.end
+        foreach ((var a, int b) in positions)
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///              ^ punctuation.section.sequence.begin.cs
+///               ^^^ storage.type.cs
+///                   ^ variable.other.cs
+///                    ^ punctuation.separator.sequence.cs
+///                      ^^^ storage.type.cs
+///                          ^ variable.other.cs
+///                           ^ punctuation.section.sequence.end.cs
 ///                             ^^ keyword.control.loop.in.cs
-///                                ^^^^^^^^^ variable.other
-///                                         ^ punctuation.section.group.end
+///                                ^^^^^^^^^ variable.other.cs
+///                                         ^ punctuation.section.group.end.cs
         ; // empty statement
 ///     ^ punctuation.terminator.statement
-
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
@@ -578,18 +591,27 @@ class Foo {
         int min = int.MaxValue;
         int max = int.MinValue;
         foreach(var n in numbers)
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///            ^^^^^^^^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^ storage.type.cs
+///                 ^ variable.other.cs
+///                   ^^ keyword.control.loop.in.cs
+///                      ^^^^^^^ variable.other.cs
+///                             ^ punctuation.section.group.end.cs
         {
             min = (n < min) ? n : min;
             max = (n > max) ? n : max;
         }
         return (max, min);
-///     ^^^^^^ keyword.control.flow.return
-///            ^ punctuation.section.sequence.begin
-///             ^^^ variable.other
-///                ^ punctuation.separator.sequence
-///                  ^^^ variable.other
-///                     ^ punctuation.section.sequence.end
-///                      ^ punctuation.terminator.statement
+///     ^^^^^^ keyword.control.flow.return.cs
+///            ^^^^^^^^^^ meta.sequence.tuple.cs
+///            ^ punctuation.section.sequence.begin.cs
+///             ^^^ variable.other.cs
+///                ^ punctuation.separator.sequence.cs
+///                  ^^^ variable.other.cs
+///                     ^ punctuation.section.sequence.end.cs
+///                      ^ punctuation.terminator.statement.cs
 
         Func<string, (string example1, int Example2)> test = s => (example1: "hello", Example2: "world");
 ///     ^^^^ support.type

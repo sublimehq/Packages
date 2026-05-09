@@ -1030,7 +1030,7 @@ namespace TestNamespace . Test
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
         }
 
-        public TestForLoops() {
+        public testForLoops() {
 
             for (i = 0; i < items.Count; i++) {}
 ///         ^^^ keyword.control.loop.for.cs
@@ -1129,19 +1129,6 @@ namespace TestNamespace . Test
 ///                                                              ^^ meta.block.cs
 ///                                                              ^ punctuation.section.block.begin.cs
 ///                                                               ^ punctuation.section.block.end.cs
-
-            foreach (int test in collection) {}
-///         ^^^^^^^ keyword.control.loop.foreach.cs
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
-///                 ^ punctuation.section.group.begin.cs
-///                  ^^^ storage.type.cs
-///                      ^^^^ variable.other.cs
-///                           ^^ keyword.control.loop.in.cs
-///                              ^^^^^^^^^^ variable.other.cs
-///                                        ^ punctuation.section.group.end.cs
-///                                          ^^ meta.block.cs
-///                                          ^ punctuation.section.block.begin.cs
-///                                           ^ punctuation.section.block.end.cs
         }
 
         public virtual void Instantiate<T>(string componentId, out T component)
@@ -2335,6 +2322,107 @@ public class TestModifierOrder
 ///                  ^^^^ support.type.cs
 ///                       ^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
 ///                                   ^^ meta.method.parameters.cs
+    }
+}
+
+class TestControlStatements
+{
+    public void testForeachLoops()
+    {
+        foreach
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+
+        foreach ( {}
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///               ^^ meta.block.cs - meta.group
+///               ^ punctuation.section.block.begin.cs
+///                ^ punctuation.section.block.end.cs
+
+        foreach ( ;
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///               ^ punctuation.terminator.statement.cs - meta.group
+
+        { foreach ( }
+///     ^^^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^^^ keyword.control.loop.foreach.cs
+///               ^^ meta.group.cs
+///               ^ punctuation.section.group.begin.cs
+///                 ^ punctuation.section.block.end.cs - meta.group
+
+        foreach (test in )
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^ support.type.cs
+///                   ^^ keyword.control.loop.in.cs
+///                      ^ punctuation.section.group.end.cs
+
+        foreach (int test in collection) {}
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^ storage.type.cs
+///                  ^^^^ variable.other.cs
+///                       ^^ keyword.control.loop.in.cs
+///                          ^^^^^^^^^^ variable.other.cs
+///                                    ^ punctuation.section.group.end.cs
+///                                      ^^ meta.block.cs
+///                                      ^ punctuation.section.block.begin.cs
+///                                       ^ punctuation.section.block.end.cs
+
+        foreach (var test in collection) {}
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^ storage.type.cs
+///                  ^^^^ variable.other.cs
+///                       ^^ keyword.control.loop.in.cs
+///                          ^^^^^^^^^^ variable.other.cs
+///                                    ^ punctuation.section.group.end.cs
+///                                      ^^ meta.block.cs
+///                                      ^ punctuation.section.block.begin.cs
+///                                       ^ punctuation.section.block.end.cs
+
+        foreach (Class<T>[,]? obj in (List<Class<T>>)items) {}
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^^^^^^^^^^^^^^^^^^^^^ meta.group.cs - meta.group meta.group
+///                   ^^^ meta.generic.cs
+///                      ^^^ meta.brackets.cs
+///                                  ^^^^^^^^^^^^^^^^ meta.group.cs meta.cast.cs meta.group.cs
+///                                       ^^^^^^ meta.generic.cs - meta.generic meta.generic
+///                                             ^^^ meta.generic.cs meta.generic.cs
+///                                                ^ meta.generic.cs - meta.generic meta.generic
+///                                                  ^^^^^^ meta.group.cs - meta.group meta.group
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^^ support.type.cs
+///                   ^ punctuation.definition.generic.begin.cs
+///                    ^ support.type.cs
+///                     ^ punctuation.definition.generic.end.cs
+///                      ^ punctuation.section.brackets.begin.cs
+///                       ^ punctuation.separator.sequence.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ storage.type.nullable.cs
+///                           ^^^ variable.other.cs
+///                               ^^ keyword.control.loop.in.cs
+///                                  ^ punctuation.section.group.begin.cs
+///                                   ^^^^ support.type.cs
+///                                       ^ punctuation.definition.generic.begin.cs
+///                                        ^^^^^ support.type.cs
+///                                             ^ punctuation.definition.generic.begin.cs
+///                                              ^ support.type.cs
+///                                               ^ punctuation.definition.generic.end.cs
+///                                                ^ punctuation.definition.generic.end.cs
+///                                                 ^ punctuation.section.group.end.cs
+///                                                  ^^^^^ variable.other.cs
+///                                                       ^ punctuation.section.group.end.cs
+///                                                         ^^ meta.block.cs
+///                                                         ^ punctuation.section.block.begin.cs
+///                                                          ^ punctuation.section.block.end.cs
     }
 }
 
