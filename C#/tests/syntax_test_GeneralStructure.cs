@@ -789,39 +789,6 @@ namespace TestNamespace . Test
 ///                                                ^^^^^^^^^^ variable.other.cs
 ///                                                          ^ punctuation.section.group.end.cs
 ///                                                            ^ punctuation.section.block.begin.cs
-
-            if (true)
-///         ^ keyword.control
-///            ^^^^^^ meta.group
-///            ^ punctuation.section.group.begin
-///                 ^ punctuation.section.group.end
-                a = 5;
-///                 ^ constant.numeric
-
-            if (false) {
-///         ^ keyword.control
-///            ^^^^^^^ meta.group
-///            ^ punctuation.section.group.begin
-///                  ^ punctuation.section.group.end
-///                    ^ meta.method meta.block meta.block punctuation.section.block.begin
-
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-
-            if (false) {
-///         ^ keyword.control
-///            ^^^^^^^ meta.group
-///            ^ punctuation.section.group.begin
-///                  ^ punctuation.section.group.end
-///                    ^ meta.method meta.block meta.block punctuation.section.block.begin
-
-            } else {
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-///           ^ keyword.control
-///                ^ meta.method meta.block meta.block punctuation.section.block.begin
-
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
         }
 
         public virtual void Instantiate<T>(string componentId, out T component)
@@ -2153,6 +2120,74 @@ class TestControlStatements
 ///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
 ///     ^ punctuation.section.block.end.cs
     }
+///^^ meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ meta.class.body.cs meta.block.cs - meta.method
+
+    void testIfStatements()
+    {
+        if
+///     ^^ keyword.control.conditional.if.cs
+
+        else
+///     ^^^^ keyword.control.conditional.else.cs
+
+        else if
+///     ^^^^^^^ keyword.control.conditional.elseif.cs
+
+        if (true)
+///     ^^ keyword.control.conditional.if.cs
+///        ^^^^^^ meta.group.cs
+///        ^ punctuation.section.group.begin.cs
+///         ^^^^ constant.language.boolean.true.cs
+///             ^ punctuation.section.group.end.cs
+            a = 5;
+///         ^ variable.other.cs
+///           ^ keyword.operator.assignment.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.terminator.statement.cs
+
+        if (false) {
+///     ^^ keyword.control.conditional.if.cs
+///        ^^^^^^^ meta.group.cs
+///        ^ punctuation.section.group.begin.cs
+///         ^^^^^ constant.language.boolean.false.cs
+///              ^ punctuation.section.group.end.cs
+///                ^^ meta.method.body.cs meta.block.cs meta.block.cs
+///                ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+
+        if (false) {
+///     ^ keyword.control
+///        ^^^^^^^ meta.group
+///        ^ punctuation.section.group.begin
+///              ^ punctuation.section.group.end
+///                ^ meta.method meta.block meta.block punctuation.section.block.begin
+        } else if (foo) {
+///^^^^^^ meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^^^^ keyword.control.conditional.elseif.cs
+///               ^^^^^ meta.group.cs
+///               ^ punctuation.section.group.begin.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.section.group.end.cs
+///                     ^^ meta.method.body.cs meta.block.cs meta.block.cs
+///                     ^ punctuation.section.block.begin.cs
+        } else {
+///^^^^^^ meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^ keyword.control.conditional.else.cs
+///            ^^ meta.method.body.cs meta.block.cs meta.block.cs
+///            ^ punctuation.section.block.begin.cs
+        }
+///^^^^^^ meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+    }
+///^^ meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ meta.class.body.cs meta.block.cs - meta.method
 
     public void testForLoops()
     {
