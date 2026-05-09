@@ -1742,8 +1742,6 @@ contexts:
       scope: keyword.control.flow.throw.cs
     - match: (?:and|not|or)\b
       scope: keyword.operator.logical.cs
-    - match: unsafe\b
-      scope: keyword.other.cs
     - match: (?:checked|unchecked)\b
       scope: keyword.other.cs
       push: maybe_expression_group
