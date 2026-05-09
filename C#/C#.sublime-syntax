@@ -1391,20 +1391,12 @@ contexts:
         1: keyword.control.flow.break.cs
         2: punctuation.terminator.statement.cs
       pop: 1
+    - match: goto\b
+      scope: keyword.control.flow.goto.cs
+      set: goto_target
     - match: throw\b
       scope: keyword.control.flow.throw.cs
       set: expression
-    - match: (goto)\s+(case)\b
-      captures:
-        1: keyword.control.flow.goto.cs
-        2: keyword.control.conditional.case.cs
-      set: expression
-    - match: (goto)\s+({{name}})\s*(;)
-      captures:
-        1: keyword.control.flow.goto.cs
-        2: constant.other.label.cs
-        3: punctuation.terminator.statement.cs
-      pop: 1
     - include: keywords
     # C#7/9, nested method
     - match: (?=(?:(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
@@ -1447,6 +1439,15 @@ contexts:
       set: variable_declaration_list
     - match: (?=\S)
       set: expression
+
+  goto_target:
+    - match: case\b
+      scope: keyword.control.conditional.case.cs
+      set: expression
+    - match: '{{unreserved_name}}'
+      scope: constant.other.label.cs
+      pop: 1
+    - include: else_pop
 
   local_name:
     - match: '{{unreserved_name}}(?=\s*\()'

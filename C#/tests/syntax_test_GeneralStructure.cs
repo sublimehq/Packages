@@ -1520,45 +1520,6 @@ namespace TestNamespace . Test
 
     void testMisc()
     {
-        goto abc;
-///     ^^^^ keyword.control.flow.goto
-///          ^^^ constant.other.label
-    abc:
-/// ^^^ entity.name.label
-///    ^ punctuation.separator
-
-        switch (test[0])
-        {
-            case 'a':
-                result += 4;
-                goto case 'b';
-///             ^^^^ keyword.control.flow.goto
-///                  ^^^^ keyword.control.conditional.case
-///                       ^^^ meta.string string.quoted.single
-///                       ^ punctuation.definition.string.begin
-///                        ^ constant.character.literal
-///                         ^ punctuation.definition.string.end
-///                          ^ punctuation.terminator.statement
-            case 'b':
-///         ^^^^ keyword.control.conditional.case - invalid
-///              ^^^ meta.string string.quoted.single
-///              ^ punctuation.definition.string.begin
-///               ^ constant.character.literal
-///                ^ punctuation.definition.string.end
-                result += 6;
-                break;
-            case 'c':
-                result += 8;
-                break;
-
-            default:
-///         ^^^^^^^ keyword.control.conditional.default
-///                ^ punctuation.separator.case-statement
-                break;
-///             ^^^^^ keyword.control.flow.break
-///                  ^ punctuation.terminator.statement
-        }
-
         int foo;
         int.TryParse(input, out foo);
 ///                         ^^^ storage.modifier.argument
@@ -2544,6 +2505,43 @@ class TestControlStatements
         }
 ///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
 ///     ^ punctuation.section.block.end.cs
+    }
+///^^ meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ meta.class.body.cs meta.block.cs - meta.method
+
+    void testGotoStatements()
+    {
+        goto
+///     ^^^^ keyword.control.flow.goto.cs
+
+        goto abc;
+///     ^^^^ keyword.control.flow.goto.cs
+///          ^^^ constant.other.label.cs
+///             ^ punctuation.terminator.statement.cs
+        abc:
+///     ^^^ entity.name.label.cs
+///        ^ punctuation.separator.cs
+
+        switch (test[0])
+        {
+            case 'a':
+                goto case 'b';
+///             ^^^^ keyword.control.flow.goto.cs
+///                  ^^^^ keyword.control.conditional.case.cs
+///                       ^^^ meta.string.cs string.quoted.single.cs
+///                       ^ punctuation.definition.string.begin.cs
+///                        ^ constant.character.literal.cs
+///                         ^ punctuation.definition.string.end.cs
+///                          ^ punctuation.terminator.statement.cs
+            case 'b':
+                break;
+///             ^^^^^ keyword.control.flow.break.cs
+///                  ^ punctuation.terminator.statement.cs
+        }
+///^^^^^^ meta.switch.body.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///      ^ - meta.switch
     }
 ///^^ meta.method.body.cs meta.block.cs
 /// ^ punctuation.section.block.end.cs
