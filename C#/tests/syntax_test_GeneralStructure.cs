@@ -911,32 +911,6 @@ namespace TestNamespace . Test
 ///         ^ punctuation.section.block.end.cs
 ///          ^ - meta.switch
 
-            while (true) {
-///         ^ keyword.control
-///               ^^^^^ meta.group
-///               ^ punctuation.section.group.begin
-///                ^^^^ constant.language
-///                    ^ punctuation.section.group.end
-///                      ^ meta.method meta.block meta.block punctuation.section.block.begin
-                if (!something())
-///             ^ keyword.control
-///                ^^^^^^^^^^^^^^ meta.group
-                    break;
-            }
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-
-            do {
-///         ^ keyword.control
-///            ^ meta.method meta.block meta.block punctuation.section.block.begin
-                something();
-            } while (true);
-///         ^ meta.method meta.block meta.block punctuation.section.block.end
-///           ^ keyword.control
-///                 ^^^^^ meta.group
-///                 ^ punctuation.section.group.begin
-///                  ^^^^ constant.language
-///                      ^ punctuation.section.group.end
-
             try {
 ///         ^ keyword.control
 ///             ^ meta.method meta.block meta.block punctuation.section.block.begin
@@ -2455,6 +2429,92 @@ class TestControlStatements
 ///                                                         ^^ meta.block.cs
 ///                                                         ^ punctuation.section.block.begin.cs
 ///                                                          ^ punctuation.section.block.end.cs
+    }
+
+    public void testDoWhileLoops()
+    {
+        do
+///     ^^ keyword.control.loop.do.cs
+
+        do ;
+///     ^^ keyword.control.loop.do.cs
+///        ^ punctuation.terminator.statement.cs
+
+        do ();
+///     ^^ keyword.control.loop.do.cs
+///        ^^ meta.group.cs
+///        ^ punctuation.section.group.begin.cs
+///         ^ punctuation.section.group.end.cs
+///          ^ punctuation.terminator.statement.cs
+
+        do {
+///     ^^ keyword.control.loop.do.cs
+///        ^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///        ^ punctuation.section.block.begin.cs
+            something();
+        } while (true);
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
+///       ^^^^^ keyword.control.loop.while.cs
+///             ^^^^^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^^^^ constant.language.boolean.true.cs
+///                  ^ punctuation.section.group.end.cs
+///                   ^ punctuation.terminator.statement.cs
+
+        while
+///     ^^^^^ keyword.control.loop.while.cs
+
+        while ()
+///     ^^^^^ keyword.control.loop.while.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ punctuation.section.group.end.cs
+
+        while (;)
+///     ^^^^^ keyword.control.loop.while.cs
+///           ^ meta.group.cs punctuation.section.group.begin.cs
+///            ^ punctuation.terminator.statement.cs
+///             ^ invalid.illegal.stray.brace.cs
+
+        while ( {} )
+///     ^^^^^ keyword.control.loop.while.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///             ^^ meta.block.cs
+///             ^ punctuation.section.block.begin.cs
+///              ^ punctuation.section.block.end.cs
+///                ^ invalid.illegal.stray.brace.cs
+        { while ( }
+///     ^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^ keyword.control.loop.while.cs
+///             ^^ meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///               ^ punctuation.section.block.end.cs
+
+        while (true) {
+///     ^ keyword.control
+///           ^^^^^ meta.group
+///           ^ punctuation.section.group.begin
+///            ^^^^ constant.language
+///                ^ punctuation.section.group.end
+///                  ^ meta.method meta.block meta.block punctuation.section.block.begin
+            if (!something())
+///         ^^ keyword.control.conditional.if.cs
+///            ^^^^^^^^^^^^^^ meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^ keyword.operator.logical.cs
+///              ^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                       ^^ meta.function-call.arguments.cs meta.group.cs
+///                       ^ punctuation.section.group.begin.cs
+///                        ^^ punctuation.section.group.end.cs
+                break;
+///             ^^^^^ keyword.control.flow.break.cs
+///                  ^ punctuation.terminator.statement.cs
+        }
+///^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs meta.block.cs
+///     ^ punctuation.section.block.end.cs
     }
 }
 

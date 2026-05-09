@@ -1337,12 +1337,17 @@ contexts:
       scope: meta.switch.cs keyword.control.conditional.switch.cs
       set: [switch_block, maybe_expression_group]
     # loop statements
+    - match: do\b
+      scope: keyword.control.loop.do.cs
     - match: foreach\b
       scope: keyword.control.loop.foreach.cs
       set: foreach_group
     - match: for\b
       scope: keyword.control.loop.for.cs
       set: for_group
+    - match: while\b
+      scope: keyword.control.loop.while.cs
+      set: maybe_expression_group
     - match: try\b
       scope: keyword.control.exception.try.cs
       set: [finally_block, catch_expr, try_block]
@@ -1367,12 +1372,6 @@ contexts:
         1: keyword.control.other.lock.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [expression_block, line_of_code]
-    - match: do\b
-      scope: keyword.control.loop.do.cs
-      set: [do_condition, while_block]
-    - match: while\b
-      scope: keyword.control.loop.while.cs
-      set: [while_block, while_condition]
     - match: (?:return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
       set: expression
@@ -1622,20 +1621,6 @@ contexts:
       scope: keyword.control.loop.in.cs
       set: expression
     - include: else_pop
-
-  do_condition:
-    - match: while\b
-      scope: keyword.control.loop.while.cs
-      set: while_condition
-    - include: else_pop
-
-  while_condition:
-    - include: maybe_expression_group
-
-  while_block:
-    - include: statement_block
-    - match: (?=\S)
-      set: line_of_code
 
   maybe_statement_block:
     - include: statement_block
