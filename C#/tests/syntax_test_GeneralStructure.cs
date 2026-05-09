@@ -1030,107 +1030,6 @@ namespace TestNamespace . Test
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
         }
 
-        public testForLoops() {
-
-            for (i = 0; i < items.Count; i++) {}
-///         ^^^ keyword.control.loop.for.cs
-///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
-///             ^ punctuation.section.group.begin.cs
-///              ^ variable.other.cs
-///                ^ keyword.operator.assignment.cs
-///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                   ^ punctuation.terminator.statement.cs
-///                     ^ variable.other.cs
-///                       ^ keyword.operator.comparison.cs
-///                         ^^^^^ variable.other.cs
-///                              ^ punctuation.accessor.dot.cs
-///                               ^^^^^ variable.other.cs
-///                                    ^ punctuation.terminator.statement.cs
-///                                      ^ variable.other.cs
-///                                       ^^ keyword.operator.arithmetic.cs
-///                                         ^ punctuation.section.group.end.cs
-///                                           ^^ meta.block.cs
-///                                           ^ punctuation.section.block.begin.cs
-///                                            ^ punctuation.section.block.end.cs
-
-            for (i = 0, k = 0; i < items.Count; i++) {}
-///         ^^^ keyword.control.loop.for.cs
-///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
-///             ^ punctuation.section.group.begin.cs
-///              ^ variable.other.cs
-///                ^ keyword.operator.assignment.cs
-///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                   ^ punctuation.separator.expression.cs
-///                     ^ variable.other.cs
-///                       ^ keyword.operator.assignment.cs
-///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                          ^ punctuation.terminator.statement.cs
-///                            ^ variable.other.cs
-///                              ^ keyword.operator.comparison.cs
-///                                ^^^^^ variable.other.cs
-///                                     ^ punctuation.accessor.dot.cs
-///                                      ^^^^^ variable.other.cs
-///                                           ^ punctuation.terminator.statement.cs
-///                                             ^ variable.other.cs
-///                                              ^^ keyword.operator.arithmetic.cs
-///                                                ^ punctuation.section.group.end.cs
-///                                                  ^^ meta.block.cs
-///                                                  ^ punctuation.section.block.begin.cs
-///                                                   ^ punctuation.section.block.end.cs
-
-            for (int i = 0; i < items.Count; ++i) {}
-///         ^^^ keyword.control.loop.for.cs
-///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
-///             ^ punctuation.section.group.begin.cs
-///              ^^^ storage.type.cs
-///                  ^ variable.other.cs
-///                    ^ keyword.operator.assignment.cs
-///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                       ^ punctuation.terminator.statement.cs
-///                         ^ variable.other.cs
-///                           ^ keyword.operator.comparison.cs
-///                             ^^^^^ variable.other.cs
-///                                  ^ punctuation.accessor.dot.cs
-///                                   ^^^^^ variable.other.cs
-///                                        ^ punctuation.terminator.statement.cs
-///                                          ^^ keyword.operator.arithmetic.cs
-///                                            ^ variable.other.cs
-///                                             ^ punctuation.section.group.end.cs
-///                                               ^^ meta.block.cs
-///                                               ^ punctuation.section.block.begin.cs
-///                                                ^ punctuation.section.block.end.cs
-
-            for (int i = 0, k = 0; i < items.Count; ++i, k += 2) {}
-///         ^^^ keyword.control.loop.for.cs
-///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
-///             ^ punctuation.section.group.begin.cs
-///              ^^^ storage.type.cs
-///                  ^ variable.other.cs
-///                    ^ keyword.operator.assignment.cs
-///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                       ^ punctuation.separator.expression.cs
-///                         ^ variable.other.cs
-///                           ^ keyword.operator.assignment.cs
-///                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                              ^ punctuation.terminator.statement.cs
-///                                ^ variable.other.cs
-///                                  ^ keyword.operator.comparison.cs
-///                                    ^^^^^ variable.other.cs
-///                                         ^ punctuation.accessor.dot.cs
-///                                          ^^^^^ variable.other.cs
-///                                               ^ punctuation.terminator.statement.cs
-///                                                 ^^ keyword.operator.arithmetic.cs
-///                                                   ^ variable.other.cs
-///                                                    ^ punctuation.separator.expression.cs
-///                                                      ^ variable.other.cs
-///                                                        ^^ keyword.operator.assignment.augmented.cs
-///                                                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                                                            ^ punctuation.section.group.end.cs
-///                                                              ^^ meta.block.cs
-///                                                              ^ punctuation.section.block.begin.cs
-///                                                               ^ punctuation.section.block.end.cs
-        }
-
         public virtual void Instantiate<T>(string componentId, out T component)
 ///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///     ^ storage.modifier
@@ -1918,12 +1817,6 @@ namespace TestNamespace . Test
 ///                                   ^ - constant
 ///                                    ^^^^^^^^ constant.other.placeholder
 
-        for (; ctr < names.Length; ctr++)
-///          ^ punctuation.terminator.statement
-///                              ^ punctuation.terminator.statement
-            continue;
-///         ^^^^^^^^ keyword.control.flow.break
-
         int MyInt = 100;
         Console.WriteLine("{0:C}", MyInt);
 ///                        ^^^^^ constant.other.placeholder - invalid
@@ -2327,6 +2220,145 @@ public class TestModifierOrder
 
 class TestControlStatements
 {
+    public void testForLoops()
+    {
+        for
+///     ^^^ keyword.control.loop.for.cs
+
+        for {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^ meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+///          ^ punctuation.section.block.end.cs
+
+        for ( ; ; ;
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///           ^ punctuation.terminator.statement.cs
+///             ^ punctuation.terminator.statement.cs
+///               ^ punctuation.terminator.statement.cs
+
+        { for ( }
+///     ^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^ keyword.control.loop.for.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///             ^ punctuation.section.block.end.cs - meta.group
+
+        for ()
+///     ^^^ keyword.control.loop.for.cs
+///         ^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^ punctuation.section.group.end.cs
+
+        for (;;)
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^ punctuation.terminator.statement.cs
+///            ^ punctuation.section.group.end.cs
+
+        for (i = 0; i < items.Count; i++) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.terminator.statement.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.comparison.cs
+///                     ^^^^^ variable.other.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^ variable.other.cs
+///                                ^ punctuation.terminator.statement.cs
+///                                  ^ variable.other.cs
+///                                   ^^ keyword.operator.arithmetic.cs
+///                                     ^ punctuation.section.group.end.cs
+///                                       ^^ meta.block.cs
+///                                       ^ punctuation.section.block.begin.cs
+///                                        ^ punctuation.section.block.end.cs
+
+        for (i = 0, k = 0; i < items.Count; i++) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.separator.variables.cs
+///                 ^ variable.other.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.terminator.statement.cs
+///                        ^ variable.other.cs
+///                          ^ keyword.operator.comparison.cs
+///                            ^^^^^ variable.other.cs
+///                                 ^ punctuation.accessor.dot.cs
+///                                  ^^^^^ variable.other.cs
+///                                       ^ punctuation.terminator.statement.cs
+///                                         ^ variable.other.cs
+///                                          ^^ keyword.operator.arithmetic.cs
+///                                            ^ punctuation.section.group.end.cs
+///                                              ^^ meta.block.cs
+///                                              ^ punctuation.section.block.begin.cs
+///                                               ^ punctuation.section.block.end.cs
+
+        for (int i = 0; i < items.Count; ++i) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^ storage.type.cs
+///              ^ variable.other.cs
+///                ^ keyword.operator.assignment.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.terminator.statement.cs
+///                     ^ variable.other.cs
+///                       ^ keyword.operator.comparison.cs
+///                         ^^^^^ variable.other.cs
+///                              ^ punctuation.accessor.dot.cs
+///                               ^^^^^ variable.other.cs
+///                                    ^ punctuation.terminator.statement.cs
+///                                      ^^ keyword.operator.arithmetic.cs
+///                                        ^ variable.other.cs
+///                                         ^ punctuation.section.group.end.cs
+///                                           ^^ meta.block.cs
+///                                           ^ punctuation.section.block.begin.cs
+///                                            ^ punctuation.section.block.end.cs
+
+        for (int i = 0, k = 0; i < items.Count; ++i, k += 2) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^ storage.type.cs
+///              ^ variable.other.cs
+///                ^ keyword.operator.assignment.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.variables.cs
+///                     ^ variable.other.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                          ^ punctuation.terminator.statement.cs
+///                            ^ variable.other.cs
+///                              ^ keyword.operator.comparison.cs
+///                                ^^^^^ variable.other.cs
+///                                     ^ punctuation.accessor.dot.cs
+///                                      ^^^^^ variable.other.cs
+///                                           ^ punctuation.terminator.statement.cs
+///                                             ^^ keyword.operator.arithmetic.cs
+///                                               ^ variable.other.cs
+///                                                ^ punctuation.separator.expression.cs
+///                                                  ^ variable.other.cs
+///                                                    ^^ keyword.operator.assignment.augmented.cs
+///                                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                        ^ punctuation.section.group.end.cs
+///                                                          ^^ meta.block.cs
+///                                                          ^ punctuation.section.block.begin.cs
+///                                                           ^ punctuation.section.block.end.cs
+    }
+
     public void testForeachLoops()
     {
         foreach
