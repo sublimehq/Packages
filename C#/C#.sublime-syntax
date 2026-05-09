@@ -1234,11 +1234,7 @@ contexts:
 
   inside_method_block:
     - meta_scope: meta.method.body.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 1
-    - include: stray_close_bracket
-    - include: code_block_in
+    - include: inside_statement_block
 
   inside_method_expression:
     - meta_content_scope: meta.method.body.cs
@@ -1317,14 +1313,30 @@ contexts:
 
 ###[ STATEMENTS ]##############################################################
 
+  maybe_statement_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_statement_block
+    - include: else_pop
+
+  inside_statement_block:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: 1
+    - include: stray_close_bracket
+    - include: code_block_in
+
   code_block_in:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      push: inside_statement_block
     - include: terminators
     - match: (?=\S)
       push: line_of_code
 
   line_of_code:
-    - include: statement_block
-    # language keywords
+    # conditional statements
     - match: else\s+if\b
       scope: keyword.control.conditional.elseif.cs
       set: maybe_expression_group
@@ -1351,6 +1363,7 @@ contexts:
     - match: try\b
       scope: keyword.control.exception.try.cs
       set: [finally_block, catch_expr, try_block]
+    # other
     - match: (using)\s*(\()
       captures:
         1: keyword.declaration.using.cs
@@ -1491,9 +1504,6 @@ contexts:
 
   inside_switch_block:
     - meta_scope: meta.switch.body.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 1
     - match: \b((default)\s*)({{colon}})
       captures:
         1: meta.case.pattern.cs
@@ -1504,7 +1514,7 @@ contexts:
       push:
         - case_pattern
         - expect_pattern
-    - include: code_block_in
+    - include: inside_statement_block
 
   case_pattern:
     - meta_content_scope: meta.case.pattern.cs
@@ -1621,22 +1631,6 @@ contexts:
       scope: keyword.control.loop.in.cs
       set: expression
     - include: else_pop
-
-  maybe_statement_block:
-    - include: statement_block
-    - include: else_pop
-
-  statement_block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set: inside_statement_block
-
-  inside_statement_block:
-    - meta_scope: meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 1
-    - include: code_block_in
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -2212,10 +2206,7 @@ contexts:
 
   inside_lambda_block:
     - meta_scope: meta.function.anonymous.body.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 1
-    - include: code_block_in
+    - include: inside_statement_block
 
   inside_lambda_expression:
     - meta_content_scope: meta.function.anonymous.body.cs

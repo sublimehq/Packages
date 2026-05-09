@@ -2213,6 +2213,10 @@ class TestControlStatements
 ///             ^ punctuation.terminator.statement.cs
 ///               ^ punctuation.terminator.statement.cs
 
+        for )
+///     ^^^ keyword.control.loop.for.cs
+///         ^ invalid.illegal.stray.brace.cs
+
         { for ( }
 ///     ^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
@@ -2220,6 +2224,13 @@ class TestControlStatements
 ///           ^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
 ///             ^ punctuation.section.block.end.cs - meta.group
+
+        { for ) }
+///     ^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^ keyword.control.loop.for.cs
+///           ^ invalid.illegal.stray.brace.cs
+///             ^ punctuation.section.block.end.cs
 
         for ()
 ///     ^^^ keyword.control.loop.for.cs
@@ -2352,6 +2363,11 @@ class TestControlStatements
 ///             ^ punctuation.section.group.begin.cs
 ///               ^ punctuation.terminator.statement.cs - meta.group
 
+        foreach ) ;
+///     ^^^^^^^ keyword.control.loop.foreach.cs
+///             ^ invalid.illegal.stray.brace.cs
+///               ^ punctuation.terminator.statement.cs
+
         { foreach ( }
 ///     ^^^^^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
@@ -2359,6 +2375,13 @@ class TestControlStatements
 ///               ^^ meta.group.cs
 ///               ^ punctuation.section.group.begin.cs
 ///                 ^ punctuation.section.block.end.cs - meta.group
+
+        { foreach ) }
+///     ^^^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^^^ keyword.control.loop.foreach.cs
+///               ^ invalid.illegal.stray.brace.cs
+///                 ^ punctuation.section.block.end.cs
 
         foreach (test in )
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
@@ -2491,6 +2514,13 @@ class TestControlStatements
 ///       ^^^^^ keyword.control.loop.while.cs
 ///             ^^ meta.group.cs
 ///             ^ punctuation.section.group.begin.cs
+///               ^ punctuation.section.block.end.cs
+
+        { while ) }
+///     ^^^^^^^^^^^ meta.block.cs
+///     ^ punctuation.section.block.begin.cs
+///       ^^^^^ keyword.control.loop.while.cs
+///             ^ invalid.illegal.stray.brace.cs
 ///               ^ punctuation.section.block.end.cs
 
         while (true) {
