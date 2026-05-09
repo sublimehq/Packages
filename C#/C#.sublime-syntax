@@ -1347,7 +1347,9 @@ contexts:
       set: maybe_expression_group
     - match: switch\b
       scope: meta.switch.cs keyword.control.conditional.switch.cs
-      set: [switch_block, maybe_expression_group]
+      set:
+        - switch_block
+        - maybe_expression_group
     # exception statements
     - match: catch\b
       scope: keyword.control.exception.catch.cs
