@@ -1691,8 +1691,10 @@ contexts:
     - include: modifiers
     - include: funcptr_types
     - match: delegate\b
-      scope: keyword.declaration.delegate.cs
-      push: maybe_statement_block
+      scope: meta.function.anonymous.cs keyword.declaration.delegate.cs
+      push:
+        - delegate_lambda_body
+        - delegate_lambda_parameter_list
     - match: this\b
       scope: variable.language.this.cs
       push:
@@ -2129,6 +2131,24 @@ contexts:
     - include: else_pop
 
 ###[ LAMBDA EXPRESSIONS ]######################################################
+
+  delegate_lambda_parameter_list:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      set: inside_delegate_lambda_parameter_list
+    - include: else_pop
+
+  inside_delegate_lambda_parameter_list:
+    - clear_scopes: 1
+    - meta_scope: meta.function.anonymous.parameters.cs meta.group.cs
+    - include: inside_method_parameter_list
+
+  delegate_lambda_body:
+    - meta_content_scope: meta.function.anonymous.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside_lambda_block
+    - include: else_pop
 
   lambdas:
     - match: ({{name}})(\s+(=>))

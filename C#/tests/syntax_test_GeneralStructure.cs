@@ -1815,17 +1815,22 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///                                                                                        ^ punctuation.terminator.statement.cs
 
     Action<float> actionDelegate = delegate { };
-///                              ^ keyword.operator.assignment
+///                                ^^^^^^^^^ meta.function.anonymous.cs
+///                                         ^^^ meta.function.anonymous.body.cs meta.block.cs
 ///                                ^^^^^^^^ keyword.declaration.delegate.cs
-///                                         ^ punctuation.section.block.begin
-///                                           ^ punctuation.section.block.end
+///                                         ^ punctuation.section.block.begin.cs
+///                                           ^ punctuation.section.block.end.cs
+///                                            ^ punctuation.terminator.statement.cs
+
     event Action<float> eventAction;
 /// ^^^^^ keyword.declaration.event.cs
     event Action<float> eventActionDelegate = delegate { };
-///                                         ^ keyword.operator.assignment
+///                                           ^^^^^^^^^ meta.function.anonymous.cs
+///                                                    ^^^ meta.function.anonymous.body.cs meta.block.cs
 ///                                           ^^^^^^^^ keyword.declaration.delegate.cs
-///                                                    ^ punctuation.section.block.begin
-///                                                      ^ punctuation.section.block.end
+///                                                    ^ punctuation.section.block.begin.cs
+///                                                      ^ punctuation.section.block.end.cs
+///                                                       ^ punctuation.terminator.statement.cs
 }
 
 struct Example
@@ -3474,6 +3479,101 @@ public class TestExpressions
 ///              ^ punctuation.definition.generic.end.cs
 ///               ^ punctuation.section.group.end.cs
 ///                ^ punctuation.terminator.statement.cs
+    }
+///^^ meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ meta.class.body.cs meta.block.cs - meta.method
+
+    void testLambdaDelegateExpressions()
+    {
+        y = delegate (int x) { return x + 1; } // Anonymous method expression
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.anonymous meta.function.anonymous
+///         ^^^^^^^^^ meta.function.anonymous.cs
+///                  ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///                         ^ meta.function.anonymous.cs
+///                          ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
+///         ^^^^^^^^ keyword.declaration.delegate.cs
+///                  ^ punctuation.section.parameters.begin.cs
+///                   ^^^ storage.type.cs
+///                       ^ variable.parameter.cs
+///                        ^ punctuation.section.parameters.end.cs
+///                          ^ punctuation.section.block.begin.cs
+///                            ^^^^^^ keyword.control.flow.return.cs
+///                                   ^ variable.other.cs
+///                                     ^ keyword.operator.arithmetic.cs
+///                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                        ^ punctuation.terminator.statement.cs
+///                                          ^ punctuation.section.block.end.cs
+
+        y = static delegate (int x) { return x + 1; } // static anonymous method expression
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.anonymous meta.function.anonymous
+///                ^^^^^^^^^ meta.function.anonymous.cs
+///                         ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///                                ^ meta.function.anonymous.cs
+///                                 ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
+///         ^^^^^^ storage.modifier.cs
+///                ^^^^^^^^ keyword.declaration.delegate.cs
+///                         ^ punctuation.section.parameters.begin.cs
+///                          ^^^ storage.type.cs
+///                              ^ variable.parameter.cs
+///                               ^ punctuation.section.parameters.end.cs
+///                                 ^ punctuation.section.block.begin.cs
+///                                   ^^^^^^ keyword.control.flow.return.cs
+///                                          ^ variable.other.cs
+///                                            ^ keyword.operator.arithmetic.cs
+///                                              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                               ^ punctuation.terminator.statement.cs
+///                                                 ^ punctuation.section.block.end.cs
+
+        y = delegate { return 1 + 1; } // Parameter list omitted
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.anonymous meta.function.anonymous
+///         ^^^^^^^^^ meta.function.anonymous.cs
+///                  ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
+///         ^^^^^^^^ keyword.declaration.delegate.cs
+///                  ^ punctuation.section.block.begin.cs
+///                    ^^^^^^ keyword.control.flow.return.cs
+///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                             ^ keyword.operator.arithmetic.cs
+///                               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                ^ punctuation.terminator.statement.cs
+///                                  ^ punctuation.section.block.end.cs
+
+        y = delegate
+///         ^^^^^^^^^ meta.function.anonymous.cs
+///         ^^^^^^^^ keyword.declaration.delegate.cs
+            (int i)
+///^^^^^^^^^ meta.function.anonymous.cs
+///         ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^ punctuation.section.parameters.begin.cs
+///          ^^^ storage.type.cs
+///              ^ variable.parameter.cs
+///               ^ punctuation.section.parameters.end.cs
+///                ^ meta.function.anonymous.cs
+            {
+///^^^^^^^^^ meta.function.anonymous.cs
+///         ^^ meta.function.anonymous.body.cs meta.block.cs
+///         ^ punctuation.section.block.begin.cs
+                if (i == 0)
+///             ^^ keyword.control.conditional.if.cs
+///                ^^^^^^^^ meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^ variable.other.cs
+///                   ^^ keyword.operator.comparison.cs
+///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^ punctuation.section.group.end.cs
+                    return true;
+///                 ^^^^^^ keyword.control.flow.return.cs
+///                        ^^^^ constant.language.boolean.true.cs
+///                            ^ punctuation.terminator.statement.cs
+                else
+///             ^^^^ keyword.control.conditional.else.cs
+                    return false;
+///                 ^^^^^^ keyword.control.flow.return.cs
+///                        ^^^^^ constant.language.boolean.false.cs
+            };
+///^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
+///         ^ punctuation.section.block.end.cs
+///          ^ punctuation.terminator.statement.cs
     }
 ///^^ meta.method.body.cs meta.block.cs
 /// ^ punctuation.section.block.end.cs
