@@ -400,6 +400,7 @@ contexts:
       scope: punctuation.section.block.begin.cs
       push: inside_global_block
     - include: stray_close_bracket
+    - include: terminators
     - include: attributes
     - include: modifiers
     - include: using_declaration
@@ -1053,6 +1054,7 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - include: stray_close_bracket
+    - include: terminators
     - include: attributes
     - include: modifiers
     - include: member_declaration
@@ -1325,35 +1327,31 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - include: stray_close_bracket
+    - include: terminators
     - include: code_block_in
 
   code_block_in:
     - match: \{
       scope: punctuation.section.block.begin.cs
       push: inside_statement_block
-    - include: terminators
-    - match: (?=\S)
-      push: line_of_code
-
-  line_of_code:
     # conditional statements
     - match: else\s+if\b
       scope: keyword.control.conditional.elseif.cs
-      set: maybe_expression_group
+      push: maybe_expression_group
     - match: else\b
       scope: keyword.control.conditional.else.cs
     - match: if\b
       scope: keyword.control.conditional.if.cs
-      set: maybe_expression_group
+      push: maybe_expression_group
     - match: switch\b
       scope: meta.switch.cs keyword.control.conditional.switch.cs
-      set:
+      push:
         - switch_block
         - maybe_expression_group
     # exception statements
     - match: catch\b
       scope: keyword.control.exception.catch.cs
-      set: catch_group
+      push: catch_group
     - match: finally\b
       scope: keyword.control.exception.finally.cs
     - match: try\b
@@ -1363,58 +1361,50 @@ contexts:
       scope: keyword.control.loop.do.cs
     - match: foreach\b
       scope: keyword.control.loop.foreach.cs
-      set: foreach_group
+      push: foreach_group
     - match: for\b
       scope: keyword.control.loop.for.cs
-      set: for_group
+      push: for_group
     - match: while\b
       scope: keyword.control.loop.while.cs
-      set: maybe_expression_group
+      push: maybe_expression_group
     # control flow statements
     - match: (?:break|yield\s+break)\b
       scope: keyword.control.flow.break.cs
-      pop: 1
     - match: continue\b
       scope: keyword.control.flow.continue.cs
-      pop: 1
     - match: goto\b
       scope: keyword.control.flow.goto.cs
-      set: goto_target
+      push: goto_target
     - match: lock\b
       scope: keyword.control.flow.lock.cs
-      set: maybe_expression_group
-    - match: (?:return|yield\s+return)\b
-      scope: keyword.control.flow.return.cs
-      set: expression
-    - match: throw\b
-      scope: keyword.control.flow.throw.cs
-      set: expression
+      push: maybe_expression_group
     # declarations
     - match: fixed\b
       scope: keyword.declaration.fixed.cs
-      set: fixed_group
+      push: fixed_group
     - match: using\b
       scope: keyword.declaration.using.cs
-      set:
+      push:
         - using_meta
         - using_statement
     - match: var\b
       scope: storage.type.cs
-      set:
+      push:
         - assignment_expression
         - var_declarator
     - include: keywords
     - match: '{{base_type}}'
       scope: storage.type.cs
-      set:
+      push:
         - local_name
         - type_suffix
     - match: (?={{namespaced_name}}{{type_suffix}}?\s+{{name}})
-      set:
+      push:
         - local_name
         - type_no_space
     - match: (?=\([^)]*\)\s*{{name}}\s*[(=])
-      set:
+      push:
         - local_name
         - type_tuple
     # labels
@@ -1422,10 +1412,9 @@ contexts:
       captures:
         1: entity.name.label.cs
         2: punctuation.separator.cs
-      pop: 1
     # expressions
     - match: (?=\S)
-      set: expression
+      push: expression
 
   goto_target:
     - match: case\b
@@ -1718,8 +1707,10 @@ contexts:
       scope: keyword.control.flow.await.cs
     - match: (?:return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
+      push: expression
     - match: throw\b
       scope: keyword.control.flow.throw.cs
+      push: expression
     - match: (?:and|not|or)\b
       scope: keyword.operator.logical.cs
     - match: (?:checked|unchecked)\b
