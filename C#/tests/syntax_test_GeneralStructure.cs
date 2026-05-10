@@ -766,8 +766,6 @@ namespace TestNamespace . Test
 {
 /// <- meta.namespace.body.cs meta.namespace.body.cs meta.block.cs punctuation.section.block.begin.cs
 
-    using NodeName = SomeNamespace.SomeClass;
-
     public class Derived : Base
     {
         public Derived(DateTime exportDate) : base(exportDate) {
@@ -1947,6 +1945,71 @@ public class TestModifierOrder
 ///                                   ^^ meta.method.parameters.cs
     }
 }
+
+[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.cs
+///^^^^^^ meta.path.cs
+///^^^^ support.namespace.global.cs
+///    ^^ punctuation.accessor.double-colon.namespace.cs
+///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
+///            ^ punctuation.accessor.dot.cs
+///                    ^ punctuation.accessor.dot.cs
+///                                     ^ punctuation.accessor.dot.cs
+///                                                                ^^ meta.group.cs
+///                                                                ^ punctuation.section.group.begin.cs
+///                                                                 ^ punctuation.section.group.end.cs
+///                                                                  ^ punctuation.definition.annotation.end.cs
+internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase {
+///                                  ^^^ meta.path
+///                                     ^^ punctuation.accessor.double-colon
+///                                       ^^^^^^^^^^^^^ meta.path
+///                                                    ^ punctuation.accessor.dot
+///                                                     ^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+
+    private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
+///                                       ^ meta.group.cs - meta.group meta.group
+///                                        ^^^^^^ meta.group.cs meta.cast.cs meta.group.cs
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs meta.group.cs - meta.group meta.group meta.group - meta.cast
+///                                                                                                                ^^^^^^^^^^^^ meta.group.cs meta.group.cs meta.function-call.arguments.cs meta.group.cs
+///                                                                                                                            ^ meta.group.cs meta.group.cs - meta.group meta.group meta.group
+///                                                                                                                             ^ meta.group.cs - meta.group meta.group
+///                                                                                                                              ^ - meta.group
+///                                       ^ punctuation.section.group.begin.cs
+///                                        ^ punctuation.section.group.begin.cs
+///                                         ^^^^ support.type.cs
+///                                             ^ punctuation.section.group.end.cs
+///                                              ^ punctuation.section.group.begin.cs
+///                                               ^^^^^^^^ meta.path.cs
+///                                               ^^^^^^ support.namespace.global.cs
+///                                                     ^^ punctuation.accessor.double-colon.namespace.cs
+///                                                       ^^^^^^ variable.other.cs
+///                                                             ^ punctuation.accessor.dot.cs
+///                                                              ^^^^^^^^^^^^^ variable.other.cs
+///                                                                           ^ punctuation.accessor.dot.cs
+///                                                                            ^^^^^^^^^^^^^^^^^^^^^^^ variable.other.cs
+///                                                                                                   ^ punctuation.accessor.dot.cs
+///                                                                                                    ^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                                                                                                ^ punctuation.section.group.begin.cs
+///                                                                                                                 ^^^^^^^^^^ meta.instantiation.cs
+///                                                                                                                 ^^^ keyword.operator.new.cs
+///                                                                                                                    ^^^^^ meta.function-call.identifier.cs
+///                                                                                                                     ^^^^ support.type.cs
+///                                                                                                                         ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                                                                                         ^ punctuation.section.group.begin.cs
+///                                                                                                                          ^^^^ punctuation.section.group.end.cs
+///                                                                                                                              ^ punctuation.terminator.statement.cs
+
+    public static Test Default {
+        [Tag]
+///     ^^^^^ meta.annotation
+///       ^ variable.annotation
+        get {
+///       ^ keyword.declaration.function.accessor.get
+            return defaultInstance;
+        }
+    }
+}
+
 
 class TestControlStatements
 {
