@@ -459,11 +459,13 @@ contexts:
 
   using_namespace:
     - include: namespace_variables
-    - include: type_argument_lists
     - match: (?=;|{{reserved}}\b)
       pop: 1
     - match: '{{name}}'
       scope: meta.path.cs
+      push:
+        - type_suffix
+        - type_argument_list
     - match: '='
       scope: keyword.operator.assignment.cs
       push: maybe_pointer
@@ -2335,16 +2337,12 @@ contexts:
 
 ###[ TYPE PARAMETER LISTS ]####################################################
 
-  type_argument_lists:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: inside_type_argument_list
-
   type_argument_list:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+    - match: \s*(<)
+      captures:
+        1: meta.generic.cs punctuation.definition.generic.begin.cs
       set: inside_type_argument_list
-    - include: else_pop
+    - include: noeol_pop
 
   inside_type_argument_list:
     - meta_content_scope: meta.generic.cs
@@ -2409,14 +2407,13 @@ contexts:
 ###[ FUNCTION POINTER TYPES ]##################################################
 
   funcptr_types:
-    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
     - match: (delegate)\s*(\*)
       captures:
         1: keyword.declaration.delegate.cs
         2: keyword.operator.pointer.cs
       push:
         - funcptr_type_meta
-        - funcptr_parameter_list
+        - type_argument_list
         - funcptr_type_modifier
 
   funcptr_type_meta:
@@ -2451,24 +2448,6 @@ contexts:
       scope: punctuation.separator.type.cs
     - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
       scope: storage.modifier.funcptr.cs
-    - include: type
-
-  funcptr_parameter_list:
-    - match: \s*(<)
-      captures:
-        1: meta.generic.cs punctuation.definition.generic.begin.cs
-      set: inside_funcptr_parameter_list
-    - include: noeol_pop
-
-  inside_funcptr_parameter_list:
-    - meta_content_scope: meta.generic.cs
-    - match: '>'
-      scope: meta.generic.cs punctuation.definition.generic.end.cs
-      pop: 1
-    - match: ','
-      scope: punctuation.separator.type.cs
-    - match: (?:in|out|ref|readonly)\b
-      scope: storage.modifier.cs
     - include: type
 
 ###[ OPERATORS ]###############################################################
