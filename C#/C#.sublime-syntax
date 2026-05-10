@@ -1574,12 +1574,6 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  constant_expression:
-    - match: (?=[,;)\]}])
-      pop: 1
-    - include: constant_parens
-    - include: expression_common
-
   expressions:
     - match: (?=\S)
       push: expression
@@ -1750,62 +1744,6 @@ contexts:
       set:
         - expression
         - maybe_pointer
-
-###[ CONSTANT CAST, GROUP AND TUPLE EXPRESSIONS ]##############################
-
-  constant_parens:
-    # without lambdas for use in case guards
-    - match: (?=\()
-      branch_point: constant_parens
-      branch:
-        - constant_cast
-        - constant_group
-        - tuple
-
-  constant_cast:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      set:
-        - after_constant_cast
-        - inside_constant_cast
-        - expect_type
-
-  inside_constant_cast:
-    - meta_scope: meta.cast.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: 1
-    - match: (?=\S)
-      fail: constant_parens
-
-  after_constant_cast:
-    # cast expressions may be followed by:
-    # - `!`     : unary operator
-    # - `~`     : unary operator
-    # - `(`     : cast, lambda or group expression
-    # - literal : variable, type or method
-    - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
-      pop: 1
-    - match: (?=\S)
-      fail: constant_parens
-
-  constant_group:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      set:
-        - inside_constant_group
-        - constant_expression
-        - maybe_pointer
-
-  inside_constant_group:
-    - meta_scope: meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: 1
-    - match: (?=\S)
-      fail: constant_parens
 
 ###[ CAST, GROUP, LAMBDA AND TUPLE EXPRESSIONS ]###############################
 
@@ -2213,7 +2151,63 @@ contexts:
     - match: =>
       scope: meta.case.cs punctuation.separator.case-expression.cs
       pop: 1
-    - include: constant_expression
+    - include: switch_expression_case_guard_expression
+
+  switch_expression_case_guard_expression:
+    - match: (?=[,;)\]}])
+      pop: 1
+    - match: (?=\()
+      branch_point: switch_expression_case_guard_parens
+      branch:
+        - switch_expression_case_guard_cast
+        - switch_expression_case_guard_group
+        - tuple
+    - include: expression_common
+
+  switch_expression_case_guard_cast:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - after_switch_expression_case_guard_cast
+        - inside_switch_expression_case_guard_cast
+        - expect_type
+
+  inside_switch_expression_case_guard_cast:
+    - meta_scope: meta.cast.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - match: (?=\S)
+      fail: switch_expression_case_guard_parens
+
+  after_switch_expression_case_guard_cast:
+    # cast expressions may be followed by:
+    # - `!`     : unary operator
+    # - `~`     : unary operator
+    # - `(`     : cast, lambda or group expression
+    # - literal : variable, type or method
+    - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
+      pop: 1
+    - match: (?=\S)
+      fail: switch_expression_case_guard_parens
+
+  switch_expression_case_guard_group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set:
+        - inside_switch_expression_case_guard_group
+        - switch_expression_case_guard_expression
+        - maybe_pointer
+
+  inside_switch_expression_case_guard_group:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
+    - match: (?=\S)
+      fail: switch_expression_case_guard_parens
 
 ###[ TYPE PATTERNS ]###########################################################
 
