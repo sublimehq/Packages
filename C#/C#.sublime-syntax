@@ -875,7 +875,7 @@ contexts:
   member_qualifiers:
     - match: \.
       scope: punctuation.accessor.dot.cs
-    - match: '{{unreserved_name}}(?=\s*(?:<[^(]*>\s*)?\.)'
+    - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\.)'
       scope: entity.other.inherited-class.cs
       push:
         - type_suffix
@@ -1177,7 +1177,7 @@ contexts:
 ###[ METHOD MEMBER DECLARATIONS ]##############################################
 
   method_declaration:
-    - match: '{{unreserved_name}}(?=\s*(?:<[^(]*>\s*)?\()'
+    - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\()'
       scope: meta.method.cs entity.name.function.cs
       set:
         - method_body
