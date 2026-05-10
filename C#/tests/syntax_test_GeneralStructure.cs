@@ -3796,6 +3796,95 @@ public class TestExpressions
 ///                                           ^^ variable.other.cs
 ///                                             ^ punctuation.terminator.statement.cs
 
+        a = (var, dynamic, vec) => var + vec;   // augment soft keywords and types
+///     ^ variable.other.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^ variable.parameter.cs
+///             ^ punctuation.separator.parameter.cs
+///               ^^^^^^^ variable.parameter.cs
+///                      ^ punctuation.separator.parameter.cs
+///                        ^^^ variable.parameter.cs
+///                           ^ punctuation.section.group.end.cs
+///                            ^^^^ meta.function.anonymous.cs
+///                             ^^ keyword.declaration.function.arrow.cs
+///                                ^^^^^^^^^ meta.function.anonymous.body.cs
+///                                ^^^ variable.other.cs
+///                                    ^ keyword.operator.arithmetic.cs
+///                                      ^^^ variable.other.cs
+///                                         ^ punctuation.terminator.statement.cs
+
+        a = (\u0076\u0061\u0072, \u0076\u0061\u0072 \u0062) => var + \u0062;
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^^^^^^^^^^^^^^^^ variable.parameter.cs
+///                            ^ punctuation.separator.parameter.cs
+///                              ^^^^^^^^^^^^^^^^^^ support.type.cs
+///                                                 ^^^^^^ variable.parameter.cs
+///                                                       ^ punctuation.section.group.end.cs
+///                                                        ^^^^ meta.function.anonymous.cs
+///                                                         ^^ keyword.declaration.function.arrow.cs
+///                                                            ^^^^^^^^^^^^ meta.function.anonymous.body.cs
+///                                                            ^^^ variable.other.cs
+///                                                                ^ keyword.operator.arithmetic.cs
+///                                                                  ^^^^^^ variable.other.cs
+///                                                                        ^ punctuation.terminator.statement.cs
+
+        a = (var a, dynamic b, vec c) => a + b;  // lower-case var and user types
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^ storage.type.cs
+///              ^ variable.parameter.cs
+///               ^ punctuation.separator.parameter.cs
+///                 ^^^^^^^ storage.type.cs
+///                         ^ variable.parameter.cs
+///                          ^ punctuation.separator.parameter.cs
+///                            ^^^ support.type.cs
+///                                ^ variable.parameter.cs
+///                                 ^ punctuation.section.group.end.cs
+///                                  ^^^^ meta.function.anonymous.cs
+///                                   ^^ keyword.declaration.function.arrow.cs
+///                                      ^^^^^ meta.function.anonymous.body.cs
+///                                      ^ variable.other.cs
+///                                        ^ keyword.operator.arithmetic.cs
+///                                          ^ variable.other.cs
+///                                           ^ punctuation.terminator.statement.cs
+
+        a = (
+///         ^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+            var
+///        ^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^^^ storage.type.cs
+                a       // comment
+///            ^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///             ^ variable.parameter.cs
+///                     ^^^^^^^^^^^ comment.line.double-slash.cs
+///                     ^^ punctuation.definition.comment.cs
+            ,
+///         ^ punctuation.separator.parameter.cs
+            vec
+///        ^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///         ^^^ support.type.cs
+                c
+///            ^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///             ^ variable.parameter.cs
+        )
+///^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///     ^ punctuation.section.group.end.cs
+///      ^ meta.function.anonymous.cs
+        =>
+///^^^^^^^^ meta.function.anonymous.cs
+///     ^^ keyword.declaration.function.arrow.cs
+        a + b;
+///^^^^^ meta.function.anonymous.cs
+///     ^^^^^ meta.function.anonymous.body.cs
+///     ^ variable.other.cs
+///       ^ keyword.operator.arithmetic.cs
+///         ^ variable.other.cs
+///          ^ punctuation.terminator.statement.cs
+
         Func<string, bool, int> test = (a, b) => a.len();
 ///                                    ^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///                                    ^ punctuation.section.group.begin.cs
@@ -3856,34 +3945,46 @@ public class TestExpressions
 ///                             ^ punctuation.section.group.end.cs
 ///                              ^ punctuation.terminator.statement.cs
 
-        var concat = string ([DisallowNull] string a, [DisallowNull] string b) => a + b;
+        var concat = string ([DisallowNull] global::str<char>?[,] a, [DisallowNull] string b) => a + b;
 ///     ^^^ storage.type.cs
 ///         ^^^^^^ variable.other.cs
 ///                ^ keyword.operator.assignment.cs
 ///                  ^^^^^^ storage.type.cs
-///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///                         ^ punctuation.section.group.begin.cs
 ///                          ^^^^^^^^^^^^^^ meta.annotation.cs
 ///                          ^ punctuation.definition.annotation.begin.cs
 ///                           ^^^^^^^^^^^^ variable.annotation.cs
 ///                                       ^ punctuation.definition.annotation.end.cs
-///                                         ^^^^^^ storage.type.cs
-///                                                ^ variable.parameter.cs
-///                                                 ^ punctuation.separator.parameter.cs
-///                                                   ^^^^^^^^^^^^^^ meta.annotation.cs
-///                                                   ^ punctuation.definition.annotation.begin.cs
-///                                                    ^^^^^^^^^^^^ variable.annotation.cs
-///                                                                ^ punctuation.definition.annotation.end.cs
-///                                                                  ^^^^^^ storage.type.cs
-///                                                                         ^ variable.parameter.cs
-///                                                                          ^ punctuation.section.group.end.cs
-///                                                                           ^^^^ meta.function.anonymous.cs
-///                                                                            ^^ keyword.declaration.function.arrow.cs
-///                                                                               ^^^^^ meta.function.anonymous.body.cs
-///                                                                               ^ variable.other.cs
-///                                                                                 ^ keyword.operator.arithmetic.cs
-///                                                                                   ^ variable.other.cs
-///                                                                                    ^ punctuation.terminator.statement.cs
+///                                         ^^^^^^^^ meta.path.cs
+///                                         ^^^^^^ support.namespace.global.cs
+///                                               ^^ punctuation.accessor.double-colon.namespace.cs
+///                                                 ^^^ support.type.cs
+///                                                    ^^^^^^ meta.generic.cs
+///                                                    ^ punctuation.definition.generic.begin.cs
+///                                                     ^^^^ storage.type.cs
+///                                                         ^ punctuation.definition.generic.end.cs
+///                                                          ^ storage.type.nullable.cs
+///                                                           ^^^ meta.brackets.cs
+///                                                           ^ punctuation.section.brackets.begin.cs
+///                                                            ^ punctuation.separator.sequence.cs
+///                                                             ^ punctuation.section.brackets.end.cs
+///                                                               ^ variable.parameter.cs
+///                                                                ^ punctuation.separator.parameter.cs
+///                                                                  ^^^^^^^^^^^^^^ meta.annotation.cs
+///                                                                  ^ punctuation.definition.annotation.begin.cs
+///                                                                   ^^^^^^^^^^^^ variable.annotation.cs
+///                                                                               ^ punctuation.definition.annotation.end.cs
+///                                                                                 ^^^^^^ storage.type.cs
+///                                                                                        ^ variable.parameter.cs
+///                                                                                         ^ punctuation.section.group.end.cs
+///                                                                                          ^^^^ meta.function.anonymous.cs
+///                                                                                           ^^ keyword.declaration.function.arrow.cs
+///                                                                                              ^^^^^ meta.function.anonymous.body.cs
+///                                                                                              ^ variable.other.cs
+///                                                                                                ^ keyword.operator.arithmetic.cs
+///                                                                                                  ^ variable.other.cs
+///                                                                                                   ^ punctuation.terminator.statement.cs
 
         Func<string, int?> parse = [X][return: Y] ([Z] s) => (s is not null) ? int.Parse(s) : null;
 ///     ^^^^ support.type.cs

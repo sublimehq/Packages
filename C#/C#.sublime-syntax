@@ -1815,12 +1815,17 @@ contexts:
     - include: attributes
     - match: ','
       scope: punctuation.separator.parameter.cs
-    - match: '{{method_param_type_modifier}}(?=\s)'
+    - match: '{{method_param_type_modifier}}\b'
       scope: storage.modifier.parameter.cs
-    - match: '{{name}}(?=\s*[\),/])'
+    - match: '{{name}}(?=\s*[,)])'
       scope: variable.parameter.cs
-    - match: (?={{cap_name}}{{type_suffix}}|{{base_type}})
-      push: type_no_space
+    - match: var\b
+      scope: storage.type.cs
+      push: method_param_name
+    - match: (?=@?{{start_char}})
+      push:
+        - method_param_name
+        - type_no_space
     - match: (?=\S)
       fail: parens
 
