@@ -861,7 +861,6 @@ contexts:
     - match: (?=[(@]|{{start_char}})
       push:
         - member_name
-        - type_suffix
         - type_no_space
 
   member_name:
@@ -2313,15 +2312,13 @@ contexts:
     - include: namespace_variables
     - include: funcptr_types
     - include: base_types
-    - match: \s*(\[)
-      captures:
-        1: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push: inside_rank_specifier
+    - include: rank_specifiers
     - match: \s*(\.)\s*
       captures:
         1: punctuation.accessor.dot.cs
-    - match: '\*'
-      scope: keyword.operator.pointer.cs
+    - match: \s*(\*)
+      captures:
+        1: keyword.operator.pointer.cs
     - match: \s*(\?)
       captures:
         1: storage.type.nullable.cs
@@ -2335,15 +2332,6 @@ contexts:
   base_types:
     - match: '{{base_type}}'
       scope: storage.type.cs
-
-  inside_rank_specifier:
-    - meta_content_scope: meta.brackets.cs
-    - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.end.cs
-      pop: 1
-    - match: ','
-      scope: punctuation.separator.sequence.cs
-    - include: expressions
 
 ###[ TYPE PARAMETER LISTS ]####################################################
 
@@ -2362,7 +2350,7 @@ contexts:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
     - match: (?=\S)
-      push: [type_suffix, type]
+      push: type_no_space
 
   type_parameter_list:
     - match: '<'
@@ -2389,16 +2377,34 @@ contexts:
 
   type_suffix:
     - meta_include_prototype: false
-    - match: \s*{{type_suffix_capture}}
+    - match: \s*(\?)
       captures:
         1: storage.type.nullable.cs
-        2: meta.brackets.cs
-        3: punctuation.section.brackets.begin.cs
-        4: punctuation.separator.cs
-        5: punctuation.section.brackets.end.cs
-        6: keyword.operator.pointer.cs
+      set: inside_type_suffix
+    - include: inside_type_suffix
+
+  inside_type_suffix:
+    - meta_include_prototype: false
+    - match: \s*(\*)
+      captures:
+        1: keyword.operator.pointer.cs
       pop: 1
+    - include: rank_specifiers
     - include: noeol_pop
+
+  rank_specifiers:
+    - match: \s*(\[)
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push: inside_rank_specifier
+
+  inside_rank_specifier:
+    - meta_content_scope: meta.brackets.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cs
+    - include: expression
 
 ###[ FUNCTION POINTER TYPES ]##################################################
 
@@ -3069,9 +3075,6 @@ variables:
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|dynamic|object|string|void)\b
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: (?:\s*<[^={};]*>)
-
-  brackets_capture: '((\[)(,*)(\]))'
-  type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(?:@?{{name_normal}})'
