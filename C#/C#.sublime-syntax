@@ -1289,7 +1289,7 @@ contexts:
       set: [variable_declaration_name, type_no_space]
 
   var_declarator:
-    - include: tuple
+    - include: tuple_literal
     - include: variable_declaration_name
 
   variable_declaration_name:
@@ -1401,10 +1401,6 @@ contexts:
       push:
         - local_name
         - type_no_space
-    - match: (?=\([^)]*\)\s*{{name}}\s*[(=])
-      push:
-        - local_name
-        - type_tuple
     # labels
     - match: ({{name}})\s*({{colon}})
       captures:
@@ -1752,9 +1748,11 @@ contexts:
       branch_point: parens
       branch:
         - lambda
+        - tuple_deconstruction
         - cast
         - group
-        - tuple
+        - tuple_type
+        - tuple_literal
 
   cast:
     - meta_include_prototype: false
@@ -1839,15 +1837,48 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  tuple:
+  tuple_deconstruction:
+    # (type name, name, name) =
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.sequence.begin.cs
       set:
-        - inside_tuple
+        - after_tuple_deconstruction
+        - inside_tuple_deconstruction
+
+  inside_tuple_deconstruction:
+    - meta_scope: meta.sequence.tuple.cs
+    - match: \)
+      scope: punctuation.section.sequence.end.cs
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cs
+    - match: _\b
+      scope: variable.language.anonymous.cs
+    - match: '{{name}}(?=\s*[,)])'
+      scope: variable.other.cs
+    - match: (?={{name}})
+      push:
+        - variable_declaration_name
+        - type_no_space
+    - match: (?=\S)
+      fail: parens
+
+  after_tuple_deconstruction:
+    - match: (?==)
+      pop: 1
+    - match: (?=\S)
+      fail: parens
+
+  tuple_literal:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.cs
+      set:
+        - inside_tuple_literal
         - maybe_pointer
 
-  inside_tuple:
+  inside_tuple_literal:
     - meta_scope: meta.sequence.tuple.cs
     - match: \)
       scope: punctuation.section.sequence.end.cs
@@ -1855,11 +1886,32 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cs
       push: maybe_pointer
-    - match: '{{colon}}'
-      scope: keyword.operator.assignment.cs
-    - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
-      push: var_declaration
+    - match: ({{name}})\s*({{colon}})
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push:
+        - expression
+        - maybe_pointer
     - include: expression
+
+  tuple_type:
+    # (type name, type, type) func()
+    # (type name, type, type) variable
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.cs
+      set:
+        - after_type_tuple
+        - inside_type_tuple
+
+  after_type_tuple:
+    - include: method_declaration
+    - match: '{{unreserved_name}}'
+      scope: variable.other.cs
+      pop: 1
+    - match: (?=\S)
+      fail: parens
 
 ###[ GROUP EXPRESSIONS ]#######################################################
 
@@ -2166,7 +2218,7 @@ contexts:
       branch:
         - switch_expression_case_guard_cast
         - switch_expression_case_guard_group
-        - tuple
+        - tuple_literal
     - include: expression_common
 
   switch_expression_case_guard_cast:
@@ -2217,12 +2269,10 @@ contexts:
 ###[ TYPE PATTERNS ]###########################################################
 
   expect_pattern:
+    - include: tuple_literal
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: inside_member_pattern
-    - match: \(
-      scope: punctuation.section.sequence.begin.cs
-      set: inside_tuple
     - match: not\b
       scope: keyword.operator.logical.cs
     - match: var\b

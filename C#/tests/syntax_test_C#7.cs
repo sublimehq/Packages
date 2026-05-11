@@ -327,179 +327,297 @@ class Foo {
     }
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#tuples
-    public void TupleTest () {
+
+    public void testTupleLiterals()
+    {
         var letters = ("a", "b");
 ///                   ^^^^^^^^^^ meta.sequence.tuple
 ///                   ^ punctuation.section.sequence.begin
 ///                       ^ punctuation.separator.sequence
 ///                            ^ punctuation.section.sequence.end
 ///                             ^ punctuation.terminator.statement
-        var (a, b, c) = (1, 2, 3);
-///     ^^^ storage.type
-///         ^^^^^^^^^ meta.sequence.tuple
-///          ^ variable.other
-///           ^ punctuation.separator.sequence
-///             ^ variable.other
-///              ^ punctuation.separator.sequence
-///                   ^ keyword.operator.assignment - meta.group - meta.sequence
-///                     ^^^^^^^^^ meta.sequence.tuple
-///                      ^ meta.number.integer.decimal constant.numeric.value
-///                       ^ punctuation.separator.sequence
+
+        var alphabetStart = (Alpha: "a", Beta: "b");
+///                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                         ^ punctuation.section.sequence.begin.cs
+///                          ^^^^^ variable.other.member.cs
+///                               ^ keyword.operator.assignment.cs
+///                                 ^^^ meta.string.cs string.quoted.double.cs
+///                                 ^ punctuation.definition.string.begin.cs
+///                                   ^ punctuation.definition.string.end.cs
+///                                    ^ punctuation.separator.sequence.cs
+///                                      ^^^^ variable.other.member.cs
+///                                          ^ keyword.operator.assignment.cs
+///                                            ^^^ meta.string.cs string.quoted.double.cs
+///                                            ^ punctuation.definition.string.begin.cs
+///                                              ^ punctuation.definition.string.end.cs
+///                                               ^ punctuation.section.sequence.end.cs
+///                                                ^ punctuation.terminator.statement.cs
+
+        var abc = (this as object, input);
+///               ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///               ^ punctuation.section.sequence.begin.cs
+///                ^^^^ variable.language.this.cs
+///                     ^^ keyword.operator.cast.cs
+///                        ^^^^^^ storage.type.cs
+///                              ^ punctuation.separator.sequence.cs
+///                                ^^^^^ variable.other.cs
+///                                     ^ punctuation.section.sequence.end.cs
+///                                      ^ punctuation.terminator.statement.cs
+
+        var abc = (example.Alpha as SomeType);
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///               ^ punctuation.section.group.begin.cs
+///                ^^^^^^^ variable.other.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^ variable.other.cs
+///                              ^^ keyword.operator.cast.cs
+///                                 ^^^^^^^^ support.type.cs
+///                                         ^ punctuation.section.group.end.cs
+///                                          ^ punctuation.terminator.statement.cs
+        var abc = (any<T>(), fn())
+///               ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///               ^ punctuation.section.sequence.begin.cs
+///                ^^^^^^ meta.function-call.identifier.cs
+///                ^^^ variable.function.cs
+///                   ^^^ meta.generic.cs
+///                   ^ punctuation.definition.generic.begin.cs
+///                    ^ support.type.cs
+///                     ^ punctuation.definition.generic.end.cs
+///                      ^^ meta.function-call.arguments.cs meta.group.cs
+///                      ^ punctuation.section.group.begin.cs
+///                       ^ punctuation.section.group.end.cs
+///                        ^ punctuation.separator.sequence.cs
+///                          ^^ meta.function-call.identifier.cs variable.function.cs
+///                            ^^ meta.function-call.arguments.cs meta.group.cs
+///                            ^ punctuation.section.group.begin.cs
+///                             ^ punctuation.section.group.end.cs
+///                              ^ punctuation.section.sequence.end.cs
+    }
+
+    public void testTupleTypeVariableDefinitions()
+    {
         (string Alpha, MyString Beta) namedLetters = ("a", "b");
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///     ^ punctuation.section.sequence.begin
-///      ^^^^^^ storage.type
-///             ^^^^^ variable.other
-///                  ^ punctuation.separator.sequence
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^^^ storage.type.cs
+///             ^^^^^ variable.other.cs
+///                  ^ punctuation.separator.sequence.cs
 ///                    ^^^^^^^^ support.type.cs
-///                             ^^^^ variable.other
-///                                 ^ punctuation.section.sequence.end
-///                                   ^^^^^^^^^^^^ variable.other
-///                                                ^ keyword.operator.assignment
-///                                                  ^ punctuation.section.sequence.begin
-///                                                      ^ punctuation.separator.sequence
-///                                                           ^ punctuation.section.sequence.end
-///                                                            ^ punctuation.terminator.statement
+///                             ^^^^ variable.other.cs
+///                                 ^ punctuation.section.sequence.end.cs
+///                                   ^^^^^^^^^^^^ variable.other.cs
+///                                                ^ keyword.operator.assignment.cs
+///                                                  ^^^^^^^^^^ meta.sequence.tuple.cs
+///                                                  ^ punctuation.section.sequence.begin.cs
+///                                                   ^^^ meta.string.cs string.quoted.double.cs
+///                                                   ^ punctuation.definition.string.begin.cs
+///                                                     ^ punctuation.definition.string.end.cs
+///                                                      ^ punctuation.separator.sequence.cs
+///                                                        ^^^ meta.string.cs string.quoted.double.cs
+///                                                        ^ punctuation.definition.string.begin.cs
+///                                                          ^ punctuation.definition.string.end.cs
+///                                                           ^ punctuation.section.sequence.end.cs
+///                                                            ^ punctuation.terminator.statement.cs
 
         (
 ///     ^ meta.sequence.tuple punctuation.section.sequence.begin
             string Alpha,
-///         ^^^^^^ storage.type
-///                ^^^^^ variable.other
-///                     ^ punctuation.separator.sequence
+///         ^^^^^^ storage.type.cs
+///                ^^^^^ variable.other.cs
+///                     ^ punctuation.separator.sequence.cs
             MyString Beta
 ///         ^^^^^^^^ support.type.cs
-///                  ^^^^ variable.other
+///                  ^^^^ variable.other.cs
         ) namedLetters = ("a", "b");
-///     ^ punctuation.section.sequence.end
-///       ^^^^^^^^^^^^ variable.other
-///                    ^ keyword.operator.assignment
-///                      ^ punctuation.section.sequence.begin
-///                          ^ punctuation.separator.sequence
-///                               ^ punctuation.section.sequence.end
-///                                ^ punctuation.terminator.statement
+///^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.end.cs
+///       ^^^^^^^^^^^^ variable.other.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^^^^^^^^^^ meta.sequence.tuple.cs
+///                      ^ punctuation.section.sequence.begin.cs
+///                       ^^^ meta.string.cs string.quoted.double.cs
+///                       ^ punctuation.definition.string.begin.cs
+///                         ^ punctuation.definition.string.end.cs
+///                          ^ punctuation.separator.sequence.cs
+///                            ^^^ meta.string.cs string.quoted.double.cs
+///                            ^ punctuation.definition.string.begin.cs
+///                              ^ punctuation.definition.string.end.cs
+///                               ^ punctuation.section.sequence.end.cs
+///                                ^ punctuation.terminator.statement.cs
 
         (SomeType[] Alpha, SomeType<int> Beta) example = (a, b);
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///     ^ punctuation.section.sequence.begin
-///      ^^^^^^^^ support.type
-///              ^ punctuation.section.brackets.begin
-///               ^ punctuation.section.brackets.end
-///                 ^^^^^ variable.other
-///                      ^ punctuation.separator.sequence
-///                        ^^^^^^^^ support.type
-///                                ^ punctuation.definition.generic.begin
-///                                 ^^^ storage.type
-///                                    ^ punctuation.definition.generic.end
-///                                      ^^^^ variable.other
-///                                          ^ punctuation.section.sequence.end
-///                                            ^^^^^^^ variable.other
-///                                                    ^ keyword.operator.assignment
-///                                                      ^^^^^^ meta.sequence.tuple
-///                                                      ^ punctuation.section.sequence.begin
-///                                                       ^ variable.other
-///                                                        ^ punctuation.separator.sequence
-///                                                           ^ punctuation.section.sequence.end
-///                                                            ^ punctuation.terminator.statement
-        var alphabetStart = (Alpha: "a", Beta: "b");
-///                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                         ^ punctuation.section.sequence.begin
-///                          ^^^^^ variable.other
-///                               ^ keyword.operator.assignment
-///                                    ^ punctuation.separator.sequence
-///                                      ^^^^ variable.other
-///                                          ^ keyword.operator.assignment
-///                                               ^ punctuation.section.sequence.end
-///                                                ^ punctuation.terminator.statement
-        var abc = (this as object, input);
-///               ^ punctuation.section.sequence.begin
-///                ^^^^ variable.language.this
-///                     ^^ keyword.operator.cast
-///                        ^^^^^^ storage.type
-///                              ^ punctuation.separator.sequence
-///                                ^^^^^ variable.other
-///                                     ^ punctuation.section.sequence.end
-///                                      ^ punctuation.terminator.statement
-        var abc = (example.Alpha as SomeType);
-///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group - meta.sequence
-///               ^ punctuation.section.group.begin
-///                ^^^^^^^ variable.other
-///                       ^ punctuation.accessor.dot
-///                        ^^^^^ variable.other
-///                              ^^ keyword.operator.cast
-///                                 ^^^^^^^^ support.type
-///                                         ^ punctuation.section.group.end
-///                                          ^ punctuation.terminator.statement
-        var abc = (any<T>(), fn())
-///               ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
-///               ^ punctuation.section.sequence.begin.cs
-///                ^^^^^^^^ meta.function-call
-///                ^^^ variable.function.cs
-///                   ^^^ meta.generic.cs
-///                          ^^ meta.function-call.identifier.cs variable.function.cs
-///                            ^^ meta.function-call.arguments.cs meta.group.cs
-///                              ^ punctuation.section.sequence.end.cs
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^^^^^ support.type.cs
+///              ^^ meta.brackets.cs
+///              ^ punctuation.section.brackets.begin.cs
+///               ^ punctuation.section.brackets.end.cs
+///                 ^^^^^ variable.other.cs
+///                      ^ punctuation.separator.sequence.cs
+///                        ^^^^^^^^ support.type.cs
+///                                ^^^^^ meta.generic.cs
+///                                ^ punctuation.definition.generic.begin.cs
+///                                 ^^^ storage.type.cs
+///                                    ^ punctuation.definition.generic.end.cs
+///                                      ^^^^ variable.other.cs
+///                                          ^ punctuation.section.sequence.end.cs
+///                                            ^^^^^^^ variable.other.cs
+///                                                    ^ keyword.operator.assignment.cs
+///                                                      ^^^^^^ meta.sequence.tuple.cs
+///                                                      ^ punctuation.section.sequence.begin.cs
+///                                                       ^ variable.other.cs
+///                                                        ^ punctuation.separator.sequence.cs
+///                                                          ^ variable.other.cs
+///                                                           ^ punctuation.section.sequence.end.cs
+///                                                            ^ punctuation.terminator.statement.cs
 
-        // https://docs.microsoft.com/en-us/dotnet/csharp/deconstruct
-        (string city, _, double area) = QueryCityData("New York City");
-///     ^ punctuation.section.sequence.begin
-///      ^^^^^^ storage.type
-///             ^^^^ variable.other
-///                 ^ punctuation.separator.sequence
-///                   ^ variable.language.anonymous
-///                    ^ punctuation.separator.sequence
-///                      ^^^^^^ storage.type
-///                             ^^^^ variable.other
-///                                 ^ punctuation.section.sequence.end
-///                                   ^ keyword.operator.assignment
-        (city, population, _) = QueryCityData("New York City");
-///     ^ punctuation.section.sequence.begin
-///      ^^^^ variable.other
-///          ^ punctuation.separator.sequence
-///            ^^^^^^^^^^ variable.other
-///                      ^ punctuation.separator.sequence
-///                        ^ variable.language.anonymous
-///                         ^ punctuation.section.sequence.end
-///                           ^ keyword.operator.assignment
+        (city, int, double area) QueryCityData(string name);
+///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^ storage.type.cs
+///               ^ punctuation.separator.sequence.cs
+///                 ^^^^^^ storage.type.cs
+///                        ^^^^ variable.other.cs
+///                            ^ punctuation.section.sequence.end.cs
+///                              ^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
+///                                           ^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                           ^ punctuation.section.parameters.begin.cs
+///                                            ^^^^^^ storage.type.cs
+///                                                   ^^^^ variable.parameter.cs
+///                                                       ^ punctuation.section.parameters.end.cs
+///                                                        ^ punctuation.terminator.statement.cs
+    }
+
+    // https://docs.microsoft.com/en-us/dotnet/csharp/deconstruct
+    public void testTupleTypeDeconstruction()
+    {
+        var (a, b, c) = (1, 2, 3);
+///     ^^^ storage.type.cs
+///         ^^^^^^^^^ meta.sequence.tuple.cs
+///         ^ punctuation.section.sequence.begin.cs
+///          ^ variable.other.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ variable.other.cs
+///              ^ punctuation.separator.sequence.cs
+///                ^ variable.other.cs
+///                 ^ punctuation.section.sequence.end.cs
+///                   ^ keyword.operator.assignment.cs
+///                     ^^^^^^^^^ meta.sequence.tuple.cs
+///                     ^ punctuation.section.sequence.begin.cs
+///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^ punctuation.separator.sequence.cs
+///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                          ^ punctuation.separator.sequence.cs
+///                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                             ^ punctuation.section.sequence.end.cs
+///                              ^ punctuation.terminator.statement.cs
+
         var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
-///     ^^^ storage.type
-///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                                 ^ - meta.sequence
-///         ^ punctuation.section.sequence.begin
-///          ^ variable.language
-///           ^ punctuation.separator.sequence
-///             ^ variable.language
-///              ^ punctuation.separator.sequence
-///                   ^^^^ variable.other
-///                       ^ punctuation.separator.sequence
-///                         ^ variable.language
-///                          ^ punctuation.separator.sequence
-///                            ^^^^ variable.other
-///                                ^ punctuation.section.sequence.end
-        (Func<int, int> test1, string test2) = ((int d) => d * 2, 5.ToString());
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///      ^^^^ support.type
-///          ^^^^^^^^^^ meta.generic
-///                     ^^^^^ variable.other
-///                          ^ punctuation.separator.sequence
-///                            ^^^^^^ storage.type
-///                                   ^^^^^ variable.other
-///                                          ^ keyword.operator.assignment - meta.sequence
-///                                            ^ meta.sequence.tuple punctuation.section.sequence.begin
-///                                             ^^^^^^^^^^^^^^^^ meta.function.anonymous
-///                                                             ^ punctuation.separator.sequence - meta.function.anonymous
-///                                                               ^ meta.number.integer.decimal constant.numeric.value
-///                                                                ^ punctuation.accessor.dot
-///                                                                 ^^^^^^^^ variable.function
-///                                                                         ^ punctuation.section.group.begin
-///                                                                          ^ punctuation.section.group.end
-///                                                                           ^ punctuation.section.sequence.end
+///     ^^^ storage.type.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///         ^ punctuation.section.sequence.begin.cs
+///          ^ variable.language.anonymous.cs
+///           ^ punctuation.separator.sequence.cs
+///             ^ variable.language.anonymous.cs
+///              ^ punctuation.separator.sequence.cs
+///                ^ variable.language.anonymous.cs
+///                 ^ punctuation.separator.sequence.cs
+///                   ^^^^ variable.other.cs
+///                       ^ punctuation.separator.sequence.cs
+///                         ^ variable.language.anonymous.cs
+///                          ^ punctuation.separator.sequence.cs
+///                            ^^^^ variable.other.cs
+///                                ^ punctuation.section.sequence.end.cs
+
+        (city, _, double area) = QueryCityData("New York City");
+///     ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ variable.other.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^ variable.language.anonymous.cs
+///             ^ punctuation.separator.sequence.cs
+///               ^^^^^^ storage.type.cs
+///                      ^^^^ variable.other.cs
+///                          ^ punctuation.section.sequence.end.cs
+
+        (city, population, _) = QueryCityData("New York City");
+///     ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ variable.other.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^^^^^^^^ variable.other.cs
+///                      ^ punctuation.separator.sequence.cs
+///                        ^ variable.language.anonymous.cs
+///                         ^ punctuation.section.sequence.end.cs
+
+        (func<int, int> test1, vec test2) = ((int d) => d * 2, 5.ToString());
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^^^^^^^^^^ meta.generic.cs
+///          ^ punctuation.definition.generic.begin.cs
+///           ^^^ storage.type.cs
+///              ^ punctuation.separator.type.cs
+///                ^^^ storage.type.cs
+///                   ^ punctuation.definition.generic.end.cs
+///                     ^^^^^ variable.other.cs
+///                          ^ punctuation.separator.sequence.cs
+///                            ^^^ support.type.cs
+///                                ^^^^^ variable.other.cs
+///                                     ^ punctuation.section.sequence.end.cs
+///                                       ^ keyword.operator.assignment.cs
+///                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                         ^ punctuation.section.sequence.begin.cs
+///                                          ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///                                          ^ punctuation.section.group.begin.cs
+///                                           ^^^ storage.type.cs
+///                                               ^ variable.parameter.cs
+///                                                ^ punctuation.section.group.end.cs
+///                                                 ^^^^ meta.function.anonymous.cs
+///                                                  ^^ keyword.declaration.function.arrow.cs
+///                                                     ^^^^^ meta.function.anonymous.body.cs
+///                                                     ^ variable.other.cs
+///                                                       ^ keyword.operator.arithmetic.cs
+///                                                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                          ^ punctuation.separator.sequence.cs
+///                                                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                             ^ punctuation.accessor.dot.cs
+///                                                              ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                                                      ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                                      ^ punctuation.section.group.begin.cs
+///                                                                       ^ punctuation.section.group.end.cs
+///                                                                        ^ punctuation.section.sequence.end.cs
+///                                                                         ^ punctuation.terminator.statement.cs
+
         (a, b) = (new Random().Next(), 15);
-///               ^^^ keyword.operator.new
-///                   ^^^^^^ support.type
-///                                  ^ punctuation.separator.sequence
-///                                    ^^ meta.sequence.tuple meta.number.integer.decimal constant.numeric.value
-///                                      ^ punctuation.section.sequence.end
+///     ^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ variable.other.cs
+///       ^ punctuation.separator.sequence.cs
+///         ^ variable.other.cs
+///          ^ punctuation.section.sequence.end.cs
+///            ^ keyword.operator.assignment.cs
+///              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///              ^ punctuation.section.sequence.begin.cs
+///               ^^^^^^^^^^^^ meta.instantiation.cs
+///               ^^^ keyword.operator.new.cs
+///                  ^^^^^^^ meta.function-call.identifier.cs
+///                   ^^^^^^ support.type.cs
+///                         ^^ meta.function-call.arguments.cs meta.group.cs
+///                         ^ punctuation.section.group.begin.cs
+///                          ^ punctuation.section.group.end.cs
+///                           ^ punctuation.accessor.dot.cs
+///                            ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                ^^ meta.function-call.arguments.cs meta.group.cs
+///                                ^ punctuation.section.group.begin.cs
+///                                 ^ punctuation.section.group.end.cs
+///                                  ^ punctuation.separator.sequence.cs
+///                                    ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                      ^ punctuation.section.sequence.end.cs
+///                                       ^ punctuation.terminator.statement.cs
 
         var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
         foreach (var (name, age) in dic.Select(x => (x.Key, x.Value)))
@@ -518,10 +636,22 @@ class Foo {
 ///                                    ^ punctuation.accessor.dot.cs
 ///                                     ^^^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
-///                                                 ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^ meta.function.anonymous.parameters.cs variable.parameter.cs
+///                                             ^^^^ meta.function.anonymous.cs
+///                                              ^^ keyword.declaration.function.arrow.cs
+///                                                 ^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.sequence.tuple.cs
 ///                                                 ^ punctuation.section.sequence.begin.cs
+///                                                  ^ variable.other.cs
+///                                                   ^ punctuation.accessor.dot.cs
+///                                                    ^^^ variable.other.cs
+///                                                       ^ punctuation.separator.sequence.cs
+///                                                         ^ variable.other.cs
+///                                                          ^ punctuation.accessor.dot.cs
+///                                                           ^^^^^ variable.other.cs
 ///                                                                ^ punctuation.section.sequence.end.cs
-///                                                                 ^^ punctuation.section.group.end.cs
+///                                                                 ^ punctuation.section.group.end.cs
+///                                                                  ^ punctuation.section.group.end.cs
         {
             Console.WriteLine($"{name} is {age} years old.");
         }
@@ -614,75 +744,85 @@ class Foo {
 ///                      ^ punctuation.terminator.statement.cs
 
         Func<string, (string example1, int Example2)> test = s => (example1: "hello", Example2: "world");
-///     ^^^^ support.type
-///         ^ punctuation.definition.generic.begin
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
-///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                  ^ punctuation.section.sequence.begin
-///                   ^^^^^^ storage.type
-///                          ^^^^^^^^ variable.other
-///                                  ^ punctuation.separator.sequence
-///                                    ^^^ storage.type
-///                                        ^^^^^^^^ variable.other
-///                                                ^ punctuation.section.sequence.end
-///                                                 ^ punctuation.definition.generic.end
-///                                                   ^^^^ variable.other
-///                                                        ^ keyword.operator.assignment
-///                                                          ^ variable.parameter
-///                                                            ^^ keyword.declaration.function.arrow
-///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
-///                                                               ^ punctuation.section.sequence.begin
-///                                                                ^^^^^^^^ variable.other
-///                                                                        ^ keyword.operator.assignment
-///                                                                                 ^ punctuation.separator.sequence
-///                                                                                   ^^^^^^^^ variable.other
-///                                                                                           ^ keyword.operator.assignment
-///                                                                                                    ^ punctuation.section.sequence.end
-///                                                                                                     ^ punctuation.terminator.statement
-    }
-
-    public void Deconstruct(out string firstName, out string lastName, out int age)
-    {
-        firstName = FirstName;
-        lastName = LastName;
-        age = Age;
+///     ^^^^ support.type.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
+///         ^ punctuation.definition.generic.begin.cs
+///          ^^^^^^ storage.type.cs
+///                ^ punctuation.separator.type.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                  ^ punctuation.section.sequence.begin.cs
+///                   ^^^^^^ storage.type.cs
+///                          ^^^^^^^^ variable.other.cs
+///                                  ^ punctuation.separator.sequence.cs
+///                                    ^^^ storage.type.cs
+///                                        ^^^^^^^^ variable.other.cs
+///                                                ^ punctuation.section.sequence.end.cs
+///                                                 ^ punctuation.definition.generic.end.cs
+///                                                   ^^^^ variable.other.cs
+///                                                        ^ keyword.operator.assignment.cs
+///                                                          ^ meta.function.anonymous.parameters.cs variable.parameter.cs
+///                                                           ^^^^ meta.function.anonymous.cs
+///                                                            ^^ keyword.declaration.function.arrow.cs
+///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.sequence.tuple.cs
+///                                                               ^ punctuation.section.sequence.begin.cs
+///                                                                ^^^^^^^^ variable.other.member.cs
+///                                                                        ^ keyword.operator.assignment.cs
+///                                                                          ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                                                          ^ punctuation.definition.string.begin.cs
+///                                                                                ^ punctuation.definition.string.end.cs
+///                                                                                 ^ punctuation.separator.sequence.cs
+///                                                                                   ^^^^^^^^ variable.other.member.cs
+///                                                                                           ^ keyword.operator.assignment.cs
+///                                                                                             ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                                                                             ^ punctuation.definition.string.begin.cs
+///                                                                                                   ^ punctuation.definition.string.end.cs
+///                                                                                                    ^ punctuation.section.sequence.end.cs
+///                                                                                                     ^ punctuation.terminator.statement.cs
     }
 
     public void Example((int foo, float bar) val, (int foo, string bar) otherVal) {}
-///             ^^^^^^^ entity.name.function
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters
-///                    ^ punctuation.section.parameters.begin
-///                     ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                     ^ punctuation.section.sequence.begin
-///                      ^^^ storage.type
-///                          ^^^ variable.other
-///                             ^ punctuation.separator.sequence
-///                               ^^^^^ storage.type
-///                                     ^^^ variable.other
-///                                        ^ punctuation.section.sequence.end
-///                                          ^^^ variable.parameter
-///                                             ^ punctuation.separator.parameter
-///                                               ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
-///                                                                     ^^^^^^^^ variable.parameter
-///                                                                             ^ punctuation.section.parameters.end
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                    ^ punctuation.section.parameters.begin.cs
+///                     ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                     ^ punctuation.section.sequence.begin.cs
+///                      ^^^ storage.type.cs
+///                          ^^^ variable.other.cs
+///                             ^ punctuation.separator.sequence.cs
+///                               ^^^^^ storage.type.cs
+///                                     ^^^ variable.other.cs
+///                                        ^ punctuation.section.sequence.end.cs
+///                                          ^^^ variable.parameter.cs
+///                                             ^ punctuation.separator.parameter.cs
+///                                               ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                               ^ punctuation.section.sequence.begin.cs
+///                                                ^^^ storage.type.cs
+///                                                    ^^^ variable.other.cs
+///                                                       ^ punctuation.separator.sequence.cs
+///                                                         ^^^^^^ storage.type.cs
+///                                                                ^^^ variable.other.cs
+///                                                                   ^ punctuation.section.sequence.end.cs
+///                                                                     ^^^^^^^^ variable.parameter.cs
+///                                                                             ^ punctuation.section.parameters.end.cs
+
     public void Example((int , float ) val, (int, string) otherVal) {}
-///             ^^^^^^^ entity.name.function
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters
-///                     ^^^^^^^^^^^^^^ meta.sequence.tuple
-///                      ^^^ storage.type
-///                          ^ punctuation.separator.sequence
-///                            ^^^^^ storage.type
-///                                  ^ punctuation.section.sequence.end
-///                                    ^^^ variable.parameter - meta.sequence
-///                                       ^ punctuation.separator.parameter
-///                                         ^^^^^^^^^^^^^ meta.sequence.tuple
-///                                         ^ punctuation.section.sequence.begin
-///                                          ^^^ storage.type
-///                                             ^ punctuation.separator.sequence
-///                                               ^^^^^^ storage.type
-///                                                     ^ punctuation.section.sequence.end
-///                                                       ^^^^^^^^ variable.parameter
-///                                                               ^ punctuation.section.parameters.end
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                    ^ punctuation.section.parameters.begin.cs
+///                     ^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                     ^ punctuation.section.sequence.begin.cs
+///                      ^^^ storage.type.cs
+///                          ^ punctuation.separator.sequence.cs
+///                            ^^^^^ storage.type.cs
+///                                  ^ punctuation.section.sequence.end.cs
+///                                    ^^^ variable.parameter.cs
+///                                       ^ punctuation.separator.parameter.cs
+///                                         ^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                         ^ punctuation.section.sequence.begin.cs
+///                                          ^^^ storage.type.cs
+///                                             ^ punctuation.separator.sequence.cs
+///                                               ^^^^^^ storage.type.cs
+///                                                     ^ punctuation.section.sequence.end.cs
+///                                                       ^^^^^^^^ variable.parameter.cs
+///                                                               ^ punctuation.section.parameters.end.cs
 }
 /// <- meta.class.body punctuation.section.block.end
 
