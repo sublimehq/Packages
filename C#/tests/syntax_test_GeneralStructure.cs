@@ -4069,6 +4069,28 @@ public class TestExpressions
 ///                                           ^^ keyword.declaration.function.arrow.cs
 ///                                              ^^^^^ variable.other.cs
 
+        var var = ((int, int) arg, vec arg) => foo * baz;
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
+///               ^ punctuation.section.group.begin.cs
+///                ^^^^^^^^^^ meta.sequence.tuple.cs
+///                ^ punctuation.section.sequence.begin.cs
+///                 ^^^ storage.type.cs
+///                    ^ punctuation.separator.sequence.cs
+///                      ^^^ storage.type.cs
+///                         ^ punctuation.section.sequence.end.cs
+///                           ^^^ variable.parameter.cs
+///                              ^ punctuation.separator.parameter.cs
+///                                ^^^ support.type.cs
+///                                    ^^^ variable.parameter.cs
+///                                       ^ punctuation.section.group.end.cs
+///                                        ^^^^ meta.function.anonymous.cs
+///                                         ^^ keyword.declaration.function.arrow.cs
+///                                            ^^^^^^^^^ meta.function.anonymous.body.cs
+///                                            ^^^ variable.other.cs
+///                                                ^ keyword.operator.arithmetic.cs
+///                                                  ^^^ variable.other.cs
+///                                                     ^ punctuation.terminator.statement.cs
+
         "hello".OfType<char>().Where(c => c == 'l').Count());
 ///                                                        ^ invalid.illegal.stray.brace
     }

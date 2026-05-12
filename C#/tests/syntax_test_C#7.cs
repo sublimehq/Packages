@@ -592,6 +592,23 @@ class Foo {
 ///                                                                        ^ punctuation.section.sequence.end.cs
 ///                                                                         ^ punctuation.terminator.statement.cs
 
+        ((int, int) arg, vec arg) = getFoo();
+///     ^ meta.sequence.tuple.cs - meta.sequence meta.sequence - meta group
+///      ^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs - meta group
+///                ^^^^^^^^^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence - meta group
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^ storage.type.cs
+///          ^ punctuation.separator.sequence.cs
+///            ^^^ storage.type.cs
+///               ^ punctuation.section.sequence.end.cs
+///                 ^^^ variable.other.cs
+///                    ^ punctuation.separator.sequence.cs
+///                      ^^^ support.type.cs
+///                          ^^^ variable.other.cs
+///                             ^ punctuation.section.sequence.end.cs
+///                               ^ keyword.operator.assignment.cs
+
         (a, b) = (new Random().Next(), 15);
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs

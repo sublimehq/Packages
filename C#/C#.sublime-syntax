@@ -1825,7 +1825,7 @@ contexts:
     - match: var\b
       scope: storage.type.cs
       push: method_param_name
-    - match: (?=@?{{start_char}})
+    - match: (?=[@(]|{{start_char}})
       push:
         - method_param_name
         - type_no_space
@@ -1862,7 +1862,7 @@ contexts:
       scope: variable.language.anonymous.cs
     - match: '{{name}}(?=\s*[,)])'
       scope: variable.other.cs
-    - match: (?={{name}})
+    - match: (?=[@(]|{{start_char}})
       push:
         - variable_declaration_name
         - type_no_space
