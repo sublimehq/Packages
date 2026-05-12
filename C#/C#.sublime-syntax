@@ -1761,7 +1761,7 @@ contexts:
       set:
         - after_cast
         - inside_cast
-        - expect_type
+        - operator_type  # exclude tuples
 
   inside_cast:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -1772,15 +1772,20 @@ contexts:
       fail: parens
 
   after_cast:
-    # cast expressions may be followed by:
-    # - `!`     : unary operator
-    # - `~`     : unary operator
-    # - `(`     : cast, lambda or group expression
-    # - literal : variable, type or method
-    - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
-      pop: 1
+    - include: cast_end
     - match: (?=\S)
       fail: parens
+
+  cast_end:
+    # cast expressions may be followed by:
+    # - `(`     : cast, lambda, tuple or group expression
+    # - `!`     : unary operator
+    # - `~`     : unary operator
+    # - `--`    : unary operator
+    # - `++`    : unary operator
+    # - literal : variable, type or method
+    - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(]|--|\+\+)
+      pop: 1
 
   group:
     - meta_include_prototype: false
@@ -2228,7 +2233,7 @@ contexts:
       set:
         - after_switch_expression_case_guard_cast
         - inside_switch_expression_case_guard_cast
-        - expect_type
+        - operator_type  # exclude tuples
 
   inside_switch_expression_case_guard_cast:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -2239,13 +2244,7 @@ contexts:
       fail: switch_expression_case_guard_parens
 
   after_switch_expression_case_guard_cast:
-    # cast expressions may be followed by:
-    # - `!`     : unary operator
-    # - `~`     : unary operator
-    # - `(`     : cast, lambda or group expression
-    # - literal : variable, type or method
-    - match: (?=base\b|this\b|{{unreserved_name}}|[!~(])
-      pop: 1
+    - include: cast_end
     - match: (?=\S)
       fail: switch_expression_case_guard_parens
 
@@ -2393,8 +2392,9 @@ contexts:
   inside_type_argument_list:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
-    - match: (?=\S)
+    - match: (?=[@(]|{{start_char}})
       push: type_no_space
+    - include: else_pop
 
   type_parameter_list:
     - match: '<'
