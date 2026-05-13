@@ -1575,11 +1575,10 @@ contexts:
       push: expression
 
   expression:
-    - match: (?=[,;)\]{}])
-      pop: 1
     - include: parens
     - include: lambdas
     - include: expression_common
+    - include: else_pop
 
   expression_common:
     # accessors and operators (Note: order matters!)
@@ -2048,8 +2047,6 @@ contexts:
 
   instantiation_type:
     - meta_content_scope: meta.function-call.identifier.cs
-    - match: (?={)
-      pop: 1
     - match: \(
       scope: punctuation.section.group.begin.cs
       set: inside_function_call_argument_list
@@ -2065,6 +2062,7 @@ contexts:
         7: meta.function-call.identifier.cs support.type.cs
       set: regex_function_call_argument_list
     - include: type
+    - include: else_pop
 
   variable_initializer:
     # collection or object initializer
@@ -2495,6 +2493,7 @@ contexts:
     - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
       scope: storage.modifier.funcptr.cs
     - include: type
+    - include: else_pop
 
 ###[ OPERATORS ]###############################################################
 
