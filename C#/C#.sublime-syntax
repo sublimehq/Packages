@@ -860,7 +860,7 @@ contexts:
     - match: (?=[(@]|{{start_char}})
       push:
         - member_name
-        - type_no_space
+        - expect_type
 
   member_name:
     - include: member_qualifiers
@@ -1205,7 +1205,7 @@ contexts:
       push:
         - assignment_expression
         - method_param_name
-        - type_no_space
+        - expect_type
         - method_param_modifier
 
   method_param_modifier:
@@ -1248,17 +1248,7 @@ contexts:
       push:
         - method_body
         - method_parameter_list
-        - operator_type
-
-  operator_type:
-    - match: (?=\S)
-      set: inside_operator_type
-
-  inside_operator_type:
-    - include: type_common_except_bare_custom_type
-    - match: '{{unreserved_name}}'
-      scope: support.type.cs
-    - include: noeol_pop
+        - expect_object_type
 
   operator_declaration:
     - match: operator\b
@@ -1286,7 +1276,7 @@ contexts:
       scope: storage.type.cs
       set: var_declarator
     - match: (?=\S)
-      set: [variable_declaration_name, type_no_space]
+      set: [variable_declaration_name, expect_type]
 
   var_declarator:
     - include: tuple_literal
@@ -1400,7 +1390,7 @@ contexts:
     - match: (?={{namespaced_name}}{{type_suffix}}?\s+{{name}})
       push:
         - local_name
-        - type_no_space
+        - expect_type
     # labels
     - match: ({{name}})\s*({{colon}})
       captures:
@@ -1760,7 +1750,7 @@ contexts:
       set:
         - paren_cast_operand
         - paren_cast_end
-        - operator_type  # exclude tuples
+        - expect_object_type
 
   paren_cast_end:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -1827,7 +1817,7 @@ contexts:
     - match: (?=[@(]|{{start_char}})
       push:
         - method_param_name
-        - type_no_space
+        - expect_type
     - match: (?=\S)
       fail: parens
 
@@ -1864,7 +1854,7 @@ contexts:
     - match: (?=[@(]|{{start_char}})
       push:
         - variable_declaration_name
-        - type_no_space
+        - expect_type
     - match: (?=\S)
       fail: parens
 
@@ -1954,16 +1944,18 @@ contexts:
   maybe_type_group:
     - match: \(
       scope: punctuation.section.group.begin.cs
-      set: inside_type_group
+      set:
+        - type_group_end
+        - expect_type
     - include: else_pop
 
-  inside_type_group:
+  type_group_end:
     - meta_scope: meta.group.cs
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - include: type
     - include: stray_names
+    - include: else_pop
 
 ###[ FUNCTION CALL EXPRESSIONS ]###############################################
 
@@ -2046,10 +2038,6 @@ contexts:
     - include: immediately_pop
 
   instantiation_type:
-    - meta_content_scope: meta.function-call.identifier.cs
-    - match: \(
-      scope: punctuation.section.group.begin.cs
-      set: inside_function_call_argument_list
     - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)\b
       scope: meta.path.cs
       captures:
@@ -2061,8 +2049,10 @@ contexts:
         6: punctuation.accessor.dot.cs
         7: meta.function-call.identifier.cs support.type.cs
       set: regex_function_call_argument_list
-    - include: type
-    - include: else_pop
+    - match: (?=\S)
+      set:
+        - function_call_argument_list
+        - expect_object_type
 
   variable_initializer:
     # collection or object initializer
@@ -2231,7 +2221,7 @@ contexts:
       set:
         - after_switch_expression_case_guard_cast
         - inside_switch_expression_case_guard_cast
-        - operator_type  # exclude tuples
+        - expect_object_type
 
   inside_switch_expression_case_guard_cast:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -2274,6 +2264,7 @@ contexts:
       scope: keyword.operator.logical.cs
     - match: var\b
       scope: storage.type.cs
+      pop: 1
     - match: '{{base_type}}'
       scope: storage.type.cs
       set:
@@ -2323,11 +2314,44 @@ contexts:
       scope: storage.modifier.access.cs
 
   expect_type:
-    - match: (?=\S)
-      set: type_no_space
+    - include: type_tuple
+    - include: expect_object_type
 
-  type_no_space:
-    - include: type
+  expect_object_type:
+    - include: object_type
+    - include: else_pop
+
+  object_type:
+    - include: namespace_variables
+    - include: funcptr_type
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+      set:
+        - type_suffix
+        - type_argument_list
+    - match: '{{unreserved_name}}'
+      scope: support.type.cs
+      set:
+        - maybe_type_accessor
+        - type_suffix
+        - type_argument_list
+    - include: rank_specifiers
+
+  maybe_type_accessor:
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.cs
+      set: expect_user_type
+    - include: noeol_pop
+
+  expect_user_type:
+    - match: \s*({{unreserved_name}})
+      captures:
+        1: support.type.cs
+      set:
+        - maybe_type_accessor
+        - type_suffix
+        - type_argument_list
     - include: noeol_pop
 
   type:
@@ -2370,13 +2394,19 @@ contexts:
     - match: \s*(<)
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: inside_type_argument_list
+      push:
+        - inside_type_argument_list
+        - expect_type
+        - type_param_modifier
     - match: (?=[]})>,;>:]|=>)
       pop: 1
 
   base_types:
     - match: '{{base_type}}'
       scope: storage.type.cs
+      push:
+        - type_suffix
+        - type_argument_list
 
 ###[ TYPE PARAMETER LISTS ]####################################################
 
@@ -2384,38 +2414,59 @@ contexts:
     - match: \s*(<)
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
-      set: inside_type_argument_list
+      set:
+        - inside_type_argument_list
+        - expect_type
+        - type_param_modifier
     - include: noeol_pop
 
   inside_type_argument_list:
     - meta_content_scope: meta.generic.cs
-    - include: type_arg_param_common
-    - match: (?=[@(]|{{start_char}})
-      push: type_no_space
-    - include: else_pop
-
-  type_parameter_list:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      set: inside_type_parameter_list
-    - include: else_pop
-
-  inside_type_parameter_list:
-    - meta_content_scope: meta.generic.cs
-    - include: type_arg_param_common
-    - match: '{{name}}'
-      scope: variable.parameter.type.cs
-      push: type_suffix
-
-  type_arg_param_common:
     - match: '>'
       scope: meta.generic.cs punctuation.definition.generic.end.cs
       pop: 1
     - match: ','
       scope: punctuation.separator.type.cs
+      push:
+        - expect_type
+        - type_param_modifier
+    - include: else_pop
+
+  type_parameter_list:
+    - match: \s*(<)
+      captures:
+        1: meta.generic.cs punctuation.definition.generic.begin.cs
+      set:
+        - inside_type_parameter_list
+        - type_suffix
+        - type_param_name
+        - type_param_modifier
+    - include: noeol_pop
+
+  inside_type_parameter_list:
+    - meta_content_scope: meta.generic.cs
+    - match: '>'
+      scope: meta.generic.cs punctuation.definition.generic.end.cs
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.type.cs
+      push:
+        - type_suffix
+        - type_param_name
+        - type_param_modifier
+    - include: else_pop
+
+  type_param_modifier:
     - include: attributes
     - match: (?:in|out|ref|readonly)\b
       scope: storage.modifier.cs
+    - include: else_pop
+
+  type_param_name:
+    - match: '{{name}}'
+      scope: variable.parameter.type.cs
+      pop: 1
+    - include: else_pop
 
   type_suffix:
     - meta_include_prototype: false
@@ -2460,6 +2511,16 @@ contexts:
         - type_argument_list
         - funcptr_type_modifier
 
+  funcptr_type:
+    - match: (delegate)\s*(\*)
+      captures:
+        1: keyword.declaration.delegate.cs
+        2: keyword.operator.pointer.cs
+      set:
+        - funcptr_type_meta
+        - type_argument_list
+        - funcptr_type_modifier
+
   funcptr_type_meta:
     - meta_include_prototype: false
     - meta_scope: meta.type.funcptr.cs
@@ -2480,7 +2541,10 @@ contexts:
     - match: \s*(\[)
       captures:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
-      set: inside_funcptr_type_calling_convention
+      set:
+        - inside_funcptr_type_calling_convention
+        - expect_type
+        - funcptr_convention_modifier
     - include: noeol_pop
 
   inside_funcptr_type_calling_convention:
@@ -2490,9 +2554,15 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.type.cs
+      push:
+        - expect_type
+        - funcptr_convention_modifier
+    - include: else_pop
+
+  funcptr_convention_modifier:
     - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
       scope: storage.modifier.funcptr.cs
-    - include: type
+    - include: attributes
     - include: else_pop
 
 ###[ OPERATORS ]###############################################################

@@ -621,8 +621,7 @@ class Foo {
 ///              ^ punctuation.section.sequence.begin.cs
 ///               ^^^^^^^^^^^^ meta.instantiation.cs
 ///               ^^^ keyword.operator.new.cs
-///                  ^^^^^^^ meta.function-call.identifier.cs
-///                   ^^^^^^ support.type.cs
+///                   ^^^^^^ meta.function-call.identifier.cs support.type.cs
 ///                         ^^ meta.function-call.arguments.cs meta.group.cs
 ///                         ^ punctuation.section.group.begin.cs
 ///                          ^ punctuation.section.group.end.cs

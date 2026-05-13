@@ -361,8 +361,7 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
 ///                       ^^^^^ keyword.control.flow.throw.cs
 ///                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                             ^^^ keyword.operator.new.cs
-///                                ^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs
-///                                 ^^^^^^^^^^^^^^^^^ support.type.cs
+///                                 ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs support.type.cs
 ///                                                  ^^ meta.function-call.arguments.cs meta.group.cs
 ///                                                    ^ punctuation.terminator.case-expression.cs
     };

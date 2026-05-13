@@ -1234,7 +1234,6 @@ namespace TestNamespace . Test
 ///             ^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs - meta.braces meta.braces
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs meta.braces.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.other.member.cs
@@ -1252,7 +1251,6 @@ namespace TestNamespace . Test
 ///             ^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs - meta.braces meta.braces
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs meta.braces.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.other.member.cs
 ///                        ^ keyword.operator.assignment.cs
@@ -1270,7 +1268,6 @@ namespace TestNamespace . Test
                 new { base }
 ///             ^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.super.cs
@@ -1279,7 +1276,6 @@ namespace TestNamespace . Test
                 new { base[arguments] }
 ///             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.super.cs
@@ -1292,7 +1288,6 @@ namespace TestNamespace . Test
                 new { base.member }
 ///             ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.super.cs
@@ -1303,7 +1298,6 @@ namespace TestNamespace . Test
                 new { base.member<int> }
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.super.cs
@@ -1320,7 +1314,6 @@ namespace TestNamespace . Test
                 new { this }
 ///             ^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.this.cs
@@ -1329,7 +1322,6 @@ namespace TestNamespace . Test
                 new { this[arguments] }
 ///             ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.this.cs
@@ -1342,7 +1334,6 @@ namespace TestNamespace . Test
                 new { this.member }
 ///             ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.this.cs
@@ -1353,7 +1344,6 @@ namespace TestNamespace . Test
                 new { this.member<int> }
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
-///                ^ meta.function-call.identifier.cs
 ///                 ^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.this.cs
@@ -1951,10 +1941,13 @@ public class TestModifierOrder
 ///^^^^^^ meta.path.cs
 ///^^^^ support.namespace.global.cs
 ///    ^^ punctuation.accessor.double-colon.namespace.cs
-///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
+///      ^^^^^^ variable.annotation.cs
 ///            ^ punctuation.accessor.dot.cs
+///             ^^^^^^^ variable.annotation.cs
 ///                    ^ punctuation.accessor.dot.cs
+///                     ^^^^^^^^^^^^^^^^ variable.annotation.cs
 ///                                     ^ punctuation.accessor.dot.cs
+///                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
 ///                                                                ^^ meta.group.cs
 ///                                                                ^ punctuation.section.group.begin.cs
 ///                                                                 ^ punctuation.section.group.end.cs
@@ -1992,8 +1985,7 @@ internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase 
 ///                                                                                                                ^ punctuation.section.group.begin.cs
 ///                                                                                                                 ^^^^^^^^^^ meta.instantiation.cs
 ///                                                                                                                 ^^^ keyword.operator.new.cs
-///                                                                                                                    ^^^^^ meta.function-call.identifier.cs
-///                                                                                                                     ^^^^ support.type.cs
+///                                                                                                                     ^^^^ meta.function-call.identifier.cs support.type.cs
 ///                                                                                                                         ^^ meta.function-call.arguments.cs meta.group.cs
 ///                                                                                                                         ^ punctuation.section.group.begin.cs
 ///                                                                                                                          ^^^^ punctuation.section.group.end.cs
@@ -4236,8 +4228,7 @@ public class TestExpressions
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^^^^^^^^^ meta.instantiation.cs
 ///            ^^^ keyword.operator.new.cs
-///               ^^^^^^ meta.function-call.identifier.cs
-///                ^^^^^ support.type.cs
+///                ^^^^^ meta.function-call.identifier.cs support.type.cs
 ///                     ^^ meta.function-call.arguments.cs meta.group.cs
 ///                     ^ punctuation.section.group.begin.cs
 ///                      ^ punctuation.section.group.end.cs

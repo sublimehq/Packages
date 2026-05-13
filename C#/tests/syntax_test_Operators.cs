@@ -156,18 +156,18 @@ class TestOperatorDefinitions {
 ///                                             ^ punctuation.section.block.end.cs
 ///                                              ^ punctuation.terminator.statement.cs
 
-    operator TargetType?<T>(int arg) => null;
+    operator TargetType<T>?(int arg) => null;
 /// ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 ///                        ^^^^^^^^^ meta.method.parameters.cs
 ///                                 ^^^ meta.method.cs
 ///                                    ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^^^^^ support.type.cs
-///                    ^ storage.type.nullable.cs
-///                     ^^^ meta.generic.cs
-///                     ^ punctuation.definition.generic.begin.cs
-///                      ^ support.type.cs
-///                       ^ punctuation.definition.generic.end.cs
+///                    ^^^ meta.generic.cs
+///                    ^ punctuation.definition.generic.begin.cs
+///                     ^ support.type.cs
+///                      ^ punctuation.definition.generic.end.cs
+///                       ^ storage.type.nullable.cs
 ///                        ^ punctuation.section.parameters.begin.cs
 ///                         ^^^ storage.type.cs
 ///                             ^^^ variable.parameter.cs
