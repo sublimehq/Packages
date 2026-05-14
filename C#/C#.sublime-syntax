@@ -865,21 +865,21 @@ contexts:
         1: storage.modifier.where.cs
         2: support.type.cs
         3: punctuation.separator.type.cs
-      push: primary-constraint
+      push: primary-type-constraint
     - match: ','
       scope: punctuation.separator.types.cs
-      push: secondary-constraint
+      push: secondary-type-constraint
     - include: else-pop
 
-  primary-constraint:
+  primary-type-constraint:
     - match: (?:class|struct|unmanaged)\b
       scope: storage.type.cs
       set:
         - type-suffix
         - type-argument-list
-    - include: secondary-constraint
+    - include: secondary-type-constraint
 
-  secondary-constraint:
+  secondary-type-constraint:
     - match: (new)\s*((\()\s*(\)))
       scope: meta.constructor.cs
       captures:
