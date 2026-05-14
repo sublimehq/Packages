@@ -429,18 +429,18 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.cs
       push: inside-global-block
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - include: modifiers
-    - include: using-declaration
-    - include: class-declaration
-    - include: enum-declaration
-    - include: interface-declaration
-    - include: record-declaration
-    - include: struct-declaration
-    - include: delegate-declaration
-    - include: namespace-declaration
+    - include: using-declarations
+    - include: class-declarations
+    - include: enum-declarations
+    - include: interface-declarations
+    - include: record-declarations
+    - include: struct-declarations
+    - include: delegate-declarations
+    - include: namespace-declarations
     # allows coloration of code outside a class
     - include: code-block-in
 
@@ -451,13 +451,13 @@ contexts:
       pop: 1
     - include: statements
 
-  stray-close-bracket:
+  stray-brackets:
     - match: '[]})]'
       scope: invalid.illegal.stray.brace.cs
 
 ###[ USING DECLARATIONS ]######################################################
 
-  using-declaration:
+  using-declarations:
     - match: (?:(global)\s+)?(using)\b
       captures:
         1: storage.modifier.cs
@@ -506,7 +506,7 @@ contexts:
 
 ###[ NAMESPACE DECLARATIONS ]##################################################
 
-  namespace-declaration:
+  namespace-declarations:
     # package declaration
     - match: namespace\b
       scope: meta.namespace.cs keyword.declaration.namespace.cs
@@ -549,7 +549,7 @@ contexts:
 
 ###[ CLASS DECLARATIONS ]######################################################
 
-  class-declaration:
+  class-declarations:
     - match: class\b
       scope: meta.class.cs keyword.declaration.class.cs
       push:
@@ -601,25 +601,25 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - include: modifiers
-    - include: class-declaration
-    - include: enum-declaration
-    - include: interface-declaration
-    - include: record-declaration
-    - include: struct-declaration
-    - include: delegate-declaration
-    - include: event-declaration
-    - include: extension-declaration
-    - include: constructor-declaration
-    - include: conversion-declaration
-    - include: member-declaration
+    - include: class-declarations
+    - include: enum-declarations
+    - include: interface-declarations
+    - include: record-declarations
+    - include: struct-declarations
+    - include: delegate-declarations
+    - include: event-declarations
+    - include: extension-declarations
+    - include: constructor-declarations
+    - include: conversion-declarations
+    - include: member-declarations
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
-  enum-declaration:
+  enum-declarations:
     - match: enum\b
       scope: meta.enum.cs keyword.declaration.enum.cs
       push:
@@ -674,7 +674,7 @@ contexts:
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
-  interface-declaration:
+  interface-declarations:
     - match: interface\b
       scope: meta.interface.cs keyword.declaration.interface.cs
       push:
@@ -715,7 +715,7 @@ contexts:
 
 ###[ RECORD DECLARATIONS ]#####################################################
 
-  record-declaration:
+  record-declarations:
     - match: record\b
       scope: meta.record.cs keyword.declaration.record.cs
       push:
@@ -771,7 +771,7 @@ contexts:
 
 ###[ STRUCT DECLARATIONS ]#####################################################
 
-  struct-declaration:
+  struct-declarations:
     - match: struct\b
       scope: meta.struct.cs keyword.declaration.struct.cs
       push:
@@ -892,7 +892,7 @@ contexts:
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
-  member-declaration:
+  member-declarations:
     - match: (?=[(@]|{{start_char}})
       push:
         - member-name
@@ -918,7 +918,7 @@ contexts:
 
 ###[ CONSTRUCTOR MEMBER DECLARATIONS ]#########################################
 
-  constructor-declaration:
+  constructor-declarations:
     - match: '~{{unreserved_name}}(?=\s*\()'
       scope: meta.method.cs entity.name.function.destructor.cs
       push:
@@ -968,7 +968,7 @@ contexts:
 
 ###[ DELEGATE MEMBER DECLARATIONS ]############################################
 
-  delegate-declaration:
+  delegate-declarations:
     - match: delegate\b(?!\s*\*)
       scope: meta.delegate.cs keyword.declaration.delegate.cs
       push:
@@ -996,7 +996,7 @@ contexts:
 
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
 
-  event-declaration:
+  event-declarations:
     - match: event\b
       scope: meta.event.cs keyword.declaration.event.cs
       push:
@@ -1030,7 +1030,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - match: add\b
@@ -1043,7 +1043,7 @@ contexts:
 
 ###[ EXTENSION MEMBER DECLARATIONS ]###########################################
 
-  extension-declaration:
+  extension-declarations:
     - match: extension\b
       scope: meta.extension.cs keyword.declaration.trait.cs
       push:
@@ -1088,11 +1088,11 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - include: modifiers
-    - include: member-declaration
+    - include: member-declarations
     - include: code-block-in
 
 ###[ FIELD MEMBER DECLARATIONS ]###############################################
@@ -1119,7 +1119,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       set: field-accessor-initializer
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - match: '{{visibility}}'
@@ -1192,7 +1192,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: attributes
     - match: '{{visibility}}'
@@ -1279,7 +1279,7 @@ contexts:
 
 ###[ OPERATOR DECLARATIONS ]###################################################
 
-  conversion-declaration:
+  conversion-declarations:
     - match: operator\b
       scope: meta.method.cs keyword.declaration.operator.cs
       push:
@@ -1351,7 +1351,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-close-bracket
+    - include: stray-brackets
     - include: terminators
     - include: code-block-in
 
