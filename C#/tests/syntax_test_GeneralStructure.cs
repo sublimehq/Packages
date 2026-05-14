@@ -1457,8 +1457,21 @@ namespace TestNamespace . Test
 ///                          ^ punctuation.terminator.statement.cs
         }
 ///     ^ punctuation.section.block
+
+
+        /////////////////////////////////////////////////
+        // invalid class-level keywords and statements //
+        /////////////////////////////////////////////////
+
+        while
+///     ^^^^^ invalid.illegal.unexpected-token.cs
+
+        if
+///     ^^ invalid.illegal.unexpected-token.cs
+
     }
-/// ^ punctuation.section.block.end
+/// ^ meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
+///  ^ - meta.class
 
     void testMisc()
     {

@@ -904,6 +904,7 @@ contexts:
     - include: indexer_declaration
     - include: operator_declaration
     - include: field_declaration
+    - include: stray_names
     - include: else_pop
 
   member_qualifiers:
