@@ -1740,29 +1740,29 @@ contexts:
         - expression
         - maybe_pointer
 
-###[ CAST, GROUP, LAMBDA AND TUPLE EXPRESSIONS ]###############################
+###[ COMMON PARENTHESIZED EXPRESSIONS ]########################################
 
   parens:
     - match: (?=\()
       branch_point: parens
       branch:
-        - lambda
-        - tuple_deconstruction
-        - cast
-        - group
-        - tuple_type
+        - paren_lambda
+        - paren_tuple_deconstruction
+        - paren_cast
+        - paren_group
+        - paren_tuple_type
         - tuple_literal
 
-  cast:
+  paren_cast:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
       set:
-        - after_cast
-        - inside_cast
+        - paren_cast_operand
+        - paren_cast_end
         - operator_type  # exclude tuples
 
-  inside_cast:
+  paren_cast_end:
     - meta_scope: meta.cast.cs meta.group.cs
     - match: \)
       scope: punctuation.section.group.end.cs
@@ -1770,7 +1770,7 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  after_cast:
+  paren_cast_operand:
     - include: cast_end
     - match: (?=\S)
       fail: parens
@@ -1786,16 +1786,16 @@ contexts:
     - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(]|--|\+\+)
       pop: 1
 
-  group:
+  paren_group:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
       set:
-        - inside_group
+        - paren_group_end
         - expression
         - maybe_pointer
 
-  inside_group:
+  paren_group_end:
     - meta_scope: meta.group.cs
     - match: \)
       scope: punctuation.section.group.end.cs
@@ -1803,17 +1803,17 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  lambda:
+  paren_lambda:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
-      set: inside_lambda_parameter_list
+      set: inside_paren_lambda_parameter_list
 
-  inside_lambda_parameter_list:
+  inside_paren_lambda_parameter_list:
     - meta_scope: meta.function.anonymous.parameters.cs meta.group.cs
     - match: \)
       scope: punctuation.section.group.end.cs
-      set: lambda_arrow
+      set: paren_lambda_body
     - include: attributes
     - match: ','
       scope: punctuation.separator.parameter.cs
@@ -1831,7 +1831,7 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  lambda_arrow:
+  paren_lambda_body:
     - meta_content_scope: meta.function.anonymous.cs
     - match: =>
       scope: meta.function.anonymous.cs keyword.declaration.function.arrow.cs
@@ -1841,16 +1841,16 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  tuple_deconstruction:
+  paren_tuple_deconstruction:
     # (type name, name, name) =
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.sequence.begin.cs
       set:
-        - after_tuple_deconstruction
-        - inside_tuple_deconstruction
+        - paren_tuple_deconstruction_operator
+        - inside_paren_tuple_deconstruction
 
-  inside_tuple_deconstruction:
+  inside_paren_tuple_deconstruction:
     - meta_scope: meta.sequence.tuple.cs
     - match: \)
       scope: punctuation.section.sequence.end.cs
@@ -1868,8 +1868,26 @@ contexts:
     - match: (?=\S)
       fail: parens
 
-  after_tuple_deconstruction:
+  paren_tuple_deconstruction_operator:
     - match: (?==)
+      pop: 1
+    - match: (?=\S)
+      fail: parens
+
+  paren_tuple_type:
+    # (type name, type, type) func()
+    # (type name, type, type) variable
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.cs
+      set:
+        - paren_tuple_type_operand
+        - inside_type_tuple
+
+  paren_tuple_type_operand:
+    - include: method_declaration
+    - match: '{{unreserved_name}}'
+      scope: variable.other.cs
       pop: 1
     - match: (?=\S)
       fail: parens
@@ -1898,24 +1916,6 @@ contexts:
         - expression
         - maybe_pointer
     - include: expression
-
-  tuple_type:
-    # (type name, type, type) func()
-    # (type name, type, type) variable
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.sequence.begin.cs
-      set:
-        - after_type_tuple
-        - inside_type_tuple
-
-  after_type_tuple:
-    - include: method_declaration
-    - match: '{{unreserved_name}}'
-      scope: variable.other.cs
-      pop: 1
-    - match: (?=\S)
-      fail: parens
 
 ###[ GROUP EXPRESSIONS ]#######################################################
 
