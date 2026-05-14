@@ -889,10 +889,10 @@ contexts:
 
   member-name:
     - include: member-qualifiers
-    - include: method-declaration
-    - include: indexer-declaration
-    - include: operator-declaration
-    - include: field-declaration
+    - include: method-declarator
+    - include: indexer-declarator
+    - include: operator-declarator
+    - include: field-declarator
     - include: stray-names
     - include: else-pop
 
@@ -1086,7 +1086,7 @@ contexts:
 
 ###[ FIELD MEMBER DECLARATIONS ]###############################################
 
-  field-declaration:
+  field-declarator:
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
       set: field-body
@@ -1144,7 +1144,7 @@ contexts:
 
 ###[ INDEXER DECLARATIONS ]####################################################
 
-  indexer-declaration:
+  indexer-declarator:
     - match: this\b
       scope: meta.indexer.cs variable.language.this.cs
       set:
@@ -1199,7 +1199,7 @@ contexts:
 
 ###[ METHOD MEMBER DECLARATIONS ]##############################################
 
-  method-declaration:
+  method-declarator:
     - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\()'
       scope: meta.method.cs entity.name.function.cs
       set:
@@ -1275,7 +1275,7 @@ contexts:
         - method-parameter-list
         - expect-object-type
 
-  operator-declaration:
+  operator-declarator:
     - match: operator\b
       scope: meta.method.cs keyword.declaration.operator.cs
       set:
@@ -1435,7 +1435,7 @@ contexts:
     - include: else-pop
 
   local-name:
-    - include: method-declaration
+    - include: method-declarator
     - match: (?=\S)
       set: variable-declaration-list
 
@@ -1895,7 +1895,7 @@ contexts:
         - inside-type-tuple
 
   paren-tuple-type-operand:
-    - include: method-declaration
+    - include: method-declarator
     - match: '{{unreserved_name}}'
       scope: variable.other.cs
       pop: 1
