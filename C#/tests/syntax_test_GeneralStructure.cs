@@ -756,7 +756,28 @@ namespace TestNamespace . Test
 {
 /// <- meta.namespace.body.cs meta.namespace.body.cs meta.block.cs punctuation.section.block.begin.cs
 
-    public class Derived : Base
+    public class Derived<T> : Other<T>.Base<T>
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^^^^^^^^^^^^^^ meta.class.cs
+///        ^^^^^ keyword.declaration.class.cs
+///              ^^^^^^^ entity.name.class.cs
+///                     ^^^ meta.generic.cs
+///                     ^ punctuation.definition.generic.begin.cs
+///                      ^ variable.parameter.type.cs
+///                       ^ punctuation.definition.generic.end.cs
+///                         ^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
+///                         ^ punctuation.separator.type.cs
+///                           ^^^^^ support.type.cs
+///                                ^^^ meta.generic.cs
+///                                ^ punctuation.definition.generic.begin.cs
+///                                 ^ support.type.cs
+///                                  ^ punctuation.definition.generic.end.cs
+///                                   ^ punctuation.accessor.dot.cs
+///                                    ^^^^ entity.other.inherited-class.cs
+///                                        ^^^ meta.generic.cs
+///                                        ^ punctuation.definition.generic.begin.cs
+///                                         ^ support.type.cs
+///                                          ^ punctuation.definition.generic.end.cs
     {
         public Derived(DateTime exportDate) : base(exportDate) {
 ///     ^^^^^^ storage.modifier.access.cs

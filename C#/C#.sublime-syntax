@@ -822,12 +822,15 @@ contexts:
       set: type-constraints
     - match: ','
       scope: punctuation.separator.inherited-class.cs
+    - match: \.
+      scope: punctuation.accessor.dot.cs
     - include: namespace-variables
     - include: base-types
-    - match: ({{unreserved_name}})?(\.)
-      captures:
-        1: support.type.cs
-        2: punctuation.accessor.dot.cs
+    - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\.)'
+      scope: support.type.cs
+      push:
+        - type-suffix
+        - type-argument-list
     - match: '{{unreserved_name}}'
       scope: entity.other.inherited-class.cs
       push:
