@@ -173,7 +173,6 @@ contexts:
       push: inside_argument_list
     - match: ','
       scope: punctuation.separator.annotation.cs
-    - include: namespace_variables
     - match: (GeneratedRegex)\s*(\()
       captures:
         1: variable.annotation.cs
@@ -182,13 +181,44 @@ contexts:
         - inside_argument_list
         - immediately_pop
         - regex_string
-    - match: (?={{name}})
-      push: attribute_name
+    - include: namespace_variables
+    - match: '{{base_type}}'
+      scope: variable.annotation.cs storage.type.cs
+      push:
+        - type_suffix
+        - type_argument_list
+    - match: '{{name}}'
+      scope: variable.annotation.cs
+      push:
+        - maybe_attribute_accessor
+        - type_suffix
+        - type_argument_list
 
-  attribute_name:
+  maybe_attribute_accessor:
     - meta_include_prototype: false
-    - meta_content_scope: variable.annotation.cs
-    - include: type_common_except_bare_custom_type
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.cs
+      set: expect_attribute_name
+    - include: noeol_pop
+
+  expect_attribute_name:
+    - meta_include_prototype: false
+    - match: \s*(GeneratedRegex)\s*(\()
+      captures:
+        1: variable.annotation.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      set:
+        - inside_argument_list
+        - immediately_pop
+        - regex_string
+    - match: \s*({{unreserved_name}})
+      captures:
+        1: variable.annotation.cs
+      set:
+        - maybe_attribute_accessor
+        - type_suffix
+        - type_argument_list
     - include: noeol_pop
 
   inside_argument_list:
