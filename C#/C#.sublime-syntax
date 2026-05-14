@@ -492,7 +492,7 @@ contexts:
     - match: (?=;|{{reserved}}\b)
       pop: 1
     - match: '{{name}}'
-      scope: meta.path.cs
+      scope: variable.namespace.cs
       push:
         - type-suffix
         - type-argument-list
@@ -500,7 +500,7 @@ contexts:
       scope: keyword.operator.assignment.cs
       push: maybe-pointer
     - match: \.
-      scope: meta.path.cs punctuation.accessor.dot.cs
+      scope: punctuation.accessor.dot.cs
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
 
@@ -519,18 +519,6 @@ contexts:
       captures:
         1: variable.namespace.cs
         2: punctuation.accessor.dot.cs
-      set: qualified-namespace-declaration-name
-    - include: unqualified-namespace-declaration-name
-
-  qualified-namespace-declaration-name:
-    - meta_scope: meta.path.cs
-    - match: ({{unreserved_name}})\s*(\.)
-      captures:
-        1: variable.namespace.cs
-        2: punctuation.accessor.dot.cs
-    - include: unqualified-namespace-declaration-name
-
-  unqualified-namespace-declaration-name:
     - match: '{{unreserved_name}}'
       scope: entity.name.namespace.cs
       pop: 1
@@ -832,7 +820,6 @@ contexts:
     - include: namespace-variables
     - include: base-types
     - match: ({{unreserved_name}})?(\.)
-      scope: meta.path.cs
       captures:
         1: support.type.cs
         2: punctuation.accessor.dot.cs
@@ -2074,7 +2061,6 @@ contexts:
 
   instantiation-type:
     - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)\b
-      scope: meta.path.cs
       captures:
         1: variable.other.cs
         2: punctuation.accessor.dot.cs
@@ -2591,7 +2577,6 @@ contexts:
 
   namespace-variables:
     - match: (?:(global)|({{name}}))\s*(::)
-      scope: meta.path.cs
       captures:
         1: support.namespace.global.cs
         2: variable.namespace.cs

@@ -535,20 +535,6 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///                                             ^ punctuation.terminator.statement.cs - meta.using
     }
 
-using AutoFixture;
-/// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^^^^ meta.using.cs
-///^^ keyword.declaration.using.cs
-///   ^^^^^^^^^^^ meta.path.cs
-///              ^ punctuation.terminator.statement.cs - meta.using
-using AutoFixture.Xunit2;
-/// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
-///^^ keyword.declaration.using.cs
-///   ^^^^^^^^^^^^^^^^^^ meta.path.cs
-///              ^ punctuation.accessor.dot.cs
-///                     ^ punctuation.terminator.statement.cs - meta.using
-
 namespace CommonTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]

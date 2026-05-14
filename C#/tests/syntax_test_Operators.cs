@@ -547,7 +547,6 @@ A?.B?.C?[0] == E;
     (global::char[10]) var;
 /// ^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
 /// ^ punctuation.section.group.begin.cs
-///  ^^^^^^^^ meta.path.cs
 ///  ^^^^^^ support.namespace.global.cs
 ///        ^^ punctuation.accessor.double-colon.namespace.cs
 ///          ^^^^ storage.type.cs
@@ -626,7 +625,6 @@ A?.B?.C?[0] == E;
     (NS::mytype<T>?[,][].mysubtype<T>?[]) var;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
 /// ^ punctuation.section.group.begin.cs
-///  ^^^^ meta.path.cs
 ///  ^^ variable.namespace.cs
 ///    ^^ punctuation.accessor.double-colon.namespace.cs
 ///      ^^^^^^ support.type.cs

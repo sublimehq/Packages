@@ -1,13 +1,5 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
-// A skeleton of a C# program
-using System;
-/// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^ meta.using.cs
-///^^ keyword.declaration.using.cs
-///   ^^^^^^ meta.path.cs
-///         ^ punctuation.terminator.statement.cs - meta.using
-
 namespace YourNamespace
 ///^^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs - meta.path
 ///<- keyword.declaration.namespace
@@ -755,9 +747,7 @@ namespace YourNamespace
 /// ^ punctuation.section.block.end
 
 namespace TestNamespace . Test
-///^^^^^^^ meta.namespace.body.cs meta.namespace.cs - meta.path
-///       ^^^^^^^^^^^^^^^^^^^^ meta.namespace.body.cs meta.namespace.cs meta.path.cs
-///                           ^ meta.namespace.body.cs meta.namespace.cs - meta.path
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.body.cs meta.block.cs meta.namespace.cs
 ///<- keyword.declaration.namespace
 ///^^^^^^ keyword.declaration.namespace.cs
 ///       ^^^^^^^^^^^^^ variable.namespace.cs
@@ -1938,7 +1928,6 @@ public class TestModifierOrder
 
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.cs
-///^^^^^^ meta.path.cs
 ///^^^^ support.namespace.global.cs
 ///    ^^ punctuation.accessor.double-colon.namespace.cs
 ///      ^^^^^^ variable.annotation.cs
@@ -1953,10 +1942,10 @@ public class TestModifierOrder
 ///                                                                 ^ punctuation.section.group.end.cs
 ///                                                                  ^ punctuation.definition.annotation.end.cs
 internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase {
-///                                  ^^^ meta.path
-///                                     ^^ punctuation.accessor.double-colon
-///                                       ^^^^^^^^^^^^^ meta.path
-///                                                    ^ punctuation.accessor.dot
+///                                  ^^^ variable.namespace.cs
+///                                     ^^ punctuation.accessor.double-colon.namespace.cs
+///                                       ^^^^^^^^^^^^^ support.type.cs
+///                                                    ^ punctuation.accessor.dot.cs
 ///                                                     ^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
@@ -1972,7 +1961,6 @@ internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase 
 ///                                         ^^^^ support.type.cs
 ///                                             ^ punctuation.section.group.end.cs
 ///                                              ^ punctuation.section.group.begin.cs
-///                                               ^^^^^^^^ meta.path.cs
 ///                                               ^^^^^^ support.namespace.global.cs
 ///                                                     ^^ punctuation.accessor.double-colon.namespace.cs
 ///                                                       ^^^^^^ variable.other.cs
@@ -3432,7 +3420,6 @@ public class TestExpressions
 ///     ^^^^^^ keyword.other.cs
 ///           ^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^^ meta.path.cs
 ///            ^^ variable.namespace.cs
 ///              ^^ punctuation.accessor.double-colon.namespace.cs
 ///                ^^ support.type.cs
@@ -3442,7 +3429,6 @@ public class TestExpressions
 ///     ^^^^^^ keyword.other.cs
 ///           ^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^^ meta.path.cs
 ///            ^^ variable.namespace.cs
 ///              ^^ punctuation.accessor.double-colon.namespace.cs
 ///                ^^ support.type.cs
@@ -3944,7 +3930,6 @@ public class TestExpressions
 ///                          ^ punctuation.definition.annotation.begin.cs
 ///                           ^^^^^^^^^^^^ variable.annotation.cs
 ///                                       ^ punctuation.definition.annotation.end.cs
-///                                         ^^^^^^^^ meta.path.cs
 ///                                         ^^^^^^ support.namespace.global.cs
 ///                                               ^^ punctuation.accessor.double-colon.namespace.cs
 ///                                                 ^^^ support.type.cs
@@ -4163,7 +4148,6 @@ public class TestExpressions
 ///     ^ punctuation.section.group.begin.cs
 ///      ^^^^ support.type.cs
 ///          ^ punctuation.section.group.end.cs
-///            ^^^^^^^^ meta.path.cs
 ///            ^^^^^^ support.namespace.global.cs
 ///                  ^^ punctuation.accessor.double-colon.namespace.cs
 ///                    ^^^ variable.other.cs
@@ -4195,7 +4179,6 @@ public class TestExpressions
 ///     ^ punctuation.section.group.begin.cs
 ///      ^^^^ support.type.cs
 ///          ^ punctuation.section.group.end.cs
-///            ^^^^^^^^ meta.path.cs
 ///            ^^^^^^ support.namespace.global.cs
 ///                  ^^ punctuation.accessor.double-colon.namespace.cs
 ///                    ^^^^ meta.function-call.identifier.cs variable.function.cs

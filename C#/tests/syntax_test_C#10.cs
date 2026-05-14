@@ -5,8 +5,9 @@ global using Newtonsoft.Json;
 ///^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^^ storage.modifier.cs
 ///    ^^^^^ keyword.declaration.using.cs
-///          ^^^^^^^^^^^^^^^ meta.path.cs
+///          ^^^^^^^^^^ variable.namespace.cs
 ///                    ^ punctuation.accessor.dot.cs
+///                     ^^^^ variable.namespace.cs
 ///                         ^ punctuation.terminator.statement.cs
 global using static Console.WriteLine;
 /// <- meta.using.cs storage.modifier.cs
@@ -14,8 +15,9 @@ global using static Console.WriteLine;
 ///^^^ storage.modifier.cs
 ///    ^^^^^ keyword.declaration.using.cs
 ///          ^^^^^^ storage.modifier.static.cs
-///                 ^^^^^^^^^^^^^^^^^ meta.path.cs
+///                 ^^^^^^^ variable.namespace.cs
 ///                        ^ punctuation.accessor.dot.cs
+///                         ^^^^^^^^^ variable.namespace.cs
 ///                                  ^ punctuation.terminator.statement.cs
 
 namespace Example;
