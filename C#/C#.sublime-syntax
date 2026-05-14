@@ -1166,8 +1166,7 @@ contexts:
     - match: \[
       scope: punctuation.section.brackets.begin.cs
       set: inside-indexer-parameter-list
-    - match: (?=\S)
-      fail: member-declaration
+    - include: else-pop
 
   inside-indexer-parameter-list:
     - clear_scopes: 1
