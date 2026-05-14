@@ -1183,7 +1183,7 @@ contexts:
     - include: else-pop
 
   inside-indexer-accessor-declaration:
-    - meta_scope: meta.indexer.accessors.cs meta.block.cs
+    - meta_scope: meta.indexer.cs meta.accessors.cs meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1

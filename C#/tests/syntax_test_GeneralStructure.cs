@@ -991,7 +991,7 @@ namespace TestNamespace . Test
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.indexer meta.indexer
 ///          ^^^^ meta.indexer.cs
 ///              ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
-///                       ^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
+///                       ^^^^^^^^^^^^^ meta.indexer.cs meta.accessors.cs meta.block.cs
 ///     ^^^^ support.type.cs
 ///          ^^^^ variable.language.this.cs
 ///              ^ punctuation.section.brackets.begin.cs
@@ -1009,7 +1009,7 @@ namespace TestNamespace . Test
 ///                     ^^^^^ meta.indexer.cs
 ///                          ^^^^^^^^^ meta.indexer.parameters.cs meta.brackets.cs
 ///                                   ^ meta.indexer.cs
-///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.indexer.accessors.cs meta.block.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.indexer.cs meta.accessors.cs meta.block.cs
 ///     ^^^^ support.type.cs
 ///          ^^^^^ entity.other.inherited-class.cs
 ///               ^^^^^ meta.generic.cs
