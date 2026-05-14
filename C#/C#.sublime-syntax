@@ -1555,8 +1555,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.expression.cs
-      push: expression
-    - include: else_pop
+    - include: expression
 
   foreach_group:
     - match: \(
@@ -1596,10 +1595,6 @@ contexts:
     - include: expression
 
 ###[ EXPRESSIONS ]#############################################################
-
-  expressions:
-    - match: (?=\S)
-      push: expression
 
   expression:
     - include: parens
@@ -2036,8 +2031,6 @@ contexts:
     - include: arguments
 
   arguments:
-    - match: (?=[;)\]}])
-      pop: 1
     - match: ','
       scope: punctuation.separator.argument.cs
     - match: out\b
@@ -2050,7 +2043,7 @@ contexts:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
       push: maybe_pointer
-    - include: expressions
+    - include: expression
 
   out_argument:
     - match: ref\b
@@ -2123,7 +2116,7 @@ contexts:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push: maybe_pointer
-    - include: expressions
+    - include: expression
 
 ###[ ITEM ACCESS EXPRESSIONS ]#################################################
 
@@ -2145,7 +2138,7 @@ contexts:
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-    - include: expressions
+    - include: expression
 
   maybe_member_access:
     - match: \.
