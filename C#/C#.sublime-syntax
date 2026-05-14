@@ -853,10 +853,7 @@ contexts:
   inside-inherited-class-argument-list:
     - meta_include_prototype: false
     - meta_scope: meta.constructor.arguments.cs meta.group.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
-      pop: 1
-    - include: arguments
+    - include: inside-function-call-argument-list
 
   type-constraints:
     - meta_scope: meta.constraints.cs
