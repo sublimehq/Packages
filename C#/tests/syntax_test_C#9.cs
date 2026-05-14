@@ -64,9 +64,8 @@ switch (myValue)
 }
 
 var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
-///                             ^^^^^^^ meta.switch.cs
 ///                             ^^^^^^ keyword.control.conditional.switch.cs
-///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///                                    ^ punctuation.section.block.begin.cs
 ///                                      ^^^^^ meta.case.pattern.cs
 ///                                      ^^^^ constant.language.boolean.true.cs
@@ -91,12 +90,11 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 ///                                                                          ^ punctuation.terminator.statement.cs
 
 var message = myValue switch
-///                   ^^^^^^^ meta.switch.cs
 ///                   ^^^^^^ keyword.control.conditional.switch.cs
 {
-/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.begin.cs
+/// <- meta.block.cs punctuation.section.block.begin.cs
     <= 0 => "Less than or equal to 0",
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^ meta.case.pattern.cs
 ///      ^^ meta.case.cs
 /// ^^ keyword.operator.comparison.cs
@@ -105,7 +103,7 @@ var message = myValue switch
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                  ^ punctuation.terminator.case-expression.cs
     > 0 and <= 10 => "More than 0 but less than or equal to 10",
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///               ^^ meta.case.cs
 /// ^ keyword.operator.comparison.cs
@@ -117,7 +115,7 @@ var message = myValue switch
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                                            ^ punctuation.terminator.case-expression.cs
     _ => "More than 10"
-///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^ meta.case.pattern.cs
 ///   ^^ meta.case.cs
 /// ^ variable.language.anonymous.cs
@@ -126,7 +124,7 @@ var message = myValue switch
 ///      ^ punctuation.definition.string.begin.cs
 ///                   ^ punctuation.definition.string.end.cs
 } + ".";
-/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
+/// <- meta.block.cs punctuation.section.block.end.cs
 ///    ^ punctuation.terminator.statement.cs
 
 static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
@@ -135,15 +133,13 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs
 /// ^^^^^^ keyword.control.flow.return.cs
 ///        ^^^^ variable.other.cs
-///             ^^^^^^^ meta.switch.cs
 ///             ^^^^^^ keyword.control.conditional.switch.cs
     {
 ///^^^ meta.method.body.cs meta.block.cs
-///^ meta.switch.cs
-/// ^^ meta.switch.body.cs meta.block.cs
+/// ^^ meta.block.cs
 /// ^ punctuation.section.block.begin.cs
         { Status: BankStatus.Open } => true,
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                 ^^ meta.case.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
@@ -158,7 +154,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                                    ^^^^ constant.language.boolean.true.cs
 ///                                        ^ punctuation.terminator.case-expression.cs
         { Status: BankStatus.VIPCustomersOnly } => isVip,
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                             ^^ meta.case.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
@@ -173,7 +169,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                                                ^^^^^ variable.other.cs
 ///                                                     ^ punctuation.terminator.case-expression.cs
         { Status: { Foo: true }, Bar: var item } => false
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                                              ^^ meta.case.cs
 ///     ^^^^^^^^^^ meta.class.body.cs meta.block.cs - meta.class.body meta.class.body
@@ -197,7 +193,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                                                 ^^^^^ constant.language.boolean.false.cs
     };
 ///^^^^ meta.method.body.cs meta.block.cs
-///^^ meta.switch.body.cs meta.block.cs
+///^^ meta.block.cs
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.terminator.statement.cs
 }
@@ -273,8 +269,6 @@ public class TollCalculator
 ///                                                                               ^ punctuation.terminator.case-expression.cs
 
         Taxi t => 3.50m + (t.Fares) switch
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs - meta.switch meta.switch
-///                                 ^^^^^^^ meta.switch.body.cs meta.block.cs meta.switch.cs
 ///     ^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
 ///     ^^^^ support.type.cs
@@ -306,7 +300,7 @@ public class TollCalculator
 ///           ^^ meta.case.cs punctuation.separator.case-expression.cs
 ///               ^^^^^ meta.number.float.decimal.cs
         },
-///      ^ meta.switch.body.cs meta.block.cs - meta.case - meta.switch meta.switch
+///      ^ meta.block.cs - meta.case
 ///     ^ punctuation.section.block.end.cs
 ///      ^ punctuation.terminator.case-expression.cs
 
@@ -339,7 +333,7 @@ public class TollCalculator
 ///     ^^^^ constant.language.null.cs
 ///                     ^^ meta.case.cs punctuation.separator.case-expression.cs
     }
-/// ^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
+/// ^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs punctuation.section.block.end.cs
 }
 /// <- meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
 

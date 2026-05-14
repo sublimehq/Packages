@@ -1369,7 +1369,7 @@ contexts:
       scope: keyword.control.conditional.if.cs
       push: maybe_expression_group
     - match: switch\b
-      scope: meta.switch.cs keyword.control.conditional.switch.cs
+      scope: keyword.control.conditional.switch.cs
       push:
         - switch_block
         - maybe_expression_group
@@ -1461,7 +1461,7 @@ contexts:
     - include: else_pop
 
   inside_switch_block:
-    - meta_scope: meta.switch.body.cs meta.block.cs
+    - meta_scope: meta.block.cs
     - match: \b((default)\s*)({{colon}})
       captures:
         1: meta.case.pattern.cs
@@ -2203,7 +2203,7 @@ contexts:
 
   switch_expressions:
     - match: switch\b
-      scope: meta.switch.cs keyword.control.conditional.switch.cs
+      scope: keyword.control.conditional.switch.cs
       push: switch_expression_block
 
   switch_expression_block:
@@ -2217,7 +2217,7 @@ contexts:
     - include: else_pop
 
   inside_switch_expression_block:
-    - meta_scope: meta.switch.body.cs meta.block.cs
+    - meta_scope: meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1

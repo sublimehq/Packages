@@ -334,12 +334,9 @@ Range phrase = 1..4;
 public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
     colorBand switch
 /// ^^^^^^^^^ variable.other.cs
-///           ^^^^^^^ meta.switch.cs
 ///           ^^^^^^ keyword.control.conditional.switch.cs
     {
-/// <- meta.switch.cs
-///^ meta.switch.cs
-/// ^^ meta.switch.body.cs meta.block.cs
+/// ^^ meta.block.cs
 /// ^ punctuation.section.block.begin.cs
         Rainbow.Red    => new RGBColor(0xFF, 0x00, 0x00),
 ///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -365,7 +362,7 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
 ///                                                  ^^ meta.function-call.arguments.cs meta.group.cs
 ///                                                    ^ punctuation.terminator.case-expression.cs
     };
-///^^ meta.switch.body.cs meta.block.cs
+///^^ meta.block.cs
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.terminator.statement.cs - meta.switch
 
@@ -377,15 +374,13 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///          ^ punctuation.separator.sequence.cs
 ///            ^^^^^^ variable.other.cs
 ///                  ^ punctuation.section.sequence.end.cs
-///                    ^^^^^^^ meta.switch.cs
 ///                    ^^^^^^ keyword.control.conditional.switch.cs
     {
 /// <- meta.switch.cs
-///^ meta.switch.cs
-/// ^^ meta.switch.body.cs meta.block.cs
+/// ^^ meta.block.cs
 /// ^ punctuation.section.block.begin.cs
         ("rock", "paper") => "rock is covered by paper. Paper wins.",
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
 ///                      ^ meta.case.pattern.cs - meta.sequence
 ///                       ^^ meta.case.cs
@@ -398,7 +393,7 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                                                 ^ punctuation.terminator.case-expression.cs
         (_, _) => "tie"
-///^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
 ///           ^ meta.case.pattern.cs - meta.sequence
 ///            ^^ meta.case.cs
@@ -410,14 +405,14 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///            ^^ punctuation.separator.case-expression.cs
 ///               ^^^^^ meta.string.cs string.quoted.double.cs
     };
-/// ^ meta.switch.body.cs meta.block.cs - meta.case
+/// ^ meta.block.cs - meta.case
 /// ^ punctuation.section.block.end.cs
 ///  ^ punctuation.terminator.statement.cs - meta.switch
 
 static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point switch
 {
     (0, 0) => Quadrant.Origin,
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^ meta.case.pattern.cs
 ///        ^^ meta.case.cs
 /// ^^^^^^ meta.sequence.tuple.cs
@@ -432,7 +427,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///                    ^^^^^^ variable.other.cs
 ///                          ^ punctuation.terminator.case-expression.cs
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
 ///                                ^^ meta.case.cs
@@ -457,7 +452,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///                                            ^^^ variable.other.cs
 ///                                               ^ punctuation.terminator.case-expression.cs
     var (_, _) => Quadrant.OnBorder,
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
 /// ^^^ storage.type.cs
@@ -473,7 +468,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///                        ^^^^^^^^ variable.other.cs
 ///                                ^ punctuation.terminator.case-expression.cs
     _ => Quadrant.Unknown
-///^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^ meta.case.pattern.cs
 /// ^ variable.language.anonymous.cs
 ///   ^^ meta.case.cs
@@ -482,7 +477,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///              ^ punctuation.accessor.dot.cs
 ///               ^^^^^^^ variable.other.cs
 };
-/// <- meta.switch.body.cs meta.block.cs punctuation.section.block.end.cs
+/// <- meta.block.cs punctuation.section.block.end.cs
  /// <- punctuation.terminator.statement.cs - meta.switch - meta.block
 
     using var socket = new ClientWebSocket();

@@ -2634,7 +2634,7 @@ class TestControlStatements
 ///             ^^^^^ keyword.control.flow.break.cs
 ///                  ^ punctuation.terminator.statement.cs
         }
-///^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.end.cs
 ///      ^ - meta.switch
     }
@@ -2645,20 +2645,17 @@ class TestControlStatements
     void testSwitchCaseStatements()
     {
         switch
-///     ^^^^^^^ meta.switch.cs
 ///     ^^^^^^ keyword.control.conditional.switch.cs
 
         switch (foo) {
-///^^^^^^^^^^^^^^^^^^ meta.switch.cs
 ///     ^^^^^^ keyword.control.conditional.switch.cs
 ///            ^^^^^ meta.group.cs
 ///            ^ punctuation.section.group.begin.cs
 ///             ^^^ variable.other.cs
 ///                ^ punctuation.section.group.end.cs
-///                  ^^ meta.switch.body.cs meta.block.cs
+///                  ^^ meta.block.cs
 ///                  ^ punctuation.section.block.begin.cs
             case 1:
-///^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^ meta.case.pattern.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2666,7 +2663,6 @@ class TestControlStatements
                 do_something();
 ///             ^ variable.function
                 break;
-///^^^^^^^^^^^^^^^^^^^^ meta.switch.body.cs meta.block.cs
 ///             ^^^^^ keyword.control.flow.break.cs
 ///                  ^ punctuation.terminator.statement.cs
             case BLBodyBattleLibrary.ContextType.TapUp:
@@ -2738,7 +2734,7 @@ class TestControlStatements
 ///             ^^^^^ keyword.control.flow.break.cs
 ///                  ^ punctuation.terminator.statement.cs
         }
-///^^^^^^ meta.switch.body.cs meta.block.cs
+///^^^^^^ meta.method.body.cs meta.block.cs meta.block.cs
 ///     ^ punctuation.section.block.end.cs
 ///      ^ - meta.switch
     }
