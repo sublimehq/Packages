@@ -1969,13 +1969,22 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
+    - match: \.
+      scope: punctuation.accessor.dot.cs
+    - include: namespace_variables
     - include: instance_variables
+    - include: base_types
     # We don't if these are types of variables, so we guess that
     # uppercase names are types, and others are variables
-    - match: (?=(?!{{base_type}})\p{Ll}){{name}}(?=\s*\))
+    - match: (?=\p{Ll}){{name}}(?=\s*\))
       scope: variable.other.cs
-    - include: type
+    - match: '{{unreserved_name}}'
+      scope: support.type.cs
+      push:
+        - type_suffix
+        - type_argument_list
     - include: stray_names
+    - include: else_pop
 
   maybe_type_group:
     - match: \(
@@ -2349,6 +2358,13 @@ contexts:
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 
+  base_types:
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+      push:
+        - type_suffix
+        - type_argument_list
+
   expect_type:
     - include: type_tuple
     - include: expect_object_type
@@ -2390,14 +2406,6 @@ contexts:
         - type_argument_list
     - include: noeol_pop
 
-  type:
-    - include: type_common_except_bare_custom_type
-    - match: '{{unreserved_name}}'
-      scope: support.type.cs
-    - match: \(
-      scope: punctuation.section.sequence.begin.cs
-      push: inside_type_tuple
-
   type_tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.cs
@@ -2412,37 +2420,6 @@ contexts:
       scope: punctuation.separator.sequence.cs
     - match: (?=\S)
       push: var_declaration
-
-  type_common_except_bare_custom_type:
-    - include: namespace_variables
-    - include: funcptr_types
-    - include: base_types
-    - include: rank_specifiers
-    - match: \s*(\.)\s*
-      captures:
-        1: punctuation.accessor.dot.cs
-    - match: \s*(\*)
-      captures:
-        1: keyword.operator.pointer.cs
-    - match: \s*(\?)
-      captures:
-        1: storage.type.nullable.cs
-    - match: \s*(<)
-      captures:
-        1: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - inside_type_argument_list
-        - expect_type
-        - type_param_modifier
-    - match: (?=[]})>,;>:]|=>)
-      pop: 1
-
-  base_types:
-    - match: '{{base_type}}'
-      scope: storage.type.cs
-      push:
-        - type_suffix
-        - type_argument_list
 
 ###[ TYPE PARAMETER LISTS ]####################################################
 
