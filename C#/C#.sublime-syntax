@@ -868,6 +868,18 @@ contexts:
       push: primary_constraint
     - match: ','
       scope: punctuation.separator.types.cs
+      push: secondary_constraint
+    - include: else_pop
+
+  primary_constraint:
+    - match: (?:class|struct|unmanaged)\b
+      scope: storage.type.cs
+      set:
+        - type_suffix
+        - type_argument_list
+    - include: secondary_constraint
+
+  secondary_constraint:
     - match: (new)\s*((\()\s*(\)))
       scope: meta.constructor.cs
       captures:
@@ -875,14 +887,8 @@ contexts:
         2: meta.group.cs
         3: punctuation.section.group.begin.cs
         4: punctuation.section.group.end.cs
-    - include: type
-    - include: else_pop
-
-  primary_constraint:
-    - match: (?:class|struct|unmanaged)\b
-      scope: storage.type.cs
       pop: 1
-    - include: else_pop
+    - include: expect_object_type
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
