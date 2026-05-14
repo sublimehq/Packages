@@ -2,7 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string><![CDATA[(meta.class.body.cs, meta.interface.body.cs) & (meta.method.cs entity.name.function, meta.property.cs variable.other.member)]]></string>
+	<string><![CDATA[
+		source.cs entity.name.constant,
+		source.cs meta.event > variable.other.member,
+		source.cs meta.field > variable.other.member,
+		source.cs meta.indexer > variable.language.this,
+		source.cs meta.method > entity.name.function
+	]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

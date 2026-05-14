@@ -1089,7 +1089,14 @@ contexts:
   field-declarator:
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
-      set: field-body
+      set:
+        - field-meta
+        - field-body
+
+  field-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.field.cs
+    - include: immediately-pop
 
   field-body:
     # property
