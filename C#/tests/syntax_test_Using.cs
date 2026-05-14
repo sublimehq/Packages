@@ -22,7 +22,7 @@ using Project = PC.MyCompany.Project;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^^^^^ variable.namespace.cs
+///   ^^^^^^^ variable.other.import.cs
 ///           ^ keyword.operator.assignment.cs
 ///             ^^ variable.namespace.cs
 ///               ^ punctuation.accessor.dot.cs
@@ -34,7 +34,7 @@ using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^^^^^ variable.namespace.cs
+///   ^^^^^^^ variable.other.import.cs
 ///           ^ keyword.operator.assignment.cs
 ///             ^^ variable.namespace.cs
 ///               ^ punctuation.accessor.dot.cs
@@ -52,7 +52,7 @@ using col = global::System.Collections;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ variable.namespace.cs
+///   ^^^ variable.other.import.cs
 ///       ^ keyword.operator.assignment.cs
 ///         ^^^^^^ support.namespace.global.cs
 ///               ^^ punctuation.accessor.double-colon.namespace.cs
@@ -64,7 +64,7 @@ using sys = global::System;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ variable.namespace.cs
+///   ^^^ variable.other.import.cs
 ///       ^ keyword.operator.assignment.cs
 ///         ^^^^^^ support.namespace.global.cs
 ///               ^^ punctuation.accessor.double-colon.namespace.cs
@@ -74,7 +74,7 @@ using sys = custom::System;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ variable.namespace.cs
+///   ^^^ variable.other.import.cs
 ///       ^ keyword.operator.assignment.cs
 ///         ^^^^^^ variable.namespace.cs
 ///               ^^ punctuation.accessor.double-colon.namespace.cs
@@ -84,7 +84,7 @@ using abc = global:test;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ variable.namespace.cs
+///   ^^^ variable.other.import.cs
 ///       ^ keyword.operator.assignment.cs
 ///         ^^^^^^ variable.namespace.cs
 ///               ^^^^^ invalid.illegal.expected-namespace.cs

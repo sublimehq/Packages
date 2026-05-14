@@ -480,6 +480,11 @@ contexts:
         1: entity.name.type.cs
         2: keyword.operator.assignment.cs
       set: type-tuple
+    - match: ({{name}})\s*(=)
+      captures:
+        1: variable.other.import.cs
+        2: keyword.operator.assignment.cs
+      set: using-namespace
     - match: (?=var\b|{{namespaced_name}}{{type_suffix}}?\s+{{name}})
       set:
         - variable-declaration-list
