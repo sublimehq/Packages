@@ -1,4 +1,22 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
+
+usi
+/// <- variable.other.cs
+
+using
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^ meta.using.cs keyword.declaration.using.cs
+using System
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ variable.namespace.cs
+using System.
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ variable.namespace.cs
+///         ^ punctuation.accessor.dot.cs
 using System.Text;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^ meta.using.cs
@@ -7,6 +25,11 @@ using System.Text;
 ///         ^ punctuation.accessor.dot.cs
 ///          ^^^^ variable.namespace.cs
 ///              ^ punctuation.terminator.statement.cs
+using static
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^ storage.modifier.static.cs
 using static System.Math.Foo;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
@@ -18,6 +41,12 @@ using static System.Math.Foo;
 ///                     ^ punctuation.accessor.dot.cs
 ///                      ^^^ variable.namespace.cs
 ///                         ^ punctuation.terminator.statement.cs
+using Project =
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^^^^^ variable.other.import.cs
+///           ^ keyword.operator.assignment.cs
 using Project = PC.MyCompany.Project;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
@@ -82,12 +111,13 @@ using sys = custom::System;
 ///                       ^ punctuation.terminator.statement.cs
 using abc = global:test;
 /// <- meta.using.cs keyword.declaration.using.cs
-///^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^^^^^^^^^^^^^^ meta.using.cs
+///               ^^^^^^^ - meta.using
 ///^^ keyword.declaration.using.cs
 ///   ^^^ variable.other.import.cs
 ///       ^ keyword.operator.assignment.cs
 ///         ^^^^^^ variable.namespace.cs
-///               ^^^^^ invalid.illegal.expected-namespace.cs
+///                ^^^^ variable.other.cs
 ///                    ^ punctuation.terminator.statement.cs
 
 class Foo {

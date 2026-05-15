@@ -432,6 +432,7 @@ contexts:
     - include: terminators
     - include: attributes
     - include: modifiers
+    - include: visibility
     - include: using-declarations
     - include: class-declarations
     - include: enum-declarations
@@ -494,18 +495,12 @@ contexts:
   using-namespace:
     - include: accessors
     - include: namespace-variables
-    - match: (?=;|{{reserved}}\b)
-      pop: 1
-    - match: '{{name}}'
+    - match: '{{unreserved_name}}'
       scope: variable.namespace.cs
       push:
         - type-suffix
         - type-argument-list
-    - match: '='
-      scope: keyword.operator.assignment.cs
-      push: maybe-pointer
-    - match: '[^\s;]+'
-      scope: invalid.illegal.expected-namespace.cs
+    - include: else-pop
 
 ###[ NAMESPACE DECLARATIONS ]##################################################
 
@@ -596,6 +591,7 @@ contexts:
     - include: terminators
     - include: attributes
     - include: modifiers
+    - include: visibility
     - include: class-declarations
     - include: enum-declarations
     - include: interface-declarations
@@ -1080,6 +1076,7 @@ contexts:
     - include: terminators
     - include: attributes
     - include: modifiers
+    - include: visibility
     - include: member-declarations
     - include: code-block-in
 
@@ -1117,8 +1114,7 @@ contexts:
     - include: stray-brackets
     - include: terminators
     - include: attributes
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
+    - include: visibility
     - match: readonly\b
       scope: storage.modifier.cs
     - match: init\b
@@ -1189,8 +1185,7 @@ contexts:
     - include: stray-brackets
     - include: terminators
     - include: attributes
-    - match: '{{visibility}}'
-      scope: storage.modifier.access.cs
+    - include: visibility
     - match: get\b
       scope: meta.method.cs keyword.declaration.function.accessor.get.cs
       push: method-body
@@ -1648,6 +1643,9 @@ contexts:
     - include: switch-expressions
     - include: base-types
     - include: constants
+    - match: (?={{statement_keywords}}|{{visibility}})
+      pop: 1
+    # literals
     - include: characters
     - include: numbers
     - include: strings
@@ -1658,9 +1656,6 @@ contexts:
       scope: variable.language.cs
     - include: namespace-variables
     # expressions
-    - match: '{{name}}(?={{generic_declaration}}\s*\.)'
-      scope: support.type.cs
-      push: type-argument-list
     - match: (?:(?:(?:(System)(\.))?(Text)(\.))?(RegularExpressions)(\.))?(Regex)(\.)(Match|IsMatch|Replace)(?=\s*\()
       captures:
         1: variable.other.cs
@@ -1677,6 +1672,11 @@ contexts:
       scope: meta.function-call.identifier.cs variable.function.cs
       push:
         - function-call-argument-list
+        - type-argument-list
+    - match: '{{name}}(?={{generic_declaration}}\s*\.)'
+      scope: support.type.cs
+      push:
+        - type-suffix
         - type-argument-list
     - match: '{{name}}'
       scope: variable.other.cs
@@ -2339,6 +2339,8 @@ contexts:
   modifiers:
     - match: '{{modifiers}}'
       scope: storage.modifier.cs
+
+  visibility:
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 

@@ -3,6 +3,27 @@
 // https://devblogs.microsoft.com/dotnet/take-c-8-0-for-a-spin/
 // https://devblogs.microsoft.com/dotnet/building-c-8-0/
 
+using var
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+
+using var resp
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+///       ^^^^ variable.other.cs
+
+using var resp =
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+///       ^^^^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+
 using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
@@ -102,6 +123,40 @@ using MyClass<int>.SubList<int>[] item = await client.GetAsync();
 ///                                                           ^ punctuation.section.group.begin.cs
 ///                                                            ^ punctuation.section.group.end.cs
 ///                                                             ^ punctuation.terminator.statement.cs
+
+using int
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+
+using int name = 0;
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+///       ^^^^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.terminator.statement.cs
+
+using int[] name = (0, 1);
+/// <- meta.using.cs keyword.declaration.using.cs
+///^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
+///^^ keyword.declaration.using.cs
+///   ^^^ storage.type.cs
+///      ^^ meta.brackets.cs
+///      ^ punctuation.section.brackets.begin.cs
+///       ^ punctuation.section.brackets.end.cs
+///         ^^^^ variable.other.cs
+///              ^ keyword.operator.assignment.cs
+///                ^^^^^^ meta.sequence.tuple.cs
+///                ^ punctuation.section.sequence.begin.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^ punctuation.separator.sequence.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ punctuation.section.sequence.end.cs
+///                      ^ punctuation.terminator.statement.cs
 
 numbers ??= new List<int>();
 ///     ^^^ keyword.operator.assignment.augmented

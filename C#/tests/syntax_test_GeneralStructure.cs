@@ -2053,12 +2053,12 @@ class TestControlStatements
 ///             ^ invalid.illegal.stray.brace.cs
 ///               ^ punctuation.section.block.end.cs
 
-        catch (test in )
+        catch (test exc)
 ///     ^^^^^ keyword.control.exception.catch.cs
 ///           ^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
 ///            ^^^^ support.type.cs
-///                 ^^ variable.other.cs
+///                 ^^^ variable.other.cs
 ///                    ^ punctuation.section.group.end.cs
 
         finally
