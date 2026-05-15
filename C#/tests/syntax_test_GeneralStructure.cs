@@ -1698,7 +1698,7 @@ namespace TestNamespace . Test
 }
 ///<- punctuation.section.block.end
 }
-/// <- invalid.illegal.stray.brace
+/// <- invalid.illegal.stray
 
 class Test
 {
@@ -1706,10 +1706,10 @@ class Test
     {
         Something.SomeMethod(];
 ///                         ^ meta.function-call meta.group punctuation.section.group.begin
-///                          ^ invalid.illegal.stray.brace
+///                          ^ invalid.illegal.stray
 ///                           ^ punctuation.terminator.statement.cs
     }
-/// ^ - invalid.illegal.stray.brace
+/// ^ - invalid.illegal.stray
 }
 
 void Main () { // method outside a class, i.e. a LINQPad script
@@ -2035,7 +2035,7 @@ class TestControlStatements
 
         catch ) ;
 ///     ^^^^^ keyword.control.exception.catch.cs
-///           ^ invalid.illegal.stray.brace.cs
+///           ^ invalid.illegal.stray.cs
 ///             ^ punctuation.terminator.statement.cs
 
         { catch ( }
@@ -2050,7 +2050,7 @@ class TestControlStatements
 ///     ^^^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^^^ keyword.control.exception.catch.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 ///               ^ punctuation.section.block.end.cs
 
         catch (test exc)
@@ -2069,7 +2069,7 @@ class TestControlStatements
 ///                ^^^ variable.other.cs
 ///                   ^ - punctuation
 ///                     ^^^ variable.other.cs
-///                        ^ invalid.illegal.stray.brace.cs
+///                        ^ invalid.illegal.stray.cs
 
         catch when
 ///     ^^^^^ keyword.control.exception.catch.cs
@@ -2303,7 +2303,7 @@ class TestControlStatements
 
         for )
 ///     ^^^ keyword.control.loop.for.cs
-///         ^ invalid.illegal.stray.brace.cs
+///         ^ invalid.illegal.stray.cs
 
         { for ( }
 ///     ^^^^^^^^^ meta.block.cs
@@ -2317,7 +2317,7 @@ class TestControlStatements
 ///     ^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^ keyword.control.loop.for.cs
-///           ^ invalid.illegal.stray.brace.cs
+///           ^ invalid.illegal.stray.cs
 ///             ^ punctuation.section.block.end.cs
 
         for ()
@@ -2453,7 +2453,7 @@ class TestControlStatements
 
         foreach ) ;
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 ///               ^ punctuation.terminator.statement.cs
 
         { foreach ( }
@@ -2468,7 +2468,7 @@ class TestControlStatements
 ///     ^^^^^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^^^^^ keyword.control.loop.foreach.cs
-///               ^ invalid.illegal.stray.brace.cs
+///               ^ invalid.illegal.stray.cs
 ///                 ^ punctuation.section.block.end.cs
 
         foreach (test in )
@@ -2586,7 +2586,7 @@ class TestControlStatements
 ///     ^^^^^ keyword.control.loop.while.cs
 ///           ^ meta.group.cs punctuation.section.group.begin.cs
 ///            ^ punctuation.terminator.statement.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 
         while ( {} )
 ///     ^^^^^ keyword.control.loop.while.cs
@@ -2595,7 +2595,7 @@ class TestControlStatements
 ///             ^^ meta.block.cs
 ///             ^ punctuation.section.block.begin.cs
 ///              ^ punctuation.section.block.end.cs
-///                ^ invalid.illegal.stray.brace.cs
+///                ^ invalid.illegal.stray.cs
         { while ( }
 ///     ^^^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
@@ -2608,7 +2608,7 @@ class TestControlStatements
 ///     ^^^^^^^^^^^ meta.block.cs
 ///     ^ punctuation.section.block.begin.cs
 ///       ^^^^^ keyword.control.loop.while.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 ///               ^ punctuation.section.block.end.cs
 
         while (true) {
@@ -2849,6 +2849,17 @@ class TestLocalDefinitions
 ///             ^ keyword.operator.assignment.cs
 ///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                ^ punctuation.terminator.statement.cs
+
+        var foo = 0, bar, baz;
+///     ^^^ storage.type.cs
+///         ^^^ variable.other.cs
+///             ^ keyword.operator.assignment.cs
+///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                ^ invalid.illegal.stray.cs
+///                  ^^^ variable.other.cs
+///                     ^ invalid.illegal.stray.cs
+///                       ^^^ variable.other.cs
+///                          ^ punctuation.terminator.statement.cs
 
         long
 ///     ^^^^ storage.type.cs
@@ -3178,7 +3189,7 @@ public class TestExpressions
 ///     ^^^^^^^ keyword.other.cs
 ///            ^ meta.group.cs punctuation.section.group.begin.cs
 ///             ^ punctuation.terminator.statement.cs
-///              ^ invalid.illegal.stray.brace.cs
+///              ^ invalid.illegal.stray.cs
 
         default(byte);
 ///     ^^^^^^^ keyword.other.cs
@@ -3270,7 +3281,7 @@ public class TestExpressions
 ///     ^^^^^^ keyword.other.cs
 ///           ^ meta.group.cs punctuation.section.group.begin.cs
 ///            ^ punctuation.terminator.statement.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 
         nameof(byte);
 ///     ^^^^^^ keyword.other.cs
@@ -3419,7 +3430,7 @@ public class TestExpressions
 ///     ^^^^^^ keyword.other.cs
 ///           ^ meta.group.cs punctuation.section.group.begin.cs
 ///            ^ punctuation.terminator.statement.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 
         sizeof(byte)
 ///     ^^^^^^ keyword.other.cs
@@ -3445,7 +3456,7 @@ public class TestExpressions
 ///     ^^^^^^ keyword.other.cs
 ///           ^ meta.group.cs punctuation.section.group.begin.cs
 ///            ^ punctuation.terminator.statement.cs
-///             ^ invalid.illegal.stray.brace.cs
+///             ^ invalid.illegal.stray.cs
 
         typeof(byte)
 ///     ^^^^^^ keyword.other.cs
@@ -4110,7 +4121,7 @@ public class TestExpressions
 ///                                                     ^ punctuation.terminator.statement.cs
 
         "hello".OfType<char>().Where(c => c == 'l').Count());
-///                                                        ^ invalid.illegal.stray.brace
+///                                                        ^ invalid.illegal.stray
     }
 ///^^ meta.method.body.cs meta.block.cs
 /// ^ punctuation.section.block.end.cs

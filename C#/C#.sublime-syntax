@@ -29,7 +29,7 @@ contexts:
 
   csharp:
     - include: csharp-blocks
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: attributes
     - include: modifiers
@@ -459,10 +459,6 @@ contexts:
       pop: 1
     - include: csharp
 
-  stray-brackets:
-    - match: '[]})]'
-      scope: invalid.illegal.stray.brace.cs
-
 ###[ USING DECLARATIONS ]######################################################
 
   using-declarations:
@@ -595,7 +591,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: attributes
     - include: modifiers
@@ -1027,7 +1023,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: attributes
     - match: add\b
@@ -1115,7 +1111,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       set: field-accessor-initializer
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: attributes
     - include: visibility
@@ -1186,7 +1182,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: attributes
     - include: visibility
@@ -1339,7 +1335,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-brackets
+    - include: stray-punctuations
     - include: terminators
     - include: statements
 
@@ -2578,6 +2574,10 @@ contexts:
   terminators:
     - match: ';'
       scope: punctuation.terminator.statement.cs
+
+  stray-punctuations:
+    - match: '[]}),:]'
+      scope: invalid.illegal.stray.cs
 
 ###[ VARIABLES ]###############################################################
 
