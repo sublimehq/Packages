@@ -312,8 +312,7 @@ contexts:
     - match: \s*(#)\s*({{name}})
       captures:
         1: punctuation.definition.preprocessor.cs
-    - match: $\n?|(?=\s*/[/*])
-      pop: 1
+    - include: noeol-pop
 
   preprocessor-if-condition:
     - meta_content_scope: meta.preprocessor.cs
