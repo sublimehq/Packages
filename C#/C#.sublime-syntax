@@ -1365,7 +1365,9 @@ contexts:
     # exception statements
     - match: catch\b
       scope: keyword.control.exception.catch.cs
-      push: catch-group
+      push:
+        - catch-guard
+        - catch-group
     - match: finally\b
       scope: keyword.control.exception.finally.cs
     - match: try\b
@@ -1481,9 +1483,15 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.cs
       set:
-        - catch-guard
-        - inside-expression-group
+        - catch-group-end
         - var-declaration
+    - include: else-pop
+
+  catch-group-end:
+    - meta_scope: meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: 1
     - include: else-pop
 
   catch-guard:

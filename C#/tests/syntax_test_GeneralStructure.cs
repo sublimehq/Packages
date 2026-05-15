@@ -2061,6 +2061,30 @@ class TestControlStatements
 ///                 ^^^ variable.other.cs
 ///                    ^ punctuation.section.group.end.cs
 
+        catch (exc exc, err)    // Note: only one identifier allowed!!
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ support.type.cs
+///                ^^^ variable.other.cs
+///                   ^ - punctuation
+///                     ^^^ variable.other.cs
+///                        ^ invalid.illegal.stray.brace.cs
+
+        catch when
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^^^ keyword.control.conditional.when.cs
+
+        catch () when ()
+///     ^^^^^ keyword.control.exception.catch.cs
+///           ^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^ keyword.control.conditional.when.cs
+///                   ^^ meta.group.cs
+///                   ^ punctuation.section.group.begin.cs
+///                    ^ punctuation.section.group.end.cs
+
         finally
 ///     ^^^^^^^ keyword.control.exception.finally.cs
 
