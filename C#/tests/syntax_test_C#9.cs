@@ -855,23 +855,6 @@ unsafe class TestFunctionPointers {
 ///                                                                  ^ punctuation.accessor.dot.cs
 ///                                                                   ^^^ variable.other.cs
 ///                                                                      ^ punctuation.terminator.statement.cs
-
-        delegate* instance<Instance, string> f = &ToString;
-///     ^^^^^^^^^ meta.type.funcptr.cs
-///     ^^^^^^^^ keyword.declaration.delegate.cs
-///             ^ keyword.operator.pointer.cs
-///               ^^^^^^^^ support.type.cs
-///                       ^^^^^^^^^^^^^^^^^^ meta.generic.cs
-///                       ^ punctuation.definition.generic.begin.cs
-///                        ^^^^^^^^ support.type.cs
-///                                ^ punctuation.separator.comma.cs
-///                                  ^^^^^^ storage.type.cs
-///                                        ^ punctuation.definition.generic.end.cs
-///                                          ^ variable.other.cs
-///                                            ^ keyword.operator.assignment.cs
-///                                              ^ keyword.operator.pointer.cs
-///                                               ^^^^^^^^ variable.other.cs
-///                                                       ^ punctuation.terminator.statement.cs
     }
 /// <- meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
 ///^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs

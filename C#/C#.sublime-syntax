@@ -1404,6 +1404,15 @@ contexts:
       push:
         - assignment-expression
         - var-declarator
+    - match: (delegate)\s*(\*)
+      captures:
+        1: keyword.declaration.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - expression-list
+        - funcptr-type-meta
+        - type-argument-list
+        - funcptr-type-modifier
     - include: keywords
     - match: '{{base_type}}'
       scope: storage.type.cs
@@ -1698,7 +1707,6 @@ contexts:
   keywords:
     - include: instantiations
     - include: modifiers
-    - include: funcptr-types
     - match: delegate\b
       scope: meta.function.anonymous.cs keyword.declaration.delegate.cs
       push:
@@ -2363,7 +2371,14 @@ contexts:
 
   object-type:
     - include: namespace-variables
-    - include: funcptr-type
+    - match: (delegate)\s*(\*)
+      captures:
+        1: keyword.declaration.delegate.cs
+        2: keyword.operator.pointer.cs
+      set:
+        - funcptr-type-meta
+        - type-argument-list
+        - funcptr-type-modifier
     - match: '{{base_type}}'
       scope: storage.type.cs
       set:
@@ -2501,26 +2516,6 @@ contexts:
     - include: expression-list
 
 ###[ FUNCTION POINTER TYPES ]##################################################
-
-  funcptr-types:
-    - match: (delegate)\s*(\*)
-      captures:
-        1: keyword.declaration.delegate.cs
-        2: keyword.operator.pointer.cs
-      push:
-        - funcptr-type-meta
-        - type-argument-list
-        - funcptr-type-modifier
-
-  funcptr-type:
-    - match: (delegate)\s*(\*)
-      captures:
-        1: keyword.declaration.delegate.cs
-        2: keyword.operator.pointer.cs
-      set:
-        - funcptr-type-meta
-        - type-argument-list
-        - funcptr-type-modifier
 
   funcptr-type-meta:
     - meta_include_prototype: false

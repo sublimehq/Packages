@@ -839,6 +839,32 @@ class Foo {
 ///                                                     ^ punctuation.section.sequence.end.cs
 ///                                                       ^^^^^^^^ variable.parameter.cs
 ///                                                               ^ punctuation.section.parameters.end.cs
+
+    delegate (int foo, string bar) TypeName((int foo, string bar) arg);
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.cs
+/// ^^^^^^^^ keyword.declaration.delegate.cs
+///          ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///          ^ punctuation.section.sequence.begin.cs
+///           ^^^ storage.type.cs
+///               ^^^ variable.other.cs
+///                  ^ punctuation.separator.comma.cs
+///                    ^^^^^^ storage.type.cs
+///                           ^^^ variable.other.cs
+///                              ^ punctuation.section.sequence.end.cs
+///                                ^^^^^^^^ entity.name.type.delegate.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs
+///                                        ^ punctuation.section.parameters.begin.cs
+///                                         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                                         ^ punctuation.section.sequence.begin.cs
+///                                          ^^^ storage.type.cs
+///                                              ^^^ variable.other.cs
+///                                                 ^ punctuation.separator.comma.cs
+///                                                   ^^^^^^ storage.type.cs
+///                                                          ^^^ variable.other.cs
+///                                                             ^ punctuation.section.sequence.end.cs
+///                                                               ^^^ variable.parameter.cs
+///                                                                  ^ punctuation.section.parameters.end.cs
+///                                                                   ^ punctuation.terminator.statement.cs
 }
 /// <- meta.class.body punctuation.section.block.end
 
