@@ -25,7 +25,30 @@ contexts:
   main:
     - meta_include_prototype: false
     - match: ''
-      push: [statements, shebang]
+      push: [csharp, shebang]
+
+  csharp:
+    - include: csharp-blocks
+    - include: stray-brackets
+    - include: terminators
+    - include: attributes
+    - include: modifiers
+    - include: visibility
+    # global declarations
+    - include: namespace-declarations
+    - include: using-declarations
+    - include: class-declarations
+    - include: enum-declarations
+    - include: interface-declarations
+    - include: record-declarations
+    - include: struct-declarations
+    - include: delegate-declarations
+    # class level declarations (fallback only)
+    - include: event-declarations
+    - include: extension-declarations
+    - include: conversion-declarations
+    # statements and expressions (fallback only)
+    - include: statements
 
 ###[ COMMENTS ]################################################################
 
@@ -422,34 +445,19 @@ contexts:
     - match: \S+
       scope: invalid.illegal.cs
 
-###[ GLOBAL STATEMENTS ]#######################################################
+###[ GLOBAL BLOCKS ]###########################################################
 
-  statements:
+  csharp-blocks:
     - match: \{
       scope: punctuation.section.block.begin.cs
-      push: inside-global-block
-    - include: stray-brackets
-    - include: terminators
-    - include: attributes
-    - include: modifiers
-    - include: visibility
-    - include: using-declarations
-    - include: class-declarations
-    - include: enum-declarations
-    - include: interface-declarations
-    - include: record-declarations
-    - include: struct-declarations
-    - include: delegate-declarations
-    - include: namespace-declarations
-    # allows coloration of code outside a class
-    - include: code-block-in
+      push: inside-csharp-block
 
-  inside-global-block:
+  inside-csharp-block:
     - meta_scope: meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: statements
+    - include: csharp
 
   stray-brackets:
     - match: '[]})]'
@@ -531,7 +539,7 @@ contexts:
 
   inside-namespace-declaration-block:
     - meta_scope: meta.namespace.body.cs meta.block.cs
-    - include: inside-global-block
+    - include: inside-csharp-block
 
 ###[ CLASS DECLARATIONS ]######################################################
 
@@ -592,17 +600,22 @@ contexts:
     - include: attributes
     - include: modifiers
     - include: visibility
+    # nested global declarations
     - include: class-declarations
     - include: enum-declarations
     - include: interface-declarations
     - include: record-declarations
     - include: struct-declarations
     - include: delegate-declarations
+    # class level declarations
     - include: event-declarations
     - include: extension-declarations
-    - include: constructor-declarations
     - include: conversion-declarations
+    - include: constructor-declarations
     - include: member-declarations
+    # fallbacks
+    - include: statement-blocks
+    - include: else-expression
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
@@ -1069,16 +1082,7 @@ contexts:
 
   inside-extension-block:
     - meta_scope: meta.extension.body.cs meta.block.cs
-    - match: \}
-      scope: punctuation.section.block.end.cs
-      pop: 1
-    - include: stray-brackets
-    - include: terminators
-    - include: attributes
-    - include: modifiers
-    - include: visibility
-    - include: member-declarations
-    - include: code-block-in
+    - include: inside-class-block
 
 ###[ FIELD MEMBER DECLARATIONS ]###############################################
 
@@ -1325,6 +1329,11 @@ contexts:
       set: inside-statement-block
     - include: else-pop
 
+  statement-blocks:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      push: inside-statement-block
+
   inside-statement-block:
     - meta_scope: meta.block.cs
     - match: \}
@@ -1332,12 +1341,10 @@ contexts:
       pop: 1
     - include: stray-brackets
     - include: terminators
-    - include: code-block-in
+    - include: statements
 
-  code-block-in:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      push: inside-statement-block
+  statements:
+    - include: statement-blocks
     # conditional statements
     - match: else\s+if\b
       scope: keyword.control.conditional.elseif.cs
@@ -1413,8 +1420,7 @@ contexts:
         1: entity.name.label.cs
         2: punctuation.separator.colon.cs
     # expressions
-    - match: (?=\S)
-      push: expression
+    - include: else-expression
 
   goto-target:
     - match: case\b
@@ -1580,6 +1586,10 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.cs
     - include: expression
+
+  else-expression:
+    - match: (?=\S)
+      push: expression
 
   expression:
     - include: parens
