@@ -886,7 +886,7 @@ contexts:
         3: punctuation.section.group.begin.cs
         4: punctuation.section.group.end.cs
       pop: 1
-    - include: expect-object-type
+    - include: maybe-object-type
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
@@ -894,7 +894,7 @@ contexts:
     - match: (?=[(@]|{{start_char}})
       push:
         - member-name
-        - expect-type
+        - maybe-type
 
   member-name:
     - include: member-qualifiers
@@ -972,7 +972,7 @@ contexts:
         - delegate-parameter-list
         - type-parameter-list
         - delegate-declaration-name
-        - expect-type
+        - maybe-type
 
   delegate-declaration-name:
     - match: '{{name}}'
@@ -1000,7 +1000,7 @@ contexts:
         - event-declaration-meta
         - event-declaration-initializer
         - event-declaration-name
-        - expect-type
+        - maybe-type
 
   event-declaration-meta:
     - meta_include_prototype: false
@@ -1235,7 +1235,7 @@ contexts:
       push:
         - assignment-expression
         - method-param-name
-        - expect-type
+        - maybe-type
         - method-param-modifier
 
   method-param-modifier:
@@ -1278,7 +1278,7 @@ contexts:
       push:
         - method-body
         - method-parameter-list
-        - expect-object-type
+        - maybe-object-type
 
   operator-declarator:
     - match: operator\b
@@ -1306,7 +1306,7 @@ contexts:
       scope: storage.type.cs
       set: var-declarator
     - match: (?=\S)
-      set: [variable-declaration-name, expect-type]
+      set: [variable-declaration-name, maybe-type]
 
   var-declarator:
     - include: tuple-literal
@@ -1413,7 +1413,7 @@ contexts:
     - match: (?={{namespaced_name}}\s+{{name}})
       push:
         - local-name
-        - expect-type
+        - maybe-type
     # labels
     - match: ({{name}})\s*({{colon}})
       captures:
@@ -1729,7 +1729,7 @@ contexts:
       push: maybe-expression-group
     - match: as\b
       scope: keyword.operator.cast.cs
-      push: expect-type
+      push: maybe-type
     - match: is\b
       scope: keyword.operator.comparison.type.cs
       push: expect-pattern
@@ -1782,7 +1782,7 @@ contexts:
       set:
         - paren-cast-operand
         - paren-cast-end
-        - expect-object-type
+        - maybe-object-type
 
   paren-cast-end:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -1849,7 +1849,7 @@ contexts:
     - match: (?=[@(]|{{start_char}})
       push:
         - method-param-name
-        - expect-type
+        - maybe-type
     - match: (?=\S)
       fail: parens
 
@@ -1886,7 +1886,7 @@ contexts:
     - match: (?=[@(]|{{start_char}})
       push:
         - variable-declaration-name
-        - expect-type
+        - maybe-type
     - match: (?=\S)
       fail: parens
 
@@ -1984,7 +1984,7 @@ contexts:
       scope: punctuation.section.group.begin.cs
       set:
         - type-group-end
-        - expect-type
+        - maybe-type
     - include: else-pop
 
   type-group-end:
@@ -2087,7 +2087,7 @@ contexts:
     - match: (?=\S)
       set:
         - function-call-argument-list
-        - expect-object-type
+        - maybe-object-type
 
   variable-initializer:
     # collection or object initializer
@@ -2252,7 +2252,7 @@ contexts:
       set:
         - after-switch-expression-case-guard-cast
         - inside-switch-expression-case-guard-cast
-        - expect-object-type
+        - maybe-object-type
 
   inside-switch-expression-case-guard-cast:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -2353,11 +2353,11 @@ contexts:
         - type-suffix
         - type-argument-list
 
-  expect-type:
+  maybe-type:
     - include: type-tuple
-    - include: expect-object-type
+    - include: maybe-object-type
 
-  expect-object-type:
+  maybe-object-type:
     - include: object-type
     - include: else-pop
 
@@ -2381,10 +2381,10 @@ contexts:
     - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.cs
-      set: expect-user-type
+      set: maybe-user-type
     - include: noeol-pop
 
-  expect-user-type:
+  maybe-user-type:
     - match: \s*({{unreserved_name}})
       captures:
         1: support.type.cs
@@ -2417,7 +2417,7 @@ contexts:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
       set:
         - inside-type-argument-list
-        - expect-type
+        - maybe-type
         - type-param-modifier
     - include: noeol-pop
 
@@ -2429,7 +2429,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.cs
       push:
-        - expect-type
+        - maybe-type
         - type-param-modifier
     - include: else-pop
 
@@ -2542,7 +2542,7 @@ contexts:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
       set:
         - inside-funcptr-type-calling-convention
-        - expect-type
+        - maybe-type
         - funcptr-convention-modifier
     - include: noeol-pop
 
@@ -2554,7 +2554,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.cs
       push:
-        - expect-type
+        - maybe-type
         - funcptr-convention-modifier
     - include: else-pop
 
