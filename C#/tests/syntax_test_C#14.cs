@@ -84,7 +84,7 @@ public static class EnumerableExtensions
 //      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.cs meta.constraints.cs
 //      ^^^^^ storage.modifier.where.cs
 //            ^ support.type.cs
-//              ^ punctuation.separator.type.cs
+//              ^ punctuation.separator.colon.cs
 //                ^^^^^^^^^^ support.type.cs
 //                          ^^^ meta.generic.cs
 //                          ^ punctuation.definition.generic.begin.cs
@@ -195,7 +195,7 @@ delegate bool TryParse<T>(string text, out T result);
 //                       ^ punctuation.section.parameters.begin.cs
 //                        ^^^^^^ storage.type.cs
 //                               ^^^^ variable.parameter.cs
-//                                   ^ punctuation.separator.parameter.cs
+//                                   ^ punctuation.separator.comma.cs
 //                                     ^^^ storage.modifier.parameter.cs
 //                                         ^ support.type.cs
 //                                           ^^^^^^ variable.parameter.cs
@@ -214,7 +214,7 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^^^ storage.type.cs
 //                             ^^^^ variable.parameter.cs
-//                                 ^ punctuation.separator.parameter.cs
+//                                 ^ punctuation.separator.comma.cs
 //                                   ^^^ storage.modifier.parameter.cs
 //                                       ^^^ storage.type.cs
 //                                           ^^^^^^ variable.parameter.cs
@@ -228,7 +228,7 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //                                                                    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                                    ^ punctuation.section.group.begin.cs
 //                                                                     ^^^^ variable.other.cs
-//                                                                         ^ punctuation.separator.argument.cs
+//                                                                         ^ punctuation.separator.comma.cs
 //                                                                           ^^^ storage.modifier.argument.cs
 //                                                                               ^^^^^^ variable.other.cs
 //                                                                                     ^ punctuation.section.group.end.cs
@@ -245,7 +245,7 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //                     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
-//                          ^ punctuation.separator.parameter.cs
+//                          ^ punctuation.separator.comma.cs
 //                            ^^^ storage.modifier.parameter.cs
 //                                ^^^^^^ variable.parameter.cs
 //                                      ^ punctuation.section.group.end.cs
@@ -258,7 +258,7 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //                                                         ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                         ^ punctuation.section.group.begin.cs
 //                                                          ^^^^ variable.other.cs
-//                                                              ^ punctuation.separator.argument.cs
+//                                                              ^ punctuation.separator.comma.cs
 //                                                                ^^^ storage.modifier.argument.cs
 //                                                                    ^^^^^^ variable.other.cs
 //                                                                          ^ punctuation.section.group.end.cs
@@ -275,7 +275,7 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
-//                          ^ punctuation.separator.parameter.cs
+//                          ^ punctuation.separator.comma.cs
 //                            ^^^ storage.modifier.parameter.cs
 //                                ^^^^^ support.type.cs
 //                                      ^^^^^^ variable.parameter.cs
@@ -289,7 +289,7 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //                                                               ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                                               ^ punctuation.section.group.begin.cs
 //                                                                ^^^^ variable.other.cs
-//                                                                    ^ punctuation.separator.argument.cs
+//                                                                    ^ punctuation.separator.comma.cs
 //                                                                      ^^^ storage.modifier.argument.cs
 //                                                                          ^^^^^^ variable.other.cs
 //                                                                                ^ punctuation.section.group.end.cs

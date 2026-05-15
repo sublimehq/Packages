@@ -183,7 +183,7 @@ Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^ variable.other.cs
-///                        ^ punctuation.separator.argument.cs
+///                        ^ punctuation.separator.comma.cs
 ///                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
 ///                          ^^ punctuation.definition.string.begin.cs
 ///                            ^^^^^^^^ source.regexp meta.mode.basic.regexp
@@ -192,7 +192,7 @@ Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
 ///                                 ^ keyword.operator.quantifier.regexp
 ///                                  ^^ keyword.control.anchor.regexp
 ///                                    ^ punctuation.definition.string.end.cs
-///                                     ^ punctuation.separator.argument.cs
+///                                     ^ punctuation.separator.comma.cs
 ///                                       ^^^^^^^^^^^^ variable.other.cs
 ///                                                   ^ punctuation.accessor.dot.cs
 ///                                                    ^^^^^^^^^^ variable.other.cs
@@ -206,11 +206,11 @@ replaced = Regex.Replace(some_value, "(?!^)([A-Z])", " $1");
 ///                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 ///                     ^ punctuation.section.group.begin.cs
 ///                      ^^^^^^^^^^ variable.other.cs
-///                                ^ punctuation.separator.argument.cs
+///                                ^ punctuation.separator.comma.cs
 ///                                  ^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                  ^ punctuation.definition.string.begin.cs
 ///                                   ^^^^^^^^^^^^ source.regexp meta.group.regexp meta.mode.basic.regexp
-///                                                ^ punctuation.separator.argument.cs
+///                                                ^ punctuation.separator.comma.cs
 ///                                                  ^^^^^ meta.string.cs string.quoted.double.cs
 ///                                                       ^ punctuation.section.group.end.cs
 ///                                                        ^ punctuation.terminator.statement.cs

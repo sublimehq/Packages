@@ -172,7 +172,7 @@ contexts:
       scope: meta.group.cs punctuation.section.group.begin.cs
       push: inside-argument-list
     - match: ','
-      scope: punctuation.separator.annotation.cs
+      scope: punctuation.separator.comma.cs
     - match: (GeneratedRegex)\s*(\()
       captures:
         1: variable.annotation.cs
@@ -564,7 +564,7 @@ contexts:
 
   class-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-class-base
     - match: (?=where\b)
       set: type-constraints
@@ -622,7 +622,7 @@ contexts:
 
   enum-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-enum-base
     - include: else-pop
 
@@ -656,7 +656,7 @@ contexts:
     - match: '{{unreserved_name}}'
       scope: entity.name.constant.cs
     - match: ','
-      scope: punctuation.separator.enum.cs
+      scope: punctuation.separator.comma.cs
     - include: assignment-expressions
 
 ###[ INTERFACE DECLARATIONS ]##################################################
@@ -678,7 +678,7 @@ contexts:
 
   interface-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-interface-base
     - match: (?=where\b)
       set: type-constraints
@@ -734,7 +734,7 @@ contexts:
 
   record-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-record-base
     - match: (?=where\b)
       set: type-constraints
@@ -787,7 +787,7 @@ contexts:
 
   struct-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-struct-base
     - match: (?=where\b)
       set: type-constraints
@@ -815,7 +815,7 @@ contexts:
     - match: (?=where\b)
       set: type-constraints
     - match: ','
-      scope: punctuation.separator.inherited-class.cs
+      scope: punctuation.separator.comma.cs
     - include: accessors
     - include: namespace-variables
     - include: base-types
@@ -849,10 +849,10 @@ contexts:
       captures:
         1: storage.modifier.where.cs
         2: support.type.cs
-        3: punctuation.separator.type.cs
+        3: punctuation.separator.colon.cs
       push: primary-type-constraint
     - match: ','
-      scope: punctuation.separator.types.cs
+      scope: punctuation.separator.comma.cs
       push: secondary-type-constraint
     - include: else-pop
 
@@ -924,7 +924,7 @@ contexts:
 
   constructor-initializer:
     - match: ':'
-      scope: punctuation.separator.function.cs
+      scope: punctuation.separator.colon.cs
       set: inside-constructor-initializer
     - include: else-pop
 
@@ -1049,7 +1049,7 @@ contexts:
 
   extension-base:
     - match: ':'
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.colon.cs
       set: inside-extension-base
     - match: (?=where\b)
       set: type-constraints
@@ -1140,7 +1140,7 @@ contexts:
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
     - match: ','
-      scope: punctuation.separator.variables.cs
+      scope: punctuation.separator.comma.cs
     - include: assignment-expressions
     - include: else-pop
 
@@ -1224,7 +1224,7 @@ contexts:
 
   method-parameters:
     - match: ','
-      scope: punctuation.separator.parameter.cs
+      scope: punctuation.separator.comma.cs
     - match: (?=[;{}]|=>)
       pop: 1
     - match: (?=\S)
@@ -1323,7 +1323,7 @@ contexts:
     - match: '{{unreserved_name}}'
       scope: variable.other.cs
     - match: ','
-      scope: punctuation.separator.variables.cs
+      scope: punctuation.separator.comma.cs
     - include: assignment-expressions
     - include: else-pop
 
@@ -1421,7 +1421,7 @@ contexts:
     - match: ({{name}})\s*({{colon}})
       captures:
         1: entity.name.label.cs
-        2: punctuation.separator.cs
+        2: punctuation.separator.colon.cs
     # expressions
     - match: (?=\S)
       push: expression
@@ -1455,7 +1455,7 @@ contexts:
       captures:
         1: meta.case.pattern.cs
         2: keyword.control.conditional.default.cs
-        3: meta.case.cs punctuation.separator.case-statement.cs
+        3: meta.case.cs punctuation.separator.colon.cs
     - match: \bcase\b
       scope: meta.case.cs keyword.control.conditional.case.cs
       push:
@@ -1473,7 +1473,7 @@ contexts:
   inside-case-guard:
     - meta_content_scope: meta.case.guard.cs
     - match: '{{colon}}'
-      scope: meta.case.cs punctuation.separator.case-statement.cs
+      scope: meta.case.cs punctuation.separator.colon.cs
       pop: 1
     - include: expression
 
@@ -1549,7 +1549,7 @@ contexts:
       scope: punctuation.section.group.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.expression.cs
+      scope: punctuation.separator.comma.cs
     - include: expression
 
   foreach-group:
@@ -1591,7 +1591,7 @@ contexts:
 
   expression-list:
     - match: ','
-      scope: punctuation.separator.expression.cs
+      scope: punctuation.separator.comma.cs
     - include: expression
 
   expression:
@@ -1841,7 +1841,7 @@ contexts:
       set: paren-lambda-body
     - include: attributes
     - match: ','
-      scope: punctuation.separator.parameter.cs
+      scope: punctuation.separator.comma.cs
     - match: '{{method_param_type_modifier}}\b'
       scope: storage.modifier.parameter.cs
     - match: '{{name}}(?=\s*[,)])'
@@ -1881,7 +1881,7 @@ contexts:
       scope: punctuation.section.sequence.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
     - match: _\b
       scope: variable.language.anonymous.cs
     - match: '{{name}}(?=\s*[,)])'
@@ -1931,7 +1931,7 @@ contexts:
       scope: punctuation.section.sequence.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
       push: maybe-pointer
     - match: ({{name}})\s*({{colon}})
       captures:
@@ -2032,7 +2032,7 @@ contexts:
 
   arguments:
     - match: ','
-      scope: punctuation.separator.argument.cs
+      scope: punctuation.separator.comma.cs
     - match: out\b
       scope: storage.modifier.argument.cs
       push: out-argument
@@ -2109,7 +2109,7 @@ contexts:
       scope: meta.braces.cs punctuation.section.braces.begin.cs
       push: inside-variable-initializer
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
     - match: ({{name}})\s*({{equal}})
       captures:
         1: variable.other.member.cs
@@ -2132,7 +2132,7 @@ contexts:
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
     - match: ({{name}})\s*({{colon}})
       captures:
         1: variable.parameter.cs
@@ -2330,7 +2330,7 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.property.cs
+      scope: punctuation.separator.comma.cs
     - match: ({{name}})\s*(\.)
       captures:
         1: variable.other.member.cs
@@ -2412,7 +2412,7 @@ contexts:
       scope: punctuation.section.sequence.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
     - match: (?=\S)
       push: var-declaration
 
@@ -2434,7 +2434,7 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.comma.cs
       push:
         - expect-type
         - type-param-modifier
@@ -2457,7 +2457,7 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.comma.cs
       push:
         - type-suffix
         - type-param-name
@@ -2504,7 +2504,7 @@ contexts:
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.sequence.cs
+      scope: punctuation.separator.comma.cs
     - include: expression
 
 ###[ FUNCTION POINTER TYPES ]##################################################
@@ -2561,7 +2561,7 @@ contexts:
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.separator.type.cs
+      scope: punctuation.separator.comma.cs
       push:
         - expect-type
         - funcptr-convention-modifier

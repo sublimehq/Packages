@@ -10,7 +10,7 @@ using MyTuple = (float x, vec3 y);
 ///             ^ punctuation.section.sequence.begin.cs
 ///              ^^^^^ storage.type.cs
 ///                    ^ variable.other.cs
-///                     ^ punctuation.separator.sequence.cs
+///                     ^ punctuation.separator.comma.cs
 ///                       ^^^^ support.type.cs
 ///                            ^ variable.other.cs
 ///                             ^ punctuation.section.sequence.end.cs
@@ -28,7 +28,7 @@ public class InvalidException(string _message) : Exception(_message);
 ///                                          ^ punctuation.section.parameters.end.cs
 ///                                           ^ meta.class.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
-///                                            ^ punctuation.separator.type.cs
+///                                            ^ punctuation.separator.colon.cs
 ///                                              ^^^^^^^^^ entity.other.inherited-class.cs
 ///                                                       ^^^^^^^^^^ meta.constructor.arguments.cs meta.group.cs
 ///                                                       ^ punctuation.section.group.begin.cs
@@ -44,7 +44,7 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                   ^^^^^^^^ meta.generic.cs
 ///                   ^ punctuation.definition.generic.begin.cs
 ///                    ^^ variable.parameter.type.cs
-///                      ^ punctuation.separator.type.cs
+///                      ^ punctuation.separator.comma.cs
 ///                        ^^ variable.parameter.type.cs
 ///                          ^ punctuation.definition.generic.end.cs
 ///                           ^^^^^^^^^^^^^^^ meta.class.parameters.cs
@@ -57,7 +57,7 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                                         ^ punctuation.section.parameters.end.cs
 ///                                          ^ meta.class.cs
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
-///                                           ^ punctuation.separator.type.cs
+///                                           ^ punctuation.separator.colon.cs
 ///                                             ^^^^^^^^^ entity.other.inherited-class.cs
 ///                                                      ^^^^^^^^ meta.generic.cs
 ///                                                      ^ punctuation.definition.generic.begin.cs
@@ -74,7 +74,7 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                                                                     ^^^^^^^^^^^^^^^^^^^^^ meta.class.cs meta.constraints.cs
 ///                                                                     ^^^^^ storage.modifier.where.cs
 ///                                                                           ^^ support.type.cs
-///                                                                              ^ punctuation.separator.type.cs
+///                                                                              ^ punctuation.separator.colon.cs
 ///                                                                                ^^^^^ storage.type.cs
 ///                                                                                     ^^^^ meta.generic.cs
 ///                                                                                     ^ punctuation.definition.generic.begin.cs

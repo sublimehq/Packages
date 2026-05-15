@@ -187,7 +187,7 @@ class TestOperatorDefinitions {
 ///                    ^ punctuation.section.brackets.begin.cs
 ///                     ^ punctuation.section.brackets.end.cs
 ///                      ^ punctuation.section.brackets.begin.cs
-///                       ^ punctuation.separator.sequence.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ punctuation.section.parameters.begin.cs
 ///                          ^^^ storage.type.cs
@@ -208,7 +208,7 @@ class TestOperatorDefinitions {
 ///                    ^ punctuation.section.brackets.begin.cs
 ///                     ^ punctuation.section.brackets.end.cs
 ///                      ^ punctuation.section.brackets.begin.cs
-///                       ^ punctuation.separator.sequence.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ storage.type.nullable.cs
 ///                          ^ punctuation.section.parameters.begin.cs
@@ -234,7 +234,7 @@ class TestOperatorDefinitions {
 ///                       ^ punctuation.section.brackets.begin.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ punctuation.section.brackets.begin.cs
-///                          ^ punctuation.separator.sequence.cs
+///                          ^ punctuation.separator.comma.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ storage.type.nullable.cs
 ///                             ^ punctuation.section.parameters.begin.cs
@@ -538,7 +538,7 @@ A?.B?.C?[0] == E;
 ///  ^^^^ storage.type.cs
 ///      ^^^ meta.brackets.cs
 ///      ^ punctuation.section.brackets.begin.cs
-///       ^ punctuation.separator.sequence.cs
+///       ^ punctuation.separator.comma.cs
 ///        ^ punctuation.section.brackets.end.cs
 ///         ^ punctuation.section.group.end.cs
 ///           ^^^ variable.other.cs
@@ -614,7 +614,7 @@ A?.B?.C?[0] == E;
 ///           ^ storage.type.nullable.cs
 ///            ^^^^^ meta.brackets.cs
 ///            ^ punctuation.section.brackets.begin.cs
-///             ^ punctuation.separator.sequence.cs
+///             ^ punctuation.separator.comma.cs
 ///              ^ punctuation.section.brackets.end.cs
 ///               ^ punctuation.section.brackets.begin.cs
 ///                ^ punctuation.section.brackets.end.cs
@@ -635,7 +635,7 @@ A?.B?.C?[0] == E;
 ///               ^ storage.type.nullable.cs
 ///                ^^^^^ meta.brackets.cs
 ///                ^ punctuation.section.brackets.begin.cs
-///                 ^ punctuation.separator.sequence.cs
+///                 ^ punctuation.separator.comma.cs
 ///                  ^ punctuation.section.brackets.end.cs
 ///                   ^ punctuation.section.brackets.begin.cs
 ///                    ^ punctuation.section.brackets.end.cs

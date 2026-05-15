@@ -185,7 +185,7 @@ class X {
 ///       ^^^ storage.type
 ///           ^ punctuation.section.group.begin - meta.generic
 ///            ^ variable.other
-///             ^ punctuation.separator.argument
+///             ^ punctuation.separator.comma
 ///               ^^^^^^ meta.function.anonymous
 ///                 ^^ keyword.declaration.function.arrow
 ///                    ^ punctuation.section.block.begin
@@ -204,7 +204,7 @@ class X {
 ///           ^ - meta.group
 ///            ^ punctuation.section.group.begin - meta.generic
 ///             ^ variable.other
-///              ^ punctuation.separator.argument
+///              ^ punctuation.separator.comma
 ///                ^^^^^^ meta.function.anonymous
 ///                  ^^ keyword.declaration.function.arrow
 ///                     ^ punctuation.section.block.begin

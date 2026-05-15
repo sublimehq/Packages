@@ -38,11 +38,11 @@ class TestGenericList
         string hello, wow = "test", test;
 //      ^^^^^^ storage.type
 //             ^^^^^ variable.other
-//                  ^ punctuation.separator.variables
+//                  ^ punctuation.separator.comma
 //                    ^^^ variable.other
 //                        ^ keyword.operator.assignment
 //                          ^^^^^^ string.quoted.double
-//                                ^ punctuation.separator.variables
+//                                ^ punctuation.separator.comma
 //                                  ^^^^ variable.other
 //                                      ^ punctuation.terminator.statement
         System . String test1;

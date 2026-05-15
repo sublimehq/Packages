@@ -58,14 +58,14 @@ namespace YourNamespace
 /// ^^^^^ keyword.declaration.class.cs
 ///       ^^^^^^^^^ entity.name.class.cs
 ///                 ^^ meta.class.base.cs
-///                 ^ punctuation.separator.type.cs
+///                 ^ punctuation.separator.colon.cs
 
 ;   class YourClass : any
 /// ^^^^^^^^^^^^^^^^ meta.class.cs
 /// ^^^^^ keyword.declaration.class.cs
 ///       ^^^^^^^^^ entity.name.class.cs
 ///                 ^^^^^^ meta.class.base.cs
-///                 ^ punctuation.separator.type.cs
+///                 ^ punctuation.separator.colon.cs
 ///                   ^^^ entity.other.inherited-class.cs
 
 ;   class YourClass : char
@@ -73,7 +73,7 @@ namespace YourNamespace
 /// ^^^^^ keyword.declaration.class.cs
 ///       ^^^^^^^^^ entity.name.class.cs
 ///                 ^^^^^^^ meta.class.base.cs
-///                 ^ punctuation.separator.type.cs
+///                 ^ punctuation.separator.colon.cs
 ///                   ^^^^ storage.type.cs
 
 ;   class YourClass : Foo, Bar  {}
@@ -81,9 +81,9 @@ namespace YourNamespace
 /// ^^^^^ keyword.declaration.class.cs
 ///       ^^^^^^^^^ entity.name.class.cs
 ///                 ^^^^^^^^^^^^ meta.class.base.cs
-///                 ^ punctuation.separator.type.cs
+///                 ^ punctuation.separator.colon.cs
 ///                   ^^^ entity.other.inherited-class.cs
-///                      ^ punctuation.separator.inherited-class.cs
+///                      ^ punctuation.separator.comma.cs
 ///                        ^^^ entity.other.inherited-class.cs
 ///                             ^^ meta.class.body.cs meta.block.cs
 ///                             ^ punctuation.section.block.begin.cs
@@ -96,17 +96,17 @@ namespace YourNamespace
 ///                ^^^^^^^^ meta.generic.cs
 ///                ^ punctuation.definition.generic.begin.cs
 ///                 ^^ variable.parameter.type.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.comma.cs
 ///                     ^^ variable.parameter.type.cs
 ///                       ^ punctuation.definition.generic.end.cs
 ///                         ^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
-///                         ^ punctuation.separator.type.cs
+///                         ^ punctuation.separator.colon.cs
 ///                           ^^^ entity.other.inherited-class.cs
 ///                              ^^^^ meta.generic.cs
 ///                              ^ punctuation.definition.generic.begin.cs
 ///                               ^^ support.type.cs
 ///                                 ^ punctuation.definition.generic.end.cs
-///                                  ^ punctuation.separator.inherited-class.cs
+///                                  ^ punctuation.separator.comma.cs
 ///                                    ^^^ entity.other.inherited-class.cs
 ///                                       ^^^^ meta.generic.cs
 ///                                       ^ punctuation.definition.generic.begin.cs
@@ -122,27 +122,27 @@ namespace YourNamespace
 ///     ^^^^^^^^^^^^^^^^ meta.constraints.cs
 ///     ^^^^^ storage.modifier.where.cs
 ///           ^^ support.type.cs
-///             ^ punctuation.separator.type.cs
+///             ^ punctuation.separator.colon.cs
 ///               ^^^^^ storage.type.cs
         where T1: struct
 ///^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs meta.constraints.cs
 ///     ^^^^^ storage.modifier.where.cs
 ///           ^^ support.type.cs
-///             ^ punctuation.separator.type.cs
+///             ^ punctuation.separator.colon.cs
 ///               ^^^^^^ storage.type.cs
         where T2: Printable, IKeyProvider<T1>, new()
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs meta.constraints.cs
 ///     ^^^^^ storage.modifier.where.cs
 ///           ^^ support.type.cs
-///             ^ punctuation.separator.type.cs
+///             ^ punctuation.separator.colon.cs
 ///               ^^^^^^^^^ support.type.cs
-///                        ^ punctuation.separator.types.cs
+///                        ^ punctuation.separator.comma.cs
 ///                          ^^^^^^^^^^^^ support.type.cs
 ///                                      ^^^^ meta.generic.cs
 ///                                      ^ punctuation.definition.generic.begin.cs
 ///                                       ^^ support.type.cs
 ///                                         ^ punctuation.definition.generic.end.cs
-///                                          ^ punctuation.separator.types.cs
+///                                          ^ punctuation.separator.comma.cs
 ///                                            ^^^^^ meta.constructor.cs
 ///                                            ^^^ keyword.operator.new.cs
 ///                                               ^^ meta.group.cs
@@ -162,7 +162,7 @@ namespace YourNamespace
 ///                        ^^ variable.parameter.type.cs
 ///                          ^ meta.brackets.cs punctuation.section.brackets.begin.cs
 ///                           ^ meta.brackets.cs punctuation.section.brackets.end.cs
-///                            ^ punctuation.separator.type.cs
+///                            ^ punctuation.separator.comma.cs
 ///                              ^^^^^^ meta.annotation.cs
 ///                              ^ punctuation.definition.annotation.begin.cs
 ///                               ^^^^ variable.annotation.cs
@@ -174,7 +174,7 @@ namespace YourNamespace
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constraints.cs
 ///                                           ^^^^^ storage.modifier.where.cs
 ///                                                 ^^ support.type.cs
-///                                                   ^ punctuation.separator.type.cs
+///                                                   ^ punctuation.separator.colon.cs
 ///                                                     ^^^^^^^^^^^ support.type.cs
 ///                                                                ^^^^^^^^^^^^^ meta.generic.cs
 ///                                                                ^ punctuation.definition.generic.begin.cs
@@ -197,12 +197,12 @@ namespace YourNamespace
 ///              ^ punctuation.section.parameters.begin.cs
 ///               ^^ support.type.cs
 ///                  ^^^ variable.parameter.cs
-///                     ^ punctuation.separator.parameter.cs
+///                     ^ punctuation.separator.comma.cs
 ///                       ^^^ storage.type.cs
 ///                           ^^^ variable.parameter.cs
 ///                              ^ punctuation.section.parameters.end.cs
 ///                               ^^^^^^^^^^^^^ meta.method.cs
-///                                ^ punctuation.separator.function.cs
+///                                ^ punctuation.separator.colon.cs
 ///                                  ^^^^ meta.initializer.cs variable.language.this.cs
 ///                                      ^^^^^ meta.initializer.arguments.cs meta.group.cs
 ///                                      ^ punctuation.section.group.begin.cs
@@ -308,7 +308,7 @@ namespace YourNamespace
 ///                        ^^^ storage.type.cs
 ///                            ^^^ variable.parameter.cs
 ///                                ^ punctuation.section.parameters.end.cs
-///                                  ^ punctuation.separator.function.cs
+///                                  ^ punctuation.separator.colon.cs
 ///                                    ^^^^ meta.initializer.cs variable.language.this.cs
 ///                                        ^^^^^^^ meta.initializer.arguments.cs meta.group.cs
 ///                                        ^ punctuation.section.group.begin.cs
@@ -375,10 +375,10 @@ namespace YourNamespace
 ///                                           ^ punctuation.section.brackets.begin.cs
 ///                                            ^ punctuation.section.brackets.end.cs
 ///                                                ^ variable.parameter.cs
-///                                                 ^ punctuation.separator.parameter.cs
+///                                                 ^ punctuation.separator.comma.cs
 ///                                                     ^^^ storage.type.cs
 ///                                                           ^ variable.parameter.cs
-///                                                            ^ punctuation.separator.parameter.cs
+///                                                            ^ punctuation.separator.comma.cs
 ///                                                               ^^^^^^ storage.modifier.parameter.cs
 ///                                                                     ^ punctuation.section.parameters.end.cs
 ///                                                                      ^ punctuation.terminator.statement.cs
@@ -447,14 +447,14 @@ namespace YourNamespace
 /// ^^^^^^ keyword.declaration.struct.cs
 ///        ^^^^^^^^^^ entity.name.struct.cs
 ///                   ^^ meta.struct.base.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.colon.cs
 
 ;   struct YourStruct : any
 /// ^^^^^^^^^^^^^^^^^^ meta.struct.cs
 /// ^^^^^^ keyword.declaration.struct.cs
 ///        ^^^^^^^^^^ entity.name.struct.cs
 ///                   ^^^^^^ meta.struct.base.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.colon.cs
 ///                     ^^^ entity.other.inherited-class.cs
 
 ;   struct YourStruct : char
@@ -462,7 +462,7 @@ namespace YourNamespace
 /// ^^^^^^ keyword.declaration.struct.cs
 ///        ^^^^^^^^^^ entity.name.struct.cs
 ///                   ^^^^^^^ meta.struct.base.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.colon.cs
 ///                     ^^^^ storage.type.cs
 
 ;   struct YourStruct : nint
@@ -470,7 +470,7 @@ namespace YourNamespace
 /// ^^^^^^ keyword.declaration.struct.cs
 ///        ^^^^^^^^^^ entity.name.struct.cs
 ///                   ^^^^^^^ meta.struct.base.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.colon.cs
 ///                     ^^^^ storage.type.cs
 
 ;   struct YourStruct : Foo, Bar  {}
@@ -478,9 +478,9 @@ namespace YourNamespace
 /// ^^^^^^ keyword.declaration.struct.cs
 ///        ^^^^^^^^^^ entity.name.struct.cs
 ///                   ^^^^^^^^^^^^ meta.struct.base.cs
-///                   ^ punctuation.separator.type.cs
+///                   ^ punctuation.separator.colon.cs
 ///                     ^^^ entity.other.inherited-class.cs
-///                        ^ punctuation.separator.inherited-class.cs
+///                        ^ punctuation.separator.comma.cs
 ///                          ^^^ entity.other.inherited-class.cs
 ///                               ^^ meta.struct.body.cs meta.block.cs
 ///                               ^ punctuation.section.block.begin.cs
@@ -511,7 +511,7 @@ namespace YourNamespace
 /// ^^^^^^^^^ keyword.declaration.interface.cs
 ///           ^^^^^^^^^^ entity.name.interface.cs
 ///                      ^^ meta.interface.base.cs
-///                      ^ punctuation.separator.type.cs
+///                      ^ punctuation.separator.colon.cs
 
 ;   partial interface IInterface : IBase1, IBase2
 /// ^^^^^^^ storage.modifier.cs
@@ -519,9 +519,9 @@ namespace YourNamespace
 ///         ^^^^^^^^^ keyword.declaration.interface.cs
 ///                   ^^^^^^^^^^ entity.name.interface.cs
 ///                              ^^^^^^^^^^^^^^^^^ meta.interface.base.cs
-///                              ^ punctuation.separator.type.cs
+///                              ^ punctuation.separator.colon.cs
 ///                                ^^^^^^ entity.other.inherited-class.cs
-///                                      ^ punctuation.separator.inherited-class.cs
+///                                      ^ punctuation.separator.comma.cs
 ///                                        ^^^^^^ entity.other.inherited-class.cs
 
 ;   interface IInterface<in T1, [attr] out T2> : IBase1<T1>, IBase2<T2> where T1 : class, IBase2<T2> where T2 : unmanaged
@@ -532,7 +532,7 @@ namespace YourNamespace
 ///                     ^ punctuation.definition.generic.begin.cs
 ///                      ^^ storage.modifier.cs
 ///                         ^^ variable.parameter.type.cs
-///                           ^ punctuation.separator.type.cs
+///                           ^ punctuation.separator.comma.cs
 ///                             ^^^^^^ meta.annotation.cs
 ///                             ^ punctuation.definition.annotation.begin.cs
 ///                              ^^^^ variable.annotation.cs
@@ -541,13 +541,13 @@ namespace YourNamespace
 ///                                        ^^ variable.parameter.type.cs
 ///                                          ^ punctuation.definition.generic.end.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.base.cs
-///                                            ^ punctuation.separator.type.cs
+///                                            ^ punctuation.separator.colon.cs
 ///                                              ^^^^^^ entity.other.inherited-class.cs
 ///                                                    ^^^^ meta.generic.cs
 ///                                                    ^ punctuation.definition.generic.begin.cs
 ///                                                     ^^ support.type.cs
 ///                                                       ^ punctuation.definition.generic.end.cs
-///                                                        ^ punctuation.separator.inherited-class.cs
+///                                                        ^ punctuation.separator.comma.cs
 ///                                                          ^^^^^^ entity.other.inherited-class.cs
 ///                                                                ^^^^ meta.generic.cs
 ///                                                                ^ punctuation.definition.generic.begin.cs
@@ -556,9 +556,9 @@ namespace YourNamespace
 ///                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs meta.constraints.cs
 ///                                                                     ^^^^^ storage.modifier.where.cs
 ///                                                                           ^^ support.type.cs
-///                                                                              ^ punctuation.separator.type.cs
+///                                                                              ^ punctuation.separator.colon.cs
 ///                                                                                ^^^^^ storage.type.cs
-///                                                                                     ^ punctuation.separator.types.cs
+///                                                                                     ^ punctuation.separator.comma.cs
 ///                                                                                       ^^^^^^ support.type.cs
 ///                                                                                             ^^^^ meta.generic.cs
 ///                                                                                             ^ punctuation.definition.generic.begin.cs
@@ -566,7 +566,7 @@ namespace YourNamespace
 ///                                                                                                ^ punctuation.definition.generic.end.cs
 ///                                                                                                  ^^^^^ storage.modifier.where.cs
 ///                                                                                                        ^^ support.type.cs
-///                                                                                                           ^ punctuation.separator.type.cs
+///                                                                                                           ^ punctuation.separator.colon.cs
 ///                                                                                                             ^^^^^^^^^ storage.type.cs
 
 ;   interface IInterface : nint
@@ -574,7 +574,7 @@ namespace YourNamespace
 /// ^^^^^^^^^ keyword.declaration.interface.cs
 ///           ^^^^^^^^^^ entity.name.interface.cs
 ///                      ^^^^^^^ meta.interface.base.cs
-///                      ^ punctuation.separator.type.cs
+///                      ^ punctuation.separator.colon.cs
 ///                        ^^^^ storage.type.cs
 
 ;   interface IYourInterface
@@ -624,14 +624,14 @@ namespace YourNamespace
 /// ^^^^ keyword.declaration.enum.cs
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^ meta.enum.base.cs
-///               ^ punctuation.separator.type.cs
+///               ^ punctuation.separator.colon.cs
 
     enum YourEnum : ResolvesToInt
 /// ^^^^^^^^^^^^^^ meta.enum.cs
 /// ^^^^ keyword.declaration.enum.cs
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^^^^^^^^^^^ meta.enum.base.cs
-///               ^ punctuation.separator.type.cs
+///               ^ punctuation.separator.colon.cs
 ///                 ^^^^^^^^^^^^^ support.type.cs
 
     enum YourEnum : char
@@ -639,7 +639,7 @@ namespace YourNamespace
 /// ^^^^ keyword.declaration.enum.cs
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^^ meta.enum.base.cs
-///               ^ punctuation.separator.type.cs
+///               ^ punctuation.separator.colon.cs
 ///                 ^^^^ invalid.illegal.type.cs
 
     enum YourEnum : nint
@@ -647,7 +647,7 @@ namespace YourNamespace
 /// ^^^^ keyword.declaration.enum.cs
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^^ meta.enum.base.cs
-///               ^ punctuation.separator.type.cs
+///               ^ punctuation.separator.colon.cs
 ///                 ^^^^ storage.type.cs
 
     enum YourEnum : int {}
@@ -656,7 +656,7 @@ namespace YourNamespace
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^ meta.enum.base.cs
 ///                    ^ meta.enum.cs
-///               ^ punctuation.separator.type.cs
+///               ^ punctuation.separator.colon.cs
 ///                 ^^^ storage.type.cs
 ///                     ^^ meta.enum.body.cs meta.block.cs
 ///                     ^ punctuation.section.block.begin.cs
@@ -683,7 +683,7 @@ namespace YourNamespace
 ///        ^^^^ keyword.declaration.enum.cs
 ///             ^^^^^^ entity.name.enum.cs
 ///                    ^^^^^^^ meta.enum.base.cs
-///                    ^ punctuation.separator.type.cs
+///                    ^ punctuation.separator.colon.cs
 ///                      ^^^^^ storage.type.cs
     {
         [Stuff("1")]
@@ -696,11 +696,11 @@ namespace YourNamespace
 ///     ^^^^^ entity.name.constant.cs
 ///           ^ keyword.operator.assignment.cs
 ///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///              ^ punctuation.separator.enum.cs
+///              ^ punctuation.separator.comma.cs
         Item2,
 ///^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
 ///     ^^^^^ entity.name.constant.cs
-///          ^ punctuation.separator.enum.cs
+///          ^ punctuation.separator.comma.cs
         [Stuff]
 ///^^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
 ///     ^^^^^^^ meta.annotation.cs
@@ -766,7 +766,7 @@ namespace TestNamespace . Test
 ///                      ^ variable.parameter.type.cs
 ///                       ^ punctuation.definition.generic.end.cs
 ///                         ^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
-///                         ^ punctuation.separator.type.cs
+///                         ^ punctuation.separator.colon.cs
 ///                           ^^^^^ support.type.cs
 ///                                ^^^ meta.generic.cs
 ///                                ^ punctuation.definition.generic.begin.cs
@@ -791,7 +791,7 @@ namespace TestNamespace . Test
 ///                    ^^^^^^^^ support.type.cs
 ///                             ^^^^^^^^^^ variable.parameter.cs
 ///                                       ^ punctuation.section.parameters.end.cs
-///                                         ^ punctuation.separator.function.cs
+///                                         ^ punctuation.separator.colon.cs
 ///                                           ^^^^ meta.initializer.cs variable.language.super.cs
 ///                                               ^^^^^^^^^^^^ meta.initializer.arguments.cs meta.group.cs
 ///                                               ^ punctuation.section.group.begin.cs
@@ -820,7 +820,7 @@ namespace TestNamespace . Test
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.constraints.cs
 ///         ^^^^^ storage.modifier.where.cs
 ///               ^ support.type.cs
-///                 ^ punctuation.separator.type.cs
+///                 ^ punctuation.separator.colon.cs
 ///                   ^^^^^^^^^^^^^ support.type.cs
         {
             var test = "Test";
@@ -1252,12 +1252,12 @@ namespace TestNamespace . Test
 ///                          ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                          ^ punctuation.definition.string.begin.cs
 ///                                ^ punctuation.definition.string.end.cs
-///                                 ^ punctuation.separator.sequence.cs
+///                                 ^ punctuation.separator.comma.cs
 ///                                   ^^^^ variable.other.member.cs
 ///                                        ^ keyword.operator.assignment.cs
 ///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                            ^ punctuation.section.braces.end.cs
-///                                             ^ punctuation.separator.sequence.cs
+///                                             ^ punctuation.separator.comma.cs
                 new { name = "grape", diam = 1 }
 ///             ^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs - meta.braces meta.braces
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs meta.instantiation.cs meta.braces.cs
@@ -1268,7 +1268,7 @@ namespace TestNamespace . Test
 ///                          ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                          ^ punctuation.definition.string.begin.cs
 ///                                ^ punctuation.definition.string.end.cs
-///                                 ^ punctuation.separator.sequence.cs
+///                                 ^ punctuation.separator.comma.cs
 ///                                   ^^^^ variable.other.member.cs
 ///                                        ^ keyword.operator.assignment.cs
 ///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -1377,7 +1377,7 @@ namespace TestNamespace . Test
 ///                            ^^^^^ support.type
 ///                                 ^ punctuation.section.group.begin
 ///                                  ^ constant.numeric
-///                                   ^ punctuation.separator.argument
+///                                   ^ punctuation.separator.comma
 ///                                     ^^ constant.numeric
 ///                                       ^ punctuation.section.group.end
 ///                                         ^ punctuation.section.braces.begin
@@ -1412,7 +1412,7 @@ namespace TestNamespace . Test
 ///             ^^^^ storage.type.cs
 ///                 ^^^ meta.brackets.cs
 ///                 ^ punctuation.section.brackets.begin.cs
-///                  ^ punctuation.separator.sequence.cs
+///                  ^ punctuation.separator.comma.cs
 ///                   ^ punctuation.section.brackets.end.cs
 ///                    ^ punctuation.terminator.statement.cs
 
@@ -1423,7 +1423,7 @@ namespace TestNamespace . Test
 ///                 ^^^^^^^^^^^ meta.brackets.cs
 ///                 ^ punctuation.section.brackets.begin.cs
 ///                  ^^^^^^ variable.other.cs
-///                        ^ punctuation.separator.sequence.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ punctuation.terminator.statement.cs
@@ -1437,14 +1437,14 @@ namespace TestNamespace . Test
 ///                  ^^^^^^ variable.other.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ punctuation.section.brackets.begin.cs
-///                          ^ punctuation.separator.sequence.cs
+///                          ^ punctuation.separator.comma.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                             ^^^^^^^^^ meta.braces.cs
 ///                             ^ punctuation.section.braces.begin.cs
 ///                              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                               ^ punctuation.separator.sequence.cs
+///                               ^ punctuation.separator.comma.cs
 ///                                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                                  ^ punctuation.separator.sequence.cs
+///                                  ^ punctuation.separator.comma.cs
 ///                                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                     ^ punctuation.section.braces.end.cs
 ///                                      ^ punctuation.terminator.statement.cs
@@ -1455,14 +1455,14 @@ namespace TestNamespace . Test
 ///         ^^^ keyword.operator.new.cs
 ///             ^^^ meta.brackets.cs
 ///             ^ punctuation.section.brackets.begin.cs
-///              ^ punctuation.separator.sequence.cs
+///              ^ punctuation.separator.comma.cs
 ///               ^ punctuation.section.brackets.end.cs
 ///                 ^^^^^^^^^ meta.braces.cs
 ///                 ^ punctuation.section.braces.begin.cs
 ///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                   ^ punctuation.separator.sequence.cs
+///                   ^ punctuation.separator.comma.cs
 ///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                      ^ punctuation.separator.sequence.cs
+///                      ^ punctuation.separator.comma.cs
 ///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                         ^ punctuation.section.braces.end.cs
 ///                          ^ punctuation.terminator.statement.cs
@@ -1722,7 +1722,7 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///^^^ storage.modifier.access
 ///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
-///                              ^ punctuation.separator.type.cs
+///                              ^ punctuation.separator.colon.cs
 ///                                ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
 
     Global.Type var = null;
@@ -1807,7 +1807,7 @@ public class AfterTopLevelMethod : IDrawingObject {
 ///                                 ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
 ///                                               ^ punctuation.accessor.dot.cs
 ///                                                ^^^^^^^^^^^ variable.other.member.cs
-///                                                           ^ punctuation.separator.variables.cs
+///                                                           ^ punctuation.separator.comma.cs
 ///                                                             ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
 ///                                                                           ^ punctuation.accessor.dot.cs
 ///                                                                            ^^^^^^^^^^^^ variable.other.member.cs
@@ -1851,7 +1851,7 @@ public class MyClass
 /// ^^^^^^^^^^ support.type
 ///           ^ punctuation.definition.generic.begin
 ///            ^^^^^^ support.type
-///                  ^ punctuation.separator.type
+///                  ^ punctuation.separator.comma
 ///                    ^^^^ support.type
 ///                        ^ punctuation.definition.generic.begin
 ///                         ^^^^ storage.type
@@ -2361,7 +2361,7 @@ class TestControlStatements
 ///          ^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///               ^ punctuation.separator.variables.cs
+///               ^ punctuation.separator.comma.cs
 ///                 ^ variable.other.cs
 ///                   ^ keyword.operator.assignment.cs
 ///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2409,7 +2409,7 @@ class TestControlStatements
 ///              ^ variable.other.cs
 ///                ^ keyword.operator.assignment.cs
 ///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                   ^ punctuation.separator.variables.cs
+///                   ^ punctuation.separator.comma.cs
 ///                     ^ variable.other.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2422,7 +2422,7 @@ class TestControlStatements
 ///                                           ^ punctuation.terminator.statement.cs
 ///                                             ^^ keyword.operator.arithmetic.cs
 ///                                               ^ variable.other.cs
-///                                                ^ punctuation.separator.expression.cs
+///                                                ^ punctuation.separator.comma.cs
 ///                                                  ^ variable.other.cs
 ///                                                    ^^ keyword.operator.assignment.augmented.cs
 ///                                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2521,7 +2521,7 @@ class TestControlStatements
 ///                    ^ support.type.cs
 ///                     ^ punctuation.definition.generic.end.cs
 ///                      ^ punctuation.section.brackets.begin.cs
-///                       ^ punctuation.separator.sequence.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ storage.type.nullable.cs
 ///                           ^^^ variable.other.cs
@@ -2649,7 +2649,7 @@ class TestControlStatements
 ///             ^ punctuation.terminator.statement.cs
         abc:
 ///     ^^^ entity.name.label.cs
-///        ^ punctuation.separator.cs
+///        ^ punctuation.separator.colon.cs
 
         switch (test[0])
         {
@@ -2692,7 +2692,7 @@ class TestControlStatements
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^ meta.case.pattern.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///               ^ meta.case.cs punctuation.separator.case-statement.cs
+///               ^ meta.case.cs punctuation.separator.colon.cs
                 do_something();
 ///             ^ variable.function
                 break;
@@ -2706,19 +2706,19 @@ class TestControlStatements
 ///                                  ^^^^^^^^^^^ entity.other.inherited-class.cs
 ///                                             ^ punctuation.accessor.dot.cs
 ///                                              ^^^^^ variable.other.member.cs
-///                                                   ^ punctuation.separator.case-statement.cs
+///                                                   ^ punctuation.separator.colon.cs
             case BindingFlags.Static:
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///              ^^^^^^^^^^^^ support.type.cs
 ///                          ^ punctuation.accessor.dot.cs
 ///                           ^^^^^^ variable.other.member.cs
-///                                 ^ meta.case.cs punctuation.separator.case-statement.cs
+///                                 ^ meta.case.cs punctuation.separator.colon.cs
             case test:
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^^^^ meta.case.pattern.cs
 ///              ^^^^ variable.other.cs
-///                  ^ meta.case.cs punctuation.separator.case-statement.cs
+///                  ^ meta.case.cs punctuation.separator.colon.cs
             case this.test;
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^^^^^^^^^ meta.case.pattern.cs
@@ -2732,7 +2732,7 @@ class TestControlStatements
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///               ^ keyword.operator.arithmetic.cs
 ///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                 ^ meta.case.cs punctuation.separator.case-statement.cs
+///                 ^ meta.case.cs punctuation.separator.colon.cs
             case bar("hello"):
 ///         ^^^^ meta.case.cs keyword.control.conditional.case.cs
 ///             ^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -2743,7 +2743,7 @@ class TestControlStatements
 ///                  ^ punctuation.definition.string.begin.cs
 ///                        ^ punctuation.definition.string.end.cs
 ///                         ^ punctuation.section.group.end.cs
-///                          ^ meta.case.cs punctuation.separator.case-statement.cs
+///                          ^ meta.case.cs punctuation.separator.colon.cs
                 break;
 ///             ^^^^^ keyword.control.flow.break.cs
 ///                  ^ punctuation.terminator.statement.cs
@@ -2753,10 +2753,10 @@ class TestControlStatements
 ///              ^^^ variable.other.cs
 ///                 ^ punctuation.accessor.dot.cs
 ///                  ^^^ variable.other.cs
-///                     ^ meta.case.cs punctuation.separator.case-statement.cs
+///                     ^ meta.case.cs punctuation.separator.colon.cs
             default:
 ///         ^^^^^^^ keyword.control.conditional.default.cs
-///                ^ punctuation.separator.case-statement.cs
+///                ^ punctuation.separator.colon.cs
                 do_something_else();
 ///             ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                              ^^ meta.function-call.arguments.cs meta.group.cs
@@ -2802,7 +2802,7 @@ class TestLocalDefinitions
 ///                ^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
 ///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                     ^ punctuation.separator.variables.cs
+///                     ^ punctuation.separator.comma.cs
 ///                       ^ variable.other.cs
 ///                         ^ keyword.operator.assignment.cs
 ///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2832,7 +2832,7 @@ class TestLocalDefinitions
 ///             ^ variable.other.cs
 ///               ^ keyword.operator.assignment.cs
 ///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                  ^ punctuation.separator.variables.cs
+///                  ^ punctuation.separator.comma.cs
 ///                    ^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2858,7 +2858,7 @@ class TestLocalDefinitions
 ///          ^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///               ^ punctuation.separator.variables.cs
+///               ^ punctuation.separator.comma.cs
 ///                 ^ variable.other.cs
 ///                   ^ keyword.operator.assignment.cs
 ///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2882,7 +2882,7 @@ class TestLocalDefinitions
 ///            ^ variable.other.cs
 ///              ^ keyword.operator.assignment.cs
 ///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                 ^ punctuation.separator.variables.cs
+///                 ^ punctuation.separator.comma.cs
 ///                   ^ variable.other.cs
 ///                     ^ keyword.operator.assignment.cs
 ///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2908,7 +2908,7 @@ class TestLocalDefinitions
 ///          ^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///               ^ punctuation.separator.variables.cs
+///               ^ punctuation.separator.comma.cs
 ///                 ^ variable.other.cs
 ///                   ^ keyword.operator.assignment.cs
 ///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2921,7 +2921,7 @@ class TestLocalDefinitions
 ///                  ^ variable.other.cs
 ///                    ^ keyword.operator.assignment.cs
 ///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                       ^ punctuation.separator.variables.cs
+///                       ^ punctuation.separator.comma.cs
 ///                         ^ variable.other.cs
 ///                           ^ keyword.operator.assignment.cs
 ///                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2953,7 +2953,7 @@ class TestLocalDefinitions
 /// ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 /// ^ punctuation.section.sequence.begin.cs
 ///  ^^^^ support.type.cs
-///      ^ punctuation.separator.sequence.cs
+///      ^ punctuation.separator.comma.cs
 ///        ^^^^ support.type.cs
 ///             ^^^ variable.other.cs
 ///                ^ punctuation.section.sequence.end.cs
@@ -2967,7 +2967,7 @@ class TestLocalDefinitions
 ///     ^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
-///          ^ punctuation.separator.sequence.cs
+///          ^ punctuation.separator.comma.cs
 ///            ^^^^ support.type.cs
 ///                ^ punctuation.section.sequence.end.cs
 ///                  ^^^^^^^^ meta.method.cs entity.name.function.cs
@@ -2976,7 +2976,7 @@ class TestLocalDefinitions
 ///                           ^^ storage.modifier.parameter.cs
 ///                              ^^^ storage.type.cs
 ///                                  ^ variable.parameter.cs
-///                                   ^ punctuation.separator.parameter.cs
+///                                   ^ punctuation.separator.comma.cs
 ///                                     ^^ storage.modifier.parameter.cs
 ///                                        ^^^^ support.type.cs
 ///                                             ^^^ variable.parameter.cs
@@ -2987,7 +2987,7 @@ class TestLocalDefinitions
 ///                                                     ^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                                     ^ punctuation.section.sequence.begin.cs
 ///                                                      ^^^^^ variable.other.cs
-///                                                           ^ punctuation.separator.sequence.cs
+///                                                           ^ punctuation.separator.comma.cs
 ///                                                             ^^^^ variable.other.cs
 ///                                                                 ^ punctuation.section.sequence.end.cs
 ///                                                                  ^ punctuation.terminator.statement.cs
@@ -2997,7 +2997,7 @@ class TestLocalDefinitions
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
 ///           ^^^ variable.other.cs
-///              ^ punctuation.separator.sequence.cs
+///              ^ punctuation.separator.comma.cs
 ///                ^^^^ support.type.cs
 ///                    ^ punctuation.section.sequence.end.cs
 ///                      ^^^^^^^^ meta.method.cs entity.name.function.cs
@@ -3006,7 +3006,7 @@ class TestLocalDefinitions
 ///                               ^^ storage.modifier.parameter.cs
 ///                                  ^^^ storage.type.cs
 ///                                      ^ variable.parameter.cs
-///                                       ^ punctuation.separator.parameter.cs
+///                                       ^ punctuation.separator.comma.cs
 ///                                         ^^ storage.modifier.parameter.cs
 ///                                            ^^^^ support.type.cs
 ///                                                 ^^^ variable.parameter.cs
@@ -3017,7 +3017,7 @@ class TestLocalDefinitions
 ///                                                         ^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                                         ^ punctuation.section.sequence.begin.cs
 ///                                                          ^^^^^ variable.other.cs
-///                                                               ^ punctuation.separator.sequence.cs
+///                                                               ^ punctuation.separator.comma.cs
 ///                                                                 ^^^^ variable.other.cs
 ///                                                                     ^ punctuation.section.sequence.end.cs
 ///                                                                      ^ punctuation.terminator.statement.cs
@@ -3027,7 +3027,7 @@ class TestLocalDefinitions
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
 ///           ^^^ variable.other.cs
-///              ^ punctuation.separator.sequence.cs
+///              ^ punctuation.separator.comma.cs
 ///                ^^^^ support.type.cs
 ///                    ^ punctuation.section.sequence.end.cs
 ///                      ^^^ variable.other.cs
@@ -3042,7 +3042,7 @@ class TestLocalDefinitions
 ///     ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
-///          ^ punctuation.separator.sequence.cs
+///          ^ punctuation.separator.comma.cs
 ///            ^^^^ support.type.cs
 ///                 ^^^ variable.other.cs
 ///                    ^ punctuation.section.sequence.end.cs
@@ -3058,7 +3058,7 @@ class TestLocalDefinitions
 ///     ^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
-///          ^ punctuation.separator.sequence.cs
+///          ^ punctuation.separator.comma.cs
 ///            ^^^^ support.type.cs
 ///                ^ punctuation.section.sequence.end.cs
 ///                  ^^^^ variable.other.cs
@@ -3087,7 +3087,7 @@ public class TestExpressions
 ///     ^^^^ variable.language.super.cs
 ///         ^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
-///          ^ punctuation.separator.sequence.cs
+///          ^ punctuation.separator.comma.cs
 ///           ^ punctuation.section.brackets.end.cs
 ///            ^ punctuation.terminator.statement.cs
 
@@ -3096,7 +3096,7 @@ public class TestExpressions
 ///         ^^^^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
 ///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ punctuation.separator.sequence.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///              ^ punctuation.section.brackets.end.cs
 ///               ^ punctuation.terminator.statement.cs
@@ -3107,7 +3107,7 @@ public class TestExpressions
 ///          ^^^^^^ meta.brackets.cs
 ///          ^ punctuation.section.brackets.begin.cs
 ///           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///            ^ punctuation.separator.sequence.cs
+///            ^ punctuation.separator.comma.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///               ^ punctuation.section.brackets.end.cs
 
@@ -3117,7 +3117,7 @@ public class TestExpressions
 ///         ^ punctuation.section.brackets.begin.cs
 ///          ^ punctuation.section.brackets.end.cs
 ///           ^ punctuation.section.brackets.begin.cs
-///            ^ punctuation.separator.sequence.cs
+///            ^ punctuation.separator.comma.cs
 ///             ^ punctuation.section.brackets.end.cs
 
         list[0, 1][2, 3];
@@ -3125,12 +3125,12 @@ public class TestExpressions
 ///         ^^^^^^^^^^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
 ///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ punctuation.separator.sequence.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///              ^ punctuation.section.brackets.end.cs
 ///               ^ punctuation.section.brackets.begin.cs
 ///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                 ^ punctuation.separator.sequence.cs
+///                 ^ punctuation.separator.comma.cs
 ///                   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                    ^ punctuation.section.brackets.end.cs
 ///                     ^ punctuation.terminator.statement.cs
@@ -3140,14 +3140,14 @@ public class TestExpressions
 ///         ^^^^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
 ///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ punctuation.separator.sequence.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///              ^ punctuation.section.brackets.end.cs
             [2, 3];
 ///         ^^^^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
 ///          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ punctuation.separator.sequence.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///              ^ punctuation.section.brackets.end.cs
 ///               ^ punctuation.terminator.statement.cs
@@ -3161,7 +3161,7 @@ public class TestExpressions
 ///             ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///             ^ punctuation.definition.string.begin.cs
 ///                   ^ punctuation.definition.string.end.cs
-///                    ^ punctuation.separator.sequence.cs
+///                    ^ punctuation.separator.comma.cs
 ///                      ^ variable.parameter.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -3753,7 +3753,7 @@ public class TestExpressions
 ///         ^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///         ^ punctuation.section.group.begin.cs
 ///          ^ variable.parameter.cs
-///           ^ punctuation.separator.parameter.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ variable.parameter.cs
 ///              ^ punctuation.section.group.end.cs
 ///               ^^^^ meta.function.anonymous.cs
@@ -3769,7 +3769,7 @@ public class TestExpressions
 ///                   ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
 ///         ^ punctuation.section.group.begin.cs
 ///          ^ variable.parameter.cs
-///           ^ punctuation.separator.parameter.cs
+///           ^ punctuation.separator.comma.cs
 ///             ^ variable.parameter.cs
 ///              ^ punctuation.section.group.end.cs
 ///                ^^ keyword.declaration.function.arrow.cs
@@ -3804,7 +3804,7 @@ public class TestExpressions
 ///                          ^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs
 ///               ^ punctuation.section.group.begin.cs
 ///                ^^ variable.parameter.cs
-///                  ^ punctuation.separator.parameter.cs
+///                  ^ punctuation.separator.comma.cs
 ///                   ^^ variable.parameter.cs
 ///                     ^ punctuation.section.group.end.cs
 ///                       ^^ keyword.declaration.function.arrow.cs
@@ -3821,9 +3821,9 @@ public class TestExpressions
 ///         ^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///         ^ punctuation.section.group.begin.cs
 ///          ^^^ variable.parameter.cs
-///             ^ punctuation.separator.parameter.cs
+///             ^ punctuation.separator.comma.cs
 ///               ^^^^^^^ variable.parameter.cs
-///                      ^ punctuation.separator.parameter.cs
+///                      ^ punctuation.separator.comma.cs
 ///                        ^^^ variable.parameter.cs
 ///                           ^ punctuation.section.group.end.cs
 ///                            ^^^^ meta.function.anonymous.cs
@@ -3838,7 +3838,7 @@ public class TestExpressions
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///         ^ punctuation.section.group.begin.cs
 ///          ^^^^^^^^^^^^^^^^^^ variable.parameter.cs
-///                            ^ punctuation.separator.parameter.cs
+///                            ^ punctuation.separator.comma.cs
 ///                              ^^^^^^^^^^^^^^^^^^ support.type.cs
 ///                                                 ^^^^^^ variable.parameter.cs
 ///                                                       ^ punctuation.section.group.end.cs
@@ -3855,10 +3855,10 @@ public class TestExpressions
 ///         ^ punctuation.section.group.begin.cs
 ///          ^^^ storage.type.cs
 ///              ^ variable.parameter.cs
-///               ^ punctuation.separator.parameter.cs
+///               ^ punctuation.separator.comma.cs
 ///                 ^^^^^^^ storage.type.cs
 ///                         ^ variable.parameter.cs
-///                          ^ punctuation.separator.parameter.cs
+///                          ^ punctuation.separator.comma.cs
 ///                            ^^^ support.type.cs
 ///                                ^ variable.parameter.cs
 ///                                 ^ punctuation.section.group.end.cs
@@ -3882,7 +3882,7 @@ public class TestExpressions
 ///                     ^^^^^^^^^^^ comment.line.double-slash.cs
 ///                     ^^ punctuation.definition.comment.cs
             ,
-///         ^ punctuation.separator.parameter.cs
+///         ^ punctuation.separator.comma.cs
             vec
 ///        ^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///         ^^^ support.type.cs
@@ -3908,7 +3908,7 @@ public class TestExpressions
 ///                                    ^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///                                    ^ punctuation.section.group.begin.cs
 ///                                     ^ variable.parameter.cs
-///                                      ^ punctuation.separator.parameter.cs
+///                                      ^ punctuation.separator.comma.cs
 ///                                        ^ variable.parameter.cs
 ///                                         ^ punctuation.section.group.end.cs
 ///                                          ^^^^ meta.function.anonymous.cs
@@ -3985,10 +3985,10 @@ public class TestExpressions
 ///                                                          ^ storage.type.nullable.cs
 ///                                                           ^^^ meta.brackets.cs
 ///                                                           ^ punctuation.section.brackets.begin.cs
-///                                                            ^ punctuation.separator.sequence.cs
+///                                                            ^ punctuation.separator.comma.cs
 ///                                                             ^ punctuation.section.brackets.end.cs
 ///                                                               ^ variable.parameter.cs
-///                                                                ^ punctuation.separator.parameter.cs
+///                                                                ^ punctuation.separator.comma.cs
 ///                                                                  ^^^^^^^^^^^^^^ meta.annotation.cs
 ///                                                                  ^ punctuation.definition.annotation.begin.cs
 ///                                                                   ^^^^^^^^^^^^ variable.annotation.cs
@@ -4009,7 +4009,7 @@ public class TestExpressions
 ///         ^^^^^^^^^^^^^^ meta.generic.cs
 ///         ^ punctuation.definition.generic.begin.cs
 ///          ^^^^^^ storage.type.cs
-///                ^ punctuation.separator.type.cs
+///                ^ punctuation.separator.comma.cs
 ///                  ^^^ storage.type.cs
 ///                     ^ storage.type.nullable.cs
 ///                      ^ punctuation.definition.generic.end.cs
@@ -4066,7 +4066,7 @@ public class TestExpressions
 ///                                 ^^^ variable.parameter.cs
 ///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^ variable.other.cs
-///                                               ^ punctuation.separator.argument.cs
+///                                               ^ punctuation.separator.comma.cs
 ///                                                 ^^^ variable.parameter.cs
 ///                                                     ^^ keyword.declaration.function.arrow.cs
 ///                                                        ^ variable.other.cs
@@ -4081,7 +4081,7 @@ public class TestExpressions
 ///                                                                  ^^ - meta.function.anonymous
 ///                            ^ punctuation.section.group.begin.cs
 ///                             ^^^^^ variable.parameter.cs
-///                                  ^ punctuation.separator.parameter.cs
+///                                  ^ punctuation.separator.comma.cs
 ///                                    ^^^^^ variable.parameter.cs
 ///                                         ^ punctuation.section.group.end.cs
 ///                                           ^^ keyword.declaration.function.arrow.cs
@@ -4093,11 +4093,11 @@ public class TestExpressions
 ///                ^^^^^^^^^^ meta.sequence.tuple.cs
 ///                ^ punctuation.section.sequence.begin.cs
 ///                 ^^^ storage.type.cs
-///                    ^ punctuation.separator.sequence.cs
+///                    ^ punctuation.separator.comma.cs
 ///                      ^^^ storage.type.cs
 ///                         ^ punctuation.section.sequence.end.cs
 ///                           ^^^ variable.parameter.cs
-///                              ^ punctuation.separator.parameter.cs
+///                              ^ punctuation.separator.comma.cs
 ///                                ^^^ support.type.cs
 ///                                    ^^^ variable.parameter.cs
 ///                                       ^ punctuation.section.group.end.cs

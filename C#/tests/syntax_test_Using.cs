@@ -147,11 +147,11 @@ class Foo {
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^ storage.type.cs
 ///               ^^^ variable.other.cs
-///                  ^ punctuation.separator.expression.cs
+///                  ^ punctuation.separator.comma.cs
 ///                    ^^^ variable.other.cs
 ///                        ^ keyword.operator.assignment.cs
 ///                          ^^^^ constant.language.boolean.true.cs
-///                              ^ punctuation.separator.expression.cs
+///                              ^ punctuation.separator.comma.cs
 ///                                ^^^ variable.other.cs
 ///                                    ^ keyword.operator.assignment.cs
 ///                                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -163,11 +163,11 @@ class Foo {
 ///           ^ punctuation.section.group.begin.cs
 ///            ^^^ storage.type.cs
 ///                ^^^ variable.other.cs
-///                   ^ punctuation.separator.expression.cs
+///                   ^ punctuation.separator.comma.cs
 ///                     ^^^ variable.other.cs
 ///                         ^ keyword.operator.assignment.cs
 ///                           ^^^^ constant.language.boolean.true.cs
-///                               ^ punctuation.separator.expression.cs
+///                               ^ punctuation.separator.comma.cs
 ///                                 ^^^ variable.other.cs
 ///                                     ^ keyword.operator.assignment.cs
 ///                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -203,7 +203,7 @@ class Foo {
 ///                 ^^^^^ variable.other.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
-///                                                 ^ punctuation.separator.expression.cs
+///                                                 ^ punctuation.separator.comma.cs
             font4 = new Font("Arial", 10.0f))
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///         ^^^^^ variable.other.cs
@@ -264,7 +264,7 @@ class Foo {
 ///                               ^ punctuation.section.brackets.begin.cs
 ///                                ^^^^^^^^^ variable.other.cs
 ///                                         ^ punctuation.section.brackets.end.cs
-///                                          ^ punctuation.separator.variables.cs
+///                                          ^ punctuation.separator.comma.cs
 ///                                            ^^ variable.other.cs
 ///                                               ^ keyword.operator.assignment.cs
 ///                                                 ^ keyword.operator.pointer.cs
@@ -273,7 +273,7 @@ class Foo {
 ///                                                   ^ punctuation.section.brackets.begin.cs
 ///                                                    ^^^^^^^ variable.other.cs
 ///                                                           ^ punctuation.section.brackets.end.cs
-///                                                            ^ punctuation.separator.variables.cs
+///                                                            ^ punctuation.separator.comma.cs
 ///                                                              ^^ variable.other.cs
 ///                                                                 ^ keyword.operator.assignment.cs
 ///                                                                   ^ keyword.operator.pointer.cs

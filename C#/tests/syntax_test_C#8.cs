@@ -64,7 +64,7 @@ using var (item, item) = await client.GetAsync();
 ///       ^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///       ^ punctuation.section.sequence.begin.cs
 ///        ^^^^ variable.other.cs
-///            ^ punctuation.separator.sequence.cs
+///            ^ punctuation.separator.comma.cs
 ///              ^^^^ variable.other.cs
 ///                  ^ punctuation.section.sequence.end.cs
 ///                    ^ keyword.operator.assignment.cs
@@ -153,7 +153,7 @@ using int[] name = (0, 1);
 ///                ^^^^^^ meta.sequence.tuple.cs
 ///                ^ punctuation.section.sequence.begin.cs
 ///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                  ^ punctuation.separator.sequence.cs
+///                  ^ punctuation.separator.comma.cs
 ///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                     ^ punctuation.section.sequence.end.cs
 ///                      ^ punctuation.terminator.statement.cs
@@ -213,7 +213,7 @@ IEnumerable<string> GetEnrollees()
 ///                        ^^^^^^^^^ variable.other.member
 ///                                 ^ keyword.operator.assignment
 ///                                   ^^^^^ constant.language
-///                                        ^ punctuation.separator.property
+///                                        ^ punctuation.separator.comma
 ///                                          ^^^^ variable.other.member
 ///                                              ^ keyword.operator.assignment
 ///                                                ^^^^^^ storage.type
@@ -227,7 +227,7 @@ Point p = new (3, 5);
 ///           ^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
 ///            ^ constant.numeric.value.cs
-///             ^ punctuation.separator.argument.cs
+///             ^ punctuation.separator.comma.cs
 ///               ^ constant.numeric.value.cs
 ///                ^ punctuation.section.group.end.cs
 ///                 ^ punctuation.terminator.statement.cs
@@ -235,7 +235,7 @@ Point p = new (3, 5);
 Point[] ps = { new (1, 4), new (3,-2), new (9, 5) }; // all Points
 ///            ^^^^^^^^^^ meta.instantiation.cs
 ///                ^^^^^^ meta.group.cs
-///                      ^ punctuation.separator.sequence.cs
+///                      ^ punctuation.separator.comma.cs
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code
 public struct Point3D
@@ -426,7 +426,7 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///    ^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///    ^ punctuation.section.sequence.begin.cs
 ///     ^^^^^ variable.other.cs
-///          ^ punctuation.separator.sequence.cs
+///          ^ punctuation.separator.comma.cs
 ///            ^^^^^^ variable.other.cs
 ///                  ^ punctuation.section.sequence.end.cs
 ///                    ^^^^^^ keyword.control.conditional.switch.cs
@@ -441,7 +441,7 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///                       ^^ meta.case.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^^^ meta.string.cs string.quoted.double.cs
-///            ^ punctuation.separator.sequence.cs
+///            ^ punctuation.separator.comma.cs
 ///              ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                     ^ punctuation.section.sequence.end.cs
 ///                       ^^ punctuation.separator.case-expression.cs
@@ -454,7 +454,7 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///            ^^ meta.case.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.language.anonymous.cs
-///       ^ punctuation.separator.sequence.cs
+///       ^ punctuation.separator.comma.cs
 ///         ^ variable.language.anonymous.cs
 ///          ^ punctuation.section.sequence.end.cs
 ///            ^^ punctuation.separator.case-expression.cs
@@ -473,7 +473,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 /// ^^^^^^ meta.sequence.tuple.cs
 /// ^ punctuation.section.sequence.begin.cs
 ///  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///   ^ punctuation.separator.sequence.cs
+///   ^ punctuation.separator.comma.cs
 ///     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///      ^ punctuation.section.sequence.end.cs
 ///        ^^ punctuation.separator.case-expression.cs
@@ -490,7 +490,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.other.cs
-///       ^ punctuation.separator.sequence.cs
+///       ^ punctuation.separator.comma.cs
 ///         ^ variable.other.cs
 ///          ^ punctuation.section.sequence.end.cs
 ///            ^^^^ keyword.control.conditional.when.cs
@@ -514,7 +514,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.language.anonymous.cs
-///       ^ punctuation.separator.sequence.cs
+///       ^ punctuation.separator.comma.cs
 ///         ^ variable.language.anonymous.cs
 ///          ^ punctuation.section.sequence.end.cs
 ///            ^^ punctuation.separator.case-expression.cs

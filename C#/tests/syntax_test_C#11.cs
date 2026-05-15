@@ -641,7 +641,7 @@ public class CompanyFeaturesService(
 ///                             ^ punctuation.definition.generic.end
 ///                               ^^^^^^ variable.parameter - meta.generic
 ///                                     ^ punctuation.section.parameters.end
-///                                       ^ meta.class punctuation.separator.type - meta.class.constructor
+///                                       ^ meta.class punctuation.separator.colon - meta.class.constructor
 {
 /// <- meta.class.body meta.block punctuation.section.block.begin
 }
@@ -655,7 +655,7 @@ public readonly struct Distance(double dx, double dy)
 ///                            ^ punctuation.section.parameters.begin
 ///                             ^^^^^^ storage.type
 ///                                    ^^ variable.parameter
-///                                      ^ punctuation.separator.parameter
+///                                      ^ punctuation.separator.comma
 ///                                        ^^^^^^ storage.type
 ///                                               ^^ variable.parameter
 ///                                                 ^ punctuation.section.parameters.end
@@ -694,11 +694,11 @@ class SomeClass
 ///                  ^^^^^^^ meta.string.cs string.quoted.double.cs source.regexp meta.mode.basic.regexp
 ///                     ^ keyword.operator.alternation.regexp
 ///                         ^ punctuation.definition.string.end.cs
-///                          ^ punctuation.separator.argument.cs
+///                          ^ punctuation.separator.comma.cs
 ///                            ^^^^^^^^^^^^ variable.other.cs
 ///                                        ^ punctuation.accessor.dot.cs
 ///                                         ^^^^^^^^^^ variable.other.cs
-///                                                   ^ punctuation.separator.argument.cs
+///                                                   ^ punctuation.separator.comma.cs
 ///                                                     ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                                     ^ punctuation.definition.string.begin.cs
 ///                                                           ^ punctuation.definition.string.end.cs

@@ -197,11 +197,11 @@ static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Da
 ///                                                     ^^^^ variable.other.member
 ///                                                         ^ keyword.operator.assignment
 ///                                                           ^^^^ meta.number.integer.decimal constant.numeric.value
-///                                                               ^ punctuation.separator.property
+///                                                               ^ punctuation.separator.comma
 ///                                                                 ^^^^^ variable.other.member
 ///                                                                      ^ keyword.operator.assignment
 ///                                                                        ^ meta.number.integer.decimal constant.numeric.value
-///                                                                         ^ punctuation.separator.property
+///                                                                         ^ punctuation.separator.comma
 ///                                                                           ^^^ variable.other.member
 ///                                                                              ^ keyword.operator.assignment
 ///                                                                                ^^ meta.number.integer.decimal constant.numeric.value
