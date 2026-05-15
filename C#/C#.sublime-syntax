@@ -1399,9 +1399,7 @@ contexts:
       push: fixed-group
     - match: using\b
       scope: keyword.declaration.using.cs
-      push:
-        - using-meta
-        - using-statement
+      push: using-body
     - match: var\b
       scope: storage.type.cs
       push:
@@ -1563,7 +1561,7 @@ contexts:
 
 ###[ USING STATEMENTS ]########################################################
 
-  using-statement:
+  using-body:
     - match: \(
       scope: punctuation.section.group.begin.cs
       set:
@@ -1571,7 +1569,7 @@ contexts:
         - var-declaration
     - match: (?=\S)
       set:
-        - variable-declaration-list
+        - expression-list
         - var-declaration
 
   inside-using-group:
@@ -1579,11 +1577,14 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.variables.cs
-    - include: expression
+    - include: expression-list
 
 ###[ EXPRESSIONS ]#############################################################
+
+  expression-list:
+    - match: ','
+      scope: punctuation.separator.expression.cs
+    - include: expression
 
   expression:
     - include: parens

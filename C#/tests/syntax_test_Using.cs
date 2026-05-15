@@ -131,8 +131,49 @@ class Foo {
         usingFoo = 0;
 ///     ^^^^^^^^ variable.other.cs - keyword
 
+        using
+///     ^^^^^ keyword.declaration.using.cs
+
+        using var
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.cs
+
+        using var foo
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.cs
+///               ^^^ variable.other.cs
+
+        using var foo, bar = true, baz = 0;
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^ storage.type.cs
+///               ^^^ variable.other.cs
+///                  ^ punctuation.separator.expression.cs
+///                    ^^^ variable.other.cs
+///                        ^ keyword.operator.assignment.cs
+///                          ^^^^ constant.language.boolean.true.cs
+///                              ^ punctuation.separator.expression.cs
+///                                ^^^ variable.other.cs
+///                                    ^ keyword.operator.assignment.cs
+///                                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                       ^ punctuation.terminator.statement.cs
+
+        using (var foo, bar = true, baz = 0)
+///     ^^^^^ keyword.declaration.using.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ storage.type.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.separator.expression.cs
+///                     ^^^ variable.other.cs
+///                         ^ keyword.operator.assignment.cs
+///                           ^^^^ constant.language.boolean.true.cs
+///                               ^ punctuation.separator.expression.cs
+///                                 ^^^ variable.other.cs
+///                                     ^ keyword.operator.assignment.cs
+///                                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                        ^ punctuation.section.group.end.cs
+
         using (Font font3 = new Font("Arial", 10.0f))
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
@@ -155,17 +196,16 @@ class Foo {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.end
 
         using (Font font3 = new Font("Arial", 10.0f),
-///     ^^^^^^ meta.using.cs - meta.group
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs meta.group.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
 ///            ^^^^ support.type.cs
 ///                 ^^^^^ variable.other.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
-///                                                 ^ punctuation.separator.variables.cs
+///                                                 ^ punctuation.separator.expression.cs
             font4 = new Font("Arial", 10.0f))
-///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs meta.group.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///         ^^^^^ variable.other.cs
 ///               ^ keyword.operator.assignment.cs
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs

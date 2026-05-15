@@ -350,7 +350,7 @@ static async Task Main()
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement#example
     using var socket = new ClientWebSocket();
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs meta.using.cs
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs
 /// ^^^^^ keyword.declaration.using
 ///       ^^^ storage.type
 ///           ^^^^^^ variable.other
