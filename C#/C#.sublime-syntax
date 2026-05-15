@@ -487,7 +487,7 @@ contexts:
       set: using-namespace
     - match: (?=var\b|{{namespaced_name}}\s+{{name}})
       set:
-        - variable-declaration-list
+        - expression-list
         - var-declaration
     - match: (?=\S)
       set: using-namespace
@@ -1317,16 +1317,6 @@ contexts:
       pop: 1
     - include: else-pop
 
-  variable-declaration-list:
-    - match: _\b
-      scope: variable.language.anonymous.cs
-    - match: '{{unreserved_name}}'
-      scope: variable.other.cs
-    - match: ','
-      scope: punctuation.separator.comma.cs
-    - include: assignment-expressions
-    - include: else-pop
-
 ###[ STATEMENTS ]##############################################################
 
   maybe-statement-block:
@@ -1438,7 +1428,7 @@ contexts:
   local-name:
     - include: method-declarator
     - match: (?=\S)
-      set: variable-declaration-list
+      set: expression-list
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
@@ -1515,7 +1505,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - include: variable-declaration-list
+    - include: expression-list
 
 ###[ FOR STATEMENTS ]##########################################################
 
@@ -1524,11 +1514,10 @@ contexts:
       scope: punctuation.section.group.begin.cs
       set:
         - for-iteration
-        - expression
         - for-separator
         - expression
         - for-separator
-        - variable-declaration-list
+        - expression-list
         - for-declaration
     - include: else-pop
 
@@ -1548,9 +1537,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
-    - include: expression
+    - include: expression-list
 
   foreach-group:
     - match: \(
@@ -1622,7 +1609,7 @@ contexts:
       push: maybe-pointer
     - match: =
       scope: keyword.operator.assignment.cs
-      push: maybe-pointer
+      push: assignment-value
     - match: \.\.
       scope: keyword.operator.range.cs
       push: maybe-pointer
@@ -2108,14 +2095,12 @@ contexts:
     - match: \{
       scope: meta.braces.cs punctuation.section.braces.begin.cs
       push: inside-variable-initializer
-    - match: ','
-      scope: punctuation.separator.comma.cs
     - match: ({{name}})\s*({{equal}})
       captures:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
-    - include: expression
+    - include: expression-list
 
 ###[ ITEM ACCESS EXPRESSIONS ]#################################################
 
@@ -2131,13 +2116,11 @@ contexts:
     - match: \]
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
     - match: ({{name}})\s*({{colon}})
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-    - include: expression
+    - include: expression-list
 
   maybe-member-access:
     - match: \.
@@ -2503,9 +2486,7 @@ contexts:
     - match: \]
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
-    - include: expression
+    - include: expression-list
 
 ###[ FUNCTION POINTER TYPES ]##################################################
 
