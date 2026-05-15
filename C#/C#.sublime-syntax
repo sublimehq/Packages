@@ -2375,7 +2375,9 @@ contexts:
         - maybe-type-accessor
         - type-suffix
         - type-argument-list
-    - include: rank-specifiers
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push: inside-rank-specifier
 
   maybe-type-accessor:
     - match: \s*(\.)
