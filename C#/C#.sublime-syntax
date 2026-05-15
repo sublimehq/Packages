@@ -484,7 +484,7 @@ contexts:
         1: variable.other.import.cs
         2: keyword.operator.assignment.cs
       set: using-namespace
-    - match: (?=var\b|{{namespaced_name}}{{type_suffix}}?\s+{{name}})
+    - match: (?=var\b|{{namespaced_name}}\s+{{name}})
       set:
         - variable-declaration-list
         - var-declaration
@@ -1418,7 +1418,7 @@ contexts:
       push:
         - local-name
         - type-suffix
-    - match: (?={{namespaced_name}}{{type_suffix}}?\s+{{name}})
+    - match: (?={{namespaced_name}}\s+{{name}})
       push:
         - local-name
         - expect-type
@@ -2039,7 +2039,7 @@ contexts:
   out-argument:
     - match: ref\b
       scope: storage.modifier.argument.cs
-    - match: (?=(?!{{reserved}}\b){{namespaced_name}}{{type_suffix}}?\s+{{name}})
+    - match: (?=(?!{{reserved}}\b){{namespaced_name}}\s+{{name}})
       push: var-declaration
     - include: else-pop
 
@@ -2455,7 +2455,7 @@ contexts:
 
   type-param-modifier:
     - include: attributes
-    - match: (?:in|out|ref|readonly)\b
+    - match: '{{generic_param_type_modifier}}'
       scope: storage.modifier.cs
     - include: else-pop
 
@@ -3164,27 +3164,40 @@ variables:
   escape_uni16: \\u\h{4}
   escape_uni32: \\U\h{8}
 
-  modifiers: (?:abstract|async|const|explicit|extern|implicit|new|override|partial|readonly|ref|required|sealed|static|unsafe|virtual|volatile)\b
+  reserved: |-
+    (?x:
+      {{statement_keywords}}
+    | {{expression_keywords}}
+    | {{modifiers}}
+    | {{visibility}}
+    | {{base_type}}
+    | {{language_literals}}
+    )
+
+  modifiers: (?x:abstract|async|const|explicit|extern|implicit|new|override|partial|readonly|ref|required|sealed|static|unsafe|virtual|volatile)\b
+  method_param_type_modifier: (?:in|out|params|ref|this)\b
+  generic_param_type_modifier: (?:in|out|readonly|ref)\b
+
   visibility: (?:file|internal|private|protected|public)\b
 
-  base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|dynamic|object|string|void)\b
+  base_type: (?x:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|dynamic|object|string|void)\b
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: (?:\s*<[^={};]*>)
 
-  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
-  name: '(?:@?{{name_normal}})'
-  namespaced_name: (?:(?:{{name}}\s*::\s*)*(?:{{name}}{{generic_declaration}}?{{type_suffix}}?\s*\.\s*)*{{name}}{{generic_declaration}}?)
+  statement_keywords: (?:break|case|catch|class|continue|do|else|enum|event|finally|fixed|for|foreach|goto|if|interface|namespace|operator|return|switch|try|using|while)\b
+  expression_keywords: (?:as|checked|default|delegate|in|is|lock|nameof|new|not|params|sizeof|stackalloc|throw|typeof|unchecked)\b
+  language_literals: (?:base|false|null|this|true)\b
 
-  unreserved_name: (?:@|(?!{{reserved}}\b|{{base_type}}\b)){{name_normal}}
-
-  start_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_\p{L}])'
-  other_char: '(?:{{escape_uni16}}|{{escape_uni32}}|[_0-9\p{L}])'
+  namespaced_name: (?:(?:{{name}}\s*::\s*)*(?:{{name}}{{generic_declaration}}?{{type_suffix}}?\s*\.\s*)*{{name}}{{generic_declaration}}?{{type_suffix}}?)
+  unreserved_name: (?:@|(?!{{reserved}}\b)){{name_normal}}
+  name: (?:@?{{name_normal}})
   name_normal: '{{start_char}}{{other_char}}*\b'
-  cap_name: '\p{Lu}{{other_char}}*\b'
+  cap_name: '[[:upper:]]{{other_char}}*\b'
+  start_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[[:alpha:]]])
+  other_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[[:alnum:]]])
 
-  wspace_eol: '\s*(?:\n|$)'
+  wspace_eol: \s*(?:\n|$)
 
-  method_param_type_modifier: (?:out|ref|this|params|in)\b
 
   sql_indicator: |-
     (?x: \s* (?:
