@@ -1564,7 +1564,7 @@ contexts:
   foreach-in:
     - match: in\b
       scope: keyword.control.loop.in.cs
-      set: expression
+      pop: 1
     - include: else-pop
 
 ###[ USING STATEMENTS ]########################################################
