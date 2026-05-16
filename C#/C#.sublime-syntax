@@ -48,7 +48,10 @@ contexts:
     - include: extension-declarations
     - include: conversion-declarations
     # statements and expressions (fallback only)
-    - include: statements
+    - include: embedded-statements
+    - include: local-declarations
+    - include: label-declarations
+    - include: else-expression
 
 ###[ COMMENTS ]################################################################
 
@@ -1263,7 +1266,37 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ VAR DECLARATIONS ]########################################################
+###[ VARIABLE DECLARATIONS ]###################################################
+
+  local-declarations:
+    - match: (delegate)\s*(\*)
+      captures:
+        1: keyword.declaration.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - expression-list
+        - funcptr-type-meta
+        - type-argument-list
+        - funcptr-type-modifier
+    - match: var\b
+      scope: storage.type.cs
+      push:
+        - assignment-expression
+        - var-declarator
+    - match: '{{base_type}}'
+      scope: storage.type.cs
+      push:
+        - local-declarator
+        - type-suffix
+    - match: (?={{namespaced_name}}\s+{{name}})
+      push:
+        - local-declarator
+        - maybe-type
+
+  local-declarator:
+    - include: method-declarator
+    - match: (?=\S)
+      set: expression-list
 
   var-declaration:
     - match: var\b
@@ -1305,10 +1338,13 @@ contexts:
       pop: 1
     - include: stray-punctuations
     - include: terminators
-    - include: statements
-
-  statements:
     - include: statement-blocks
+    - include: embedded-statements
+    - include: local-declarations
+    - include: label-declarations
+    - include: else-expression
+
+  embedded-statements:
     # conditional statements
     - match: else\s+if\b
       scope: keyword.control.conditional.elseif.cs
@@ -1363,37 +1399,8 @@ contexts:
     - match: using\b
       scope: keyword.declaration.using.cs
       push: using-body
-    - match: var\b
-      scope: storage.type.cs
-      push:
-        - assignment-expression
-        - var-declarator
-    - match: (delegate)\s*(\*)
-      captures:
-        1: keyword.declaration.delegate.cs
-        2: keyword.operator.pointer.cs
-      push:
-        - expression-list
-        - funcptr-type-meta
-        - type-argument-list
-        - funcptr-type-modifier
+    # reserved expression keywords
     - include: keywords
-    - match: '{{base_type}}'
-      scope: storage.type.cs
-      push:
-        - local-name
-        - type-suffix
-    - match: (?={{namespaced_name}}\s+{{name}})
-      push:
-        - local-name
-        - maybe-type
-    # labels
-    - match: ({{name}})\s*({{colon}})
-      captures:
-        1: entity.name.label.cs
-        2: punctuation.separator.colon.cs
-    # expressions
-    - include: else-expression
 
   goto-target:
     - match: case\b
@@ -1404,10 +1411,11 @@ contexts:
       pop: 1
     - include: else-pop
 
-  local-name:
-    - include: method-declarator
-    - match: (?=\S)
-      set: expression-list
+  label-declarations:
+    - match: ({{name}})\s*({{colon}})
+      captures:
+        1: entity.name.label.cs
+        2: punctuation.separator.colon.cs
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
@@ -1670,7 +1678,7 @@ contexts:
   keywords:
     - include: instantiations
     - include: modifiers
-    - match: delegate\b
+    - match: delegate\b(?!\s*\*)
       scope: meta.function.anonymous.cs keyword.declaration.delegate.cs
       push:
         - delegate-lambda-body
