@@ -3079,6 +3079,32 @@ class TestLocalDefinitions
 ///                                 ^ punctuation.section.group.begin.cs
 ///                                  ^ punctuation.section.group.end.cs
 ///                                   ^ punctuation.terminator.statement.cs
+
+        ((int, int) itm1, (int itm2, type) itm3) var;
+///     ^ meta.sequence.tuple.cs
+///      ^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs
+///                ^^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence
+///                       ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs
+///                                       ^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence
+///                                             ^^^^^^ - meta.sequence
+///     ^ punctuation.section.sequence.begin.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^ storage.type.cs
+///          ^ punctuation.separator.comma.cs
+///            ^^^ storage.type.cs
+///               ^ punctuation.section.sequence.end.cs
+///                 ^^^^ variable.other.cs
+///                     ^ punctuation.separator.comma.cs
+///                       ^ punctuation.section.sequence.begin.cs
+///                        ^^^ storage.type.cs
+///                            ^^^^ variable.other.cs
+///                                ^ punctuation.separator.comma.cs
+///                                  ^^^^ support.type.cs
+///                                      ^ punctuation.section.sequence.end.cs
+///                                        ^^^^ variable.other.cs
+///                                            ^ punctuation.section.sequence.end.cs
+///                                              ^^^ variable.other.cs
+///                                                 ^ punctuation.terminator.statement.cs
     }
 }
 
@@ -4129,100 +4155,80 @@ public class TestExpressions
 
     void testTypeCastExpressions()
     {
-        (int) var;
-///     ^^^^^ meta.cast.cs meta.group.cs
+        (byte);
+///     ^^^^^^ meta.group.cs - meta.cast
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^ storage.type.cs
-///         ^ punctuation.section.group.end.cs
-///           ^^^ variable.other.cs
-///              ^ punctuation.terminator.statement.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
 
-        (type) var;
+        (byte) var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^ variable.other.cs
 ///               ^ punctuation.terminator.statement.cs
 
-        (type) ~var;
+        (byte) ~var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^ keyword.operator.bitwise.cs
 ///             ^^^ variable.other.cs
 ///                ^ punctuation.terminator.statement.cs
 
-        (type) !var;
+        (byte) !var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^ keyword.operator.logical.cs
 ///             ^^^ variable.other.cs
 ///                ^ punctuation.terminator.statement.cs
 
-        (var) -var;
-///     ^^^^^ - meta.group.cs meta.cast
-///     ^ punctuation.section.group.begin.cs
-///      ^^^ variable.other.cs
-///         ^ punctuation.section.group.end.cs
-///           ^ keyword.operator.arithmetic.cs
-///            ^^^ variable.other.cs
-///               ^ punctuation.terminator.statement.cs
-
-        (type) --var;
+        (byte) --var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^ keyword.operator.arithmetic.cs
 ///              ^^^ variable.other.cs
 ///                 ^ punctuation.terminator.statement.cs
 
-        (var) +var;
-///     ^^^^^ - meta.group.cs meta.cast
-///     ^ punctuation.section.group.begin.cs
-///      ^^^ variable.other.cs
-///         ^ punctuation.section.group.end.cs
-///           ^ keyword.operator.arithmetic.cs
-///            ^^^ variable.other.cs
-///               ^ punctuation.terminator.statement.cs
-
-        (type) ++var;
+        (byte) ++var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^ keyword.operator.arithmetic.cs
 ///              ^^^ variable.other.cs
 ///                 ^ punctuation.terminator.statement.cs
 
-        (type) global::var;
+        (byte) global::var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^^^^ support.namespace.global.cs
 ///                  ^^ punctuation.accessor.double-colon.namespace.cs
 ///                    ^^^ variable.other.cs
 ///                       ^ punctuation.terminator.statement.cs
 
-        (type) var.var;
+        (byte) var.var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^ variable.other.cs
 ///               ^ punctuation.accessor.dot.cs
 ///                ^^^ variable.other.cs
 ///                   ^ punctuation.terminator.statement.cs
 
-        (type) func();
+        (byte) func();
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                ^^ meta.function-call.arguments.cs meta.group.cs
@@ -4230,10 +4236,10 @@ public class TestExpressions
 ///                 ^ punctuation.section.group.end.cs
 ///                  ^ punctuation.terminator.statement.cs
 
-        (type) global::func();
+        (byte) global::func();
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^^^^ support.namespace.global.cs
 ///                  ^^ punctuation.accessor.double-colon.namespace.cs
@@ -4243,10 +4249,10 @@ public class TestExpressions
 ///                         ^ punctuation.section.group.end.cs
 ///                          ^ punctuation.terminator.statement.cs
 
-        (type) var.func();
+        (byte) var.func();
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^ variable.other.cs
 ///               ^ punctuation.accessor.dot.cs
@@ -4256,10 +4262,10 @@ public class TestExpressions
 ///                     ^ punctuation.section.group.end.cs
 ///                      ^ punctuation.terminator.statement.cs
 
-        (type) new other();
+        (byte) new other();
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
+///      ^^^^ storage.type.cs
 ///          ^ punctuation.section.group.end.cs
 ///            ^^^^^^^^^^^ meta.instantiation.cs
 ///            ^^^ keyword.operator.new.cs
@@ -4269,51 +4275,69 @@ public class TestExpressions
 ///                      ^ punctuation.section.group.end.cs
 ///                       ^ punctuation.terminator.statement.cs
 
-        (var) is null
-///     ^^^^^ meta.group.cs - meta.cast
+        (byte[,]) var;
+///     ^^^^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^ variable.other.cs
-///         ^ punctuation.section.group.end.cs
-///           ^^ keyword.operator.comparison.type.cs
-///              ^^^^ constant.language.null.cs
+///      ^^^^ storage.type.cs
+///          ^^^ meta.brackets.cs
+///          ^ punctuation.section.brackets.begin.cs
+///           ^ punctuation.separator.comma.cs
+///            ^ punctuation.section.brackets.end.cs
+///             ^ punctuation.section.group.end.cs
+///               ^^^ variable.other.cs
+///                  ^ punctuation.terminator.statement.cs
 
-        (var) as type
-///     ^^^^^ meta.group.cs - meta.cast
+        (global::char[10]) var;
+///     ^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
-///      ^^^ variable.other.cs
-///         ^ punctuation.section.group.end.cs
-///           ^^ keyword.operator.cast.cs
-///              ^^^^ support.type.cs
-
-        (var) and (var) or (var) not and (var);
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.cast
-
-        (var) + (var) - (var) * (var) / (var);
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.cast
-
-        (type)(expression);
-///     ^^^^^^ meta.cast.cs meta.group.cs
-///     ^ punctuation.section.group.begin.cs
-///      ^^^^ support.type.cs
-///          ^ punctuation.section.group.end.cs
-///           ^^^^^^^^^^^^ meta.group.cs
-///           ^ punctuation.section.group.begin.cs
-///            ^^^^^^^^^^ variable.other.cs
+///      ^^^^^^ support.namespace.global.cs
+///            ^^ punctuation.accessor.double-colon.namespace.cs
+///              ^^^^ storage.type.cs
+///                  ^^^^ meta.brackets.cs
+///                  ^ punctuation.section.brackets.begin.cs
+///                   ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ punctuation.section.brackets.end.cs
 ///                      ^ punctuation.section.group.end.cs
-///                       ^ punctuation.terminator.statement.cs
+///                        ^^^ variable.other.cs
+///                           ^ punctuation.terminator.statement.cs
 
-        ((type)(expression));
+        (byte)(var + global::func());
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///           ^^^^^^^^^^^^^^^^^^^ meta.group.cs - meta.group meta.group
+///                              ^^ meta.group.cs meta.function-call.arguments.cs meta.group.cs
+///                                ^ meta.group.cs - meta.group meta.group
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ variable.other.cs
+///                ^ keyword.operator.arithmetic.cs
+///                  ^^^^^^ support.namespace.global.cs
+///                        ^^ punctuation.accessor.double-colon.namespace.cs
+///                          ^^^^ variable.function.cs
+///                              ^ punctuation.section.group.begin.cs
+///                               ^^ punctuation.section.group.end.cs
+///                                 ^ punctuation.terminator.statement.cs
+
+        ((byte)(var + global::func()));
 ///     ^ meta.group.cs - meta.group meta.group
 ///      ^^^^^^ meta.group.cs meta.cast.cs meta.group.cs
-///            ^^^^^^^^^^^^ meta.group.cs meta.group.cs
-///                        ^ meta.group.cs - meta.group meta.group
+///            ^^^^^^^^^^^^^^^^^^^ meta.group.cs meta.group.cs - meta.group meta.group meta.group
+///                               ^^ meta.group.cs meta.group.cs meta.function-call.arguments.cs meta.group.cs
+///                                 ^ meta.group.cs meta.group.cs - meta.group meta.group meta.group
+///                                  ^ meta.group.cs - meta.group meta.group
 ///     ^^ punctuation.section.group.begin.cs
-///       ^^^^ support.type.cs
+///       ^^^^ storage.type.cs
 ///           ^ punctuation.section.group.end.cs
 ///            ^ punctuation.section.group.begin.cs
-///             ^^^^^^^^^^ variable.other.cs
-///                       ^^ punctuation.section.group.end.cs
-///                         ^ punctuation.terminator.statement.cs
+///             ^^^ variable.other.cs
+///                 ^ keyword.operator.arithmetic.cs
+///                   ^^^^^^ support.namespace.global.cs
+///                         ^^ punctuation.accessor.double-colon.namespace.cs
+///                           ^^^^ variable.function.cs
+///                               ^ punctuation.section.group.begin.cs
+///                                ^^^ punctuation.section.group.end.cs
+///                                   ^ punctuation.terminator.statement.cs
 
         ((int)foo)((type)bar<0)var;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
@@ -4363,5 +4387,288 @@ public class TestExpressions
 ///                                      ^ punctuation.section.group.begin.cs
 ///                                       ^ punctuation.section.group.end.cs
 ///                                        ^ punctuation.terminator.statement.cs
+
+        (mytype) base;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^ variable.language.super.cs
+
+        (mytype) this;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^ variable.language.this.cs
+
+        (mytype) var;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^ variable.other.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        (mytype) --var;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^ keyword.operator.arithmetic.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.terminator.statement.cs
+
+        (mytype) ++var;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^ keyword.operator.arithmetic.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.terminator.statement.cs
+
+        (mytype) global::var;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^^^ support.namespace.global.cs
+///                    ^^ punctuation.accessor.double-colon.namespace.cs
+///                      ^^^ variable.other.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        (mytype) var.var;
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^ variable.other.cs
+///                 ^ punctuation.accessor.dot.cs
+///                  ^^^ variable.other.cs
+///                     ^ punctuation.terminator.statement.cs
+
+        (mytype) func();
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                  ^^ meta.function-call.arguments.cs meta.group.cs
+///                  ^ punctuation.section.group.begin.cs
+///                   ^ punctuation.section.group.end.cs
+///                    ^ punctuation.terminator.statement.cs
+
+        (mytype) global::func();
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^^^ support.namespace.global.cs
+///                    ^^ punctuation.accessor.double-colon.namespace.cs
+///                      ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                          ^^ meta.function-call.arguments.cs meta.group.cs
+///                          ^ punctuation.section.group.begin.cs
+///                           ^ punctuation.section.group.end.cs
+///                            ^ punctuation.terminator.statement.cs
+
+        (mytype) var.func();
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^ variable.other.cs
+///                 ^ punctuation.accessor.dot.cs
+///                  ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                      ^^ meta.function-call.arguments.cs meta.group.cs
+///                      ^ punctuation.section.group.begin.cs
+///                       ^ punctuation.section.group.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        (mytype) new other();
+///     ^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^^^^^^^^^^ meta.instantiation.cs
+///              ^^^ keyword.operator.new.cs
+///                  ^^^^^ meta.function-call.identifier.cs support.type.cs
+///                       ^^ meta.function-call.arguments.cs meta.group.cs
+///                       ^ punctuation.section.group.begin.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^ punctuation.terminator.statement.cs
+
+        (mytype[]) var;
+///     ^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^^ meta.brackets.cs
+///            ^ punctuation.section.brackets.begin.cs
+///             ^ punctuation.section.brackets.end.cs
+///              ^ punctuation.section.group.end.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.terminator.statement.cs
+
+        (mytype<T>) var;
+///     ^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^^^ meta.generic.cs
+///            ^ punctuation.definition.generic.begin.cs
+///             ^ support.type.cs
+///              ^ punctuation.definition.generic.end.cs
+///               ^ punctuation.section.group.end.cs
+///                 ^^^ variable.other.cs
+///                    ^ punctuation.terminator.statement.cs
+
+        (mytype<T>?[,][]) var;
+///     ^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ support.type.cs
+///            ^^^ meta.generic.cs
+///            ^ punctuation.definition.generic.begin.cs
+///             ^ support.type.cs
+///              ^ punctuation.definition.generic.end.cs
+///               ^ storage.type.nullable.cs
+///                ^^^^^ meta.brackets.cs
+///                ^ punctuation.section.brackets.begin.cs
+///                 ^ punctuation.separator.comma.cs
+///                  ^ punctuation.section.brackets.end.cs
+///                   ^ punctuation.section.brackets.begin.cs
+///                    ^ punctuation.section.brackets.end.cs
+///                     ^ punctuation.section.group.end.cs
+///                       ^^^ variable.other.cs
+///                          ^ punctuation.terminator.statement.cs
+
+        (NS::mytype<T>?[,][].mysubtype<T>?[]) var;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^ variable.namespace.cs
+///        ^^ punctuation.accessor.double-colon.namespace.cs
+///          ^^^^^^ support.type.cs
+///                ^^^ meta.generic.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^ support.type.cs
+///                  ^ punctuation.definition.generic.end.cs
+///                   ^ storage.type.nullable.cs
+///                    ^^^^^ meta.brackets.cs
+///                    ^ punctuation.section.brackets.begin.cs
+///                     ^ punctuation.separator.comma.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ punctuation.accessor.dot.cs
+///                          ^^^^^^^^^ support.type.cs
+///                                   ^^^ meta.generic.cs
+///                                   ^ punctuation.definition.generic.begin.cs
+///                                    ^ support.type.cs
+///                                     ^ punctuation.definition.generic.end.cs
+///                                      ^ storage.type.nullable.cs
+///                                       ^^ meta.brackets.cs
+///                                       ^ punctuation.section.brackets.begin.cs
+///                                        ^ punctuation.section.brackets.end.cs
+///                                         ^ punctuation.section.group.end.cs
+///                                           ^^^ variable.other.cs
+///                                              ^ punctuation.terminator.statement.cs
+
+        ((Test.Example . State)item.State).ToString();
+///      ^^^^^^^^^^^^^^^^^^^^^^ meta.cast
+///      ^ punctuation.section.group.begin
+///                           ^ punctuation.section.group.end
+///                            ^^^^ variable.other - meta.cast
+///       ^^^^ support.type
+///           ^ punctuation.accessor.dot
+///            ^^^^^^^ support.type
+///                    ^ punctuation.accessor.dot
+///                      ^^^^^ support.type
+
+        (string)((SomeClass)test).value;
+///     ^^^^^^^^ meta.cast
+///      ^^^^^^ storage.type
+///             ^ meta.group - meta.cast
+///              ^^^^^^^^^^^ meta.cast
+///               ^^^^^^^^^ support.type
+///                         ^^^^ variable.other
+///                             ^ meta.group - meta.cast
+    }
+///^^ meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ meta.class.body.cs meta.block.cs - meta.method
+
+    void testGroupNoTypeCastExpressions()
+    {
+        (byte) -var;
+///     ^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
+///            ^ keyword.operator.arithmetic.cs
+///             ^^^ variable.other.cs
+///                ^ punctuation.terminator.statement.cs
+
+        (byte) +var;
+///     ^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
+///            ^ keyword.operator.arithmetic.cs
+///             ^^^ variable.other.cs
+///                ^ punctuation.terminator.statement.cs
+
+        (byte) is null
+///     ^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^ keyword.operator.comparison.type.cs
+///               ^^^^ constant.language.null.cs
+
+        (byte) as type
+///     ^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^ keyword.operator.cast.cs
+///               ^^^^ support.type.cs
+
+        (mytype) -var;
+///     ^^^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ variable.other.cs
+///            ^ punctuation.section.group.end.cs
+///              ^ keyword.operator.arithmetic.cs
+///               ^^^ variable.other.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        (mytype) +var;
+///     ^^^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ variable.other.cs
+///            ^ punctuation.section.group.end.cs
+///              ^ keyword.operator.arithmetic.cs
+///               ^^^ variable.other.cs
+///                  ^ punctuation.terminator.statement.cs
+
+        (mytype) is null
+///     ^^^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ variable.other.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^ keyword.operator.comparison.type.cs
+///                 ^^^^ constant.language.null.cs
+
+        (mytype) as type
+///     ^^^^^^^^ meta.group.cs - meta.cast
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^ variable.other.cs
+///            ^ punctuation.section.group.end.cs
+///              ^^ keyword.operator.cast.cs
+///                 ^^^^ support.type.cs
+
+        (var) and (var) or (var) not and (var);
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.cast
+
+        (var) + (var) - (var) * (var) / (var);
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.cast
     }
 }
