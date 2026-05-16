@@ -4287,6 +4287,53 @@ public class TestExpressions
 ///               ^^^ variable.other.cs
 ///                  ^ punctuation.terminator.statement.cs
 
+        ((float,int)) var;
+///     ^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^ storage.type.cs
+///            ^ punctuation.separator.comma.cs
+///             ^^^ storage.type.cs
+///                ^ punctuation.section.sequence.end.cs
+///                 ^ punctuation.section.group.end.cs
+///                   ^^^ variable.other.cs
+///                      ^ punctuation.terminator.statement.cs
+
+        ((float,int)[]) var;
+///     ^^^^^^^^^^^^^^^ meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^ storage.type.cs
+///            ^ punctuation.separator.comma.cs
+///             ^^^ storage.type.cs
+///                ^ punctuation.section.sequence.end.cs
+///                 ^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ punctuation.section.brackets.end.cs
+///                   ^ punctuation.section.group.end.cs
+///                     ^^^ variable.other.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        ((float i1,int i2)[]) var;
+///     ^^^^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^ storage.type.cs
+///             ^^ variable.other.cs
+///               ^ punctuation.separator.comma.cs
+///                ^^^ storage.type.cs
+///                    ^^ variable.other.cs
+///                      ^ punctuation.section.sequence.end.cs
+///                       ^^ meta.brackets.cs
+///                       ^ punctuation.section.brackets.begin.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                         ^ punctuation.section.group.end.cs
+///                           ^^^ variable.other.cs
+///                              ^ punctuation.terminator.statement.cs
+
         (global::char[10]) var;
 ///     ^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
@@ -4508,6 +4555,53 @@ public class TestExpressions
 ///              ^ punctuation.section.group.end.cs
 ///                ^^^ variable.other.cs
 ///                   ^ punctuation.terminator.statement.cs
+
+        ((mytype,mytype)) var;
+///     ^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^^ support.type.cs
+///             ^ punctuation.separator.comma.cs
+///              ^^^^^^ support.type.cs
+///                    ^ punctuation.section.sequence.end.cs
+///                     ^ punctuation.section.group.end.cs
+///                       ^^^ variable.other.cs
+///                          ^ punctuation.terminator.statement.cs
+
+        ((mytype,mytype)[]) var;
+///     ^^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^^ support.type.cs
+///             ^ punctuation.separator.comma.cs
+///              ^^^^^^ support.type.cs
+///                    ^ punctuation.section.sequence.end.cs
+///                     ^^ meta.brackets.cs
+///                     ^ punctuation.section.brackets.begin.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                       ^ punctuation.section.group.end.cs
+///                         ^^^ variable.other.cs
+///                            ^ punctuation.terminator.statement.cs
+
+        ((mytype i1,mytype i2)[]) var;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^^^^ support.type.cs
+///              ^^ variable.other.cs
+///                ^ punctuation.separator.comma.cs
+///                 ^^^^^^ support.type.cs
+///                        ^^ variable.other.cs
+///                          ^ punctuation.section.sequence.end.cs
+///                           ^^ meta.brackets.cs
+///                           ^ punctuation.section.brackets.begin.cs
+///                            ^ punctuation.section.brackets.end.cs
+///                             ^ punctuation.section.group.end.cs
+///                               ^^^ variable.other.cs
+///                                  ^ punctuation.terminator.statement.cs
 
         (mytype<T>) var;
 ///     ^^^^^^^^^^^ meta.cast.cs meta.group.cs

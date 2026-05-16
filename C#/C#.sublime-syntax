@@ -1761,7 +1761,7 @@ contexts:
       set:
         - paren-cast-operand
         - paren-cast-end
-        - maybe-object-type
+        - maybe-type
 
   paren-cast-end:
     - meta_scope: meta.cast.cs meta.group.cs
@@ -2380,7 +2380,9 @@ contexts:
   type-tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.cs
-      set: inside-type-tuple
+      set:
+        - type-suffix
+        - inside-type-tuple
 
   inside-type-tuple:
     - meta_scope: meta.sequence.tuple.cs
