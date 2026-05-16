@@ -192,6 +192,7 @@ contexts:
       scope: punctuation.definition.annotation.end.cs
       pop: 1
     - include: separators
+    - include: accessors
     - match: \(
       scope: meta.group.cs punctuation.section.group.begin.cs
       push: inside-argument-list
@@ -212,36 +213,8 @@ contexts:
     - match: '{{name}}'
       scope: variable.annotation.cs
       push:
-        - maybe-attribute-accessor
         - type-suffix
         - type-argument-list
-
-  maybe-attribute-accessor:
-    - meta_include_prototype: false
-    - match: \s*(\.)
-      captures:
-        1: punctuation.accessor.dot.cs
-      set: expect-attribute-name
-    - include: noeol-pop
-
-  expect-attribute-name:
-    - meta_include_prototype: false
-    - match: \s*(GeneratedRegex)\s*(\()
-      captures:
-        1: variable.annotation.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
-      set:
-        - inside-argument-list
-        - immediately-pop
-        - regex-string
-    - match: \s*({{unreserved_name}})
-      captures:
-        1: variable.annotation.cs
-      set:
-        - maybe-attribute-accessor
-        - type-suffix
-        - type-argument-list
-    - include: noeol-pop
 
   inside-argument-list:
     - meta_content_scope: meta.group.cs
