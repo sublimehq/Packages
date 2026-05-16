@@ -191,11 +191,10 @@ contexts:
     - match: \]
       scope: punctuation.definition.annotation.end.cs
       pop: 1
+    - include: separators
     - match: \(
       scope: meta.group.cs punctuation.section.group.begin.cs
       push: inside-argument-list
-    - match: ','
-      scope: punctuation.separator.comma.cs
     - match: (GeneratedRegex)\s*(\()
       captures:
         1: variable.annotation.cs
@@ -662,11 +661,10 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - include: attributes
+    - include: separators
+    - include: assignment-expressions
     - match: '{{unreserved_name}}'
       scope: entity.name.constant.cs
-    - match: ','
-      scope: punctuation.separator.comma.cs
-    - include: assignment-expressions
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
@@ -823,8 +821,7 @@ contexts:
   inherited-classes:
     - match: (?=where\b)
       set: type-constraints
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - include: accessors
     - include: namespace-variables
     - include: base-types
@@ -1139,8 +1136,7 @@ contexts:
     - include: member-qualifiers
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - include: assignment-expressions
     - include: else-pop
 
@@ -1223,8 +1219,7 @@ contexts:
     - include: method-parameters
 
   method-parameters:
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - match: (?=[;{}]|=>)
       pop: 1
     - match: (?=\S)
@@ -1588,8 +1583,7 @@ contexts:
 ###[ EXPRESSIONS ]#############################################################
 
   expression-list:
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - include: expression
 
   else-expression:
@@ -1841,8 +1835,7 @@ contexts:
       scope: punctuation.section.group.end.cs
       set: paren-lambda-body
     - include: attributes
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - match: '{{method_param_type_modifier}}\b'
       scope: storage.modifier.parameter.cs
     - match: '{{name}}(?=\s*[,)])'
@@ -1881,8 +1874,7 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - match: _\b
       scope: variable.language.anonymous.cs
     - match: '{{name}}(?=\s*[,)])'
@@ -2032,8 +2024,6 @@ contexts:
     - include: arguments
 
   arguments:
-    - match: ','
-      scope: punctuation.separator.comma.cs
     - match: out\b
       scope: storage.modifier.argument.cs
       push: out-argument
@@ -2044,7 +2034,7 @@ contexts:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
-    - include: expression
+    - include: expression-list
 
   out-argument:
     - match: ref\b
@@ -2326,8 +2316,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - match: ({{name}})\s*(\.)
       captures:
         1: variable.other.member.cs
@@ -2417,8 +2406,7 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
+    - include: separators
     - match: (?=\S)
       push: var-declaration
 
@@ -2570,6 +2558,10 @@ contexts:
     - match: \.
       scope: punctuation.accessor.dot.cs
       push: maybe-pointer
+
+  separators:
+    - match: ','
+      scope: punctuation.separator.comma.cs
 
   terminators:
     - match: ';'
