@@ -2465,13 +2465,10 @@ contexts:
       captures:
         1: keyword.operator.pointer.cs
       pop: 1
-    - include: rank-specifiers
-    - include: noeol-pop
-
-  rank-specifiers:
     - match: \s*(\[)
       scope: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: inside-rank-specifier
+    - include: noeol-pop
 
   inside-rank-specifier:
     - meta_content_scope: meta.brackets.cs
