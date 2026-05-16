@@ -1762,7 +1762,7 @@ class AnyClass { // comment
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
 
 @Anno           // comment
-//<- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
+//<- meta.annotation.identifier.java punctuation.definition.annotation.java
 public          // comment
 //<- meta.class.java storage.modifier.java
 class           // comment
@@ -2258,19 +2258,19 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //<- meta.enum.java meta.block.java punctuation.section.block.end.java
 
 @Anno           // comment
-// <- meta.enum.java meta.annotation.identifier.java meta.path.java punctuation.definition.annotation.java
+// <- meta.annotation.identifier.java meta.path.java punctuation.definition.annotation.java
 .               // comment
-// <- meta.enum.java meta.annotation.identifier.java meta.path.java punctuation.accessor.dot.java
+// <- meta.annotation.identifier.java meta.path.java punctuation.accessor.dot.java
 Anno            // comment
 // <- meta.annotation.identifier.java meta.path.java variable.annotation.java
 (               // comment
 // <- meta.annotation.parameters.java meta.group.java punctuation.section.group.begin.java
    par          // comment
-// ^^^ meta.enum.java meta.annotation.parameters.java meta.group.java variable.parameter.java
+// ^^^ meta.annotation.parameters.java meta.group.java variable.parameter.java
    =            // comment
-// ^ meta.enum.java meta.annotation.parameters.java meta.group.java keyword.operator.assignment.java
+// ^ meta.annotation.parameters.java meta.group.java keyword.operator.assignment.java
    1            // comment
-// ^ meta.enum.java meta.annotation.parameters.java meta.group.java meta.number.integer.decimal.java constant.numeric.value.java
+// ^ meta.annotation.parameters.java meta.group.java meta.number.integer.decimal.java constant.numeric.value.java
 )               // comment
 // <- meta.annotation.parameters.java meta.group.java punctuation.section.group.end.java
 public          // comment
@@ -2409,7 +2409,7 @@ public abstract sealed interface SealedInterfaceTest permits Foo, bar.Baz {}
 //                                                                         ^ punctuation.section.block.end.java
 
 @Anno           // comment
-//<- meta.interface.java meta.annotation.identifier.java punctuation.definition.annotation.java
+//<- meta.annotation.identifier.java punctuation.definition.annotation.java
 public          // comment
 //<- meta.interface.java storage.modifier.java
 interface       // comment
@@ -3385,7 +3385,7 @@ class FieldDeclarationTests {
 
   @NotNull final String @Anno [ ] @Anno [ ] doubleStringArray @Anno [ ] [ ];
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
-//^^^^^^^^^^^^^^^ meta.field.modifier.java
+//         ^^^^^^ meta.field.modifier.java
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                                                         ^ - meta.field
@@ -3438,8 +3438,7 @@ class FieldDeclarationTests {
 
   @anno /**/ fully // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
-//^^^^^ meta.field.modifier.java meta.annotation.identifier.java
-//     ^^^^^^ meta.field.modifier.java - meta.annotation - meta.pth
+//^^^^^ meta.annotation.identifier.java
 //           ^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
 //^ punctuation.definition.annotation.java
 // ^^^^ variable.annotation.java
@@ -4186,8 +4185,8 @@ class MethodDeclarationTests {
 //                                   ^^ storage.modifier.array.java
 
   @anno public int[][] arrayMethod(
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
-//^^^^^^^^^^^^^ meta.function.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java - meta.function meta.function
+//      ^^^^^^^ meta.function.modifier.java
 //             ^^^^^^^^ meta.function.return-type.java
 //                     ^^^^^^^^^^^ meta.function.identifier.java entity.name.function.java
 //                                ^^ meta.function.parameters.java meta.group.java
@@ -4381,10 +4380,10 @@ class MethodDeclarationTests {
 //                               ^ punctuation.terminator.java
 
   @RunWith(JUnit4.class)
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function - meta.annotation meta.annotation
-//^^^^^^^^ meta.function.modifier.java meta.annotation.identifier.java
-//        ^^^^^^^^^^^^^^ meta.function.modifier.java meta.annotation.parameters.java meta.group.java
-//                      ^ meta.function.modifier.java - meta.annotation
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java - meta.function meta.function - meta.annotation meta.annotation
+//^^^^^^^^ meta.annotation.identifier.java
+//        ^^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
+//                      ^ - meta.annotation
 //^ punctuation.definition.annotation.java
 // ^^^^^^^ variable.annotation.java
 //        ^ punctuation.section.group.begin.java
@@ -4470,10 +4469,10 @@ class MethodDeclarationTests {
 // ^ - meta.function
 
   @RunWith(JUnit4.class)
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function - meta.annotation meta.annotation
-//^^^^^^^^ meta.function.modifier.java meta.annotation.identifier.java
-//        ^^^^^^^^^^^^^^ meta.function.modifier.java meta.annotation.parameters.java meta.group.java
-//                      ^ meta.function.modifier.java - meta.annotation
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java - meta.function meta.function - meta.annotation meta.annotation
+//^^^^^^^^ meta.annotation.identifier.java
+//        ^^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
+//                      ^ - meta.annotation
 //^ punctuation.definition.annotation.java
 // ^^^^^^^ variable.annotation.java
 //        ^ punctuation.section.group.begin.java
@@ -5047,8 +5046,8 @@ class LocalVariableDeclarationTests {
 //                             ^ punctuation.terminator.java
 
     @Number final int y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
-// ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+// ^^^^^^^^^ - meta.declaration
+//          ^^^^^^^^^^ meta.declaration.type.java
 //                    ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
 //                                        ^ meta.declaration.java
 //                                         ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
@@ -5064,8 +5063,7 @@ class LocalVariableDeclarationTests {
 //                                        ^ keyword.operator.assignment.java
 
     @Number
-//  ^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java
-//         ^ meta.declaration.type.java - meta.annotation
+//  ^^^^^^^ meta.annotation.identifier.java - meta.declaration
     final
 //  ^^^^^ meta.declaration.type.java storage.modifier.java
     int
@@ -5188,8 +5186,8 @@ class LocalVariableDeclarationTests {
 //                                   ^ punctuation.terminator.java
 
     @Number final TestClass y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
-// ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+// ^^^^^^^^^ - meta.declaration
+//          ^^^^^^^^^^^^^^^^ meta.declaration.type.java
 //                          ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
 //                                              ^ meta.declaration.java
 //                                               ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
@@ -5205,8 +5203,8 @@ class LocalVariableDeclarationTests {
 //                                              ^ keyword.operator.assignment.java
 
     @number final testclass y @dim1 [] @dim2 [] = { {10, 1}, {5, 2} };
-// ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+// ^^^^^^^^^ - meta.declaration
+//          ^^^^^^^^^^^^^^^^ meta.declaration.type.java
 //                          ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
 //                                              ^ meta.declaration.java
 //                                               ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
@@ -5411,9 +5409,9 @@ class LocalVariableDeclarationTests {
 //                       ^ punctuation.terminator.java
 
     @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
-// ^ - meta.declaration
-//  ^^^^^ meta.declaration.type.java meta.annotation.identifier.java - meta.path
-//       ^ meta.declaration.type.java - meta.annotation - meta.path
+// ^^^^^^^ - meta.declaration
+//  ^^^^^ meta.annotation.identifier.java - meta.path
+//       ^ - meta.annotation - meta.path
 //        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
 //                                ^ meta.declaration.type.java - meta.path
 //                                 ^^^^^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java meta.path.java
@@ -5441,9 +5439,9 @@ class LocalVariableDeclarationTests {
 //                                                          ^ punctuation.terminator.java
 
     @anno foo . @anno testclass<t> @anno . anno [] bar . baz;
-// ^ - meta.declaration
-//  ^^^^^ meta.declaration.type.java meta.annotation.identifier.java - meta.path
-//       ^ meta.declaration.type.java - meta.annotation - meta.path
+// ^^^^^^^ - meta.declaration
+//  ^^^^^ meta.annotation.identifier.java - meta.path
+//       ^ - meta.annotation - meta.path
 //        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
 //                                ^ meta.declaration.type.java - meta.path
 //                                 ^^^^^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java meta.path.java
@@ -10184,9 +10182,9 @@ class LambdasExpressionsTests {
  *****************************************************************************/
 
 @ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java meta.group.java - meta.annotation meta.annotation
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java - meta.annotation meta.annotation
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java - meta.annotation meta.annotation
 //^^^^^^^^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java
 //         ^^^^^^^^^^^^^^ variable.annotation.java
@@ -10257,9 +10255,9 @@ public class GrafoTest {
 }
 
 @MultiLineAnnotation(
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java variable.annotation.java
-//                  ^ meta.class.java meta.annotation.parameters.java punctuation.section.group.begin.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
+//                  ^ meta.annotation.parameters.java punctuation.section.group.begin.java
   foo = BAR,
 //^^^ variable.parameter.java
 //    ^ keyword.operator.assignment.java
@@ -10270,18 +10268,18 @@ public class GrafoTest {
 //      ^ keyword.operator.assignment.java
 //        ^ string
 )
-// <- meta.class.java meta.annotation.parameters.java punctuation.section.group.end.java
+// <- meta.annotation.parameters.java punctuation.section.group.end.java
 @fully.qualified.Annotation
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
 //^^^^ variable.namespace.java
 //    ^ punctuation.accessor.dot.java
 //     ^^^^^^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
 //                ^^^^^^^^^ variable.annotation.java
 @fully.qualified.ParentClass.InnerAnnotation
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
 //^^^^ variable.namespace.java
 //    ^ punctuation.accessor.dot.java
 //     ^^^^^^^^^ variable.namespace.java
@@ -10290,17 +10288,17 @@ public class GrafoTest {
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^^^^^^^^^^^^ variable.annotation.java
 @fully.qualified
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
     .multiline.Annotation
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
         (foo = "bar")
-//      ^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java -meta.annotation.identifier.java
+//      ^^^^^^^^^^^^^ meta.annotation.parameters.java -meta.annotation.identifier.java
 @FancyAnnotation ({
 //^^^^^^^^^^^^^^^^^^ - meta.annotation meta.annotation
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java
-//               ^^ meta.class.java meta.annotation.parameters.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^^ meta.annotation.identifier.java
+//               ^^ meta.annotation.parameters.java
   Foo.class,
 //^^^ support.class.java
 //   ^ punctuation.accessor.dot.java
@@ -10312,7 +10310,7 @@ public class GrafoTest {
 //    ^^^^^ variable.language.class.java - storage.type.java
 })
 // <- punctuation.section.braces.end.java
- // <- meta.class.java meta.annotation.parameters.java punctuation.section.group.end.java
+ // <- meta.annotation.parameters.java punctuation.section.group.end.java
 class Bàr {
 //    ^^^ entity.name.class.java
   Bàr() {}
@@ -10338,7 +10336,7 @@ class Bàr {
 @AnnotationAsParameterMultiple
    ({
 // <- meta.annotation.identifier.java - meta.annotation meta.annotation
-//^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
+//^ meta.annotation.identifier.java - meta.annotation meta.annotation
 // ^^^ meta.annotation.parameters.java meta.group.java
 //  ^ punctuation.section.braces.begin.java
     @Parameter(name = "foo"),
@@ -10370,8 +10368,8 @@ class Bàr {
 )
 
 @SomeInterface
-// <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java variable.annotation.java
+// <- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
 public class Foo {
 // <- meta.class.java storage.modifier.java
 //^^^^ meta.class.java storage.modifier.java

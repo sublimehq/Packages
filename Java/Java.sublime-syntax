@@ -369,7 +369,10 @@ contexts:
     # merged here to maintain syntax highlighting whenever possible. That's
     # needed for `incomplete code` scenarios or if contexts are lost due to
     # embedding Java into JSP.
-    - match: (?=[{{id_first_char}}@<])
+    - include: annotations
+    - match: (?=@interface{{break}})
+      push: interface-keyword
+    - match: (?=[{{id_first_char}}<])
       branch_point: declarations
       branch:
         - declaration-maybe-class
@@ -631,7 +634,6 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}{{break}}'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: annotations
 
   class-name:
     - match: '{{identifier}}'
@@ -794,6 +796,7 @@ contexts:
 ###[ INTERFACE DECLARATIONS ]##################################################
 
   interface-keyword:
+    - meta_scope: meta.interface.java
     - match: (@?)interface{{break}}
       scope: keyword.declaration.interface.java
       set:
@@ -808,7 +811,6 @@ contexts:
       scope: storage.modifier.java
     - match: '{{interface_no_modifier}}{{break}}'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: annotations
 
   interface-name:
     - match: '{{identifier}}'
@@ -941,7 +943,10 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
-    - match: (?=[{{id_first_char}}@<])
+    - include: annotations
+    - match: (?=@interface{{break}})
+      push: interface-keyword
+    - match: (?=[{{id_first_char}}<])
       branch_point: class-members
       branch:
         - member-maybe-constructor
