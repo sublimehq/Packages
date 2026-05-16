@@ -634,6 +634,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}{{break}}'
       scope: invalid.illegal.unexpected-keyword.java
+    - include: annotations
 
   class-name:
     - match: '{{identifier}}'
@@ -811,6 +812,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{interface_no_modifier}}{{break}}'
       scope: invalid.illegal.unexpected-keyword.java
+    - include: annotations
 
   interface-name:
     - match: '{{identifier}}'
