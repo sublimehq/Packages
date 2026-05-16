@@ -1301,8 +1301,9 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
+        - variable-declaration-value-assignment
         - variable-maybe-modifier
-        - variable-expect-identifier
+        - variable-declaration-identifier
 
   variable-maybe-modifier:
     - meta_content_scope: meta.variable.identifier.java
