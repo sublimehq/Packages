@@ -41,19 +41,17 @@ variables:
   declaration_keywords: |-
     (?x: class | enum | @?interface | var | void | extends | implements | import | package )
   control_keywords: |-
-    (?x: assert | break | case | catch | continue | do | else | finally | for
-    | if | return | switch | throw | throws | try | while | yield )
+    (?x: assert | break | case | catch | continue | default | do | else | finally | for
+    | if | return | switch | synchronized | throw | throws | try | while | yield )
   operator_keywords: |-
     (?x: new | instanceof )
   illegal_keywords: |-
     (?x: const | goto )
 
   # Storage Modifiers
+  #  excludes `default`, `synchronized` keywords
   storage_modifiers: |-
-    (?x:
-      {{class_modifier}}
-    | {{class_no_modifier}}
-    )
+    (?x: public | protected | private | abstract | final | native | sealed | static | strictfp | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
   class_modifier: |-
     (?x: public | protected | private | abstract | final | sealed | static | strictfp )
