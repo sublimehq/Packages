@@ -1881,6 +1881,7 @@ contexts:
       scope: punctuation.section.sequence.begin.cs
       set:
         - paren-tuple-type-operand
+        - type-suffix
         - inside-type-tuple
 
   paren-tuple-type-operand:

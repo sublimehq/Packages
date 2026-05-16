@@ -3080,6 +3080,25 @@ class TestLocalDefinitions
 ///                                  ^ punctuation.section.group.end.cs
 ///                                   ^ punctuation.terminator.statement.cs
 
+        (vec3, vec3)[]? var = FuncName();
+///     ^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^ support.type.cs
+///          ^ punctuation.separator.comma.cs
+///            ^^^^ support.type.cs
+///                ^ punctuation.section.sequence.end.cs
+///                 ^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ punctuation.section.brackets.end.cs
+///                   ^ storage.type.nullable.cs
+///                     ^^^ variable.other.cs
+///                         ^ keyword.operator.assignment.cs
+///                           ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                   ^^ meta.function-call.arguments.cs meta.group.cs
+///                                   ^ punctuation.section.group.begin.cs
+///                                    ^ punctuation.section.group.end.cs
+///                                     ^ punctuation.terminator.statement.cs
+
         ((int, int) itm1, (int itm2, type) itm3) var;
 ///     ^ meta.sequence.tuple.cs
 ///      ^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs
@@ -3105,6 +3124,36 @@ class TestLocalDefinitions
 ///                                            ^ punctuation.section.sequence.end.cs
 ///                                              ^^^ variable.other.cs
 ///                                                 ^ punctuation.terminator.statement.cs
+
+        ((int, int) itm1, (int itm2, type) itm3)[] var;
+///     ^ meta.sequence.tuple.cs
+///      ^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs
+///                ^^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence
+///                       ^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs
+///                                       ^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence
+///                                             ^^^^^^^^ - meta.sequence
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^^^^^^^ meta.sequence.tuple.cs
+///      ^ punctuation.section.sequence.begin.cs
+///       ^^^ storage.type.cs
+///          ^ punctuation.separator.comma.cs
+///            ^^^ storage.type.cs
+///               ^ punctuation.section.sequence.end.cs
+///                 ^^^^ variable.other.cs
+///                     ^ punctuation.separator.comma.cs
+///                       ^ punctuation.section.sequence.begin.cs
+///                        ^^^ storage.type.cs
+///                            ^^^^ variable.other.cs
+///                                ^ punctuation.separator.comma.cs
+///                                  ^^^^ support.type.cs
+///                                      ^ punctuation.section.sequence.end.cs
+///                                        ^^^^ variable.other.cs
+///                                            ^ punctuation.section.sequence.end.cs
+///                                             ^^ meta.brackets.cs
+///                                             ^ punctuation.section.brackets.begin.cs
+///                                              ^ punctuation.section.brackets.end.cs
+///                                                ^^^ variable.other.cs
+///                                                   ^ punctuation.terminator.statement.cs
     }
 }
 
