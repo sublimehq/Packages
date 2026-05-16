@@ -1956,11 +1956,12 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.java
       set: lambda-meta
-    - match: (?=[{{id_first_char}}@<])
+    - match: (?=[{{id_first_char}}<])
       branch_point: lambda-parameter-declaration
       branch:
         - lambda-parameter-declaration
-        - lambda-parameter-declaration-identifier
+        - parameter-identifier
+    - include: annotations
     - include: punctuation-separator-comma
     - include: expect-expression-terminator
 
