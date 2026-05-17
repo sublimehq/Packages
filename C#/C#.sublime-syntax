@@ -2314,6 +2314,8 @@ contexts:
   visibility:
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
+    - match: file\b  # soft keyword
+      scope: storage.modifier.access.cs
 
   base-types:
     - match: '{{base_type}}'
@@ -3144,7 +3146,7 @@ variables:
   method_param_type_modifier: (?:in|out|params|ref|this)\b
   generic_param_type_modifier: (?:in|out|readonly|ref)\b
 
-  visibility: (?:file|internal|private|protected|public)\b
+  visibility: (?:internal|private|protected|public)\b
 
   base_type: (?x:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|dynamic|object|string|void)\b
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)

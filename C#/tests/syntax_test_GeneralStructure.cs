@@ -11,6 +11,9 @@ namespace YourNamespace
     abstract
 /// ^^^^^^^^ storage.modifier.cs
 
+    file
+/// ^^^^ storage.modifier.access.cs
+
     new
 /// ^^^ storage.modifier.cs
 
@@ -323,25 +326,36 @@ namespace YourNamespace
 ///^^^^^^ meta.constructor.cs meta.method.body.cs meta.block.cs
 ///     ^ punctuation.section.block.end.cs
 
-        public YourClass ( int arg ) : this( arg ) {
+        public file YourClass ( int arg ) : this( arg ) {
 ///     ^^^^^^ storage.modifier.access.cs
-///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
-///            ^^^^^^^^^^ meta.method.cs
-///                      ^^^^^^^^^^^ meta.method.parameters.cs
-///                                 ^^^^^^^^^^^^^^^ meta.method.cs
-///                                                ^^ meta.method.body.cs meta.block.cs
-///            ^^^^^^^^^ entity.name.function.constructor.cs
-///                      ^ punctuation.section.parameters.begin.cs
-///                        ^^^ storage.type.cs
-///                            ^^^ variable.parameter.cs
-///                                ^ punctuation.section.parameters.end.cs
-///                                  ^ punctuation.separator.colon.cs
-///                                    ^^^^ meta.initializer.cs variable.language.this.cs
-///                                        ^^^^^^^ meta.initializer.arguments.cs meta.group.cs
-///                                        ^ punctuation.section.group.begin.cs
-///                                          ^^^ variable.other.cs
-///                                              ^ punctuation.section.group.end.cs
-///                                                ^ punctuation.section.block.begin.cs
+///            ^^^^ storage.modifier.access.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
+///                 ^^^^^^^^^^ meta.method.cs
+///                           ^^^^^^^^^^^ meta.method.parameters.cs
+///                                      ^^^^^^^^^^^^^^^ meta.method.cs
+///                                                     ^^ meta.method.body.cs meta.block.cs
+///                 ^^^^^^^^^ entity.name.function.constructor.cs
+///                           ^ punctuation.section.parameters.begin.cs
+///                             ^^^ storage.type.cs
+///                                 ^^^ variable.parameter.cs
+///                                     ^ punctuation.section.parameters.end.cs
+///                                       ^ punctuation.separator.colon.cs
+///                                         ^^^^ meta.initializer.cs variable.language.this.cs
+///                                             ^^^^^^^ meta.initializer.arguments.cs meta.group.cs
+///                                             ^ punctuation.section.group.begin.cs
+///                                               ^^^ variable.other.cs
+///                                                   ^ punctuation.section.group.end.cs
+///                                                     ^ punctuation.section.block.begin.cs
+
+            readFrom(file, contents);  // `file` is not a modfifier here
+///         ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                 ^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
+///                  ^^^^ variable.other.cs
+///                      ^ punctuation.separator.comma.cs
+///                        ^^^^^^^^ variable.other.cs
+///                                ^ punctuation.section.group.end.cs
+///                                 ^ punctuation.terminator.statement.cs
         }
 ///^^^^^^ meta.constructor.cs meta.method.body.cs meta.block.cs
 ///     ^ punctuation.section.block.end.cs
