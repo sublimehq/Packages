@@ -1557,9 +1557,10 @@ namespace TestNamespace . Test
         int.TryParse(input, out foo);
 ///                         ^^^ storage.modifier.argument
 ///                             ^^^ variable.other - support.type
-        int.TryParse(input, out foo /* comment */);
+        int.TryParse(input, out vec foo /* comment */);
 ///                         ^^^ storage.modifier.argument
-///                             ^^^ variable.other - support.type
+///                             ^^^ support.type.cs
+///                                 ^^^ variable.other - support.type
 
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link

@@ -2022,8 +2022,8 @@ contexts:
   out-argument:
     - match: ref\b
       scope: storage.modifier.argument.cs
-    - match: (?=(?!{{reserved}}\b){{namespaced_name}}\s+{{name}})
-      push: var-declaration
+    - match: (?={{namespaced_name}}\s+{{name}})
+      set: var-declaration
     - include: else-pop
 
 ###[ INSTANTIATION EXPRESSIONS ]###############################################
