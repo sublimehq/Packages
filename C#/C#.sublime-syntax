@@ -2100,8 +2100,9 @@ contexts:
       pop: 1
     - match: ({{name}})\s*({{colon}})
       captures:
-        1: variable.parameter.cs
+        1: variable.other.member.cs
         2: keyword.operator.assignment.cs
+      push: maybe-pointer
     - include: expression-list
 
   maybe-member-access:

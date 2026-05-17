@@ -3087,13 +3087,13 @@ public class TestExpressions
 ///     ^^^^ variable.other.cs
 ///         ^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
 ///         ^ punctuation.section.brackets.begin.cs
-///          ^ variable.parameter.cs
+///          ^ variable.other.member.cs
 ///           ^ keyword.operator.assignment.cs
 ///             ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///             ^ punctuation.definition.string.begin.cs
 ///                   ^ punctuation.definition.string.end.cs
 ///                    ^ punctuation.separator.comma.cs
-///                      ^ variable.parameter.cs
+///                      ^ variable.other.member.cs
 ///                       ^ keyword.operator.assignment.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                           ^ punctuation.section.brackets.end.cs
