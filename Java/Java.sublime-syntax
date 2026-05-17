@@ -41,19 +41,17 @@ variables:
   declaration_keywords: |-
     (?x: class | enum | @?interface | var | void | extends | implements | import | package )
   control_keywords: |-
-    (?x: assert | break | case | catch | continue | do | else | finally | for
-    | if | return | switch | throw | throws | try | while | yield )
+    (?x: assert | break | case | catch | continue | default | do | else | finally | for
+    | if | return | switch | synchronized | throw | throws | try | while | yield )
   operator_keywords: |-
     (?x: new | instanceof )
   illegal_keywords: |-
     (?x: const | goto )
 
   # Storage Modifiers
+  #  excludes `default`, `synchronized` keywords
   storage_modifiers: |-
-    (?x:
-      {{class_modifier}}
-    | {{class_no_modifier}}
-    )
+    (?x: public | protected | private | abstract | final | native | sealed | static | strictfp | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
   class_modifier: |-
     (?x: public | protected | private | abstract | final | sealed | static | strictfp )
@@ -371,7 +369,10 @@ contexts:
     # merged here to maintain syntax highlighting whenever possible. That's
     # needed for `incomplete code` scenarios or if contexts are lost due to
     # embedding Java into JSP.
-    - match: (?=[{{id_first_char}}@<])
+    - include: annotations
+    - match: (?=@interface{{break}})
+      push: interface-keyword
+    - match: (?=[{{id_first_char}}<])
       branch_point: declarations
       branch:
         - declaration-maybe-class
@@ -796,6 +797,7 @@ contexts:
 ###[ INTERFACE DECLARATIONS ]##################################################
 
   interface-keyword:
+    - meta_scope: meta.interface.java
     - match: (@?)interface{{break}}
       scope: keyword.declaration.interface.java
       set:
@@ -943,7 +945,10 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
-    - match: (?=[{{id_first_char}}@<])
+    - include: annotations
+    - match: (?=@interface{{break}})
+      push: interface-keyword
+    - match: (?=[{{id_first_char}}<])
       branch_point: class-members
       branch:
         - member-maybe-constructor
@@ -1301,8 +1306,9 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
+        - variable-declaration-value-assignment
         - variable-maybe-modifier
-        - variable-expect-identifier
+        - variable-declaration-identifier
 
   variable-maybe-modifier:
     - meta_content_scope: meta.variable.identifier.java
@@ -1955,11 +1961,12 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.java
       set: lambda-meta
-    - match: (?=[{{id_first_char}}@<])
+    - match: (?=[{{id_first_char}}<])
       branch_point: lambda-parameter-declaration
       branch:
         - lambda-parameter-declaration
-        - lambda-parameter-declaration-identifier
+        - parameter-identifier
+    - include: annotations
     - include: punctuation-separator-comma
     - include: expect-expression-terminator
 
