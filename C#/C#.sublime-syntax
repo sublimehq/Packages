@@ -1901,11 +1901,7 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.cs
       pop: 1
-    - match: ({{name}})\s*({{colon}})
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push: maybe-pointer
+    - include: member-variables
     - include: expression-list
 
 ###[ GROUP EXPRESSIONS ]#######################################################
@@ -2004,16 +2000,12 @@ contexts:
       push: out-argument
     - match: ref\b
       scope: storage.modifier.argument.cs
-    - match: ({{name}})\s*({{colon}})
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push: maybe-pointer
     - match: ({{name}})\s*({{equal}})
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
+    - include: member-variables
     - include: expression-list
 
   out-argument:
@@ -2100,11 +2092,7 @@ contexts:
     - match: \]
       scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: 1
-    - match: ({{name}})\s*({{colon}})
-      captures:
-        1: variable.other.member.cs
-        2: keyword.operator.assignment.cs
-      push: maybe-pointer
+    - include: member-variables
     - include: expression-list
 
   maybe-member-access:
@@ -2558,6 +2546,13 @@ contexts:
       scope: variable.language.this.cs
     - match: base\b
       scope: variable.language.super.cs
+
+  member-variables:
+    - match: ({{name}})\s*({{colon}})
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push: maybe-pointer
 
   namespace-variables:
     - match: (?:(global)|({{name}}))\s*(::)
