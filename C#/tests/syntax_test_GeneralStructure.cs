@@ -226,15 +226,24 @@ namespace YourNamespace
 ///        ^ punctuation.terminator.statement.cs
 
         Int x;
-///     ^^^ support.type
-///         ^ variable.other.member
-        Int x0 = 0, y0 = 0;
-///      ^ support.type
-///         ^ variable.other.member
-///            ^ keyword.operator.assignment
-///               ^ punctuation.separator
-///                  ^ variable.other.member
-///                    ^ keyword.operator.assignment
+///     ^^^ support.type.cs
+///         ^ meta.field.cs variable.other.member.cs
+///          ^ punctuation.terminator.statement.cs
+
+        Int x0 = 0, y0 = [];
+///     ^^^ support.type.cs
+///         ^^^^^^^^^^^^^^^ meta.field.cs
+///         ^^ variable.other.member.cs
+///            ^ keyword.operator.assignment.cs
+///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///               ^ punctuation.separator.comma.cs
+///                 ^^ variable.other.member.cs
+///                    ^ keyword.operator.assignment.cs
+///                      ^^ meta.brackets.cs
+///                      ^ punctuation.section.brackets.begin.cs
+///                       ^ punctuation.section.brackets.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
         string[][] test = new[] { new[] { "hello", "world" }, new[] { "foo", "bar" }};
 ///     ^^^^^^ storage.type
 ///           ^ punctuation.section.brackets.begin
@@ -249,6 +258,24 @@ namespace YourNamespace
 ///         ^ punctuation.accessor.dot.cs
 ///          ^^^^^ support.type.cs
 ///                ^^^^^^^ variable.other.member.cs
+
+        public Dictionary prop { get; set; } = [];
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^^^^^^^ support.type.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.field.cs
+///                       ^^^^ variable.other.member.cs
+///                            ^^^^^^^^^^^^^ meta.accessors.cs meta.block.cs
+///                            ^ punctuation.section.block.begin.cs
+///                              ^^^ meta.method.cs keyword.declaration.function.accessor.get.cs
+///                                 ^ punctuation.terminator.statement.cs
+///                                   ^^^ meta.method.cs keyword.declaration.function.accessor.set.cs
+///                                      ^ punctuation.terminator.statement.cs
+///                                        ^ punctuation.section.block.end.cs
+///                                          ^ keyword.operator.assignment.cs
+///                                            ^^ meta.brackets.cs
+///                                            ^ punctuation.section.brackets.begin.cs
+///                                             ^ punctuation.section.brackets.end.cs
+///                                              ^ punctuation.terminator.statement.cs
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter

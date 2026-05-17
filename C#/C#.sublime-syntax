@@ -1720,6 +1720,12 @@ contexts:
     - include: else-pop
 
   assignment-value:
+    - match: (\[)\s*(\])
+      scope: meta.brackets.cs
+      captures:
+        1: punctuation.section.brackets.begin.cs
+        2: punctuation.section.brackets.end.cs
+      pop: 1
     - match: \{
       scope: meta.braces.cs punctuation.section.braces.begin.cs
       set: inside-variable-initializer
