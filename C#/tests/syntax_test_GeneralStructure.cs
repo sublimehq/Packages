@@ -262,6 +262,33 @@ namespace YourNamespace
 ///          ^^^^^ support.type.cs
 ///                ^^^^^^^ variable.other.member.cs
 
+        public Item[] items = [new Item(), new Item()];
+///     ^^^^^^ storage.modifier.access.cs
+///            ^^^^ support.type.cs
+///                ^^ meta.brackets.cs
+///                ^ punctuation.section.brackets.begin.cs
+///                 ^ punctuation.section.brackets.end.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.cs
+///                   ^^^^^ variable.other.member.cs
+///                         ^ keyword.operator.assignment.cs
+///                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
+///                           ^ punctuation.section.brackets.begin.cs
+///                            ^^^^^^^^^^ meta.instantiation.cs
+///                            ^^^ keyword.operator.new.cs
+///                                ^^^^ meta.function-call.identifier.cs support.type.cs
+///                                    ^^ meta.function-call.arguments.cs meta.group.cs
+///                                    ^ punctuation.section.group.begin.cs
+///                                     ^ punctuation.section.group.end.cs
+///                                      ^ punctuation.separator.comma.cs
+///                                        ^^^^^^^^^^ meta.instantiation.cs
+///                                        ^^^ keyword.operator.new.cs
+///                                            ^^^^ meta.function-call.identifier.cs support.type.cs
+///                                                ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                ^ punctuation.section.group.begin.cs
+///                                                 ^ punctuation.section.group.end.cs
+///                                                  ^ punctuation.section.brackets.end.cs
+///                                                   ^ punctuation.terminator.statement.cs
+
         public Dictionary prop { get; set; } = [];
 ///     ^^^^^^ storage.modifier.access.cs
 ///            ^^^^^^^^^^ support.type.cs

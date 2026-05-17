@@ -1720,11 +1720,11 @@ contexts:
     - include: else-pop
 
   assignment-value:
-    - match: (\[)\s*(\])
-      scope: meta.brackets.cs
-      captures:
-        1: punctuation.section.brackets.begin.cs
-        2: punctuation.section.brackets.end.cs
+    - match: (?=\[)
+      branch_point: array-initializer
+      branch:
+        - array-initializer
+        - annotated-expression
       pop: 1
     - match: \{
       scope: meta.braces.cs punctuation.section.braces.begin.cs
@@ -1733,6 +1733,32 @@ contexts:
       set:
         - expression
         - maybe-pointer
+
+  array-initializer:
+    - meta_include_prototype: false
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set:
+        - check-array-initializer
+        - inside-array-initializer
+
+  inside-array-initializer:
+    - meta_content_scope: meta.brackets.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
+      pop: 1
+    - include: expression-list
+
+  check-array-initializer:
+    - match: (?=[,;)\]}])
+      pop: 1
+    - match: (?=\S)
+      fail: array-initializer
+
+  annotated-expression:
+    - include: attributes
+    - match: (?=\S)
+      set: expression
 
 ###[ COMMON PARENTHESIZED EXPRESSIONS ]########################################
 
