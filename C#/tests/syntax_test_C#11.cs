@@ -20,9 +20,9 @@ string longMessage = """
 ///                      ^ punctuation.definition.placeholder.begin.cs
 ///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                        ^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
 ///                               ^ invalid.illegal.unescaped-placeholder.cs
@@ -47,9 +47,9 @@ with five double quotes.
 ///                      ^ punctuation.definition.placeholder.begin.cs
 ///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                        ^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
 ///                               ^ invalid.illegal.unescaped-placeholder.cs
@@ -90,9 +90,9 @@ var location = $"""
 ///                 ^ punctuation.accessor.dot.cs
 ///                  ^^^ variable.other.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                     ^ punctuation.separator.cs
+///                     ^ punctuation.separator.comma.cs
 ///                      ^^^^^ variable.other.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                    ^ invalid.illegal.lone-escape.cs
 ///                                            ^ invalid.illegal.lone-escape.cs
@@ -113,20 +113,20 @@ var location = $"""
 ///     ^ keyword.operator.arithmetic.cs
 ///      ^^^^^^^^^^ string.quoted.double.cs
 ///                ^^ meta.format-spec.cs
-///                ^ punctuation.separator.cs
+///                ^ punctuation.separator.colon.cs
 ///                 ^ constant.other.format-spec.cs
 ///                   ^ invalid.illegal.unexpected-token.cs
 ///                      ^ punctuation.section.interpolation.begin.cs
 ///                       ^^^^^^^^^^ variable.other.cs
 ///                                 ^^^ meta.format-spec.cs
-///                                 ^ punctuation.separator.cs
+///                                 ^ punctuation.separator.colon.cs
 ///                                  ^^ constant.other.format-spec.cs
 ///                                   ^ invalid.illegal.lone-escape.cs
 ///                                     ^ invalid.illegal.unexpected-token.cs
 ///                                       ^ punctuation.section.interpolation.begin.cs
 ///                                        ^^^^^ variable.other.cs
 ///                                             ^^ meta.format-spec.cs
-///                                             ^ punctuation.separator.cs
+///                                             ^ punctuation.separator.colon.cs
 ///                                              ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                               ^ punctuation.section.interpolation.end.cs
 ///                                                ^ invalid.illegal.unexpected-token.cs
@@ -168,9 +168,9 @@ var location = @$"""
 ///                 ^ punctuation.accessor.dot.cs
 ///                  ^^^ variable.other.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                     ^ punctuation.separator.cs
+///                     ^ punctuation.separator.comma.cs
 ///                      ^^^^^ variable.other.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
 ///                                    ^^ constant.character.escape.cs
 ///                                            ^^ constant.character.escape.cs
@@ -211,9 +211,9 @@ var location = $$"""
 ///                  ^ punctuation.accessor.dot.cs
 ///                   ^^^ variable.other.cs
 ///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                      ^ punctuation.separator.cs
+///                      ^ punctuation.separator.comma.cs
 ///                       ^^^^^ variable.other.cs
-///                            ^ punctuation.separator.cs
+///                            ^ punctuation.separator.colon.cs
 ///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                     ^ invalid.illegal.lone-escape.cs
 ///                                             ^ invalid.illegal.lone-escape.cs
@@ -234,20 +234,20 @@ var location = $$"""
 ///      ^ keyword.operator.arithmetic.cs
 ///       ^^^^^^^^^^ string.quoted.double.cs
 ///                 ^^ meta.format-spec.cs
-///                 ^ punctuation.separator.cs
+///                 ^ punctuation.separator.colon.cs
 ///                  ^ constant.other.format-spec.cs
 ///                    ^^ invalid.illegal.unexpected-token.cs
 ///                        ^^ punctuation.section.interpolation.begin.cs
 ///                          ^^^^^^^^^^ variable.other.cs
 ///                                    ^^^ meta.format-spec.cs
-///                                    ^ punctuation.separator.cs
+///                                    ^ punctuation.separator.colon.cs
 ///                                     ^^ constant.other.format-spec.cs
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                        ^^ invalid.illegal.unexpected-token.cs
 ///                                           ^^ punctuation.section.interpolation.begin.cs
 ///                                             ^^^^^ variable.other.cs
 ///                                                  ^^ meta.format-spec.cs
-///                                                  ^ punctuation.separator.cs
+///                                                  ^ punctuation.separator.colon.cs
 ///                                                   ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                    ^^ punctuation.section.interpolation.end.cs
 ///                                                      ^ - invalid.illegal
@@ -286,9 +286,9 @@ var location = @$$"""
 ///                  ^ punctuation.accessor.dot.cs
 ///                   ^^^ variable.other.cs
 ///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                      ^ punctuation.separator.cs
+///                      ^ punctuation.separator.comma.cs
 ///                       ^^^^^ variable.other.cs
-///                            ^ punctuation.separator.cs
+///                            ^ punctuation.separator.colon.cs
 ///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                     ^ invalid.illegal.lone-escape.cs
 ///                                             ^ invalid.illegal.lone-escape.cs
@@ -327,9 +327,9 @@ var location = $$$"""
 ///                   ^ punctuation.accessor.dot.cs
 ///                    ^^^ variable.other.cs
 ///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                       ^ punctuation.separator.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^^^^^ variable.other.cs
-///                             ^ punctuation.separator.cs
+///                             ^ punctuation.separator.colon.cs
 ///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                              ^ invalid.illegal.lone-escape.cs
@@ -350,20 +350,20 @@ var location = $$$"""
 ///       ^ keyword.operator.arithmetic.cs
 ///        ^^^^^^^^^^ string.quoted.double.cs
 ///                  ^^ meta.format-spec.cs
-///                  ^ punctuation.separator.cs
+///                  ^ punctuation.separator.colon.cs
 ///                   ^ constant.other.format-spec.cs
 ///                     ^^^ invalid.illegal.unexpected-token.cs
 ///                          ^^^ punctuation.section.interpolation.begin.cs
 ///                             ^^^^^^^^^^ variable.other.cs
 ///                                       ^^^ meta.format-spec.cs
-///                                       ^ punctuation.separator.cs
+///                                       ^ punctuation.separator.colon.cs
 ///                                        ^^ constant.other.format-spec.cs
 ///                                         ^ invalid.illegal.lone-escape.cs
 ///                                           ^^^ invalid.illegal.unexpected-token.cs
 ///                                               ^^^ punctuation.section.interpolation.begin.cs
 ///                                                  ^^^^^ variable.other.cs
 ///                                                       ^^ meta.format-spec.cs
-///                                                       ^ punctuation.separator.cs
+///                                                       ^ punctuation.separator.colon.cs
 ///                                                        ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                         ^^^ punctuation.section.interpolation.end.cs
 ///                                                            ^ - invalid.illegal
@@ -402,9 +402,9 @@ var location = @$$$"""
 ///                   ^ punctuation.accessor.dot.cs
 ///                    ^^^ variable.other.cs
 ///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                       ^ punctuation.separator.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^^^^^ variable.other.cs
-///                             ^ punctuation.separator.cs
+///                             ^ punctuation.separator.colon.cs
 ///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                              ^ invalid.illegal.lone-escape.cs
@@ -443,9 +443,9 @@ var location = $$$$"""
 ///                    ^ punctuation.accessor.dot.cs
 ///                     ^^^ variable.other.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^^^^ variable.other.cs
-///                              ^ punctuation.separator.cs
+///                              ^ punctuation.separator.colon.cs
 ///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                       ^ invalid.illegal.lone-escape.cs
 ///                                               ^ invalid.illegal.lone-escape.cs
@@ -466,20 +466,20 @@ var location = $$$$"""
 ///        ^ keyword.operator.arithmetic.cs
 ///         ^^^^^^^^^^ string.quoted.double.cs
 ///                   ^^ meta.format-spec.cs
-///                   ^ punctuation.separator.cs
+///                   ^ punctuation.separator.colon.cs
 ///                    ^ constant.other.format-spec.cs
 ///                      ^^^^ invalid.illegal.unexpected-token.cs
 ///                            ^^^^ punctuation.section.interpolation.begin.cs
 ///                                ^^^^^^^^^^ variable.other.cs
 ///                                          ^^^ meta.format-spec.cs
-///                                          ^ punctuation.separator.cs
+///                                          ^ punctuation.separator.colon.cs
 ///                                           ^^ constant.other.format-spec.cs
 ///                                            ^ invalid.illegal.lone-escape.cs
 ///                                              ^^^^ invalid.illegal.unexpected-token.cs
 ///                                                   ^^^^ punctuation.section.interpolation.begin.cs
 ///                                                       ^^^^^ variable.other.cs
 ///                                                            ^^ meta.format-spec.cs
-///                                                            ^ punctuation.separator.cs
+///                                                            ^ punctuation.separator.colon.cs
 ///                                                             ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                              ^^^ punctuation.section.interpolation.end.cs
 ///                                                                 ^ - invalid.illegal
@@ -518,9 +518,9 @@ var location = @$$$$"""
 ///                    ^ punctuation.accessor.dot.cs
 ///                     ^^^ variable.other.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^^^^ variable.other.cs
-///                              ^ punctuation.separator.cs
+///                              ^ punctuation.separator.colon.cs
 ///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                       ^ invalid.illegal.lone-escape.cs
 ///                                               ^ invalid.illegal.lone-escape.cs
