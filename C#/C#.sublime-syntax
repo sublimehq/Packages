@@ -1420,7 +1420,6 @@ contexts:
 ###[ CONDITIONAL STATEMENTS ]##################################################
 
   switch-block:
-    - meta_content_scope: meta.switch.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
       set: inside-switch-block
@@ -2175,7 +2174,6 @@ contexts:
       push: switch-expression-block
 
   switch-expression-block:
-    - meta_content_scope: meta.switch.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:

@@ -431,7 +431,6 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///                  ^ punctuation.section.sequence.end.cs
 ///                    ^^^^^^ keyword.control.conditional.switch.cs
     {
-/// <- meta.switch.cs
 /// ^^ meta.block.cs
 /// ^ punctuation.section.block.begin.cs
         ("rock", "paper") => "rock is covered by paper. Paper wins.",
