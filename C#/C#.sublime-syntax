@@ -1496,9 +1496,9 @@ contexts:
     - include: else-pop
 
   for-declaration:
-    - match: (?={{name}}\s*=)
-      pop: 1
-    - include: var-declaration
+    - match: (?={{namespaced_name}}\s+{{name}})
+      set: var-declaration
+    - include: else-pop
 
   for-separator:
     - match: ';'

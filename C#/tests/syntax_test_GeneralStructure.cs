@@ -2525,6 +2525,52 @@ class TestControlStatements
 ///                                                          ^^ meta.block.cs
 ///                                                          ^ punctuation.section.block.begin.cs
 ///                                                           ^ punctuation.section.block.end.cs
+
+        for (Any.Number<int> var = 0; var < 10; var += 10) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^ support.type.cs
+///             ^ punctuation.accessor.dot.cs
+///              ^^^^^^ support.type.cs
+///                    ^^^^^ meta.generic.cs
+///                    ^ punctuation.definition.generic.begin.cs
+///                     ^^^ storage.type.cs
+///                        ^ punctuation.definition.generic.end.cs
+///                          ^^^ variable.other.cs
+///                              ^ keyword.operator.assignment.cs
+///                                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                 ^ punctuation.terminator.statement.cs
+///                                   ^^^ variable.other.cs
+///                                       ^ keyword.operator.comparison.cs
+///                                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                           ^ punctuation.terminator.statement.cs
+///                                             ^^^ variable.other.cs
+///                                                 ^^ keyword.operator.assignment.augmented.cs
+///                                                    ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                                      ^ punctuation.section.group.end.cs
+///                                                        ^^ meta.block.cs
+///                                                        ^ punctuation.section.block.begin.cs
+///                                                         ^ punctuation.section.block.end.cs
+
+        for (count++; count > 0; count--) {}
+///     ^^^ keyword.control.loop.for.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^ punctuation.section.group.begin.cs
+///          ^^^^^ variable.other.cs
+///               ^^ keyword.operator.arithmetic.cs
+///                 ^ punctuation.terminator.statement.cs
+///                   ^^^^^ variable.other.cs
+///                         ^ keyword.operator.comparison.cs
+///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                            ^ punctuation.terminator.statement.cs
+///                              ^^^^^ variable.other.cs
+///                                   ^^ keyword.operator.arithmetic.cs
+///                                     ^ punctuation.section.group.end.cs
+///                                       ^^ meta.block.cs
+///                                       ^ punctuation.section.block.begin.cs
+///                                        ^ punctuation.section.block.end.cs
+
     }
 
     public void testForeachLoops()
