@@ -788,7 +788,7 @@ class Foo {
 ///                                                                        ^ punctuation.section.sequence.end.cs
 ///                                                                         ^ punctuation.terminator.statement.cs
 
-        ((int, int) arg, vec arg) = getFoo();
+        ((int, var) arg, var arg) = getFoo();
 ///     ^ meta.sequence.tuple.cs - meta.sequence meta.sequence - meta group
 ///      ^^^^^^^^^^ meta.sequence.tuple.cs meta.sequence.tuple.cs - meta group
 ///                ^^^^^^^^^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence - meta group
@@ -800,7 +800,7 @@ class Foo {
 ///               ^ punctuation.section.sequence.end.cs
 ///                 ^^^ variable.other.cs
 ///                    ^ punctuation.separator.comma.cs
-///                      ^^^ support.type.cs
+///                      ^^^ storage.type.cs
 ///                          ^^^ variable.other.cs
 ///                             ^ punctuation.section.sequence.end.cs
 ///                               ^ keyword.operator.assignment.cs

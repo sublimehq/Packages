@@ -1847,6 +1847,9 @@ contexts:
       scope: variable.language.anonymous.cs
     - match: '{{name}}(?=\s*[,)])'
       scope: variable.other.cs
+    - match: var\b
+      scope: storage.type.cs
+      push: var-declarator
     - match: (?=[@(]|{{start_char}})
       push:
         - variable-declaration-name
