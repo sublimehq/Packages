@@ -2217,7 +2217,7 @@ contexts:
       set:
         - after-switch-expression-case-guard-cast
         - inside-switch-expression-case-guard-cast
-        - maybe-object-type
+        - maybe-type
 
   inside-switch-expression-case-guard-cast:
     - meta_scope: meta.cast.cs meta.group.cs

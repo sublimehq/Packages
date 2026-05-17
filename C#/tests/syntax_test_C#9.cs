@@ -268,6 +268,31 @@ public class TollCalculator
 ///                                                               ^^ punctuation.separator.case-expression.cs
 ///                                                                               ^ punctuation.terminator.case-expression.cs
 
+        Plane b when ((var, int))b.Wheels == 3 => true,
+///^^^^^^^^^^^^^ meta.case.pattern.cs
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
+///     ^^^^^ support.type.cs
+///           ^ variable.other.cs
+///             ^^^^ keyword.control.conditional.when.cs
+///                  ^^^^^^^^^^^^ meta.cast.cs meta.group.cs
+///                  ^ punctuation.section.group.begin.cs
+///                   ^^^^^^^^^^ meta.sequence.tuple.cs
+///                   ^ punctuation.section.sequence.begin.cs
+///                    ^^^ storage.type.cs
+///                       ^ punctuation.separator.comma.cs
+///                         ^^^ storage.type.cs
+///                            ^ punctuation.section.sequence.end.cs
+///                             ^ punctuation.section.group.end.cs
+///                              ^ variable.other.cs
+///                               ^ punctuation.accessor.dot.cs
+///                                ^^^^^^ variable.other.cs
+///                                       ^^ keyword.operator.comparison.cs
+///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                            ^^ meta.case.cs punctuation.separator.case-expression.cs
+///                                               ^^^^ constant.language.boolean.true.cs
+///                                                   ^ punctuation.terminator.case-expression.cs
+///                                                    ^ meta.case.pattern.cs
+
         Taxi t => 3.50m + (t.Fares) switch
 ///     ^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
