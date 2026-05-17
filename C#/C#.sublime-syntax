@@ -2200,8 +2200,6 @@ contexts:
     - include: switch-expression-case-guard-expression
 
   switch-expression-case-guard-expression:
-    - match: (?=[,;)\]}])
-      pop: 1
     - match: (?=\()
       branch_point: switch-expression-case-guard-parens
       branch:
@@ -2209,6 +2207,7 @@ contexts:
         - switch-expression-case-guard-group
         - tuple-literal
     - include: expression-common
+    - include: else-pop
 
   switch-expression-case-guard-cast:
     - meta_include_prototype: false
