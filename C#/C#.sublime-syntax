@@ -1901,15 +1901,12 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.cs
       pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.cs
-      push: maybe-pointer
     - match: ({{name}})\s*({{colon}})
       captures:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
-    - include: expression
+    - include: expression-list
 
 ###[ GROUP EXPRESSIONS ]#######################################################
 
