@@ -1356,9 +1356,17 @@ contexts:
       push: maybe-expression-group
     - match: switch\b
       scope: keyword.control.conditional.switch.cs
+      push: maybe-expression-group
+    - match: case\b
+      scope: meta.case.cs keyword.control.conditional.case.cs
       push:
-        - switch-block
-        - maybe-expression-group
+        - case-pattern
+        - expect-pattern
+    - match: ((default)\s*)({{colon}})
+      captures:
+        1: meta.case.pattern.cs
+        2: keyword.control.conditional.default.cs
+        3: meta.case.cs punctuation.separator.colon.cs
     # exception statements
     - match: catch\b
       scope: keyword.control.exception.catch.cs
@@ -1418,26 +1426,6 @@ contexts:
         2: punctuation.separator.colon.cs
 
 ###[ CONDITIONAL STATEMENTS ]##################################################
-
-  switch-block:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set: inside-switch-block
-    - include: else-pop
-
-  inside-switch-block:
-    - meta_scope: meta.block.cs
-    - match: \b((default)\s*)({{colon}})
-      captures:
-        1: meta.case.pattern.cs
-        2: keyword.control.conditional.default.cs
-        3: meta.case.cs punctuation.separator.colon.cs
-    - match: \bcase\b
-      scope: meta.case.cs keyword.control.conditional.case.cs
-      push:
-        - case-pattern
-        - expect-pattern
-    - include: inside-statement-block
 
   case-pattern:
     - meta_content_scope: meta.case.pattern.cs
