@@ -3124,14 +3124,17 @@ contexts:
 ###[ PROTOTYPES ]##############################################################
 
   else-pop:
+    - meta_include_prototype: false
     - match: (?=\S)
       pop: 1
 
   immediately-pop:
+    - meta_include_prototype: false
     - match: ''
       pop: 1
 
   noeol-pop:
+    - meta_include_prototype: false
     # immediately pop, but not before newlines
     - match: (?=[^\n])
       pop: 1
