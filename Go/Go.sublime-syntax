@@ -1548,12 +1548,12 @@ contexts:
     - match: '`'
       scope: punctuation.definition.annotation.end.go
       pop: 1
-    - match: (\w+)(:)
+    - match: ([\w-]+)(:)
       captures:
         1: meta.annotation.identifier.go variable.annotation.go
         2: meta.annotation.go punctuation.separator.key-value.go
       push: match-struct-tag-annotation-value
-    - match: (\w+)(?=[\s`])
+    - match: ([\w-]+)(?=[\s`])
       scope: meta.annotation.identifier.go variable.annotation.go
       push: pop-now-clear-scope
 
