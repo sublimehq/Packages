@@ -1635,6 +1635,19 @@ by accident, but if necessary, such support could be sacrificed.
 //                                            ^ punctuation.definition.string.begin
 //                                                 ^ punctuation.definition.string.end
 //                                                  ^ punctuation.definition.annotation.end
+
+        field typ `API-v2_0:"field"`
+//      ^^^^^ meta.type.go variable.other.member.declaration.go
+//            ^^^ meta.type.go storage.type.go
+//                ^^^^^^^^^^^^^^^^^^ meta.type.go meta.annotation - meta.annotation meta.annotation
+//                ^ punctuation.definition.annotation.begin
+//                 ^^^^^^^^ meta.annotation.identifier variable.annotation
+//                         ^ punctuation.separator.key-value
+//                          ^ punctuation.definition.string.begin
+//                           ^^^^^ meta.annotation.parameters string.quoted.double
+//                                ^ punctuation.definition.string.end
+//                                 ^ punctuation.definition.annotation.end
+
         field /**/ typ /**/ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go comment.block.go
