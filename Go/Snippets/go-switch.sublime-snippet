@@ -1,10 +1,9 @@
 <snippet>
 	<content><![CDATA[switch ${1:expression} {
-case condition:
-	${2:/* code */}
+case ${2:condition}:
+	${3:/* code */}
 default:
 	${0:/* code */}
-	return
 }]]></content>
 	<tabTrigger>switch</tabTrigger>
 	<scope>source.go</scope>
