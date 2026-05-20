@@ -641,6 +641,7 @@ contexts:
     - include: assignment-expressions
     - match: '{{unreserved_name}}'
       scope: entity.name.constant.cs
+    - include: else-pop
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 

@@ -718,8 +718,12 @@ namespace YourNamespace
 ///               ^ punctuation.separator.colon.cs
 ///                 ^^^^ storage.type.primitive.cs
 
+    enum YourEnum : int {
+
     enum YourEnum : int {}
-///^^^^^^^^^^^^^^^ meta.enum.cs
+/// <- meta.enum.body.cs meta.block.cs
+///^ meta.enum.body.cs meta.block.cs
+/// ^^^^^^^^^^^^^^ meta.enum.cs - meta.enum.body
 /// ^^^^ keyword.declaration.enum.cs
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^ meta.enum.base.cs
