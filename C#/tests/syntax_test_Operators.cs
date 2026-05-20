@@ -142,7 +142,7 @@ class TestOperatorDefinitions {
 /// ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^^^^^ support.type.cs
-///                    ^ storage.type.nullable.cs
+///                    ^ storage.modifier.nullable.cs
 ///                     ^^^^^^^^^ meta.method.parameters.cs
 ///                     ^ punctuation.section.parameters.begin.cs
 ///                      ^^^ storage.type.primitive.cs
@@ -167,7 +167,7 @@ class TestOperatorDefinitions {
 ///                    ^ punctuation.definition.generic.begin.cs
 ///                     ^ support.type.cs
 ///                      ^ punctuation.definition.generic.end.cs
-///                       ^ storage.type.nullable.cs
+///                       ^ storage.modifier.nullable.cs
 ///                        ^ punctuation.section.parameters.begin.cs
 ///                         ^^^ storage.type.primitive.cs
 ///                             ^^^ variable.parameter.cs
@@ -210,7 +210,7 @@ class TestOperatorDefinitions {
 ///                      ^ punctuation.section.brackets.begin.cs
 ///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
-///                         ^ storage.type.nullable.cs
+///                         ^ storage.modifier.nullable.cs
 ///                          ^ punctuation.section.parameters.begin.cs
 ///                           ^^^ storage.type.primitive.cs
 ///                               ^^^ variable.parameter.cs
@@ -236,7 +236,7 @@ class TestOperatorDefinitions {
 ///                         ^ punctuation.section.brackets.begin.cs
 ///                          ^ punctuation.separator.comma.cs
 ///                           ^ punctuation.section.brackets.end.cs
-///                            ^ storage.type.nullable.cs
+///                            ^ storage.modifier.nullable.cs
 ///                             ^ punctuation.section.parameters.begin.cs
 ///                              ^^^ storage.type.primitive.cs
 ///                                  ^^^ variable.parameter.cs
@@ -410,13 +410,13 @@ class TestOperatorDefinitions {
 
 int? length = customers?.Length;
 /// <- storage.type
-///^ storage.type.nullable
+///^ storage.modifier.nullable
 ///     ^ variable.other
 ///                    ^^ punctuation.accessor.null-coalescing
 
 Customer? first = customers?[0];
 /// <- support.type
-///     ^ storage.type.nullable
+///     ^ storage.modifier.nullable
 ///       ^^^^^ variable.other
 ///             ^ keyword.operator.assignment
 ///               ^^^^^^^^^ variable.other
@@ -433,7 +433,7 @@ Customer second = customers[0];
 ///                          ^ punctuation.section.brackets.end
 
 int? count = customers?[0]?.Orders?.Count();
-///^ storage.type.nullable
+///^ storage.modifier.nullable
 ///     ^ variable.other
 ///        ^ keyword.operator.assignment
 ///                    ^^^ meta.brackets

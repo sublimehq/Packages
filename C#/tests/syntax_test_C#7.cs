@@ -213,7 +213,7 @@ class Foo {
             case int? example when example == 5:
 ///         ^^^^ keyword.control.conditional.case
 ///              ^^^ storage.type
-///                 ^ storage.type.nullable
+///                 ^ storage.modifier.nullable
 ///                   ^^^^^^^ variable.other
 ///                           ^^^^ keyword.control.conditional.when
 ///                                ^^^^^^^ variable.other
@@ -528,7 +528,7 @@ class Foo {
 ///                 ^^ meta.brackets.cs
 ///                 ^ punctuation.section.brackets.begin.cs
 ///                  ^ punctuation.section.brackets.end.cs
-///                   ^ storage.type.nullable.cs
+///                   ^ storage.modifier.nullable.cs
 ///                     ^^^ variable.other.cs
 ///                         ^ keyword.operator.assignment.cs
 ///                           ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs

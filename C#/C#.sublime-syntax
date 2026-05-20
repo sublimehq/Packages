@@ -2467,7 +2467,7 @@ contexts:
     - meta_include_prototype: false
     - match: \s*(\?)
       captures:
-        1: storage.type.nullable.cs
+        1: storage.modifier.nullable.cs
       set: inside-type-suffix
     - include: inside-type-suffix
 

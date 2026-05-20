@@ -54,14 +54,14 @@ class TestGenericList
 //      ^^^^ support.type
 //           ^ punctuation.definition.generic.begin
 //            ^^^ storage.type
-//                ^ storage.type.nullable
+//                ^ storage.modifier.nullable
 //                 ^ punctuation.definition.generic.end
 //                   ^ punctuation.accessor.dot
 //                     ^^^^^^^^^^ support.type
 //                                ^ variable.other
         int ? test2 = 4;
 //      ^^^ storage.type
-//          ^ storage.type.nullable
+//          ^ storage.modifier.nullable
 //            ^^^^^ variable.other
 //                  ^ keyword.operator.assignment
 //                    ^ meta.number.integer.decimal constant.numeric.value

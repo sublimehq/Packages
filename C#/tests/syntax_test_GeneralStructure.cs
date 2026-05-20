@@ -923,7 +923,7 @@ namespace TestNamespace . Test
         public DateTime? test2;
 ///     ^ storage.modifier
 ///            ^^^^^^^^ support.type
-///                    ^ storage.type.nullable
+///                    ^ storage.modifier.nullable
 ///                      ^^^^^ variable.other.member
 
         private const string _bar = "bar";
@@ -1609,7 +1609,8 @@ namespace TestNamespace . Test
 ///               ^^^^^ variable.other
 
         int?[] test;
-///     ^^^^ storage.type
+///     ^^^ storage.type
+///        ^ storage.modifier.nullable
 ///         ^^ meta.brackets
 ///            ^^^^ variable.other
 
@@ -2670,7 +2671,7 @@ class TestControlStatements
 ///                      ^ punctuation.section.brackets.begin.cs
 ///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
-///                         ^ storage.type.nullable.cs
+///                         ^ storage.modifier.nullable.cs
 ///                           ^^^ variable.other.cs
 ///                               ^^ keyword.control.loop.in.cs
 ///                                  ^ punctuation.section.group.begin.cs
@@ -3024,7 +3025,7 @@ class TestLocalDefinitions
 
         long?
 ///     ^^^^ storage.type.primitive.cs
-///         ^ storage.type.nullable.cs
+///         ^ storage.modifier.nullable.cs
 
         long[]
 ///     ^^^^ storage.type.primitive.cs
@@ -4019,7 +4020,7 @@ public class TestExpressions
 ///                                                    ^ punctuation.definition.generic.begin.cs
 ///                                                     ^^^^ storage.type.primitive.cs
 ///                                                         ^ punctuation.definition.generic.end.cs
-///                                                          ^ storage.type.nullable.cs
+///                                                          ^ storage.modifier.nullable.cs
 ///                                                           ^^^ meta.brackets.cs
 ///                                                           ^ punctuation.section.brackets.begin.cs
 ///                                                            ^ punctuation.separator.comma.cs
@@ -4048,7 +4049,7 @@ public class TestExpressions
 ///          ^^^^^^ storage.type.primitive.cs
 ///                ^ punctuation.separator.comma.cs
 ///                  ^^^ storage.type.primitive.cs
-///                     ^ storage.type.nullable.cs
+///                     ^ storage.modifier.nullable.cs
 ///                      ^ punctuation.definition.generic.end.cs
 ///                        ^^^^^ variable.other.cs
 ///                              ^ keyword.operator.assignment.cs
@@ -4623,7 +4624,7 @@ public class TestExpressions
 ///            ^ punctuation.definition.generic.begin.cs
 ///             ^ support.type.cs
 ///              ^ punctuation.definition.generic.end.cs
-///               ^ storage.type.nullable.cs
+///               ^ storage.modifier.nullable.cs
 ///                ^^^^^ meta.brackets.cs
 ///                ^ punctuation.section.brackets.begin.cs
 ///                 ^ punctuation.separator.comma.cs
@@ -4644,7 +4645,7 @@ public class TestExpressions
 ///                ^ punctuation.definition.generic.begin.cs
 ///                 ^ support.type.cs
 ///                  ^ punctuation.definition.generic.end.cs
-///                   ^ storage.type.nullable.cs
+///                   ^ storage.modifier.nullable.cs
 ///                    ^^^^^ meta.brackets.cs
 ///                    ^ punctuation.section.brackets.begin.cs
 ///                     ^ punctuation.separator.comma.cs
@@ -4657,7 +4658,7 @@ public class TestExpressions
 ///                                   ^ punctuation.definition.generic.begin.cs
 ///                                    ^ support.type.cs
 ///                                     ^ punctuation.definition.generic.end.cs
-///                                      ^ storage.type.nullable.cs
+///                                      ^ storage.modifier.nullable.cs
 ///                                       ^^ meta.brackets.cs
 ///                                       ^ punctuation.section.brackets.begin.cs
 ///                                        ^ punctuation.section.brackets.end.cs
