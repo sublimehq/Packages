@@ -1574,12 +1574,17 @@ namespace TestNamespace . Test
         // invalid class-level keywords and statements //
         /////////////////////////////////////////////////
 
-        while
-///     ^^^^^ invalid.illegal.unexpected-token.cs
+        and
+///     ^^^ keyword.operator.logical.cs
+
+        for
+///     ^^^ keyword.control.loop.for.cs
 
         if
-///     ^^ invalid.illegal.unexpected-token.cs
+///     ^^ keyword.control.conditional.if.cs
 
+        while
+///     ^^^^^ keyword.control.loop.while.cs
     }
 /// ^ meta.class.body.cs meta.block.cs punctuation.section.block.end.cs
 ///  ^ - meta.class

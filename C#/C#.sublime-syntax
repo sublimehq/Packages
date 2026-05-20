@@ -578,6 +578,7 @@ contexts:
     - include: extension-declarations
     - include: conversion-declarations
     - include: constructor-declarations
+    - include: embedded-statements
     - include: member-declarations
     # fallbacks
     - include: statement-blocks
