@@ -1196,11 +1196,20 @@ contexts:
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
         - include: map-common
+        # filter
+        - match: \|\|
+          scope: meta.mapping.erlang keyword.operator.comprehension.erlang
+          push:
+            - meta_content_scope: meta.mapping.filter.erlang
+            - include: expressions
+            - include: value-end-pop
         # value
         - match: =>|\:=
           scope: meta.mapping.erlang punctuation.separator.key-value.erlang
           push:
             - meta_content_scope: meta.mapping.value.erlang
+            - match: (?=\|\|)
+              pop: 1
             - include: expressions
             - include: value-end-pop
         # key
@@ -1208,7 +1217,7 @@ contexts:
           scope: meta.mapping.erlang punctuation.separator.sequence.erlang
           push:
             - meta_content_scope: meta.mapping.key.erlang
-            - match: (?==>|\:=)
+            - match: (?==>|\:=|\|\|)
               pop: 1
             - include: expressions
             - include: value-end-pop
@@ -1221,11 +1230,20 @@ contexts:
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
         - include: map-common
+        # filter
+        - match: \|\|
+          scope: meta.mapping.erlang keyword.operator.comprehension.erlang
+          push:
+            - meta_content_scope: meta.mapping.filter.erlang
+            - include: type-expressions
+            - include: value-end-pop
         # value
         - match: =>|\:=
           scope: meta.mapping.erlang punctuation.separator.key-value.erlang
           push:
             - meta_content_scope: meta.mapping.value.erlang
+            - match: (?=\|\|)
+              pop: 1
             - include: type-expressions
             - include: value-end-pop
         # key
@@ -1233,7 +1251,7 @@ contexts:
           scope: meta.mapping.erlang punctuation.separator.sequence.erlang
           push:
             - meta_content_scope: meta.mapping.key.erlang
-            - match: (?==>|\:=)
+            - match: (?==>|\:=|\|\|)
               pop: 1
             - include: type-expressions
             - include: value-end-pop
