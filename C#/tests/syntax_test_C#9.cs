@@ -186,7 +186,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                            ^ punctuation.separator.comma.cs
 ///                              ^^^ variable.other.member.cs
 ///                                 ^ keyword.operator.assignment.cs
-///                                   ^^^ storage.type.cs
+///                                   ^^^ storage.type.variant.cs
 ///                                       ^^^^ variable.other.cs
 ///                                            ^ punctuation.section.block.end.cs
 ///                                              ^^ punctuation.separator.case-expression.cs
@@ -278,7 +278,7 @@ public class TollCalculator
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^^^^ meta.sequence.tuple.cs
 ///                   ^ punctuation.section.sequence.begin.cs
-///                    ^^^ storage.type.cs
+///                    ^^^ storage.type.variant.cs
 ///                       ^ punctuation.separator.comma.cs
 ///                         ^^^ storage.type.cs
 ///                            ^ punctuation.section.sequence.end.cs
@@ -442,7 +442,7 @@ if (e is { Member: {Member: "value"}}) { }
 if (e is var f) { }
 ///^^^^^^^^^^^^ meta.group.cs
 ///   ^^ keyword.operator.comparison.type.cs
-///      ^^^ storage.type.cs
+///      ^^^ storage.type.variant.cs
 ///          ^ variable.other.cs
 ///           ^ punctuation.section.group.end.cs
 
@@ -450,7 +450,7 @@ if (e is not var f) { }
 ///^^^^^^^^^^^^^^^^ meta.group.cs
 ///   ^^ keyword.operator.comparison.type.cs
 ///      ^^^ keyword.operator.logical.cs
-///          ^^^ storage.type.cs
+///          ^^^ storage.type.variant.cs
 ///              ^ variable.other.cs
 ///               ^ punctuation.section.group.end.cs
 
@@ -459,7 +459,7 @@ if (e is var (int i, k)) { }
 ///^ punctuation.section.group.begin.cs
 /// ^ variable.other.cs
 ///   ^^ keyword.operator.comparison.type.cs
-///      ^^^ storage.type.cs
+///      ^^^ storage.type.variant.cs
 ///          ^^^^^^^^^^ meta.sequence.tuple.cs
 ///          ^ punctuation.section.sequence.begin.cs
 ///           ^^^ storage.type.cs

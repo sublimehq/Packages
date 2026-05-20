@@ -691,7 +691,7 @@ class Foo {
     public void testTupleTypeDeconstruction()
     {
         var (a, b, c) = (1, 2, 3);
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
 ///         ^^^^^^^^^ meta.sequence.tuple.cs
 ///         ^ punctuation.section.sequence.begin.cs
 ///          ^ variable.other.cs
@@ -712,7 +712,7 @@ class Foo {
 ///                              ^ punctuation.terminator.statement.cs
 
         var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///         ^ punctuation.section.sequence.begin.cs
 ///          ^ variable.language.anonymous.cs
@@ -796,11 +796,11 @@ class Foo {
 ///      ^ punctuation.section.sequence.begin.cs
 ///       ^^^ storage.type.cs
 ///          ^ punctuation.separator.comma.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.variant.cs
 ///               ^ punctuation.section.sequence.end.cs
 ///                 ^^^ variable.other.cs
 ///                    ^ punctuation.separator.comma.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.variant.cs
 ///                          ^^^ variable.other.cs
 ///                             ^ punctuation.section.sequence.end.cs
 ///                               ^ keyword.operator.assignment.cs
@@ -836,7 +836,7 @@ class Foo {
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///             ^ punctuation.section.group.begin.cs
-///              ^^^ storage.type.cs
+///              ^^^ storage.type.variant.cs
 ///                  ^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                  ^ punctuation.section.sequence.begin.cs
 ///                   ^^^^ variable.other.cs
@@ -873,7 +873,7 @@ class Foo {
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///             ^ punctuation.section.group.begin.cs
-///              ^^^ storage.type.cs
+///              ^^^ storage.type.variant.cs
 ///                 ^^^^^^ meta.sequence.tuple.cs
 ///                 ^ punctuation.section.sequence.begin.cs
 ///                  ^ variable.other.cs
@@ -893,7 +893,7 @@ class Foo {
 ///             ^ punctuation.section.group.begin.cs
 ///              ^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///              ^ punctuation.section.sequence.begin.cs
-///               ^^^ storage.type.cs
+///               ^^^ storage.type.variant.cs
 ///                   ^ variable.other.cs
 ///                    ^ punctuation.separator.comma.cs
 ///                      ^^^ storage.type.cs
@@ -936,7 +936,7 @@ class Foo {
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
 ///            ^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///            ^ punctuation.section.group.begin.cs
-///             ^^^ storage.type.cs
+///             ^^^ storage.type.variant.cs
 ///                 ^ variable.other.cs
 ///                   ^^ keyword.control.loop.in.cs
 ///                      ^^^^^^^ variable.other.cs

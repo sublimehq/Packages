@@ -2637,7 +2637,7 @@ class TestControlStatements
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///             ^ punctuation.section.group.begin.cs
-///              ^^^ storage.type.cs
+///              ^^^ storage.type.variant.cs
 ///                  ^^^^ variable.other.cs
 ///                       ^^ keyword.control.loop.in.cs
 ///                          ^^^^^^^^^^ variable.other.cs
@@ -2928,7 +2928,7 @@ class TestLocalDefinitions
 
         const var i = 0;
 ///     ^^^^^ storage.modifier.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^ variable.other.cs
 ///                 ^ keyword.operator.assignment.cs
 ///                   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -2980,19 +2980,19 @@ class TestLocalDefinitions
 ///                         ^ punctuation.terminator.statement.cs
 
         var
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
         var
 ///     ^^^ variable.other.cs
 
         var var = 0;
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
 ///         ^^^ variable.other.cs
 ///             ^ keyword.operator.assignment.cs
 ///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                ^ punctuation.terminator.statement.cs
 
         var foo = 0, bar, baz;
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
 ///         ^^^ variable.other.cs
 ///             ^ keyword.operator.assignment.cs
 ///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -3884,7 +3884,7 @@ public class TestExpressions
         a = (var a, dynamic b, vec c) => a + b;  // lower-case var and user types
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///         ^ punctuation.section.group.begin.cs
-///          ^^^ storage.type.cs
+///          ^^^ storage.type.variant.cs
 ///              ^ variable.parameter.cs
 ///               ^ punctuation.separator.comma.cs
 ///                 ^^^^^^^ storage.type.cs
@@ -3906,7 +3906,7 @@ public class TestExpressions
 ///         ^ punctuation.section.group.begin.cs
             var
 ///        ^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
-///         ^^^ storage.type.cs
+///         ^^^ storage.type.variant.cs
                 a       // comment
 ///            ^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///             ^ variable.parameter.cs
@@ -3996,7 +3996,7 @@ public class TestExpressions
 ///                              ^ punctuation.terminator.statement.cs
 
         var concat = string ([DisallowNull] global::str<char>?[,] a, [DisallowNull] string b) => a + b;
-///     ^^^ storage.type.cs
+///     ^^^ storage.type.variant.cs
 ///         ^^^^^^ variable.other.cs
 ///                ^ keyword.operator.assignment.cs
 ///                  ^^^^^^ storage.type.cs

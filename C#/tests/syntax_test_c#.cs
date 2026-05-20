@@ -341,7 +341,7 @@ public class Program {
         var xml = new XmlDocument ();
         var outcome = xml.SelectSingleNode ("/whatever")?.Attributes? ["nope"];
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
-//      ^^^ storage.type.cs
+//      ^^^ storage.type.variant.cs
 //          ^^^^^^^ variable.other.cs
 //                  ^ keyword.operator.assignment.cs
 //                    ^^^ variable.other.cs

@@ -1279,7 +1279,7 @@ contexts:
         - type-argument-list
         - funcptr-type-modifier
     - match: var\b
-      scope: storage.type.cs
+      scope: storage.type.variant.cs
       push:
         - assignment-expression
         - var-declarator
@@ -1300,7 +1300,7 @@ contexts:
 
   var-declaration:
     - match: var\b
-      scope: storage.type.cs
+      scope: storage.type.variant.cs
       set: var-declarator
     - match: (?=\S)
       set: [variable-declaration-name, maybe-type]
@@ -1841,7 +1841,7 @@ contexts:
     - match: '{{name}}(?=\s*[,)])'
       scope: variable.parameter.cs
     - match: var\b
-      scope: storage.type.cs
+      scope: storage.type.variant.cs
       push: method-param-name
     - match: (?=[@(]|{{start_char}})
       push:
@@ -1880,7 +1880,7 @@ contexts:
     - match: '{{name}}(?=\s*[,)])'
       scope: variable.other.cs
     - match: var\b
-      scope: storage.type.cs
+      scope: storage.type.variant.cs
       push: var-declarator
     - match: (?=[@(]|{{start_char}})
       push:
@@ -2281,7 +2281,7 @@ contexts:
     - match: not\b
       scope: keyword.operator.logical.cs
     - match: var\b
-      scope: storage.type.cs
+      scope: storage.type.variant.cs
       pop: 1
     - match: '{{base_type}}'
       scope: storage.type.cs

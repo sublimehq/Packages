@@ -136,16 +136,16 @@ class Foo {
 
         using var
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 
         using var foo
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^^^ variable.other.cs
 
         using var foo, bar = true, baz = 0;
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^^^ variable.other.cs
 ///                  ^ punctuation.separator.comma.cs
 ///                    ^^^ variable.other.cs
@@ -161,7 +161,7 @@ class Foo {
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.variant.cs
 ///                ^^^ variable.other.cs
 ///                   ^ punctuation.separator.comma.cs
 ///                     ^^^ variable.other.cs
@@ -239,7 +239,7 @@ class Foo {
 ///     ^^^^^ keyword.declaration.fixed.cs
 ///           ^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.variant.cs
 ///                ^^ variable.other.cs
 ///                   ^ keyword.operator.assignment.cs
 ///                     ^ keyword.operator.pointer.cs
@@ -295,7 +295,7 @@ class Bar {
         using(var reader = SomeCodeThatGetsAnIDisposable())
 ///     ^^^^^ keyword.declaration.using.cs
 ///          ^ punctuation.section.group.begin.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///                                                       ^ punctuation.section.group.end.cs
         {
             foreach(var line in reader)
@@ -306,7 +306,7 @@ class Bar {
         using (var reader = SomeCodeThatGetsAnIDisposable())
 ///     ^^^^^ keyword.declaration.using.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.variant.cs
 ///                                                        ^ punctuation.section.group.end.cs
         {
             foreach (var line in reader)

@@ -7,27 +7,27 @@ using var
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.variant.cs
 
 using var resp
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.variant.cs
 ///       ^^^^ variable.other.cs
 
 using var resp =
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.variant.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 
 using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.variant.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^^^^^ keyword.control.flow.await.cs
@@ -60,7 +60,7 @@ using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?st
 using var (item, item) = await client.GetAsync();
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.variant.cs
 ///       ^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///       ^ punctuation.section.sequence.begin.cs
 ///        ^^^^ variable.other.cs
@@ -285,7 +285,7 @@ public struct Point3D
 
 void Example() {
     var originValue = Point3D.Origin;
-/// ^^^ storage.type.cs
+/// ^^^ storage.type.variant.cs
 ///     ^^^^^^^^^^^ variable.other.cs
 ///                 ^ keyword.operator.assignment.cs
 ///                   ^^^^^^^ variable.other.cs
@@ -296,7 +296,7 @@ void Example() {
     ref readonly var originReference = ref Point3D.Origin;
 /// ^^^ storage.modifier.cs
 ///     ^^^^^^^^ storage.modifier.cs
-///              ^^^ storage.type.cs
+///              ^^^ storage.type.variant.cs
 ///                  ^^^^^^^^^^^^^^^ variable.other.cs
 ///                                  ^ keyword.operator.assignment.cs
 ///                                    ^^^ storage.modifier.cs
@@ -485,7 +485,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^^^^^^^^^^^^^^^^^^^ meta.case.guard.cs
 ///                                ^^ meta.case.cs
-/// ^^^ storage.type.cs
+/// ^^^ storage.type.variant.cs
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.other.cs
@@ -509,7 +509,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
 ///            ^^ meta.case.cs
-/// ^^^ storage.type.cs
+/// ^^^ storage.type.variant.cs
 ///     ^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ variable.language.anonymous.cs
@@ -537,7 +537,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
     using var socket = new ClientWebSocket();
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 /// ^^^^^ keyword.declaration.using.cs
-///       ^^^ storage.type.cs
+///       ^^^ storage.type.variant.cs
 ///           ^^^^^^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
 ///                    ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
@@ -551,7 +551,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
@@ -564,7 +564,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
@@ -578,7 +578,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
         using var socket = new ClientWebSocket();
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///     ^^^^^ keyword.declaration.using.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.variant.cs
 ///               ^^^^^^ variable.other.cs
 ///                      ^ keyword.operator.assignment.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
@@ -624,7 +624,7 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                              ^ punctuation.section.block.begin.cs
 ///                                ^^^^^^^^^^^^ variable.other.member.cs
 ///                                            ^ keyword.operator.assignment.cs
-///                                              ^^^ storage.type.cs
+///                                              ^^^ storage.type.variant.cs
 ///                                                  ^^^^^^^^^ variable.other.cs
 ///                                                            ^ punctuation.section.block.end.cs
 ///                                                              ^^ keyword.operator.logical.cs
