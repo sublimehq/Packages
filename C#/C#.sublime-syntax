@@ -208,11 +208,6 @@ contexts:
         - immediately-pop
         - regex-string
     - include: namespace-variables
-    - match: '{{base_type}}'
-      scope: variable.annotation.cs storage.type.primitive.cs
-      push:
-        - type-suffix
-        - type-argument-list
     - match: '{{name}}'
       scope: variable.annotation.cs
       push:

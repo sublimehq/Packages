@@ -773,12 +773,14 @@ namespace YourNamespace
 ///^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
 ///     ^^^^^ entity.name.constant.cs
 ///          ^ punctuation.separator.comma.cs
-        [Stuff]
-///^^^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
-///     ^^^^^^^ meta.annotation.cs
+        [string.stuff]
+///^^^^^^^^^^^^^^^^^^^^ meta.namespace.body.cs meta.block.cs meta.enum.body.cs meta.block.cs
+///     ^^^^^^^^^^^^^^ meta.annotation.cs
 ///     ^ punctuation.definition.annotation.begin.cs
-///      ^^^^^ variable.annotation.cs
-///           ^ punctuation.definition.annotation.end.cs
+///      ^^^^^^ variable.annotation.cs
+///            ^ punctuation.accessor.dot.cs
+///             ^^^^^ variable.annotation.cs
+///                  ^ punctuation.definition.annotation.end.cs
         Item3
 ///^^^^^^^^^^^ meta.enum.body.cs meta.block.cs
 ///     ^^^^^ entity.name.constant.cs
