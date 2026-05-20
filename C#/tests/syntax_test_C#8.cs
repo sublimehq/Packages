@@ -192,7 +192,7 @@ public static decimal CalculateToll(object vehicle) =>
 ///                                             ^ keyword.operator.comparison
 ///                                               ^^^^ constant.numeric.value
 ///                                                    ^^ punctuation.separator.case-expression
-///                                                                     ^ punctuation.terminator.case-expression
+///                                                                     ^ punctuation.separator.comma
         DeliveryTruck t when t.GrossWeightClass < 3000 => 10.00m - 2.00m,
         DeliveryTruck _ => 10.00m,
 ///     ^^^^^^^^^^^^^ support.type
@@ -404,7 +404,7 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
 ///                       ^^^ keyword.operator.new.cs
 ///                           ^^^^^^^^ support.type.cs
 ///                                   ^^^^^^^^^^^^^^^^^^ meta.group.cs
-///                                                     ^ punctuation.terminator.case-expression.cs
+///                                                     ^ punctuation.separator.comma.cs
         _              => throw new ArgumentException(),
 ///     ^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///     ^ variable.language.anonymous.cs
@@ -415,7 +415,7 @@ public static RGBColor testSwitchExpressionEnumPatterns(Rainbow colorBand) =>
 ///                             ^^^ keyword.operator.new.cs
 ///                                 ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs support.type.cs
 ///                                                  ^^ meta.function-call.arguments.cs meta.group.cs
-///                                                    ^ punctuation.terminator.case-expression.cs
+///                                                    ^ punctuation.separator.comma.cs
     };
 ///^^ meta.block.cs
 /// ^ punctuation.section.block.end.cs
@@ -445,7 +445,7 @@ public static string testSwitchExpressionStringTuplePatterns(string first, strin
 ///                     ^ punctuation.section.sequence.end.cs
 ///                       ^^ punctuation.separator.case-expression.cs
 ///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
-///                                                                 ^ punctuation.terminator.case-expression.cs
+///                                                                 ^ punctuation.separator.comma.cs
         (_, _) => "tie"
 ///^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^ meta.case.pattern.cs meta.sequence.tuple.cs
@@ -479,7 +479,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///           ^^^^^^^^ variable.other.cs
 ///                   ^ punctuation.accessor.dot.cs
 ///                    ^^^^^^ variable.other.cs
-///                          ^ punctuation.terminator.case-expression.cs
+///                          ^ punctuation.separator.comma.cs
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
@@ -504,7 +504,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///                                   ^^^^^^^^ variable.other.cs
 ///                                           ^ punctuation.accessor.dot.cs
 ///                                            ^^^ variable.other.cs
-///                                               ^ punctuation.terminator.case-expression.cs
+///                                               ^ punctuation.separator.comma.cs
     var (_, _) => Quadrant.OnBorder,
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^ meta.case.pattern.cs
@@ -520,7 +520,7 @@ static Quadrant testSwitchExpressionNumberTuplePatterns(Point point) => point sw
 ///               ^^^^^^^^ variable.other.cs
 ///                       ^ punctuation.accessor.dot.cs
 ///                        ^^^^^^^^ variable.other.cs
-///                                ^ punctuation.terminator.case-expression.cs
+///                                ^ punctuation.separator.comma.cs
     _ => Quadrant.Unknown
 ///^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^ meta.case.pattern.cs

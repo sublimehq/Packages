@@ -2198,7 +2198,7 @@ contexts:
       scope: punctuation.section.block.end.cs
       pop: 1
     - match: ','
-      scope: punctuation.terminator.case-expression.cs
+      scope: punctuation.separator.comma.cs
       push:
         - switch-expression-case-pattern
         - expect-pattern

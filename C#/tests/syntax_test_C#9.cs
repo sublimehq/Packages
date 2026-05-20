@@ -81,7 +81,7 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 ///                                                             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                              ^ punctuation.section.brackets.end.cs
 ///                                                               ^ punctuation.section.group.end.cs
-///                                                                ^ punctuation.terminator.case-expression.cs
+///                                                                ^ punctuation.separator.comma.cs
 ///                                                                  ^^ meta.case.pattern.cs
 ///                                                                  ^ variable.language.anonymous.cs
 ///                                                                    ^^ meta.case.cs punctuation.separator.case-expression.cs
@@ -101,7 +101,7 @@ var message = myValue switch
 ///    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///      ^^ punctuation.separator.case-expression.cs
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
-///                                  ^ punctuation.terminator.case-expression.cs
+///                                  ^ punctuation.separator.comma.cs
     > 0 and <= 10 => "More than 0 but less than or equal to 10",
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -113,7 +113,7 @@ var message = myValue switch
 ///            ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///               ^^ punctuation.separator.case-expression.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
-///                                                            ^ punctuation.terminator.case-expression.cs
+///                                                            ^ punctuation.separator.comma.cs
     _ => "More than 10"
 ///^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 /// ^^ meta.case.pattern.cs
@@ -152,7 +152,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                               ^ punctuation.section.block.end.cs
 ///                                 ^^ punctuation.separator.case-expression.cs
 ///                                    ^^^^ constant.language.boolean.true.cs
-///                                        ^ punctuation.terminator.case-expression.cs
+///                                        ^ punctuation.separator.comma.cs
         { Status: BankStatus.VIPCustomersOnly } => isVip,
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -167,7 +167,7 @@ static bool testSwitchExpressionMemberPatterns(Bank bank, bool isVip)
 ///                                           ^ punctuation.section.block.end.cs
 ///                                             ^^ punctuation.separator.case-expression.cs
 ///                                                ^^^^^ variable.other.cs
-///                                                     ^ punctuation.terminator.case-expression.cs
+///                                                     ^ punctuation.separator.comma.cs
         { Status: { Foo: true }, Bar: var item } => false
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.cs
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -210,7 +210,7 @@ public class TollCalculator
 ///     ^^^ support.type.cs
 ///         ^ variable.other.cs
 ///                     ^^ punctuation.separator.case-expression.cs
-///                             ^ punctuation.terminator.case-expression.cs
+///                             ^ punctuation.separator.comma.cs
 
         Car {Passengers: 0} => 2.00m + 0.50m,
 ///     ^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -222,7 +222,7 @@ public class TollCalculator
 ///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                       ^ punctuation.section.block.end.cs
 ///                         ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                         ^ punctuation.terminator.case-expression.cs
+///                                         ^ punctuation.separator.comma.cs
 
         not Car {Passengers: > 0} => 2.00m + 0.50m,
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -236,7 +236,7 @@ public class TollCalculator
 ///                            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                             ^ punctuation.section.block.end.cs
 ///                               ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                               ^ punctuation.terminator.case-expression.cs
+///                                               ^ punctuation.separator.comma.cs
 
         Bus b when ((double)b.Riders / (double)b.Capacity) < 0.50 => 5.00m + 2.00m,
 ///     ^^^^^^ meta.case.pattern.cs
@@ -266,7 +266,7 @@ public class TollCalculator
 ///                                                        ^ keyword.operator.comparison.cs
 ///                                                          ^^^^ meta.number.float.decimal.cs constant.numeric.value.cs
 ///                                                               ^^ punctuation.separator.case-expression.cs
-///                                                                               ^ punctuation.terminator.case-expression.cs
+///                                                                               ^ punctuation.separator.comma.cs
 
         Plane b when ((var, int))b.Wheels == 3 => true,
 ///^^^^^^^^^^^^^ meta.case.pattern.cs
@@ -290,7 +290,7 @@ public class TollCalculator
 ///                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                            ^^ meta.case.cs punctuation.separator.case-expression.cs
 ///                                               ^^^^ constant.language.boolean.true.cs
-///                                                   ^ punctuation.terminator.case-expression.cs
+///                                                   ^ punctuation.separator.comma.cs
 ///                                                    ^ meta.case.pattern.cs
 
         Taxi t => 3.50m + (t.Fares) switch
@@ -318,7 +318,7 @@ public class TollCalculator
 ///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///           ^^ meta.case.cs punctuation.separator.case-expression.cs
 ///              ^^^^^ meta.number.float.decimal.cs
-///                   ^ punctuation.terminator.case-expression.cs
+///                   ^ punctuation.separator.comma.cs
             _ => -1.00m
 ///         ^^ meta.case.pattern.cs
 ///         ^ variable.language.anonymous.cs
@@ -327,7 +327,7 @@ public class TollCalculator
         },
 ///      ^ meta.block.cs - meta.case
 ///     ^ punctuation.section.block.end.cs
-///      ^ punctuation.terminator.case-expression.cs
+///      ^ punctuation.separator.comma.cs
 
         not { } => 2.4m,
 ///     ^^^^^^^^ meta.case.pattern.cs
@@ -336,7 +336,7 @@ public class TollCalculator
 ///         ^ punctuation.section.block.begin.cs
 ///           ^ punctuation.section.block.end.cs
 ///             ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                    ^ punctuation.terminator.case-expression.cs
+///                    ^ punctuation.separator.comma.cs
 
         { }             => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
 ///     ^^^^^^^^^^^^^^^^ meta.case.pattern.cs
