@@ -1587,13 +1587,17 @@ namespace TestNamespace . Test
     void testMisc()
     {
         int foo;
-        int.TryParse(input, out foo);
+        int.TryParse(input, out var);
 ///                         ^^^ storage.modifier.argument
-///                             ^^^ variable.other - support.type
+///                             ^^^ variable.other - storage.type - support.type
+        int.TryParse(input, out var foo /* comment */);
+///                         ^^^ storage.modifier.argument
+///                             ^^^ storage.type.variant.cs
+///                                 ^^^ variable.other - storage.type - support.type
         int.TryParse(input, out vec foo /* comment */);
 ///                         ^^^ storage.modifier.argument
 ///                             ^^^ support.type.cs
-///                                 ^^^ variable.other - support.type
+///                                 ^^^ variable.other - storage.type - support.type
 
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
@@ -2560,24 +2564,23 @@ class TestControlStatements
 ///                                                        ^ punctuation.section.block.begin.cs
 ///                                                         ^ punctuation.section.block.end.cs
 
-        for (count++; count > 0; count--) {}
+        for (var++; var > 0; var--) {}
 ///     ^^^ keyword.control.loop.for.cs
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///         ^ punctuation.section.group.begin.cs
-///          ^^^^^ variable.other.cs
-///               ^^ keyword.operator.arithmetic.cs
-///                 ^ punctuation.terminator.statement.cs
-///                   ^^^^^ variable.other.cs
-///                         ^ keyword.operator.comparison.cs
-///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                            ^ punctuation.terminator.statement.cs
-///                              ^^^^^ variable.other.cs
-///                                   ^^ keyword.operator.arithmetic.cs
-///                                     ^ punctuation.section.group.end.cs
-///                                       ^^ meta.block.cs
-///                                       ^ punctuation.section.block.begin.cs
-///                                        ^ punctuation.section.block.end.cs
-
+///          ^^^ variable.other.cs
+///             ^^ keyword.operator.arithmetic.cs
+///               ^ punctuation.terminator.statement.cs
+///                 ^^^ variable.other.cs
+///                     ^ keyword.operator.comparison.cs
+///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^ punctuation.terminator.statement.cs
+///                          ^^^ variable.other.cs
+///                             ^^ keyword.operator.arithmetic.cs
+///                               ^ punctuation.section.group.end.cs
+///                                 ^^ meta.block.cs
+///                                 ^ punctuation.section.block.begin.cs
+///                                  ^ punctuation.section.block.end.cs
     }
 
     public void testForeachLoops()
