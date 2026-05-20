@@ -2342,10 +2342,6 @@ contexts:
     - include: maybe-object-type
 
   maybe-object-type:
-    - include: object-type
-    - include: else-pop
-
-  object-type:
     - include: namespace-variables
     - match: (delegate)\s*(\*)
       captures:
@@ -2369,6 +2365,7 @@ contexts:
     - match: \[
       scope: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: inside-rank-specifier
+    - include: else-pop
 
   maybe-type-accessor:
     - match: \s*(\.)
