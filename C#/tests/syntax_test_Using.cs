@@ -74,7 +74,7 @@ using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 ///                                  ^^^^^^^ variable.namespace.cs
 ///                                         ^^^^^^^ meta.generic.cs
 ///                                         ^ punctuation.definition.generic.begin.cs
-///                                          ^^^^^ storage.type.cs
+///                                          ^^^^^ storage.type.primitive.cs
 ///                                               ^ punctuation.definition.generic.end.cs
 ///                                                ^ punctuation.terminator.statement.cs
 using col = global::System.Collections;
@@ -254,7 +254,7 @@ class Foo {
 ///     ^^^^^ keyword.declaration.fixed.cs
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///           ^ punctuation.section.group.begin.cs
-///            ^^^^^^ storage.type.cs
+///            ^^^^^^ storage.type.primitive.cs
 ///                  ^ keyword.operator.pointer.cs
 ///                    ^^^^ variable.other.cs
 ///                         ^ keyword.operator.assignment.cs

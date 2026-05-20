@@ -70,7 +70,7 @@ var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };
 ///                                      ^^^^^ meta.case.pattern.cs
 ///                                      ^^^^ constant.language.boolean.true.cs
 ///                                           ^^ meta.case.cs punctuation.separator.case-expression.cs
-///                                              ^^^ storage.type.cs
+///                                              ^^^ storage.type.primitive.cs
 ///                                                 ^ punctuation.accessor.dot.cs
 ///                                                  ^^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                                                       ^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
@@ -249,7 +249,7 @@ public class TollCalculator
 ///                ^ punctuation.section.group.begin.cs
 ///                 ^^^^^^^^ meta.cast.cs meta.group.cs
 ///                 ^ punctuation.section.group.begin.cs
-///                  ^^^^^^ storage.type.cs
+///                  ^^^^^^ storage.type.primitive.cs
 ///                        ^ punctuation.section.group.end.cs
 ///                         ^ variable.other.cs
 ///                          ^ punctuation.accessor.dot.cs
@@ -257,7 +257,7 @@ public class TollCalculator
 ///                                  ^ keyword.operator.arithmetic.cs
 ///                                    ^^^^^^^^ meta.cast.cs meta.group.cs
 ///                                    ^ punctuation.section.group.begin.cs
-///                                     ^^^^^^ storage.type.cs
+///                                     ^^^^^^ storage.type.primitive.cs
 ///                                           ^ punctuation.section.group.end.cs
 ///                                            ^ variable.other.cs
 ///                                             ^ punctuation.accessor.dot.cs
@@ -280,7 +280,7 @@ public class TollCalculator
 ///                   ^ punctuation.section.sequence.begin.cs
 ///                    ^^^ storage.type.variant.cs
 ///                       ^ punctuation.separator.comma.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                            ^ punctuation.section.sequence.end.cs
 ///                             ^ punctuation.section.group.end.cs
 ///                              ^ variable.other.cs
@@ -462,7 +462,7 @@ if (e is var (int i, k)) { }
 ///      ^^^ storage.type.variant.cs
 ///          ^^^^^^^^^^ meta.sequence.tuple.cs
 ///          ^ punctuation.section.sequence.begin.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.primitive.cs
 ///               ^ variable.other.cs
 ///                ^ punctuation.separator.comma.cs
 ///                  ^ variable.other.cs
@@ -476,7 +476,7 @@ if (e is (int i, k)) { }
 ///   ^^ keyword.operator.comparison.type.cs
 ///      ^^^^^^^^^^ meta.sequence.tuple.cs
 ///      ^ punctuation.section.sequence.begin.cs
-///       ^^^ storage.type.cs
+///       ^^^ storage.type.primitive.cs
 ///           ^ variable.other.cs
 ///            ^ punctuation.separator.comma.cs
 ///              ^ variable.other.cs
@@ -526,7 +526,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///                              ^^^^^ storage.modifier.where.cs
 ///                                    ^^^^ support.type.cs
 ///                                         ^ punctuation.separator.colon.cs
-///                                           ^^^^^ storage.type.cs
+///                                           ^^^^^ storage.type.primitive.cs
 ///                                                ^ punctuation.terminator.statement.cs
 public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
 ///^^^ storage.modifier.access.cs
@@ -547,12 +547,12 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///                              ^^^^^ storage.modifier.where.cs
 ///                                    ^^^^ support.type.cs
 ///                                         ^ punctuation.separator.colon.cs
-///                                           ^^^^^ storage.type.cs
+///                                           ^^^^^ storage.type.primitive.cs
 ///                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.body.cs meta.block.cs
 ///                                                 ^ punctuation.section.block.begin.cs
 ///                                                   ^^^^^^ storage.modifier.access.cs
 ///                                                          ^^^^^ storage.modifier.cs
-///                                                                ^^^ storage.type.cs
+///                                                                ^^^ storage.type.primitive.cs
 ///                                                                    ^^^^ variable.other.member.cs
 ///                                                                         ^ keyword.operator.assignment.cs
 ///                                                                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -660,17 +660,17 @@ delegate*<delegate*<string, int>, delegate*<string, int>>;
 ///       ^^^^^^^^ keyword.declaration.delegate.cs
 ///               ^ keyword.operator.pointer.cs
 ///                ^ punctuation.definition.generic.begin.cs
-///                 ^^^^^^ storage.type.cs
+///                 ^^^^^^ storage.type.primitive.cs
 ///                       ^ punctuation.separator.comma.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                            ^ punctuation.definition.generic.end.cs
 ///                             ^ punctuation.separator.comma.cs
 ///                               ^^^^^^^^ keyword.declaration.delegate.cs
 ///                                       ^ keyword.operator.pointer.cs
 ///                                        ^ punctuation.definition.generic.begin.cs
-///                                         ^^^^^^ storage.type.cs
+///                                         ^^^^^^ storage.type.primitive.cs
 ///                                               ^ punctuation.separator.comma.cs
-///                                                 ^^^ storage.type.cs
+///                                                 ^^^ storage.type.primitive.cs
 ///                                                    ^ punctuation.definition.generic.end.cs
 ///                                                     ^ punctuation.definition.generic.end.cs
 ///                                                      ^ punctuation.terminator.statement.cs
@@ -685,9 +685,9 @@ delegate* managed<int, int>;
 ///       ^^^^^^^ storage.modifier.delegate.cs
 ///              ^^^^^^^^^^ meta.generic.cs
 ///              ^ punctuation.definition.generic.begin.cs
-///               ^^^ storage.type.cs
+///               ^^^ storage.type.primitive.cs
 ///                  ^ punctuation.separator.comma.cs
-///                    ^^^ storage.type.cs
+///                    ^^^ storage.type.primitive.cs
 ///                       ^ punctuation.definition.generic.end.cs
 ///                        ^ punctuation.terminator.statement.cs
 
@@ -702,9 +702,9 @@ delegate* unmanaged<int, int>;
 ///       ^^^^^^^^^ storage.modifier.delegate.cs
 ///                ^^^^^^^^^^ meta.generic.cs
 ///                ^ punctuation.definition.generic.begin.cs
-///                 ^^^ storage.type.cs
+///                 ^^^ storage.type.primitive.cs
 ///                    ^ punctuation.separator.comma.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.primitive.cs
 ///                         ^ punctuation.definition.generic.end.cs
 ///                          ^ punctuation.terminator.statement.cs
 
@@ -723,9 +723,9 @@ delegate* unmanaged[Cdecl] <int, int>;
 ///                      ^ punctuation.section.brackets.end.cs
 ///                        ^^^^^^^^^^ meta.generic.cs
 ///                        ^ punctuation.definition.generic.begin.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                            ^ punctuation.separator.comma.cs
-///                              ^^^ storage.type.cs
+///                              ^^^ storage.type.primitive.cs
 ///                                 ^ punctuation.definition.generic.end.cs
 ///                                  ^ punctuation.terminator.statement.cs
 
@@ -748,14 +748,14 @@ delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly re
 ///                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
 ///                                                ^ punctuation.definition.generic.begin.cs
 ///                                                 ^^ storage.modifier.cs
-///                                                    ^^^ storage.type.cs
+///                                                    ^^^ storage.type.primitive.cs
 ///                                                       ^ punctuation.separator.comma.cs
 ///                                                         ^^^ storage.modifier.cs
-///                                                             ^^^ storage.type.cs
+///                                                             ^^^ storage.type.primitive.cs
 ///                                                                ^ punctuation.separator.comma.cs
 ///                                                                  ^^^^^^^^ storage.modifier.cs
 ///                                                                           ^^^ storage.modifier.cs
-///                                                                               ^^^^ storage.type.cs
+///                                                                               ^^^^ storage.type.primitive.cs
 ///                                                                                   ^ punctuation.definition.generic.end.cs
 ///                                                                                    ^ punctuation.terminator.statement.cs
 
@@ -790,12 +790,12 @@ delegate*
         in int,
 ///^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs
 ///     ^^ storage.modifier.cs
-///        ^^^ storage.type.cs
+///        ^^^ storage.type.primitive.cs
 ///           ^ punctuation.separator.comma.cs
         out int
 ///^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs
 ///     ^^^ storage.modifier.cs
-///         ^^^ storage.type.cs
+///         ^^^ storage.type.primitive.cs
     >;
 ///^^ meta.type.funcptr.cs meta.generic.cs
 /// ^ punctuation.definition.generic.end.cs
@@ -810,9 +810,9 @@ unsafe class TestFunctionPointers {
 ///                               ^ keyword.operator.pointer.cs
 ///                                ^^^^^^^^^^^ meta.generic.cs
 ///                                ^ punctuation.definition.generic.begin.cs
-///                                 ^^^ storage.type.cs
+///                                 ^^^ storage.type.primitive.cs
 ///                                    ^ punctuation.separator.comma.cs
-///                                      ^^^^ storage.type.cs
+///                                      ^^^^ storage.type.primitive.cs
 ///                                          ^ punctuation.definition.generic.end.cs
 ///                                            ^ variable.parameter.cs
 ///                                             ^ punctuation.section.parameters.end.cs
@@ -823,11 +823,11 @@ unsafe class TestFunctionPointers {
 ///             ^ keyword.operator.pointer.cs
 ///              ^^^^^^^^^^^^^^^ meta.generic.cs
 ///              ^ punctuation.definition.generic.begin.cs
-///               ^^^ storage.type.cs
+///               ^^^ storage.type.primitive.cs
 ///                  ^ punctuation.separator.comma.cs
-///                    ^^^ storage.type.cs
+///                    ^^^ storage.type.primitive.cs
 ///                       ^ punctuation.separator.comma.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                            ^ punctuation.definition.generic.end.cs
 ///                              ^^ variable.other.cs
 ///                                 ^ keyword.operator.assignment.cs
@@ -845,11 +845,11 @@ unsafe class TestFunctionPointers {
 ///               ^^^^^^^ storage.modifier.delegate.cs
 ///                      ^^^^^^^^^^^^^^^ meta.generic.cs
 ///                      ^ punctuation.definition.generic.begin.cs
-///                       ^^^ storage.type.cs
+///                       ^^^ storage.type.primitive.cs
 ///                          ^ punctuation.separator.comma.cs
-///                            ^^^ storage.type.cs
+///                            ^^^ storage.type.primitive.cs
 ///                               ^ punctuation.separator.comma.cs
-///                                 ^^^ storage.type.cs
+///                                 ^^^ storage.type.primitive.cs
 ///                                    ^ punctuation.definition.generic.end.cs
 ///                                      ^^ variable.other.cs
 ///                                         ^ keyword.operator.assignment.cs
@@ -867,11 +867,11 @@ unsafe class TestFunctionPointers {
 ///               ^^^^^^^^^ storage.modifier.delegate.cs
 ///                        ^^^^^^^^^^^^^^^ meta.generic.cs
 ///                        ^ punctuation.definition.generic.begin.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                            ^ punctuation.separator.comma.cs
-///                              ^^^ storage.type.cs
+///                              ^^^ storage.type.primitive.cs
 ///                                 ^ punctuation.separator.comma.cs
-///                                   ^^^ storage.type.cs
+///                                   ^^^ storage.type.primitive.cs
 ///                                      ^ punctuation.definition.generic.end.cs
 ///                                        ^^ variable.other.cs
 ///                                           ^ keyword.operator.assignment.cs
@@ -893,7 +893,7 @@ unsafe class TestFunctionPointers {
 ///                          ^ keyword.operator.pointer.cs
 ///                           ^^^^^^ meta.generic.cs
 ///                           ^ punctuation.definition.generic.begin.cs
-///                            ^^^^ storage.type.cs
+///                            ^^^^ storage.type.primitive.cs
 ///                                ^ punctuation.definition.generic.end.cs
 ///                                  ^^^^^^^^ variable.parameter.cs
 ///                                          ^ punctuation.section.parameters.end.cs
@@ -906,7 +906,7 @@ unsafe class TestFunctionPointers {
 ///                          ^ keyword.operator.pointer.cs
 ///                            ^^^^^^ meta.generic.cs
 ///                            ^ punctuation.definition.generic.begin.cs
-///                             ^^^^ storage.type.cs
+///                             ^^^^ storage.type.primitive.cs
 ///                                 ^ punctuation.definition.generic.end.cs
 ///                                   ^^^^^^^^ variable.parameter.cs
 ///                                           ^ punctuation.section.parameters.end.cs
@@ -921,7 +921,7 @@ unsafe class TestFunctionPointers {
 ///                            ^^^^^^^^^ storage.modifier.delegate.cs
 ///                                     ^^^^^^ meta.generic.cs
 ///                                     ^ punctuation.definition.generic.begin.cs
-///                                      ^^^^ storage.type.cs
+///                                      ^^^^ storage.type.primitive.cs
 ///                                          ^ punctuation.definition.generic.end.cs
 ///                                            ^^^^^^^^ variable.parameter.cs
 ///                                                    ^ punctuation.section.parameters.end.cs
@@ -935,7 +935,7 @@ unsafe class TestFunctionPointers {
 /// ^^^^^^^^ keyword.declaration.delegate.cs
 ///         ^ keyword.operator.pointer.cs
 ///          ^ punctuation.definition.generic.begin.cs
-///           ^^^^ storage.type.cs
+///           ^^^^ storage.type.primitive.cs
 ///               ^ punctuation.definition.generic.end.cs
 ///                 ^^^^ variable.other.member.cs
 ///                     ^ punctuation.terminator.statement.cs
@@ -953,7 +953,7 @@ unsafe class TestFunctionPointers {
 ///                              ^ keyword.operator.pointer.cs
 ///                               ^^^^^^ meta.generic.cs
 ///                               ^ punctuation.definition.generic.begin.cs
-///                                ^^^^ storage.type.cs
+///                                ^^^^ storage.type.primitive.cs
 ///                                    ^ punctuation.definition.generic.end.cs
 ///                                      ^^^ variable.parameter.cs
 ///                                         ^ punctuation.section.parameters.end.cs
@@ -965,7 +965,7 @@ unsafe class TestFunctionPointers {
 
     public void Invoke() => _ptr();
 /// ^^^^^^ storage.modifier.access.cs
-///        ^^^^ storage.type.cs
+///        ^^^^ storage.type.primitive.cs
 ///             ^^^^^^ entity.name.function.cs
 ///                   ^^ meta.method.parameters.cs
 ///                   ^ punctuation.section.parameters.begin.cs

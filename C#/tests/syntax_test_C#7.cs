@@ -359,7 +359,7 @@ class Foo {
 ///               ^ punctuation.section.sequence.begin.cs
 ///                ^^^^ variable.language.this.cs
 ///                     ^^ keyword.operator.cast.cs
-///                        ^^^^^^ storage.type.cs
+///                        ^^^^^^ storage.type.primitive.cs
 ///                              ^ punctuation.separator.comma.cs
 ///                                ^^^^^ variable.other.cs
 ///                                     ^ punctuation.section.sequence.end.cs
@@ -408,7 +408,7 @@ class Foo {
 ///                          ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                          ^ punctuation.section.parameters.begin.cs
 ///                           ^^ storage.modifier.parameter.cs
-///                              ^^^ storage.type.cs
+///                              ^^^ storage.type.primitive.cs
 ///                                  ^ variable.parameter.cs
 ///                                   ^ punctuation.separator.comma.cs
 ///                                     ^^ storage.modifier.parameter.cs
@@ -438,7 +438,7 @@ class Foo {
 ///                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                              ^ punctuation.section.parameters.begin.cs
 ///                               ^^ storage.modifier.parameter.cs
-///                                  ^^^ storage.type.cs
+///                                  ^^^ storage.type.primitive.cs
 ///                                      ^ variable.parameter.cs
 ///                                       ^ punctuation.separator.comma.cs
 ///                                         ^^ storage.modifier.parameter.cs
@@ -546,14 +546,14 @@ class Foo {
 ///                                             ^^^^^^ - meta.sequence
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ punctuation.section.sequence.begin.cs
-///       ^^^ storage.type.cs
+///       ^^^ storage.type.primitive.cs
 ///          ^ punctuation.separator.comma.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.primitive.cs
 ///               ^ punctuation.section.sequence.end.cs
 ///                 ^^^^ variable.other.cs
 ///                     ^ punctuation.separator.comma.cs
 ///                       ^ punctuation.section.sequence.begin.cs
-///                        ^^^ storage.type.cs
+///                        ^^^ storage.type.primitive.cs
 ///                            ^^^^ variable.other.cs
 ///                                ^ punctuation.separator.comma.cs
 ///                                  ^^^^ support.type.cs
@@ -573,14 +573,14 @@ class Foo {
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^^^^^^^ meta.sequence.tuple.cs
 ///      ^ punctuation.section.sequence.begin.cs
-///       ^^^ storage.type.cs
+///       ^^^ storage.type.primitive.cs
 ///          ^ punctuation.separator.comma.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.primitive.cs
 ///               ^ punctuation.section.sequence.end.cs
 ///                 ^^^^ variable.other.cs
 ///                     ^ punctuation.separator.comma.cs
 ///                       ^ punctuation.section.sequence.begin.cs
-///                        ^^^ storage.type.cs
+///                        ^^^ storage.type.primitive.cs
 ///                            ^^^^ variable.other.cs
 ///                                ^ punctuation.separator.comma.cs
 ///                                  ^^^^ support.type.cs
@@ -596,7 +596,7 @@ class Foo {
         (string Alpha, MyString Beta) namedLetters = ("a", "b");
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///     ^ punctuation.section.sequence.begin.cs
-///      ^^^^^^ storage.type.cs
+///      ^^^^^^ storage.type.primitive.cs
 ///             ^^^^^ variable.other.cs
 ///                  ^ punctuation.separator.comma.cs
 ///                    ^^^^^^^^ support.type.cs
@@ -619,7 +619,7 @@ class Foo {
         (
 ///     ^ meta.sequence.tuple punctuation.section.sequence.begin
             string Alpha,
-///         ^^^^^^ storage.type.cs
+///         ^^^^^^ storage.type.primitive.cs
 ///                ^^^^^ variable.other.cs
 ///                     ^ punctuation.separator.comma.cs
             MyString Beta
@@ -654,7 +654,7 @@ class Foo {
 ///                        ^^^^^^^^ support.type.cs
 ///                                ^^^^^ meta.generic.cs
 ///                                ^ punctuation.definition.generic.begin.cs
-///                                 ^^^ storage.type.cs
+///                                 ^^^ storage.type.primitive.cs
 ///                                    ^ punctuation.definition.generic.end.cs
 ///                                      ^^^^ variable.other.cs
 ///                                          ^ punctuation.section.sequence.end.cs
@@ -673,15 +673,15 @@ class Foo {
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^^^^ support.type.cs
 ///          ^ punctuation.separator.comma.cs
-///            ^^^ storage.type.cs
+///            ^^^ storage.type.primitive.cs
 ///               ^ punctuation.separator.comma.cs
-///                 ^^^^^^ storage.type.cs
+///                 ^^^^^^ storage.type.primitive.cs
 ///                        ^^^^ variable.other.cs
 ///                            ^ punctuation.section.sequence.end.cs
 ///                              ^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
 ///                                           ^^^^^^^^^^^^^ meta.method.parameters.cs
 ///                                           ^ punctuation.section.parameters.begin.cs
-///                                            ^^^^^^ storage.type.cs
+///                                            ^^^^^^ storage.type.primitive.cs
 ///                                                   ^^^^ variable.parameter.cs
 ///                                                       ^ punctuation.section.parameters.end.cs
 ///                                                        ^ punctuation.terminator.statement.cs
@@ -735,7 +735,7 @@ class Foo {
 ///          ^ punctuation.separator.comma.cs
 ///            ^ variable.language.anonymous.cs
 ///             ^ punctuation.separator.comma.cs
-///               ^^^^^^ storage.type.cs
+///               ^^^^^^ storage.type.primitive.cs
 ///                      ^^^^ variable.other.cs
 ///                          ^ punctuation.section.sequence.end.cs
 
@@ -755,9 +755,9 @@ class Foo {
 ///      ^^^^ support.type.cs
 ///          ^^^^^^^^^^ meta.generic.cs
 ///          ^ punctuation.definition.generic.begin.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.primitive.cs
 ///              ^ punctuation.separator.comma.cs
-///                ^^^ storage.type.cs
+///                ^^^ storage.type.primitive.cs
 ///                   ^ punctuation.definition.generic.end.cs
 ///                     ^^^^^ variable.other.cs
 ///                          ^ punctuation.separator.comma.cs
@@ -769,7 +769,7 @@ class Foo {
 ///                                         ^ punctuation.section.sequence.begin.cs
 ///                                          ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 ///                                          ^ punctuation.section.group.begin.cs
-///                                           ^^^ storage.type.cs
+///                                           ^^^ storage.type.primitive.cs
 ///                                               ^ variable.parameter.cs
 ///                                                ^ punctuation.section.group.end.cs
 ///                                                 ^^^^ meta.function.anonymous.cs
@@ -794,7 +794,7 @@ class Foo {
 ///                ^^^^^^^^^^^^^^ meta.sequence.tuple.cs - meta.sequence meta.sequence - meta group
 ///     ^ punctuation.section.sequence.begin.cs
 ///      ^ punctuation.section.sequence.begin.cs
-///       ^^^ storage.type.cs
+///       ^^^ storage.type.primitive.cs
 ///          ^ punctuation.separator.comma.cs
 ///            ^^^ storage.type.variant.cs
 ///               ^ punctuation.section.sequence.end.cs
@@ -896,7 +896,7 @@ class Foo {
 ///               ^^^ storage.type.variant.cs
 ///                   ^ variable.other.cs
 ///                    ^ punctuation.separator.comma.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.primitive.cs
 ///                          ^ variable.other.cs
 ///                           ^ punctuation.section.sequence.end.cs
 ///                             ^^ keyword.control.loop.in.cs
@@ -911,10 +911,10 @@ class Foo {
 ///         ^^^^^^ storage.modifier.cs
 ///                ^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                ^ punctuation.section.sequence.begin.cs
-///                 ^^^ storage.type.cs
+///                 ^^^ storage.type.primitive.cs
 ///                     ^^^ variable.other.cs
 ///                        ^ punctuation.separator.comma.cs
-///                          ^^^ storage.type.cs
+///                          ^^^ storage.type.primitive.cs
 ///                              ^^^ variable.other.cs
 ///                                 ^ punctuation.section.sequence.end.cs
 ///                                   ^^^^^ meta.method.cs
@@ -924,7 +924,7 @@ class Foo {
 ///                                         ^^^^^^^^^^^ support.type.cs
 ///                                                    ^^^^^ meta.generic.cs
 ///                                                    ^ punctuation.definition.generic.begin.cs
-///                                                     ^^^ storage.type.cs
+///                                                     ^^^ storage.type.primitive.cs
 ///                                                        ^ punctuation.definition.generic.end.cs
 ///                                                          ^^^^^^^ variable.parameter.cs
 ///                                                                 ^ punctuation.section.parameters.end.cs
@@ -959,14 +959,14 @@ class Foo {
 ///     ^^^^ support.type.cs
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
 ///         ^ punctuation.definition.generic.begin.cs
-///          ^^^^^^ storage.type.cs
+///          ^^^^^^ storage.type.primitive.cs
 ///                ^ punctuation.separator.comma.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                  ^ punctuation.section.sequence.begin.cs
-///                   ^^^^^^ storage.type.cs
+///                   ^^^^^^ storage.type.primitive.cs
 ///                          ^^^^^^^^ variable.other.cs
 ///                                  ^ punctuation.separator.comma.cs
-///                                    ^^^ storage.type.cs
+///                                    ^^^ storage.type.primitive.cs
 ///                                        ^^^^^^^^ variable.other.cs
 ///                                                ^ punctuation.section.sequence.end.cs
 ///                                                 ^ punctuation.definition.generic.end.cs
@@ -997,20 +997,20 @@ class Foo {
 ///                    ^ punctuation.section.parameters.begin.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                     ^ punctuation.section.sequence.begin.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.primitive.cs
 ///                          ^^^ variable.other.cs
 ///                             ^ punctuation.separator.comma.cs
-///                               ^^^^^ storage.type.cs
+///                               ^^^^^ storage.type.primitive.cs
 ///                                     ^^^ variable.other.cs
 ///                                        ^ punctuation.section.sequence.end.cs
 ///                                          ^^^ variable.parameter.cs
 ///                                             ^ punctuation.separator.comma.cs
 ///                                               ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                               ^ punctuation.section.sequence.begin.cs
-///                                                ^^^ storage.type.cs
+///                                                ^^^ storage.type.primitive.cs
 ///                                                    ^^^ variable.other.cs
 ///                                                       ^ punctuation.separator.comma.cs
-///                                                         ^^^^^^ storage.type.cs
+///                                                         ^^^^^^ storage.type.primitive.cs
 ///                                                                ^^^ variable.other.cs
 ///                                                                   ^ punctuation.section.sequence.end.cs
 ///                                                                     ^^^^^^^^ variable.parameter.cs
@@ -1021,17 +1021,17 @@ class Foo {
 ///                    ^ punctuation.section.parameters.begin.cs
 ///                     ^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                     ^ punctuation.section.sequence.begin.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.primitive.cs
 ///                          ^ punctuation.separator.comma.cs
-///                            ^^^^^ storage.type.cs
+///                            ^^^^^ storage.type.primitive.cs
 ///                                  ^ punctuation.section.sequence.end.cs
 ///                                    ^^^ variable.parameter.cs
 ///                                       ^ punctuation.separator.comma.cs
 ///                                         ^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                         ^ punctuation.section.sequence.begin.cs
-///                                          ^^^ storage.type.cs
+///                                          ^^^ storage.type.primitive.cs
 ///                                             ^ punctuation.separator.comma.cs
-///                                               ^^^^^^ storage.type.cs
+///                                               ^^^^^^ storage.type.primitive.cs
 ///                                                     ^ punctuation.section.sequence.end.cs
 ///                                                       ^^^^^^^^ variable.parameter.cs
 ///                                                               ^ punctuation.section.parameters.end.cs
@@ -1041,10 +1041,10 @@ class Foo {
 /// ^^^^^^^^ keyword.declaration.delegate.cs
 ///          ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///          ^ punctuation.section.sequence.begin.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.primitive.cs
 ///               ^^^ variable.other.cs
 ///                  ^ punctuation.separator.comma.cs
-///                    ^^^^^^ storage.type.cs
+///                    ^^^^^^ storage.type.primitive.cs
 ///                           ^^^ variable.other.cs
 ///                              ^ punctuation.section.sequence.end.cs
 ///                                ^^^^^^^^ entity.name.type.delegate.cs
@@ -1052,10 +1052,10 @@ class Foo {
 ///                                        ^ punctuation.section.parameters.begin.cs
 ///                                         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                         ^ punctuation.section.sequence.begin.cs
-///                                          ^^^ storage.type.cs
+///                                          ^^^ storage.type.primitive.cs
 ///                                              ^^^ variable.other.cs
 ///                                                 ^ punctuation.separator.comma.cs
-///                                                   ^^^^^^ storage.type.cs
+///                                                   ^^^^^^ storage.type.primitive.cs
 ///                                                          ^^^ variable.other.cs
 ///                                                             ^ punctuation.section.sequence.end.cs
 ///                                                               ^^^ variable.parameter.cs
@@ -1147,7 +1147,7 @@ Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
 ///                             ^ keyword.operator.ternary.cs
 ///                               ^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                               ^^^ keyword.operator.new.cs
-///                                   ^^^^ storage.type.cs
+///                                   ^^^^ storage.type.primitive.cs
 ///                                       ^^^^^^^^ meta.brackets.cs
 ///                                       ^ punctuation.section.brackets.begin.cs
 ///                                        ^^^^^^ variable.other.cs
@@ -1155,7 +1155,7 @@ Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
 ///                                                ^ keyword.operator.ternary.cs
 ///                                                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///                                                  ^^^^^^^^^^ keyword.operator.stackalloc.cs
-///                                                             ^^^^ storage.type.cs
+///                                                             ^^^^ storage.type.primitive.cs
 ///                                                                 ^^^^^^^^ meta.brackets.cs
 ///                                                                 ^ punctuation.section.brackets.begin.cs
 ///                                                                  ^^^^^^ variable.other.cs
@@ -1264,10 +1264,10 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                    ^^^ meta.method.cs
 ///                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs
 ///              ^ punctuation.section.parameters.begin.cs
-///               ^^^^^^ storage.type.cs
+///               ^^^^^^ storage.type.primitive.cs
 ///                      ^^^^ variable.parameter.cs
 ///                          ^ punctuation.separator.comma.cs
-///                            ^^^ storage.type.cs
+///                            ^^^ storage.type.primitive.cs
 ///                                ^^^ variable.parameter.cs
 ///                                   ^ punctuation.section.parameters.end.cs
 ///                                     ^^ keyword.declaration.function.arrow.cs

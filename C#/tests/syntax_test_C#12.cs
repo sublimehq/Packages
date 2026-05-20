@@ -8,7 +8,7 @@ using MyTuple = (float x, vec3 y);
 ///           ^ keyword.operator.assignment.cs
 ///             ^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///             ^ punctuation.section.sequence.begin.cs
-///              ^^^^^ storage.type.cs
+///              ^^^^^ storage.type.primitive.cs
 ///                    ^ variable.other.cs
 ///                     ^ punctuation.separator.comma.cs
 ///                       ^^^^ support.type.cs
@@ -23,7 +23,7 @@ public class InvalidException(string _message) : Exception(_message);
 ///          ^^^^^^^^^^^^^^^^ entity.name.class.cs
 ///                          ^^^^^^^^^^^^^^^^^ meta.class.parameters.cs
 ///                          ^ punctuation.section.parameters.begin.cs
-///                           ^^^^^^ storage.type.cs
+///                           ^^^^^^ storage.type.primitive.cs
 ///                                  ^^^^^^^^ variable.parameter.cs
 ///                                          ^ punctuation.section.parameters.end.cs
 ///                                           ^ meta.class.cs
@@ -49,7 +49,7 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                          ^ punctuation.definition.generic.end.cs
 ///                           ^^^^^^^^^^^^^^^ meta.class.parameters.cs
 ///                           ^ punctuation.section.parameters.begin.cs
-///                            ^^^^^^ storage.type.cs
+///                            ^^^^^^ storage.type.primitive.cs
 ///                                  ^^ meta.brackets.cs
 ///                                  ^ punctuation.section.brackets.begin.cs
 ///                                   ^ punctuation.section.brackets.end.cs
@@ -75,7 +75,7 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                                                                     ^^^^^ storage.modifier.where.cs
 ///                                                                           ^^ support.type.cs
 ///                                                                              ^ punctuation.separator.colon.cs
-///                                                                                ^^^^^ storage.type.cs
+///                                                                                ^^^^^ storage.type.primitive.cs
 ///                                                                                     ^^^^ meta.generic.cs
 ///                                                                                     ^ punctuation.definition.generic.begin.cs
 ///                                                                                      ^^ support.type.cs

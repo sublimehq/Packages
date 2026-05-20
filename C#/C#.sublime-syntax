@@ -209,7 +209,7 @@ contexts:
         - regex-string
     - include: namespace-variables
     - match: '{{base_type}}'
-      scope: variable.annotation.cs storage.type.cs
+      scope: variable.annotation.cs storage.type.primitive.cs
       push:
         - type-suffix
         - type-argument-list
@@ -614,7 +614,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.enum.base.cs
     - match: (?:byte|sbyte|short|ushort|int|uint|nint|nuint|long|ulong)\b
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       pop: 1
     - match: '{{base_type}}'
       scope: invalid.illegal.type.cs
@@ -840,7 +840,7 @@ contexts:
 
   primary-type-constraint:
     - match: (?:class|struct|unmanaged)\b
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       set:
         - type-suffix
         - type-argument-list
@@ -1284,7 +1284,7 @@ contexts:
         - assignment-expression
         - var-declarator
     - match: '{{base_type}}'
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       push:
         - local-declarator
         - type-suffix
@@ -2284,7 +2284,7 @@ contexts:
       scope: storage.type.variant.cs
       pop: 1
     - match: '{{base_type}}'
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       set:
         - maybe-member-pattern
         - maybe-member-access
@@ -2336,7 +2336,7 @@ contexts:
 
   base-types:
     - match: '{{base_type}}'
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       push:
         - type-suffix
         - type-argument-list
@@ -2360,7 +2360,7 @@ contexts:
         - type-argument-list
         - funcptr-type-modifier
     - match: '{{base_type}}'
-      scope: storage.type.cs
+      scope: storage.type.primitive.cs
       set:
         - type-suffix
         - type-argument-list

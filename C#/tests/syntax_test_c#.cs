@@ -329,7 +329,7 @@ public interface IObjectRepository
 {
     bool CanGetObjects(IGetObjectsRequest request);
     dynamic GetObjects(IGetObjectsRequest request);
-//  ^^^^^^^ storage.type.cs
+//  ^^^^^^^ storage.type.primitive.cs
 //          ^^^^^^^^^^ entity.name.function
 //                                                ^ punctuation.terminator
 }

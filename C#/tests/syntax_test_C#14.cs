@@ -8,7 +8,7 @@ public static class MyExtensions
 //  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
 //           ^^^^^^^^^^^^ meta.extension.parameters.cs
 //           ^ punctuation.section.parameters.begin.cs
-//            ^^^^^^ storage.type.cs
+//            ^^^^^^ storage.type.primitive.cs
 //                   ^^^ variable.parameter.cs
 //                      ^ punctuation.section.parameters.end.cs
     {
@@ -18,7 +18,7 @@ public static class MyExtensions
         public int WordCount() =>
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
-//             ^^^ storage.type.cs
+//             ^^^ storage.type.primitive.cs
 //                 ^^^^^^^^^ meta.method.cs entity.name.function.cs
 //                          ^^ meta.method.parameters.cs
 //                          ^ punctuation.section.parameters.begin.cs
@@ -44,7 +44,7 @@ public static class IntExtensions
 //           ^^^^^^^^^^^^^^^^ meta.extension.parameters.cs
 //           ^ punctuation.section.parameters.begin.cs
 //            ^^^ storage.modifier.parameter.cs
-//                ^^^ storage.type.cs
+//                ^^^ storage.type.primitive.cs
 //                    ^^^^^^ variable.parameter.cs
 //                          ^ punctuation.section.parameters.end.cs
     {
@@ -101,7 +101,7 @@ public static class EnumerableExtensions
 //                           ^^^ meta.method.cs
 //                              ^^^^^^^^^^^^^^ meta.method.body.cs
 //      ^^^^^^ storage.modifier.access.cs
-//             ^^^^ storage.type.cs
+//             ^^^^ storage.type.primitive.cs
 //                  ^^^^^^^ entity.name.function.cs
 //                         ^^ meta.method.parameters.cs
 //                         ^ punctuation.section.parameters.begin.cs
@@ -166,7 +166,7 @@ public static class EnumExtensions
 // <- - meta.property
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //      ^^^^^^ storage.modifier.access.cs
-//             ^^^^ storage.type.cs
+//             ^^^^ storage.type.primitive.cs
 //                  ^^^^^^^ variable.other.member.cs
 //                          ^^ keyword.declaration.function.accessor.get.cs
 //                             ^^^^^ variable.other.cs
@@ -185,7 +185,7 @@ public static class EnumExtensions
 delegate bool TryParse<T>(string text, out T result);
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.cs
 //^^^^^^ keyword.declaration.delegate.cs
-//       ^^^^ storage.type.cs
+//       ^^^^ storage.type.primitive.cs
 //            ^^^^^^^^ entity.name.type.delegate.cs
 //                    ^^^ meta.generic.cs
 //                    ^ punctuation.definition.generic.begin.cs
@@ -193,7 +193,7 @@ delegate bool TryParse<T>(string text, out T result);
 //                      ^ meta.delegate.cs meta.generic.cs punctuation.definition.generic.end.cs
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs
 //                       ^ punctuation.section.parameters.begin.cs
-//                        ^^^^^^ storage.type.cs
+//                        ^^^^^^ storage.type.primitive.cs
 //                               ^^^^ variable.parameter.cs
 //                                   ^ punctuation.separator.comma.cs
 //                                     ^^^ storage.modifier.parameter.cs
@@ -206,17 +206,17 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //^^^^^^ support.type.cs
 //      ^^^^^ meta.generic.cs
 //      ^ punctuation.definition.generic.begin.cs
-//       ^^^ storage.type.cs
+//       ^^^ storage.type.primitive.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
-//                      ^^^^^^ storage.type.cs
+//                      ^^^^^^ storage.type.primitive.cs
 //                             ^^^^ variable.parameter.cs
 //                                 ^ punctuation.separator.comma.cs
 //                                   ^^^ storage.modifier.parameter.cs
-//                                       ^^^ storage.type.cs
+//                                       ^^^ storage.type.primitive.cs
 //                                           ^^^^^^ variable.parameter.cs
 //                                                 ^ punctuation.section.group.end.cs
 //                                                  ^^^^ meta.function.anonymous.cs
@@ -238,7 +238,7 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //^^^^^^ support.type.cs
 //      ^^^^^ meta.generic.cs
 //      ^ punctuation.definition.generic.begin.cs
-//       ^^^ storage.type.cs
+//       ^^^ storage.type.primitive.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs
@@ -268,7 +268,7 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //^^^^^^ support.type.cs
 //      ^^^^^ meta.generic.cs
 //      ^ punctuation.definition.generic.begin.cs
-//       ^^^ storage.type.cs
+//       ^^^ storage.type.primitive.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
 //                   ^ keyword.operator.assignment.cs

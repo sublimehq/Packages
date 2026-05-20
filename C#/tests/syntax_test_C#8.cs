@@ -83,7 +83,7 @@ using List<int> item = await client.GetAsync();
 ///   ^^^^ support.type.cs
 ///       ^^^^^ meta.generic.cs
 ///       ^ punctuation.definition.generic.begin.cs
-///        ^^^ storage.type.cs
+///        ^^^ storage.type.primitive.cs
 ///           ^ punctuation.definition.generic.end.cs
 ///             ^^^^ variable.other.cs
 ///                  ^ keyword.operator.assignment.cs
@@ -102,13 +102,13 @@ using MyClass<int>.SubList<int>[] item = await client.GetAsync();
 ///   ^^^^^^^ support.type.cs
 ///          ^^^^^ meta.generic.cs
 ///          ^ punctuation.definition.generic.begin.cs
-///           ^^^ storage.type.cs
+///           ^^^ storage.type.primitive.cs
 ///              ^ punctuation.definition.generic.end.cs
 ///               ^ punctuation.accessor.dot.cs
 ///                ^^^^^^^ support.type.cs
 ///                       ^^^^^ meta.generic.cs
 ///                       ^ punctuation.definition.generic.begin.cs
-///                        ^^^ storage.type.cs
+///                        ^^^ storage.type.primitive.cs
 ///                           ^ punctuation.definition.generic.end.cs
 ///                            ^^ meta.brackets.cs
 ///                            ^ punctuation.section.brackets.begin.cs
@@ -128,13 +128,13 @@ using int
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.primitive.cs
 
 using int name = 0;
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.primitive.cs
 ///       ^^^^ variable.other.cs
 ///            ^ keyword.operator.assignment.cs
 ///              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -144,7 +144,7 @@ using int[] name = (0, 1);
 /// <- meta.using.cs keyword.declaration.using.cs
 ///^^^^^^^^^^^^^^^^^^^^^^ meta.using.cs
 ///^^ keyword.declaration.using.cs
-///   ^^^ storage.type.cs
+///   ^^^ storage.type.primitive.cs
 ///      ^^ meta.brackets.cs
 ///      ^ punctuation.section.brackets.begin.cs
 ///       ^ punctuation.section.brackets.end.cs

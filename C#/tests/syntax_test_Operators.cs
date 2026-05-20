@@ -9,7 +9,7 @@ class TestOperatorDefinitions {
 ///                      ^ meta.method.cs entity.name.function.cs
 ///                        ^^^^^^^^^ meta.method.parameters.cs
 ///                        ^ punctuation.section.parameters.begin.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                             ^^^ variable.parameter.cs
 ///                                ^ punctuation.section.parameters.end.cs
 ///                                 ^ punctuation.terminator.statement.cs
@@ -131,7 +131,7 @@ class TestOperatorDefinitions {
 ///                             ^^^ meta.method.cs
 ///                                ^^^^^ meta.method.body.cs
 ///                    ^ punctuation.section.parameters.begin.cs
-///                     ^^^ storage.type.cs
+///                     ^^^ storage.type.primitive.cs
 ///                         ^^^ variable.parameter.cs
 ///                            ^ punctuation.section.parameters.end.cs
 ///                              ^^ keyword.declaration.function.arrow.cs
@@ -145,7 +145,7 @@ class TestOperatorDefinitions {
 ///                    ^ storage.type.nullable.cs
 ///                     ^^^^^^^^^ meta.method.parameters.cs
 ///                     ^ punctuation.section.parameters.begin.cs
-///                      ^^^ storage.type.cs
+///                      ^^^ storage.type.primitive.cs
 ///                          ^^^ variable.parameter.cs
 ///                             ^ punctuation.section.parameters.end.cs
 ///                              ^ meta.method.cs
@@ -169,7 +169,7 @@ class TestOperatorDefinitions {
 ///                      ^ punctuation.definition.generic.end.cs
 ///                       ^ storage.type.nullable.cs
 ///                        ^ punctuation.section.parameters.begin.cs
-///                         ^^^ storage.type.cs
+///                         ^^^ storage.type.primitive.cs
 ///                             ^^^ variable.parameter.cs
 ///                                ^ punctuation.section.parameters.end.cs
 ///                                  ^^ keyword.declaration.function.arrow.cs
@@ -190,7 +190,7 @@ class TestOperatorDefinitions {
 ///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ punctuation.section.parameters.begin.cs
-///                          ^^^ storage.type.cs
+///                          ^^^ storage.type.primitive.cs
 ///                              ^^^ variable.parameter.cs
 ///                                 ^ punctuation.section.parameters.end.cs
 ///                                   ^^ keyword.declaration.function.arrow.cs
@@ -212,7 +212,7 @@ class TestOperatorDefinitions {
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ storage.type.nullable.cs
 ///                          ^ punctuation.section.parameters.begin.cs
-///                           ^^^ storage.type.cs
+///                           ^^^ storage.type.primitive.cs
 ///                               ^^^ variable.parameter.cs
 ///                                  ^ punctuation.section.parameters.end.cs
 ///                                    ^^ keyword.declaration.function.arrow.cs
@@ -238,7 +238,7 @@ class TestOperatorDefinitions {
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ storage.type.nullable.cs
 ///                             ^ punctuation.section.parameters.begin.cs
-///                              ^^^ storage.type.cs
+///                              ^^^ storage.type.primitive.cs
 ///                                  ^^^ variable.parameter.cs
 ///                                     ^ punctuation.section.parameters.end.cs
 ///                                       ^^ keyword.declaration.function.arrow.cs
@@ -251,9 +251,9 @@ class TestOperatorDefinitions {
 ///                          ^^^ meta.method.cs
 ///                             ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
-///          ^^^^^^^ storage.type.cs
+///          ^^^^^^^ storage.type.primitive.cs
 ///                 ^ punctuation.section.parameters.begin.cs
-///                  ^^^ storage.type.cs
+///                  ^^^ storage.type.primitive.cs
 ///                      ^^^ variable.parameter.cs
 ///                         ^ punctuation.section.parameters.end.cs
 ///                           ^^ keyword.declaration.function.arrow.cs
@@ -266,9 +266,9 @@ class TestOperatorDefinitions {
 ///                         ^^^ meta.method.cs
 ///                            ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
-///          ^^^^^^ storage.type.cs
+///          ^^^^^^ storage.type.primitive.cs
 ///                ^ punctuation.section.parameters.begin.cs
-///                 ^^^ storage.type.cs
+///                 ^^^ storage.type.primitive.cs
 ///                     ^^^ variable.parameter.cs
 ///                        ^ punctuation.section.parameters.end.cs
 ///                          ^^ keyword.declaration.function.arrow.cs
@@ -281,9 +281,9 @@ class TestOperatorDefinitions {
 ///                         ^^^ meta.method.cs
 ///                            ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
-///          ^^^^^^ storage.type.cs
+///          ^^^^^^ storage.type.primitive.cs
 ///                ^ punctuation.section.parameters.begin.cs
-///                 ^^^ storage.type.cs
+///                 ^^^ storage.type.primitive.cs
 ///                     ^^^ variable.parameter.cs
 ///                        ^ punctuation.section.parameters.end.cs
 ///                          ^^ keyword.declaration.function.arrow.cs

@@ -65,7 +65,7 @@ public record class Person(string Name);
 ///                 ^^^^^^ entity.name.class.cs
 ///                       ^^^^^^^^^^^^^ meta.record.parameters.cs
 ///                       ^ punctuation.section.parameters.begin.cs
-///                        ^^^^^^ storage.type.cs
+///                        ^^^^^^ storage.type.primitive.cs
 ///                               ^^^^ variable.parameter.cs
 ///                                   ^ punctuation.section.parameters.end.cs
 ///                                    ^ punctuation.terminator.statement.cs
@@ -126,7 +126,7 @@ public record struct Person(string Name);
 ///                  ^^^^^^ entity.name.struct.cs
 ///                        ^^^^^^^^^^^^^ meta.record.parameters.cs
 ///                        ^ punctuation.section.parameters.begin.cs
-///                         ^^^^^^ storage.type.cs
+///                         ^^^^^^ storage.type.primitive.cs
 ///                                ^^^^ variable.parameter.cs
 ///                                    ^ punctuation.section.parameters.end.cs
 ///                                     ^ punctuation.terminator.statement.cs
@@ -141,7 +141,7 @@ public readonly record struct Person(string Name) {  };
 ///                           ^^^^^^ entity.name.struct.cs
 ///                                 ^^^^^^^^^^^^^ meta.record.parameters.cs
 ///                                 ^ punctuation.section.parameters.begin.cs
-///                                  ^^^^^^ storage.type.cs
+///                                  ^^^^^^ storage.type.primitive.cs
 ///                                         ^^^^ variable.parameter.cs
 ///                                             ^ punctuation.section.parameters.end.cs
 ///                                              ^ meta.record.cs
