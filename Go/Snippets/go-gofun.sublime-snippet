@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[go func() {
-	$0
+	${0:/* code */}
 }()]]></content>
 	<tabTrigger>gofun</tabTrigger>
 	<scope>source.go</scope>

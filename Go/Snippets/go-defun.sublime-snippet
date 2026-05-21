@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[defer func() {
-	$0
+	${0:/* code */}
 }()]]></content>
 	<tabTrigger>defun</tabTrigger>
 	<scope>source.go</scope>
