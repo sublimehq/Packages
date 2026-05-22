@@ -1670,12 +1670,12 @@ contexts:
     - match: this\b
       scope: variable.language.this.cs
       push:
-        - member-access
+        - maybe-member-access
         - item-access
     - match: base\b
       scope: variable.language.super.cs
       push:
-        - member-access
+        - maybe-member-access
         - item-access
     - match: await\b
       scope: keyword.control.flow.await.cs
@@ -2099,6 +2099,14 @@ contexts:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
+    - match: '{{unreserved_name}}(?=[<.])'
+      scope: support.type.cs
+      push:
+        - type-suffix
+        - type-argument-list
+    - match: \.
+      scope: punctuation.accessor.dot.cs
+      push: member-access
     - include: expression-list
 
 ###[ ITEM ACCESS EXPRESSIONS ]#################################################
@@ -2125,7 +2133,12 @@ contexts:
     - include: else-pop
 
   member-access:
-    - include: member-qualifiers
+    - include: accessors
+    - match: '{{unreserved_name}}(?=[<.])'
+      scope: support.type.cs
+      push:
+        - type-suffix
+        - type-argument-list
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
       set:

@@ -1387,7 +1387,7 @@ namespace TestNamespace . Test
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.super.cs
 ///                       ^ punctuation.accessor.dot.cs
-///                        ^^^^^^ variable.other.member.cs
+///                        ^^^^^^ support.type.cs
 ///                              ^^^^^ meta.generic.cs
 ///                              ^ punctuation.definition.generic.begin.cs
 ///                               ^^^ storage.type.primitive.cs
@@ -1433,12 +1433,64 @@ namespace TestNamespace . Test
 ///                 ^ punctuation.section.braces.begin.cs
 ///                   ^^^^ variable.language.this.cs
 ///                       ^ punctuation.accessor.dot.cs
-///                        ^^^^^^ variable.other.member.cs
+///                        ^^^^^^ support.type.cs
 ///                              ^^^^^ meta.generic.cs
 ///                              ^ punctuation.definition.generic.begin.cs
 ///                               ^^^ storage.type.primitive.cs
 ///                                  ^ punctuation.definition.generic.end.cs
 ///                                    ^ punctuation.section.braces.end.cs
+
+                // Anonymous class instantiation with member access
+
+                new { byte.member }
+///             ^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ storage.type.primitive.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                               ^ punctuation.section.braces.end.cs
+
+                new { byte.member<int> }
+///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ storage.type.primitive.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ support.type.cs
+///                              ^^^^^ meta.generic.cs
+///                              ^ punctuation.definition.generic.begin.cs
+///                               ^^^ storage.type.primitive.cs
+///                                  ^ punctuation.definition.generic.end.cs
+///                                    ^ punctuation.section.braces.end.cs
+
+                // Anonymous class instantiation with qualified alias member access
+
+                new { ns::alias }
+///             ^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^ variable.namespace.cs
+///                     ^^ punctuation.accessor.double-colon.namespace.cs
+///                       ^^^^^ variable.other.cs
+///                             ^ punctuation.section.braces.end.cs
+
+                new { ns::alias<int> }
+///             ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^ variable.namespace.cs
+///                     ^^ punctuation.accessor.double-colon.namespace.cs
+///                       ^^^^^ support.type.cs
+///                            ^^^^^ meta.generic.cs
+///                            ^ punctuation.definition.generic.begin.cs
+///                             ^^^ storage.type.primitive.cs
+///                                ^ punctuation.definition.generic.end.cs
+///                                  ^ punctuation.section.braces.end.cs
 
             };
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.end
@@ -2859,7 +2911,7 @@ class TestControlStatements
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///              ^^^^^^^^^^^^^^^^^^^ support.type.cs
 ///                                 ^ punctuation.accessor.dot.cs
-///                                  ^^^^^^^^^^^ entity.other.inherited-class.cs
+///                                  ^^^^^^^^^^^ support.type.cs
 ///                                             ^ punctuation.accessor.dot.cs
 ///                                              ^^^^^ variable.other.member.cs
 ///                                                   ^ punctuation.separator.colon.cs
