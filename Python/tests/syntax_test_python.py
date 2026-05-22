@@ -530,6 +530,9 @@ frozendict
 frozenset
 #^^^^^^^^ support.type.python
 
+sentinel
+#^^^^^^^ support.type.python
+
 T module.T  # most commonly used in generics
 # <- variable.other.python
 # ^^^^^^^^ meta.path.python
