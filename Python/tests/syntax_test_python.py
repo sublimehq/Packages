@@ -477,7 +477,6 @@ import .str
 import str
 #      ^^^ support.type.python
 
-
 lazy import
 #^^^^^^^^^^ meta.statement.import.python
 #^^^ keyword.control.import.lazy.python
