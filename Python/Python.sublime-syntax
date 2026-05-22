@@ -4282,8 +4282,8 @@ variables:
 
   builtin_types: |-
     (?x:
-      bool | bytearray | bytes | complex | dict | float | frozenset | int
-    | list | memoryview | object | set | slice | str | tuple
+      bool | bytearray | bytes | complex | dict | float | frozendict | frozenset
+    | int | list | memoryview | object | set | slice | str | tuple
     # Python 2 types
     | basestring | long | unicode
     # Python 2 types prone to conflicts

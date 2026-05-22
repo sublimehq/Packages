@@ -524,6 +524,12 @@ __bool__ abc.__nonzero__
 #^^^^^^^ support.function.magic
 #            ^^^^^^^^^^^ support.function.magic
 
+frozendict
+#^^^^^^^^^ support.type.python
+
+frozenset
+#^^^^^^^^ support.type.python
+
 T module.T  # most commonly used in generics
 # <- variable.other.python
 # ^^^^^^^^ meta.path.python
