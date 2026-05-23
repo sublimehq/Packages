@@ -6,11 +6,11 @@ public static class MyExtensions
 {
     extension(string str)
 //  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
-//           ^^^^^^^^^^^^ meta.extension.parameters.cs
-//           ^ punctuation.section.parameters.begin.cs
+//           ^^^^^^^^^^^^ meta.extension.parameters.cs meta.group.cs
+//           ^ punctuation.section.group.begin.cs
 //            ^^^^^^ storage.type.primitive.cs
 //                   ^^^ variable.parameter.cs
-//                      ^ punctuation.section.parameters.end.cs
+//                      ^ punctuation.section.group.end.cs
     {
 //^^ meta.extension.cs
 //  ^^ meta.extension.body.cs meta.block.cs
@@ -20,9 +20,9 @@ public static class MyExtensions
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^ storage.type.primitive.cs
 //                 ^^^^^^^^^ meta.method.cs entity.name.function.cs
-//                          ^^ meta.method.parameters.cs
-//                          ^ punctuation.section.parameters.begin.cs
-//                           ^ punctuation.section.parameters.end.cs
+//                          ^^ meta.method.parameters.cs meta.group.cs
+//                          ^ punctuation.section.group.begin.cs
+//                           ^ punctuation.section.group.end.cs
 //                            ^^^ meta.method.cs
 //                             ^^ keyword.declaration.function.arrow.cs
             str.Split([' ', '.', '?'], StringSplitOptions.RemoveEmptyEntries).Length;
@@ -41,12 +41,12 @@ public static class IntExtensions
     // Take note of the extra ref keyword here
     extension(ref int number)
 //  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
-//           ^^^^^^^^^^^^^^^^ meta.extension.parameters.cs
-//           ^ punctuation.section.parameters.begin.cs
+//           ^^^^^^^^^^^^^^^^ meta.extension.parameters.cs meta.group.cs
+//           ^ punctuation.section.group.begin.cs
 //            ^^^ storage.modifier.parameter.cs
 //                ^^^ storage.type.primitive.cs
 //                    ^^^^^^ variable.parameter.cs
-//                          ^ punctuation.section.parameters.end.cs
+//                          ^ punctuation.section.group.end.cs
     {
         public void RefIncrement()
             => number++;
@@ -70,15 +70,15 @@ public static class EnumerableExtensions
 //           ^ punctuation.definition.generic.begin.cs
 //            ^ variable.parameter.type.cs
 //             ^ punctuation.definition.generic.end.cs
-//              ^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.parameters.cs
-//              ^ punctuation.section.parameters.begin.cs
+//              ^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.parameters.cs meta.group.cs
+//              ^ punctuation.section.group.begin.cs
 //               ^^^^^^^^^^^ support.type.cs
 //                          ^^^ meta.generic.cs
 //                          ^ punctuation.definition.generic.begin.cs
 //                           ^ support.type.cs
 //                            ^ punctuation.definition.generic.end.cs
 //                              ^^^^^^ variable.parameter.cs
-//                                    ^ punctuation.section.parameters.end.cs
+//                                    ^ punctuation.section.group.end.cs
         where T : IEquatable<T>
 //^^^^^^ meta.extension.cs
 //      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.cs meta.constraints.cs
@@ -97,15 +97,15 @@ public static class EnumerableExtensions
         public bool IsEmpty() => !target.Any();
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extension.body.cs meta.block.cs
 //                  ^^^^^^^ meta.method.cs
-//                         ^^ meta.method.parameters.cs
+//                         ^^ meta.method.parameters.cs meta.group.cs
 //                           ^^^ meta.method.cs
 //                              ^^^^^^^^^^^^^^ meta.method.body.cs
 //      ^^^^^^ storage.modifier.access.cs
 //             ^^^^ storage.type.primitive.cs
 //                  ^^^^^^^ entity.name.function.cs
-//                         ^^ meta.method.parameters.cs
-//                         ^ punctuation.section.parameters.begin.cs
-//                          ^ punctuation.section.parameters.end.cs
+//                         ^^ meta.method.parameters.cs meta.group.cs
+//                         ^ punctuation.section.group.begin.cs
+//                          ^ punctuation.section.group.end.cs
 //                            ^^ keyword.declaration.function.arrow.cs
 //                               ^ keyword.operator.logical.cs
 //                                ^^^^^^ variable.other.cs
@@ -129,11 +129,11 @@ public static class EnumExtensions
 
     extension(Grades grade)
 //  ^^^^^^^^^ meta.extension.cs keyword.declaration.trait.cs
-//           ^^^^^^^^^^^^^^ meta.extension.parameters.cs
-//           ^ punctuation.section.parameters.begin.cs
+//           ^^^^^^^^^^^^^^ meta.extension.parameters.cs meta.group.cs
+//           ^ punctuation.section.group.begin.cs
 //            ^^^^^^ support.type.cs
 //                   ^^^^^ variable.parameter.cs
-//                        ^ punctuation.section.parameters.end.cs
+//                        ^ punctuation.section.group.end.cs
 //                         ^ meta.extension.cs
     {
 //^^ meta.extension.cs
@@ -191,15 +191,15 @@ delegate bool TryParse<T>(string text, out T result);
 //                    ^ punctuation.definition.generic.begin.cs
 //                     ^ variable.parameter.type.cs
 //                      ^ meta.delegate.cs meta.generic.cs punctuation.definition.generic.end.cs
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs
-//                       ^ punctuation.section.parameters.begin.cs
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs meta.group.cs
+//                       ^ punctuation.section.group.begin.cs
 //                        ^^^^^^ storage.type.primitive.cs
 //                               ^^^^ variable.parameter.cs
 //                                   ^ punctuation.separator.comma.cs
 //                                     ^^^ storage.modifier.parameter.cs
 //                                         ^ support.type.cs
 //                                           ^^^^^^ variable.parameter.cs
-//                                                 ^ punctuation.section.parameters.end.cs
+//                                                 ^ punctuation.section.group.end.cs
 //                                                  ^ punctuation.terminator.statement.cs
 
 TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out result);

@@ -19,13 +19,13 @@ class Foo {
 ///      ^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 ///      ^^^^ entity.name.function
 ///          ^^^^^^^^^^^^^^^ meta.method.parameters
-///          ^ punctuation.section.parameters.begin
+///          ^ punctuation.section.group.begin
 ///           ^^^^^^ storage.type
 ///                 ^^ meta.brackets
 ///                 ^ punctuation.section.brackets.begin
 ///                  ^ punctuation.section.brackets.end
 ///                    ^^^^ variable.parameter
-///                        ^ punctuation.section.parameters.end
+///                        ^ punctuation.section.group.end
 ///                          ^ punctuation.section.block.begin
 
         int x = 37;
@@ -44,10 +44,10 @@ class Foo {
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body meta.method
 ///           ^^^ entity.name.function
 ///              ^^^^^^^ meta.method.parameters
-///              ^ punctuation.section.parameters.begin
+///              ^ punctuation.section.group.begin
 ///               ^^^ storage.type
 ///                   ^ variable.parameter
-///                    ^ punctuation.section.parameters.end
+///                    ^ punctuation.section.group.end
 ///                      ^^^^^^^^^^^^^^^ meta.method.body meta.method.body
 ///                      ^ punctuation.section.block.begin
 ///                       ^^^^^^ keyword.control
@@ -60,10 +60,10 @@ class Foo {
 ///       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///       ^^^ entity.name.function
 ///          ^^^^^^^ meta.method.parameters
-///          ^ punctuation.section.parameters.begin
+///          ^ punctuation.section.group.begin
 ///           ^^^ storage.type
 ///               ^ variable.parameter
-///                ^ punctuation.section.parameters.end
+///                ^ punctuation.section.group.end
 ///                  ^^^^^^^^^^^^^^^ meta.method.body
 ///                   ^^^^^^ keyword.control
 ///                            ^ keyword.operator.arithmetic
@@ -83,10 +83,10 @@ class Foo {
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                 ^^^ entity.name.function
 ///                    ^^^^^^^ meta.method.parameters
-///                    ^ punctuation.section.parameters.begin
+///                    ^ punctuation.section.group.begin
 ///                     ^^^ storage.type
 ///                         ^ variable.parameter
-///                          ^ punctuation.section.parameters.end
+///                          ^ punctuation.section.group.end
 ///                            ^^^^^^^^^^^^^^^ meta.method.body
 ///                             ^^^^^^ keyword.control
 ///                                      ^ keyword.operator.arithmetic
@@ -110,10 +110,10 @@ class Foo {
 ///                             ^ variable.parameter.type
 ///                              ^ punctuation.definition.generic.end
 ///                               ^^^^^^^ meta.method.parameters
-///                               ^ punctuation.section.parameters.begin
+///                               ^ punctuation.section.group.begin
 ///                                ^^^ storage.type
 ///                                    ^ variable.parameter
-///                                     ^ punctuation.section.parameters.end
+///                                     ^ punctuation.section.group.end
 ///                                       ^^^^^^^^^^^^^^^ meta.method.body
 ///                                        ^^^^^^ keyword.control
 ///                                                 ^ keyword.operator.arithmetic
@@ -304,7 +304,7 @@ class Foo {
 ///               ^^^ storage.modifier
 ///                   ^^^ storage.type
 ///                       ^^^^^ entity.name.function
-///                            ^ punctuation.section.parameters.begin
+///                            ^ punctuation.section.group.begin
 ///                             ^^^ storage.type
 ///                                ^ punctuation.section.brackets.begin
 ///                                 ^ punctuation.separator
@@ -405,8 +405,8 @@ class Foo {
 ///            ^^^^ support.type.cs
 ///                ^ punctuation.section.sequence.end.cs
 ///                  ^^^^^^^^ meta.method.cs entity.name.function.cs
-///                          ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                          ^ punctuation.section.parameters.begin.cs
+///                          ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                          ^ punctuation.section.group.begin.cs
 ///                           ^^ storage.modifier.parameter.cs
 ///                              ^^^ storage.type.primitive.cs
 ///                                  ^ variable.parameter.cs
@@ -414,7 +414,7 @@ class Foo {
 ///                                     ^^ storage.modifier.parameter.cs
 ///                                        ^^^^ support.type.cs
 ///                                             ^^^ variable.parameter.cs
-///                                                ^ punctuation.section.parameters.end.cs
+///                                                ^ punctuation.section.group.end.cs
 ///                                                 ^^^ meta.method.cs
 ///                                                  ^^ keyword.declaration.function.arrow.cs
 ///                                                    ^^^^^^^^^^^^^^ meta.method.body.cs
@@ -435,8 +435,8 @@ class Foo {
 ///                ^^^^ support.type.cs
 ///                    ^ punctuation.section.sequence.end.cs
 ///                      ^^^^^^^^ meta.method.cs entity.name.function.cs
-///                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                              ^ punctuation.section.parameters.begin.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                              ^ punctuation.section.group.begin.cs
 ///                               ^^ storage.modifier.parameter.cs
 ///                                  ^^^ storage.type.primitive.cs
 ///                                      ^ variable.parameter.cs
@@ -444,7 +444,7 @@ class Foo {
 ///                                         ^^ storage.modifier.parameter.cs
 ///                                            ^^^^ support.type.cs
 ///                                                 ^^^ variable.parameter.cs
-///                                                    ^ punctuation.section.parameters.end.cs
+///                                                    ^ punctuation.section.group.end.cs
 ///                                                     ^^^ meta.method.cs
 ///                                                      ^^ keyword.declaration.function.arrow.cs
 ///                                                        ^^^^^^^^^^^^^^ meta.method.body.cs
@@ -466,9 +466,9 @@ class Foo {
 ///             ^^^ variable.other.cs
 ///                ^ punctuation.section.sequence.end.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                                  ^^ meta.method.parameters.cs
-///                                                  ^ punctuation.section.parameters.begin.cs
-///                                                   ^ punctuation.section.parameters.end.cs
+///                                                  ^^ meta.method.parameters.cs meta.group.cs
+///                                                  ^ punctuation.section.group.begin.cs
+///                                                   ^ punctuation.section.group.end.cs
 ///                                                    ^ meta.method.cs
     {
         (vec3 foo, vec3) var = FuncName();
@@ -679,11 +679,11 @@ class Foo {
 ///                        ^^^^ variable.other.cs
 ///                            ^ punctuation.section.sequence.end.cs
 ///                              ^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                           ^^^^^^^^^^^^^ meta.method.parameters.cs
-///                                           ^ punctuation.section.parameters.begin.cs
+///                                           ^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
 ///                                            ^^^^^^ storage.type.primitive.cs
 ///                                                   ^^^^ variable.parameter.cs
-///                                                       ^ punctuation.section.parameters.end.cs
+///                                                       ^ punctuation.section.group.end.cs
 ///                                                        ^ punctuation.terminator.statement.cs
     }
 
@@ -919,15 +919,15 @@ class Foo {
 ///                                 ^ punctuation.section.sequence.end.cs
 ///                                   ^^^^^ meta.method.cs
 ///                                   ^^^^^ entity.name.function.cs
-///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                                        ^ punctuation.section.parameters.begin.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                                        ^ punctuation.section.group.begin.cs
 ///                                         ^^^^^^^^^^^ support.type.cs
 ///                                                    ^^^^^ meta.generic.cs
 ///                                                    ^ punctuation.definition.generic.begin.cs
 ///                                                     ^^^ storage.type.primitive.cs
 ///                                                        ^ punctuation.definition.generic.end.cs
 ///                                                          ^^^^^^^ variable.parameter.cs
-///                                                                 ^ punctuation.section.parameters.end.cs
+///                                                                 ^ punctuation.section.group.end.cs
 ///                                                                  ^ meta.method.cs
     {
         int min = int.MaxValue;
@@ -993,8 +993,8 @@ class Foo {
     }
 
     public void Example((int foo, float bar) val, (int foo, string bar) otherVal) {}
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                    ^ punctuation.section.parameters.begin.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                    ^ punctuation.section.group.begin.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                     ^ punctuation.section.sequence.begin.cs
 ///                      ^^^ storage.type.primitive.cs
@@ -1014,11 +1014,11 @@ class Foo {
 ///                                                                ^^^ variable.other.cs
 ///                                                                   ^ punctuation.section.sequence.end.cs
 ///                                                                     ^^^^^^^^ variable.parameter.cs
-///                                                                             ^ punctuation.section.parameters.end.cs
+///                                                                             ^ punctuation.section.group.end.cs
 
     public void Example((int , float ) val, (int, string) otherVal) {}
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                    ^ punctuation.section.parameters.begin.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                    ^ punctuation.section.group.begin.cs
 ///                     ^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                     ^ punctuation.section.sequence.begin.cs
 ///                      ^^^ storage.type.primitive.cs
@@ -1034,7 +1034,7 @@ class Foo {
 ///                                               ^^^^^^ storage.type.primitive.cs
 ///                                                     ^ punctuation.section.sequence.end.cs
 ///                                                       ^^^^^^^^ variable.parameter.cs
-///                                                               ^ punctuation.section.parameters.end.cs
+///                                                               ^ punctuation.section.group.end.cs
 
     delegate (int foo, string bar) TypeName((int foo, string bar) arg);
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.cs
@@ -1048,8 +1048,8 @@ class Foo {
 ///                           ^^^ variable.other.cs
 ///                              ^ punctuation.section.sequence.end.cs
 ///                                ^^^^^^^^ entity.name.type.delegate.cs
-///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs
-///                                        ^ punctuation.section.parameters.begin.cs
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs meta.group.cs
+///                                        ^ punctuation.section.group.begin.cs
 ///                                         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                         ^ punctuation.section.sequence.begin.cs
 ///                                          ^^^ storage.type.primitive.cs
@@ -1059,7 +1059,7 @@ class Foo {
 ///                                                          ^^^ variable.other.cs
 ///                                                             ^ punctuation.section.sequence.end.cs
 ///                                                               ^^^ variable.parameter.cs
-///                                                                  ^ punctuation.section.parameters.end.cs
+///                                                                  ^ punctuation.section.group.end.cs
 ///                                                                   ^ punctuation.terminator.statement.cs
 }
 /// <- meta.class.body punctuation.section.block.end
@@ -1237,12 +1237,12 @@ public class MyClass {
 /// ^^^^^^ storage.modifier.access.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 ///        ^^^^^^^^ meta.method.cs
-///                ^^ meta.method.parameters.cs
+///                ^^ meta.method.parameters.cs meta.group.cs
 ///                  ^^^ meta.method.cs
 ///                     ^^^^^^^^^^^ meta.method.body.cs
 ///        ^^^^^^^ entity.name.function.constructor.cs
-///                ^ punctuation.section.parameters.begin.cs
-///                 ^ punctuation.section.parameters.end.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^ punctuation.section.group.end.cs
 ///                   ^^ keyword.declaration.function.arrow.cs
 ///                      ^^^ variable.other.cs
 ///                          ^ keyword.operator.assignment.cs
@@ -1260,16 +1260,16 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 /// ^^^^^^ storage.modifier.access.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 ///        ^^^^^^ meta.method.cs entity.name.function.constructor.cs
-///              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                    ^^^ meta.method.cs
 ///                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.body.cs
-///              ^ punctuation.section.parameters.begin.cs
+///              ^ punctuation.section.group.begin.cs
 ///               ^^^^^^ storage.type.primitive.cs
 ///                      ^^^^ variable.parameter.cs
 ///                          ^ punctuation.separator.comma.cs
 ///                            ^^^ storage.type.primitive.cs
 ///                                ^^^ variable.parameter.cs
-///                                   ^ punctuation.section.parameters.end.cs
+///                                   ^ punctuation.section.group.end.cs
 ///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^^^^^^^^^ meta.sequence.tuple.cs
 ///                                        ^ punctuation.section.sequence.begin.cs

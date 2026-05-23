@@ -21,11 +21,11 @@ public class InvalidException(string _message) : Exception(_message);
 ///    ^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
 ///    ^^^^^ keyword.declaration.class.cs
 ///          ^^^^^^^^^^^^^^^^ entity.name.class.cs
-///                          ^^^^^^^^^^^^^^^^^ meta.class.parameters.cs
-///                          ^ punctuation.section.parameters.begin.cs
+///                          ^^^^^^^^^^^^^^^^^ meta.class.parameters.cs meta.group.cs
+///                          ^ punctuation.section.group.begin.cs
 ///                           ^^^^^^ storage.type.primitive.cs
 ///                                  ^^^^^^^^ variable.parameter.cs
-///                                          ^ punctuation.section.parameters.end.cs
+///                                          ^ punctuation.section.group.end.cs
 ///                                           ^ meta.class.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
 ///                                            ^ punctuation.separator.colon.cs
@@ -47,14 +47,14 @@ public class YourClass<T1, T2>(string[] args) : BaseClass<T1<T2>>(args) where T1
 ///                      ^ punctuation.separator.comma.cs
 ///                        ^^ variable.parameter.type.cs
 ///                          ^ punctuation.definition.generic.end.cs
-///                           ^^^^^^^^^^^^^^^ meta.class.parameters.cs
-///                           ^ punctuation.section.parameters.begin.cs
+///                           ^^^^^^^^^^^^^^^ meta.class.parameters.cs meta.group.cs
+///                           ^ punctuation.section.group.begin.cs
 ///                            ^^^^^^ storage.type.primitive.cs
 ///                                  ^^ meta.brackets.cs
 ///                                  ^ punctuation.section.brackets.begin.cs
 ///                                   ^ punctuation.section.brackets.end.cs
 ///                                     ^^^^ variable.parameter.cs
-///                                         ^ punctuation.section.parameters.end.cs
+///                                         ^ punctuation.section.group.end.cs
 ///                                          ^ meta.class.cs
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.base.cs
 ///                                           ^ punctuation.separator.colon.cs

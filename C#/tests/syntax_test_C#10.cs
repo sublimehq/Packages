@@ -63,11 +63,11 @@ public record class Person(string Name);
 ///    ^^^^^^ keyword.declaration.record.cs
 ///           ^^^^^ keyword.declaration.class.cs
 ///                 ^^^^^^ entity.name.class.cs
-///                       ^^^^^^^^^^^^^ meta.record.parameters.cs
-///                       ^ punctuation.section.parameters.begin.cs
+///                       ^^^^^^^^^^^^^ meta.record.parameters.cs meta.group.cs
+///                       ^ punctuation.section.group.begin.cs
 ///                        ^^^^^^ storage.type.primitive.cs
 ///                               ^^^^ variable.parameter.cs
-///                                   ^ punctuation.section.parameters.end.cs
+///                                   ^ punctuation.section.group.end.cs
 ///                                    ^ punctuation.terminator.statement.cs
 
 public record class { };
@@ -124,11 +124,11 @@ public record struct Person(string Name);
 ///    ^^^^^^ keyword.declaration.record.cs
 ///           ^^^^^^ keyword.declaration.struct.cs
 ///                  ^^^^^^ entity.name.struct.cs
-///                        ^^^^^^^^^^^^^ meta.record.parameters.cs
-///                        ^ punctuation.section.parameters.begin.cs
+///                        ^^^^^^^^^^^^^ meta.record.parameters.cs meta.group.cs
+///                        ^ punctuation.section.group.begin.cs
 ///                         ^^^^^^ storage.type.primitive.cs
 ///                                ^^^^ variable.parameter.cs
-///                                    ^ punctuation.section.parameters.end.cs
+///                                    ^ punctuation.section.group.end.cs
 ///                                     ^ punctuation.terminator.statement.cs
 
 public readonly record struct Person(string Name) {  };
@@ -139,11 +139,11 @@ public readonly record struct Person(string Name) {  };
 ///             ^^^^^^ keyword.declaration.record.cs
 ///                    ^^^^^^ keyword.declaration.struct.cs
 ///                           ^^^^^^ entity.name.struct.cs
-///                                 ^^^^^^^^^^^^^ meta.record.parameters.cs
-///                                 ^ punctuation.section.parameters.begin.cs
+///                                 ^^^^^^^^^^^^^ meta.record.parameters.cs meta.group.cs
+///                                 ^ punctuation.section.group.begin.cs
 ///                                  ^^^^^^ storage.type.primitive.cs
 ///                                         ^^^^ variable.parameter.cs
-///                                             ^ punctuation.section.parameters.end.cs
+///                                             ^ punctuation.section.group.end.cs
 ///                                              ^ meta.record.cs
 ///                                               ^^^^ meta.record.body.cs meta.block.cs
 ///                                               ^ punctuation.section.block.begin.cs
@@ -184,10 +184,10 @@ static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Da
 ///^^^ storage.modifier
 ///    ^^^^ storage.type
 ///         ^^^^^^^^^^^^^^^ meta.method entity.name.function
-///                        ^ meta.method.parameters punctuation.section.parameters.begin
+///                        ^ meta.method.parameters punctuation.section.group.begin
 ///                         ^^^^^^^^ meta.method.parameters support.type
 ///                                  ^^^^ meta.method.parameters variable.parameter
-///                                      ^ meta.method.parameters punctuation.section.parameters.end
+///                                      ^ meta.method.parameters punctuation.section.group.end
 ///                                        ^^ meta.method keyword.declaration.function.arrow
 ///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                                           ^^^^ variable.other

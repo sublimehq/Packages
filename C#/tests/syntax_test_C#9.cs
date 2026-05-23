@@ -489,10 +489,10 @@ public record A(int Num);
 ///                     ^ - meta.class
 ///    ^^^^^^ keyword.declaration.record
 ///           ^ entity.name.class
-///            ^ punctuation.section.parameters.begin
+///            ^ punctuation.section.group.begin
 ///             ^^^ storage.type
 ///                 ^^^ variable.parameter
-///                    ^ punctuation.section.parameters.end
+///                    ^ punctuation.section.group.end
 ///                     ^ punctuation.terminator.statement
 public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.record
@@ -504,8 +504,8 @@ public record B<T>(T Num)<NoGeneric>;
 ///            ^ punctuation.definition.generic.begin
 ///             ^ variable.parameter.type
 ///              ^ punctuation.definition.generic.end
-///               ^ punctuation.section.parameters.begin
-///                     ^ punctuation.section.parameters.end
+///               ^ punctuation.section.group.begin
+///                     ^ punctuation.section.group.end
 ///                                 ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
 ///^^^ storage.modifier.access.cs
@@ -516,11 +516,11 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///            ^ punctuation.definition.generic.begin.cs
 ///             ^^^^ variable.parameter.type.cs
 ///                 ^ punctuation.definition.generic.end.cs
-///                   ^^^^^^^^^^ meta.record.parameters.cs
-///                   ^ punctuation.section.parameters.begin.cs
+///                   ^^^^^^^^^^ meta.record.parameters.cs meta.group.cs
+///                   ^ punctuation.section.group.begin.cs
 ///                    ^^^^ support.type.cs
 ///                         ^^^ variable.parameter.cs
-///                            ^ punctuation.section.parameters.end.cs
+///                            ^ punctuation.section.group.end.cs
 ///                             ^ meta.record.cs - meta.constraints
 ///                              ^^^^^^^^^^^^^^^^^^ meta.record.cs meta.constraints.cs
 ///                              ^^^^^ storage.modifier.where.cs
@@ -537,11 +537,11 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///            ^ punctuation.definition.generic.begin.cs
 ///             ^^^^ variable.parameter.type.cs
 ///                 ^ punctuation.definition.generic.end.cs
-///                   ^^^^^^^^^^ meta.record.parameters.cs
-///                   ^ punctuation.section.parameters.begin.cs
+///                   ^^^^^^^^^^ meta.record.parameters.cs meta.group.cs
+///                   ^ punctuation.section.group.begin.cs
 ///                    ^^^^ support.type.cs
 ///                         ^^^ variable.parameter.cs
-///                            ^ punctuation.section.parameters.end.cs
+///                            ^ punctuation.section.group.end.cs
 ///                             ^ meta.record.cs
 ///                              ^^^^^^^^^^^^^^^^^^^ meta.record.cs meta.constraints.cs
 ///                              ^^^^^ storage.modifier.where.cs
@@ -562,7 +562,7 @@ public record Person(
 ///^^^ storage.modifier.access
 ///    ^^^^^^ meta.record keyword.declaration.record
 ///           ^^^^^^ meta.record entity.name.class
-///                 ^ punctuation.section.parameters.begin
+///                 ^ punctuation.section.group.begin
     [property: JsonPropertyName("firstName")]string FirstName,
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.parameters meta.annotation
 /// ^ punctuation.definition.annotation.begin
@@ -576,7 +576,7 @@ public record Person(
 ///                                        ^ punctuation.definition.annotation.end
 ///                                         ^^^^^^ storage.type
 ///                                                ^^^^^^^^ variable.parameter
-///                                                        ^ punctuation.section.parameters.end
+///                                                        ^ punctuation.section.group.end
 ///                                                         ^ punctuation.terminator.statement
 
 public class MyClass { public record MyRecord <T> (int nums) { public const int TEST = 4; } }
@@ -599,10 +599,10 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                                           ^ punctuation.definition.generic.begin
 ///                                            ^ variable.parameter.type
 ///                                             ^ punctuation.definition.generic.end
-///                                               ^ punctuation.section.parameters.begin
+///                                               ^ punctuation.section.group.begin
 ///                                                ^^^ storage.type
 ///                                                    ^^^^ variable.parameter
-///                                                        ^ punctuation.section.parameters.end
+///                                                        ^ punctuation.section.group.end
 ///                                                          ^ punctuation.section.block.begin
 ///                                                            ^^^^^^ storage.modifier.access
 ///                                                                   ^^^^^ storage.modifier
@@ -815,7 +815,7 @@ unsafe class TestFunctionPointers {
 ///                                      ^^^^ storage.type.primitive.cs
 ///                                          ^ punctuation.definition.generic.end.cs
 ///                                            ^ variable.parameter.cs
-///                                             ^ punctuation.section.parameters.end.cs
+///                                             ^ punctuation.section.group.end.cs
 
         delegate*<int, int, int> p1 = &TestFunctionPointers.Log;
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
@@ -886,8 +886,8 @@ unsafe class TestFunctionPointers {
 /// ^ punctuation.section.block.end.cs
 
     static IntPtr X (delegate*<void> callback) {}
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                 ^ punctuation.section.parameters.begin.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
 ///                  ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
@@ -896,11 +896,11 @@ unsafe class TestFunctionPointers {
 ///                            ^^^^ storage.type.primitive.cs
 ///                                ^ punctuation.definition.generic.end.cs
 ///                                  ^^^^^^^^ variable.parameter.cs
-///                                          ^ punctuation.section.parameters.end.cs
+///                                          ^ punctuation.section.group.end.cs
 
     static IntPtr X (delegate* <void> callback) {}
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                 ^ punctuation.section.parameters.begin.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
 ///                  ^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
@@ -909,11 +909,11 @@ unsafe class TestFunctionPointers {
 ///                             ^^^^ storage.type.primitive.cs
 ///                                 ^ punctuation.definition.generic.end.cs
 ///                                   ^^^^^^^^ variable.parameter.cs
-///                                           ^ punctuation.section.parameters.end.cs
+///                                           ^ punctuation.section.group.end.cs
 
     static IntPtr X (delegate* unmanaged<void> callback) {}
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                 ^ punctuation.section.parameters.begin.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                  ^^^^^^^^ keyword.declaration.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
@@ -924,7 +924,7 @@ unsafe class TestFunctionPointers {
 ///                                      ^^^^ storage.type.primitive.cs
 ///                                          ^ punctuation.definition.generic.end.cs
 ///                                            ^^^^^^^^ variable.parameter.cs
-///                                                    ^ punctuation.section.parameters.end.cs
+///                                                    ^ punctuation.section.group.end.cs
 
     // Don't require unsafe at declaration
     // -----------------------------------
@@ -943,11 +943,11 @@ unsafe class TestFunctionPointers {
     TestFunctionPointers(delegate*<void> ptr) => _ptr = ptr;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 /// ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
-///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                          ^^^ meta.method.cs
 ///                                             ^^^^^^^^^^^ meta.method.body.cs
 /// ^^^^^^^^^^^^^^^^^^^^ entity.name.function.constructor.cs
-///                     ^ punctuation.section.parameters.begin.cs
+///                     ^ punctuation.section.group.begin.cs
 ///                      ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                      ^^^^^^^^ keyword.declaration.delegate.cs
 ///                              ^ keyword.operator.pointer.cs
@@ -956,7 +956,7 @@ unsafe class TestFunctionPointers {
 ///                                ^^^^ storage.type.primitive.cs
 ///                                    ^ punctuation.definition.generic.end.cs
 ///                                      ^^^ variable.parameter.cs
-///                                         ^ punctuation.section.parameters.end.cs
+///                                         ^ punctuation.section.group.end.cs
 ///                                           ^^ keyword.declaration.function.arrow.cs
 ///                                              ^^^^ variable.other.cs
 ///                                                   ^ keyword.operator.assignment.cs
@@ -967,9 +967,9 @@ unsafe class TestFunctionPointers {
 /// ^^^^^^ storage.modifier.access.cs
 ///        ^^^^ storage.type.primitive.cs
 ///             ^^^^^^ entity.name.function.cs
-///                   ^^ meta.method.parameters.cs
-///                   ^ punctuation.section.parameters.begin.cs
-///                    ^ punctuation.section.parameters.end.cs
+///                   ^^ meta.method.parameters.cs meta.group.cs
+///                   ^ punctuation.section.group.begin.cs
+///                    ^ punctuation.section.group.end.cs
 ///                      ^^ keyword.declaration.function.arrow.cs
 ///                         ^^^^ meta.function-call.identifier.cs variable.function.cs
 ///                             ^^ meta.function-call.arguments.cs meta.group.cs

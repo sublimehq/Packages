@@ -527,13 +527,13 @@ contexts:
 
   class-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-class-parameter-list
     - include: else-pop
 
   inside-class-parameter-list:
     - clear_scopes: 1
-    - meta_scope: meta.class.parameters.cs
+    - meta_scope: meta.class.parameters.cs meta.group.cs
     - include: inside-method-parameter-list
 
   class-base:
@@ -703,13 +703,13 @@ contexts:
 
   record-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-record-parameter-list
     - include: else-pop
 
   inside-record-parameter-list:
     - clear_scopes: 1
-    - meta_scope: meta.record.parameters.cs
+    - meta_scope: meta.record.parameters.cs meta.group.cs
     - include: inside-method-parameter-list
 
   record-base:
@@ -756,13 +756,13 @@ contexts:
 
   struct-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-struct-parameter-list
     - include: else-pop
 
   inside-struct-parameter-list:
     - clear_scopes: 1
-    - meta_scope: meta.struct.parameters.cs
+    - meta_scope: meta.struct.parameters.cs meta.group.cs
     - include: inside-method-parameter-list
 
   struct-base:
@@ -952,12 +952,12 @@ contexts:
   delegate-parameter-list:
     - meta_content_scope: meta.delegate.cs
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-delegate-parameter-list
     - include: else-pop
 
   inside-delegate-parameter-list:
-    - meta_scope: meta.delegate.parameters.cs
+    - meta_scope: meta.delegate.parameters.cs meta.group.cs
     - include: inside-method-parameter-list
 
 ###[ EVENT MEMBER DECLARATIONS ]###############################################
@@ -1020,13 +1020,13 @@ contexts:
 
   extension-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-extension-parameter-list
     - include: else-pop
 
   inside-extension-parameter-list:
     - clear_scopes: 1
-    - meta_scope: meta.extension.parameters.cs
+    - meta_scope: meta.extension.parameters.cs meta.group.cs
     - include: inside-method-parameter-list
 
   extension-base:
@@ -1181,15 +1181,15 @@ contexts:
 
   method-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-method-parameter-list
     - include: else-pop
 
   inside-method-parameter-list:
     - clear_scopes: 1
-    - meta_scope: meta.method.parameters.cs
+    - meta_scope: meta.method.parameters.cs meta.group.cs
     - match: \)
-      scope: punctuation.section.parameters.end.cs
+      scope: punctuation.section.group.end.cs
       pop: 1
     - include: method-parameters
 
@@ -2166,7 +2166,7 @@ contexts:
 
   delegate-lambda-parameter-list:
     - match: \(
-      scope: punctuation.section.parameters.begin.cs
+      scope: punctuation.section.group.begin.cs
       set: inside-delegate-lambda-parameter-list
     - include: else-pop
 

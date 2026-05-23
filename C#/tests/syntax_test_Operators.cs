@@ -7,11 +7,11 @@ class TestOperatorDefinitions {
     public bool operator + (int arg);
 ///             ^^^^^^^^ keyword.declaration.operator.cs
 ///                      ^ meta.method.cs entity.name.function.cs
-///                        ^^^^^^^^^ meta.method.parameters.cs
-///                        ^ punctuation.section.parameters.begin.cs
+///                        ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                        ^ punctuation.section.group.begin.cs
 ///                         ^^^ storage.type.primitive.cs
 ///                             ^^^ variable.parameter.cs
-///                                ^ punctuation.section.parameters.end.cs
+///                                ^ punctuation.section.group.end.cs
 ///                                 ^ punctuation.terminator.statement.cs
 
     public bool operator - (int arg);
@@ -127,13 +127,13 @@ class TestOperatorDefinitions {
 /// ^^^^^^^^^^^^^^^^^^^ meta.method.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^^^^^ support.type.cs
-///                    ^^^^^^^^^ meta.method.parameters.cs
+///                    ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                             ^^^ meta.method.cs
 ///                                ^^^^^ meta.method.body.cs
-///                    ^ punctuation.section.parameters.begin.cs
+///                    ^ punctuation.section.group.begin.cs
 ///                     ^^^ storage.type.primitive.cs
 ///                         ^^^ variable.parameter.cs
-///                            ^ punctuation.section.parameters.end.cs
+///                            ^ punctuation.section.group.end.cs
 ///                              ^^ keyword.declaration.function.arrow.cs
 ///                                 ^^^^ constant.language.null.cs
 ///                                     ^ punctuation.terminator.statement.cs - meta.method
@@ -143,11 +143,11 @@ class TestOperatorDefinitions {
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^^^^^ support.type.cs
 ///                    ^ storage.modifier.nullable.cs
-///                     ^^^^^^^^^ meta.method.parameters.cs
-///                     ^ punctuation.section.parameters.begin.cs
+///                     ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                     ^ punctuation.section.group.begin.cs
 ///                      ^^^ storage.type.primitive.cs
 ///                          ^^^ variable.parameter.cs
-///                             ^ punctuation.section.parameters.end.cs
+///                             ^ punctuation.section.group.end.cs
 ///                              ^ meta.method.cs
 ///                               ^^^^^^^^^^^^^^^ meta.method.body.cs meta.block.cs
 ///                               ^ punctuation.section.block.begin.cs
@@ -158,7 +158,7 @@ class TestOperatorDefinitions {
 
     operator TargetType<T>?(int arg) => null;
 /// ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
-///                        ^^^^^^^^^ meta.method.parameters.cs
+///                        ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                 ^^^ meta.method.cs
 ///                                    ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
@@ -168,17 +168,17 @@ class TestOperatorDefinitions {
 ///                     ^ support.type.cs
 ///                      ^ punctuation.definition.generic.end.cs
 ///                       ^ storage.modifier.nullable.cs
-///                        ^ punctuation.section.parameters.begin.cs
+///                        ^ punctuation.section.group.begin.cs
 ///                         ^^^ storage.type.primitive.cs
 ///                             ^^^ variable.parameter.cs
-///                                ^ punctuation.section.parameters.end.cs
+///                                ^ punctuation.section.group.end.cs
 ///                                  ^^ keyword.declaration.function.arrow.cs
 ///                                     ^^^^ constant.language.null.cs
 ///                                         ^ punctuation.terminator.statement.cs
 
     operator TargetType[][,](int arg) => null;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
-///                         ^^^^^^^^^ meta.method.parameters.cs
+///                         ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                  ^^^ meta.method.cs
 ///                                     ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
@@ -189,17 +189,17 @@ class TestOperatorDefinitions {
 ///                      ^ punctuation.section.brackets.begin.cs
 ///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
-///                         ^ punctuation.section.parameters.begin.cs
+///                         ^ punctuation.section.group.begin.cs
 ///                          ^^^ storage.type.primitive.cs
 ///                              ^^^ variable.parameter.cs
-///                                 ^ punctuation.section.parameters.end.cs
+///                                 ^ punctuation.section.group.end.cs
 ///                                   ^^ keyword.declaration.function.arrow.cs
 ///                                      ^^^^ constant.language.null.cs
 ///                                          ^ punctuation.terminator.statement.cs
 
     operator TargetType[][,]?(int arg) => null;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
-///                          ^^^^^^^^^ meta.method.parameters.cs
+///                          ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                   ^^^ meta.method.cs
 ///                                      ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
@@ -211,17 +211,17 @@ class TestOperatorDefinitions {
 ///                       ^ punctuation.separator.comma.cs
 ///                        ^ punctuation.section.brackets.end.cs
 ///                         ^ storage.modifier.nullable.cs
-///                          ^ punctuation.section.parameters.begin.cs
+///                          ^ punctuation.section.group.begin.cs
 ///                           ^^^ storage.type.primitive.cs
 ///                               ^^^ variable.parameter.cs
-///                                  ^ punctuation.section.parameters.end.cs
+///                                  ^ punctuation.section.group.end.cs
 ///                                    ^^ keyword.declaration.function.arrow.cs
 ///                                       ^^^^ constant.language.null.cs
 ///                                           ^ punctuation.terminator.statement.cs
 
     operator TargetType<T>[][,]?(int arg) => null;
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
-///                             ^^^^^^^^^ meta.method.parameters.cs
+///                             ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                      ^^^ meta.method.cs
 ///                                         ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
@@ -237,55 +237,55 @@ class TestOperatorDefinitions {
 ///                          ^ punctuation.separator.comma.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ storage.modifier.nullable.cs
-///                             ^ punctuation.section.parameters.begin.cs
+///                             ^ punctuation.section.group.begin.cs
 ///                              ^^^ storage.type.primitive.cs
 ///                                  ^^^ variable.parameter.cs
-///                                     ^ punctuation.section.parameters.end.cs
+///                                     ^ punctuation.section.group.end.cs
 ///                                       ^^ keyword.declaration.function.arrow.cs
 ///                                          ^^^^ constant.language.null.cs
 ///                                              ^ punctuation.terminator.statement.cs
 
     operator dynamic(int arg) => null;
 /// ^^^^^^^^^^^^^^^^ meta.method.cs
-///                 ^^^^^^^^^ meta.method.parameters.cs
+///                 ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                          ^^^ meta.method.cs
 ///                             ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^^ storage.type.primitive.cs
-///                 ^ punctuation.section.parameters.begin.cs
+///                 ^ punctuation.section.group.begin.cs
 ///                  ^^^ storage.type.primitive.cs
 ///                      ^^^ variable.parameter.cs
-///                         ^ punctuation.section.parameters.end.cs
+///                         ^ punctuation.section.group.end.cs
 ///                           ^^ keyword.declaration.function.arrow.cs
 ///                              ^^^^ constant.language.null.cs
 ///                                  ^ punctuation.terminator.statement.cs
 
     operator object(int arg) => null;
 /// ^^^^^^^^^^^^^^^ meta.method.cs
-///                ^^^^^^^^^ meta.method.parameters.cs
+///                ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                         ^^^ meta.method.cs
 ///                            ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^ storage.type.primitive.cs
-///                ^ punctuation.section.parameters.begin.cs
+///                ^ punctuation.section.group.begin.cs
 ///                 ^^^ storage.type.primitive.cs
 ///                     ^^^ variable.parameter.cs
-///                        ^ punctuation.section.parameters.end.cs
+///                        ^ punctuation.section.group.end.cs
 ///                          ^^ keyword.declaration.function.arrow.cs
 ///                             ^^^^ constant.language.null.cs
 ///                                 ^ punctuation.terminator.statement.cs
 
     operator string(int arg) => null;
 /// ^^^^^^^^^^^^^^^ meta.method.cs
-///                ^^^^^^^^^ meta.method.parameters.cs
+///                ^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                         ^^^ meta.method.cs
 ///                            ^^^^^ meta.method.body.cs
 /// ^^^^^^^^ keyword.declaration.operator.cs
 ///          ^^^^^^ storage.type.primitive.cs
-///                ^ punctuation.section.parameters.begin.cs
+///                ^ punctuation.section.group.begin.cs
 ///                 ^^^ storage.type.primitive.cs
 ///                     ^^^ variable.parameter.cs
-///                        ^ punctuation.section.parameters.end.cs
+///                        ^ punctuation.section.group.end.cs
 ///                          ^^ keyword.declaration.function.arrow.cs
 ///                             ^^^^ constant.language.null.cs
 ///                                 ^ punctuation.terminator.statement.cs

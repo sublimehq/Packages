@@ -196,14 +196,14 @@ namespace YourNamespace
         YourClass(T1 arg, int num) : this(arg) {  }
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
 ///     ^^^^^^^^^ meta.method.cs entity.name.function.constructor.cs
-///              ^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///              ^ punctuation.section.parameters.begin.cs
+///              ^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///              ^ punctuation.section.group.begin.cs
 ///               ^^ support.type.cs
 ///                  ^^^ variable.parameter.cs
 ///                     ^ punctuation.separator.comma.cs
 ///                       ^^^ storage.type.primitive.cs
 ///                           ^^^ variable.parameter.cs
-///                              ^ punctuation.section.parameters.end.cs
+///                              ^ punctuation.section.group.end.cs
 ///                               ^^^^^^^^^^^^^ meta.method.cs
 ///                                ^ punctuation.separator.colon.cs
 ///                                  ^^^^ meta.initializer.cs variable.language.this.cs
@@ -342,12 +342,12 @@ namespace YourNamespace
         YourClass () {
 ///     ^^^^^^^^^^^^^^^ meta.constructor.cs - meta.method meta.method
 ///     ^^^^^^^^^^ meta.method.cs
-///               ^^ meta.method.parameters.cs
+///               ^^ meta.method.parameters.cs meta.group.cs
 ///                 ^ meta.method.cs
 ///                  ^^ meta.method.body.cs meta.block.cs
 ///     ^^^^^^^^^ entity.name.function.constructor.cs
-///               ^ punctuation.section.parameters.begin.cs
-///                ^ punctuation.section.parameters.end.cs
+///               ^ punctuation.section.group.begin.cs
+///                ^ punctuation.section.group.end.cs
 ///                  ^ punctuation.section.block.begin.cs
         }
 ///^^^^^^ meta.constructor.cs meta.method.body.cs meta.block.cs
@@ -358,14 +358,14 @@ namespace YourNamespace
 ///            ^^^^ storage.modifier.access.cs
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
 ///                 ^^^^^^^^^^ meta.method.cs
-///                           ^^^^^^^^^^^ meta.method.parameters.cs
+///                           ^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                      ^^^^^^^^^^^^^^^ meta.method.cs
 ///                                                     ^^ meta.method.body.cs meta.block.cs
 ///                 ^^^^^^^^^ entity.name.function.constructor.cs
-///                           ^ punctuation.section.parameters.begin.cs
+///                           ^ punctuation.section.group.begin.cs
 ///                             ^^^ storage.type.primitive.cs
 ///                                 ^^^ variable.parameter.cs
-///                                     ^ punctuation.section.parameters.end.cs
+///                                     ^ punctuation.section.group.end.cs
 ///                                       ^ punctuation.separator.colon.cs
 ///                                         ^^^^ meta.initializer.cs variable.language.this.cs
 ///                                             ^^^^^^^ meta.initializer.arguments.cs meta.group.cs
@@ -390,12 +390,12 @@ namespace YourNamespace
         ~YourClass () {
 ///     ^^^^^^^^^^^^^^^^ meta.destructor.cs - meta.method meta.method
 ///     ^^^^^^^^^^^ meta.method.cs
-///                ^^ meta.method.parameters.cs
+///                ^^ meta.method.parameters.cs meta.group.cs
 ///                  ^ meta.method.cs
 ///                   ^^ meta.method.body.cs meta.block.cs
 ///     ^^^^^^^^^^ entity.name.function.destructor.cs
-///                ^ punctuation.section.parameters.begin.cs
-///                 ^ punctuation.section.parameters.end.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^ punctuation.section.group.end.cs
 ///                   ^ punctuation.section.block.begin.cs
         }
 ///^^^^^^ meta.destructor.cs meta.method.body.cs meta.block.cs
@@ -405,10 +405,10 @@ namespace YourNamespace
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.method
 ///                 ^^^^^^^ entity.name.function
 ///                        ^^^^^^^^^^^^ meta.method.parameters
-///                        ^ punctuation.section.parameters.begin
+///                        ^ punctuation.section.group.begin
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
-///                                   ^ punctuation.section.parameters.end
+///                                   ^ punctuation.section.group.end
 ///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^^ variable.language.this
 ///                                             ^^ keyword.operator.comparison.type.cs
@@ -435,8 +435,8 @@ namespace YourNamespace
 ///              ^^^^^^ storage.modifier.cs
 ///                     ^^^^ storage.type.primitive.cs
 ///                          ^^^^^^^ meta.method.cs entity.name.function.cs
-///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
-///                                 ^ punctuation.section.parameters.begin.cs
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
+///                                 ^ punctuation.section.group.begin.cs
 ///                                  ^^^^ storage.modifier.parameter.cs
 ///                                         ^^ support.type.cs
 ///                                           ^^ meta.brackets.cs
@@ -448,7 +448,7 @@ namespace YourNamespace
 ///                                                           ^ variable.parameter.cs
 ///                                                            ^ punctuation.separator.comma.cs
 ///                                                               ^^^^^^ storage.modifier.parameter.cs
-///                                                                     ^ punctuation.section.parameters.end.cs
+///                                                                     ^ punctuation.section.group.end.cs
 ///                                                                      ^ punctuation.terminator.statement.cs
 
         public bool IsZero => IsConst(Numeric<Type>.Zero);
@@ -491,9 +491,9 @@ namespace YourNamespace
 ///                ^^^^ storage.type.primitive.cs
 ///                     ^^^^^^^^^ meta.method.cs
 ///                     ^^^^^^^^^ entity.name.function.cs
-///                              ^^ meta.method.parameters.cs
-///                              ^ punctuation.section.parameters.begin.cs
-///                               ^ punctuation.section.parameters.end.cs
+///                              ^^ meta.method.parameters.cs meta.group.cs
+///                              ^ punctuation.section.group.begin.cs
+///                               ^ punctuation.section.group.end.cs
 ///                                ^^^ meta.method.cs
 ///                                 ^^ keyword.declaration.function.arrow.cs
 ///                                   ^^^^^^ meta.method.body.cs
@@ -672,10 +672,10 @@ namespace YourNamespace
 ///                 ^^^^^^ support.type
 ///                        ^^^^^^^^^^^^ entity.name.type.delegate
 ///                                     ^^^^^^^ meta.delegate.parameters
-///                                     ^ punctuation.section.parameters.begin
+///                                     ^ punctuation.section.group.begin
 ///                                      ^^^ storage.type
 ///                                          ^ variable.parameter
-///                                           ^ punctuation.section.parameters.end
+///                                           ^ punctuation.section.group.end
 ///                                            ^ punctuation.terminator
 
     enum
@@ -857,14 +857,14 @@ namespace TestNamespace . Test
 ///     ^^^^^^ storage.modifier.access.cs
 ///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constructor.cs
 ///            ^^^^^^^ meta.method.cs
-///                   ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs meta.group.cs
 ///                                        ^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 ///                                                            ^^ meta.method.body.cs meta.block.cs
 ///            ^^^^^^^ entity.name.function.constructor.cs
-///                   ^ punctuation.section.parameters.begin.cs
+///                   ^ punctuation.section.group.begin.cs
 ///                    ^^^^^^^^ support.type.cs
 ///                             ^^^^^^^^^^ variable.parameter.cs
-///                                       ^ punctuation.section.parameters.end.cs
+///                                       ^ punctuation.section.group.end.cs
 ///                                         ^ punctuation.separator.colon.cs
 ///                                           ^^^^ meta.initializer.cs variable.language.super.cs
 ///                                               ^^^^^^^^^^^^ meta.initializer.arguments.cs meta.group.cs
@@ -882,7 +882,7 @@ namespace TestNamespace . Test
 ///                         ^ entity.name.function
 ///                         ^^^^^^^^^^^ - meta.generic
 ///                                    ^^^ meta.generic
-///                                       ^ punctuation.section.parameters.begin
+///                                       ^ punctuation.section.group.begin
 ///                                        ^^^^^^ storage.type
 ///                                               ^^^^^^^^^^^ variable.parameter
 ///                                                          ^ punctuation.separator
@@ -1899,14 +1899,14 @@ public class AfterTopLevelMethod : IDrawingObject {
 
     void IDrawingObject.DoInternalStuff() {}
 ///                     ^^^^^^^^^^^^^^^ meta.method.cs
-///                                    ^^ meta.method.parameters.cs
+///                                    ^^ meta.method.parameters.cs meta.group.cs
 ///                                      ^ meta.method.cs
 ///                                       ^^ meta.method.body.cs meta.block.cs
 ///      ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
 ///                    ^ punctuation.accessor.dot.cs
 ///                     ^^^^^^^^^^^^^^^ entity.name.function.cs
-///                                    ^ punctuation.section.parameters.begin.cs
-///                                     ^ punctuation.section.parameters.end.cs
+///                                    ^ punctuation.section.group.begin.cs
+///                                     ^ punctuation.section.group.end.cs
 ///                                       ^ punctuation.section.block.begin.cs
 ///                                        ^ punctuation.section.block.end.cs
 
@@ -2107,16 +2107,16 @@ public class TestModifierOrder
 ///       ^^^^^^ storage.modifier
 ///              ^^^^ support.type
 ///                   ^^^^^^^^^^^^^^^ entity.name.function
-///                                  ^ punctuation.section.parameters.begin.cs
-///                                                                               ^ punctuation.section.parameters.end.cs
+///                                  ^ punctuation.section.group.begin.cs
+///                                                                               ^ punctuation.section.group.end.cs
     static async Task OnExportCommand(FileInfo outputfile, CancellationToken token)
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid
 /// ^^^^^^ storage.modifier
 ///        ^^^^^ storage.modifier
 ///              ^^^^ support.type
 ///                   ^^^^^^^^^^^^^^^ entity.name.function
-///                                  ^ punctuation.section.parameters.begin.cs
-///                                                                               ^ punctuation.section.parameters.end.cs
+///                                  ^ punctuation.section.group.begin.cs
+///                                                                               ^ punctuation.section.group.end.cs
     {
         await NestedMethod();
 
@@ -2125,14 +2125,14 @@ public class TestModifierOrder
 ///           ^^^^^^ storage.modifier.cs
 ///                  ^^^^ support.type.cs
 ///                       ^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                   ^^ meta.method.parameters.cs
+///                                   ^^ meta.method.parameters.cs meta.group.cs
 
         static async Task NestedMethod();
 ///     ^^^^^^ storage.modifier.cs
 ///            ^^^^^ storage.modifier.cs
 ///                  ^^^^ support.type.cs
 ///                       ^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                   ^^ meta.method.parameters.cs
+///                                   ^^ meta.method.parameters.cs meta.group.cs
     }
 }
 
@@ -3699,10 +3699,10 @@ public class TestExpressions
 ///                         ^ meta.function.anonymous.cs
 ///                          ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
 ///         ^^^^^^^^ keyword.declaration.delegate.cs
-///                  ^ punctuation.section.parameters.begin.cs
+///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^ storage.type.primitive.cs
 ///                       ^ variable.parameter.cs
-///                        ^ punctuation.section.parameters.end.cs
+///                        ^ punctuation.section.group.end.cs
 ///                          ^ punctuation.section.block.begin.cs
 ///                            ^^^^^^ keyword.control.flow.return.cs
 ///                                   ^ variable.other.cs
@@ -3719,10 +3719,10 @@ public class TestExpressions
 ///                                 ^^^^^^^^^^^^^^^^^ meta.function.anonymous.body.cs meta.block.cs
 ///         ^^^^^^ storage.modifier.cs
 ///                ^^^^^^^^ keyword.declaration.delegate.cs
-///                         ^ punctuation.section.parameters.begin.cs
+///                         ^ punctuation.section.group.begin.cs
 ///                          ^^^ storage.type.primitive.cs
 ///                              ^ variable.parameter.cs
-///                               ^ punctuation.section.parameters.end.cs
+///                               ^ punctuation.section.group.end.cs
 ///                                 ^ punctuation.section.block.begin.cs
 ///                                   ^^^^^^ keyword.control.flow.return.cs
 ///                                          ^ variable.other.cs
@@ -3750,10 +3750,10 @@ public class TestExpressions
             (int i)
 ///^^^^^^^^^ meta.function.anonymous.cs
 ///         ^^^^^^^ meta.function.anonymous.parameters.cs meta.group.cs
-///         ^ punctuation.section.parameters.begin.cs
+///         ^ punctuation.section.group.begin.cs
 ///          ^^^ storage.type.primitive.cs
 ///              ^ variable.parameter.cs
-///               ^ punctuation.section.parameters.end.cs
+///               ^ punctuation.section.group.end.cs
 ///                ^ meta.function.anonymous.cs
             {
 ///^^^^^^^^^ meta.function.anonymous.cs

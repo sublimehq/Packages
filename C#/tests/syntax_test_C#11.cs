@@ -631,7 +631,7 @@ public class CompanyFeaturesService(
 ///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 ///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^^^^ entity.name.class
-///                                ^ meta.class.parameters punctuation.section.parameters.begin
+///                                ^ meta.class.parameters punctuation.section.group.begin
   ILogger<CompanyFeaturesService> logger) : ICompanyFeaturesService
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.parameters
 /// ^^^^^ support.type
@@ -640,7 +640,7 @@ public class CompanyFeaturesService(
 ///       ^^^^^^^^^^^^^^^^^^^^^^ support.type
 ///                             ^ punctuation.definition.generic.end
 ///                               ^^^^^^ variable.parameter - meta.generic
-///                                     ^ punctuation.section.parameters.end
+///                                     ^ punctuation.section.group.end
 ///                                       ^ meta.class punctuation.separator.colon - meta.class.constructor
 {
 /// <- meta.class.body meta.block punctuation.section.block.begin
@@ -652,13 +652,13 @@ public readonly struct Distance(double dx, double dy)
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^^^^^^^^^^^^^ meta.struct
 ///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.struct.parameters
-///                            ^ punctuation.section.parameters.begin
+///                            ^ punctuation.section.group.begin
 ///                             ^^^^^^ storage.type
 ///                                    ^^ variable.parameter
 ///                                      ^ punctuation.separator.comma
 ///                                        ^^^^^^ storage.type
 ///                                               ^^ variable.parameter
-///                                                 ^ punctuation.section.parameters.end
+///                                                 ^ punctuation.section.group.end
 ///                                                  ^ meta.struct - meta.class.constructor
 {
 /// <- meta.struct.body meta.block punctuation.section.block.begin
@@ -673,10 +673,10 @@ public readonly struct Distance(double dx, double dy)
 ///    ^^^^^^ keyword.declaration.record
 ///           ^^^^^^ keyword.declaration.struct
 ///                  ^^^^^^ entity.name.struct
-///                        ^ punctuation.section.parameters.begin
+///                        ^ punctuation.section.group.begin
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter
-///                                    ^ punctuation.section.parameters.end
+///                                    ^ punctuation.section.group.end
 ///                                     ^ punctuation.terminator.statement
 
 
@@ -711,9 +711,9 @@ class SomeClass
 ///                ^^^^^^^ storage.modifier.cs
 ///                        ^^^^^ support.type.cs
 ///                              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                                    ^^ meta.method.parameters.cs
-///                                                    ^ punctuation.section.parameters.begin.cs
-///                                                     ^ punctuation.section.parameters.end.cs
+///                                                    ^^ meta.method.parameters.cs meta.group.cs
+///                                                    ^ punctuation.section.group.begin.cs
+///                                                     ^ punctuation.section.group.end.cs
 ///                                                      ^ punctuation.terminator.statement.cs - meta.method
 
     [GeneratedRegex(@"^some(?<named_capture>[^/]{1,100})$")]
