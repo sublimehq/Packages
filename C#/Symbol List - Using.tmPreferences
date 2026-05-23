@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.cs variable.other.import</string>
+	<string>source.cs meta.using variable.other - source.cs meta.using meta</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

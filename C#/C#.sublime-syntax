@@ -618,7 +618,7 @@ contexts:
       scope: invalid.illegal.type.cs
       pop: 1
     - match: '{{unreserved_name}}'
-      scope: support.type.cs
+      scope: entity.other.inherited-class.cs
       pop: 1
     - include: else-pop
 

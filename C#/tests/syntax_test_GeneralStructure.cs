@@ -700,7 +700,7 @@ namespace YourNamespace
 ///      ^^^^^^^^ entity.name.enum.cs
 ///               ^^^^^^^^^^^^^^^ meta.enum.base.cs
 ///               ^ punctuation.separator.colon.cs
-///                 ^^^^^^^^^^^^^ support.type.cs
+///                 ^^^^^^^^^^^^^ entity.other.inherited-class.cs
 
     enum YourEnum : char
 /// ^^^^^^^^^^^^^^ meta.enum.cs
