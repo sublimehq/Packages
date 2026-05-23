@@ -42,6 +42,7 @@ contexts:
     - include: interface-declarations
     - include: record-declarations
     - include: struct-declarations
+    - include: union-declarations
     - include: delegate-declarations
     # class level declarations (fallback only)
     - include: event-declarations
@@ -572,6 +573,7 @@ contexts:
     - include: interface-declarations
     - include: record-declarations
     - include: struct-declarations
+    - include: union-declarations
     - include: delegate-declarations
     # class level declarations
     - include: event-declarations
@@ -789,6 +791,59 @@ contexts:
     - meta_scope: meta.struct.body.cs meta.block.cs
     - include: inside-class-block
 
+###[ UNION DECLARATIONS ]######################################################
+
+  union-declarations:
+    - match: union\b
+      scope: meta.union.cs keyword.declaration.union.cs
+      push:
+        - union-block
+        - union-base
+        - union-parameter-list
+        - type-parameter-list
+        - union-declaration-name
+
+  union-declaration-name:
+    - match: '{{unreserved_name}}'
+      scope: entity.name.union.cs
+      pop: 1
+    - include: else-pop
+
+  union-parameter-list:
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: inside-union-parameter-list
+    - include: else-pop
+
+  inside-union-parameter-list:
+    - clear_scopes: 1
+    - meta_scope: meta.union.parameters.cs meta.group.cs
+    - include: inside-method-parameter-list
+
+  union-base:
+    - match: ':'
+      scope: punctuation.separator.colon.cs
+      set: inside-union-base
+    - match: (?=where\b)
+      set: type-constraints
+    - include: else-pop
+
+  inside-union-base:
+    - clear_scopes: 1
+    - meta_scope: meta.union.base.cs
+    - include: inherited-classes
+
+  union-block:
+    - meta_content_scope: meta.union.cs
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: inside-union-block
+    - include: else-pop
+
+  inside-union-block:
+    - meta_scope: meta.union.body.cs meta.block.cs
+    - include: inside-class-block
+
 ###[ TYPE DECLARATION SIGNATURES ]#############################################
 
   inherited-classes:
@@ -836,8 +891,8 @@ contexts:
     - include: else-pop
 
   primary-type-constraint:
-    - match: unmanaged\b
-      scope: storage.modifier.delegate.cs
+    - match: (?:default|notnull|unmanaged)\b
+      scope: storage.modifier.cs
       pop: 1
     - match: (?:class|struct)\b
       scope: storage.type.primitive.cs
@@ -1748,6 +1803,13 @@ contexts:
         - check-array-initializer
         - inside-array-initializer
         - maybe-pointer
+        - maybe-array-with-arguments
+
+  maybe-array-with-arguments:
+    - match: with\b
+      scope: meta.function-call.identifier.cs keyword.other.with.cs
+      set: function-call-argument-list
+    - include: else-pop
 
   inside-array-initializer:
     - meta_content_scope: meta.brackets.cs
@@ -3208,7 +3270,7 @@ variables:
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: (?:\s*<[^={};]*>)
 
-  statement_keywords: (?:break|case|catch|class|continue|do|else|enum|event|finally|fixed|for|foreach|goto|if|interface|namespace|operator|return|switch|try|using|while)\b
+  statement_keywords: (?:break|case|catch|class|continue|do|else|enum|event|finally|fixed|for|foreach|goto|if|interface|namespace|operator|return|switch|try|union|using|while)\b
   expression_keywords: (?:as|checked|default|delegate|in|is|lock|nameof|new|not|params|sizeof|stackalloc|throw|typeof|unchecked)\b
   language_literals: (?:base|false|null|this|true)\b
 
