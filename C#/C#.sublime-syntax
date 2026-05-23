@@ -1068,7 +1068,9 @@ contexts:
     # property
     - match: \{
       scope: punctuation.section.block.begin.cs
-      set: inside-field-accessor-declaration
+      set:
+        - maybe-assignment-expression
+        - inside-field-accessor-declaration
     - match: =>
       scope: keyword.declaration.function.accessor.get.cs
       set:
@@ -1082,7 +1084,7 @@ contexts:
     - meta_scope: meta.accessors.cs meta.block.cs
     - match: \}
       scope: punctuation.section.block.end.cs
-      set: field-accessor-initializer
+      pop: 1
     - include: stray-punctuations
     - include: terminators
     - include: attributes
@@ -1099,13 +1101,6 @@ contexts:
       scope: meta.method.cs keyword.declaration.function.accessor.set.cs
       push: method-body
     - include: stray-names
-
-  field-accessor-initializer:
-    - match: \s*(=)
-      captures:
-        1: keyword.operator.assignment.cs
-      set: assignment-value
-    - include: noeol-pop
 
   inside-field-declarations:
     - include: member-qualifiers
@@ -1716,10 +1711,11 @@ contexts:
 ###[ ASSIGNMENT EXPRESSIONS ]##################################################
 
   maybe-assignment-expression:
-    - match: =
-      scope: keyword.operator.assignment.cs
+    - match: \s*(=)
+      captures:
+        1: keyword.operator.assignment.cs
       set: assignment-value
-    - include: else-pop
+    - include: noeol-pop
 
   assignment-expressions:
     - match: =
