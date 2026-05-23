@@ -1913,7 +1913,7 @@ public class AfterTopLevelMethod : IDrawingObject {
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
     protected event EventHandler IDrawingObject.OnDraw
 /// ^^^^^^^^^ storage.modifier.access.cs
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.event.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.event.cs - meta.event meta.event
 ///           ^^^^^ keyword.declaration.event.cs
 ///                 ^^^^^^^^^^^^ support.type.cs
 ///                              ^^^^^^^^^^^^^^ entity.other.inherited-class.cs
