@@ -1671,12 +1671,12 @@ contexts:
       scope: variable.language.this.cs
       push:
         - maybe-member-access
-        - item-access
+        - maybe-item-access
     - match: base\b
       scope: variable.language.super.cs
       push:
         - maybe-member-access
-        - item-access
+        - maybe-item-access
     - match: await\b
       scope: keyword.control.flow.await.cs
     - match: (?:return|yield\s+return)\b
@@ -2111,7 +2111,7 @@ contexts:
 
 ###[ ITEM ACCESS EXPRESSIONS ]#################################################
 
-  item-access:
+  maybe-item-access:
     - match: \s*(\[)
       captures:
         1: meta.brackets.cs punctuation.section.brackets.begin.cs
