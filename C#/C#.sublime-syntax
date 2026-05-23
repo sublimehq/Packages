@@ -2059,17 +2059,17 @@ contexts:
       scope: keyword.operator.new.cs
       push:
         - instantiation-meta
-        - variable-initializer
+        - maybe-variable-initializer
         - instantiation-type
     - match: stackalloc\b
       scope: keyword.operator.stackalloc.cs
       push:
         - instantiation-meta
-        - variable-initializer
+        - maybe-variable-initializer
         - instantiation-type
     - match: with(?=\s*\{)
       scope: keyword.operator.with.cs
-      push: variable-initializer
+      push: maybe-variable-initializer
 
   instantiation-meta:
     - meta_include_prototype: false
@@ -2092,7 +2092,7 @@ contexts:
         - function-call-argument-list
         - maybe-object-type
 
-  variable-initializer:
+  maybe-variable-initializer:
     # collection or object initializer
     - match: \s*(\{)
       captures:
