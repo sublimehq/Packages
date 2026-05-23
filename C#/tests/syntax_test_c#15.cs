@@ -13,7 +13,7 @@ List<string> names = [with(capacity: values.Length * 2), .. values];
 ///                   ^^^^ meta.function-call.identifier.cs keyword.other.with.cs
 ///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 ///                       ^ punctuation.section.group.begin.cs
-///                        ^^^^^^^^ variable.other.member.cs
+///                        ^^^^^^^^ variable.parameter.cs
 ///                                ^ keyword.operator.assignment.cs
 ///                                  ^^^^^^ variable.other.cs
 ///                                        ^ punctuation.accessor.dot.cs

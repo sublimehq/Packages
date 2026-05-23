@@ -2099,12 +2099,11 @@ contexts:
       push: out-argument
     - match: ref\b
       scope: storage.modifier.argument.cs
-    - match: ({{name}})\s*({{equal}})
+    - match: ({{name}})\s*({{colon}}|{{equal}})
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
       push: maybe-pointer
-    - include: member-variables
     - include: expression-list
 
   out-argument:

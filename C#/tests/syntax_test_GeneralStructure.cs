@@ -1626,13 +1626,13 @@ namespace TestNamespace . Test
 ///                                                         ^^^^^^^ meta.function-call.arguments.cs meta.group.cs meta.function-call.arguments.cs meta.group.cs
 ///                                                                ^ meta.function-call.arguments.cs meta.group.cs - meta.function-call meta.function-call
 ///            ^ punctuation.section.group.begin.cs
-///             ^^^^^^ variable.other.member.cs
+///             ^^^^^^ variable.parameter.cs
 ///                   ^ keyword.operator.assignment.cs
 ///                     ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                     ^ punctuation.definition.string.begin.cs
 ///                           ^ punctuation.definition.string.end.cs
 ///                            ^ punctuation.separator.comma.cs
-///                              ^^^^^ variable.other.member.cs
+///                              ^^^^^ variable.parameter.cs
 ///                                   ^ keyword.operator.assignment.cs
 ///                                     ^^^ keyword.operator.new.cs
 ///                                         ^^^^^^^^^^^^^^^^ support.type.cs
