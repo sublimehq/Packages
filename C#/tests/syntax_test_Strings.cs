@@ -120,8 +120,8 @@ var verbatim_singleline_sql = @"
     SELECT  *
     FROM    foo
     WHERE   SQLi='{0}'";
-///^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
-///^^^^^^^^^^^^^^^^^^^ source.sql
+///^^^^^^^^^^^^^^^^^^^ meta.string.cs source.sql.embedded.cs - meta.string.interpolated - string.quoted.double.verbatim
+///                   ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 /// ^^^^^ keyword.other.dml.sql
 ///         ^^^^ meta.column-name.sql
 ///             ^ keyword.operator.comparison.sql
@@ -139,8 +139,8 @@ var verbatim_singleline_sql_interpolated = $@"
     SELECT  *
     FROM    foo
     WHERE   SQLi='{bar}'";
-///^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
-///^^^^^^^^^^^^^^^^^^^^^ source.sql
+///^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs source.sql.embedded.cs - meta.string.cs - string-quoted.double.verbatim
+///                     ^ meta.string.interpolated.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 /// ^^^^^ keyword.other.dml.sql
 ///         ^^^^ meta.column-name.sql
 ///             ^ keyword.operator.comparison.sql
@@ -161,7 +161,7 @@ var verbatim_singleline_sql_interpolated = $@"
 """
     SELECT *
     FROM some_table
-/// ^^^^ meta.string.cs string.quoted.double.block.cs source.sql keyword.other.dml.sql
+/// ^^^^ meta.string.cs source.sql keyword.other.dml.sql
 """;
 /// <- meta.string.cs string.quoted.double.block.cs punctuation.definition.string.end.cs
 
@@ -169,6 +169,108 @@ var verbatim_singleline_sql_interpolated = $@"
     no sql here
 /// ^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.sql
 """;
+
+var query = @"SELECT * """;
+///         ^^^^^^^^^^^^^^ meta.string.cs
+///         ^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///           ^^^^^^^^^^^ source.sql.embedded.cs - string.quoted.double.verbatim
+///                    ^^ punctuation.definition.string.begin.sql
+///                      ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                       ^ punctuation.terminator.statement.cs
+
+var query = @"SELECT * """"";
+///         ^^^^^^^^^^^^^^^^ meta.string.cs
+///         ^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///           ^^^^^^^^^^^^^ source.sql.embedded.cs
+///                    ^^^^ meta.string.sql string.quoted.double.sql
+///                    ^^ punctuation.definition.string.begin.sql
+///                      ^^ punctuation.definition.string.end.sql
+///                        ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                         ^ punctuation.terminator.statement.cs
+
+var query = @$"SELECT * """;
+///         ^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///            ^^^^^^^^^^^ source.sql.embedded.cs
+///                     ^^ meta.string.sql string.quoted.double.sql punctuation.definition.string.begin.sql
+///                       ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+var query = @$"SELECT * """"";
+///         ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///            ^^^^^^^^^^^^^ source.sql.embedded.cs
+///                     ^^^^ meta.string.sql string.quoted.double.sql
+///                     ^^ punctuation.definition.string.begin.sql
+///                       ^^ punctuation.definition.string.end.sql
+///                         ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                          ^ punctuation.terminator.statement.cs
+
+var query = @"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""{value}"" GROUP BY `{colname}`";
+/// ^^^^^ variable.other.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs source.sql.embedded.cs - string.quoted.double.verbatim
+///                                                                                                           ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///           ^^^^^^ keyword.other.dml.sql
+///                  ^ constant.other.wildcard.asterisk.sql
+///                    ^^^^ keyword.other.dml.sql
+///                         ^^^^^^^^^ meta.table-name.sql
+///                         ^ punctuation.definition.identifier.begin.sql
+///                                 ^ punctuation.definition.identifier.end.sql
+///                                   ^^^^^ keyword.other.dml.sql
+///                                         ^^^ meta.column-name.sql
+///                                             ^^^^ keyword.operator.comparison.sql
+///                                                  ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
+///                                                  ^^ punctuation.definition.string.begin.sql
+///                                                           ^^ punctuation.definition.string.end.sql
+///                                                              ^^^ keyword.operator.logical.sql
+///                                                                  ^^^ meta.column-name.sql
+///                                                                      ^^^^ keyword.operator.comparison.sql
+///                                                                           ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
+///                                                                           ^^ punctuation.definition.string.begin.sql
+///                                                                                    ^^ punctuation.definition.string.end.sql
+///                                                                                       ^^^^^^^^ keyword.other.dml.sql
+///                                                                                                ^^^^^^^^^^^ meta.column-name.sql
+///                                                                                                ^ punctuation.definition.identifier.begin.sql
+///                                                                                                          ^ punctuation.definition.identifier.end.sql
+///                                                                                                            ^ punctuation.terminator.statement.cs
+
+var query = @$"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""{value}"" GROUP BY `{colname}`";
+/// ^^^^^ variable.other.cs
+///       ^ keyword.operator.assignment.cs
+///         ^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs source.sql.embedded.cs - string.quoted.double.verbatim
+///                                                                                                            ^ meta.string.interpolated.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///            ^^^^^^ keyword.other.dml.sql
+///                   ^ constant.other.wildcard.asterisk.sql
+///                     ^^^^ keyword.other.dml.sql
+///                          ^ meta.table-name.sql punctuation.definition.identifier.begin.sql
+///                           ^^^^^^^ meta.interpolation.cs
+///                            ^^^^^ source.cs variable.other.cs
+///                                  ^ meta.table-name.sql punctuation.definition.identifier.end.sql
+///                                    ^^^^^ keyword.other.dml.sql
+///                                          ^^^ meta.column-name.sql
+///                                              ^^^^ keyword.operator.comparison.sql
+///                                                   ^^^^^^^^^^^ meta.string.sql
+///                                                   ^^ string.quoted.double.sql punctuation.definition.string.begin.sql
+///                                                     ^^^^^^^ meta.interpolation.cs
+///                                                      ^^^^^ source.cs variable.language.cs
+///                                                            ^^ string.quoted.double.sql punctuation.definition.string.end.sql
+///                                                               ^^^ keyword.operator.logical.sql
+///                                                                   ^^^ meta.column-name.sql
+///                                                                       ^^^^ keyword.operator.comparison.sql
+///                                                                            ^^^^^^^^^^^ meta.string.sql
+///                                                                            ^^ string.quoted.double.sql punctuation.definition.string.begin.sql
+///                                                                              ^^^^^^^ meta.interpolation.cs
+///                                                                               ^^^^^ source.cs variable.language.cs
+///                                                                                     ^^ string.quoted.double.sql punctuation.definition.string.end.sql
+///                                                                                        ^^^^^^^^ keyword.other.dml.sql
+///                                                                                                 ^ meta.column-name.sql punctuation.definition.identifier.begin.sql
+///                                                                                                  ^^^^^^^^^ meta.interpolation.cs
+///                                                                                                   ^^^^^^^ source.cs variable.other.cs
+///                                                                                                           ^ meta.column-name.sql punctuation.definition.identifier.end.sql
+///                                                                                                             ^ punctuation.terminator.statement.cs
 
 Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 ///            ^^^^^ meta.instantiation.cs meta.function-call.identifier.cs support.type.cs

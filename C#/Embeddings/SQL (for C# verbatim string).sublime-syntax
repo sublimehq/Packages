@@ -1,0 +1,51 @@
+%YAML 1.2
+---
+scope: source.sql.embedded.cs.verbatim-string
+version: 2
+hidden: true
+
+extends: Packages/SQL/SQL.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: string-terminator
+
+  comment-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  identifier-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  string-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  double-quoted-strings:
+    - match: \"{2}
+      scope: punctuation.definition.string.begin.sql
+      push: inside-double-quoted-string
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.double.sql
+    - match: \"{4}
+      scope: constant.character.escape.sql
+    - match: \"{2}
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-prototype
+    - include: string-interpolations
+
+  string-terminator:
+    - match: (?="(?!"))
+      pop: 1

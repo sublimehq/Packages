@@ -2764,9 +2764,7 @@ contexts:
       push: inside-raw-string
     - match: '"""'
       scope: punctuation.definition.string.begin.cs
-      push:
-        - inside-triple-quoted-raw-string
-        - inside-triple-quoted-raw-string-syntax
+      push: inside-triple-quoted-raw-string-syntax
     # literal quoted strings
     - match: '"'
       scope: punctuation.definition.string.begin.cs
@@ -2791,15 +2789,11 @@ contexts:
     # literal verbatim strings
     - match: '@"'
       scope: punctuation.definition.string.begin.cs
-      push:
-        - inside-verbatim-string
-        - inside-verbatim-string-syntax
+      push: inside-verbatim-string-syntax
     # interpolated verbatim format strings
     - match: '(?:@\$|\$@)"'
       scope: punctuation.definition.string.begin.cs
-      push:
-        - inside-verbatim-format-string
-        - inside-verbatim-format-string-syntax
+      push: inside-verbatim-format-string-syntax
 
 ###[ QUOTED STRINGS ]##########################################################
 
@@ -2882,7 +2876,24 @@ contexts:
 
 ###[ VERBATIM STRINGS ]########################################################
 
-  inside-verbatim-string:
+  inside-verbatim-string-syntax:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs string.quoted.double.verbatim.cs
+    - match: (?={{sql_indicator}})
+      set: inside-verbatim-string-sql
+    - match: (?=\S)
+      set: inside-verbatim-string-plain
+
+  inside-verbatim-string-sql:
+    - meta_scope: meta.string.cs
+    - meta_content_scope: source.sql.embedded.cs
+    - match: '"(?!")'
+      scope: string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+      pop: 1
+    - include: scope:source.sql.embedded.cs.verbatim-string
+      apply_prototype: true
+
+  inside-verbatim-string-plain:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.double.verbatim.cs
     - include: verbatim-string-escapes
@@ -2893,20 +2904,6 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-placeholders
     - include: extended-verbatim-string-placeholders
-
-  inside-verbatim-string-syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - include: verbatim-string-escapes
-        - match: (?=")
-          pop: 1
-        - include: string-prototype
-        - include: string-placeholder-escapes
-        - include: string-placeholders
-        - include: extended-verbatim-string-placeholders
-    - include: else-pop
 
   extended-verbatim-string-placeholders:
     - match: (\{)(\d+)
@@ -2923,7 +2920,25 @@ contexts:
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
-  inside-verbatim-format-string:
+  inside-verbatim-format-string-syntax:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.verbatim.cs
+    - match: (?={{sql_indicator}})
+      set: inside-verbatim-format-string-sql
+    - match: (?=\S)
+      set: inside-verbatim-format-string-plain
+
+  inside-verbatim-format-string-sql:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs
+    - meta_content_scope: source.sql.embedded.cs
+    - match: '"(?!")'
+      scope: string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+      pop: 1
+    - include: scope:source.sql.embedded.cs.verbatim-format-string
+      apply_prototype: true
+
+  inside-verbatim-format-string-plain:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.verbatim.cs
     - include: verbatim-string-escapes
@@ -2933,19 +2948,6 @@ contexts:
     - include: string-prototype
     - include: string-placeholder-escapes
     - include: verbatim-format-string-interpolations
-
-  inside-verbatim-format-string-syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - include: verbatim-string-escapes
-        - match: (?=")
-          pop: 1
-        - include: string-prototype
-        - include: string-placeholder-escapes
-        - include: verbatim-format-string-interpolations
-    - include: else-pop
 
   verbatim-format-string-interpolations:
     - match: \{
@@ -2994,7 +2996,25 @@ contexts:
 
 ###[ RAW STRINGS ]#############################################################
 
-  inside-triple-quoted-raw-string:
+  inside-triple-quoted-raw-string-syntax:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs string.quoted.double.block.cs
+    - match: (?={{sql_indicator}})
+      set: inside-triple-quoted-raw-string-sql
+    - match: (?=\S)
+      set: inside-triple-quoted-raw-string-plain
+
+  inside-triple-quoted-raw-string-sql:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs
+    - meta_content_scope: source.sql.embedded.cs
+    - match: '"""'
+      scope: string.quoted.double.block.cs punctuation.definition.string.end.cs
+      pop: 1
+    - include: scope:source.sql.embedded.cs.raw-string
+      apply_prototype: true
+
+  inside-triple-quoted-raw-string-plain:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.double.block.cs
     - match: '"""'
@@ -3004,16 +3024,6 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-placeholders
     - include: extended-raw-string-placeholders
-
-  inside-triple-quoted-raw-string-syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - match: (?=""")
-          pop: 1
-        - include: string-prototype
-    - include: else-pop
 
   inside-raw-string:
     - meta_include_prototype: false
@@ -3282,7 +3292,6 @@ variables:
   other_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[[:alnum:]]])
 
   wspace_eol: \s*(?:\n|$)
-
 
   sql_indicator: |-
     (?x: \s* (?:
