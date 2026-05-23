@@ -836,7 +836,10 @@ contexts:
     - include: else-pop
 
   primary-type-constraint:
-    - match: (?:class|struct|unmanaged)\b
+    - match: unmanaged\b
+      scope: storage.modifier.delegate.cs
+      pop: 1
+    - match: (?:class|struct)\b
       scope: storage.type.primitive.cs
       set:
         - type-suffix

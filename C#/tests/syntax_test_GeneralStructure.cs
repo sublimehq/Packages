@@ -635,7 +635,7 @@ namespace YourNamespace
 ///                                                                                                  ^^^^^ storage.modifier.where.cs
 ///                                                                                                        ^^ support.type.cs
 ///                                                                                                           ^ punctuation.separator.colon.cs
-///                                                                                                             ^^^^^^^^^ storage.type.primitive.cs
+///                                                                                                             ^^^^^^^^^ storage.modifier.delegate.cs
 
 ;   interface IInterface : nint
 /// ^^^^^^^^^^^^^^^^^^^^^ meta.interface.cs
