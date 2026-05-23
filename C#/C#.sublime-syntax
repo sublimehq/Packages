@@ -1197,7 +1197,7 @@ contexts:
       pop: 1
     - match: (?=\S)
       push:
-        - assignment-expression
+        - maybe-assignment-expression
         - method-param-name
         - maybe-type
         - method-param-modifier
@@ -1278,7 +1278,7 @@ contexts:
     - match: var\b
       scope: storage.type.variant.cs
       push:
-        - assignment-expression
+        - maybe-assignment-expression
         - var-declarator
     - match: '{{base_type}}'
       scope: storage.type.primitive.cs
@@ -1705,16 +1705,16 @@ contexts:
 
 ###[ ASSIGNMENT EXPRESSIONS ]##################################################
 
-  assignment-expressions:
-    - match: =
-      scope: keyword.operator.assignment.cs
-      push: assignment-value
-
-  assignment-expression:
+  maybe-assignment-expression:
     - match: =
       scope: keyword.operator.assignment.cs
       set: assignment-value
     - include: else-pop
+
+  assignment-expressions:
+    - match: =
+      scope: keyword.operator.assignment.cs
+      push: assignment-value
 
   assignment-value:
     - match: (?=\[)
