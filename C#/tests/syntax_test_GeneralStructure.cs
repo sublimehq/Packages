@@ -1280,7 +1280,30 @@ namespace TestNamespace . Test
             {
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.begin
                 ["woman"] = "floating",
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs
+///             ^^^^^^^^^ meta.brackets.cs
+///             ^ punctuation.section.brackets.begin.cs
+///              ^^^^^^^ meta.string.cs string.quoted.double.cs
+///              ^ punctuation.definition.string.begin.cs
+///                    ^ punctuation.definition.string.end.cs
+///                     ^ punctuation.section.brackets.end.cs
+///                       ^ keyword.operator.assignment.cs
+///                         ^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                         ^ punctuation.definition.string.begin.cs
+///                                  ^ punctuation.definition.string.end.cs
+///                                   ^ punctuation.separator.comma.cs
                 ["floating"] = "wood"
+///            ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.braces.cs
+///             ^^^^^^^^^^^^ meta.brackets.cs
+///             ^ punctuation.section.brackets.begin.cs
+///              ^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///              ^ punctuation.definition.string.begin.cs
+///                       ^ punctuation.definition.string.end.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                          ^ keyword.operator.assignment.cs
+///                            ^^^^^^ meta.string.cs string.quoted.double.cs
+///                            ^ punctuation.definition.string.begin.cs
+///                                 ^ punctuation.definition.string.end.cs
             };
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
