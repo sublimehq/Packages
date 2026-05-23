@@ -2025,10 +2025,36 @@ public class MyClass
 ///       ^^^ keyword.operator.new
         {
             [One] = new List<uint>
+///         ^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^^^ variable.other.cs
+///             ^ punctuation.section.brackets.end.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                 ^^^ keyword.operator.new.cs
+///                     ^^^^^^^^^^^ meta.function-call.identifier.cs
+///                     ^^^^ support.type.cs
+///                         ^^^^^^ meta.generic.cs
+///                         ^ punctuation.definition.generic.begin.cs
+///                          ^^^^ storage.type.primitive.cs
+///                              ^ punctuation.definition.generic.end.cs
             {
                 1, 2, 3
             },
             [Two] = new List<uint>
+///         ^^^^^ meta.brackets.cs
+///         ^ punctuation.section.brackets.begin.cs
+///          ^^^ variable.other.cs
+///             ^ punctuation.section.brackets.end.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^^^^^^^ meta.instantiation.cs
+///                 ^^^ keyword.operator.new.cs
+///                     ^^^^^^^^^^^ meta.function-call.identifier.cs
+///                     ^^^^ support.type.cs
+///                         ^^^^^^ meta.generic.cs
+///                         ^ punctuation.definition.generic.begin.cs
+///                          ^^^^ storage.type.primitive.cs
+///                              ^ punctuation.definition.generic.end.cs
             {
                 4, 5, 6
             }
