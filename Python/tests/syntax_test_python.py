@@ -477,6 +477,22 @@ import .str
 import str
 #      ^^^ support.type.python
 
+lazy import
+#^^^^^^^^^^ meta.statement.import.python
+#^^^ keyword.control.import.lazy.python
+#    ^^^^^^ keyword.control.import.python
+
+lazy import sys.path # comment
+#^^^^^^^^^^^^^^^^^^^ meta.statement.import.python
+#^^^ keyword.control.import.lazy.python
+#    ^^^^^^ keyword.control.import.python
+#           ^^^^^^^^ meta.path.python
+#           ^^^ variable.other.python
+#              ^ punctuation.accessor.dot.python
+#               ^^^^ variable.other.python
+#                    ^^^^^^^^^^ comment.line.number-sign.python
+#                    ^ punctuation.definition.comment.python
+
 from importlib import import_module
 # <- meta.statement.import.python keyword.control.import.from.python
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import.python
@@ -484,6 +500,19 @@ from importlib import import_module
 #    ^^^^^^^^^ - keyword
 #              ^^^^^^ keyword.control.import.python
 #                     ^^^^^^^^^^^^^ - keyword
+
+lazy from
+#^^^^^^^^ meta.statement.import.python
+#^^^ keyword.control.import.lazy.python
+#    ^^^^ keyword.control.import.from.python
+
+lazy from importlib import import_module
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import.python
+#^^^ keyword.control.import.lazy.python
+#    ^^^^ keyword.control.import.from.python
+#         ^^^^^^^^^ - keyword
+#                   ^^^^^^ keyword.control.import.python
+#                          ^^^^^^^^^^^^^ - keyword
 
 ##################
 # Identifiers
