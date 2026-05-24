@@ -3047,6 +3047,18 @@ class Foo:
 #                      ^^^^ variable.other.python - meta.path
 #                          ^ punctuation.section.arguments.end.python
 
+class Test:
+    def __init__(self, type=None):
+        self.type = type
+#            ^^^^ meta.path.python variable.other.python
+#                   ^^^^ variable.other.python
+
+    def __repr__(self):
+#   ^^^^^^^^^^^^ meta.function.python
+#               ^^^^^^ meta.function.parameters.python
+#   ^^^ keyword.declaration.function.python
+        pass
+
 match test:
     case "type":
         type foo

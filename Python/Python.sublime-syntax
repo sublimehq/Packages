@@ -915,12 +915,13 @@ contexts:
     - include: immediately-pop
 
   type-definition-name:
-    - include: illegal-name
+    - match: (?={{illegal_names}})
+      fail: type-definitions
     - match: '{{identifier}}'
       scope: entity.name.type.alias.python
       pop: 1
     - include: line-continuations
-    - match: (?=\S)
+    - match: $|(?=\S)
       fail: type-definitions
 
   type-definition-value-assignment:
