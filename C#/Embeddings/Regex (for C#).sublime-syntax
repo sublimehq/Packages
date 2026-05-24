@@ -25,12 +25,6 @@ contexts:
     - meta_prepend: true
     - include: substitutions
 
-  anchors:
-    # Full replacement to un-match $ backrefs
-    - match: '{{escape}}[bBAZzG]|\^|\$(?![\d{])'
-      scope: keyword.control.anchor.regexp
-      push: maybe-unexpected-quantifiers
-
   group-start:
     - meta_prepend: true
     # conditional capture group back-reference
