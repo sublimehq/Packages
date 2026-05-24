@@ -1641,6 +1641,44 @@ namespace TestNamespace . Test
 ///                                                               ^ punctuation.section.group.end.cs
 ///                                                                ^ punctuation.section.group.end.cs
 ///                                                                 ^ punctuation.terminator.statement.cs
+
+            new(rules: [RuleSet.DefaultRules]);
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^ variable.parameter.cs
+///                  ^ keyword.operator.assignment.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
+///                    ^ punctuation.section.brackets.begin.cs
+///                     ^^^^^^^ variable.other.cs
+///                            ^ punctuation.accessor.dot.cs
+///                             ^^^^^^^^^^^^ variable.other.cs
+///                                         ^ punctuation.section.brackets.end.cs
+///                                          ^ punctuation.section.group.end.cs
+///                                           ^ punctuation.terminator.statement.cs
+
+            new(rules: [RulSet.Rules]RuleSet.GetRules());
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///         ^^^ keyword.operator.new.cs
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///            ^ punctuation.section.group.begin.cs
+///             ^^^^^ variable.parameter.cs
+///                  ^ keyword.operator.assignment.cs
+///                    ^^^^^^^^^^^^^^ meta.annotation.cs
+///                    ^ punctuation.definition.annotation.begin.cs
+///                     ^^^^^^ variable.annotation.cs
+///                           ^ punctuation.accessor.dot.cs
+///                            ^^^^^ variable.annotation.cs
+///                                 ^ punctuation.definition.annotation.end.cs
+///                                  ^^^^^^^ variable.other.cs
+///                                         ^ punctuation.accessor.dot.cs
+///                                          ^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                                                  ^^ meta.function-call.arguments.cs meta.group.cs
+///                                                  ^ punctuation.section.group.begin.cs
+///                                                   ^ punctuation.section.group.end.cs
+///                                                    ^ punctuation.section.group.end.cs
+///                                                     ^ punctuation.terminator.statement.cs
         }
 ///     ^ punctuation.section.block
 

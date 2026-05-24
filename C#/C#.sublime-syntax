@@ -2102,7 +2102,7 @@ contexts:
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-      push: maybe-pointer
+      push: assignment-value
     - include: expression-list
 
   out-argument:
@@ -2667,7 +2667,7 @@ contexts:
       captures:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
-      push: maybe-pointer
+      push: assignment-value
 
   namespace-variables:
     - match: (?:(global)|({{name}}))\s*(::)
