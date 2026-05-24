@@ -59,6 +59,11 @@ variables:
   compiler_directive: 'inline|restrict|__restrict__|__restrict|_Noreturn|noreturn'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|alignas|_Alignas|static_assert|_Static_assert|__declspec|__attribute__'
+  # A single token inside a macro argument list: a non-paren character, or a
+  # balanced parenthesised group with one level of further nesting. Repeated,
+  # this matches macro arguments with up to two levels of nested parentheses
+  # (e.g. Unreal Engine's `USTRUCT(meta = (Abstract))`).
+  nested_parens: '(?:[^()]|\((?:[^()]|\([^()]*\))*\))'
 
   attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
   attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+{{attribute_token}})'
@@ -643,7 +648,7 @@ contexts:
     - match: '(?=\s)'
       set: global-maybe-function
     # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{identifier}})\s*(\()(?={{nested_parens}}+\))'
       captures:
         1: variable.function.c
         2: meta.group.c punctuation.section.group.begin.c
@@ -1451,7 +1456,7 @@ contexts:
 
 
   preprocessor-convention-ignore-uppercase-calls-without-semicolon:
-    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
+    - match: ^\s*({{macro_identifier}})\s*(\()(?={{nested_parens}}*\)\s*$)
       captures:
         1: variable.function.assumed-macro.c
         2: punctuation.section.group.begin.c

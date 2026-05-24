@@ -73,6 +73,11 @@ variables:
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
   module_identifier: '{{identifier}}(?:\.{{identifier}})*'
+  # A single token inside a macro argument list: a non-paren character, or a
+  # balanced parenthesised group with one level of further nesting. Repeated,
+  # this matches macro arguments with up to two levels of nested parentheses
+  # (e.g. `FOO(a = (b))`).
+  nested_parens: '(?:[^()]|\((?:[^()]|\([^()]*\))*\))'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -1188,7 +1193,7 @@ contexts:
     - include: angle-brackets
     - include: types
     # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{identifier}})\s*(\()(?={{nested_parens}}+\))'
       captures:
         1: variable.function.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
@@ -1379,7 +1384,7 @@ contexts:
     - match: ({{macro_identifier}})(?=\s+~?{{identifier}})
       captures:
         1: meta.assumed-macro.c
-    - match: '({{macro_identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{macro_identifier}})\s*(\()(?={{nested_parens}}+\))'
       captures:
         1: variable.function.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
