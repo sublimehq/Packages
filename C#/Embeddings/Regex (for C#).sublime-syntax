@@ -23,7 +23,7 @@ contexts:
 
   base-common:
     - meta_prepend: true
-    - include: substituations
+    - include: substitutions
 
   anchors:
     # Full replacement to un-match $ backrefs
@@ -75,7 +75,7 @@ contexts:
         2: variable.other.capture-group.regexp
         3: punctuation.definition.capture-group-name.end.regexp
 
-  substituations:
+  substitutions:
     - match: \$\$
       scope: constant.character.escape.regexp
     - match: (\$)([`'&+_])
