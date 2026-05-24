@@ -325,6 +325,29 @@
 #     ^^^^ variable.other.capture-group.regexp
 #         ^ punctuation.section.braces.end.regexp
 
+    $$  # Substitutes a literal "$".
+#   ^^ constant.character.escape.regexp
+
+    $&  # Substitutes a copy of the whole match.
+#   ^^ meta.substitution.regexp variable.language.match.regexp
+#   ^ punctuation.definition.substitution.regexp
+
+    $`  # Substitutes all the text of the input string before the match.
+#   ^^ meta.substitution.regexp variable.language.match.regexp
+#   ^ punctuation.definition.substitution.regexp
+
+    $'  # Substitutes all the text of the input string after the match.
+#   ^^ meta.substitution.regexp variable.language.match.regexp
+#   ^ punctuation.definition.substitution.regexp
+
+    $+  # Substitutes the last group that was captured.
+#   ^^ meta.substitution.regexp variable.language.match.regexp
+#   ^ punctuation.definition.substitution.regexp
+
+    $_  # Substitutes the entire input string.
+#   ^^ meta.substitution.regexp variable.language.match.regexp
+#   ^ punctuation.definition.substitution.regexp
+
 ### Miscellaneous Constructs
 
     (?# comment )

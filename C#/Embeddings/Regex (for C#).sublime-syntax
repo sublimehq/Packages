@@ -20,6 +20,11 @@ variables:
   capture_group_name: (?:[a-zA-Z_]\w*)
 
 contexts:
+
+  base-common:
+    - meta_prepend: true
+    - include: substituations
+
   anchors:
     # Full replacement to un-match $ backrefs
     - match: '{{escape}}[bBAZzG]|\^|\$(?![\d{])'
@@ -59,7 +64,6 @@ contexts:
         5: punctuation.definition.capture-group-name.end.regexp
 
   backrefs:
-    # backrefs
     - match: '{{escape}}([1-9](?!\d))'
       scope: keyword.other.backref-and-recursion.regexp
       captures:
@@ -70,7 +74,14 @@ contexts:
         1: punctuation.definition.capture-group-name.begin.regexp
         2: variable.other.capture-group.regexp
         3: punctuation.definition.capture-group-name.end.regexp
-    # substituations
+
+  substituations:
+    - match: \$\$
+      scope: constant.character.escape.regexp
+    - match: (\$)([`'&+_])
+      scope: meta.substitution.regexp variable.language.match.regexp
+      captures:
+        1: punctuation.definition.substitution.regexp
     - match: (\$)(\d+)
       scope: meta.substitution.regexp variable.language.capture-group.regexp
       captures:
