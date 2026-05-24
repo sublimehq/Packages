@@ -3550,6 +3550,42 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #                                    ^ punctuation.section.sequence.end.python
 #                                           ^ punctuation.section.mapping.end.python
 
+dict_ = {**d for d in dicts}  # equivalent to {k: v for d in dicts for k,v in d.items()}
+#       ^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
+#       ^ punctuation.section.mapping.begin.python
+#        ^^ keyword.operator.unpacking.mapping.python
+#          ^ variable.other.python
+#            ^^^^^^^^ meta.expression.generator.python
+#            ^^^ keyword.control.loop.for.generator.python
+#                ^ variable.other.python
+#                  ^^ keyword.control.loop.in.python
+#                     ^^^^^ variable.other.python
+#                          ^ punctuation.section.mapping.end.python
+
+set_ = {*s for s in dicts}  # equivalent to {x for s in sets for x in s}
+#      ^^^^^^^^^^^^^^^^^^^ meta.set.python
+#      ^ punctuation.section.set.begin.python
+#       ^ keyword.operator.unpacking.sequence.python
+#        ^ variable.other.python
+#          ^^^^^^^^ meta.expression.generator.python
+#          ^^^ keyword.control.loop.for.generator.python
+#              ^ variable.other.python
+#                ^^ keyword.control.loop.in.python
+#                   ^^^^^ variable.other.python
+#                        ^ punctuation.section.set.end.python
+
+list_= [*l for l in lists]  # equivalent to [x for L in lists for x in L]
+#      ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
+#      ^ punctuation.section.sequence.begin.python
+#       ^ keyword.operator.unpacking.sequence.python
+#        ^ variable.other.python
+#          ^^^^^^^^ meta.expression.generator.python
+#          ^^^ keyword.control.loop.for.generator.python
+#              ^ variable.other.python
+#                ^^ keyword.control.loop.in.python
+#                   ^^^^^ variable.other.python
+#                        ^ punctuation.section.sequence.end.python
+
 unpack_ = [*(_ for [[][:], *_] in [((1, 2), "woops")])]
 #         ^^ meta.sequence.list.python - meta.sequence.generator
 #           ^^^^^^^ meta.sequence.list.python meta.sequence.generator.python

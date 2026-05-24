@@ -1941,7 +1941,7 @@ contexts:
     - meta_content_scope: meta.mapping.python
     - include: dictionary-end
     - include: dictionary-separator
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   dictionary-body:
     - meta_content_scope: meta.mapping.python
