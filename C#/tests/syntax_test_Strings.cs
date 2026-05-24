@@ -272,12 +272,215 @@ var query = @$"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE "
 ///                                                                                                           ^ meta.column-name.sql punctuation.definition.identifier.end.sql
 ///                                                                                                             ^ punctuation.terminator.statement.cs
 
+
+/**
+ * Literal Regular Expressions
+ */
+
+Regex rx = new Regex("^\"escaped[\"]{1,}-(?:\"quotes[^\"]*\")+\"");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                   ^ keyword.control.anchor.regexp
+///                    ^^ constant.character.escape.cs
+///                             ^^^^ meta.set.regexp
+///                             ^ punctuation.definition.set.begin.regexp
+///                              ^^ constant.character.escape.cs
+///                                ^ punctuation.definition.set.end.regexp
+///                                 ^^^^ keyword.operator.quantifier.regexp
+///                                      ^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+///                                      ^ punctuation.section.group.begin.regexp
+///                                       ^^ constant.other.assertion.regexp
+///                                         ^^ constant.character.escape.cs
+///                                                 ^^^^^ meta.set.regexp
+///                                                 ^ punctuation.definition.set.begin.regexp
+///                                                  ^ keyword.operator.logical.regexp
+///                                                   ^^ constant.character.escape.cs
+///                                                     ^ punctuation.definition.set.end.regexp
+///                                                      ^ keyword.operator.quantifier.regexp
+///                                                       ^^ constant.character.escape.cs
+///                                                         ^ punctuation.section.group.end.regexp
+///                                                          ^ keyword.operator.quantifier.regexp
+///                                                           ^^ constant.character.escape.cs
+///                                                             ^ punctuation.definition.string.end.cs
+///                                                              ^ punctuation.section.group.end.cs
+///                                                               ^ punctuation.terminator.statement.cs
+
+Regex rx = new Regex("\\b\u0048ell\x6f\\b");
+///                  ^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs meta.mode.basic.regexp
+///                   ^^^ keyword.control.anchor.regexp
+///                      ^^^^^^ constant.character.escape.unicode.16bit.cs
+///                               ^^^^ constant.character.escape.hex.cs
+///                                   ^^^ keyword.control.anchor.regexp
+///                                      ^ punctuation.definition.string.end.cs
+
+Regex rx = new Regex("\\b\\u0048ell\\x6f\\b");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs meta.mode.basic.regexp
+///                   ^^^ keyword.control.anchor.regexp
+///                      ^^^^^^^ constant.character.escape.regexp
+///                                ^^^^^ constant.character.escape.regexp
+///                                     ^^^ keyword.control.anchor.regexp
+///                                        ^ punctuation.definition.string.end.cs
+
+Regex rx = new Regex("\\bincomplete-missing-quote\b
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                   ^^^ keyword.control.anchor.regexp
+///                                              ^^ constant.character.escape.cs
+///                                                ^ invalid.illegal.unclosed-string.cs
+;
+
+Regex rx = new Regex("\bincomplete-missing-paren\\b" ;
+///                 ^ punctuation.section.group.begin.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                   ^^ constant.character.escape.cs
+///                                             ^^^ keyword.control.anchor.regexp
+///                                                ^ punctuation.definition.string.end.cs
+///                                                  ^ punctuation.terminator.statement.cs
+
+Regex rx = new Regex("\\b(?<word>\\w+)\\s+(\\k<word>)\\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
+///                  ^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                   ^^^ keyword.control.anchor.regexp
+///                      ^^^^^^^^^^^^^ meta.group.regexp
+///                      ^ punctuation.section.group.begin.regexp
+///                       ^^^^^^^ keyword.other.named-capture-group.regexp
+///                        ^ punctuation.definition.capture-group-name.begin.regexp
+///                         ^^^^ entity.name.capture-group.regexp
+///                             ^ punctuation.definition.capture-group-name.end.regexp
+///                              ^^^ keyword.control.character-class.regexp
+///                                 ^ keyword.operator.quantifier.regexp
+///                                  ^ punctuation.section.group.end.regexp
+///                                   ^^^ keyword.control.character-class.regexp
+///                                      ^ keyword.operator.quantifier.regexp
+///                                       ^^^^^^^^^^^ meta.group.regexp
+///                                       ^ punctuation.section.group.begin.regexp
+///                                        ^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+///                                           ^ punctuation.definition.capture-group-name.begin.regexp
+///                                            ^^^^ variable.other.capture-group.regexp
+///                                                ^ punctuation.definition.capture-group-name.end.regexp
+///                                                 ^ punctuation.section.group.end.regexp
+///                                                  ^^^ keyword.control.anchor.regexp
+///                                                     ^ punctuation.definition.string.end.cs
+///                                                      ^ punctuation.separator.comma.cs
+///                                                        ^^^^^^^^^^^^ variable.other.cs
+///                                                                    ^ punctuation.accessor.dot.cs
+///                                                                     ^^^^^^^^ variable.other.cs
+///                                                                              ^ keyword.operator.bitwise.cs
+///                                                                                ^^^^^^^^^^^^ variable.other.cs
+///                                                                                            ^ punctuation.accessor.dot.cs
+///                                                                                             ^^^^^^^^^^ variable.other.cs
+///                                                                                                       ^ punctuation.section.group.end.cs
+///                                                                                                        ^ punctuation.terminator.statement.cs
+
+/**
+ * Verbatim Regular Expressions
+ */
+
+Regex rx = new Regex(@"^""escaped[""]{1,}-(?:""quotes[^""]*"")+""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
+///                  ^^ punctuation.definition.string.begin.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                    ^ keyword.control.anchor.regexp
+///                     ^^ constant.character.escape.cs
+///                              ^^^^ meta.set.regexp
+///                              ^ punctuation.definition.set.begin.regexp
+///                               ^^ constant.character.escape.cs
+///                                 ^ punctuation.definition.set.end.regexp
+///                                  ^^^^ keyword.operator.quantifier.regexp
+///                                       ^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+///                                       ^ punctuation.section.group.begin.regexp
+///                                        ^^ constant.other.assertion.regexp
+///                                          ^^ constant.character.escape.cs
+///                                                  ^^^^^ meta.set.regexp
+///                                                  ^ punctuation.definition.set.begin.regexp
+///                                                   ^ keyword.operator.logical.regexp
+///                                                    ^^ constant.character.escape.cs
+///                                                      ^ punctuation.definition.set.end.regexp
+///                                                       ^ keyword.operator.quantifier.regexp
+///                                                        ^^ constant.character.escape.cs
+///                                                          ^ punctuation.section.group.end.regexp
+///                                                           ^ keyword.operator.quantifier.regexp
+///                                                            ^^ constant.character.escape.cs
+///                                                              ^ punctuation.definition.string.end.cs
+///                                                               ^ punctuation.section.group.end.cs
+///                                                                ^ punctuation.terminator.statement.cs
+
+Regex rx = new Regex(@"\b\u0048ell\x6f\b");
+///                  ^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
+///                  ^^ punctuation.definition.string.begin.cs
+///                    ^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs meta.mode.basic.regexp
+///                    ^^ keyword.control.anchor.regexp
+///                      ^^^^^^ constant.character.escape.regexp
+///                               ^^^^ constant.character.escape.regexp
+///                                   ^^ keyword.control.anchor.regexp
+///                                     ^ punctuation.definition.string.end.cs
+
+Regex rx = new Regex(@"\bincomplete
+    -continued\b");
+///^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
+///^^^^^^^^^^^^^ source.regexp.embedded.cs
+///           ^^ keyword.control.anchor.regexp
+///             ^ punctuation.definition.string.end.cs
+///              ^ punctuation.section.group.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+Regex rx = new Regex(@"\bincomplete-missing-paren\b" ;
+///                 ^ punctuation.section.group.begin.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
+///                  ^^ punctuation.definition.string.begin.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                    ^^ keyword.control.anchor.regexp
+///                                              ^^ keyword.control.anchor.regexp
+///                                                ^ punctuation.definition.string.end.cs
+///                                                  ^ punctuation.terminator.statement.cs
+
 Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-///            ^^^^^ meta.instantiation.cs meta.function-call.identifier.cs support.type.cs
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs meta.function-call.arguments.cs meta.group.cs
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string source.regexp
-///                                                 ^ meta.string punctuation.definition.string.end - source.regexp
-///                    ^^ keyword.control.anchor
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                 ^ punctuation.section.group.begin.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
+///                  ^^ punctuation.definition.string.begin.cs
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.cs
+///                    ^^ keyword.control.anchor.regexp
+///                      ^^^^^^^^^^^^ meta.group.regexp
+///                      ^ punctuation.section.group.begin.regexp
+///                       ^^^^^^^ keyword.other.named-capture-group.regexp
+///                        ^ punctuation.definition.capture-group-name.begin.regexp
+///                         ^^^^ entity.name.capture-group.regexp
+///                             ^ punctuation.definition.capture-group-name.end.regexp
+///                              ^^ keyword.control.character-class.regexp
+///                                ^ keyword.operator.quantifier.regexp
+///                                 ^ punctuation.section.group.end.regexp
+///                                  ^^ keyword.control.character-class.regexp
+///                                    ^ keyword.operator.quantifier.regexp
+///                                     ^^^^^^^^^^ meta.group.regexp
+///                                     ^ punctuation.section.group.begin.regexp
+///                                      ^^^^^^^^ keyword.other.backref-and-recursion.regexp
+///                                        ^ punctuation.definition.capture-group-name.begin.regexp
+///                                         ^^^^ variable.other.capture-group.regexp
+///                                             ^ punctuation.definition.capture-group-name.end.regexp
+///                                              ^ punctuation.section.group.end.regexp
+///                                               ^^ keyword.control.anchor.regexp
+///                                                 ^ punctuation.definition.string.end.cs
+///                                                  ^ punctuation.separator.comma.cs
+///                                                    ^^^^^^^^^^^^ variable.other.cs
+///                                                                ^ punctuation.accessor.dot.cs
+///                                                                 ^^^^^^^^ variable.other.cs
+///                                                                          ^ keyword.operator.bitwise.cs
+///                                                                            ^^^^^^^^^^^^ variable.other.cs
+///                                                                                        ^ punctuation.accessor.dot.cs
+///                                                                                         ^^^^^^^^^^ variable.other.cs
+///                                                                                                   ^ punctuation.section.group.end.cs
+///                                                                                                    ^ punctuation.terminator.statement.cs
+
 Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
 ///       ^^^^^ support.type.cs
 ///            ^ punctuation.accessor.dot.cs
@@ -286,9 +489,9 @@ Match m = Regex.Match(input, @"\ba\w*\b", RegexOptions.IgnoreCase);
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^ variable.other.cs
 ///                        ^ punctuation.separator.comma.cs
-///                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
+///                          ^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs
 ///                          ^^ punctuation.definition.string.begin.cs
-///                            ^^^^^^^^ source.regexp meta.mode.basic.regexp
+///                            ^^^^^^^^ source.regexp
 ///                            ^^ keyword.control.anchor.regexp
 ///                               ^^ keyword.control.character-class.regexp
 ///                                 ^ keyword.operator.quantifier.regexp
@@ -309,20 +512,80 @@ replaced = Regex.Replace(some_value, "(?!^)([A-Z])", " $1");
 ///                     ^ punctuation.section.group.begin.cs
 ///                      ^^^^^^^^^^ variable.other.cs
 ///                                ^ punctuation.separator.comma.cs
-///                                  ^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                  ^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.cs
 ///                                  ^ punctuation.definition.string.begin.cs
-///                                   ^^^^^^^^^^^^ source.regexp meta.group.regexp meta.mode.basic.regexp
+///                                   ^^^^^^^^^^^^ source.regexp meta.group.regexp
 ///                                                ^ punctuation.separator.comma.cs
-///                                                  ^^^^^ meta.string.cs string.quoted.double.cs
+///                                                  ^^^^^ meta.string.regexp.cs string.quoted.double.cs
 ///                                                       ^ punctuation.section.group.end.cs
 ///                                                        ^ punctuation.terminator.statement.cs
 
-Regex rx = new Regex(@"\bincomplete-missing-paren\b"
-///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation
-///        ^^^ keyword.operator.new
-///            ^^^^^ support.type
-///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
-///                  ^^ string.quoted.double punctuation.definition.string.begin
-///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
-///                                                ^ punctuation.definition.string.end - source.regexp
-///                    ^^ keyword.control.anchor
+
+/**
+ * Format String Regular Expressions
+ * (no regexp highlighting)
+ */
+
+Regex rx = new Regex($"^\"escaped[\"]{{1,}}-(?:\"quotes[^\"]*\")+\"");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs
+///                  ^^ punctuation.definition.string.begin.cs
+///                     ^^ constant.character.escape.cs
+///                               ^^ constant.character.escape.cs
+///                                  ^^ constant.character.escape.cs
+///                                      ^^ constant.character.escape.cs
+///                                            ^^ constant.character.escape.cs
+///                                                      ^^ constant.character.escape.cs
+///                                                          ^^ constant.character.escape.cs
+///                                                              ^^ constant.character.escape.cs
+///                                                                ^ punctuation.definition.string.end.cs
+
+
+/**
+ * Verbatim Format String Regular Expressions
+ * (no regexp highlighting)
+ */
+
+Regex rx = new Regex(@$"^""escaped[""]{{1,}}-(?:""quotes[^""]*"")+""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///                  ^^^ punctuation.definition.string.begin.cs
+///                      ^^ constant.character.escape.cs
+///                                ^^ constant.character.escape.cs
+///                                   ^^ constant.character.escape.cs
+///                                       ^^ constant.character.escape.cs
+///                                             ^^ constant.character.escape.cs
+///                                                       ^^ constant.character.escape.cs
+///                                                           ^^ constant.character.escape.cs
+///                                                               ^^ constant.character.escape.cs
+///                                                                 ^ punctuation.definition.string.end.cs
+
+
+/**
+ * Raw Regular Expressions
+ * (no regexp highlighting)
+ */
+
+Regex rx = new Regex("""^\"escaped[\"]{{1,}}-(?:\"quotes[^\"]*\")+\""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.regexp
+///                  ^^^ punctuation.definition.string.begin.cs
+///                                                                ^^^ punctuation.definition.string.end.cs
+
+Regex rx = new Regex(""""^\"escaped[\"]{{1,}}-(?:\"quotes[^\"]*\")+\"""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.regexp
+///                  ^^^^ punctuation.definition.string.begin.cs
+///                                                                 ^^^^ punctuation.definition.string.end.cs
+
+
+/**
+ * Raw Format String Regular Expressions
+ * (no regexp highlighting)
+ */
+
+Regex rx = new Regex($$"""^\"escaped[\"]{1,}-(?:\"quotes[^\"]*\")+\""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs - source.regexp
+///                  ^^^^^ punctuation.definition.string.begin.cs
+///                                                                ^^^ punctuation.definition.string.end.cs
+
+Regex rx = new Regex($$$""""^\"escaped[\"]{1,}-(?:\"quotes[^\"]*\")+\"""");
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs - source.regexp
+///                  ^^^^^^^ punctuation.definition.string.begin.cs
+///                                                                  ^^^^ punctuation.definition.string.end.cs

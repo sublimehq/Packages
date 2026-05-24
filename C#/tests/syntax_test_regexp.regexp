@@ -1,0 +1,337 @@
+# SYNTAX TEST "Packages/C#/Embeddings/Regex (for C#).sublime-syntax"
+
+(?x)
+
+# Reference:
+# https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
+
+### Character Escapes
+
+    \a      # Matches a bell character, \u0007.
+#   ^^ constant.character.escape.regexp
+   [\b]    # In a character class, matches a backspace, \u0008.
+#   ^^ constant.character.escape.regexp
+    \t      # Matches a tab, \u0009.
+#   ^^ constant.character.escape.regexp
+    \r      # Matches a carriage return, \u000D.
+#   ^^ constant.character.escape.regexp
+    \v      # Matches a vertical tab, \u000B.
+#   ^^ constant.character.escape.regexp
+    \f      # Matches a form feed, \u000C.
+#   ^^ constant.character.escape.regexp
+    \n      # Matches a new line, \u000A.
+#   ^^ constant.character.escape.regexp
+    \e      # Matches an escape, \u001B.
+#   ^^ constant.character.escape.regexp
+    \07     # Uses octal representation to specify a character (nnn consists of two or three digits).
+#   ^^^ constant.character.escape.regexp
+    \017    # Uses octal representation to specify a character (nnn consists of two or three digits).
+#   ^^^^ constant.character.escape.regexp
+    \xAF    # Uses hexadecimal representation to specify a character (nn consists of exactly two digits).
+#   ^^^^ constant.character.escape.regexp
+    \cA     # Matches the ASCII control character (ctrl-A)
+#   ^^^ constant.character.escape.regexp
+    \cC     # Matches the ASCII control character (ctrl-C)
+#   ^^^ constant.character.escape.regexp
+
+    \uAFFF  # Matches a Unicode character by using hexadecimal representation (exactly four digits, as represented by nnnn).
+#   ^^^^^^ constant.character.escape.regexp
+
+    \*      # When followed by a character that is not recognized as an escaped character, matches that character.
+#   ^^ constant.character.escape.regexp
+
+### Character Classes
+
+    [ae]
+#   ^^^^ meta.set.regexp
+#   ^ punctuation.definition.set.begin.regexp
+#      ^ punctuation.definition.set.end.regexp
+#       ^ meta.ignored-whitespace.regexp
+    [^aei]
+#   ^^^^^^ meta.set.regexp
+#   ^ punctuation.definition.set.begin.regexp
+#    ^ keyword.operator.logical.regexp
+#        ^ punctuation.definition.set.end.regexp
+#         ^ meta.ignored-whitespace.regexp
+    [A-Z]
+#   ^^^^^ meta.set.regexp
+#   ^ punctuation.definition.set.begin.regexp
+#    ^^^ constant.other.range.regexp
+#     ^ punctuation.separator.sequence.regexp
+#       ^ punctuation.definition.set.end.regexp
+#        ^ meta.ignored-whitespace.regexp
+    a.e
+#    ^ keyword.other.any.regexp
+#      ^ meta.ignored-whitespace.regexp
+
+    \p{Ll}  # Letter, Lowercase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Lu}  # Letter, Uppercase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Lt}  # Letter, Titlecase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Lo}  # Letter, Other
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Lm}  # Letter, Modifier
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Mn}  # Mark, Nonspacing
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Nd}  # Number, Decimal Digit
+#   ^^^^^^ keyword.control.character-class.regexp
+    \p{Pc}  # Punctuation, Connector
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Ll}  # Letter, Lowercase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Lu}  # Letter, Uppercase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Lt}  # Letter, Titlecase
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Lo}  # Letter, Other
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Lm}  # Letter, Modifier
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Mn}  # Mark, Nonspacing
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Nd}  # Number, Decimal Digit
+#   ^^^^^^ keyword.control.character-class.regexp
+    \P{Pc}  # Punctuation, Connector
+#   ^^^^^^ keyword.control.character-class.regexp
+    \w      # Matches any word character.
+#   ^^ keyword.control.character-class.regexp
+    \W      # Matches any non-word character.
+#   ^^ keyword.control.character-class.regexp
+    \s      # Matches any white-space character.
+#   ^^ keyword.control.character-class.regexp
+    \S      # Matches any non-white-space character.
+#   ^^ keyword.control.character-class.regexp
+    \d      # Matches any decimal digit.
+#   ^^ keyword.control.character-class.regexp
+    \D      # Matches any character other than a decimal digit.
+#   ^^ keyword.control.character-class.regexp
+
+### Anchors
+
+    ^       # Beginning of string or line
+#   ^ keyword.control.anchor.regexp
+    $       # End of string or line
+#   ^ keyword.control.anchor.regexp
+    \A      # Beginning of string
+#   ^^ keyword.control.anchor.regexp
+    \Z      # Before last \n at end of string
+#   ^^ keyword.control.anchor.regexp
+    \z      # End of string
+#   ^^ keyword.control.anchor.regexp
+    \G      # Match must occur at the point where the previous match ended
+#   ^^ keyword.control.anchor.regexp
+    \b      # Match must occur at a boundary between a \w and \W
+#   ^^ keyword.control.anchor.regexp
+    \B      # Match must not occur at a boundary between a \w and \W
+#   ^^ keyword.control.anchor.regexp
+
+### Grouping Constructs
+
+    (  )
+#   ^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#      ^ punctuation.section.group.end.regexp
+
+    (?<name> subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^ keyword.other.named-capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^ entity.name.capture-group.regexp
+#          ^ punctuation.definition.capture-group-name.end.regexp
+#                          ^ punctuation.section.group.end.regexp
+
+    (?'name' subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^ keyword.other.named-capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^ entity.name.capture-group.regexp
+#          ^ punctuation.definition.capture-group-name.end.regexp
+#                          ^ punctuation.section.group.end.regexp
+
+    (?<name1-name2> subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^ entity.name.capture-group.regexp
+#           ^ punctuation.separator.regexp
+#            ^^^^^ entity.name.capture-group.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
+#                                 ^ punctuation.section.group.end.regexp
+
+    (?'name1-name2' subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^ entity.name.capture-group.regexp
+#           ^ punctuation.separator.regexp
+#            ^^^^^ entity.name.capture-group.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
+#                                 ^ punctuation.section.group.end.regexp
+
+    (?: subexpression )
+#   ^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^ constant.other.assertion.regexp
+#                     ^ punctuation.section.group.end.regexp
+
+    (?imnsx: subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^ storage.modifier.mode.regexp
+#                          ^ punctuation.section.group.end.regexp
+
+    (?> subexpression )
+#   ^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^ constant.other.assertion.regexp
+#                     ^ punctuation.section.group.end.regexp
+
+### Lookaround Constructs
+
+    (?= subexpression )
+#   ^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^ constant.other.assertion.regexp
+#                     ^ punctuation.section.group.end.regexp
+
+    (?! subexpression )
+#   ^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^ constant.other.assertion.regexp
+#                     ^ punctuation.section.group.end.regexp
+
+    (?<= subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^ constant.other.assertion.regexp
+#                      ^ punctuation.section.group.end.regexp
+
+    (?<! subexpression )
+#   ^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^ constant.other.assertion.regexp
+#                      ^ punctuation.section.group.end.regexp
+
+### Quantifiers
+
+    a*
+#    ^ keyword.operator.quantifier.regexp
+    a+
+#    ^ keyword.operator.quantifier.regexp
+    a?
+#    ^ keyword.operator.quantifier.regexp
+    a{3}
+#    ^^^ keyword.operator.quantifier.regexp
+    a{2,}
+#    ^^^^ keyword.operator.quantifier.regexp
+    a{2,3}
+#    ^^^^^ keyword.operator.quantifier.regexp
+    a*?
+#    ^^ keyword.operator.quantifier.regexp
+    a+?
+#    ^^ keyword.operator.quantifier.regexp
+    a??
+#    ^^ keyword.operator.quantifier.regexp
+    a{3}?
+#    ^^^^ keyword.operator.quantifier.regexp
+    a{2,}?
+#    ^^^^^ keyword.operator.quantifier.regexp
+    a{2,3}?
+#    ^^^^^^ keyword.operator.quantifier.regexp
+
+### Backreference Constructs
+
+    \1 \9       # \1-\9 are always backrefs
+#   ^^ keyword.other.backref-and-recursion.regexp
+#    ^ variable.other.backref-and-recursion.regexp
+#      ^^ keyword.other.backref-and-recursion.regexp
+#       ^ variable.other.backref-and-recursion.regexp
+
+    \17         # maybe octal or backref
+#   ^^^ constant.character.escape.regexp
+
+    \80 \90     # \8x-\9xxx are always literal
+#   ^^ constant.character.escape.regexp
+#       ^^ constant.character.escape.regexp
+
+    \k<char>
+#   ^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^ variable.other.capture-group.regexp
+#          ^ punctuation.definition.capture-group-name.end.regexp
+
+### Alternation Constructs
+
+    |
+#   ^ keyword.operator.alternation.regexp
+
+    (?( expression ) yes | no )         # expression or capture group name
+#   ^^ meta.group.regexp - meta.group meta.group
+#     ^^^^^^^^^^^^^^ meta.group.regexp meta.group.regexp
+#                   ^^^^^^^^^^^ meta.group.regexp - meta.group meta.group
+#   ^ punctuation.section.group.begin.regexp
+#    ^ constant.other.assertion.regexp
+#     ^ punctuation.section.group.begin.regexp
+#                  ^ punctuation.section.group.end.regexp
+#                        ^ keyword.operator.alternation.regexp
+#                             ^ punctuation.section.group.end.regexp
+
+    (?((?=expression)) yes | no )       # avoid amgiguity with explicit lookahead
+#   ^^ meta.group.regexp - meta.group meta.group
+#     ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#      ^^^^^^^^^^^^^^ meta.group.regexp meta.group.regexp meta.group.regexp
+#                    ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#                     ^^^^^^^^^^^ meta.group.regexp - meta.group meta.group
+#   ^ punctuation.section.group.begin.regexp
+#    ^ constant.other.assertion.regexp
+#     ^ punctuation.section.group.begin.regexp
+#      ^ punctuation.section.group.begin.regexp
+#       ^^ constant.other.assertion.regexp
+#                   ^^ punctuation.section.group.end.regexp
+#                          ^ keyword.operator.alternation.regexp
+#                               ^ punctuation.section.group.end.regexp
+
+    (?(name) yes | not)
+#   ^^^^^^^^^^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
+#    ^^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
+#    ^ constant.other.assertion.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^ variable.other.capture-group.regexp
+#          ^ punctuation.definition.capture-group-name.begin.regexp
+#                ^ keyword.operator.alternation.regexp
+#                     ^ punctuation.section.group.end.regexp
+
+### Substituations
+
+    $1 $9
+#   ^^ meta.substitution.regexp variable.language.capture-group.regexp
+#   ^ punctuation.definition.substitution.regexp
+#      ^^ meta.substitution.regexp variable.language.capture-group.regexp
+#      ^ punctuation.definition.substitution.regexp
+
+    ${name}
+#   ^^^^^^^ meta.substitution.regexp
+#   ^ punctuation.definition.substitution.regexp
+#    ^^^^^^ meta.braces.cs
+#    ^ punctuation.section.braces.begin.regexp
+#     ^^^^ variable.other.capture-group.regexp
+#         ^ punctuation.section.braces.end.regexp
+
+### Miscellaneous Constructs
+
+    (?# comment )
+#   ^^^^^^^^^^^^^ comment.block.group.regexp
+#   ^^^ punctuation.definition.comment.begin.regexp
+#               ^ punctuation.definition.comment.end.regexp
+
+    # comment
+#   ^^^^^^^^^^ comment.line.number-sign.regexp
+#   ^ punctuation.definition.comment.regexp

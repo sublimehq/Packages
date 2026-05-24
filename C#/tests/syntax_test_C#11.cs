@@ -691,7 +691,7 @@ class SomeClass
 ///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                ^ punctuation.section.group.begin.cs
 ///                 ^ punctuation.definition.string.begin.cs
-///                  ^^^^^^^ meta.string.cs string.quoted.double.cs source.regexp meta.mode.basic.regexp
+///                  ^^^^^^^ meta.string.regexp.cs string.quoted.double.cs source.regexp
 ///                     ^ keyword.operator.alternation.regexp
 ///                         ^ punctuation.definition.string.end.cs
 ///                          ^ punctuation.separator.comma.cs
@@ -723,11 +723,10 @@ class SomeClass
 ///  ^^^^^^^^^^^^^^ variable.annotation.cs
 ///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                ^ punctuation.section.group.begin.cs
-///                 ^^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs source.regexp meta.mode.basic.regexp
-///                   ^^^^^ meta.mode.basic.regexp
+///                 ^^ meta.string.regexp.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs source.regexp
 ///                   ^ keyword.control.anchor.regexp
-///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp meta.mode.basic.regexp
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
 ///                        ^ punctuation.section.group.begin.regexp
 ///                         ^^^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 ///                          ^ punctuation.definition.capture-group-name.begin.regexp
@@ -739,8 +738,8 @@ class SomeClass
 ///                                            ^ punctuation.definition.set.end.regexp
 ///                                             ^^^^^^^ keyword.operator.quantifier.regexp
 ///                                                    ^ punctuation.section.group.end.regexp
-///                                                     ^ meta.mode.basic.regexp keyword.control.anchor.regexp
-///                                                      ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                                                     ^ keyword.control.anchor.regexp
+///                                                      ^ meta.string.regexp.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                                                       ^ punctuation.section.group.end.cs
 ///                                                        ^ punctuation.definition.annotation.end.cs
     private static partial Regex SomeRegex();

@@ -206,7 +206,6 @@ contexts:
         2: meta.group.cs punctuation.section.group.begin.cs
       push:
         - inside-argument-list
-        - immediately-pop
         - regex-string
     - include: namespace-variables
     - match: '{{name}}'
@@ -2076,7 +2075,7 @@ contexts:
       scope: punctuation.section.group.end.cs
       pop: 1
     - match: (?=[@$]*")
-      push: [immediately-pop, regex-string]
+      push: regex-string
     - include: arguments
 
   function-call-argument-list:
@@ -2737,23 +2736,63 @@ contexts:
 ###[ REGULAR EXPRESSIONS ]#####################################################
 
   regex-string:
+    # literal raw literal string
+    - match: ("""+)
+      scope: punctuation.definition.string.begin.cs
+      set: inside-raw-string
+    # literal quoted regexp string
     - match: '"'
-      scope: meta.string.cs string.quoted.double.cs punctuation.definition.string.begin.cs
-      embed: scope:source.regexp.cs
-      embed_scope: meta.string.cs string.quoted.double.cs source.regexp
-      escape: '"'
-      escape_captures:
-        0: meta.string.cs string.quoted.double.cs punctuation.definition.string.end.cs
-      pop: 1
+      scope: punctuation.definition.string.begin.cs
+      set: inside-literal-regex-string
+    # interpolated raw format strings
+    - match: \${1}("""+)
+      scope: punctuation.definition.string.begin.cs
+      set: inside-raw-format-string-1
+    - match: \${2}("""+)
+      scope: punctuation.definition.string.begin.cs
+      set: inside-raw-format-string-2
+    - match: \${3}("""+)
+      scope: punctuation.definition.string.begin.cs
+      set: inside-raw-format-string-3
+    - match: \${4}("""+)
+      scope: punctuation.definition.string.begin.cs
+      set: inside-raw-format-string-4
+    # interpolated quoted format strings
+    - match: \$"
+      scope: punctuation.definition.string.begin.cs
+      set: inside-format-string
+    # Verbatim regexp string
     - match: '@"'
-      scope: meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-      embed: scope:source.regexp.cs
-      embed_scope: meta.string.cs string.quoted.double.verbatim.cs source.regexp
-      escape: '"'
-      escape_captures:
-        0: meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
-      pop: 1
+      scope: punctuation.definition.string.begin.cs
+      set: inside-verbatim-regex-string
+    # interpolated verbatim format strings
+    - match: (?:@\$|\$@)"
+      scope: punctuation.definition.string.begin.cs
+      set: inside-verbatim-format-string-syntax
     - include: else-pop
+
+  inside-literal-regex-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.regexp.cs string.quoted.double.cs
+    - meta_content_scope: source.regexp.embedded.cs
+    - match: '"'
+      scope: punctuation.definition.string.end.cs
+      pop: 1
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
+      pop: 1
+    - include: scope:source.regexp.embedded.cs.literal-string
+      apply_prototype: true
+
+  inside-verbatim-regex-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.regexp.cs string.quoted.double.verbatim.cs
+    - meta_content_scope: source.regexp.embedded.cs
+    - match: '"(?!")'
+      scope: punctuation.definition.string.end.cs
+      pop: 1
+    - include: scope:source.regexp.embedded.cs.verbatim-string
+      apply_prototype: true
 
 ###[ STRINGS ]#################################################################
 
