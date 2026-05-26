@@ -1749,10 +1749,7 @@ namespace TestNamespace . Test
 
         Console.WriteLine("{0,-20} {1,width}\n", "Name", "Hours");
 ///                        ^^^^^^^ constant.other.placeholder - invalid
-///                               ^ string - constant
-///                                ^^ constant.other.placeholder - invalid
-///                                  ^^^^^^ constant.other.placeholder.cs invalid.illegal.unexpected-character-in-placeholder.cs
-///                                        ^ constant.other.placeholder - invalid
+///                               ^^^^^^^^^^ string - constant
 ///                                         ^^ constant.character.escape
 
         for (int ctr = 0; ctr < names.Length; ctr++)
@@ -1781,35 +1778,28 @@ namespace TestNamespace . Test
 ///                                    ^ - constant
 ///                                     ^^ constant.character.escape
         formatted = string.Format("{0{{G{}", myInt);
-///                                ^ punctuation.definition.placeholder.begin
-///                                  ^^^^ invalid.illegal.unexpected-character-in-placeholder
-///                                      ^ punctuation.definition.placeholder.end
+///                                ^^ string.quoted.double.cs - constant
+///                                  ^^ string.quoted.double.cs constant.character.escape.cs
+///                                    ^^^ string.quoted.double.cs - constant
 
         formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
 ///                                ^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                           ^^ constant.character.escape
-///                                             ^^ constant.other.placeholder - invalid
-///                                               ^ invalid.illegal.unclosed-string-placeholder
+///                                             ^^^ string - constant - invalid
 ///                                                ^ punctuation.definition.string.end
 ///                                                    ^ string - invalid - constant.other - punctuation
 ///                                                                ^ string - invalid - constant.other - punctuation
         formatted = string.Format("{0", myInt);
-///                                ^^ constant.other.placeholder
-///                                 ^ invalid.illegal.unclosed-string-placeholder
+///                                ^^ string - constant - invalid
         formatted = string.Format("{1:\", {", myInt, "}");
-///                                ^^^^^^^^ constant.other.placeholder
+///                                ^^^^^^^^ string - constant.other - invalid
 ///                                   ^^ constant.character.escape
-///                                     ^^^ invalid.illegal.unclosed-string-placeholder
 ///                                        ^ punctuation.definition.string.end
 ///                                                   ^ string - invalid - constant.other - punctuation
         formatted = string.Format("{1:\",{{}} {}", myInt, "}");
-///                                ^^^^^^^^^^^^^ constant.other.placeholder
-///                                ^ punctuation.definition.placeholder.begin
-///                                   ^^ constant.character.escape
+///                                ^^^^^^^^^^^^^ string - constant.other - invalid - punctuation
 ///                                      ^^^^ constant.character.escape
-///                                           ^ invalid.illegal.unescaped-placeholder
-///                                            ^ punctuation.definition.placeholder.end
-///                                                        ^ string - invalid - constant.other - punctuation
+///                                                        ^ string - constant.other - invalid - punctuation
 
         formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
 ///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
@@ -1857,40 +1847,33 @@ namespace TestNamespace . Test
 ///                                    ^ invalid.illegal.unescaped-placeholder.cs
 ///                                      ^^ constant.character.escape.cs
         Console.WriteLine(@$"GMT is {DateTime.Now:");
-///                                 ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                              ^ invalid.illegal.unclosed-string-placeholder.cs
-///                                               ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated - meta.interpolation - invalid
+///                                               ^ punctuation.definition.string.end
         Console.WriteLine(@$"GMT is {DateTime.Now:""");
-///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                              ^^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
-///                                                 ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated - meta.interpolation - invalid
+///                                                 ^ punctuation.definition.string.end
         Console.WriteLine(@$"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
-///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                              ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
-///                                                                 ^ meta.string.interpolated - meta.interpolation - meta.format-spec
-///                                              ^ punctuation.separator - constant.other.format-spec
-///                                               ^^^^^^^^^^^^^^^^^^ invalid.illegal.unclosed-string-placeholder.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated - meta.interpolation - invalid
 ///                                                                 ^ punctuation.definition.string.end
         Console.WriteLine($"GMT is {{ } }}");
 ///                                ^^ constant.character.escape.cs
 ///                                   ^ invalid.illegal.unescaped-placeholder.cs
 ///                                     ^^ constant.character.escape.cs
         Console.WriteLine($"GMT is {DateTime.Now:");
-///                                ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                             ^ invalid.illegal.unclosed-string-placeholder.cs
-///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated - meta.interpolation - invalid
+///                                              ^ punctuation.definition.string.end
         Console.WriteLine($"GMT is {DateTime.Now:""");
-///                                ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                             ^ invalid.illegal.unclosed-string-placeholder.cs
-///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
-///                                               ^^ meta.string.cs string.quoted.double.cs punctuation
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated - meta.interpolation - invalid
+///                                              ^ punctuation.definition.string.end.cs
+///                                               ^^ meta.string.cs string.quoted.double.cs
+///                                               ^ punctuation.definition.string.begin.cs
+///                                                ^ punctuation.definition.string.end.cs
         Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
-///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                             ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
-///                                                                ^ meta.string.interpolated - meta.interpolation - meta.format-spec
-///                                             ^ punctuation.separator - constant.other.format-spec
-///                                              ^^^^^^^^^^^^^^^^^^ invalid.illegal.unclosed-string-placeholder.cs
-///                                                                ^ punctuation.definition.string.end
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs - meta.interpolation
+///                       ^^ punctuation.definition.string.begin.cs
+///                                                      ^ invalid.illegal.lone-escape.cs
+///                                                              ^ invalid.illegal.lone-escape.cs
+///                                                                ^ punctuation.definition.string.end.cs
         Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
 ///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
 ///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
