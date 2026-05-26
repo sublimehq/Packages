@@ -2848,7 +2848,7 @@ contexts:
     - include: string-prototype
     - include: string-escapes
     - include: string-placeholder-escapes
-    - include: string-placeholders
+    - include: string-guids
     - include: extended-string-placeholders
 
   extended-string-placeholders:
@@ -2972,7 +2972,7 @@ contexts:
       pop: 1
     - include: string-prototype
     - include: string-placeholder-escapes
-    - include: string-placeholders
+    - include: string-guids
     - include: extended-verbatim-string-placeholders
 
   extended-verbatim-string-placeholders:
@@ -3119,7 +3119,7 @@ contexts:
       pop: 1
     - include: string-prototype
     - include: string-placeholder-escapes
-    - include: string-placeholders
+    - include: string-guids
     - include: extended-raw-string-placeholders
     - match: \}
       scope: invalid.illegal.unescaped-placeholder.cs
@@ -3132,7 +3132,7 @@ contexts:
       pop: 1
     - include: string-prototype
     - include: string-placeholder-escapes
-    - include: string-placeholders
+    - include: string-guids
     - include: extended-raw-string-placeholders
     - match: \}
       scope: invalid.illegal.unescaped-placeholder.cs
@@ -3300,13 +3300,13 @@ contexts:
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
+  string-guids:
+    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
+      scope: constant.other.guid.cs
+
   string-placeholder-escapes:
     - match: \{\{|\}\}
       scope: constant.character.escape.cs
-
-  string-placeholders:
-    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
-      scope: constant.other.guid.cs
 
   string-placeholder-end:
     - match: \}
