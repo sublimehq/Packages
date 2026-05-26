@@ -29,7 +29,7 @@ contexts:
 
   csharp:
     - include: csharp-blocks
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: attributes
     - include: modifiers
@@ -561,7 +561,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: attributes
     - include: modifiers
@@ -1050,7 +1050,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: attributes
     - match: add\b
@@ -1142,7 +1142,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: attributes
     - include: visibility
@@ -1207,7 +1207,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: attributes
     - include: visibility
@@ -1391,7 +1391,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
-    - include: stray-punctuations
+    - include: stray-punctuation
     - include: terminators
     - include: statement-blocks
     - include: embedded-statements
@@ -2649,7 +2649,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
 
-  stray-punctuations:
+  stray-punctuation:
     - match: '[]}),:]'
       scope: invalid.illegal.stray.cs
 
