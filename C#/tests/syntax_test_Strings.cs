@@ -1,5 +1,9 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
+/**
+ * Character Literals
+ */
+
 var character = 'y';
 /// ^^^^^^^^^ variable.other.cs
 ///           ^ keyword.operator.assignment.cs
@@ -43,6 +47,11 @@ var character_too_long = 'no';
 ///                      ^^^^ invalid.illegal.character.cs
 ///                          ^ punctuation.terminator.statement.cs
 
+
+/**
+ * Literal Strings
+ */
+
 "hex \x1 \x12 \x123 \xADF0"
 ///  ^^^ constant.character.escape.hex.cs
 ///     ^ - constant
@@ -80,8 +89,20 @@ var character_too_long = 'no';
 ///                                        ^^ constant.character.escape.cs
 ///                                           ^^ constant.character.escape.cs
 
+var guid = "{32F31D43-81CC-4C15-9DE6-3FC5453562B6}";
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///        ^ punctuation.definition.string.begin.cs
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.guid.cs
+///                                               ^ punctuation.definition.string.end.cs
+
 var literal = "foo";
 ///           ^^^^^ string.quoted.double - meta.string.interpolated
+
+
+/**
+ * Literal Format Strings
+ */
+
 var interpolated_none = $"foo";
 ///                     ^^^^^^ meta.string.interpolated.cs string.quoted.double.cs
 var interpolated_yes = $"foo {bar} foo";
@@ -98,16 +119,29 @@ var interpolated_quotes = $"|{"Left",-7}|{"Right",7}|";
 ///                                              ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs - string
 ///                                                ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.end.cs
 ///                                                 ^^ meta.string.interpolated.cs string.quoted.double.cs
+
+
+/**
+ * Verbatim Strings
+ */
+
 var verbatim_singleline = @"foo";
 ///                       ^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
+
+var verbatim_multiline = @"foo bar
+///                      ^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
+baz";
+
+
+/**
+ * Verbatim Format Strings
+ */
+
 var verbatim_singleline_interpolated_none = $@"foo bar";
 ///                                         ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 var verbatim_singleline_interpolated_yes = $@"foo {bar} foo";
 ///                                        ^^^^^^^ string.quoted.double.verbatim.cs
 ///                                        ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
-var verbatim_multiline = @"foo bar
-///                      ^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
-baz";
 var verbatim_multiline_interpolated_none = $@"foo bar
 ///                                        ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 baz";
@@ -116,59 +150,10 @@ var verbatim_multiline_interpolated_yes = $@"foo {bar}
 ///                                       ^^^^^^^^^^^^ meta.string.interpolated.cs
 baz";
 
-var verbatim_singleline_sql = @"
-    SELECT  *
-    FROM    foo
-    WHERE   SQLi='{0}'";
-///^^^^^^^^^^^^^^^^^^^ meta.string.cs source.sql.embedded.cs - meta.string.interpolated - string.quoted.double.verbatim
-///                   ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
-/// ^^^^^ keyword.other.dml.sql
-///         ^^^^ meta.column-name.sql
-///             ^ keyword.operator.comparison.sql
-///              ^^^^^ meta.string.sql string.quoted.single.sql
-///              ^ punctuation.definition.string.begin.sql
-///               ^^^ constant.other.placeholder.cs
-///               ^ punctuation.definition.placeholder.begin.cs
-///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                 ^ punctuation.definition.placeholder.end.cs
-///                  ^ punctuation.definition.string.end.sql
-///                   ^ punctuation.definition.string.end.cs
-///                    ^ punctuation.terminator.statement.cs
 
-var verbatim_singleline_sql_interpolated = $@"
-    SELECT  *
-    FROM    foo
-    WHERE   SQLi='{bar}'";
-///^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs source.sql.embedded.cs - meta.string.cs - string-quoted.double.verbatim
-///                     ^ meta.string.interpolated.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
-/// ^^^^^ keyword.other.dml.sql
-///         ^^^^ meta.column-name.sql
-///             ^ keyword.operator.comparison.sql
-///              ^^^^^^^ meta.string.sql
-///              ^ string.quoted.single.sql punctuation.definition.string.begin.sql
-///               ^^^^^ meta.interpolation.cs
-///               ^ punctuation.section.interpolation.begin.cs
-///                ^^^ source.cs variable.other.cs
-///                   ^ punctuation.section.interpolation.end.cs
-///                    ^ string.quoted.single.sql punctuation.definition.string.end.sql
-///                     ^ punctuation.definition.string.end.cs
-///                      ^ punctuation.terminator.statement.cs
-
-    "{32F31D43-81CC-4C15-9DE6-3FC5453562B6}"
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-///  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.guid
-
-"""
-    SELECT *
-    FROM some_table
-/// ^^^^ meta.string.cs source.sql keyword.other.dml.sql
-""";
-/// <- meta.string.cs string.quoted.double.block.cs punctuation.definition.string.end.cs
-
-"""
-    no sql here
-/// ^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.sql
-""";
+/**
+ * Verbatim SQL strings
+ */
 
 var query = @"SELECT * """;
 ///         ^^^^^^^^^^^^^^ meta.string.cs
@@ -188,23 +173,24 @@ var query = @"SELECT * """"";
 ///                        ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                         ^ punctuation.terminator.statement.cs
 
-var query = @$"SELECT * """;
-///         ^^^^^^^^^^^^^^^ meta.string.interpolated.cs
-///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-///            ^^^^^^^^^^^ source.sql.embedded.cs
-///                     ^^ meta.string.sql string.quoted.double.sql punctuation.definition.string.begin.sql
-///                       ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
-///                        ^ punctuation.terminator.statement.cs
-
-var query = @$"SELECT * """"";
-///         ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
-///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-///            ^^^^^^^^^^^^^ source.sql.embedded.cs
-///                     ^^^^ meta.string.sql string.quoted.double.sql
-///                     ^^ punctuation.definition.string.begin.sql
-///                       ^^ punctuation.definition.string.end.sql
-///                         ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
-///                          ^ punctuation.terminator.statement.cs
+var query = @"
+    SELECT  *
+    FROM    foo
+    WHERE   SQLi='{0}'";
+///^^^^^^^^^^^^^^^^^^^ meta.string.cs source.sql.embedded.cs - meta.string.interpolated - string.quoted.double.verbatim
+///                   ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+/// ^^^^^ keyword.other.dml.sql
+///         ^^^^ meta.column-name.sql
+///             ^ keyword.operator.comparison.sql
+///              ^^^^^ meta.string.sql string.quoted.single.sql
+///              ^ punctuation.definition.string.begin.sql
+///               ^^^ constant.other.placeholder.cs
+///               ^ punctuation.definition.placeholder.begin.cs
+///                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                 ^ punctuation.definition.placeholder.end.cs
+///                  ^ punctuation.definition.string.end.sql
+///                   ^ punctuation.definition.string.end.cs
+///                    ^ punctuation.terminator.statement.cs
 
 var query = @"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""{value}"" GROUP BY `{colname}`";
 /// ^^^^^ variable.other.cs
@@ -235,6 +221,48 @@ var query = @"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""
 ///                                                                                                ^ punctuation.definition.identifier.begin.sql
 ///                                                                                                          ^ punctuation.definition.identifier.end.sql
 ///                                                                                                            ^ punctuation.terminator.statement.cs
+
+
+/**
+ * Verbatim SQL format strings
+ */
+
+var query = @$"SELECT * """;
+///         ^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///            ^^^^^^^^^^^ source.sql.embedded.cs
+///                     ^^ meta.string.sql string.quoted.double.sql punctuation.definition.string.begin.sql
+///                       ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+var query = @$"SELECT * """"";
+///         ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///            ^^^^^^^^^^^^^ source.sql.embedded.cs
+///                     ^^^^ meta.string.sql string.quoted.double.sql
+///                     ^^ punctuation.definition.string.begin.sql
+///                       ^^ punctuation.definition.string.end.sql
+///                         ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                          ^ punctuation.terminator.statement.cs
+
+var query = $@"
+    SELECT  *
+    FROM    foo
+    WHERE   SQLi='{bar}'";
+///^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs source.sql.embedded.cs - meta.string.cs - string-quoted.double.verbatim
+///                     ^ meta.string.interpolated.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+/// ^^^^^ keyword.other.dml.sql
+///         ^^^^ meta.column-name.sql
+///             ^ keyword.operator.comparison.sql
+///              ^^^^^^^ meta.string.sql
+///              ^ string.quoted.single.sql punctuation.definition.string.begin.sql
+///               ^^^^^ meta.interpolation.cs
+///               ^ punctuation.section.interpolation.begin.cs
+///                ^^^ source.cs variable.other.cs
+///                   ^ punctuation.section.interpolation.end.cs
+///                    ^ string.quoted.single.sql punctuation.definition.string.end.sql
+///                     ^ punctuation.definition.string.end.cs
+///                      ^ punctuation.terminator.statement.cs
 
 var query = @$"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""{value}"" GROUP BY `{colname}`";
 /// ^^^^^ variable.other.cs
@@ -271,6 +299,23 @@ var query = @$"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE "
 ///                                                                                                   ^^^^^^^ source.cs variable.other.cs
 ///                                                                                                           ^ meta.column-name.sql punctuation.definition.identifier.end.sql
 ///                                                                                                             ^ punctuation.terminator.statement.cs
+
+
+/**
+ * Raw SQL strings
+ */
+
+"""
+    SELECT *
+    FROM some_table
+/// ^^^^ meta.string.cs source.sql keyword.other.dml.sql
+""";
+/// <- meta.string.cs string.quoted.double.block.cs punctuation.definition.string.end.cs
+
+"""
+    no sql here
+/// ^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.sql
+""";
 
 
 /**
