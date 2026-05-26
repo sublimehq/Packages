@@ -98,6 +98,133 @@ var guid = "{32F31D43-81CC-4C15-9DE6-3FC5453562B6}";
 var literal = "foo";
 ///           ^^^^^ string.quoted.double - meta.string.interpolated
 
+Console.WriteLine("{0,-20} {1,width}\n", "Name", "Hours");
+///               ^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs - invalid
+///               ^ punctuation.definition.string.begin.cs
+///                ^^^^^^^ constant.other.placeholder.cs
+///                ^ punctuation.definition.placeholder.begin.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^^^^ meta.format-spec.cs
+///                  ^ punctuation.separator.comma.cs
+///                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ keyword.operator.arithmetic.cs
+///                      ^ punctuation.definition.placeholder.end.cs
+///                                 ^^ constant.character.escape.cs
+///                                   ^ punctuation.definition.string.end.cs
+///                                    ^ punctuation.separator.comma.cs
+///                                      ^^^^^^ meta.string.cs string.quoted.double.cs
+///                                      ^ punctuation.definition.string.begin.cs
+///                                           ^ punctuation.definition.string.end.cs
+///                                            ^ punctuation.separator.comma.cs
+///                                              ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                              ^ punctuation.definition.string.begin.cs
+///                                                    ^ punctuation.definition.string.end.cs
+
+Console.WriteLine("{0,-20} {1,5:N1}", names[ctr], hours[ctr]);
+///               ^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs - invalid
+///               ^ punctuation.definition.string.begin.cs
+///                ^^^^^^^ constant.other.placeholder.cs
+///                ^ punctuation.definition.placeholder.begin.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^^^^ meta.format-spec.cs
+///                  ^ punctuation.separator.comma.cs
+///                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ keyword.operator.arithmetic.cs
+///                      ^ punctuation.definition.placeholder.end.cs
+///                        ^^^^^^^^ constant.other.placeholder.cs
+///                        ^ punctuation.definition.placeholder.begin.cs
+///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                          ^^^^^ meta.format-spec.cs
+///                          ^ punctuation.separator.comma.cs
+///                           ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                            ^ punctuation.separator.colon.cs
+///                             ^^ constant.other.format-spec.cs
+///                               ^ punctuation.definition.placeholder.end.cs
+///                                ^ punctuation.definition.string.end.cs
+
+Console.WriteLine("{0:C}", MyInt);
+///               ^^^^^^^ meta.string.cs string.quoted.double.cs - invalid
+///               ^ punctuation.definition.string.begin.cs
+///                ^^^^^ constant.other.placeholder.cs
+///                ^ punctuation.definition.placeholder.begin.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^^ meta.format-spec.cs
+///                  ^ punctuation.separator.colon.cs
+///                   ^ constant.other.format-spec.cs
+///                    ^ punctuation.definition.placeholder.end.cs
+///                     ^ punctuation.definition.string.end.cs
+
+formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
+///                       ^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs - invalid
+///                       ^ punctuation.definition.string.begin.cs
+///                             ^^^^^^^^^^^^^ constant.other.placeholder.cs
+///                             ^ punctuation.definition.placeholder.begin.cs
+///                              ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                               ^^^^^^^^^^ meta.format-spec.cs
+///                               ^ punctuation.separator.colon.cs
+///                                ^^^^^^^^^ constant.other.format-spec.cs
+///                                         ^ punctuation.definition.placeholder.end.cs
+///                                           ^ punctuation.definition.string.end.cs
+
+formatted = string.Format("{00}G}}", myInt);
+///                       ^^^^^^^^^ meta.string.cs string.quoted.double.cs - invalid
+///                       ^ punctuation.definition.string.begin.cs
+///                        ^^^^ constant.other.placeholder.cs
+///                        ^ punctuation.definition.placeholder.begin.cs
+///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.definition.placeholder.end.cs
+///                             ^^ constant.character.escape.cs
+///                               ^ punctuation.definition.string.end.cs
+
+formatted = string.Format("{0{{G{}", myInt);
+///                       ^^^^^^^^^ meta.string.cs string.quoted.double.cs - constant.other - invalid
+///                       ^ punctuation.definition.string.begin.cs
+///                          ^^ constant.character.escape.cs
+///                               ^ punctuation.definition.string.end.cs
+
+formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
+///                        ^^^^^^^^^^^ constant.other.placeholder - invalid
+///                                   ^^ constant.character.escape
+///                                     ^^^ string - constant - invalid
+///                                        ^ punctuation.definition.string.end
+///                                            ^ string - invalid - constant.other - punctuation
+///                                                        ^ string - invalid - constant.other - punctuation
+
+formatted = string.Format("{0", myInt);
+///                       ^^^^ meta.string.cs string.quoted.double.cs - constant - invalid
+
+formatted = string.Format("{1:\", {", myInt, "}");
+///                       ^^^^^^^^^^ string - constant.other - invalid
+///                           ^^ constant.character.escape
+///                                ^ punctuation.definition.string.end
+///                                          ^^^ string - constant.other - invalid
+
+formatted = string.Format("{1:\",{{}} {}", myInt, "}");
+///                       ^^^^^^^^^^^^^^^ string - constant.other - invalid
+///                              ^^^^ constant.character.escape
+///                                               ^^^ string - constant.other - invalid
+
+formatted = string.Format("GMT is {{ } }}");
+///                       ^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                       ^ punctuation.definition.string.begin.cs
+///                               ^^ constant.character.escape.cs
+///                                    ^^ constant.character.escape.cs
+///                                      ^ punctuation.definition.string.end.cs
+
+formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+///                       ^ punctuation.definition.string.begin.cs
+///                               ^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.cs
+///                               ^ punctuation.definition.placeholder.begin.cs
+///                                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                 ^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                                 ^ punctuation.separator.colon.cs
+///                                  ^^^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                          ^^ constant.character.escape.cs
+///                                                   ^^ constant.character.escape.cs
+///                                                      ^ punctuation.definition.placeholder.end.cs
+///                                                       ^ punctuation.definition.string.end.cs
+
 
 /**
  * Literal Format Strings
@@ -120,6 +247,52 @@ var interpolated_quotes = $"|{"Left",-7}|{"Right",7}|";
 ///                                                ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.end.cs
 ///                                                 ^^ meta.string.interpolated.cs string.quoted.double.cs
 
+Console.WriteLine($"GMT is {{ } }}");
+///               ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs - meta.interpolation
+///               ^^ punctuation.definition.string.begin.cs
+///                        ^^ constant.character.escape.cs
+///                           ^ invalid.illegal.unescaped-placeholder.cs
+///                             ^^ constant.character.escape.cs
+///                               ^ punctuation.definition.string.end.cs
+
+Console.WriteLine($"GMT is {DateTime.Now:");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs - meta.interpolation - invalid
+///               ^^ punctuation.definition.string.begin.cs
+///                                      ^ punctuation.definition.string.end.cs
+
+Console.WriteLine($"GMT is {DateTime.Now:""");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs
+///               ^^ punctuation.definition.string.begin.cs
+///                                      ^ punctuation.definition.string.end.cs
+///                                       ^^ meta.string.cs string.quoted.double.cs
+///                                       ^ punctuation.definition.string.begin.cs
+///                                        ^ punctuation.definition.string.end.cs
+
+Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.cs
+///               ^^ punctuation.definition.string.begin.cs
+///                                              ^ invalid.illegal.lone-escape.cs
+///                                                      ^ invalid.illegal.lone-escape.cs
+///                                                        ^ punctuation.definition.string.end.cs
+
+Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///               ^^^^^^^^^ string.quoted.double.cs
+///               ^^ punctuation.definition.string.begin.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.cs
+///                        ^ punctuation.section.interpolation.begin.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.cs
+///                         ^^^^^^^^ variable.other.cs
+///                                 ^ punctuation.accessor.dot.cs
+///                                  ^^^ variable.other.cs
+///                                     ^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                                     ^ punctuation.separator.colon.cs
+///                                      ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                              ^ invalid.illegal.lone-escape.cs
+///                                                      ^ invalid.illegal.lone-escape.cs
+///                                                        ^ punctuation.section.interpolation.end.cs
+///                                                         ^ string.quoted.double.cs punctuation.definition.string.end.cs
+
 
 /**
  * Verbatim Strings
@@ -131,6 +304,59 @@ var verbatim_singleline = @"foo";
 var verbatim_multiline = @"foo bar
 ///                      ^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
 baz";
+
+formatted = string.Format(@"GMT is {{ } }}");
+///                       ^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - constant.other - invalid
+///                       ^^ punctuation.definition.string.begin.cs
+///                                ^^ constant.character.escape.cs
+///                                     ^^ constant.character.escape.cs
+///                                       ^ punctuation.definition.string.end.cs
+
+formatted = string.Format(@"GMT is {0:yyyyMMdd\THHmmss\Z}", DateTime.Now.ToUniversalTime());
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
+///                       ^^ punctuation.definition.string.begin.cs
+///                                ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.cs
+///                                ^ punctuation.definition.placeholder.begin.cs
+///                                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                  ^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                                  ^ punctuation.separator.colon.cs
+///                                   ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                           ^^ constant.character.escape.cs
+///                                                   ^^ constant.character.escape.cs
+///                                                     ^ punctuation.definition.placeholder.end.cs
+///                                                      ^ punctuation.definition.string.end.cs
+
+formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
+///                       ^^ punctuation.definition.string.begin.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.cs
+///                         ^ punctuation.definition.placeholder.begin.cs
+///                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                           ^ punctuation.separator.colon.cs
+///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                    ^^^^ constant.character.escape.cs
+///                                            ^^ constant.character.escape.cs
+///                                              ^ punctuation.definition.placeholder.end.cs
+///                                                  ^ punctuation.definition.string.end.cs
+
+// The example displays the following output
+// if en-US is the current culture:
+//        $100.00
+formatted = string.Format(@"Price = |{0,-10:C}|", myInt);
+///                       ^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs
+///                       ^^ punctuation.definition.string.begin.cs
+///                                  ^^^^^^^^^ constant.other.placeholder.cs
+///                                  ^ punctuation.definition.placeholder.begin.cs
+///                                   ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                    ^^^^^^ meta.format-spec.cs
+///                                    ^ punctuation.separator.comma.cs
+///                                     ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                     ^ keyword.operator.arithmetic.cs
+///                                        ^ punctuation.separator.colon.cs
+///                                         ^ constant.other.format-spec.cs
+///                                          ^ punctuation.definition.placeholder.end.cs
+///                                            ^ punctuation.definition.string.end.cs
 
 
 /**
@@ -149,6 +375,86 @@ var verbatim_multiline_interpolated_yes = $@"foo {bar}
 ///                                       ^^^^^^ string.quoted.double.verbatim.cs
 ///                                       ^^^^^^^^^^^^ meta.string.interpolated.cs
 baz";
+
+Console.WriteLine(@$"GMT is {{ } }}");
+///               ^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs - meta.interpolation
+///               ^^^ punctuation.definition.string.begin.cs
+///                         ^^ constant.character.escape.cs
+///                            ^ invalid.illegal.unescaped-placeholder.cs
+///                              ^^ constant.character.escape.cs
+///                                ^ punctuation.definition.string.end.cs
+
+Console.WriteLine(@$"GMT is {DateTime.Now:");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs - meta.interpolation - invalid
+///               ^^^ punctuation.definition.string.begin.cs
+///                                       ^ punctuation.definition.string.end.cs
+
+Console.WriteLine(@$"GMT is {DateTime.Now:""");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs - meta.interpolation - invalid
+///               ^^^ punctuation.definition.string.begin.cs
+///                                       ^^ constant.character.escape.cs
+///                                         ^ punctuation.definition.string.end.cs
+
+
+Console.WriteLine(@$"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs - meta.interpolation - invalid
+///               ^^^ punctuation.definition.string.begin.cs
+///                                                         ^ punctuation.definition.string.end.cs
+
+Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///               ^^^^^^^^^^ string.quoted.double.verbatim.cs
+///               ^^^ punctuation.definition.string.begin.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.cs
+///                         ^ punctuation.section.interpolation.begin.cs
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.cs
+///                          ^^^^^^^^ variable.other.cs
+///                                  ^ punctuation.accessor.dot.cs
+///                                   ^^^ variable.other.cs
+///                                      ^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                                      ^ punctuation.separator.colon.cs
+///                                       ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                               ^^ constant.character.escape.cs
+///                                                       ^^ constant.character.escape.cs
+///                                                         ^ punctuation.section.interpolation.end.cs
+///                                                          ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+
+Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///               ^^^^^^^^^^ string.quoted.double.verbatim.cs
+///               ^^^ punctuation.definition.string.begin.cs
+///                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.cs
+///                         ^ punctuation.section.interpolation.begin.cs
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.cs
+///                          ^^^^^^^^ variable.other.cs
+///                                  ^ punctuation.accessor.dot.cs
+///                                   ^^^ variable.other.cs
+///                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                                      ^ punctuation.separator.colon.cs
+///                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                               ^^^^^^^ constant.character.escape.cs
+///                                                                ^^ constant.character.escape.cs
+///                                                                  ^ punctuation.section.interpolation.end.cs
+///                                                                   ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+
+
+Console.WriteLine($@"GMT is {DateTime.Now,-20:yyyyMMdd\THHmmss\Z}");
+///                         ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                             ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                          ^ punctuation.separator - constant.other.format-spec
+///                                           ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                             ^ punctuation.section.interpolation.end
+///                                                              ^ punctuation.definition.string.end
+
+Console.WriteLine($@"GMT is {DateTime.Now,anyWidth:yyyyMMdd\THHmmss\Z}");
+///                         ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                  ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                               ^ punctuation.separator - constant.other.format-spec
+///                                                ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                                  ^ punctuation.section.interpolation.end
+///                                                                   ^ punctuation.definition.string.end
 
 
 /**
