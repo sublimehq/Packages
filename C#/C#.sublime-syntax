@@ -2031,9 +2031,10 @@ contexts:
     - include: namespace-variables
     - include: instance-variables
     - include: base-types
-    # We don't if these are types of variables, so we guess that
-    # uppercase names are types, and others are variables
-    - match: (?=\p{Ll}){{name}}(?=\s*\))
+    # It is not possible to distinguish types and variables syntactically.
+    # Hence assume uppercase names to be types, and all remaining ones to be
+    # variables.
+    - match: '{{lower_name}}(?=\s*\))'
       scope: variable.other.cs
     - match: '{{unreserved_name}}'
       scope: support.type.cs
@@ -3326,6 +3327,7 @@ variables:
   name: (?:@?{{name_normal}})
   name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '[[:upper:]]{{other_char}}*\b'
+  lower_name: '[[:lower:]]{{other_char}}*\b'
   start_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[[:alpha:]]])
   other_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[[:alnum:]]])
 
