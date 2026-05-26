@@ -2901,8 +2901,7 @@ contexts:
     - include: string-escapes
     - include: string-placeholder-escapes
     - include: string-interpolations
-    - match: \}
-      scope: invalid.illegal.unescaped-placeholder.cs
+    - include: invalid-string-placeholders
 
   string-interpolations:
     - match: (?=\{)
@@ -3042,8 +3041,7 @@ contexts:
     - include: string-prototype
     - include: string-placeholder-escapes
     - include: verbatim-string-interpolations
-    - match: \}
-      scope: invalid.illegal.unescaped-placeholder.cs
+    - include: invalid-string-placeholders
 
   verbatim-string-interpolations:
     - match: (?=\{)
@@ -3121,8 +3119,7 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-guids
     - include: extended-raw-string-placeholders
-    - match: \}
-      scope: invalid.illegal.unescaped-placeholder.cs
+    - include: invalid-string-placeholders
 
   inside-raw-string:
     - meta_include_prototype: false
@@ -3134,8 +3131,7 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-guids
     - include: extended-raw-string-placeholders
-    - match: \}
-      scope: invalid.illegal.unescaped-placeholder.cs
+    - include: invalid-string-placeholders
 
   extended-raw-string-placeholders:
     - match: (?=\{\d)
@@ -3316,6 +3312,10 @@ contexts:
   string-placeholder-fallback:
     - match: \{
       pop: 1
+
+  invalid-string-placeholders:
+    - match: \}
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   string-placeholder-width:
     - match: \s*(?:(,)\s*((-?)\d+)\s*)?
