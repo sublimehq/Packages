@@ -297,7 +297,8 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 
 customer?.Order = GetCurrentOrder();
 //^^^^^^ variable.other.cs
-//      ^^ punctuation.accessor.null-coalescing.cs
+//      ^ keyword.operator.null-coalescing.cs
+//       ^ punctuation.accessor.dot.cs
 //        ^^^^^ variable.other.cs
 //              ^ keyword.operator.assignment.cs
 //                ^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs

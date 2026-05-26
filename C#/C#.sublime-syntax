@@ -1647,14 +1647,10 @@ contexts:
     - match: \.\.
       scope: keyword.operator.range.cs
       push: maybe-pointer
-    - match: \.
-      scope: punctuation.accessor.dot.cs
-      push: maybe-pointer
-    - match: \?\?
-      scope: keyword.operator.null-coalescing.cs
-      push: maybe-pointer
-    - match: \?\.
-      scope: punctuation.accessor.null-coalescing.cs
+    - match: (\?)?(\.)
+      captures:
+        1: keyword.operator.null-coalescing.cs
+        2: punctuation.accessor.dot.cs
       push: maybe-pointer
     - match: (\?)?\s*(\[)
       captures:
@@ -1663,6 +1659,9 @@ contexts:
       push:
         - inside-item-access
         - maybe-pointer
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.cs
+      push: maybe-pointer
     - match: \?
       scope: keyword.operator.ternary.cs
       push:

@@ -353,7 +353,8 @@ public class Program {
 //                                          ^ punctuation.definition.string.begin.cs
 //                                                    ^ punctuation.definition.string.end.cs
 //                                                     ^ punctuation.section.group.end.cs
-//                                                      ^^ punctuation.accessor.null-coalescing.cs
+//                                                      ^ keyword.operator.null-coalescing.cs
+//                                                       ^ punctuation.accessor.dot.cs
 //                                                        ^^^^^^^^^^ variable.other.cs
 //                                                                  ^ keyword.operator.null-coalescing.cs
 //                                                                    ^^^^^^^^ meta.brackets.cs

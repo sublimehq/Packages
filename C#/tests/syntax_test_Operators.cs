@@ -399,7 +399,8 @@ class TestOperatorDefinitions {
 ///    ^ punctuation.terminator.statement.cs
 
     x?.y;
-///  ^^ punctuation.accessor.null-coalescing.cs
+///  ^ keyword.operator.null-coalescing.cs
+///   ^ punctuation.accessor.dot.cs
 ///     ^ punctuation.terminator.statement.cs
 
     x->y;
@@ -412,7 +413,8 @@ int? length = customers?.Length;
 /// <- storage.type
 ///^ storage.modifier.nullable
 ///     ^ variable.other
-///                    ^^ punctuation.accessor.null-coalescing
+///                    ^ keyword.operator.null-coalescing.cs
+///                     ^ punctuation.accessor.dot.cs
 
 Customer? first = customers?[0];
 /// <- support.type
@@ -439,20 +441,26 @@ int? count = customers?[0]?.Orders?.Count();
 ///                    ^^^ meta.brackets
 ///                    ^ punctuation.section.brackets.begin
 ///                      ^ punctuation.section.brackets.end
-///                       ^^ punctuation.accessor.null-coalescing
-///                               ^^ punctuation.accessor.null-coalescing
+///                       ^ keyword.operator.null-coalescing.cs
+///                        ^ punctuation.accessor.dot.cs
+///                               ^ keyword.operator.null-coalescing.cs
+///                                ^ punctuation.accessor.dot.cs
 ///                                 ^^^^^^^ meta.function-call
 
 A?.B?.C?[0] ?? E;
-/// ^^ punctuation.accessor.null-coalescing
+ /// <- keyword.operator.null-coalescing.cs
+  /// <- punctuation.accessor.dot.cs
+/// ^ keyword.operator.null-coalescing.cs
+///  ^ punctuation.accessor.dot.cs
 ///     ^ punctuation.section.brackets.begin
 ///         ^^ keyword.operator.null-coalescing
 ///             ^ punctuation.terminator
 
 A?.B?.C?[0] == E;
- /// <- punctuation.accessor.null-coalescing
-  /// <- punctuation.accessor.null-coalescing
-/// ^^ punctuation.accessor.null-coalescing
+ /// <- keyword.operator.null-coalescing.cs
+  /// <- punctuation.accessor.dot.cs
+/// ^ keyword.operator.null-coalescing.cs
+///  ^ punctuation.accessor.dot.cs
 ///     ^^^ meta.brackets
 ///     ^ punctuation.section.brackets.begin
 ///       ^ punctuation.section.brackets.end
