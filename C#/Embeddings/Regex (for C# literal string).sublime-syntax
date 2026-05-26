@@ -12,7 +12,6 @@ variables:
 contexts:
 
   prototype:
-    - include: scope:source.cs#string-placeholders
     - match: $|(?=")
       pop: 1
 

@@ -16,21 +16,18 @@ contexts:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#extended-raw-string-placeholders
 
   identifier-prototype:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#extended-raw-string-placeholders
 
   string-prototype:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#extended-raw-string-placeholders
 
   string-terminator:

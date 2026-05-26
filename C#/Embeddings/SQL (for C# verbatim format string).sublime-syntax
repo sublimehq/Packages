@@ -16,21 +16,18 @@ contexts:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#verbatim-string-interpolations
 
   identifier-prototype:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#verbatim-string-interpolations
 
   string-prototype:
     - meta_prepend: true
     - include: string-terminator
     - include: scope:source.cs#string-placeholder-escapes
-    - include: scope:source.cs#string-placeholders
     - include: scope:source.cs#verbatim-string-interpolations
 
   double-quoted-strings:

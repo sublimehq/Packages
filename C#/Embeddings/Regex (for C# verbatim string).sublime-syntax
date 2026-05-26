@@ -10,6 +10,5 @@ contexts:
 
   prototype:
     - include: scope:source.cs#verbatim-string-escapes
-    - include: scope:source.cs#string-placeholders
     - match: (?=")
       pop: 1
