@@ -465,7 +465,7 @@ var query = @"SELECT * """;
 ///         ^^^^^^^^^^^^^^ meta.string.cs
 ///         ^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
 ///           ^^^^^^^^^^^ source.sql.embedded.cs - string.quoted.double.verbatim
-///                    ^^ punctuation.definition.string.begin.sql
+///                    ^^ punctuation.definition.identifier.begin.sql
 ///                      ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                       ^ punctuation.terminator.statement.cs
 
@@ -473,9 +473,9 @@ var query = @"SELECT * """"";
 ///         ^^^^^^^^^^^^^^^^ meta.string.cs
 ///         ^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
 ///           ^^^^^^^^^^^^^ source.sql.embedded.cs
-///                    ^^^^ meta.string.sql string.quoted.double.sql
-///                    ^^ punctuation.definition.string.begin.sql
-///                      ^^ punctuation.definition.string.end.sql
+///                    ^^^^ meta.column-name.sql
+///                    ^^ punctuation.definition.identifier.begin.sql
+///                      ^^ punctuation.definition.identifier.end.sql
 ///                        ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                         ^ punctuation.terminator.statement.cs
 
@@ -513,15 +513,15 @@ var query = @"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE ""
 ///                                   ^^^^^ keyword.other.dml.sql
 ///                                         ^^^ meta.column-name.sql
 ///                                             ^^^^ keyword.operator.comparison.sql
-///                                                  ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
-///                                                  ^^ punctuation.definition.string.begin.sql
-///                                                           ^^ punctuation.definition.string.end.sql
+///                                                  ^^^^^^^^^^^ meta.column-name.sql
+///                                                  ^^ punctuation.definition.identifier.begin.sql
+///                                                           ^^ punctuation.definition.identifier.end.sql
 ///                                                              ^^^ keyword.operator.logical.sql
 ///                                                                  ^^^ meta.column-name.sql
 ///                                                                      ^^^^ keyword.operator.comparison.sql
-///                                                                           ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
-///                                                                           ^^ punctuation.definition.string.begin.sql
-///                                                                                    ^^ punctuation.definition.string.end.sql
+///                                                                           ^^^^^^^^^^^ meta.column-name.sql
+///                                                                           ^^ punctuation.definition.identifier.begin.sql
+///                                                                                    ^^ punctuation.definition.identifier.end.sql
 ///                                                                                       ^^^^^^^^ keyword.other.dml.sql
 ///                                                                                                ^^^^^^^^^^^ meta.column-name.sql
 ///                                                                                                ^ punctuation.definition.identifier.begin.sql
@@ -537,7 +537,7 @@ var query = @$"SELECT * """;
 ///         ^^^^^^^^^^^^^^^ meta.string.interpolated.cs
 ///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
 ///            ^^^^^^^^^^^ source.sql.embedded.cs
-///                     ^^ meta.string.sql string.quoted.double.sql punctuation.definition.string.begin.sql
+///                     ^^ source.sql.embedded.cs meta.column-name.sql
 ///                       ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                        ^ punctuation.terminator.statement.cs
 
@@ -545,9 +545,9 @@ var query = @$"SELECT * """"";
 ///         ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
 ///         ^^^ string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
 ///            ^^^^^^^^^^^^^ source.sql.embedded.cs
-///                     ^^^^ meta.string.sql string.quoted.double.sql
-///                     ^^ punctuation.definition.string.begin.sql
-///                       ^^ punctuation.definition.string.end.sql
+///                     ^^^^ meta.column-name.sql
+///                     ^^ punctuation.definition.identifier.begin.sql
+///                       ^^ punctuation.definition.identifier.end.sql
 ///                         ^ string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                          ^ punctuation.terminator.statement.cs
 
@@ -586,19 +586,19 @@ var query = @$"SELECT * from `{table}` WHERE foo LIKE ""{value}"" AND bar LIKE "
 ///                                    ^^^^^ keyword.other.dml.sql
 ///                                          ^^^ meta.column-name.sql
 ///                                              ^^^^ keyword.operator.comparison.sql
-///                                                   ^^^^^^^^^^^ meta.string.sql
-///                                                   ^^ string.quoted.double.sql punctuation.definition.string.begin.sql
+///                                                   ^^^^^^^^^^^ meta.column-name.sql
+///                                                   ^^ punctuation.definition.identifier.begin.sql
 ///                                                     ^^^^^^^ meta.interpolation.cs
 ///                                                      ^^^^^ source.cs variable.language.cs
-///                                                            ^^ string.quoted.double.sql punctuation.definition.string.end.sql
+///                                                            ^^ punctuation.definition.identifier.end.sql
 ///                                                               ^^^ keyword.operator.logical.sql
 ///                                                                   ^^^ meta.column-name.sql
 ///                                                                       ^^^^ keyword.operator.comparison.sql
-///                                                                            ^^^^^^^^^^^ meta.string.sql
-///                                                                            ^^ string.quoted.double.sql punctuation.definition.string.begin.sql
+///                                                                            ^^^^^^^^^^^ meta.column-name.sql
+///                                                                            ^^ punctuation.definition.identifier.begin.sql
 ///                                                                              ^^^^^^^ meta.interpolation.cs
 ///                                                                               ^^^^^ source.cs variable.language.cs
-///                                                                                     ^^ string.quoted.double.sql punctuation.definition.string.end.sql
+///                                                                                     ^^ punctuation.definition.identifier.end.sql
 ///                                                                                        ^^^^^^^^ keyword.other.dml.sql
 ///                                                                                                 ^ meta.column-name.sql punctuation.definition.identifier.begin.sql
 ///                                                                                                  ^^^^^^^^^ meta.interpolation.cs

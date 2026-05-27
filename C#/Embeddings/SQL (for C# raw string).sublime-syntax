@@ -4,7 +4,7 @@ scope: source.sql.embedded.cs.raw-string
 version: 2
 hidden: true
 
-extends: Packages/SQL/SQL.sublime-syntax
+extends: SQL (for C#).sublime-syntax
 
 contexts:
 

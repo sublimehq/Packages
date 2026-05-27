@@ -4,7 +4,7 @@ scope: source.sql.embedded.cs.verbatim-format-string
 version: 2
 hidden: true
 
-extends: Packages/SQL/SQL.sublime-syntax
+extends: SQL (for C#).sublime-syntax
 
 contexts:
 
@@ -30,6 +30,22 @@ contexts:
     - include: scope:source.cs#string-placeholder-escapes
     - include: scope:source.cs#verbatim-string-interpolations
 
+  double-quoted-identifier-part:
+    - match: \"{2}
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-double-quoted-identifier-part
+
+  inside-double-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - meta_scope: variable.other.sql # will be cleared by interpolation
+    - match: \"{4}
+      scope: constant.character.escape.sql
+    - match: \"{2}
+      scope: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-prototype
+
   double-quoted-strings:
     - match: \"{2}
       scope: punctuation.definition.string.begin.sql
@@ -44,7 +60,6 @@ contexts:
       scope: punctuation.definition.string.end.sql
       pop: 1
     - include: string-prototype
-    - include: string-interpolations
 
   string-terminator:
     - match: (?="(?!"))

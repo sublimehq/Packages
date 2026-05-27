@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This file mainly exists to enable independent C# specific SQL syntax in
+# embedded strings by overriding this file, as T-SQL is the most likely
+# dialect being in use.
+scope: source.sql.embedded.cs
+version: 2
+hidden: true
+
+extends: Packages/SQL/TSQL.sublime-syntax
