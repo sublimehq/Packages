@@ -2888,6 +2888,8 @@ contexts:
     - match: (?=["{])
       fail: extended-string-placeholder
 
+###[ QUOTED FORMAT STRINGS ]###################################################
+
   inside-format-string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.cs
@@ -3012,6 +3014,8 @@ contexts:
       pop: 1
     - match: (?=["{])
       fail: extended-verbatim-string-placeholder
+
+###[ VERBATIM FOMRAT STRINGS ]#################################################
 
   inside-verbatim-format-string-syntax:
     - meta_include_prototype: false
@@ -3169,6 +3173,8 @@ contexts:
       pop: 2
     - match: (?=[\\\{])
       fail: extended-raw-string-placeholder
+
+###[ RAW FORMAT STRINGS ]######################################################
 
   inside-raw-format-string-1:
     - meta_include_prototype: false
