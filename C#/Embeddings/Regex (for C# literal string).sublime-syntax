@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+scope: source.regexp.embedded.cs.literal-string
+version: 2
+hidden: true
+
+extends: Regex (for C#).sublime-syntax
+
+variables:
+    escape: \\\\
+
+contexts:
+
+  prototype:
+    - match: $|(?=")
+      pop: 1
+
+  escaped-chars:
+    - meta_append: true
+    - include: scope:source.cs#string-escapes

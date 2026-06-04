@@ -3,21 +3,6 @@
 class X
 // ^ keyword.declaration.class
 {
-    X () {
-//  ^ entity.name.function.constructor
-//  ^^^^ meta.method
-    }
-
-    X (string test) : base () {
-//  ^ entity.name.function.constructor
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor
-//  ^^^^^^^^^^^^^^^ meta.method.constructor - meta.method.constructor.prebody
-//                    ^^^^ variable.language
-//                  ^^^^^^^^^^ meta.method.constructor.prebody
-//                         ^ meta.group punctuation.section.group.begin
-//                          ^ meta.group punctuation.section.group.end
-    }
-
     [Usage("Foo bar")]
 //  ^^^^^^^^^^^^^^^^^^ meta.annotation
     // ^ variable.annotation
@@ -38,24 +23,6 @@ string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 //                                                                     ^ string.quoted.double.verbatim - constant
 //                                                                          ^ string.quoted.double.verbatim punctuation.definition.string.end
 
-class A
-{
-   public A(int x, int y) {}
-   // ^ storage.modifier
-   //     ^ entity.name.function.constructor
-}
-class B: A
-{
-   public B(int x, int y): base(x + y, x - y) {}
-   //                       ^ variable.language
-}
-
-
-public class GenericList<T>
-{
-    void Add(T input) { }
-}
-
 class TestGenericList
 {
     private class ExampleClass { }
@@ -71,11 +38,11 @@ class TestGenericList
         string hello, wow = "test", test;
 //      ^^^^^^ storage.type
 //             ^^^^^ variable.other
-//                  ^ punctuation.separator.variables
+//                  ^ punctuation.separator.comma
 //                    ^^^ variable.other
 //                        ^ keyword.operator.assignment
 //                          ^^^^^^ string.quoted.double
-//                                ^ punctuation.separator.variables
+//                                ^ punctuation.separator.comma
 //                                  ^^^^ variable.other
 //                                      ^ punctuation.terminator.statement
         System . String test1;
@@ -87,14 +54,14 @@ class TestGenericList
 //      ^^^^ support.type
 //           ^ punctuation.definition.generic.begin
 //            ^^^ storage.type
-//                ^ storage.type.nullable
+//                ^ storage.modifier.nullable
 //                 ^ punctuation.definition.generic.end
 //                   ^ punctuation.accessor.dot
 //                     ^^^^^^^^^^ support.type
 //                                ^ variable.other
         int ? test2 = 4;
 //      ^^^ storage.type
-//          ^ storage.type.nullable
+//          ^ storage.modifier.nullable
 //            ^^^^^ variable.other
 //                  ^ keyword.operator.assignment
 //                    ^ meta.number.integer.decimal constant.numeric.value
@@ -119,11 +86,13 @@ public partial class Employee
         var @void = MakeGroup();
         //  ^^^^^ variable.other.cs - keyword
 
+        // void is technically illegal in this context and thus terminates expression
         var void = MakeGroup();
-        //  ^^^^ invalid.illegal - variable - keyword
+        //  ^^^^ - variable
 
+        // void is technically illegal in this context and thus terminates expression
         var subvoid1 = void.GetContents();
-        //             ^^^^ - variable # Technically illegal in this context, but at least it's not marked as a variable.
+        //             ^^^^ - variable
 
         var subvoid2 = @void.GetContents();
         //             ^^^^^ variable.other.cs - keyword
@@ -360,7 +329,7 @@ public interface IObjectRepository
 {
     bool CanGetObjects(IGetObjectsRequest request);
     dynamic GetObjects(IGetObjectsRequest request);
-//  ^^^^^^^ support.type
+//  ^^^^^^^ storage.type.primitive.cs
 //          ^^^^^^^^^^ entity.name.function
 //                                                ^ punctuation.terminator
 }
@@ -372,20 +341,20 @@ public class Program {
         var xml = new XmlDocument ();
         var outcome = xml.SelectSingleNode ("/whatever")?.Attributes? ["nope"];
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
-//      ^^^ storage.type.variable.cs
+//      ^^^ storage.type.variant.cs
 //          ^^^^^^^ variable.other.cs
 //                  ^ keyword.operator.assignment.cs
 //                    ^^^ variable.other.cs
 //                       ^ punctuation.accessor.dot.cs
-//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
-//                        ^^^^^^^^^^^^^^^^ variable.function.cs
-//                                         ^^^^^^^^^^^^^ meta.group.cs
+//                        ^^^^^^^^^^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+//                                         ^^^^^^^^^^^^^ meta.function-call.arguments.cs meta.group.cs
 //                                         ^ punctuation.section.group.begin.cs
 //                                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
 //                                          ^ punctuation.definition.string.begin.cs
 //                                                    ^ punctuation.definition.string.end.cs
 //                                                     ^ punctuation.section.group.end.cs
-//                                                      ^^ punctuation.accessor.null-coalescing.cs
+//                                                      ^ keyword.operator.null-coalescing.cs
+//                                                       ^ punctuation.accessor.dot.cs
 //                                                        ^^^^^^^^^^ variable.other.cs
 //                                                                  ^ keyword.operator.null-coalescing.cs
 //                                                                    ^^^^^^^^ meta.brackets.cs

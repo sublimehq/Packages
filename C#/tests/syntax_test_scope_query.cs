@@ -7,8 +7,8 @@
               new Book { Title = "LINQ in Action" },
               new Book { Title = "LINQ for Fun" },
               new Book { Title = "Extreme LINQ" } };
-///                                              ^^ meta.instance
-///                                              ^ - meta.instance meta.instance
+///                                              ^^ meta.instantiation
+///                                              ^ - meta.instantiation meta.instantiation
 ///                                               ^ meta.braces punctuation.section.braces.end
 
             var titles =
@@ -47,6 +47,21 @@
 ///                                          ^^ keyword.other.sql
 ///                                                         ^^^^^^ keyword.other.sql
                        select new { ProductName = prod.Name, Category = category.Name };
+///                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                               ^ punctuation.section.braces.begin.cs
+///                                 ^^^^^^^^^^^ variable.other.member.cs
+///                                             ^ keyword.operator.assignment.cs
+///                                               ^^^^ variable.other.cs
+///                                                   ^ punctuation.accessor.dot.cs
+///                                                    ^^^^ variable.other.member.cs
+///                                                        ^ punctuation.separator.comma.cs
+///                                                          ^^^^^^^^ variable.other.member.cs
+///                                                                   ^ keyword.operator.assignment.cs
+///                                                                     ^^^^^^^^ variable.other.cs
+///                                                                             ^ punctuation.accessor.dot.cs
+///                                                                              ^^^^ variable.other.member.cs
+///                                                                                   ^ punctuation.section.braces.end.cs
+///                                                                                    ^ punctuation.terminator.statement.cs
 
             var studentQuery1 =
                        from student in students

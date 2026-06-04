@@ -7,10 +7,14 @@ hidden: true
 
 variables:
   # escapes
-  char_class: \\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))
-  char_escape: \\.
-  known_char_escape: \\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)
-  invalid_char_escape: \\[xcCM]
+  char_class: '{{escape}}(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))'
+  char_escape: '{{escape}}.'
+  known_char_escape: '{{escape}}(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
+  invalid_char_escape: '{{escape}}[xcCM]'
+
+  # escape definition punctuation
+  # note: overrdie this by e.g. `\\\\` when embedding regexp in strings
+  escape: \\
 
   # modifiers
   activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
@@ -252,27 +256,27 @@ contexts:
       pop: 1
 
   anchors:
-    - match: \\[bBAZzG]|[\^$]
+    - match: '{{escape}}[bBAZzG]|[\^$]'
       scope: keyword.control.anchor.regexp
       push: maybe-unexpected-quantifiers
 
   backrefs:
-    - match: \\([1-9]\d*)
+    - match: '{{escape}}([1-9]\d*)'
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: variable.other.backref-and-recursion.regexp
 
   switches:
-    - match: \\K
+    - match: '{{escape}}K'
       scope: keyword.control.regexp
       push: maybe-unexpected-quantifiers
-    - match: \\Q
+    - match: '{{escape}}Q'
       scope: keyword.control.regexp
       push: literal-until-backslash-e
 
   literal-until-backslash-e:
     - meta_content_scope: meta.literal.regexp
-    - match: \\E
+    - match: '{{escape}}E'
       scope: keyword.control.regexp
       pop: 1
 

@@ -20,9 +20,9 @@ string longMessage = """
 ///                      ^ punctuation.definition.placeholder.begin.cs
 ///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                        ^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
 ///                               ^ invalid.illegal.unescaped-placeholder.cs
@@ -47,9 +47,9 @@ with five double quotes.
 ///                      ^ punctuation.definition.placeholder.begin.cs
 ///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                        ^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
 ///                               ^ invalid.illegal.unescaped-placeholder.cs
@@ -90,9 +90,9 @@ var location = $"""
 ///                 ^ punctuation.accessor.dot.cs
 ///                  ^^^ variable.other.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                     ^ punctuation.separator.cs
+///                     ^ punctuation.separator.comma.cs
 ///                      ^^^^^ variable.other.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                    ^ invalid.illegal.lone-escape.cs
 ///                                            ^ invalid.illegal.lone-escape.cs
@@ -113,20 +113,20 @@ var location = $"""
 ///     ^ keyword.operator.arithmetic.cs
 ///      ^^^^^^^^^^ string.quoted.double.cs
 ///                ^^ meta.format-spec.cs
-///                ^ punctuation.separator.cs
+///                ^ punctuation.separator.colon.cs
 ///                 ^ constant.other.format-spec.cs
 ///                   ^ invalid.illegal.unexpected-token.cs
 ///                      ^ punctuation.section.interpolation.begin.cs
 ///                       ^^^^^^^^^^ variable.other.cs
 ///                                 ^^^ meta.format-spec.cs
-///                                 ^ punctuation.separator.cs
+///                                 ^ punctuation.separator.colon.cs
 ///                                  ^^ constant.other.format-spec.cs
 ///                                   ^ invalid.illegal.lone-escape.cs
 ///                                     ^ invalid.illegal.unexpected-token.cs
 ///                                       ^ punctuation.section.interpolation.begin.cs
 ///                                        ^^^^^ variable.other.cs
 ///                                             ^^ meta.format-spec.cs
-///                                             ^ punctuation.separator.cs
+///                                             ^ punctuation.separator.colon.cs
 ///                                              ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                               ^ punctuation.section.interpolation.end.cs
 ///                                                ^ invalid.illegal.unexpected-token.cs
@@ -168,9 +168,9 @@ var location = @$"""
 ///                 ^ punctuation.accessor.dot.cs
 ///                  ^^^ variable.other.cs
 ///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                     ^ punctuation.separator.cs
+///                     ^ punctuation.separator.comma.cs
 ///                      ^^^^^ variable.other.cs
-///                           ^ punctuation.separator.cs
+///                           ^ punctuation.separator.colon.cs
 ///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
 ///                                    ^^ constant.character.escape.cs
 ///                                            ^^ constant.character.escape.cs
@@ -183,7 +183,7 @@ var location = @$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -211,9 +211,9 @@ var location = $$"""
 ///                  ^ punctuation.accessor.dot.cs
 ///                   ^^^ variable.other.cs
 ///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                      ^ punctuation.separator.cs
+///                      ^ punctuation.separator.comma.cs
 ///                       ^^^^^ variable.other.cs
-///                            ^ punctuation.separator.cs
+///                            ^ punctuation.separator.colon.cs
 ///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                     ^ invalid.illegal.lone-escape.cs
 ///                                             ^ invalid.illegal.lone-escape.cs
@@ -234,20 +234,20 @@ var location = $$"""
 ///      ^ keyword.operator.arithmetic.cs
 ///       ^^^^^^^^^^ string.quoted.double.cs
 ///                 ^^ meta.format-spec.cs
-///                 ^ punctuation.separator.cs
+///                 ^ punctuation.separator.colon.cs
 ///                  ^ constant.other.format-spec.cs
 ///                    ^^ invalid.illegal.unexpected-token.cs
 ///                        ^^ punctuation.section.interpolation.begin.cs
 ///                          ^^^^^^^^^^ variable.other.cs
 ///                                    ^^^ meta.format-spec.cs
-///                                    ^ punctuation.separator.cs
+///                                    ^ punctuation.separator.colon.cs
 ///                                     ^^ constant.other.format-spec.cs
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                        ^^ invalid.illegal.unexpected-token.cs
 ///                                           ^^ punctuation.section.interpolation.begin.cs
 ///                                             ^^^^^ variable.other.cs
 ///                                                  ^^ meta.format-spec.cs
-///                                                  ^ punctuation.separator.cs
+///                                                  ^ punctuation.separator.colon.cs
 ///                                                   ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                    ^^ punctuation.section.interpolation.end.cs
 ///                                                      ^ - invalid.illegal
@@ -257,7 +257,7 @@ var location = $$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
@@ -286,9 +286,9 @@ var location = @$$"""
 ///                  ^ punctuation.accessor.dot.cs
 ///                   ^^^ variable.other.cs
 ///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                      ^ punctuation.separator.cs
+///                      ^ punctuation.separator.comma.cs
 ///                       ^^^^^ variable.other.cs
-///                            ^ punctuation.separator.cs
+///                            ^ punctuation.separator.colon.cs
 ///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                     ^ invalid.illegal.lone-escape.cs
 ///                                             ^ invalid.illegal.lone-escape.cs
@@ -299,7 +299,7 @@ var location = @$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -327,9 +327,9 @@ var location = $$$"""
 ///                   ^ punctuation.accessor.dot.cs
 ///                    ^^^ variable.other.cs
 ///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                       ^ punctuation.separator.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^^^^^ variable.other.cs
-///                             ^ punctuation.separator.cs
+///                             ^ punctuation.separator.colon.cs
 ///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                              ^ invalid.illegal.lone-escape.cs
@@ -350,20 +350,20 @@ var location = $$$"""
 ///       ^ keyword.operator.arithmetic.cs
 ///        ^^^^^^^^^^ string.quoted.double.cs
 ///                  ^^ meta.format-spec.cs
-///                  ^ punctuation.separator.cs
+///                  ^ punctuation.separator.colon.cs
 ///                   ^ constant.other.format-spec.cs
 ///                     ^^^ invalid.illegal.unexpected-token.cs
 ///                          ^^^ punctuation.section.interpolation.begin.cs
 ///                             ^^^^^^^^^^ variable.other.cs
 ///                                       ^^^ meta.format-spec.cs
-///                                       ^ punctuation.separator.cs
+///                                       ^ punctuation.separator.colon.cs
 ///                                        ^^ constant.other.format-spec.cs
 ///                                         ^ invalid.illegal.lone-escape.cs
 ///                                           ^^^ invalid.illegal.unexpected-token.cs
 ///                                               ^^^ punctuation.section.interpolation.begin.cs
 ///                                                  ^^^^^ variable.other.cs
 ///                                                       ^^ meta.format-spec.cs
-///                                                       ^ punctuation.separator.cs
+///                                                       ^ punctuation.separator.colon.cs
 ///                                                        ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                         ^^^ punctuation.section.interpolation.end.cs
 ///                                                            ^ - invalid.illegal
@@ -373,7 +373,7 @@ var location = $$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
@@ -402,9 +402,9 @@ var location = @$$$"""
 ///                   ^ punctuation.accessor.dot.cs
 ///                    ^^^ variable.other.cs
 ///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                       ^ punctuation.separator.cs
+///                       ^ punctuation.separator.comma.cs
 ///                        ^^^^^ variable.other.cs
-///                             ^ punctuation.separator.cs
+///                             ^ punctuation.separator.colon.cs
 ///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                              ^ invalid.illegal.lone-escape.cs
@@ -415,7 +415,7 @@ var location = @$$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
@@ -443,9 +443,9 @@ var location = $$$$"""
 ///                    ^ punctuation.accessor.dot.cs
 ///                     ^^^ variable.other.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^^^^ variable.other.cs
-///                              ^ punctuation.separator.cs
+///                              ^ punctuation.separator.colon.cs
 ///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                       ^ invalid.illegal.lone-escape.cs
 ///                                               ^ invalid.illegal.lone-escape.cs
@@ -466,20 +466,20 @@ var location = $$$$"""
 ///        ^ keyword.operator.arithmetic.cs
 ///         ^^^^^^^^^^ string.quoted.double.cs
 ///                   ^^ meta.format-spec.cs
-///                   ^ punctuation.separator.cs
+///                   ^ punctuation.separator.colon.cs
 ///                    ^ constant.other.format-spec.cs
 ///                      ^^^^ invalid.illegal.unexpected-token.cs
 ///                            ^^^^ punctuation.section.interpolation.begin.cs
 ///                                ^^^^^^^^^^ variable.other.cs
 ///                                          ^^^ meta.format-spec.cs
-///                                          ^ punctuation.separator.cs
+///                                          ^ punctuation.separator.colon.cs
 ///                                           ^^ constant.other.format-spec.cs
 ///                                            ^ invalid.illegal.lone-escape.cs
 ///                                              ^^^^ invalid.illegal.unexpected-token.cs
 ///                                                   ^^^^ punctuation.section.interpolation.begin.cs
 ///                                                       ^^^^^ variable.other.cs
 ///                                                            ^^ meta.format-spec.cs
-///                                                            ^ punctuation.separator.cs
+///                                                            ^ punctuation.separator.colon.cs
 ///                                                             ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
 ///                                                              ^^^ punctuation.section.interpolation.end.cs
 ///                                                                 ^ - invalid.illegal
@@ -489,7 +489,7 @@ var location = $$$$"""
 ///   ^ punctuation.terminator.statement.cs
 
 var location = @$$$$"""
-/// <- storage.type.variable
+/// <- storage.type
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
 ///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
@@ -518,9 +518,9 @@ var location = @$$$$"""
 ///                    ^ punctuation.accessor.dot.cs
 ///                     ^^^ variable.other.cs
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
-///                        ^ punctuation.separator.cs
+///                        ^ punctuation.separator.comma.cs
 ///                         ^^^^^ variable.other.cs
-///                              ^ punctuation.separator.cs
+///                              ^ punctuation.separator.colon.cs
 ///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
 ///                                       ^ invalid.illegal.lone-escape.cs
 ///                                               ^ invalid.illegal.lone-escape.cs
@@ -631,17 +631,17 @@ public class CompanyFeaturesService(
 ///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 ///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^^^^ entity.name.class
-///                                ^ meta.class.constructor.parameters punctuation.section.parameters.begin
+///                                ^ meta.class.parameters punctuation.section.group.begin
   ILogger<CompanyFeaturesService> logger) : ICompanyFeaturesService
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.parameters
 /// ^^^^^ support.type
 ///      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
 ///      ^ punctuation.definition.generic.begin
 ///       ^^^^^^^^^^^^^^^^^^^^^^ support.type
 ///                             ^ punctuation.definition.generic.end
 ///                               ^^^^^^ variable.parameter - meta.generic
-///                                     ^ punctuation.section.parameters.end
-///                                       ^ meta.class punctuation.separator.type - meta.class.constructor
+///                                     ^ punctuation.section.group.end
+///                                       ^ meta.class punctuation.separator.colon - meta.class.constructor
 {
 /// <- meta.class.body meta.block punctuation.section.block.begin
 }
@@ -651,14 +651,14 @@ public readonly struct Distance(double dx, double dy)
 /// ^^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^^^^^^^^^^^^^ meta.struct
-///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
-///                            ^ punctuation.section.parameters.begin
+///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.struct.parameters
+///                            ^ punctuation.section.group.begin
 ///                             ^^^^^^ storage.type
 ///                                    ^^ variable.parameter
-///                                      ^ punctuation.separator.parameter.function
+///                                      ^ punctuation.separator.comma
 ///                                        ^^^^^^ storage.type
 ///                                               ^^ variable.parameter
-///                                                 ^ punctuation.section.parameters.end
+///                                                 ^ punctuation.section.group.end
 ///                                                  ^ meta.struct - meta.class.constructor
 {
 /// <- meta.struct.body meta.block punctuation.section.block.begin
@@ -668,15 +668,15 @@ public readonly struct Distance(double dx, double dy)
 
   file record struct Person(string Name);
 ///^^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.constructor.parameters
-///                        ^^^^^^^^^^^^^ meta.class.constructor.parameters
-///    ^^^^^^ keyword.declaration.class.record
-///           ^^^^^^ keyword.declaration.struct.record
-///                  ^^^^^^ entity.name.class
-///                        ^ punctuation.section.parameters.begin
+///    ^^^^^^^^^^^^^^^^^^^^ meta.record - meta.record.parameters
+///                        ^^^^^^^^^^^^^ meta.record.parameters
+///    ^^^^^^ keyword.declaration.record
+///           ^^^^^^ keyword.declaration.struct
+///                  ^^^^^^ entity.name.struct
+///                        ^ punctuation.section.group.begin
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter
-///                                    ^ punctuation.section.parameters.end
+///                                    ^ punctuation.section.group.end
 ///                                     ^ punctuation.terminator.statement
 
 
@@ -691,14 +691,14 @@ class SomeClass
 ///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                ^ punctuation.section.group.begin.cs
 ///                 ^ punctuation.definition.string.begin.cs
-///                  ^^^^^^^ meta.string.cs string.quoted.double.cs source.regexp meta.mode.basic.regexp
+///                  ^^^^^^^ meta.string.regexp.cs string.quoted.double.cs source.regexp
 ///                     ^ keyword.operator.alternation.regexp
 ///                         ^ punctuation.definition.string.end.cs
-///                          ^ punctuation.separator.argument.cs
+///                          ^ punctuation.separator.comma.cs
 ///                            ^^^^^^^^^^^^ variable.other.cs
 ///                                        ^ punctuation.accessor.dot.cs
 ///                                         ^^^^^^^^^^ variable.other.cs
-///                                                   ^ punctuation.separator.argument.cs
+///                                                   ^ punctuation.separator.comma.cs
 ///                                                     ^^^^^^^ meta.string.cs string.quoted.double.cs
 ///                                                     ^ punctuation.definition.string.begin.cs
 ///                                                           ^ punctuation.definition.string.end.cs
@@ -711,10 +711,10 @@ class SomeClass
 ///                ^^^^^^^ storage.modifier.cs
 ///                        ^^^^^ support.type.cs
 ///                              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
-///                                                    ^^ meta.method.parameters.cs
-///                                                    ^ punctuation.section.parameters.begin.cs
-///                                                     ^ punctuation.section.parameters.end.cs
-///                                                      ^ meta.method.cs punctuation.terminator.statement.cs
+///                                                    ^^ meta.method.parameters.cs meta.group.cs
+///                                                    ^ punctuation.section.group.begin.cs
+///                                                     ^ punctuation.section.group.end.cs
+///                                                      ^ punctuation.terminator.statement.cs - meta.method
 
     [GeneratedRegex(@"^some(?<named_capture>[^/]{1,100})$")]
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
@@ -723,11 +723,10 @@ class SomeClass
 ///  ^^^^^^^^^^^^^^ variable.annotation.cs
 ///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                ^ punctuation.section.group.begin.cs
-///                 ^^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
-///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.cs source.regexp meta.mode.basic.regexp
-///                   ^^^^^ meta.mode.basic.regexp
+///                 ^^ meta.string.regexp.cs string.quoted.double.verbatim.cs punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.cs string.quoted.double.verbatim.cs source.regexp
 ///                   ^ keyword.control.anchor.regexp
-///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp meta.mode.basic.regexp
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
 ///                        ^ punctuation.section.group.begin.regexp
 ///                         ^^^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 ///                          ^ punctuation.definition.capture-group-name.begin.regexp
@@ -739,8 +738,8 @@ class SomeClass
 ///                                            ^ punctuation.definition.set.end.regexp
 ///                                             ^^^^^^^ keyword.operator.quantifier.regexp
 ///                                                    ^ punctuation.section.group.end.regexp
-///                                                     ^ meta.mode.basic.regexp keyword.control.anchor.regexp
-///                                                      ^ meta.string.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
+///                                                     ^ keyword.control.anchor.regexp
+///                                                      ^ meta.string.regexp.cs string.quoted.double.verbatim.cs punctuation.definition.string.end.cs
 ///                                                       ^ punctuation.section.group.end.cs
 ///                                                        ^ punctuation.definition.annotation.end.cs
     private static partial Regex SomeRegex();

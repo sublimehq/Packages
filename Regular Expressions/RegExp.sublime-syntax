@@ -85,13 +85,13 @@ contexts:
 
   anchors:
     - meta_prepend: true
-    - match: \\[><]
+    - match: '{{escape}}[><]'
       scope: keyword.control.anchor.regexp
       push: maybe-unexpected-quantifiers
 
   backrefs:
     - meta_prepend: true
-    - match: \\[kg](?:(<)({{capture_group_name}})(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
+    - match: '{{escape}}[kg](?:(<)({{capture_group_name}})(>)|('')([^'']+)('')|(\{)([^}]+)(\})|(-?\d+))'
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp

@@ -74,8 +74,20 @@ using System;
 ///                       ^ meta.preprocessor.cs meta.fold.block.begin.cs - entity
 public class MyClass
 {
+    #region Class level region
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor
+/// ^ punctuation.definition.preprocessor - keyword
+///  ^^^^^^ keyword.control.directive.region
+///         ^^^^^^^^^^^^^^^^^^ entity.name.section
+
     static void Main()
     {
+        #region Main Region
+///     ^^^^^^^^^^^^^^^^^^^ meta.preprocessor
+///     ^ punctuation.definition.preprocessor - keyword
+///      ^^^^^^ keyword.control.directive.region
+///             ^^^^^^^^^^^ entity.name.section
+
 #if (DEBUG && !MYTEST)
 /// <- meta.preprocessor.cs punctuation.definition.preprocessor.cs - meta.fold - keyword
         Console.WriteLine("DEBUG is defined");
@@ -93,6 +105,12 @@ public class MyClass
 /// <- meta.preprocessor.cs meta.fold.block.end.cs punctuation.definition.preprocessor.cs - keyword
 ///^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold
 ///^^^ keyword.control.directive.conditional.end.cs
+
+        #endregion Main Region
+///     ^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
+///     ^ punctuation.definition.preprocessor - keyword
+///      ^^^^^^^^^ keyword.control.directive.endregion
+///                ^^^^^^^^^^^ variable.other.section
 
 #   if DEBUG
 /// <- meta.preprocessor.cs punctuation.definition.preprocessor.cs - meta.fold - keyword
@@ -143,14 +161,20 @@ public class MyClass
         string s;
         double d; // CS0168 on line 35
     }
+
+    #endregion Class level region
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
+/// ^ punctuation.definition.preprocessor - keyword
+///  ^^^^^^^^^ keyword.control.directive.endregion
+///            ^^^^^^^^^^^^^^^^^^ variable.other.section
 }
-#endregion a / b
+#endregion MyClass definition
 /// <- meta.preprocessor.cs meta.fold.block.end.cs punctuation.definition.preprocessor.cs - keyword
-///^^^^^^^^^^^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold
+///^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold
 ///^^^^^^^ keyword.control.directive.endregion.cs
 ///       ^ - keyword - variable
-///        ^^^^^ variable.other.section.cs
-///             ^ - variable
+///        ^^^^^^^^^^^^^^^^^^ variable.other.section.cs
+///                          ^ - variable
 #endregion
 /// <- meta.preprocessor.cs meta.fold.block.end.cs punctuation.definition.preprocessor.cs - keyword
 ///^^^^^^^^ meta.preprocessor.cs - meta.preprocessor meta.preprocessor  - meta.fold

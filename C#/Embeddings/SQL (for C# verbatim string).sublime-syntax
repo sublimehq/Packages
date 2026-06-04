@@ -1,0 +1,66 @@
+%YAML 1.2
+---
+scope: source.sql.embedded.cs.verbatim-string
+version: 2
+hidden: true
+
+extends: SQL (for C#).sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: string-terminator
+
+  comment-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  identifier-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  string-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-verbatim-string-placeholders
+
+  double-quoted-identifier-part:
+    - match: \"{2}
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-double-quoted-identifier-part
+
+  inside-double-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - meta_scope: variable.other.sql # will be cleared by interpolation
+    - match: \"{4}
+      scope: constant.character.escape.sql
+    - match: \"{2}
+      scope: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-prototype
+
+  double-quoted-strings:
+    - match: \"{2}
+      scope: punctuation.definition.string.begin.sql
+      push: inside-double-quoted-string
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.double.sql
+    - match: \"{4}
+      scope: constant.character.escape.sql
+    - match: \"{2}
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-prototype
+
+  string-terminator:
+    - match: (?="(?!"))
+      pop: 1

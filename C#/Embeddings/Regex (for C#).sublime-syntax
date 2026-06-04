@@ -8,32 +8,83 @@ hidden: true
 extends: Packages/Regular Expressions/RegExp (Basic).sublime-syntax
 
 variables:
+  # escapes
+  char_class: '{{escape}}(?:[wWsSdD]|[pP](?:\{[a-zA-Z_]+\}))'
+  known_char_escape: '{{escape}}(?:[abtrvfne]|[0-7]{2,3}|c[a-zA-Z]|x\h{2}|u\h{4})'
+
+  # modifiers
+  activate_x_mode: (?:\?[imns]*x[ixmns]*(?:-[imns]+)?)
+  deactivate_x_mode: (?:\?[imns]*-[imns]*x[imnxs]*)
+  other_modifiers: (?:\?(?:[ixmns]*-)?[ixmns]+)
+
   capture_group_name: (?:[a-zA-Z_]\w*)
 
-
 contexts:
-  anchors:
-    # Full replacement to un-match $ backrefs
-    - match: \\[bBAZzG]|\^|\$(?![\d{])
-      scope: keyword.control.anchor.regexp
-      push: maybe-unexpected-quantifiers
+
+  base-common:
+    - meta_prepend: true
+    - include: substitutions
 
   group-start:
     - meta_prepend: true
-    - match: \?(<)({{capture_group_name}})(>)
+    # conditional capture group back-reference
+    - match: (\?)(\()({{capture_group_name}})(\))
+      scope: keyword.other.backref-and-recursion.conditional.regexp
+      captures:
+        1: constant.other.assertion.regexp
+        2: punctuation.definition.capture-group-name.begin.regexp
+        3: variable.other.capture-group.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+    # conditional subexpression group
+    - match: \?(?=\()
+      scope: constant.other.assertion.regexp
+      pop: 1
+    # named capture group definitions
+    - match: \?(<)({{capture_group_name}})(?:(-)({{capture_group_name}}))?(>)
       scope: keyword.other.named-capture-group.regexp
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp
         2: entity.name.capture-group.regexp
-        3: punctuation.definition.capture-group-name.end.regexp
+        3: punctuation.separator.regexp
+        4: entity.name.capture-group.regexp
+        5: punctuation.definition.capture-group-name.end.regexp
+    - match: \?(')({{capture_group_name}})(?:(-)({{capture_group_name}}))?(')
+      scope: keyword.other.named-capture-group.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: entity.name.capture-group.regexp
+        3: punctuation.separator.regexp
+        4: entity.name.capture-group.regexp
+        5: punctuation.definition.capture-group-name.end.regexp
 
   backrefs:
-    - meta_prepend: true
-    - match: \$(\d+)
+    - match: '{{escape}}([1-9](?!\d))'
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: variable.other.backref-and-recursion.regexp
-    - match: \${({{capture_group_name}})}
+    - match: '{{escape}}k(<)({{capture_group_name}})(>)'
       scope: keyword.other.backref-and-recursion.regexp
       captures:
-        1: variable.other.backref-and-recursion.regexp
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: variable.other.capture-group.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+
+  substitutions:
+    - match: \$\$
+      scope: constant.character.escape.regexp
+    - match: (\$)([`'&+_])
+      scope: meta.substitution.regexp variable.language.match.regexp
+      captures:
+        1: punctuation.definition.substitution.regexp
+    - match: (\$)(\d+)
+      scope: meta.substitution.regexp variable.language.capture-group.regexp
+      captures:
+        1: punctuation.definition.substitution.regexp
+    - match: (\$)(({)({{capture_group_name}})(}))
+      scope: meta.substitution.regexp
+      captures:
+        1: punctuation.definition.substitution.regexp
+        2: meta.braces.cs
+        3: punctuation.section.braces.begin.regexp
+        4: variable.other.capture-group.regexp
+        5: punctuation.section.braces.end.regexp

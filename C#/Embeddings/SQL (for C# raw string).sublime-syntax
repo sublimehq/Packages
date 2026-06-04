@@ -1,0 +1,35 @@
+%YAML 1.2
+---
+scope: source.sql.embedded.cs.raw-string
+version: 2
+hidden: true
+
+extends: SQL (for C#).sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: string-terminator
+
+  comment-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-raw-string-placeholders
+
+  identifier-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-raw-string-placeholders
+
+  string-prototype:
+    - meta_prepend: true
+    - include: string-terminator
+    - include: scope:source.cs#string-placeholder-escapes
+    - include: scope:source.cs#extended-raw-string-placeholders
+
+  string-terminator:
+    - match: (?="""(?!"))
+      pop: 1
