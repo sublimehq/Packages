@@ -1099,6 +1099,39 @@ public readonly struct S
         this.Age = age;
         this.Name = name;
 ///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ variable.other.member.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^ variable.other.cs
+///                     ^ punctuation.terminator.statement.cs
+        this.Func();
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ meta.function-call.identifier.cs variable.function.cs
+///              ^^ meta.function-call.arguments.cs meta.group.cs
+///              ^ punctuation.section.group.begin.cs
+///               ^ punctuation.section.group.end.cs
+///                ^ punctuation.terminator.statement.cs
+
+        this.Name.Func();
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ variable.other.member.cs
+///              ^ punctuation.accessor.dot.cs
+///               ^^^^ meta.function-call.identifier.cs variable.function.cs
+///                   ^^ meta.function-call.arguments.cs meta.group.cs
+///                   ^ punctuation.section.group.begin.cs
+///                    ^ punctuation.section.group.end.cs
+///                     ^ punctuation.terminator.statement.cs
+
+        Name.Func();
+///     ^^^^ variable.other.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ meta.function-call.identifier.cs variable.function.cs
+///              ^^ meta.function-call.arguments.cs meta.group.cs
+///              ^ punctuation.section.group.begin.cs
+///               ^ punctuation.section.group.end.cs
+///                ^ punctuation.terminator.statement.cs
     }
 
     public S(S other)

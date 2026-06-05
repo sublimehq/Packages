@@ -2209,15 +2209,22 @@ contexts:
     - include: else-pop
 
   member-access:
-    - include: accessors
-    - match: '{{unreserved_name}}(?=[<.])'
+    - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\()'
+      scope: meta.function-call.identifier.cs variable.function.cs
+      set:
+        - maybe-member-access
+        - function-call-argument-list
+        - type-argument-list
+    - match: '{{unreserved_name}}(?={{generic_declaration}})'
       scope: support.type.cs
-      push:
+      set:
+        - maybe-member-access
         - type-suffix
         - type-argument-list
     - match: '{{unreserved_name}}'
       scope: variable.other.member.cs
       set:
+        - maybe-member-access
         - type-suffix
         - type-argument-list
     - include: else-pop

@@ -2822,7 +2822,7 @@ class TestControlStatements
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///              ^^^^^^^^^^^^^^^^^^^ support.type.cs
 ///                                 ^ punctuation.accessor.dot.cs
-///                                  ^^^^^^^^^^^ support.type.cs
+///                                  ^^^^^^^^^^^ variable.other.member.cs
 ///                                             ^ punctuation.accessor.dot.cs
 ///                                              ^^^^^ variable.other.member.cs
 ///                                                   ^ punctuation.separator.colon.cs
