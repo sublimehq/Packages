@@ -2178,8 +2178,10 @@ contexts:
       push:
         - type-suffix
         - type-argument-list
-    - match: \.
-      scope: punctuation.accessor.dot.cs
+    - match: (\?)?(\.)
+      captures:
+        1: keyword.operator.null-coalescing.cs
+        2: punctuation.accessor.dot.cs
       push: member-access
     - include: expression-list
 
@@ -2203,8 +2205,10 @@ contexts:
     - include: expression-list
 
   maybe-member-access:
-    - match: \.
-      scope: punctuation.accessor.dot.cs
+    - match: (\?)?(\.)
+      captures:
+        1: keyword.operator.null-coalescing.cs
+        2: punctuation.accessor.dot.cs
       set: member-access
     - include: else-pop
 
@@ -2225,7 +2229,6 @@ contexts:
       scope: variable.other.member.cs
       set:
         - maybe-member-access
-        - type-suffix
         - type-argument-list
     - include: else-pop
 

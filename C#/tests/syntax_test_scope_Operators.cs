@@ -466,3 +466,22 @@ A?.B?.C?[0] == E;
 ///       ^ punctuation.section.brackets.end
 ///         ^^ keyword.operator
 ///             ^ punctuation.terminator
+
+this?.Name?.Func();
+///^ variable.language.this.cs
+/// ^ keyword.operator.null-coalescing.cs
+///  ^ punctuation.accessor.dot.cs
+///   ^^^^ variable.other.member.cs
+///       ^ keyword.operator.null-coalescing.cs
+///        ^ punctuation.accessor.dot.cs
+///         ^^^^ meta.function-call.identifier.cs variable.function.cs
+///             ^^ meta.function-call.arguments.cs meta.group.cs
+///             ^ punctuation.section.group.begin.cs
+///              ^ punctuation.section.group.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+var foo = { any?.var?.value };
+///            ^ keyword.operator.null-coalescing.cs
+///             ^ punctuation.accessor.dot.cs
+///                 ^ keyword.operator.null-coalescing.cs
+///                  ^ punctuation.accessor.dot.cs
