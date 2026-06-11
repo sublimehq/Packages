@@ -98,12 +98,60 @@ keep in mind that you're now overriding a default package.
   instead of copying it,
   e.g. `ln -s empty.zip SQL.sublime-package`.
 
-## Reference
+## Contributing
 
 Please refer to the official documentation:
 
-* [Syntax definitions](https://www.sublimetext.com/docs/syntax.html#ver-dev)
-* [Scope naming](https://www.sublimetext.com/docs/scope_naming.html)
+* Syntax definitions:
+  <https://www.sublimetext.com/docs/syntax.html#ver-dev>
+* Scope naming:
+  <https://www.sublimetext.com/docs/scope_naming.html>
+
+You should be running:
+
+* the latest `dev` channel release:
+  <https://www.sublimetext.com/dev>
+  (requires a license)
+
+Helpful (third-party) packages:
+
+* Package Control: <https://github.com/sublimehq/PackageControl>
+* LSP: <https://github.com/sublimelsp/LSP>
+* LSP-basedpyright: <https://github.com/sublimelsp/LSP-basedpyright> with
+  ```jsonc
+  //  Packages/User/LSP-basedpyright.sublime-settings
+  {
+      "settings":
+      {
+          "basedpyright.dev_environment": "sublime_text_314",
+          "basedpyright.analysis.extraPaths": [
+              // project's stubs
+              "${folder}/stubs",
+              "${folder}/typings",
+              // my custom stubs
+              "${packages}/../stubs",
+              "${packages}/../typings"
+          ]
+      }
+  }
+  ```
+* LSP-json: <https://github.com/sublimelsp/LSP-json>
+* LSP-yaml: <https://github.com/sublimelsp/LSP-yaml> with
+  ```jsonc
+  //  Packages/User/LSP-yaml.sublime-settings
+  {
+      "settings": {
+          "yaml.schemas": {
+              "https://json.schemastore.org/sublime-syntax.json": "*.sublime-syntax"
+          },
+          "yaml.schemaStore.enable": true,
+          "yaml.validate": true
+      }
+  }
+  ```
+* PackageDev: <https://github.com/SublimeText/PackageDev>
+* SublimeLinter: <https://github.com/SublimeLinter/SublimeLinter>
+* SublimeLinter-contrib-sublime-syntax: <https://github.com/FichteFoll/SublimeLinter-contrib-sublime-syntax>
 
 ## Pull Requests
 
