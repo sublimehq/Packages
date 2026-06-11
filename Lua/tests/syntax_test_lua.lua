@@ -858,3 +858,55 @@
 --                            ^^^^^^^^^^^^ meta.string string.quoted.double.lua
 --                                        ^ punctuation.separator.comma.lua
 --                                             ^ punctuation.section.group.end.lua
+
+-- basic tests for patterns
+    local a = ('test'):match('^()t?$-e*s+%+()$')
+--                            ^ keyword.control.anchor
+--                             ^^ punctuation.section.brackets.lua
+--                                ^ keyword.operator.quantifier
+--                                  ^ keyword.operator.quantifier
+--                                    ^ keyword.operator.quantifier
+--                                      ^ keyword.operator.quantifier
+--                                       ^^ constant.character.escape.lua
+--                                           ^ keyword.control.anchor
+
+    local b = string.format('%#0.9f %-5q %% %# 5.3d %i %p', 15.4)
+--                           ^^^^^^ constant.other.placeholder.lua
+--                                  ^^^^ constant.other.placeholder.lua
+--                                       ^^ constant.character.escape.lua
+--                                          ^^^^^^^ constant.other.placeholder.lua
+--                                                  ^^ constant.other.placeholder.lua
+--                                                     ^^ constant.other.placeholder.lua
+
+    local c = string.pack('< = !3 i f s b c1 d f h i1 j l n s1 x z X');
+--                         ^ storage.modifier.lua
+--                           ^ storage.modifier.lua
+--                             ^^ storage.modifier.lua
+--                                ^ storage.type.lua
+--                                  ^ storage.type.lua
+--                                    ^ storage.type.lua
+--                                      ^ storage.type.lua
+--                                        ^^ storage.type.lua
+--                                           ^ storage.type.lua
+--                                             ^ storage.type.lua
+--                                               ^ storage.type.lua
+--                                                 ^^ storage.type.lua
+--                                                    ^ storage.type.lua
+--                                                      ^ storage.type.lua
+--                                                        ^ storage.type.lua
+--                                                          ^^ storage.type.lua
+--                                                             ^ punctuation.separator.padding.lua
+--                                                               ^ storage.type.lua
+--                                                                 ^ punctuation.separator.padding.lua
+
+    ("%q %d"):format(test);
+--  ^ punctuation.section.group.begin.lua
+--    ^^ constant.other.placeholder.lua
+--       ^^ constant.other.placeholder.lua
+--          ^ punctuation.section.group.end.lua
+
+    ("< = !5 f"):pack(test);
+--    ^ storage.modifier.lua
+--      ^ storage.modifier.lua
+--        ^^ storage.modifier.lua
+--           ^ storage.type.lua
