@@ -757,7 +757,7 @@ contexts:
         - ts-less-than
 
   ts-function-type-arguments:
-    - match: \<(?!<)
+    - match: '<'
       scope: punctuation.definition.generic.begin.js
       set:
         - - match: (?=[\]()};,`])
@@ -783,7 +783,7 @@ contexts:
   ts-less-than:
     - match: '<'
       scope: keyword.operator.comparison.js
-      set: expression-begin
+      pop: 1
 
   ts-non-null-assertion:
     - match: '!(?!=)'
