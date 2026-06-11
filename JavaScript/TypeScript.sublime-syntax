@@ -757,6 +757,7 @@ contexts:
         - ts-less-than
 
   ts-function-type-arguments:
+    - meta_include_prototype: false
     - match: '<'
       scope: punctuation.definition.generic.begin.js
       set:
@@ -781,6 +782,7 @@ contexts:
         - ts-type-expression-begin
 
   ts-less-than:
+    - meta_include_prototype: false
     - match: '<'
       scope: keyword.operator.comparison.js
       pop: 1
