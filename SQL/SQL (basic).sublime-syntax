@@ -1064,6 +1064,7 @@ contexts:
 
   inside-user-type:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
     - meta_scope: support.type.sql
     - include: identifier-prototype
     - match: '{{simple_identifier_break}}'
@@ -1423,6 +1424,7 @@ contexts:
 
   inside-backtick-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
     - match: \`
       scope: punctuation.definition.identifier.end.sql
       pop: 1
