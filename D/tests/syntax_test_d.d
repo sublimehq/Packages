@@ -2251,6 +2251,7 @@ extern(1)
 //               ^ meta.number.integer.decimal.d
   if (int a = 2) {}
 //^^ keyword.control.conditional.d
+//   ^^^^^^^^^^^ meta.parens.d
 //   ^ punctuation.section.parens.begin.d
 //    ^^^ storage.type.d
 //        ^ variable.other.d
@@ -2260,7 +2261,18 @@ extern(1)
 //               ^^ meta.block.d
 //               ^ punctuation.section.block.begin.d
 //                ^ punctuation.section.block.end.d
-
+  if (auto a = 2) {}
+//^^ keyword.control.conditional.d
+//   ^^^^^^^^^^^^ meta.parens.d
+//   ^ punctuation.section.parens.begin.d
+//    ^^^^ storage.modifier.d
+//         ^ variable.other.d
+//           ^ keyword.operator.assignment.d
+//             ^ meta.number.integer.decimal.d constant.numeric.value.d
+//              ^ punctuation.section.parens.end.d
+//                ^^ meta.block.d
+//                ^ punctuation.section.block.begin.d
+//                 ^ punctuation.section.block.end.d
   if (a in b) {}
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.parens.begin.d
@@ -2330,6 +2342,17 @@ extern(1)
 //                ^ punctuation.section.parens.end.d
 //                  ^ meta.path.d variable.other.d
 //                   ^ punctuation.terminator.d
+  while (auto a = 2) a;
+//^^^^^ keyword.control.loop.d
+//      ^^^^^^^^^^^^ meta.parens.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^^ storage.modifier.d
+//            ^ variable.other.d
+//              ^ keyword.operator.assignment.d
+//                ^ meta.number.integer.decimal.d constant.numeric.value.d
+//                 ^ punctuation.section.parens.end.d
+//                   ^ meta.path.d variable.other.d
+//                    ^ punctuation.terminator.d
   for (1; 2; 3) {
 //^^^ keyword.control.loop.d
 //    ^ punctuation.section.parens.begin.d

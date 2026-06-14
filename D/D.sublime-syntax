@@ -2347,7 +2347,7 @@ contexts:
   condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [condition-after, first-value]
+      set: [condition-after, first-value, condition-attribute]
     - include: not-whitespace-illegal-pop
   condition-after:
     - meta_scope: meta.parens.d
@@ -2355,6 +2355,12 @@ contexts:
       scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
+  condition-attribute:
+    - match: '\bauto\b'
+      scope: storage.modifier.d
+      pop: 1
+    - match: '(?=\S)'
+      pop: true
 
   identifier:
     - match: '\b{{name}}\b'
