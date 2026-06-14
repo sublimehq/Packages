@@ -239,13 +239,13 @@
 #  ^^^^^^^^^^^ meta.character-class.glob.git meta.character-class.glob.git
 #             ^ meta.character-class.glob.git - meta.character-class meta.character-class
 # ^^^ punctuation.definition.character-class.begin.glob.git
-#    ^^^^^^^ support.class.character-class.collate.glob.git
+#    ^^^^^^^ constant.other.character-class.collate.glob.git
 #           ^^^ punctuation.definition.character-class.end.glob.git
 #               ^ meta.character-class.glob.git - meta.character-class meta.character-class
 #                ^^^^^^^^^^^^^^^^ meta.character-class.glob.git meta.character-class.glob.git
 #                                ^ meta.character-class.glob.git - meta.character-class meta.character-class
 #               ^^^ punctuation.definition.character-class.begin.glob.git
-#                  ^^^^^^^^^^^^ support.class.character-class.equivalence.glob.git
+#                  ^^^^^^^^^^^^ constant.other.character-class.equivalence.glob.git
 #                              ^^^ punctuation.definition.character-class.end.glob.git
 
   # Note: :ascii: and :word: are ST specific posix classes, unsupported by ordinary shells
@@ -258,43 +258,43 @@
 #    ^^^^^ invalid.illegal.character-class.posix.glob.git
 #         ^^ punctuation.definition.character-class.end.glob.git
 #           ^^ punctuation.definition.character-class.begin.glob.git
-#             ^^^^^ support.class.character-class.posix.glob.git
+#             ^^^^^ constant.other.character-class.posix.glob.git
 #                  ^^ punctuation.definition.character-class.end.glob.git
 #                    ^^ punctuation.definition.character-class.begin.glob.git
-#                      ^^^^^ support.class.character-class.posix.glob.git
+#                      ^^^^^ constant.other.character-class.posix.glob.git
 #                           ^^ punctuation.definition.character-class.end.glob.git
 #                             ^^ punctuation.definition.character-class.begin.glob.git
-#                               ^^^^^ support.class.character-class.posix.glob.git
+#                               ^^^^^ constant.other.character-class.posix.glob.git
 #                                    ^^ punctuation.definition.character-class.end.glob.git
 #                                      ^^ punctuation.definition.character-class.begin.glob.git
-#                                        ^^^^^ support.class.character-class.posix.glob.git
+#                                        ^^^^^ constant.other.character-class.posix.glob.git
 #                                             ^^ punctuation.definition.character-class.end.glob.git
 #                                               ^^ punctuation.definition.character-class.begin.glob.git
-#                                                 ^^^^^ support.class.character-class.posix.glob.git
+#                                                 ^^^^^ constant.other.character-class.posix.glob.git
 #                                                      ^^ punctuation.definition.character-class.end.glob.git
 #                                                        ^^ punctuation.definition.character-class.begin.glob.git
-#                                                          ^^^^^ support.class.character-class.posix.glob.git
+#                                                          ^^^^^ constant.other.character-class.posix.glob.git
 #                                                               ^^ punctuation.definition.character-class.end.glob.git
 #                                                                 ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                   ^^^^^ support.class.character-class.posix.glob.git
+#                                                                   ^^^^^ constant.other.character-class.posix.glob.git
 #                                                                        ^^ punctuation.definition.character-class.end.glob.git
 #                                                                          ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                            ^^^^^ support.class.character-class.posix.glob.git
+#                                                                            ^^^^^ constant.other.character-class.posix.glob.git
 #                                                                                 ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                   ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                                     ^^^^^ support.class.character-class.posix.glob.git
+#                                                                                     ^^^^^ constant.other.character-class.posix.glob.git
 #                                                                                          ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                            ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                                              ^^^^^ support.class.character-class.posix.glob.git
+#                                                                                              ^^^^^ constant.other.character-class.posix.glob.git
 #                                                                                                   ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                                     ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                                                       ^^^^^ support.class.character-class.posix.glob.git
+#                                                                                                       ^^^^^ constant.other.character-class.posix.glob.git
 #                                                                                                            ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                                              ^^ punctuation.definition.character-class.begin.glob.git
 #                                                                                                                ^^^^ invalid.illegal.character-class.posix.glob.git
 #                                                                                                                    ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                                                      ^^ punctuation.definition.character-class.begin.glob.git
-#                                                                                                                        ^^^^^^ support.class.character-class.posix.glob.git
+#                                                                                                                        ^^^^^^ constant.other.character-class.posix.glob.git
 #                                                                                                                              ^^ punctuation.definition.character-class.end.glob.git
 #                                                                                                                                ^^ punctuation.definition.character-class.begin.glob.git
 #                                                                                                                                  ^^^^^ invalid.illegal.character-class.posix.glob.git
