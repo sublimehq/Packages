@@ -296,11 +296,11 @@ contexts:
     # windows drive letter and separator
     - match: '[A-Za-z](:)(?=/)'
       captures:
-        1: punctuation.separator.path.fnmatch.git
+        1: punctuation.separator.path.glob.git
       pop: 1
     # homedir tilde operator
     - match: ~(?=/)
-      scope: variable.language.environment.home.fnmatch.git
+      scope: variable.language.environment.home.glob.git
       pop: 1
     # any other directory pattern
     - include: fnmatch-dir-pattern
@@ -321,34 +321,34 @@ contexts:
 
   fnmatch-common:
     - match: '/'          # path separators
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
       push: fnmatch-dir-pattern
     - match: \$\w+
-      scope: variable.language.environment.other.fnmatch.git
+      scope: variable.language.environment.other.glob.git
     - match: '\*'         # unescapable operators
-      scope: constant.other.wildcard.asterisk.fnmatch.git
+      scope: constant.other.wildcard.asterisk.glob.git
     - match: '\?'         # unescapable operators
-      scope: constant.other.wildcard.questionmark.fnmatch.git
+      scope: constant.other.wildcard.questionmark.glob.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
-      scope: constant.character.escape.path.fnmatch.git
+      scope: constant.character.escape.path.glob.git
     - match: ':'          # drive separators
-      scope: invalid.illegal.separator.path.fnmatch.git
+      scope: invalid.illegal.separator.path.glob.git
     - match: '\\(?=\s)'   # single backslash is invalid
-      scope: invalid.illegal.escape.path.fnmatch.git
+      scope: invalid.illegal.escape.path.glob.git
 
   fnmatch-dir-pattern:
     - match: \.\.(?=/)
-      scope: constant.other.path.parent.fnmatch.git
+      scope: constant.other.path.parent.glob.git
       pop: 1
     - match: \.(?=/)
-      scope: constant.other.path.self.fnmatch.git
+      scope: constant.other.path.self.glob.git
       pop: 1
     - match: ''
       pop: 1
 
   fnmatch-char-classes:
     - match: \[           # shell style character class
-      scope: punctuation.definition.char-class.begin.fnmatch.git
+      scope: punctuation.definition.char-class.begin.glob.git
       push:
         - fnmatch-char-class-body
         - fnmatch-char-class-start
@@ -356,61 +356,61 @@ contexts:
 
   fnmatch-char-class-operator:
     - match: '[!^]?'  # optional pattern negation
-      scope: keyword.operator.logical.fnmatch.git
+      scope: keyword.operator.logical.glob.git
       pop: 1
 
   fnmatch-char-class-start:
     - match: '[]-]?'  # first unescaped '-' or ']' are matched literal
-      scope: constant.character.char-class.fnmatch.git
+      scope: constant.character.char-class.glob.git
       pop: 1
 
   fnmatch-char-class-body:
-    - meta_scope: meta.char-class.fnmatch.git
+    - meta_scope: meta.char-class.glob.git
     - match: \]
-      scope: punctuation.definition.char-class.end.fnmatch.git
+      scope: punctuation.definition.char-class.end.glob.git
       pop: 1
     - match: $\n?     # class must end before end of line
-      scope: invalid.illegal.unexpected.eol.fnmatch.git
+      scope: invalid.illegal.unexpected.eol.glob.git
       pop: 1
     - match: (\[\.)(\S*)(\.\])
-      scope: meta.char-class.fnmatch.git
+      scope: meta.char-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.char-class.collate.fnmatch.git
-        3: punctuation.definition.char-class.end.fnmatch.git
+        1: punctuation.definition.char-class.begin.glob.git
+        2: support.class.char-class.collate.glob.git
+        3: punctuation.definition.char-class.end.glob.git
     - match: (\[=)(\S*)(=\])
-      scope: meta.char-class.fnmatch.git
+      scope: meta.char-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.char-class.equivalence.fnmatch.git
-        3: punctuation.definition.char-class.end.fnmatch.git
+        1: punctuation.definition.char-class.begin.glob.git
+        2: support.class.char-class.equivalence.glob.git
+        3: punctuation.definition.char-class.end.glob.git
     - match: (\[:)(?:({{posix_classes}})|(\S*?))(:\])
-      scope: meta.char-class.fnmatch.git
+      scope: meta.char-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.char-class.posix.fnmatch.git
-        3: invalid.illegal.character-class.posix.fnmatch.git
-        4: punctuation.definition.char-class.end.fnmatch.git
+        1: punctuation.definition.char-class.begin.glob.git
+        2: support.class.char-class.posix.glob.git
+        3: invalid.illegal.character-class.posix.glob.git
+        4: punctuation.definition.char-class.end.glob.git
     - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]])
-      scope: constant.other.range.fnmatch.git
+      scope: constant.other.range.glob.git
       captures:
-        1: constant.character.escape.fnmatch.git
-        2: punctuation.separator.sequence.fnmatch.git
-        3: constant.character.escape.fnmatch.git
+        1: constant.character.escape.glob.git
+        2: punctuation.separator.sequence.glob.git
+        3: constant.character.escape.glob.git
     - match: '\\.'
-      scope: constant.character.escape.char-class.fnmatch.git
+      scope: constant.character.escape.char-class.glob.git
     - match: '[*?]'   # asterisk is ignored by fnmatch
-      scope: invalid.illegal.unexpected.char-class.fnmatch.git
+      scope: invalid.illegal.unexpected.char-class.glob.git
     - match: .
-      scope: constant.character.char-class.fnmatch.git
+      scope: constant.character.char-class.glob.git
 
   fnmatch-quoted-file-extensions:
     - match: \.(?![^./"]*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
 
   fnmatch-unquoted-file-extensions:
     - match: \.(?!(?:\\\s|\S)*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
 
 ###[ PRETTY FORMATS ]##########################################################
 
