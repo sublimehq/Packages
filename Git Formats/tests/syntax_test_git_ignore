@@ -248,6 +248,33 @@
 #                  ^^^^^^^^^^^^ constant.other.character-class.equivalence.glob.git
 #                              ^^^ punctuation.definition.character-class.end.glob.git
 
+  [[.a.][.b.]] [[=a=][=b=]]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ meta.character-class.glob.git - meta.character-class meta.character-class
+#  ^^^^^^^^^^ meta.character-class.glob.git meta.character-class.glob.git
+#            ^ meta.character-class.glob.git - meta.character-class meta.character-class
+#             ^ - meta.character-class
+#              ^ meta.character-class.glob.git - meta.character-class meta.character-class
+#               ^^^^^^^^^^ meta.character-class.glob.git meta.character-class.glob.git
+#                         ^ meta.character-class.glob.git - meta.character-class meta.character-class
+#                          ^ - meta.character-class
+# ^ punctuation.definition.character-class.begin.glob.git
+#  ^^ punctuation.definition.character-class.begin.glob.git
+#    ^ constant.other.character-class.collate.glob.git
+#     ^^ punctuation.definition.character-class.end.glob.git
+#       ^^ punctuation.definition.character-class.begin.glob.git
+#         ^ constant.other.character-class.collate.glob.git
+#          ^^ punctuation.definition.character-class.end.glob.git
+#            ^ punctuation.definition.character-class.end.glob.git
+#              ^ punctuation.definition.character-class.begin.glob.git
+#               ^^ punctuation.definition.character-class.begin.glob.git
+#                 ^ constant.other.character-class.equivalence.glob.git
+#                  ^^ punctuation.definition.character-class.end.glob.git
+#                    ^^ punctuation.definition.character-class.begin.glob.git
+#                      ^ constant.other.character-class.equivalence.glob.git
+#                       ^^ punctuation.definition.character-class.end.glob.git
+#                         ^ punctuation.definition.character-class.end.glob.git
+
   # Note: :ascii: and :word: are ST specific posix classes, unsupported by ordinary shells
   [[:ascii:][:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:][:print:][:punct:][:space:][:upper:][:word:][:xdigit:][:inval:]]
 # ^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.character-class.glob.git - meta.character-class meta.character-class

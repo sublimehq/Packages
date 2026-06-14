@@ -372,13 +372,13 @@ contexts:
     - match: $\n?     # class must end before end of line
       scope: invalid.illegal.unexpected.eol.glob.git
       pop: 1
-    - match: (\[\.)(\S*)(\.\])
+    - match: (\[\.)(\S*?)(\.\])
       scope: meta.character-class.glob.git
       captures:
         1: punctuation.definition.character-class.begin.glob.git
         2: constant.other.character-class.collate.glob.git
         3: punctuation.definition.character-class.end.glob.git
-    - match: (\[=)(\S*)(=\])
+    - match: (\[=)(\S*?)(=\])
       scope: meta.character-class.glob.git
       captures:
         1: punctuation.definition.character-class.begin.glob.git
