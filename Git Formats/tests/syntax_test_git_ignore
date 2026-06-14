@@ -248,7 +248,7 @@
 #                  ^^^^^^^^^^^^ support.class.character-class.equivalence.fnmatch.git
 #                              ^^^ punctuation.definition.char-class.end.fnmatch.git
 
-  # Note: :ascii: and :word: are  ST specific posix classes, unsupported by ordinary shells
+  # Note: :ascii: and :word: are ST specific posix classes, unsupported by ordinary shells
   [[:ascii:][:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:][:print:][:punct:][:space:][:upper:][:word:][:xdigit:][:inval:]]
 # ^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.char-class.fnmatch.git - meta.char-class meta.char-class
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.char-class.fnmatch.git meta.char-class.fnmatch.git
