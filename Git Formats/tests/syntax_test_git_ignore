@@ -239,13 +239,13 @@
 #  ^^^^^^^^^^^ meta.char-class.fnmatch.git meta.char-class.fnmatch.git
 #             ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
 # ^^^ punctuation.definition.char-class.begin.fnmatch.git
-#    ^^^^^^^ support.class.character-class.collate.fnmatch.git
+#    ^^^^^^^ support.class.char-class.collate.fnmatch.git
 #           ^^^ punctuation.definition.char-class.end.fnmatch.git
 #               ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
 #                ^^^^^^^^^^^^^^^^ meta.char-class.fnmatch.git meta.char-class.fnmatch.git
 #                                ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
 #               ^^^ punctuation.definition.char-class.begin.fnmatch.git
-#                  ^^^^^^^^^^^^ support.class.character-class.equivalence.fnmatch.git
+#                  ^^^^^^^^^^^^ support.class.char-class.equivalence.fnmatch.git
 #                              ^^^ punctuation.definition.char-class.end.fnmatch.git
 
   # Note: :ascii: and :word: are ST specific posix classes, unsupported by ordinary shells
@@ -258,43 +258,43 @@
 #    ^^^^^ invalid.illegal.character-class.posix.fnmatch.git
 #         ^^ punctuation.definition.char-class.end.fnmatch.git
 #           ^^ punctuation.definition.char-class.begin.fnmatch.git
-#             ^^^^^ support.class.character-class.posix.fnmatch.git
+#             ^^^^^ support.class.char-class.posix.fnmatch.git
 #                  ^^ punctuation.definition.char-class.end.fnmatch.git
 #                    ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                      ^^^^^ support.class.character-class.posix.fnmatch.git
+#                      ^^^^^ support.class.char-class.posix.fnmatch.git
 #                           ^^ punctuation.definition.char-class.end.fnmatch.git
 #                             ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                               ^^^^^ support.class.character-class.posix.fnmatch.git
+#                               ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                    ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                      ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                        ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                        ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                             ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                               ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                 ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                 ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                      ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                        ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                          ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                          ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                               ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                 ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                   ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                   ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                        ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                          ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                            ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                            ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                                 ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                   ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                                     ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                     ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                                          ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                            ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                                              ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                              ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                                                   ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                                     ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                                                       ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                                       ^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                                                            ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                                              ^^ punctuation.definition.char-class.begin.fnmatch.git
 #                                                                                                                ^^^^ invalid.illegal.character-class.posix.fnmatch.git
 #                                                                                                                    ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                                                      ^^ punctuation.definition.char-class.begin.fnmatch.git
-#                                                                                                                        ^^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                                                        ^^^^^^ support.class.char-class.posix.fnmatch.git
 #                                                                                                                              ^^ punctuation.definition.char-class.end.fnmatch.git
 #                                                                                                                                ^^ punctuation.definition.char-class.begin.fnmatch.git
 #                                                                                                                                  ^^^^^ invalid.illegal.character-class.posix.fnmatch.git

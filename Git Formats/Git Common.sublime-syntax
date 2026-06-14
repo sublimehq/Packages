@@ -376,19 +376,19 @@ contexts:
       scope: meta.char-class.fnmatch.git
       captures:
         1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.character-class.collate.fnmatch.git
+        2: support.class.char-class.collate.fnmatch.git
         3: punctuation.definition.char-class.end.fnmatch.git
     - match: (\[=)(\S*)(=\])
       scope: meta.char-class.fnmatch.git
       captures:
         1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.character-class.equivalence.fnmatch.git
+        2: support.class.char-class.equivalence.fnmatch.git
         3: punctuation.definition.char-class.end.fnmatch.git
     - match: (\[:)(?:({{posix_classes}})|(\S*?))(:\])
       scope: meta.char-class.fnmatch.git
       captures:
         1: punctuation.definition.char-class.begin.fnmatch.git
-        2: support.class.character-class.posix.fnmatch.git
+        2: support.class.char-class.posix.fnmatch.git
         3: invalid.illegal.character-class.posix.fnmatch.git
         4: punctuation.definition.char-class.end.fnmatch.git
     - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]])
