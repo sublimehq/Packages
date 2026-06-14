@@ -86,13 +86,13 @@
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern.git
 #  ^ constant.other.wildcard.questionmark.glob.git
 #    ^^ constant.character.escape.path.glob.git
-#       ^^^^ meta.char-class.glob.git
-#       ^ punctuation.definition.char-class.begin.glob.git
-#        ^^ constant.character.char-class.glob.git
-#          ^ punctuation.definition.char-class.end.glob.git
-#               ^ punctuation.definition.char-class.begin.glob.git
-#                ^^ constant.character.char-class.glob.git
-#                  ^ punctuation.definition.char-class.end.glob.git
+#       ^^^^ meta.character-class.glob.git
+#       ^ punctuation.definition.character-class.begin.glob.git
+#        ^^ constant.character.character-class.glob.git
+#          ^ punctuation.definition.character-class.end.glob.git
+#               ^ punctuation.definition.character-class.begin.glob.git
+#                ^^ constant.character.character-class.glob.git
+#                  ^ punctuation.definition.character-class.end.glob.git
 #                          ^ punctuation.definition.string.end.git.attributes
 #                           ^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes
 #                           ^^^^^^^^^^^^^^^ meta.attribute

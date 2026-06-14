@@ -310,12 +310,12 @@ contexts:
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
   fnmatch-quoted-body:
-    - include: fnmatch-char-classes
+    - include: fnmatch-character-classes
     - include: fnmatch-quoted-file-extensions
     - include: fnmatch-common
 
   fnmatch-unquoted-body:
-    - include: fnmatch-char-classes
+    - include: fnmatch-character-classes
     - include: fnmatch-unquoted-file-extensions
     - include: fnmatch-common
 
@@ -346,51 +346,51 @@ contexts:
     - match: ''
       pop: 1
 
-  fnmatch-char-classes:
+  fnmatch-character-classes:
     - match: \[           # shell style character class
-      scope: punctuation.definition.char-class.begin.glob.git
+      scope: punctuation.definition.character-class.begin.glob.git
       push:
-        - fnmatch-char-class-body
-        - fnmatch-char-class-start
-        - fnmatch-char-class-operator
+        - fnmatch-character-class-body
+        - fnmatch-character-class-start
+        - fnmatch-character-class-operator
 
-  fnmatch-char-class-operator:
+  fnmatch-character-class-operator:
     - match: '[!^]?'  # optional pattern negation
       scope: keyword.operator.logical.glob.git
       pop: 1
 
-  fnmatch-char-class-start:
+  fnmatch-character-class-start:
     - match: '[]-]?'  # first unescaped '-' or ']' are matched literal
-      scope: constant.character.char-class.glob.git
+      scope: constant.character.character-class.glob.git
       pop: 1
 
-  fnmatch-char-class-body:
-    - meta_scope: meta.char-class.glob.git
+  fnmatch-character-class-body:
+    - meta_scope: meta.character-class.glob.git
     - match: \]
-      scope: punctuation.definition.char-class.end.glob.git
+      scope: punctuation.definition.character-class.end.glob.git
       pop: 1
     - match: $\n?     # class must end before end of line
       scope: invalid.illegal.unexpected.eol.glob.git
       pop: 1
     - match: (\[\.)(\S*)(\.\])
-      scope: meta.char-class.glob.git
+      scope: meta.character-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.glob.git
-        2: support.class.char-class.collate.glob.git
-        3: punctuation.definition.char-class.end.glob.git
+        1: punctuation.definition.character-class.begin.glob.git
+        2: support.class.character-class.collate.glob.git
+        3: punctuation.definition.character-class.end.glob.git
     - match: (\[=)(\S*)(=\])
-      scope: meta.char-class.glob.git
+      scope: meta.character-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.glob.git
-        2: support.class.char-class.equivalence.glob.git
-        3: punctuation.definition.char-class.end.glob.git
+        1: punctuation.definition.character-class.begin.glob.git
+        2: support.class.character-class.equivalence.glob.git
+        3: punctuation.definition.character-class.end.glob.git
     - match: (\[:)(?:({{posix_classes}})|(\S*?))(:\])
-      scope: meta.char-class.glob.git
+      scope: meta.character-class.glob.git
       captures:
-        1: punctuation.definition.char-class.begin.glob.git
-        2: support.class.char-class.posix.glob.git
+        1: punctuation.definition.character-class.begin.glob.git
+        2: support.class.character-class.posix.glob.git
         3: invalid.illegal.character-class.posix.glob.git
-        4: punctuation.definition.char-class.end.glob.git
+        4: punctuation.definition.character-class.end.glob.git
     - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]])
       scope: constant.other.range.glob.git
       captures:
@@ -398,11 +398,11 @@ contexts:
         2: punctuation.separator.sequence.glob.git
         3: constant.character.escape.glob.git
     - match: '\\.'
-      scope: constant.character.escape.char-class.glob.git
+      scope: constant.character.escape.character-class.glob.git
     - match: '[*?]'   # asterisk is ignored by fnmatch
-      scope: invalid.illegal.unexpected.char-class.glob.git
+      scope: invalid.illegal.unexpected.character-class.glob.git
     - match: .
-      scope: constant.character.char-class.glob.git
+      scope: constant.character.character-class.glob.git
 
   fnmatch-quoted-file-extensions:
     - match: \.(?![^./"]*[./]) # the last dot not followed by path sep
