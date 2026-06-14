@@ -888,9 +888,6 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-parens, typeof-value]
-    - match: '\bauto\b'
-      scope: keyword.other.d
-      pop: true
     - match: '\bmixin\b'
       scope: keyword.control.d
       set:
