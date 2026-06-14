@@ -2355,7 +2355,7 @@ contexts:
   condition-attribute:
     - match: '\bauto\b'
       scope: storage.modifier.d
-      pop: 1
+      pop: true
     - match: '(?=\S)'
       pop: true
 
