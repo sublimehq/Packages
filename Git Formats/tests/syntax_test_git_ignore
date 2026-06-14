@@ -84,6 +84,7 @@
 # ^ meta.char-class.fnmatch.git punctuation.definition.char-class.begin.fnmatch.git
   ]
 # ^ string.unquoted.git - punctuation.definition.char-class
+
   [][]]
 # ^^^^ meta.char-class.fnmatch.git
 #     ^ - meta.char-class.fnmatch.git
@@ -91,6 +92,7 @@
 #  ^^ constant.character.char-class.fnmatch.git
 #    ^ punctuation.definition.char-class.end.fnmatch.git
 #     ^ string.unquoted.git - punctuation.definition.char-class
+
   [^[\]] [^[[] [^]\[] [^]]] [^^][^!]
 # ^^^^^^ meta.char-class.fnmatch.git
 #       ^ - meta.char-class.fnmatch.git
@@ -103,20 +105,21 @@
 #                           ^^^^^^^^ meta.char-class.fnmatch.git
 # ^ punctuation.definition.char-class.begin.fnmatch.git
 #  ^ keyword.operator.logical.fnmatch.git
-#   ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.begin.fnmatch.git
-#    ^^ constant.character.escape.char-class - punctuation.definition.char-class.end.fnmatch.git
+#   ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
+#    ^^ constant.character.escape.char-class - punctuation.definition.char-class
 #      ^ punctuation.definition.char-class.end.fnmatch.git
 #        ^ punctuation.definition.char-class.begin.fnmatch.git
 #         ^ keyword.operator.logical.fnmatch.git
-#          ^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.begin.fnmatch.git
+#          ^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
 #            ^ punctuation.definition.char-class.end.fnmatch.git
 #              ^ punctuation.definition.char-class.begin.fnmatch.git
 #               ^ keyword.operator.logical.fnmatch.git
-#                ^^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.end.fnmatch.git
+#                ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
+#                 ^^ meta.char-class.fnmatch.git constant.character.escape.char-class.fnmatch.git
 #                   ^ punctuation.definition.char-class.end.fnmatch.git
 #                     ^ punctuation.definition.char-class.begin.fnmatch.git
 #                      ^ keyword.operator.logical.fnmatch.git
-#                       ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.end.fnmatch.git
+#                       ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
 #                        ^ punctuation.definition.char-class.end.fnmatch.git
 #                         ^ string.unquoted.git - punctuation.definition.char-class
 #                           ^ punctuation.definition.char-class.begin.fnmatch.git
@@ -127,6 +130,7 @@
 #                                ^ keyword.operator.logical.fnmatch.git
 #                                 ^ constant.character.char-class.fnmatch.git - keyword.operator
 #                                  ^ punctuation.definition.char-class.end.fnmatch.git
+
   [![\]] [![[] [!]\[] [!]]] [!!][!^]
 # ^^^^^^ meta.char-class.fnmatch.git
 #       ^ - meta.char-class.fnmatch.git
@@ -139,20 +143,21 @@
 #                           ^^^^^^^^ meta.char-class.fnmatch.git
 # ^ punctuation.definition.char-class.begin.fnmatch.git
 #  ^ keyword.operator.logical.fnmatch.git
-#   ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.begin.fnmatch.git
-#    ^^ constant.character.escape.char-class - punctuation.definition.char-class.end.fnmatch.git
+#   ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
+#    ^^ constant.character.escape.char-class - punctuation.definition.char-class
 #      ^ punctuation.definition.char-class.end.fnmatch.git
 #        ^ punctuation.definition.char-class.begin.fnmatch.git
 #         ^ keyword.operator.logical.fnmatch.git
-#          ^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.begin.fnmatch.git
+#          ^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
 #            ^ punctuation.definition.char-class.end.fnmatch.git
 #              ^ punctuation.definition.char-class.begin.fnmatch.git
 #               ^ keyword.operator.logical.fnmatch.git
-#                ^^^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.end.fnmatch.git
+#                ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
+#                 ^^ meta.char-class.fnmatch.git constant.character.escape.char-class.fnmatch.git - punctuation.definition.char-class
 #                   ^ punctuation.definition.char-class.end.fnmatch.git
 #                     ^ punctuation.definition.char-class.begin.fnmatch.git
 #                      ^ keyword.operator.logical.fnmatch.git
-#                       ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class.end.fnmatch.git
+#                       ^ constant.character.char-class.fnmatch.git - punctuation.definition.char-class
 #                        ^ punctuation.definition.char-class.end.fnmatch.git
 #                         ^ string.unquoted.git - punctuation.definition.char-class
 #                           ^ punctuation.definition.char-class.begin.fnmatch.git
@@ -163,15 +168,135 @@
 #                                ^ keyword.operator.logical.fnmatch.git
 #                                 ^ constant.character.char-class.fnmatch.git - keyword.operator
 #                                  ^ punctuation.definition.char-class.end.fnmatch.git
-# The only escape is \]. All other \ are expanded to \\ by fnmatch.
+
+  [-] [!-] [^-] [---] [a-z] [a\-z] []-[] []\-[]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^^^ meta.char-class.fnmatch.git
+# ^ punctuation.definition.char-class.begin.fnmatch.git
+#  ^ constant.character.char-class.fnmatch.git
+#   ^ punctuation.definition.char-class.end.fnmatch.git
+#     ^^^^ meta.char-class.fnmatch.git
+#     ^ punctuation.definition.char-class.begin.fnmatch.git
+#      ^ keyword.operator.logical.fnmatch.git
+#       ^ constant.character.char-class.fnmatch.git
+#        ^ punctuation.definition.char-class.end.fnmatch.git
+#          ^^^^ meta.char-class.fnmatch.git
+#          ^ punctuation.definition.char-class.begin.fnmatch.git
+#           ^ keyword.operator.logical.fnmatch.git
+#            ^ constant.character.char-class.fnmatch.git
+#             ^ punctuation.definition.char-class.end.fnmatch.git
+#               ^^^^^ meta.char-class.fnmatch.git
+#               ^ punctuation.definition.char-class.begin.fnmatch.git
+#                ^ constant.character.char-class.fnmatch.git
+#                 ^^ constant.other.range.fnmatch.git
+#                 ^ punctuation.separator.sequence.fnmatch.git
+#                   ^ punctuation.definition.char-class.end.fnmatch.git
+#                     ^^^^^ meta.char-class.fnmatch.git
+#                     ^ punctuation.definition.char-class.begin.fnmatch.git
+#                      ^^^ constant.other.range.fnmatch.git
+#                       ^ punctuation.separator.sequence.fnmatch.git
+#                         ^ punctuation.definition.char-class.end.fnmatch.git
+#                           ^^^^^^ meta.char-class.fnmatch.git
+#                           ^ punctuation.definition.char-class.begin.fnmatch.git
+#                            ^ constant.character.char-class.fnmatch.git
+#                             ^^ constant.character.escape.char-class.fnmatch.git
+#                               ^ constant.character.char-class.fnmatch.git
+#                                ^ punctuation.definition.char-class.end.fnmatch.git
+#                                  ^^^^^ meta.char-class.fnmatch.git
+#                                  ^ punctuation.definition.char-class.begin.fnmatch.git
+#                                   ^ constant.character.char-class.fnmatch.git
+#                                    ^^ constant.other.range.fnmatch.git
+#                                    ^ punctuation.separator.sequence.fnmatch.git
+#                                      ^ punctuation.definition.char-class.end.fnmatch.git
+#                                        ^^^^^^ meta.char-class.fnmatch.git
+#                                        ^ punctuation.definition.char-class.begin.fnmatch.git
+#                                         ^ constant.character.char-class.fnmatch.git
+#                                          ^^ constant.character.escape.char-class.fnmatch.git
+#                                            ^ constant.character.char-class.fnmatch.git
+#                                             ^ punctuation.definition.char-class.end.fnmatch.git
+
+  # unknown escape sequences resolve to their literal equivalent
   [0123456789abcde-z \t\n\\\"\'./()'-:,.;<>~!@#$%&*|+=\[\]{}`~?]
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.char-class.fnmatch.git
 # ^ punctuation.definition.char-class.begin.fnmatch.git
-#  ^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
-#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
+#  ^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
+#                ^^^ constant.other.range.fnmatch.git
+#                   ^ constant.character.char-class.fnmatch.git
+#                    ^^^^^^^^^^ constant.character.escape.char-class.fnmatch.git
+#                              ^^^^ constant.character.char-class.fnmatch.git
+#                                  ^^^ constant.other.range.fnmatch.git
+#                                     ^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
 #                                                 ^ invalid.illegal.unexpected.char-class.fnmatch.git
-#                                                  ^^^^^ constant.character.char-class.fnmatch.git
-#                                                       ^^ constant.character.escape.char-class.fnmatch.git
+#                                                  ^^^ constant.character.char-class.fnmatch.git
+#                                                     ^^^^ constant.character.escape.char-class.fnmatch.git
 #                                                         ^^^^ constant.character.char-class.fnmatch.git
 #                                                             ^ invalid.illegal.unexpected.char-class.fnmatch.git
 #                                                              ^ punctuation.definition.char-class.end.fnmatch.git
+
+  [[.collate.]] [[=equi-valence=]]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
+#  ^^^^^^^^^^^ meta.char-class.fnmatch.git meta.char-class.fnmatch.git
+#             ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
+# ^^^ punctuation.definition.char-class.begin.fnmatch.git
+#    ^^^^^^^ support.class.character-class.collate.fnmatch.git
+#           ^^^ punctuation.definition.char-class.end.fnmatch.git
+#               ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
+#                ^^^^^^^^^^^^^^^^ meta.char-class.fnmatch.git meta.char-class.fnmatch.git
+#                                ^ meta.char-class.fnmatch.git - meta.char-class meta.char-class
+#               ^^^ punctuation.definition.char-class.begin.fnmatch.git
+#                  ^^^^^^^^^^^^ support.class.character-class.equivalence.fnmatch.git
+#                              ^^^ punctuation.definition.char-class.end.fnmatch.git
+
+  # Note: :ascii: and :word: are  ST specific posix classes, unsupported by ordinary shells
+  [[:ascii:][:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:][:print:][:punct:][:space:][:upper:][:word:][:xdigit:][:inval:]]
+# ^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.char-class.fnmatch.git - meta.char-class meta.char-class
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.char-class.fnmatch.git meta.char-class.fnmatch.git
+#                                                                                                                                         ^ string.unquoted.git.ignore entity.name.pattern.git.ignore meta.char-class.fnmatch.git - meta.char-class meta.char-class
+# ^ punctuation.definition.char-class.begin.fnmatch.git
+#  ^^ punctuation.definition.char-class.begin.fnmatch.git
+#    ^^^^^ invalid.illegal.character-class.posix.fnmatch.git
+#         ^^ punctuation.definition.char-class.end.fnmatch.git
+#           ^^ punctuation.definition.char-class.begin.fnmatch.git
+#             ^^^^^ support.class.character-class.posix.fnmatch.git
+#                  ^^ punctuation.definition.char-class.end.fnmatch.git
+#                    ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                      ^^^^^ support.class.character-class.posix.fnmatch.git
+#                           ^^ punctuation.definition.char-class.end.fnmatch.git
+#                             ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                               ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                    ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                      ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                        ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                             ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                               ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                 ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                      ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                        ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                          ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                               ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                 ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                   ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                        ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                          ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                            ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                 ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                   ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                     ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                          ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                            ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                              ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                                   ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                                     ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                                       ^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                                            ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                                              ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                                                ^^^^ invalid.illegal.character-class.posix.fnmatch.git
+#                                                                                                                    ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                                                      ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                                                        ^^^^^^ support.class.character-class.posix.fnmatch.git
+#                                                                                                                              ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                                                                ^^ punctuation.definition.char-class.begin.fnmatch.git
+#                                                                                                                                  ^^^^^ invalid.illegal.character-class.posix.fnmatch.git
+#                                                                                                                                       ^^ punctuation.definition.char-class.end.fnmatch.git
+#                                                                                                                                         ^ punctuation.definition.char-class.end.fnmatch.git
