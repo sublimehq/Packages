@@ -346,7 +346,7 @@ contexts:
 
   fnmatch-char-classes:
     - match: \[           # shell style character class
-      scope: keyword.control.char-class.begin.fnmatch.git
+      scope: punctuation.definition.char-class.begin.fnmatch.git
       push:
         - fnmatch-char-class-body
         - fnmatch-char-class-start
@@ -365,7 +365,7 @@ contexts:
   fnmatch-char-class-body:
     - meta_scope: meta.char-class.fnmatch.git
     - match: \]
-      scope: keyword.control.char-class.end.fnmatch.git
+      scope: punctuation.definition.char-class.end.fnmatch.git
       pop: 1
     - match: $\n?     # class must end before end of line
       scope: invalid.illegal.unexpected.eol.fnmatch.git

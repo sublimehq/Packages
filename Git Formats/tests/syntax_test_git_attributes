@@ -87,12 +87,12 @@
 #  ^ constant.other.wildcard.questionmark.fnmatch.git
 #    ^^ constant.character.escape.path.fnmatch.git
 #       ^^^^ meta.char-class.fnmatch.git
-#       ^ keyword.control.char-class.begin.fnmatch.git
+#       ^ punctuation.definition.char-class.begin.fnmatch.git
 #        ^^ constant.character.char-class.fnmatch.git
-#          ^ keyword.control.char-class.end.fnmatch.git
-#               ^ keyword.control.char-class.begin.fnmatch.git
+#          ^ punctuation.definition.char-class.end.fnmatch.git
+#               ^ punctuation.definition.char-class.begin.fnmatch.git
 #                ^^ constant.character.char-class.fnmatch.git
-#                  ^ keyword.control.char-class.end.fnmatch.git
+#                  ^ punctuation.definition.char-class.end.fnmatch.git
 #                          ^ punctuation.definition.string.end.git.attributes
 #                           ^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes
 #                           ^^^^^^^^^^^^^^^ meta.attribute
