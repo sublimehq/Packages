@@ -888,9 +888,6 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-parens, typeof-value]
-    - match: '\bauto\b'
-      scope: keyword.other.d
-      pop: true
     - match: '\bmixin\b'
       scope: keyword.control.d
       set:
@@ -2347,7 +2344,7 @@ contexts:
   condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [condition-after, first-value]
+      set: [condition-after, first-value, condition-attribute]
     - include: not-whitespace-illegal-pop
   condition-after:
     - meta_scope: meta.parens.d
@@ -2355,6 +2352,12 @@ contexts:
       scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
+  condition-attribute:
+    - match: '\bauto\b'
+      scope: storage.modifier.d
+      pop: true
+    - match: '(?=\S)'
+      pop: true
 
   identifier:
     - match: '\b{{name}}\b'
