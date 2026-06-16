@@ -616,7 +616,7 @@ contexts:
     # zsh glob range with string scope cleared
     # only groups are valid in groups, no glob qualifiers
     - match: \(
-      scope: punctuation.section.group.begin.regexp.shell
+      scope: punctuation.section.group.begin.glob.shell
       push: pattern-group-body
 
   pattern-group-content:
@@ -634,10 +634,10 @@ contexts:
   pattern-common:
     - meta_prepend: true
     - match: '[~^]'
-      scope: keyword.operator.logical.regexp.shell.zsh
+      scope: keyword.operator.logical.glob.shell.zsh
       push: maybe-tilde-interpolation
     - match: \#{1,2}
-      scope: keyword.operator.quantifier.regexp.shell.zsh
+      scope: keyword.operator.quantifier.glob.shell.zsh
 
 ###[ POSIX EXTENDED REGULAR EXPRESSIONS ]######################################
 
@@ -830,7 +830,7 @@ contexts:
     - include: zsh-parameter-glob-ranges
     # prefer EXTENDED_GLOB over optional KSH_GLOB
     - match: \(
-      scope: punctuation.section.group.begin.regexp.shell
+      scope: punctuation.section.group.begin.glob.shell
       push: parameter-expansion-pattern-group-body
 
   parameter-expansion-pattern-group-content:
@@ -948,7 +948,7 @@ contexts:
 
   zsh-parameter-modifier-subst-replacement:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
     - include: brace-pop
     - include: zsh-modifier-subst-replacement
 
@@ -1203,7 +1203,7 @@ contexts:
 
   zsh-glob-qualifier-modifier-subst-replacement:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
     - include: paren-pop
     - include: zsh-modifier-subst-replacement
 
@@ -1362,7 +1362,7 @@ contexts:
 
   zsh-modifier-subst-replacement:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
     - match: \&
       scope: variable.language.reference.shell.zsh
     - include: zsh-modifier-subst-pattern
@@ -1374,7 +1374,7 @@ contexts:
       scope: meta.substitution.shell.zsh
       captures:
         1: punctuation.separator.modifier.shell.zsh
-        2: constant.other.flag.regexp.shell.zsh
+        2: constant.other.flag.glob.shell.zsh
       pop: 1
     - include: line-continuations
     - include: immediately-pop
