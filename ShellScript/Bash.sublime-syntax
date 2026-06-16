@@ -2705,7 +2705,10 @@ contexts:
     - clear_scopes: 1  # clear `string.unquoted`
     - meta_include_prototype: false
     - meta_scope: meta.group.regexp.shell string.unquoted.shell
-    - include: pattern-group-end
+    - match: \)
+      scope: punctuation.section.group.end.regexp.shell
+      pop: 1
+    - include: line-continuations
     - include: eregexp-group-content
 
   eregexp-group-content:
@@ -2732,15 +2735,15 @@ contexts:
         2: keyword.operator.logical.regexp.shell
       set:
         - eregexp-charset-body
-        - pattern-charset-begin
+        - eregexp-charset-begin
 
   eregexp-charset-body:
     - meta_include_prototype: false
     - meta_scope: meta.character-class.regexp.shell
     - match: (?!\S) # also fail at eof
       fail: eregexp-charset
-    - include: pattern-charset-end
-    - include: pattern-charset-content
+    - include: eregexp-charset-end
+    - include: eregexp-charset-content
 
   eregexp-group-charsets:
     - match: (?=\[)
@@ -2756,15 +2759,92 @@ contexts:
         2: keyword.operator.logical.regexp.shell
       set:
         - eregexp-group-charset-body
-        - pattern-charset-begin
+        - eregexp-charset-begin
 
   eregexp-group-charset-body:
     - meta_include_prototype: false
     - meta_scope: meta.character-class.regexp.shell
     - match: (?=\))
       fail: eregexp-group-charset
-    - include: pattern-charset-end
-    - include: pattern-charset-content
+    - include: eregexp-charset-end
+    - include: eregexp-charset-content
+
+  eregexp-charset-begin:
+    - meta_include_prototype: false
+    # a range may start with `]` at the beginning of a set
+    - match: (?:(\\.)|.)(-)(?:(\\.)|[^\]$]|(?!\]))
+      scope: constant.other.range.regexp.shell
+      captures:
+        1: constant.character.escape.regexp.shell
+        2: punctuation.separator.sequence.regexp.shell
+        3: constant.character.escape.regexp.shell
+      pop: 1
+    # the following are treated literal at the beginning of a set
+    - match: '[]-]'
+      pop: 1
+    - include: immediately-pop
+
+  eregexp-charset-end:
+    - match: \]
+      scope: punctuation.definition.character-class.end.regexp.shell
+      pop: 1
+
+  eregexp-charset-fallback:
+    - meta_include_prototype: false
+    - match: \[
+      pop: 1
+
+  eregexp-charset-content:
+    - match: \[\.(?=\S*\.\])
+      scope: punctuation.definition.character-class.begin.regexp.shell
+      push: eregexp-charset-collate-body
+    - match: \[=(?=\S*=\])
+      scope: punctuation.definition.character-class.begin.regexp.shell
+      push: eregexp-charset-equivalence-body
+    - match: \[:(?=(?:{{posix_classes}}|\$+(?:\{.*?\}|\w+)):\])
+      scope: punctuation.definition.character-class.begin.regexp.shell
+      push: eregexp-charset-posix-body
+    - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]$]|(?!\]))
+      scope: constant.other.range.regexp.shell
+      captures:
+        1: constant.character.escape.regexp.shell
+        2: punctuation.separator.sequence.regexp.shell
+        3: constant.character.escape.regexp.shell
+    - include: any-escapes
+    - include: variable-expansions
+    - include: eol-pop
+
+  eregexp-charset-collate-body:
+    - meta_scope: meta.character-class.regexp.shell
+    - meta_content_scope: constant.other.character-class.collate.regexp.shell
+    - match: \.\]
+      scope: punctuation.definition.character-class.end.regexp.shell
+      pop: 1
+    - include: any-escapes
+    - include: variable-expansions
+    - include: eol-pop
+
+  eregexp-charset-equivalence-body:
+    - meta_scope: meta.character-class.regexp.shell
+    - meta_content_scope: constant.other.character-class.equivalence.regexp.shell
+    - match: =\]
+      scope: punctuation.definition.character-class.end.regexp.shell
+      pop: 1
+    - include: any-escapes
+    - include: variable-expansions
+    - include: eol-pop
+
+  eregexp-charset-posix-body:
+    - meta_scope: meta.character-class.regexp.shell
+    - meta_content_scope: constant.other.character-class.posix.regexp.shell
+    - match: ({{posix_classes}}?)(:\])
+      captures:
+        1: constant.other.character-class.posix.regexp.shell
+        2: punctuation.definition.character-class.end.regexp.shell
+      pop: 1
+    - include: any-escapes
+    - include: variable-expansions
+    - include: eol-pop
 
   eregexp-anchors:
     - match: '[$^]'
