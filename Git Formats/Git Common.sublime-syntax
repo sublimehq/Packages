@@ -360,6 +360,13 @@ contexts:
       pop: 1
 
   fnmatch-character-class-start:
+    - match: (?:(\\.)|[^\\])(-)(?:(\\.)|[^\]])
+      scope: constant.other.range.glob.git
+      captures:
+        1: constant.character.escape.glob.git
+        2: punctuation.separator.sequence.glob.git
+        3: constant.character.escape.glob.git
+      pop: 1
     - match: '[]-]?'  # first unescaped '-' or ']' are matched literal
       scope: constant.character.character-class.glob.git
       pop: 1

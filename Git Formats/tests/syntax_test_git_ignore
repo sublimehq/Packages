@@ -187,8 +187,7 @@
 #             ^ punctuation.definition.character-class.end.glob.git
 #               ^^^^^ meta.character-class.glob.git
 #               ^ punctuation.definition.character-class.begin.glob.git
-#                ^ constant.character.character-class.glob.git
-#                 ^^ constant.other.range.glob.git
+#                ^^^ constant.other.range.glob.git
 #                 ^ punctuation.separator.sequence.glob.git
 #                   ^ punctuation.definition.character-class.end.glob.git
 #                     ^^^^^ meta.character-class.glob.git
@@ -204,8 +203,7 @@
 #                                ^ punctuation.definition.character-class.end.glob.git
 #                                  ^^^^^ meta.character-class.glob.git
 #                                  ^ punctuation.definition.character-class.begin.glob.git
-#                                   ^ constant.character.character-class.glob.git
-#                                    ^^ constant.other.range.glob.git
+#                                   ^^^ constant.other.range.glob.git
 #                                    ^ punctuation.separator.sequence.glob.git
 #                                      ^ punctuation.definition.character-class.end.glob.git
 #                                        ^^^^^^ meta.character-class.glob.git
