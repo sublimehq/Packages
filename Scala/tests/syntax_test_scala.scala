@@ -1515,22 +1515,54 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 //                               ^ keyword.operator.assignment.scala
 
 class Foo @Inject()(a: String)
-//         ^^^^^^ meta.annotation.identifier
-//                 ^- meta.annotation
+//        ^ meta.annotation.scala punctuation.definition.annotation.scala
+//         ^^^^^^ meta.annotation.identifier.scala
+//               ^^ meta.annotation.arguments.scala
+//                 ^ - meta.annotation
 //                  ^ variable.parameter.scala
 
+class Foo @Inject[T]()(a: String)
+//        ^ meta.annotation.scala punctuation.definition.annotation.scala
+//         ^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//               ^^^ meta.annotation.scala meta.generic.scala
+//               ^ punctuation.definition.generic.begin.scala
+//                ^ support.class.scala
+//                 ^ punctuation.definition.generic.end.scala
+//                  ^^ meta.annotation.arguments.scala meta.group.scala
+//                  ^ punctuation.section.group.begin.scala
+//                   ^ punctuation.section.group.end.scala
+//                    ^^^^^^^^^^^^ - meta.annotation
+
 class Foo @Inject() @Provided(scope = "test")(a: String)
-//         ^^^^^^ meta.annotation.identifier
-//                 ^- meta.annotation
-//                   ^^^^^^^ meta.annotation.identifier
-//                           ^^^^^^^ meta.annotation.parameters
-//                                           ^- meta.annotation
+//        ^ meta.annotation.scala punctuation.definition.annotation.scala
+//         ^^^^^^ meta.annotation.identifier.scala
+//               ^^ meta.annotation.arguments.scala
+//               ^ punctuation.section.group.begin.scala
+//                ^ punctuation.section.group.end.scala
+//                 ^ - meta.annotation
+//                  ^ meta.annotation.scala punctuation.definition.annotation.scala
+//                   ^^^^^^^ meta.annotation.identifier.scala
+//                           ^^^^^^^^^^^^^^^^ meta.annotation.arguments.scala
+//                           ^ punctuation.section.group.begin.scala
+//                                          ^ punctuation.section.group.end.scala
+//                                           ^^^^^^^^^^^ - meta.annotation
 //                                            ^ variable.parameter.scala
 
 class Foo @Inject(z = "a")(a: String)
-//         ^^^^^^ variable.annotation
-//                ^^^^^^^ meta.annotation.parameters
+//        ^ meta.annotation.scala punctuation.definition.annotation.scala
+//         ^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//               ^^^^^^^^^ meta.annotation.arguments.scala
+//               ^ punctuation.section.group.begin.scala
+//                  ^ keyword.operator.assignment.scala
+//                    ^^^ meta.string.scala string.quoted.double.scala
+//                    ^ punctuation.definition.string.begin.scala
+//                      ^ punctuation.definition.string.end.scala
+//                       ^ punctuation.section.group.end.scala
+//                        ^ punctuation.section.group.begin.scala
 //                         ^ variable.parameter.scala
+//                          ^ punctuation.ascription.scala
+//                            ^^^^^^ support.class.scala
+//                                  ^ punctuation.section.group.end.scala
 
 class Foo[A] @Inject()(a: String)
 //        ^ support.class
@@ -1540,20 +1572,39 @@ class Foo[A] @Inject()(a: String)
 
 // annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
 @deprecated("Use D", "1.0") class C { ... }
-// <- meta.annotation
-// ^^ variable.annotation
-//         ^ meta.annotation.parameters.scala punctuation.section.arguments.annotation.begin.scala
-//            ^^ string
-//                       ^ meta.annotation
-//                         ^ - meta.annotation
+// <- meta.annotation.scala punctuation.definition.annotation.scala
+//^^^^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//         ^^^^^^^^^^^^^^^^ meta.annotation.arguments.scala
+//         ^ punctuation.section.group.begin.scala
+//          ^^^^^^^ meta.string.scala string.quoted.double.scala
+//          ^ punctuation.definition.string.begin.scala
+//                ^ punctuation.definition.string.end.scala
+//                 ^ punctuation.separator.arguments.scala
+//                   ^^^^^ meta.string.scala string.quoted.double.scala
+//                   ^ punctuation.definition.string.begin.scala
+//                       ^ punctuation.definition.string.end.scala
+//                        ^ punctuation.section.group.end.scala
+//                          ^^^^^^^ meta.class.identifier.scala
+//                          ^^^^^ keyword.declaration.class.scala
+//                                ^ entity.name.class.scala
+//                                  ^^^^^^^ meta.class.body.scala
+//                                  ^ punctuation.section.braces.begin.scala
+//                                    ^^^ punctuation.accessor.scala
+//                                        ^ punctuation.section.braces.end.scala
 
 @transient @volatile var m: Int
-// ^^ variable.annotation
-//          ^ variable.annotation
+//^^^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//         ^ meta.annotation.scala punctuation.definition.annotation.scala
+//          ^^^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//                   ^^^ storage.type.volatile.scala
+//                       ^ variable.other.readwrite.scala
+//                        ^ punctuation.ascription.scala
+//                          ^^^ storage.type.primitive.scala
 
 String @local
-//     ^ punctuation.definition.annotation
-//      ^^ variable.annotation
+//^^^^ support.constant.scala
+//     ^ meta.annotation.scala punctuation.definition.annotation.scala
+//      ^^^^^ meta.annotation.identifier.scala variable.annotation.scala
 
 (e: @unchecked) match { ... }
 //   ^^ variable.annotation
@@ -1561,11 +1612,10 @@ String @local
 
 // more complex:
 @scala.beans.BeanProperty
-// <- meta.annotation
- // <- meta.annotation.identifier
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier
-//           ^^^^^^^^^^^^ variable.annotation
-//    ^ punctuation.accessor
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.scala
+//    ^ punctuation.accessor.scala
+//          ^ punctuation.accessor.scala
+//           ^^^^^^^^^^^^ variable.annotation.scala
 
 (e: Int @unchecked) match { ... }
 //  ^^ storage.type.primitive
@@ -1577,25 +1627,37 @@ String @local
 //            ^ string
 //                                                     ^ meta.number.integer
 trait Function0[@specialized(Unit, Int, Double) T] {
-//               ^^ variable.annotation
-//                           ^^ storage.type.primitive
-//                                              ^ support.class
-//              ^ punctuation.definition.annotation
-//              ^ meta.annotation
-//                                           ^ meta.annotation.parameters
-//                                             ^ - meta.annotation
-//                               ^ punctuation.separator.arguments.annotation
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.scala
+//             ^ punctuation.definition.generic.begin.scala
+//              ^ meta.annotation.scala punctuation.definition.annotation.scala
+//               ^^^^^^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//                          ^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments.scala
+//                          ^ punctuation.section.group.begin.scala
+//                           ^^^^ storage.type.primitive.scala
+//                               ^ punctuation.separator.arguments.scala
+//                                 ^^^ storage.type.primitive.scala
+//                                    ^ punctuation.separator.arguments.scala
+//                                      ^^^^^^ storage.type.primitive.scala
+//                                            ^ punctuation.section.group.end.scala
+//                                              ^ support.class.scala
+//                                               ^ punctuation.definition.generic.end.scala
   def apply: T
 }
 
 x: Foo @volatile with Bar @foo.bar @bar with Baz
-//          ^^ variable.annotation
-//               ^^ keyword.declaration
-//                    ^^^ support.class
-//                        ^^^^^ - variable.annotation
-//                             ^^^ variable.annotation
-//                                  ^^^ variable.annotation
-//                                           ^^^ support.class
+//     ^ meta.annotation.scala punctuation.definition.annotation.scala
+//      ^^^^^^^^ meta.annotation.identifier.scala variable.annotation.scala
+//               ^^^^ keyword.declaration.scala
+//                    ^^^ support.class.scala
+//                        ^ meta.annotation.scala punctuation.definition.annotation.scala
+//                         ^^^^^^^ meta.annotation.identifier.scala
+//                         ^^^ variable.annotation.namespace.scala
+//                            ^ punctuation.accessor.scala
+//                             ^^^ variable.annotation.scala
+//                                 ^ meta.annotation.scala punctuation.definition.annotation.scala
+//                                  ^^^ meta.annotation.identifier.scala variable.annotation.scala
+//                                      ^^^^ keyword.declaration.scala
+//                                           ^^^ support.class.scala
 
    extends
 // ^^^^^^^ invalid.keyword.dangling-extends.scala
@@ -2272,7 +2334,7 @@ foo ne bar
 //  ^^ keyword.operator.comparison.scala
 
 :s@/
-//^^ meta.group.scala meta.group.scala support.type.scala
+//^^  support.type.scala
 
 {
   case Foo.Bar =>

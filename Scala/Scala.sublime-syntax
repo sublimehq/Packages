@@ -154,54 +154,51 @@ contexts:
     - match: '(@)({{alphaplainid}})(\.)'
       captures:
         1: meta.annotation.scala punctuation.definition.annotation.scala
-        2: meta.annotation.identifier.scala
+        2: meta.annotation.identifier.scala variable.annotation.namespace.scala
         3: meta.annotation.identifier.scala punctuation.accessor.scala
       push:
         - meta_content_scope: meta.annotation.identifier.scala
         - match: '({{alphaplainid}})(\.)'
           captures:
+            1: variable.annotation.namespace.scala
             2: punctuation.accessor.scala
         - match: '{{alphaplainid}}'
           scope:
             meta.annotation.identifier.scala
             variable.annotation.scala
-          set: annotation-parameters
+          set: annotation-parameter-list
     - match: '(@)({{alphaplainid}})'
       captures:
         1: meta.annotation.scala punctuation.definition.annotation.scala
         2: meta.annotation.identifier.scala variable.annotation.scala
-      push: annotation-parameters
+      push: annotation-parameter-list
 
-  annotation-parameters:
-    - meta_content_scope: meta.annotation.parameters.scala
-    - match: (?=\(\))
-      push:
-      - match: \(
-        scope: punctuation.section.arguments.annotation.begin.scala
-      - match: (?=\))
-        scope: punctuation.section.arguments.annotation.end.scala
-        pop: 1
-    - match: \(
-      scope: punctuation.section.arguments.annotation.begin.scala
-      push:
-        - match: (?=\))
-          scope: punctuation.section.arguments.annotation.end.scala
-          pop: 1
-        - match: ','
-          scope: punctuation.separator.arguments.annotation.scala
-        - include: main
-    - match: \)
-      scope: punctuation.section.arguments.annotation.end.scala
-      pop: 1
+  annotation-parameter-list:
+    - meta_content_scope: meta.annotation.scala
     - match: \[
-      scope: punctuation.section.arguments.annotation.begin.scala
-      push:
-        - match: \]
-          scope: punctuation.section.arguments.annotation.end.scala
-          pop: 1
-        - include: delimited-type-expression
+      scope: punctuation.definition.generic.begin.scala
+      push: inside-annotation-generic
+    - match: \(
+      scope: punctuation.section.group.begin.scala
+      set: inside-annotation-parameter-list
     - match: (?!\s*[(\[])
       pop: 1
+
+  inside-annotation-generic:
+    - meta_scope: meta.generic.scala
+    - match: \]
+      scope: punctuation.definition.generic.end.scala
+      pop: 1
+    - include: delimited-type-expression
+
+  inside-annotation-parameter-list:
+    - meta_scope: meta.annotation.arguments.scala meta.group.scala
+    - match: \)
+      scope: punctuation.section.group.end.scala
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.arguments.scala
+    - include: main
 
 ###[ LAMBDAS ]#################################################################
 
