@@ -3133,7 +3133,6 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-guids
     - include: extended-raw-string-placeholders
-    - include: invalid-string-placeholders
 
   inside-raw-string:
     - meta_include_prototype: false
@@ -3145,7 +3144,6 @@ contexts:
     - include: string-placeholder-escapes
     - include: string-guids
     - include: extended-raw-string-placeholders
-    - include: invalid-string-placeholders
 
   extended-raw-string-placeholders:
     - match: (?=\{\d)

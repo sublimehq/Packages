@@ -25,7 +25,7 @@ string longMessage = """
 ///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
-///                               ^ invalid.illegal.unescaped-placeholder.cs
+///                               ^ - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
 ///        ^^ constant.character.escape.cs
@@ -52,7 +52,7 @@ with five double quotes.
 ///                           ^ punctuation.separator.colon.cs
 ///                            ^^ constant.other.format-spec.cs
 ///                              ^ punctuation.definition.placeholder.end.cs
-///                               ^ invalid.illegal.unescaped-placeholder.cs
+///                               ^ - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
 ///        ^^ constant.character.escape.cs
