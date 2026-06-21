@@ -681,7 +681,7 @@ contexts:
     - match: (?:(async)\s+)?(def)\b
       scope: meta.function.python
       captures:
-        1: keyword.declaration.async.python
+        1: keyword.declaration.function.async.python
         2: keyword.declaration.function.python
       push:
         - function-parameter-list
@@ -1378,7 +1378,7 @@ contexts:
   for-statements:
     - match: (?:(async)\s+)?(for)\b
       captures:
-        1: storage.modifier.async.python
+        1: keyword.control.loop.for.async.python
         2: keyword.control.loop.for.python
       push: for-statement-target-list
 
@@ -1507,7 +1507,7 @@ contexts:
   with-statements:
     - match: (?:(async)\s+)?(with)\b
       captures:
-        1: storage.modifier.async.python
+        1: keyword.control.context.with.async.python
         2: keyword.control.context.with.python
       branch_point: with-statement-tuple
       branch:
@@ -1520,7 +1520,7 @@ contexts:
       scope: punctuation.section.block.begin.python
       pop: 1
     - match: as\b
-      scope: keyword.control.flow.with.as.python
+      scope: keyword.control.context.with.as.python
       push: with-statement-plain-as
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1614,7 +1614,7 @@ contexts:
   for-expressions:
     - match: (?:(async)\s+)?(for)\b
       captures:
-        1: keyword.control.loop.async.python
+        1: keyword.control.loop.for.generator.async.python
         2: keyword.control.loop.for.generator.python
       push: for-expression-target-list
 

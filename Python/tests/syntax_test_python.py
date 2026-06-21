@@ -1340,7 +1340,7 @@ def _():
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
-#   ^^^^^ storage.modifier.async
+#   ^^^^^ keyword.control.loop.for.async
 #         ^^^ keyword.control.loop.for
 #               ^^ keyword.control.loop.in
 #                          ^ punctuation.section.block.begin
@@ -1571,7 +1571,7 @@ def _():
 
     async with context_manager() as c:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python
-#   ^^^^^ storage.modifier.async
+#   ^^^^^ keyword.control.context.with.async
 #         ^^^^ keyword.control.context.with
 #                                ^^ keyword.control.context.with.as
 #                                    ^ punctuation.section.block.begin
@@ -2438,7 +2438,7 @@ def last_type_annotation(
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters - meta.function meta.function
-# <- keyword.declaration.async
+# <- keyword.declaration.function.async
 #     ^^^ keyword.declaration.function.python
 #         ^ entity.name.function
    pass
@@ -3380,7 +3380,7 @@ mydict = { a : b async for b in range(1, 2) }
 #           ^^^ meta.mapping.python
 #              ^ meta.mapping.value.python
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
-#                ^^^^^ storage.modifier.async.python
+#                ^^^^^ keyword.control.loop.for.generator.async.python
 #                      ^^^ keyword.control.loop.for.generator.python
 
 myset = {"key", True, key2, [-1], {}:1}
@@ -3722,8 +3722,10 @@ _ = [m
 #          ^^ keyword.control.loop.in
 #             ^^^ variable.language.this.python
 
+result = [i async]
+
 result = [i async for i in aiter() if i % 2]
-#           ^^^^^ storage.modifier.async
+#           ^^^^^ keyword.control.loop.for.generator.async.python
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.control.flow.await.python
 
