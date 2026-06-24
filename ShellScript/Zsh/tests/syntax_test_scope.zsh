@@ -501,9 +501,9 @@ case $word {
 
     ws-+([0-9]).host.com)
 #   ^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
-#       ^ meta.group.regexp.shell - meta.set
-#        ^^^^^ meta.group.regexp.shell meta.set.regexp.shell
-#             ^ meta.group.regexp.shell - meta.set
+#       ^ meta.group.glob.shell - meta.character-class
+#        ^^^^^ meta.group.glob.shell meta.character-class.glob.shell
+#             ^ meta.group.glob.shell - meta.character-class
 #                       ^ meta.clause.patterns.shell - meta.group - string
 #                        ^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell - meta.clause.patterns
         ;;
@@ -511,44 +511,44 @@ case $word {
 
     ((foo|bar)baz) cmd arg ;|
 #   ^ meta.clause.patterns.shell - meta.string - string
-#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #             ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #                ^ meta.clause.patterns.shell - meta.string - string
 #                 ^ meta.clause.shell
 #                  ^^^^^^^^ meta.clause.body.shell
 #   ^ punctuation.section.patterns.begin.shell
-#    ^ punctuation.section.group.begin.regexp.shell
-#        ^ keyword.operator.alternation.regexp.shell
-#            ^ punctuation.section.group.end.regexp.shell
+#    ^ punctuation.section.group.begin.glob.shell
+#        ^ keyword.operator.alternation.glob.shell
+#            ^ punctuation.section.group.end.glob.shell
 #                ^ punctuation.section.patterns.end.shell
 #                  ^^^ variable.function.shell
 #                      ^^^ meta.string.glob.shell string.unquoted.shell
 #                          ^^ punctuation.terminator.clause.shell
 
     (foo|bar)baz) cmd arg ;&
-#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #            ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #               ^ meta.clause.patterns.shell - meta.string - string
 #                ^ meta.clause.shell
 #                 ^^^^^^^^ meta.clause.body.shell
-#   ^ punctuation.section.group.begin.regexp.shell
-#       ^ keyword.operator.alternation.regexp.shell
-#           ^ punctuation.section.group.end.regexp.shell
+#   ^ punctuation.section.group.begin.glob.shell
+#       ^ keyword.operator.alternation.glob.shell
+#           ^ punctuation.section.group.end.glob.shell
 #               ^ punctuation.section.patterns.end.shell
 #                 ^^^ variable.function.shell
 #                     ^^^ meta.string.glob.shell string.unquoted.shell
 #                         ^^ punctuation.terminator.clause.shell
 
     ( foo | bar ) | baz ) cmd arg ;;
-#   ^^^^^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#   ^^^^^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #                ^^^ meta.clause.patterns.shell - meta.string - string
 #                   ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #                      ^^ meta.clause.patterns.shell - meta.string - string
 #                        ^ meta.clause.shell
 #                         ^^^^^^^^ meta.clause.body.shell
-#   ^ punctuation.section.group.begin.regexp.shell
-#         ^ keyword.operator.alternation.regexp.shell
-#               ^ punctuation.section.group.end.regexp.shell
+#   ^ punctuation.section.group.begin.glob.shell
+#         ^ keyword.operator.alternation.glob.shell
+#               ^ punctuation.section.group.end.glob.shell
 #                 ^ keyword.operator.logical.shell
 #                   ^^^ meta.string.glob.shell string.unquoted.shell
 #                       ^ punctuation.section.patterns.end.shell
@@ -558,14 +558,14 @@ case $word {
 
     ((foo|bar)baz)
 #   ^ meta.clause.patterns.shell - meta.string - string
-#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #             ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #                ^ meta.clause.patterns.shell - meta.string - string
 #                 ^ meta.clause.shell
 #   ^ punctuation.section.patterns.begin.shell
-#    ^ punctuation.section.group.begin.regexp.shell
-#        ^ keyword.operator.alternation.regexp.shell
-#            ^ punctuation.section.group.end.regexp.shell
+#    ^ punctuation.section.group.begin.glob.shell
+#        ^ keyword.operator.alternation.glob.shell
+#            ^ punctuation.section.group.end.glob.shell
 #                ^ punctuation.section.patterns.end.shell
         cmd arg ;;
 #       ^^^^^^^^ meta.clause.body.shell
@@ -574,13 +574,13 @@ case $word {
 #               ^^ punctuation.terminator.clause.shell
 
     (foo|bar)baz)
-#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #            ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #               ^ meta.clause.patterns.shell - meta.string - string
 #                ^ meta.clause.shell
-#   ^ punctuation.section.group.begin.regexp.shell
-#       ^ keyword.operator.alternation.regexp.shell
-#           ^ punctuation.section.group.end.regexp.shell
+#   ^ punctuation.section.group.begin.glob.shell
+#       ^ keyword.operator.alternation.glob.shell
+#           ^ punctuation.section.group.end.glob.shell
 #               ^ punctuation.section.patterns.end.shell
         cmd arg ;;
 #       ^^^^^^^^ meta.clause.body.shell
@@ -933,7 +933,7 @@ EOF
 #                ^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #                ^ variable.language.tilde.shell
 #                  ^^ constant.other.wildcard.asterisk.shell
-#                     ^^^^ meta.set.regexp.shell
+#                     ^^^^ meta.character-class.glob.shell
 #                           ^ constant.other.wildcard.questionmark.shell
 
 : <<< "word --opt ~/**/[Ff]oo?.bar"
@@ -1467,7 +1467,7 @@ ${foo/b([a-z]r|buuz)/baz)}() { : }
 #^ punctuation.section.interpolation.begin.shell
 # ^^^ variable.other.readwrite.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#     ^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ keyword.operator.substitution.shell
 #                    ^^^^ meta.string.shell string.unquoted.shell
 #                        ^ punctuation.section.interpolation.end.shell
@@ -1599,7 +1599,7 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 #            ^^^^^^^^^^ string.unquoted.shell
 #             ^ constant.other.wildcard.asterisk.shell
 #               ^ constant.other.wildcard.asterisk.shell
-#                ^ keyword.operator.logical.regexp.shell.zsh
+#                ^ keyword.operator.logical.glob.shell.zsh
 #                 ^ constant.other.wildcard.asterisk.shell
 #                      ^^^^^^^^ meta.modifier.glob.shell.zsh
 #                      ^^ punctuation.definition.modifier.begin.shell.zsh
@@ -2409,11 +2409,11 @@ ip=10.10.20.14
 #  ^ punctuation.definition.variable.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^^^^^ meta.set.regexp.shell
-#                 ^ punctuation.definition.set.begin.regexp.shell
-#                  ^^^ constant.other.range.regexp.shell
-#                   ^ punctuation.separator.sequence.regexp.shell
-#                     ^ punctuation.definition.set.end.regexp.shell
+#                 ^^^^^ meta.character-class.glob.shell
+#                 ^ punctuation.definition.character-class.begin.glob.shell
+#                  ^^^ constant.other.range.glob.shell
+#                   ^ punctuation.separator.sequence.glob.shell
+#                     ^ punctuation.definition.character-class.end.glob.shell
 #                      ^ constant.other.wildcard.questionmark.shell
 #                             ^^ punctuation.section.compound.end.shell
 
@@ -2468,11 +2468,11 @@ ip=10.10.20.14
 #  ^ punctuation.definition.variable.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
-#                 ^^^^^ meta.set.regexp.shell
-#                 ^ punctuation.definition.set.begin.regexp.shell
+#                 ^^^^^ meta.character-class.regexp.shell
+#                 ^ punctuation.definition.character-class.begin.regexp.shell
 #                  ^^^ constant.other.range.regexp.shell
 #                   ^ punctuation.separator.sequence.regexp.shell
-#                     ^ punctuation.definition.set.end.regexp.shell
+#                     ^ punctuation.definition.character-class.end.regexp.shell
 #                      ^ keyword.operator.quantifier.regexp.shell
 #                          ^ invalid.illegal.stray.shell - meta.string - string
 #                            ^^ punctuation.section.compound.end.shell
@@ -2558,9 +2558,9 @@ ip=10.10.20.14
 ###############################################################################
 
 : /(:v) # not a valid modifier, fallback to normal regexp group
-#  ^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#     ^ punctuation.section.group.end.regexp.shell
+#  ^^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#     ^ punctuation.section.group.end.glob.shell
 
 : /(:a) # Turn a file name into an absolute path
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
@@ -2648,9 +2648,9 @@ ip=10.10.20.14
 #                    ^ - meta.string - meta.modifier
 #    ^^ support.function.substitution.shell.zsh
 #      ^ keyword.operator.substitution.shell.zsh - string
-#       ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#       ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #              ^ keyword.operator.substitution.shell.zsh
-#               ^^^^ meta.string.regexp.shell string.unquoted.shell
+#               ^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ punctuation.definition.modifier.end.shell.zsh
 #                     ^ meta.string.glob.shell - meta.modifier
 #                      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
@@ -2659,9 +2659,9 @@ ip=10.10.20.14
 #                                         ^ - meta.string - meta.modifier
 #                        ^^ support.function.substitution.shell.zsh
 #                          ^^ keyword.operator.substitution.shell.zsh - string
-#                            ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                            ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                   ^ keyword.operator.substitution.shell.zsh
-#                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                    ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                       ^ variable.language.reference.shell.zsh
 #                                        ^ punctuation.definition.modifier.end.shell.zsh
 #                                          ^ meta.string.glob.shell - meta.modifier
@@ -2671,9 +2671,9 @@ ip=10.10.20.14
 #                                                                ^ - meta.string - meta.modifier
 #                                             ^^ support.function.substitution.shell.zsh
 #                                               ^^^ keyword.operator.substitution.shell.zsh - string
-#                                                  ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                  ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                         ^^ keyword.operator.substitution.shell.zsh
-#                                                           ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                           ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                               ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:s/pa*t?rn/repl) /(:s:pattern:repl) /(:s;pattern;repl;:G)
@@ -2684,9 +2684,9 @@ ip=10.10.20.14
 #                   ^ - meta.string - meta.modifier
 #    ^ support.function.substitution.shell.zsh
 #     ^ keyword.operator.substitution.shell.zsh - string
-#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#      ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ keyword.operator.substitution.shell.zsh
-#              ^^^^ meta.string.regexp.shell string.unquoted.shell
+#              ^^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^ punctuation.definition.modifier.end.shell.zsh
 #                    ^ meta.string.glob.shell - meta.modifier
 #                     ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
@@ -2695,9 +2695,9 @@ ip=10.10.20.14
 #                                      ^ - meta.string - meta.modifier
 #                       ^ support.function.substitution.shell.zsh
 #                        ^ keyword.operator.substitution.shell.zsh - string
-#                         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                         ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                ^ keyword.operator.substitution.shell.zsh
-#                                 ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                 ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                     ^ punctuation.definition.modifier.end.shell.zsh
 #                                       ^ meta.string.glob.shell - meta.modifier
 #                                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
@@ -2706,12 +2706,12 @@ ip=10.10.20.14
 #                                                            ^ - meta.string - meta.modifier
 #                                          ^ support.function.substitution.shell.zsh
 #                                           ^ keyword.operator.substitution.shell.zsh - string
-#                                            ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                            ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                   ^ keyword.operator.substitution.shell.zsh
-#                                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                    ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                        ^ keyword.operator.substitution.shell.zsh
 #                                                         ^ punctuation.separator.modifier.shell.zsh
-#                                                          ^ constant.other.flag.regexp.shell.zsh
+#                                                          ^ constant.other.flag.glob.shell.zsh
 #                                                           ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:s(pattern)repl)
@@ -3029,7 +3029,7 @@ ip=10.10.20.14
 #       ^^^^ meta.substitution.shell.zsh
 #       ^ support.function.substitution.shell.zsh
 #        ^ keyword.operator.substitution.shell.zsh
-#         ^^^^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #             ^ punctuation.section.interpolation.end.shell
 
 : ${var:s/\\/\\\\}  # substitution without optional trailing `/`
@@ -3041,7 +3041,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^ meta.substitution.shell.zsh
 #       ^ support.function.substitution.shell.zsh
 #        ^ keyword.operator.substitution.shell.zsh
-#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ constant.character.escape.shell
 #           ^ keyword.operator.substitution.shell.zsh
 #            ^^^^ constant.character.escape.shell
@@ -3056,7 +3056,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^ support.function.substitution.shell.zsh
 #        ^ keyword.operator.substitution.shell.zsh
-#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ constant.character.escape.shell
 #           ^ keyword.operator.substitution.shell.zsh
 #            ^^^^ constant.character.escape.shell
@@ -3072,36 +3072,36 @@ ip=10.10.20.14
 #       ^^^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^ support.function.substitution.shell.zsh
 #        ^ keyword.operator.substitution.shell.zsh
-#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ constant.character.escape.shell
 #           ^ keyword.operator.substitution.shell.zsh
 #            ^^^^ constant.character.escape.shell
 #                ^ keyword.operator.substitution.shell.zsh
 #                 ^ punctuation.separator.modifier.shell.zsh
-#                  ^ constant.other.flag.regexp.shell.zsh
+#                  ^ constant.other.flag.glob.shell.zsh
 #                   ^ punctuation.section.interpolation.end.shell
 
 : ${var:s/\\/\\
 \}/:G} # substitution with flag
-# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #^^^^^ meta.interpolation.parameter.shell
 #^^^^ meta.substitution.shell.zsh
-#^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 # ^ keyword.operator.substitution.shell.zsh
 #  ^ punctuation.separator.modifier.shell.zsh
-#   ^ constant.other.flag.regexp.shell.zsh
+#   ^ constant.other.flag.glob.shell.zsh
 #    ^ punctuation.section.interpolation.end.shell
 
 : ${var:s/\\/\\\
 #              ^ punctuation.separator.continuation.line.shell
 \}/:G} # substitution with flag
-# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #^^^^^ meta.interpolation.parameter.shell
 #^^^^ meta.substitution.shell.zsh
-#^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 # ^ keyword.operator.substitution.shell.zsh
 #  ^ punctuation.separator.modifier.shell.zsh
-#   ^ constant.other.flag.regexp.shell.zsh
+#   ^ constant.other.flag.glob.shell.zsh
 #    ^ punctuation.section.interpolation.end.shell
 
 : ${var:gs/\//\/\/}  # alternative representation of global flag
@@ -3113,7 +3113,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^^ support.function.substitution.shell.zsh
 #         ^ keyword.operator.substitution.shell.zsh
-#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^ constant.character.escape.shell
 #            ^ keyword.operator.substitution.shell.zsh
 #             ^^^^ constant.character.escape.shell
@@ -3128,7 +3128,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^^ support.function.substitution.shell.zsh
 #         ^ keyword.operator.substitution.shell.zsh
-#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^ constant.character.escape.shell
 #            ^ keyword.operator.substitution.shell.zsh
 #             ^^^^ constant.character.escape.shell
@@ -3143,7 +3143,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^^ support.function.substitution.shell.zsh
 #         ^ keyword.operator.substitution.shell.zsh
-#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^ constant.character.escape.shell
 #            ^ keyword.operator.substitution.shell.zsh
 #             ^^^^ constant.character.escape.shell
@@ -3158,7 +3158,7 @@ ip=10.10.20.14
 #       ^^^^^^^^^^ meta.substitution.shell.zsh
 #       ^^ support.function.substitution.shell.zsh
 #         ^ keyword.operator.substitution.shell.zsh
-#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^ constant.character.escape.shell
 #            ^ keyword.operator.substitution.shell.zsh
 #             ^^^^ constant.character.escape.shell
@@ -3173,7 +3173,7 @@ ip=10.10.20.14
 #       ^^^^^^ meta.substitution.shell.zsh
 #       ^ support.function.substitution.shell.zsh
 #        ^^ keyword.operator.substitution.shell.zsh
-#          ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ keyword.operator.substitution.shell.zsh
 #             ^ punctuation.section.interpolation.end.shell
 
@@ -4647,7 +4647,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^ meta.string.regexp.shell
+#       ^^^ meta.string.glob.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var##pat}    # max match of pat removed from head
@@ -4656,7 +4656,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^ meta.string.regexp.shell
+#        ^^^ meta.string.glob.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var%pat}     # min match of pat removed from tail
@@ -4665,7 +4665,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^ meta.string.regexp.shell
+#       ^^^ meta.string.glob.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var%%pat}    # max match of pat removed from tail
@@ -4674,7 +4674,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^ meta.string.regexp.shell
+#        ^^^ meta.string.glob.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var^pat}    # upper case all chars matching `pat`
@@ -4683,7 +4683,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var^^pat}   # upper case all chars matching `pat`
@@ -4692,7 +4692,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var,pat}    # lower case all chars matching `pat`
@@ -4701,7 +4701,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var,,pat}   # lower case all chars matching `pat`
@@ -4710,7 +4710,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var~pat}    # toggle case all chars matching `pat` (Bash only)
@@ -4719,7 +4719,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ invalid.illegal.unexpacted-token.shell
-#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var~~pat}   # toggle case all chars matching `pat` (Bash only)
@@ -4728,7 +4728,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ invalid.illegal.unexpacted-token.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var:#pat}    # $var unless pat matches, then empty
@@ -4782,7 +4782,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^ meta.string.regexp.shell string.unquoted.shell
+#       ^ meta.string.glob.shell string.unquoted.shell
 #        ^ keyword.operator.substitution.shell
 #         ^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
@@ -4793,7 +4793,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^ meta.string.regexp.shell string.unquoted.shell
+#        ^ meta.string.glob.shell string.unquoted.shell
 #         ^ keyword.operator.substitution.shell
 #          ^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
@@ -4804,7 +4804,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^ meta.string.regexp.shell string.unquoted.shell
+#        ^ meta.string.glob.shell string.unquoted.shell
 #         ^ keyword.operator.substitution.shell
 #          ^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
@@ -4819,10 +4819,10 @@ ip=10.10.20.14
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.expansion.shell
-#         ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 #           ^ keyword.operator.expansion.shell
-#            ^ meta.string.regexp.shell string.unquoted.shell
+#            ^ meta.string.glob.shell string.unquoted.shell
 #             ^ punctuation.section.interpolation.end.shell
 
 : ${${var%{p}}#{q}}  # Ensure balanced braces (ZSH only)
@@ -4836,10 +4836,10 @@ ip=10.10.20.14
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.expansion.shell
-#         ^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ keyword.operator.expansion.shell
-#              ^^^ meta.string.regexp.shell string.unquoted.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.interpolation.end.shell
 
 
@@ -4852,7 +4852,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4864,7 +4864,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4876,7 +4876,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4888,7 +4888,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4900,7 +4900,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4912,7 +4912,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4924,7 +4924,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4936,7 +4936,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^ keyword.operator.substitution.shell
-#     ^^^ meta.string.regexp.shell
+#     ^^^ meta.string.glob.shell
 #        ^ keyword.operator.substitution.shell
 #         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
@@ -4948,7 +4948,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^^^ meta.string.regexp.shell
+#       ^^^ meta.string.glob.shell
 #          ^ keyword.operator.substitution.shell
 #           ^^^ meta.string.glob.shell string.unquoted.shell
 #              ^ punctuation.section.interpolation.end.shell
@@ -4961,7 +4961,7 @@ ip=10.10.20.14
 #   ^^^ variable.other.readwrite.shell
 #      ^ variable.language.special.shell
 #       ^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell
+#        ^^^ meta.string.glob.shell
 #           ^ keyword.operator.substitution.shell
 #            ^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ punctuation.section.interpolation.end.shell
@@ -4974,7 +4974,7 @@ ip=10.10.20.14
 #   ^^^ variable.other.readwrite.shell
 #      ^ variable.language.special.shell
 #       ^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell
+#        ^^^ meta.string.glob.shell
 #           ^ keyword.operator.substitution.shell
 #            ^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ punctuation.section.interpolation.end.shell
@@ -4989,7 +4989,7 @@ ip=10.10.20.14
 #       ^ variable.language.array.shell
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.substitution.shell
-#          ^^^ meta.string.regexp.shell
+#          ^^^ meta.string.glob.shell
 #             ^ keyword.operator.substitution.shell
 #              ^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.interpolation.end.shell
@@ -5004,7 +5004,7 @@ ip=10.10.20.14
 #       ^ variable.language.array.shell
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.substitution.shell
-#          ^^^ meta.string.regexp.shell
+#          ^^^ meta.string.glob.shell
 #             ^ keyword.operator.substitution.shell
 #              ^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.interpolation.end.shell
@@ -5065,7 +5065,7 @@ ip=10.10.20.14
 #  ^ punctuation.section.interpolation.begin.shell
 #           ^ - meta.interpolation
 #      ^^ keyword.operator.substitution.shell
-#        ^ keyword.operator.quantifier.regexp.shell.zsh
+#        ^ keyword.operator.quantifier.glob.shell.zsh
 #         ^ keyword.operator.substitution.shell
 #          ^ punctuation.section.interpolation.end.shell
 
@@ -5142,8 +5142,8 @@ ip=10.10.20.14
 
 : ${foo//\
 a\/b/c/d}
-# <- meta.interpolation.parameter.shell meta.string.regexp.shell
-#^^^ meta.interpolation.parameter.shell meta.string.regexp.shell
+# <- meta.interpolation.parameter.shell meta.string.glob.shell
+#^^^ meta.interpolation.parameter.shell meta.string.glob.shell
 #   ^ meta.interpolation.parameter.shell - meta.interpolation.parameter.shell meta.string
 #    ^^^ meta.interpolation.parameter.shell meta.string.shell
 #       ^ meta.interpolation.parameter.shell - meta.interpolation.parameter.shell meta.string
@@ -5182,7 +5182,7 @@ a\/b/c/d}
 
 : ${foo//:/[}]
 # ^^^^^^^^^^^ meta.interpolation.parameter.shell
-#          ^^^ - meta.string.regexp - meta.set
+#          ^^^ - meta.string.regexp - meta.character-class
 #            ^ - meta.interpolation
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
@@ -5199,7 +5199,7 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #         ^ keyword.operator.substitution.shell
-#          ^^^^ - meta.string.regexp - meta.set - punctuation
+#          ^^^^ - meta.string.regexp - meta.character-class - punctuation
 #           ^^ constant.character.escape.shell
 #              ^ punctuation.section.interpolation.end.shell
 
@@ -5211,7 +5211,7 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #         ^ keyword.operator.substitution.shell
-#          ^^^^^^ - meta.string.regexp - meta.set - punctuation
+#          ^^^^^^ - meta.string.regexp - meta.character-class - punctuation
 #            ^^ constant.character.escape.shell
 #                ^ punctuation.section.interpolation.end.shell
 
@@ -5222,14 +5222,14 @@ a\/b/c/d}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ - meta.set - punctuation
+#        ^^^ - meta.character-class - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^ constant.character.escape.shell
 #              ^ punctuation.section.interpolation.end.shell
 
 : ${foo//+([a-:/\}} # incomplete charset in incomplete group
 # ^^^^^^^^ meta.interpolation.parameter.shell - meta.group
-#         ^^^^^^^^ meta.interpolation.parameter.shell meta.group.regexp.shell
+#         ^^^^^^^^ meta.interpolation.parameter.shell meta.group.glob.shell
 #                 ^ meta.interpolation.parameter.shell - meta.group
 #                  ^ - meta.interpolation
 # ^ punctuation.definition.variable.shell
@@ -5237,14 +5237,14 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^ - keyword.operator
-#         ^ punctuation.section.group.begin.regexp.shell
+#         ^ punctuation.section.group.begin.glob.shell
 #          ^^^^^ - constant - punctuation
 #               ^^ constant.character.escape.shell
 #                 ^ punctuation.section.interpolation.end.shell
 
 : ${foo//+([a|&)/\}} # incomplete charset in group
 # ^^^^^^^^ meta.interpolation.parameter.shell - meta.group
-#         ^^^^^^ meta.interpolation.parameter.shell meta.group.regexp.shell
+#         ^^^^^^ meta.interpolation.parameter.shell meta.group.glob.shell
 #               ^^^^ meta.interpolation.parameter.shell - meta.group
 #                   ^ - meta.interpolation
 # ^ punctuation.definition.variable.shell
@@ -5252,29 +5252,29 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^ - keyword.operator
-#         ^ punctuation.section.group.begin.regexp.shell
+#         ^ punctuation.section.group.begin.glob.shell
 #          ^^^^ - constant - punctuation
-#            ^ keyword.operator.alternation.regexp.shell
-#              ^ punctuation.section.group.end.regexp.shell
+#            ^ keyword.operator.alternation.glob.shell
+#              ^ punctuation.section.group.end.glob.shell
 #               ^ keyword.operator.substitution.shell
 #                ^^ constant.character.escape.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
 : ${foo//[abc[]/x}  # `[` has no meaning within charsets
-# ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.set
-#        ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
-#              ^^^ meta.interpolation.parameter.shell - meta.string meta.set
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.character-class
+#        ^^^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.character-class.glob.shell
+#              ^^^ meta.interpolation.parameter.shell - meta.string meta.character-class
 #      ^^ keyword.operator.substitution.shell
-#        ^ punctuation.definition.set.begin.regexp.shell
+#        ^ punctuation.definition.character-class.begin.glob.shell
 #            ^ - keyword - punctuation
-#             ^ punctuation.definition.set.end.regexp.shell
+#             ^ punctuation.definition.character-class.end.glob.shell
 #              ^ keyword.operator.substitution.shell
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${var//f|o/b|ar}  # `|` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
+#        ^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
@@ -5282,7 +5282,7 @@ a\/b/c/d}
 : ${var//f&o/b&ar}  # `&` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
+#        ^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
@@ -5290,7 +5290,7 @@ a\/b/c/d}
 : ${var//f>o/b>ar}  # `>` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
+#        ^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
@@ -5298,7 +5298,7 @@ a\/b/c/d}
 : ${var//f<o/b<ar}  # `<` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
+#        ^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
@@ -5306,24 +5306,24 @@ a\/b/c/d}
 : ${var//f;o/b;ar}  # `;` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
-#        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
+#        ^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${foo/{{\}[a-z]}({b[a-z]} | ({{([0-9])}}))}/[]]{{\}}}}  # advanced brace balancing in patterns (ZSH only)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ constant.character.escape.shell
-#           ^^^^^ meta.set.regexp.shell
-#                 ^^^^^^^^^^^^ meta.group.regexp.shell - meta.group meta.group
-#                    ^^^^^ meta.set.regexp.shell
-#                           ^ keyword.operator.alternation.regexp.shell
-#                             ^^^ meta.group.regexp.shell meta.group.regexp.shell - meta.group meta.group meta.group
-#                                ^^^^^^^ meta.group.regexp.shell meta.group.regexp.shell meta.group.regexp.shell
-#                                 ^^^^^ meta.set.regexp.shell
-#                                       ^^^ meta.group.regexp.shell meta.group.regexp.shell - meta.group meta.group meta.group
-#                                          ^ meta.group.regexp.shell - meta.group meta.group
+#           ^^^^^ meta.character-class.glob.shell
+#                 ^^^^^^^^^^^^ meta.group.glob.shell - meta.group meta.group
+#                    ^^^^^ meta.character-class.glob.shell
+#                           ^ keyword.operator.alternation.glob.shell
+#                             ^^^ meta.group.glob.shell meta.group.glob.shell - meta.group meta.group meta.group
+#                                ^^^^^^^ meta.group.glob.shell meta.group.glob.shell meta.group.glob.shell
+#                                 ^^^^^ meta.character-class.glob.shell
+#                                       ^^^ meta.group.glob.shell meta.group.glob.shell - meta.group meta.group meta.group
+#                                          ^ meta.group.glob.shell - meta.group meta.group
 #                                            ^ keyword.operator.substitution.shell
 #                                             ^^^^^^^^^ meta.string.shell string.unquoted.shell
 #                                                      ^ punctuation.section.interpolation.end.shell
@@ -5336,7 +5336,7 @@ a\/b/c/d}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^ meta.string.regexp.shell variable.language.tilde.shell
+#       ^ meta.string.glob.shell variable.language.tilde.shell
 #        ^ keyword.operator.substitution.shell
 #         ^ punctuation.section.interpolation.end.shell
 
@@ -5356,7 +5356,7 @@ a\/b/c/d}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^^^^^^^ meta.string.regexp.shell
+#       ^^^^^^^ meta.string.glob.shell
 #       ^ meta.interpolation.tilde.shell variable.language.tilde.shell
 #        ^^ constant.character.escape.shell - meta.interpolation.tilde
 #          ^^ constant.other.wildcard.asterisk.shell
@@ -5371,7 +5371,7 @@ a\/b/c/d}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^^ meta.string.regexp.shell variable.language.tilde.shell
+#       ^^ meta.string.glob.shell variable.language.tilde.shell
 #         ^ keyword.operator.substitution.shell
 #          ^ punctuation.section.interpolation.end.shell
 
@@ -5381,7 +5381,7 @@ a\/b/c/d}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substitution.shell
-#       ^^^^^ meta.string.regexp.shell meta.interpolation.tilde.shell
+#       ^^^^^ meta.string.glob.shell meta.interpolation.tilde.shell
 #       ^ variable.language.tilde.shell
 #        ^^^^ meta.string.glob.shell constant.other.username.shell
 #            ^ keyword.operator.substitution.shell
@@ -5637,7 +5637,7 @@ stash) || true)
 #   ^ punctuation.separator.sequence.shell
 #    ^ meta.string.glob.shell string.unquoted.shell
 #     ^ punctuation.separator.sequence.shell
-#      ^ keyword.operator.logical.regexp.shell
+#      ^ keyword.operator.logical.glob.shell
 #       ^ punctuation.separator.sequence.shell
 #        ^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation - variable
 #         ^ punctuation.separator.sequence.shell
@@ -6167,124 +6167,124 @@ cat =( <<< foo )
 # ^ constant.other.wildcard.questionmark.shell
 
 : [[:alnum:]] # The character is alphanumeric
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:alpha:]] # The character is alphabetic
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:ascii:]] # The character is 7-bit, i.e. is a single-byte character without the top bit set.
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:blank:]] # The character is a blank character
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:cntrl:]] # The character is a control character
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:digit:]] # The character is a decimal digit
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:graph:]] # The character is a printable character other than whitespace
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:lower:]] # The character is a lowercase letter
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:print:]] # The character is printable
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:punct:]] # The character is printable but neither alphanumeric nor whitespace
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:space:]] # The character is whitespace
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:upper:]] # The character is an uppercase letter
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:xdigit:]] # The character is a hexadecimal digit
-# ^^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^^ constant.other.posix-class.regexp.shell
-#           ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^^ constant.other.character-class.posix.glob.shell
+#          ^^^ punctuation.definition.character-class.end.glob.shell
 
 # Another set of named classes is handled internally by the shell and is not sensitive to the locale:
 
 : [[:IDENT:]] # The character is allowed to form part of a shell identifier, such as a parameter name.
-# ^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^ constant.other.posix-class.regexp.shell
-#          ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^ constant.other.character-class.posix.glob.shell
+#         ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:IFS:]] # The character is used as an input field separator, i.e. is contained in the IFS parameter
-# ^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^ constant.other.posix-class.regexp.shell
-#        ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^ constant.other.character-class.posix.glob.shell
+#       ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:IFSSPACE:]] # The character is an IFS white space character.
-# ^^^^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^^^^ constant.other.posix-class.regexp.shell
-#             ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^^^^ constant.other.character-class.posix.glob.shell
+#            ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:INCOMPLETE:]] # Matches a byte that starts an incomplete multibyte character.
-# ^^^^^^^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^^^^^^^ constant.other.posix-class.regexp.shell
-#               ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^^^^^^^ constant.other.character-class.posix.glob.shell
+#              ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [[:WORD:]] # The character is treated as part of a word.
-# ^^^^^^^^^^ meta.set.regexp.shell
-# ^^ punctuation.definition.set.begin.regexp.shell
-#   ^^^^^^ constant.other.posix-class.regexp.shell
-#         ^^ punctuation.definition.set.end.regexp.shell
+# ^^^^^^^^^^ meta.character-class.glob.shell
+# ^^^ punctuation.definition.character-class.begin.glob.shell
+#    ^^^^ constant.other.character-class.posix.glob.shell
+#        ^^^ punctuation.definition.character-class.end.glob.shell
 
 : [^.][!\ ] # Like [...], except that it matches any character which is not in the given set.
-# ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell meta.set.regexp.shell
-# ^ punctuation.definition.set.begin.regexp.shell
-#  ^ keyword.operator.logical.regexp.shell
-#    ^ punctuation.definition.set.end.regexp.shell
-#     ^ punctuation.definition.set.begin.regexp.shell
-#      ^ keyword.operator.logical.regexp.shell
+# ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell meta.character-class.glob.shell
+# ^ punctuation.definition.character-class.begin.glob.shell
+#  ^ keyword.operator.logical.glob.shell
+#    ^ punctuation.definition.character-class.end.glob.shell
+#     ^ punctuation.definition.character-class.begin.glob.shell
+#      ^ keyword.operator.logical.glob.shell
 #       ^^ constant.character.escape.shell
-#         ^ punctuation.definition.set.end.regexp.shell
+#         ^ punctuation.definition.character-class.end.glob.shell
 
 ## Zsh Glob Ranges
 
@@ -6339,7 +6339,7 @@ cat =( <<< foo )
 : <${start##<1-5>0<1-}->  # optional glob range in default values, with `<` treated literal
 # ^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #  ^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
-#           ^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh - string
+#           ^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.glob.shell meta.range.shell.zsh - string
 #                ^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #                 ^ - keyword - punctuation
 #                     ^^ meta.range.shell.zsh
@@ -6348,9 +6348,9 @@ cat =( <<< foo )
 : <-${start/f<o<1-$end>o>bar/b<a>z}>  # optional glob range in replacements, with `<` treated literal
 # ^^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #   ^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
-#              ^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh - string
+#              ^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.glob.shell meta.range.shell.zsh - string
 #                 ^^^^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
-#                     ^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh - string
+#                     ^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.string.glob.shell meta.range.shell.zsh - string
 #                      ^^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #                                  ^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #                                    ^ - meta.range
@@ -6394,9 +6394,9 @@ cat =( <<< foo )
 #                        ^ meta.redirection.shell meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 
 : (<1-5>foo|bar<1-)<1-5>  # glob ranges in pattern groups
-# ^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
-#  ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.range.shell.zsh - string
-#       ^^^^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.range
+# ^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell punctuation.section.group.begin.glob.shell
+#  ^^^^^ meta.string.glob.shell meta.group.glob.shell meta.range.shell.zsh - string
+#       ^^^^^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell - meta.range
 #              ^^^ meta.redirection.shell
 #                 ^ invalid.illegal.stray.shell
 #                  ^^^^^ meta.string.glob.shell meta.range.shell.zsh - string
@@ -6437,14 +6437,14 @@ a=(<1-2>foo [foo]=<3-4>bar [buz]=s(<5-6>uf) <10-foo ^~<err>or)  # glob ranges wi
 #                         ^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string
 #                          ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
 #                                ^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell - meta.group
-#                                 ^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.regexp.shell - meta.range
-#                                  ^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.regexp.shell meta.range.shell.zsh - string
-#                                       ^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.regexp.shell - meta.range
+#                                 ^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.glob.shell - meta.range
+#                                  ^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.glob.shell meta.range.shell.zsh - string
+#                                       ^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell meta.group.glob.shell - meta.range
 #                                          ^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string
 #                                           ^ meta.assignment.r-value.shell meta.sequence.list.shell invalid.illegal.unexpected-token.shell.zsh
 #                                            ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
 #                                                   ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell
-#                                                   ^ keyword.operator.logical.regexp.shell.zsh
+#                                                   ^ keyword.operator.logical.glob.shell.zsh
 #                                                    ^ variable.language.tilde.shell
 #                                                     ^ invalid.illegal.unexpected-token.shell.zsh
 #                                                      ^^^ string.unquoted.shell
@@ -6462,7 +6462,7 @@ declare -A a=(key <1-2>value key <1-2ill key ^~<err>or)  # glob ranges within as
 #                                 ^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                        ^^^ entity.name.key.shell
 #                                            ^^^^^^ meta.string.glob.shell
-#                                            ^ keyword.operator.logical.regexp.shell.zsh
+#                                            ^ keyword.operator.logical.glob.shell.zsh
 #                                             ^ variable.language.tilde.shell
 #                                              ^ invalid.illegal.unexpected-token.shell.zsh
 #                                               ^^^ string.unquoted.shell
@@ -6487,9 +6487,9 @@ case $foo in
 #                           ^^ meta.string.glob.shell string.unquoted.shell
 
   (<1-2>|<-) | foo<1-2> | <- ) ;;
-# ^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell - meta.range
-#  ^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell meta.range.shell.zsh
-#       ^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell - meta.range
+# ^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell - meta.range
+#  ^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell meta.range.shell.zsh
+#       ^ meta.clause.patterns.shell meta.string.glob.shell meta.group.glob.shell - meta.range
 #        ^^ meta.clause.patterns.shell meta.string.glob.shell - meta.group
 #          ^ meta.clause.patterns.shell - meta.string
 #           ^ meta.clause.shell - meta.clause.patterns
@@ -6644,25 +6644,25 @@ esac
 
 : foo/(a*/)#bar               # bar matches foo/bar, foo/any/bar, foo/any/anyother/bar, ...
 # ^^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#     ^^^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #          ^^^^ meta.string.glob.shell string.unquoted.shell
-#     ^ punctuation.section.group.begin.regexp.shell
+#     ^ punctuation.section.group.begin.glob.shell
 #       ^ constant.other.wildcard.asterisk.shell
-#         ^ punctuation.section.group.end.regexp.shell
-#          ^  keyword.operator.quantifier.regexp.shell.zsh
+#         ^ punctuation.section.group.end.glob.shell
+#          ^  keyword.operator.quantifier.glob.shell.zsh
 
 : (foo|bar)|baz
-# ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
-# ^ punctuation.section.group.begin.regexp.shell
-#     ^ keyword.operator.alternation.regexp.shell
-#         ^ punctuation.section.group.end.regexp.shell
+# ^^^^^^^^^ meta.group.glob.shell string.unquoted.shell
+# ^ punctuation.section.group.begin.glob.shell
+#     ^ keyword.operator.alternation.glob.shell
+#         ^ punctuation.section.group.end.glob.shell
 #          ^ keyword.operator.assignment.pipe.shell
 #           ^^^ variable.function.shell
 
 : (foo&bar)|baz  # `&` terminates group and command arguments
-# ^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^^^^ meta.group.glob.shell string.unquoted.shell
 #     ^^^^^^^^^^ - meta.group
-# ^ punctuation.section.group.begin.regexp.shell
+# ^ punctuation.section.group.begin.glob.shell
 #     ^ keyword.operator.assignment.pipe.shell
 #      ^^^ variable.function.shell
 #         ^ invalid.illegal.stray.shell
@@ -6670,9 +6670,9 @@ esac
 #           ^^^ variable.function.shell
 
 : (foo;bar)|baz  # `;` terminates group and command arguments
-# ^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^^^^ meta.group.glob.shell string.unquoted.shell
 #     ^^^^^^^^^^ - meta.group
-# ^ punctuation.section.group.begin.regexp.shell
+# ^ punctuation.section.group.begin.glob.shell
 #     ^ punctuation.terminator.statement.shell
 #      ^^^ variable.function.shell
 #         ^ invalid.illegal.stray.shell
@@ -6680,10 +6680,10 @@ esac
 #           ^^^ variable.function.shell
 
 : (foo>bar)|baz  # `>` terminates group and command arguments
-# ^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^^^^ meta.group.glob.shell string.unquoted.shell
 #     ^^^^ meta.redirection.shell - meta.group
 #         ^^^^^^ - meta.group - meta.redirection
-# ^ punctuation.section.group.begin.regexp.shell
+# ^ punctuation.section.group.begin.glob.shell
 #     ^ keyword.operator.assignment.redirection.shell
 #      ^^^ string.unquoted.shell
 #         ^ invalid.illegal.stray.shell
@@ -6691,10 +6691,10 @@ esac
 #           ^^^ variable.function.shell
 
 : (foo<bar)|baz  # `<` terminates group and command arguments
-# ^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^^^^ meta.group.glob.shell string.unquoted.shell
 #     ^^^^ meta.redirection.shell - meta.group
 #         ^^^^^^ - meta.group - meta.redirection
-# ^ punctuation.section.group.begin.regexp.shell
+# ^ punctuation.section.group.begin.glob.shell
 #     ^ keyword.operator.assignment.redirection.shell
 #      ^^^ string.unquoted.shell
 #         ^ invalid.illegal.stray.shell
@@ -6707,22 +6707,22 @@ esac
 #          ^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
 #                  ^ - meta
 # ^^^^^^^^ variable.function.shell
-# ^ keyword.operator.logical.regexp.shell.zsh
+# ^ keyword.operator.logical.glob.shell.zsh
 #     ^ punctuation.separator.path.shell
 #          ^^^^^^^^ string.unquoted.shell
-#          ^ keyword.operator.logical.regexp.shell.zsh
+#          ^ keyword.operator.logical.glob.shell.zsh
 
   ^~/foo/bar ^~/foo/bar      # Matches anything except the pattern x
 # ^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #           ^ meta.function-call.arguments.shell - variable - string
 #            ^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
 #                      ^ - meta
-# ^ keyword.operator.logical.regexp.shell.zsh
+# ^ keyword.operator.logical.glob.shell.zsh
 #  ^ variable.language.tilde.shell
 #   ^^^^^^^^ variable.function.shell
 #   ^ punctuation.separator.path.shell
 #       ^ punctuation.separator.path.shell
-#            ^ string.unquoted.shell keyword.operator.logical.regexp.shell.zsh
+#            ^ string.unquoted.shell keyword.operator.logical.glob.shell.zsh
 #             ^ variable.language.tilde.shell
 #              ^^^^^^^^ string.unquoted.shell
 
@@ -6733,10 +6733,10 @@ esac
 #                    ^ - meta
 # ^^^^^^^^^ variable.function.shell
 # ^ punctuation.separator.path.shell
-#     ^ keyword.operator.logical.regexp.shell.zsh
+#     ^ keyword.operator.logical.glob.shell.zsh
 #      ^ punctuation.separator.path.shell
 #           ^^^^^^^^^ string.unquoted.shell
-#               ^ keyword.operator.logical.regexp.shell.zsh
+#               ^ keyword.operator.logical.glob.shell.zsh
 
   ^/foo~^/bar ^/foo~^/bar
 # ^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
@@ -6744,13 +6744,13 @@ esac
 #             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
 #                        ^ - meta
 # ^^^^^^^^^^^ variable.function.shell
-# ^ keyword.operator.logical.regexp.shell.zsh
+# ^ keyword.operator.logical.glob.shell.zsh
 #  ^ punctuation.separator.path.shell
-#      ^^ keyword.operator.logical.regexp.shell.zsh
+#      ^^ keyword.operator.logical.glob.shell.zsh
 #        ^ punctuation.separator.path.shell
 #             ^^^^^^^^^^^ string.unquoted.shell
-#             ^ keyword.operator.logical.regexp.shell.zsh
-#                  ^^ keyword.operator.logical.regexp.shell.zsh
+#             ^ keyword.operator.logical.glob.shell.zsh
+#                  ^^ keyword.operator.logical.glob.shell.zsh
 
   ~/foo~~/bar ~/foo~~/bar
 # ^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
@@ -6760,13 +6760,13 @@ esac
 # ^ variable.language.tilde.shell
 #  ^^^^^ variable.function.shell
 #  ^ punctuation.separator.path.shell
-#      ^ keyword.operator.logical.regexp.shell.zsh
+#      ^ keyword.operator.logical.glob.shell.zsh
 #       ^ variable.language.tilde.shell
 #        ^^^^ variable.function.shell
 #        ^ punctuation.separator.path.shell
 #             ^ variable.language.tilde.shell
 #              ^^^^ string.unquoted.shell
-#                  ^ keyword.operator.logical.regexp.shell.zsh
+#                  ^ keyword.operator.logical.glob.shell.zsh
 #                   ^ variable.language.tilde.shell
 #                    ^^^^ string.unquoted.shell
 
@@ -6778,13 +6778,13 @@ esac
 #  ^ variable.language.tilde.shell
 #   ^^^^ variable.function.shell
 #   ^ punctuation.separator.path.shell
-#       ^^ keyword.operator.logical.regexp.shell.zsh
+#       ^^ keyword.operator.logical.glob.shell.zsh
 #         ^ variable.language.tilde.shell
 #          ^^^^ variable.function.shell
 #          ^ punctuation.separator.path.shell
 #                ^ variable.language.tilde.shell
 #                 ^^^^ string.unquoted.shell
-#                     ^^ keyword.operator.logical.regexp.shell.zsh
+#                     ^^ keyword.operator.logical.glob.shell.zsh
 #                       ^ variable.language.tilde.shell
 #                        ^^^^ string.unquoted.shell
 
@@ -6796,51 +6796,51 @@ esac
 ###############################################################################
 
 : @(___) is (___)    # Match the pattern in the parentheses. (Like ‘(___)’.)
-#  ^^^^^ meta.group.regexp.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#      ^ punctuation.section.group.end.regexp.shell
-#           ^^^^^ meta.group.regexp.shell
-#           ^ punctuation.section.group.begin.regexp.shell
-#               ^ punctuation.section.group.end.regexp.shell
+#  ^^^^^ meta.group.glob.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#      ^ punctuation.section.group.end.glob.shell
+#           ^^^^^ meta.group.glob.shell
+#           ^ punctuation.section.group.begin.glob.shell
+#               ^ punctuation.section.group.end.glob.shell
 
 : *(___) is (___)#   # Match any number of occurrences. (Like ‘(___)#’, except that recursive directory searching is not supported.)
-#  ^^^^^ meta.group.regexp.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#      ^ punctuation.section.group.end.regexp.shell
-#           ^^^^^ meta.group.regexp.shell
-#           ^ punctuation.section.group.begin.regexp.shell
-#               ^ punctuation.section.group.end.regexp.shell
-#                ^ keyword.operator.quantifier.regexp.shell
+#  ^^^^^ meta.group.glob.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#      ^ punctuation.section.group.end.glob.shell
+#           ^^^^^ meta.group.glob.shell
+#           ^ punctuation.section.group.begin.glob.shell
+#               ^ punctuation.section.group.end.glob.shell
+#                ^ keyword.operator.quantifier.glob.shell
 
 : +(___) is (___)##  # Match at least one occurrence. (Like ‘(___)##’, except that recursive directory searching is not supported.)
-#  ^^^^^ meta.group.regexp.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#      ^ punctuation.section.group.end.regexp.shell
-#           ^^^^^ meta.group.regexp.shell
-#           ^ punctuation.section.group.begin.regexp.shell
-#               ^ punctuation.section.group.end.regexp.shell
-#                ^^ keyword.operator.quantifier.regexp.shell
+#  ^^^^^ meta.group.glob.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#      ^ punctuation.section.group.end.glob.shell
+#           ^^^^^ meta.group.glob.shell
+#           ^ punctuation.section.group.begin.glob.shell
+#               ^ punctuation.section.group.end.glob.shell
+#                ^^ keyword.operator.quantifier.glob.shell
 
 : ?(___) is (|___)   # Match zero or one occurrence. (Like ‘(|___)’.)
-#  ^^^^^ meta.group.regexp.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#      ^ punctuation.section.group.end.regexp.shell
-#           ^^^^^^ meta.group.regexp.shell
-#           ^ punctuation.section.group.begin.regexp.shell
-#            ^ keyword.operator.alternation.regexp.shell
-#                ^ punctuation.section.group.end.regexp.shell
+#  ^^^^^ meta.group.glob.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#      ^ punctuation.section.group.end.glob.shell
+#           ^^^^^^ meta.group.glob.shell
+#           ^ punctuation.section.group.begin.glob.shell
+#            ^ keyword.operator.alternation.glob.shell
+#                ^ punctuation.section.group.end.glob.shell
 
 : !(___) is (^(___)) # Match anything but the expression in parentheses. (Like ‘(^(___))’.)
-#  ^^^^^ meta.group.regexp.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#      ^ punctuation.section.group.end.regexp.shell
-#           ^^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
-#           ^ punctuation.section.group.begin.regexp.shell
-#            ^ keyword.operator.logical.regexp.shell
-#             ^^^^^ meta.group.regexp.shell meta.group.regexp.shell
-#             ^ punctuation.section.group.begin.regexp.shell
-#                 ^^ punctuation.section.group.end.regexp.shell
-#                  ^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
+#  ^^^^^ meta.group.glob.shell
+#  ^ punctuation.section.group.begin.glob.shell
+#      ^ punctuation.section.group.end.glob.shell
+#           ^^ meta.group.glob.shell - meta.group.regexp meta.group.regexp
+#           ^ punctuation.section.group.begin.glob.shell
+#            ^ keyword.operator.logical.glob.shell
+#             ^^^^^ meta.group.glob.shell meta.group.glob.shell
+#             ^ punctuation.section.group.begin.glob.shell
+#                 ^^ punctuation.section.group.end.glob.shell
+#                  ^ meta.group.glob.shell - meta.group.regexp meta.group.regexp
 
 
 ###############################################################################
@@ -6984,21 +6984,21 @@ esac
 
 : ${var##(#c$start,$end)pat}    # requires between N and M matches
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
-#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
-#           ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
-#                 ^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
-#                  ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
-#                      ^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
-#                       ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#        ^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#           ^^^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#                 ^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#                  ^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#                      ^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#                       ^^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 #                          ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
 #                           ^ - meta.interpolation.parameter
 
 : ${var##(#b)}      # terminate on invalid flag to ensure proper bailouts
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
-#        ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#        ^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
 #            ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
 #             ^ - meta.interpolation.parameter
-#        ^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#        ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #        ^^ punctuation.definition.modifier.begin.shell.zsh
 #          ^ storage.modifier.mode.glob.shell.zsh
 #           ^ punctuation.definition.modifier.end.shell.zsh
@@ -7006,31 +7006,31 @@ esac
 
 : ${var##(#b)(d|b)}	# globbing flags and groups
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
-#        ^^^^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell
+#        ^^^^^^^^^ meta.interpolation.parameter.shell meta.string.glob.shell
 #                 ^ meta.interpolation.parameter.shell - meta.modifier
 #        ^^^^ meta.modifier.glob.shell.zsh
 #        ^^ punctuation.definition.modifier.begin.shell.zsh
 #          ^ storage.modifier.mode.glob.shell.zsh
 #           ^ punctuation.definition.modifier.end.shell.zsh
-#            ^^^^^ meta.group.regexp.shell string.unquoted.shell
-#            ^ punctuation.section.group.begin.regexp.shell
-#              ^ keyword.operator.alternation.regexp.shell
-#                ^ punctuation.section.group.end.regexp.shell
+#            ^^^^^ meta.group.glob.shell string.unquoted.shell
+#            ^ punctuation.section.group.begin.glob.shell
+#              ^ keyword.operator.alternation.glob.shell
+#                ^ punctuation.section.group.end.glob.shell
 #                 ^ punctuation.section.interpolation.end.shell
 
 : ${var##(#bd)}     # terminate on invalid flag to ensure proper bailouts
-#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
-#           ^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#        ^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
+#           ^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 #             ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
 
 : ${var##(#b})      # glob flags are terminated together with expansion by closing brace
-#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#        ^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
 #           ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
 #            ^ invalid.illegal.stray.shell
 
 : ${var##(#b\})}    # glob flags are terminated by escaped braces, but expansion isn't
-#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
-#           ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#        ^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
+#           ^^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 #              ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
 
 
@@ -7043,9 +7043,9 @@ esac
 
 : ((#i)foo)bar
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
-# ^ meta.group.regexp.shell punctuation.section.group.begin.regexp.shell
-#  ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
-#      ^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^ meta.group.glob.shell punctuation.section.group.begin.glob.shell
+#  ^^^^ meta.group.glob.shell meta.modifier.glob.shell.zsh - string
+#      ^^^^ meta.group.glob.shell string.unquoted.shell
 #          ^^^ string.unquoted.shell
 
 arr=(veldt jynx grimps waqf zho buck)
@@ -7057,8 +7057,8 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #       ^^^ variable.other.readwrite.shell
 #          ^^ keyword.operator.substitution.shell
-#            ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
-#                ^^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
+#            ^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
+#                ^^^^^^^ meta.interpolation.parameter.shell meta.string.glob.shell meta.character-class.glob.shell
 #                       ^ keyword.operator.substitution.shell
 #                        ^ punctuation.definition.variable.shell
 #                         ^ punctuation.section.interpolation.begin.shell
@@ -7069,13 +7069,13 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 : *((#s)|/)test((#e)|/)*
 # ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 # ^ constant.other.wildcard.asterisk.shell
-#  ^ meta.group.regexp.shell - meta.modifier
-#   ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
-#       ^^^ meta.group.regexp.shell - meta.modifier
+#  ^ meta.group.glob.shell - meta.modifier
+#   ^^^^ meta.group.glob.shell meta.modifier.glob.shell.zsh - string
+#       ^^^ meta.group.glob.shell - meta.modifier
 #       ^^^^^^^^ string.unquoted.shell
-#              ^ meta.group.regexp.shell - meta.modifier
-#               ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
-#                   ^^^ meta.group.regexp.shell string.unquoted.shell - meta.modifier
+#              ^ meta.group.glob.shell - meta.modifier
+#               ^^^^ meta.group.glob.shell meta.modifier.glob.shell.zsh - string
+#                   ^^^ meta.group.glob.shell string.unquoted.shell - meta.modifier
 #                      ^ constant.other.wildcard.asterisk.shell
 
 ###############################################################################
@@ -7087,15 +7087,15 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 ## ----------------------------------------------------------------------------
 
 : (D)       # bare qualifiers never start a word
-# ^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
+# ^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell - meta.modifier
 
 : (#b)(D)   # bare qualifiers never start a word, even if preceded by glob flags
 # ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#     ^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
+#     ^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell - meta.modifier
 
 : /(D)/     # bare qualifiers don't appear in the middle of words
 # ^^^^^ meta.string.glob.shell string.unquoted.shell
-#  ^^^ meta.group.regexp.shell - meta.modifier
+#  ^^^ meta.group.glob.shell - meta.modifier
 
 : /(D)      # bare qualifiers always appear at the end of words
 # ^ meta.string.glob.shell string.unquoted.shell
@@ -7105,7 +7105,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 # as it is still within a word, but may appear at the end
 : /(D)~/*(D)
 # ^ meta.string.glob.shell - meta.group - meta.modifier
-#  ^^^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+#  ^^^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
 #     ^^^ meta.string.glob.shell - meta.group - meta.modifier
 #        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #           ^ - meta.string - meta.group - meta.modifier
@@ -7118,16 +7118,16 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 
 : /((D))    # bare qualifiers are not valid in groups
 # ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#  ^^^^^ meta.group.regexp.shell - meta.modifier
+#  ^^^^^ meta.group.glob.shell - meta.modifier
 
 : (/*(D))   # bare qualifiers are not valid in groups
-# ^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-#    ^^^ meta.string.glob.shell meta.group.regexp.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-#       ^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-# ^ meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+# ^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell - meta.modifier
+#    ^^^ meta.string.glob.shell meta.group.glob.shell meta.group.glob.shell string.unquoted.shell - meta.modifier
+#       ^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell - meta.modifier
+# ^ meta.group.glob.shell string.unquoted.shell punctuation.section.group.begin.glob.shell
 #   ^ constant.other.wildcard.asterisk.shell
-#    ^ punctuation.section.group.begin.regexp.shell
-#      ^^ punctuation.section.group.end.regexp.shell
+#    ^ punctuation.section.group.begin.glob.shell
+#      ^^ punctuation.section.group.end.glob.shell
 
 a=(/*(D))   # bare qualifiers are valid in arrays
 # ^ meta.sequence.list.shell - meta.string
@@ -7151,15 +7151,15 @@ a=(/*(D))   # bare qualifiers are valid in arrays
 
 : /(e())    # bare qualifiers can't contain parentheses
 # ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#  ^^^^^ meta.group.regexp.shell - meta.modifier
+#  ^^^^^ meta.group.glob.shell - meta.modifier
 
 : /(e~~)    # bare qualifiers can't contain tildes
 # ^ meta.string.glob.shell - meta.group - meta.modifier
-#  ^^^^^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+#  ^^^^^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
 
 : /(e||)    # bare qualifiers can't contain pipes
 # ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#  ^^^^^ meta.group.regexp.shell - meta.modifier
+#  ^^^^^ meta.group.glob.shell - meta.modifier
 
 : /(e.'( ) << >> | ; &'.) # bare qualifiers' quoted arguments' can contain any character
 # ^ meta.string.glob.shell string.unquoted.shell
@@ -7168,13 +7168,13 @@ a=(/*(D))   # bare qualifiers are valid in arrays
 #                       ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 
 : ${var##/(D)}          # bare qualifiers don't appear within parmaeter expansions
-#        ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#        ^^^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 
 : ${var:-/(D)}          # bare qualifiers don't appear within parmaeter expansions
-#        ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#        ^^^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 
 : ${var/\/(D)/\/(D)}    # bare qualifiers don't appear within parmaeter expansions
-#       ^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#       ^^^^^ meta.interpolation.parameter.shell meta.string.glob.shell string.unquoted.shell - meta.modifier
 #             ^^^^^ meta.interpolation.parameter.shell meta.string.shell string.unquoted.shell
 
 test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but cause "too many arguments error"
@@ -7255,14 +7255,14 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 
 : /((#qD))    # extended glob qualifiers are valid in groups
 # ^ meta.string.glob.shell - meta.group - meta.modifier
-#  ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
-#   ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.modifier.glob.shell.zsh
-#        ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+#  ^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
+#   ^^^^^ meta.string.glob.shell meta.group.glob.shell meta.modifier.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
 
 : (/*(#qD))   # extended glob qualifiers are valid in groups
-# ^^^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
-#    ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.modifier.glob.shell.zsh
-#         ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+# ^^^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
+#    ^^^^^ meta.string.glob.shell meta.group.glob.shell meta.modifier.glob.shell.zsh
+#         ^ meta.string.glob.shell meta.group.glob.shell - meta.modifier
 
 a=(/*(#qD))   # extended glob qualifiers are valid in arrays
 # ^ meta.sequence.list.shell - meta.string
@@ -7319,13 +7319,13 @@ a=(/*(#qD))   # extended glob qualifiers are valid in arrays
 #                         ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 
 : ${var##/(#qD)}            # extended glob qualifiers are syntectically valid in parameter expansions
-#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#         ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 
 : ${var:-/(#qD)}            # extended glob qualifiers are syntectically valid in parameter expansions
-#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#         ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 
 : ${var/\/(#qD)/\/(#qD)}    # extended glob qualifiers are syntectically valid in parameter expansions
-#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#         ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #               ^^^^^^^ meta.interpolation.parameter.shell meta.string.shell string.unquoted.shell
 
 
@@ -8108,9 +8108,9 @@ print -rC1 /tmp/foo*(u0^@:t)
 # except for lex.c, lex.h, parse.c and parse.h.
 ls -ld -- *.*~(lex|parse).[ch](^D^l1)
 #         ^^^^ meta.string.glob.shell string.unquoted.shell
-#             ^^^^^^^^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^^^^^^^^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
 #                        ^ meta.string.glob.shell string.unquoted.shell
-#                         ^^^^ meta.string.glob.shell string.unquoted.shell meta.set.regexp.shell
+#                         ^^^^ meta.string.glob.shell string.unquoted.shell meta.character-class.glob.shell
 #                             ^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 
 # demonstrates how colon modifiers and other qualifiers may be chained together.
@@ -8195,7 +8195,7 @@ ls *~*.*(.)                          # List all files that does not have a dot i
 #  ^^^^^^^^ meta.string.glob.shell
 #  ^^^^^ string.unquoted.shell
 #  ^ constant.other.wildcard.asterisk.shell
-#   ^ keyword.operator.logical.regexp.shell.zsh
+#   ^ keyword.operator.logical.glob.shell.zsh
 #    ^ constant.other.wildcard.asterisk.shell
 #      ^ constant.other.wildcard.asterisk.shell
 #       ^^^ meta.modifier.glob.shell.zsh
@@ -8225,11 +8225,11 @@ ls DATA_[0-9](#c4,7).csv             # List DATA_nnnn.csv to DATA_nnnnnnn.csv
 # ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #  ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #  ^^^^^^^^^^ string.unquoted.shell
-#       ^^^^^ meta.set.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#        ^^^ constant.other.range.regexp.shell
-#         ^ punctuation.separator.sequence.regexp.shell
-#           ^ punctuation.definition.set.end.regexp.shell
+#       ^^^^^ meta.character-class.glob.shell
+#       ^ punctuation.definition.character-class.begin.glob.shell
+#        ^^^ constant.other.range.glob.shell
+#         ^ punctuation.separator.sequence.glob.shell
+#           ^ punctuation.definition.character-class.end.glob.shell
 #            ^^^^^^^ meta.modifier.glob.shell.zsh
 #            ^^ punctuation.definition.modifier.begin.shell.zsh
 #              ^ storage.modifier.mode.glob.shell.zsh
@@ -8284,11 +8284,11 @@ ls -l *.(png|jpg|gif)                # List pictures only
 #     ^^^^^^^^^^^^^^^ meta.string.glob.shell
 #     ^^ string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#       ^^^^^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
-#       ^ punctuation.section.group.begin.regexp.shell
-#           ^ keyword.operator.alternation.regexp.shell
-#               ^ keyword.operator.alternation.regexp.shell
-#                   ^ punctuation.section.group.end.regexp.shell
+#       ^^^^^^^^^^^^^ meta.group.glob.shell string.unquoted.shell
+#       ^ punctuation.section.group.begin.glob.shell
+#           ^ keyword.operator.alternation.glob.shell
+#               ^ keyword.operator.alternation.glob.shell
+#                   ^ punctuation.section.group.end.glob.shell
 #                                    ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 #                                    ^ punctuation.definition.comment.shell
 
@@ -8326,7 +8326,7 @@ ls foo*~*bar*                        # Match everything that starts with foo but
 # ^^^^^^^^^^^ meta.function-call.arguments.shell
 #  ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#      ^ keyword.operator.logical.regexp.shell.zsh
+#      ^ keyword.operator.logical.glob.shell.zsh
 #       ^ constant.other.wildcard.asterisk.shell
 #           ^ constant.other.wildcard.asterisk.shell
 
@@ -8485,10 +8485,10 @@ ls -l *.(c|h)                        # Show only all *.c and *.h files
 #     ^^^^^^^ meta.string.glob.shell
 #     ^^ string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#       ^^^^^ meta.group.regexp.shell string.unquoted.shell
-#       ^ punctuation.section.group.begin.regexp.shell
-#         ^ keyword.operator.alternation.regexp.shell
-#           ^ punctuation.section.group.end.regexp.shell
+#       ^^^^^ meta.group.glob.shell string.unquoted.shell
+#       ^ punctuation.section.group.begin.glob.shell
+#         ^ keyword.operator.alternation.glob.shell
+#           ^ punctuation.section.group.end.glob.shell
 
 ls -l *(R)                           # Show only world-readable files
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8570,7 +8570,7 @@ ls *.c~foo.c                         # Show only all *.c files and ignore foo.c
 # ^^^^^^^^^^ meta.function-call.arguments.shell
 #  ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #  ^ constant.other.wildcard.asterisk.shell
-#     ^ keyword.operator.logical.regexp.shell.zsh
+#     ^ keyword.operator.logical.glob.shell.zsh
 
 print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directories, list their contents, and output the first item in the above list
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8623,13 +8623,13 @@ print -rl /**/*~^*/path(|/*)         # Find command to search for directory name
 #         ^^^^^^^^^^^^^ string.unquoted.shell
 #          ^^ constant.other.wildcard.asterisk.shell
 #             ^ constant.other.wildcard.asterisk.shell
-#              ^^ keyword.operator.logical.regexp.shell.zsh
+#              ^^ keyword.operator.logical.glob.shell.zsh
 #                ^ constant.other.wildcard.asterisk.shell
-#                      ^^^^^ meta.group.regexp.shell string.unquoted.shell
-#                      ^ punctuation.section.group.begin.regexp.shell
-#                       ^ keyword.operator.alternation.regexp.shell
+#                      ^^^^^ meta.group.glob.shell string.unquoted.shell
+#                      ^ punctuation.section.group.begin.glob.shell
+#                       ^ keyword.operator.alternation.glob.shell
 #                         ^ constant.other.wildcard.asterisk.shell
-#                          ^ punctuation.section.group.end.regexp.shell
+#                          ^ punctuation.section.group.end.glob.shell
 
 print -l ~/*(ND.^w)                  # List files in the current directory that are not writable by the owner
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8798,7 +8798,7 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 #                                              ^^ support.function.substitution.shell.zsh
 #                                                ^ keyword.operator.substitution.shell.zsh
 #                                                  ^ keyword.operator.substitution.shell.zsh
-#                                                   ^ meta.string.regexp.shell string.unquoted.shell
+#                                                   ^ meta.string.glob.shell string.unquoted.shell
 #                                                    ^ punctuation.section.interpolation.end.shell
 #                                                     ^ punctuation.terminator.statement.shell
 #                                                       ^^^^ keyword.control.loop.end.shell
@@ -8873,9 +8873,9 @@ echo $var[1] World
 #       ^ punctuation.separator.sequence.shell
 #        ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ punctuation.section.item-access.end.shell
-#          ^^^ string.unquoted.shell meta.set.regexp.shell
-#          ^ punctuation.definition.set.begin.regexp.shell
-#            ^ punctuation.definition.set.end.regexp.shell
+#          ^^^ string.unquoted.shell meta.character-class.glob.shell
+#          ^ punctuation.definition.character-class.begin.glob.shell
+#            ^ punctuation.definition.character-class.end.glob.shell
 
 : "$var[1][2]"
 # ^ meta.string.glob.shell - meta.interpolation
@@ -9353,7 +9353,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9364,7 +9364,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9375,7 +9375,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9386,7 +9386,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9397,7 +9397,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9408,7 +9408,7 @@ foo[${bar[$baz]}]=buz
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.glob.shell string.unquoted.shell
 #                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
 #                      ^ punctuation.section.item-access.end.shell
 
@@ -9477,7 +9477,7 @@ foo[${bar[$baz]}]=buz
 #       ^ storage.modifier.subscript.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
 #         ^^^^^ meta.string.glob.shell.zsh string.unquoted.shell
-#         ^ keyword.operator.logical.regexp.shell.zsh
+#         ^ keyword.operator.logical.glob.shell.zsh
 #             ^ constant.other.wildcard.asterisk.shell
 #              ^ punctuation.separator.sequence.shell - string
 #               ^^^ meta.modifier.subscript.shell.zsh
@@ -10079,9 +10079,9 @@ echo not a function () {}
 #    ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ meta.string.glob.shell string.unquoted.shell
 #          ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                   ^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
-#                   ^ punctuation.section.group.begin.regexp.shell
-#                    ^ punctuation.section.group.end.regexp.shell
+#                   ^^ meta.string.glob.shell meta.group.glob.shell string.unquoted.shell
+#                   ^ punctuation.section.group.begin.glob.shell
+#                    ^ punctuation.section.group.end.glob.shell
 #                      ^^ meta.string.glob.shell string.unquoted.shell
 
 echo 'ssl-cert-'${sh}'() {
