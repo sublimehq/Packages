@@ -287,6 +287,8 @@ contexts:
 
 ###[ FNMATCH ]#################################################################
 
+  # https://www.man7.org/linux/man-pages/man7/glob.7.html
+
   # The first characters of a path pattern may have special meaning and
   # must therefore be treated differently. This scope finally pops off
   # if no more match is found. It must therefore be used as multi-push.
@@ -294,11 +296,11 @@ contexts:
     # windows drive letter and separator
     - match: '[A-Za-z](:)(?=/)'
       captures:
-        1: punctuation.separator.path.fnmatch.git
+        1: punctuation.separator.path.glob.git
       pop: 1
     # homedir tilde operator
     - match: ~(?=/)
-      scope: variable.language.environment.home.fnmatch.git
+      scope: variable.language.environment.home.glob.git
       pop: 1
     # any other directory pattern
     - include: fnmatch-dir-pattern
@@ -308,82 +310,114 @@ contexts:
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
   fnmatch-quoted-body:
-    - include: fnmatch-char-classes
+    - include: fnmatch-character-classes
     - include: fnmatch-quoted-file-extensions
     - include: fnmatch-common
 
   fnmatch-unquoted-body:
-    - include: fnmatch-char-classes
+    - include: fnmatch-character-classes
     - include: fnmatch-unquoted-file-extensions
     - include: fnmatch-common
 
   fnmatch-common:
     - match: '/'          # path separators
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
       push: fnmatch-dir-pattern
     - match: \$\w+
-      scope: variable.language.environment.other.fnmatch.git
+      scope: variable.language.environment.other.glob.git
     - match: '\*'         # unescapable operators
-      scope: constant.other.wildcard.asterisk.fnmatch.git
+      scope: constant.other.wildcard.asterisk.glob.git
     - match: '\?'         # unescapable operators
-      scope: constant.other.wildcard.questionmark.fnmatch.git
+      scope: constant.other.wildcard.questionmark.glob.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
-      scope: constant.character.escape.path.fnmatch.git
+      scope: constant.character.escape.path.glob.git
     - match: ':'          # drive separators
-      scope: invalid.illegal.separator.path.fnmatch.git
+      scope: invalid.illegal.separator.path.glob.git
     - match: '\\(?=\s)'   # single backslash is invalid
-      scope: invalid.illegal.escape.path.fnmatch.git
+      scope: invalid.illegal.escape.path.glob.git
 
   fnmatch-dir-pattern:
     - match: \.\.(?=/)
-      scope: constant.other.path.parent.fnmatch.git
+      scope: constant.other.path.parent.glob.git
       pop: 1
     - match: \.(?=/)
-      scope: constant.other.path.self.fnmatch.git
+      scope: constant.other.path.self.glob.git
       pop: 1
     - match: ''
       pop: 1
 
-  fnmatch-char-classes:
+  fnmatch-character-classes:
     - match: \[           # shell style character class
-      scope: keyword.control.char-class.begin.fnmatch.git
+      scope: punctuation.definition.character-class.begin.glob.git
       push:
-        - fnmatch-char-class-body
-        - fnmatch-char-class-start
-        - fnmatch-char-class-operator
+        - fnmatch-character-class-body
+        - fnmatch-character-class-start
+        - fnmatch-character-class-operator
 
-  fnmatch-char-class-operator:
+  fnmatch-character-class-operator:
     - match: '[!^]?'  # optional pattern negation
-      scope: keyword.operator.logical.fnmatch.git
+      scope: keyword.operator.logical.glob.git
       pop: 1
 
-  fnmatch-char-class-start:
-    - match: \]?  # first unescaped ']' is matched as normal char
-      scope: constant.character.char-class.fnmatch.git
+  fnmatch-character-class-start:
+    - match: (?:(\\.)|[^\\])(-)(?:(\\.)|[^\]])
+      scope: constant.other.range.glob.git
+      captures:
+        1: constant.character.escape.glob.git
+        2: punctuation.separator.sequence.glob.git
+        3: constant.character.escape.glob.git
+      pop: 1
+    - match: '[]-]?'  # first unescaped '-' or ']' are matched literal
+      scope: constant.character.character-class.glob.git
       pop: 1
 
-  fnmatch-char-class-body:
-    - meta_scope: meta.char-class.fnmatch.git
+  fnmatch-character-class-body:
+    - meta_scope: meta.character-class.glob.git
     - match: \]
-      scope: keyword.control.char-class.end.fnmatch.git
+      scope: punctuation.definition.character-class.end.glob.git
       pop: 1
     - match: $\n?     # class must end before end of line
-      scope: invalid.illegal.unexpected.eol.fnmatch.git
+      scope: invalid.illegal.unexpected.eol.glob.git
       pop: 1
-    - match: '\\\]'   # backslash escapes only ']'
-      scope: constant.character.escape.char-class.fnmatch.git
+    - match: (\[\.)(\S*?)(\.\])
+      scope: meta.character-class.glob.git
+      captures:
+        1: punctuation.definition.character-class.begin.glob.git
+        2: constant.other.character-class.collate.glob.git
+        3: punctuation.definition.character-class.end.glob.git
+    - match: (\[=)(\S*?)(=\])
+      scope: meta.character-class.glob.git
+      captures:
+        1: punctuation.definition.character-class.begin.glob.git
+        2: constant.other.character-class.equivalence.glob.git
+        3: punctuation.definition.character-class.end.glob.git
+    - match: (\[:)(?:({{posix_classes}})|(\S*?))(:\])
+      scope: meta.character-class.glob.git
+      captures:
+        1: punctuation.definition.character-class.begin.glob.git
+        2: constant.other.character-class.posix.glob.git
+        3: invalid.illegal.character-class.posix.glob.git
+        4: punctuation.definition.character-class.end.glob.git
+    - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]])
+      scope: constant.other.range.glob.git
+      captures:
+        1: constant.character.escape.glob.git
+        2: punctuation.separator.sequence.glob.git
+        3: constant.character.escape.glob.git
+    - match: '\\.'
+      scope: constant.character.escape.character-class.glob.git
     - match: '[*?]'   # asterisk is ignored by fnmatch
-      scope: invalid.illegal.unexpected.char-class.fnmatch.git
-    - match: \S
-      scope: constant.character.char-class.fnmatch.git
+      scope: invalid.illegal.unexpected.character-class.glob.git
+    - match: .
+      scope: constant.character.character-class.glob.git
 
   fnmatch-quoted-file-extensions:
     - match: \.(?![^./"]*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
 
   fnmatch-unquoted-file-extensions:
     - match: \.(?!(?:\\\s|\S)*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.fnmatch.git
+      scope: punctuation.separator.path.glob.git
 
 ###[ PRETTY FORMATS ]##########################################################
 
@@ -564,3 +598,7 @@ variables:
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
+
+  posix_classes: |-
+    (?x: alnum | alpha | blank | cntrl | digit | graph
+    | lower | print | punct | space | upper | xdigit )
