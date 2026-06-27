@@ -1340,7 +1340,7 @@ def _():
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
-#   ^^^^^ storage.modifier.async
+#   ^^^^^ keyword.control.loop.for.async
 #         ^^^ keyword.control.loop.for
 #               ^^ keyword.control.loop.in
 #                          ^ punctuation.section.block.begin
@@ -1366,7 +1366,7 @@ def _():
 #        ^^^^^^^^^^^^^^^^^^^^^ meta.group.python
 #                              ^^^^ meta.function-call.identifier.python meta.path.python
 #                                  ^^ meta.function-call.arguments.python
-#   ^^^^ keyword.control.flow.with.python
+#   ^^^^ keyword.control.context.with.python
 #        ^ punctuation.section.group.begin.python
 #         ^^^^^^ variable.other.python
 #                ^ keyword.operator.arithmetic.python
@@ -1376,7 +1376,7 @@ def _():
 #                              ^^^^ variable.function.python - support
 #                                  ^ punctuation.section.arguments.begin.python
 #                                   ^ punctuation.section.arguments.end.python
-#                                     ^^ keyword.control.flow.with.as.python
+#                                     ^^ keyword.control.context.with.as.python
 #                                        ^ variable.other.python
 #                                         ^ punctuation.section.block.begin.python
 
@@ -1388,7 +1388,7 @@ def _():
 #                               ^^^^ meta.function-call.identifier.python
 #                                   ^^ meta.function-call.arguments.python
 #                                           ^ - meta.sequence
-#   ^^^^ keyword.control.flow.with.python
+#   ^^^^ keyword.control.context.with.python
 #        ^ punctuation.section.sequence.begin.python
 #         ^ punctuation.section.group.begin.python
 #          ^^^^^^ variable.other.python
@@ -1399,7 +1399,7 @@ def _():
 #                               ^^^^ variable.function.python - support
 #                                   ^ punctuation.section.arguments.begin.python
 #                                    ^ punctuation.section.arguments.end.python
-#                                      ^^ keyword.control.flow.with.as.python
+#                                      ^^ keyword.control.context.with.as.python
 #                                         ^ variable.other.python
 #                                          ^ punctuation.section.sequence.end.python
 #                                           ^ punctuation.section.block.begin.python
@@ -1414,7 +1414,7 @@ def _():
 #                               ^^^^^^^^^^ meta.group.python meta.group.python - meta.group meta.group meta.group
 #                                         ^^^ meta.group.python - meta.group meta.group
 #                                            ^ - meta.group
-#   ^^^^ keyword.control.flow.with.python
+#   ^^^^ keyword.control.context.with.python
 #        ^ punctuation.section.group.begin.python
 #         ^^ punctuation.section.group.begin.python
 #           ^^^^^^ variable.other.python
@@ -1433,20 +1433,20 @@ def _():
 
     with open(), open() as x, open() as as:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
-#   ^^^^ keyword.control.flow.with
+#   ^^^^ keyword.control.context.with
 #        ^^^^ support.function
 #              ^ punctuation.separator.sequence
-#                       ^^ keyword.control.flow.with.as
+#                       ^^ keyword.control.context.with.as
 #                           ^ punctuation.separator.sequence
 #                             ^^^^ support.function
-#                                    ^^ keyword.control.flow.with.as
+#                                    ^^ keyword.control.context.with.as
 #                                       ^^ invalid.illegal.name.python
 
     with (
 #   ^^^^^^^ - meta.statement.with meta.statement.with
 #   ^^^^^ meta.statement.with.python - meta.sequence
 #        ^^ meta.statement.with.python meta.sequence.tuple.python
-#   ^^^^ keyword.control.flow.with
+#   ^^^^ keyword.control.context.with
 #        ^ punctuation.section.sequence.begin.python
         open(),
 #      ^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
@@ -1456,12 +1456,12 @@ def _():
         open() as x,
 #      ^^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
 #       ^^^^ support.function
-#              ^^ keyword.control.flow.with.as
+#              ^^ keyword.control.context.with.as
 #                  ^ punctuation.separator.sequence
         open() as as
 #      ^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
 #       ^^^^ support.function
-#              ^^ keyword.control.flow.with.as
+#              ^^ keyword.control.context.with.as
 #                 ^^ invalid.illegal.name.python
     ):
 # ^^^^ - meta.statement.with meta.statement.with
@@ -1470,32 +1470,32 @@ def _():
 
     with ( open() as x, captured() as :  # unclosed tuple
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python
-#   ^^^^ keyword.control.flow.with.python
+#   ^^^^ keyword.control.context.with.python
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
 #        ^ punctuation.section.sequence.begin.python
 #          ^^^^ meta.function-call.identifier.python support.function.builtin.python
 #              ^^ meta.function-call.arguments.python
 #              ^ punctuation.section.arguments.begin.python
 #               ^ punctuation.section.arguments.end.python
-#                 ^^ keyword.control.flow.with.as.python
+#                 ^^ keyword.control.context.with.as.python
 #                    ^ variable.other.python
 #                     ^ punctuation.separator.sequence.python
 #                       ^^^^^^^^ meta.function-call.identifier.python variable.function.python
 #                               ^^ meta.function-call.arguments.python
 #                               ^ punctuation.section.arguments.begin.python
 #                                ^ punctuation.section.arguments.end.python
-#                                  ^^ keyword.control.flow.with.as.python
+#                                  ^^ keyword.control.context.with.as.python
 #                                     ^ punctuation.section.block.begin.python
 #                                        ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 #                                        ^ punctuation.definition.comment.python
 
     with captured() as out, err:   # `err` is not part of `captured()` context
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.sequence
-#   ^^^^ keyword.control.flow.with
+#   ^^^^ keyword.control.context.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
-#                   ^^ keyword.control.flow.with.as
+#                   ^^ keyword.control.context.with.as
 #                      ^^^ variable.other
 #                         ^ punctuation.separator.sequence
 #                           ^^^ variable.other
@@ -1503,11 +1503,11 @@ def _():
 
     with captured() as (out, err):
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
-#   ^^^^ keyword.control.flow.with
+#   ^^^^ keyword.control.context.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
-#                   ^^ keyword.control.flow.with.as
+#                   ^^ keyword.control.context.with.as
 #                      ^ punctuation.section.sequence.begin
 #                       ^^^ variable.other
 #                          ^ punctuation.separator.sequence
@@ -1538,11 +1538,11 @@ def _():
 #   ^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.sequence
 #                      ^^^^^^^^^^ meta.statement.with.python meta.sequence.list.python
 #                                ^ meta.statement.with.python - meta.sequence
-#   ^^^^ keyword.control.flow.with
+#   ^^^^ keyword.control.context.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
-#                   ^^ keyword.control.flow.with.as
+#                   ^^ keyword.control.context.with.as
 #                      ^ punctuation.section.sequence.begin
 #                       ^^^ variable.other
 #                          ^ punctuation.separator.sequence
@@ -1571,9 +1571,9 @@ def _():
 
     async with context_manager() as c:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python
-#   ^^^^^ storage.modifier.async
-#         ^^^^ keyword.control.flow.with
-#                                ^^ keyword.control.flow.with.as
+#   ^^^^^ keyword.control.context.with.async
+#         ^^^^ keyword.control.context.with
+#                                ^^ keyword.control.context.with.as
 #                                    ^ punctuation.section.block.begin
         await something()
 #       ^^^^^ keyword.control.flow.await
@@ -1651,7 +1651,7 @@ def _():
     for
 #   ^^^ keyword.control.loop.for.python
     with
-#   ^^^^ keyword.control.flow.with.python
+#   ^^^^ keyword.control.context.with.python
     if
 #   ^^ keyword.control.conditional.if.python
     finally
@@ -2438,7 +2438,7 @@ def last_type_annotation(
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters - meta.function meta.function
-# <- keyword.declaration.async
+# <- keyword.declaration.function.async
 #     ^^^ keyword.declaration.function.python
 #         ^ entity.name.function
    pass
@@ -3380,7 +3380,7 @@ mydict = { a : b async for b in range(1, 2) }
 #           ^^^ meta.mapping.python
 #              ^ meta.mapping.value.python
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
-#                ^^^^^ storage.modifier.async.python
+#                ^^^^^ keyword.control.loop.for.generator.async.python
 #                      ^^^ keyword.control.loop.for.generator.python
 
 myset = {"key", True, key2, [-1], {}:1}
@@ -3722,8 +3722,10 @@ _ = [m
 #          ^^ keyword.control.loop.in
 #             ^^^ variable.language.this.python
 
+result = [i async]
+
 result = [i async for i in aiter() if i % 2]
-#           ^^^^^ storage.modifier.async
+#           ^^^^^ keyword.control.loop.for.generator.async.python
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.control.flow.await.python
 
