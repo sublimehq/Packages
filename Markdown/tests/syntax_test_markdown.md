@@ -9428,6 +9428,21 @@ This is a [[wiki link]].
    |^ markup.quote.alert.tip.markdown - markup.paragraph
    | ^^^^^ markup.quote.alert.tip.markdown markup.paragraph.markdown
 
+   - item
+
+     > [!TIP]
+     | <- markup.quote.alert.tip.markdown punctuation.definition.blockquote.markdown
+     |^^^^^^^^ markup.quote.alert.tip.markdown
+     | ^^^^^^ markup.heading.alert.tip.markdown
+     | ^ punctuation.definition.heading.begin.markdown
+     |      ^ punctuation.definition.heading.end.markdown
+
+     > [!TIP]
+     > 
+     > Text
+     | <- markup.quote.alert.tip.markdown punctuation.definition.blockquote.markdown
+     |^ markup.quote.alert.tip.markdown - markup.paragraph
+     | ^^^^^ markup.quote.alert.tip.markdown markup.paragraph.markdown
 
 # TEST: MATHJAX BLOCKS MARKUP #################################################
 
