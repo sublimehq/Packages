@@ -9,13 +9,15 @@ version: 2
 file_extensions:
   - toml
   - tml
+  - Pipfile
+
+hidden_file_extensions:
   - Cargo.lock
   - Gopkg.lock
-  - Pipfile
+  - mise.lock
   - pdm.lock
   - poetry.lock
   - uv.lock
-  - mise.lock
 
 contexts:
   main:
