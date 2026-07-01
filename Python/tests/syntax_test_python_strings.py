@@ -1520,6 +1520,12 @@ fmt = u'string \r \n \u2040 %s \{{ {x} \}}'
 #                                      ^ invalid.deprecated.character.escape.python
 #                                      ^^^ constant.character.escape.python
 
+r'\b{{{{{ss_var}_active}}}}'
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python - constant.character
+#^ punctuation.definition.string.begin.python
+#                          ^ punctuation.definition.string.end.python
+
+
 ################################
 # regular expression backrefs
 ################################
