@@ -133,5 +133,6 @@ contexts:
 
   ranged-quantifier-fallback:
     - meta_include_prototype: false
-    - match: ''
+    - match: '{{brace_start}}'
+      scope: constant.character.escape.python
       pop: 1
