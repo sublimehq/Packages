@@ -54,7 +54,7 @@ variables:
     (?x: public | protected | private | abstract | final | native | sealed | static | strictfp | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
   class_modifier: |-
-    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
+    (?x: public | protected | private | abstract | final | sealed | static | strictfp | value )
   class_no_modifier: |-
     (?x: default | native | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8

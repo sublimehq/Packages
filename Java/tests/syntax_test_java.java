@@ -1786,6 +1786,17 @@ Bar             // comment
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
 
+value class ValhallaValue {
+// <- meta.class.java storage.modifier.java
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^^^^^^^^ meta.class.identifier.java
+//^^^ storage.modifier.java
+//    ^^^^^ keyword.declaration.class.java
+//          ^^^^^^^^^^^^^ entity.name.class.java
+   public int value = 0;
+//            ^^^^^ meta.class.java meta.block.java meta.field.identifier.java variable.other.member.java
+}
+
 
 /******************************************************************************
  * Enumeration Declaration Tests
@@ -2765,6 +2776,18 @@ class Clazz {
 //                    ^^^^^^ variable.other.java
    }
 }
+
+value record ValhallaValue {
+// <- meta.class.java storage.modifier.java
+//^^^^^^^^^^ meta.class.java
+//          ^^^^^^^^^^^^^^^ meta.class.identifier.java
+//^^^ storage.modifier.java
+//    ^^^^^^ keyword.declaration.record.java
+//           ^^^^^^^^^^^^^ entity.name.class.java
+   public int value = 0;
+//            ^^^^^ meta.class.java meta.block.java meta.field.identifier.java variable.other.member.java
+}
+
 
 /******************************************************************************
  * Field Declaration Tests
