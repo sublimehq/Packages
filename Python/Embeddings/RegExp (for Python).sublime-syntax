@@ -133,5 +133,5 @@ contexts:
 
   ranged-quantifier-fallback:
     - meta_include_prototype: false
-    - match: ''
+    - match: '{{brace_start}}'
       pop: 1

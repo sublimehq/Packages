@@ -21,3 +21,9 @@ contexts:
         1: constant.character.escape.python
     - match: (?:{{brace_start}}|{{brace_end}})
       scope: constant.character.escape.python
+
+  ranged-quantifier-fallback:
+    - meta_include_prototype: false
+    - match: '{{brace_start}}'
+      scope: constant.character.escape.python
+      pop: 1
