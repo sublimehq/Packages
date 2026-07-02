@@ -32,6 +32,8 @@ Thanks to @username <name@mail-host.domain>.
 #                        ^ punctuation.separator.email.git
 #                                  ^ punctuation.separator.domain.git
 #                                         ^ punctuation.definition.reference.email.end.git
+Update to actions/checkout@v7
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.reference
 This is a <tag> name <tag.name>
 #         ^^^^^ - meta.reference - entity
 #                    ^^^^^^^^^^ - meta.reference - entity

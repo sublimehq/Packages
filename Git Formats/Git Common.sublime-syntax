@@ -119,7 +119,7 @@ contexts:
 
   username:
     # user reference
-    - match: (\@)[-\w]+\b
+    - match: \B(\@)[-\w]+\b
       scope: meta.reference.username.git entity.name.reference.username.git
       captures:
         1: punctuation.definition.reference.username.git
