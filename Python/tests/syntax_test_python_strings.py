@@ -1525,6 +1525,56 @@ r'\b{{{{{ss_var}_active}}}}'
 #^ punctuation.definition.string.begin.python
 #                          ^ punctuation.definition.string.end.python
 
+b"{\$}" B"{\$}"
+#^^^^^^ meta.string.python string.quoted.double.python - constant
+#        ^^^^^^ meta.string.python string.quoted.double.python - constant
+
+f"{\$}" F"{\$}"
+#^^^^^^ meta.string.python
+# ^^^^ meta.interpolation.python
+#  ^ invalid.illegal.backslash-in-fstring.python
+#        ^^^^^^ meta.string.python
+#         ^^^^ meta.interpolation.python
+#          ^ invalid.illegal.backslash-in-fstring.python
+
+r"{\$}" R"{\$}"
+#^^^^^^ meta.string.python string.quoted.double.python
+#  ^^ constant.character.escape.regexp
+#        ^^^^^^ meta.string.python string.quoted.double.python - constant
+
+u"{\$}" U"{\$}"
+#^^^^^^ meta.string.python string.quoted.double.python
+# ^^^^ constant.other.placeholder.python
+#  ^^ invalid.deprecated.character.escape.python
+#        ^^^^^^ meta.string.python string.quoted.double.python
+#         ^^^^ constant.other.placeholder.python
+#          ^^ invalid.deprecated.character.escape.python
+
+b'{\$}' B'{\$}'
+#^^^^^^ meta.string.python string.quoted.single.python - constant
+#        ^^^^^^ meta.string.python string.quoted.single.python - constant
+
+f'{\$}' F'{\$}'
+#^^^^^^ meta.string.python
+# ^^^^ meta.interpolation.python
+#  ^ invalid.illegal.backslash-in-fstring.python
+#        ^^^^^^ meta.string.python
+#         ^^^^ meta.interpolation.python
+#          ^ invalid.illegal.backslash-in-fstring.python
+
+r'{\$}' R'{\$}'
+#^^^^^^ meta.string.python string.quoted.single.python
+#  ^^ constant.character.escape.regexp
+#        ^^^^^^ meta.string.python string.quoted.single.python - constant
+
+u'{\$}' U'{\$}'
+#^^^^^^ meta.string.python string.quoted.single.python
+# ^^^^ constant.other.placeholder.python
+#  ^^ invalid.deprecated.character.escape.python
+#        ^^^^^^ meta.string.python string.quoted.single.python
+#         ^^^^ constant.other.placeholder.python
+#          ^^ invalid.deprecated.character.escape.python
+
 
 ################################
 # regular expression backrefs
