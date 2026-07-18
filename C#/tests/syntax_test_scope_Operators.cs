@@ -355,13 +355,49 @@ class TestOperatorDefinitions {
 
     // Comparison
 
-    a == b != c <= d < e > f >= g
+    a == b;
 ///   ^^ keyword.operator.comparison.cs
-///        ^^ keyword.operator.comparison.cs
-///             ^^ keyword.operator.comparison.cs
-///                  ^ keyword.operator.comparison.cs
-///                      ^ keyword.operator.comparison.cs
-///                          ^^ keyword.operator.comparison.cs
+
+    a != b;
+///   ^^ keyword.operator.comparison.cs
+
+    a <= b;
+///   ^^ keyword.operator.comparison.cs
+
+    a >= b
+///   ^^ keyword.operator.comparison.cs
+
+    a < b;
+///   ^ keyword.operator.comparison.cs
+
+    a > b;
+///   ^ keyword.operator.comparison.cs
+
+    a<t> > b<t>
+/// ^ support.type.cs
+///  ^^^ meta.generic.cs
+///  ^ punctuation.definition.generic.begin.cs
+///   ^ support.type.cs
+///    ^ punctuation.definition.generic.end.cs
+///      ^ keyword.operator.comparison.cs
+///        ^ support.type.cs
+///         ^^^ meta.generic.cs
+///         ^ punctuation.definition.generic.begin.cs
+///          ^ support.type.cs
+///           ^ punctuation.definition.generic.end.cs
+
+    a<t> < b<t>
+/// ^ support.type.cs
+///  ^^^ meta.generic.cs
+///  ^ punctuation.definition.generic.begin.cs
+///   ^ support.type.cs
+///    ^ punctuation.definition.generic.end.cs
+///      ^ keyword.operator.comparison.cs
+///        ^ support.type.cs
+///         ^^^ meta.generic.cs
+///         ^ punctuation.definition.generic.begin.cs
+///          ^ support.type.cs
+///           ^ punctuation.definition.generic.end.cs
 
     // Logical
 

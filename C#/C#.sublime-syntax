@@ -1699,18 +1699,21 @@ contexts:
         8: punctuation.accessor.dot.cs
         9: meta.function-call.identifier.cs variable.function.cs
       push: regex-function-call-argument-list
-    - match: '{{name}}(?={{generic_declaration}}?\s*\()'
+    - match: '{{name}}(?={{generic_declaration}}?{{item_access}}*\s*\()'
       scope: meta.function-call.identifier.cs variable.function.cs
       push:
+        - maybe-item-access
         - function-call-argument-list
+        - maybe-item-access
         - type-argument-list
-    - match: '{{name}}(?={{generic_declaration}}\s*\.)'
+    - match: '{{name}}(?={{generic_declaration}})'
       scope: support.type.cs
       push:
         - type-suffix
         - type-argument-list
     - match: '{{name}}'
       scope: variable.other.cs
+      push: maybe-item-access
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
 
@@ -2205,19 +2208,21 @@ contexts:
     - include: expression-list
 
   maybe-member-access:
-    - match: (\?)?(\.)
+    - match: \s*(\?)?(\.)
       captures:
         1: keyword.operator.null-coalescing.cs
         2: punctuation.accessor.dot.cs
       set: member-access
-    - include: else-pop
+    - include: noeol-pop
 
   member-access:
-    - match: '{{unreserved_name}}(?={{generic_declaration}}?\s*\()'
+    - match: '{{unreserved_name}}(?={{generic_declaration}}?{{item_access}}*\s*\()'
       scope: meta.function-call.identifier.cs variable.function.cs
       set:
         - maybe-member-access
+        - maybe-item-access
         - function-call-argument-list
+        - maybe-item-access
         - type-argument-list
     - match: '{{unreserved_name}}(?={{generic_declaration}})'
       scope: support.type.cs
@@ -2229,7 +2234,7 @@ contexts:
       scope: variable.other.member.cs
       set:
         - maybe-member-access
-        - type-argument-list
+        - maybe-item-access
     - include: else-pop
 
 ###[ LAMBDA EXPRESSIONS ]######################################################
@@ -3413,6 +3418,8 @@ variables:
   base_type: (?x:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|dynamic|object|string|void)\b
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: (?:\s*<[^={};]*>)
+
+  item_access: (?:\s*\[[^]]*\])
 
   statement_keywords: (?:break|case|catch|class|continue|do|else|enum|event|finally|fixed|for|foreach|goto|if|interface|namespace|operator|return|switch|try|union|using|while)\b
   expression_keywords: (?:as|checked|default|delegate|in|is|lock|nameof|new|not|params|sizeof|stackalloc|throw|typeof|unchecked)\b

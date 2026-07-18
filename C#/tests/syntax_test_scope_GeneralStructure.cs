@@ -1449,6 +1449,23 @@ namespace TestNamespace . Test
 ///                        ^^^^^^ variable.other.member.cs
 ///                               ^ punctuation.section.braces.end.cs
 
+                new { this.member[0][0] }
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ variable.other.member.cs
+///                              ^^^^^^ meta.brackets.cs
+///                              ^ punctuation.section.brackets.begin.cs
+///                               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                ^ punctuation.section.brackets.end.cs
+///                                 ^ punctuation.section.brackets.begin.cs
+///                                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                   ^ punctuation.section.brackets.end.cs
+///                                     ^ punctuation.section.braces.end.cs
+
                 new { this.member<int> }
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
 ///             ^^^ keyword.operator.new.cs
@@ -1462,6 +1479,26 @@ namespace TestNamespace . Test
 ///                               ^^^ storage.type.primitive.cs
 ///                                  ^ punctuation.definition.generic.end.cs
 ///                                    ^ punctuation.section.braces.end.cs
+
+                new { this.member<int>[0][] }
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.cs
+///             ^^^ keyword.operator.new.cs
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cs
+///                 ^ punctuation.section.braces.begin.cs
+///                   ^^^^ variable.language.this.cs
+///                       ^ punctuation.accessor.dot.cs
+///                        ^^^^^^ support.type.cs
+///                              ^^^^^ meta.generic.cs
+///                              ^ punctuation.definition.generic.begin.cs
+///                               ^^^ storage.type.primitive.cs
+///                                  ^ punctuation.definition.generic.end.cs
+///                                   ^^^^^ meta.brackets.cs
+///                                   ^ punctuation.section.brackets.begin.cs
+///                                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                     ^ punctuation.section.brackets.end.cs
+///                                      ^ punctuation.section.brackets.begin.cs
+///                                       ^ punctuation.section.brackets.end.cs
+///                                         ^ punctuation.section.braces.end.cs
 
                 // Anonymous class instantiation with member access
 
@@ -3176,6 +3213,109 @@ public class TestExpressions
 ///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                           ^ punctuation.section.brackets.end.cs
 ///                            ^ punctuation.terminator.statement.cs
+
+        this.List[0];
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ variable.other.member.cs
+///              ^^^ meta.brackets.cs
+///              ^ punctuation.section.brackets.begin.cs
+///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                ^ punctuation.section.brackets.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        Method(arg)[5][idx];
+///     ^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///           ^^^^^ meta.function-call.arguments.cs meta.group.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ variable.other.cs
+///               ^ punctuation.section.group.end.cs
+///                ^^^^^^^^ meta.brackets.cs
+///                ^ punctuation.section.brackets.begin.cs
+///                 ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                  ^ punctuation.section.brackets.end.cs
+///                   ^ punctuation.section.brackets.begin.cs
+///                    ^^^ variable.other.cs
+///                       ^ punctuation.section.brackets.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+        this.Method(arg)[5][idx];
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                ^^^^^ meta.function-call.arguments.cs meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^^^ variable.other.cs
+///                    ^ punctuation.section.group.end.cs
+///                     ^^^^^^^^ meta.brackets.cs
+///                     ^ punctuation.section.brackets.begin.cs
+///                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                       ^ punctuation.section.brackets.end.cs
+///                        ^ punctuation.section.brackets.begin.cs
+///                         ^^^ variable.other.cs
+///                            ^ punctuation.section.brackets.end.cs
+///                             ^ punctuation.terminator.statement.cs
+
+        Methods[5](arg)[5];
+///     ^^^^^^^^^^ meta.function-call.identifier.cs
+///     ^^^^^^^ variable.function.cs
+///            ^^^ meta.brackets.cs
+///            ^ punctuation.section.brackets.begin.cs
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///              ^ punctuation.section.brackets.end.cs
+///               ^^^^^ meta.function-call.arguments.cs meta.group.cs
+///               ^ punctuation.section.group.begin.cs
+///                ^^^ variable.other.cs
+///                   ^ punctuation.section.group.end.cs
+///                    ^^^ meta.brackets.cs
+///                    ^ punctuation.section.brackets.begin.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.section.brackets.end.cs
+///                       ^ punctuation.terminator.statement.cs
+
+        this.Methods[5](arg)[5];
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^^^^ meta.function-call.identifier.cs variable.function.cs
+///                 ^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.section.brackets.end.cs
+///                    ^^^^^ meta.group.cs
+///                    ^ punctuation.section.group.begin.cs
+///                     ^^^ variable.other.cs
+///                        ^ punctuation.section.group.end.cs
+///                         ^^^ meta.brackets.cs
+///                         ^ punctuation.section.brackets.begin.cs
+///                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.section.brackets.end.cs
+///                            ^ punctuation.terminator.statement.cs
+
+        Type<int>[5];
+///     ^^^^ support.type.cs
+///         ^^^^^ meta.generic.cs
+///         ^ punctuation.definition.generic.begin.cs
+///          ^^^ storage.type.primitive.cs
+///             ^ punctuation.definition.generic.end.cs
+///              ^^^ meta.brackets.cs
+///              ^ punctuation.section.brackets.begin.cs
+///               ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                ^ punctuation.section.brackets.end.cs
+///                 ^ punctuation.terminator.statement.cs
+
+        this.Type<int>[5];
+///     ^^^^ variable.language.this.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^ support.type.cs
+///              ^^^^^ meta.generic.cs
+///              ^ punctuation.definition.generic.begin.cs
+///               ^^^ storage.type.primitive.cs
+///                  ^ punctuation.definition.generic.end.cs
+///                   ^^^ meta.brackets.cs
+///                   ^ punctuation.section.brackets.begin.cs
+///                    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                     ^ punctuation.section.brackets.end.cs
+///                      ^ punctuation.terminator.statement.cs
     }
 
     void testDefault()
