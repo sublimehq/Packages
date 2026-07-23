@@ -373,6 +373,16 @@ class TestOperatorDefinitions {
     a > b;
 ///   ^ keyword.operator.comparison.cs
 
+    (U < 0f || U > 1f)
+///    ^ keyword.operator.comparison.cs
+///         ^^ keyword.operator.logical.cs
+///              ^ keyword.operator.comparison.cs
+
+    (U < 0f && U > 1f)
+///    ^ keyword.operator.comparison.cs
+///         ^^ keyword.operator.logical.cs
+///              ^ keyword.operator.comparison.cs
+
     a<t> > b<t>
 /// ^ support.type.cs
 ///  ^^^ meta.generic.cs
