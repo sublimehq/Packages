@@ -2544,7 +2544,7 @@ contexts:
 
   literal-double-quoted-textblock-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.java string.quoted.triple.java
+    - meta_scope: meta.string.java string.quoted.double.block.java
     - match: \"{3}
       scope: punctuation.definition.string.end.java
       pop: 1

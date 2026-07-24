@@ -569,19 +569,19 @@ before
 //      ^^^^ meta.string.java meta.block.conflict.begin.diff entity.name.section.diff
 //          ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
 ours
-// <- meta.string.java string.quoted.triple.java
-//^^ meta.string.java string.quoted.triple.java
+// <- meta.string.java string.quoted.double.block.java
+//^^ meta.string.java string.quoted.double.block.java
 =======
 // <- meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
 //^^^^^ meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
 //     ^ meta.string.java meta.block.conflict.separator.diff - punctuation
 theirs
-// <- meta.string.java string.quoted.triple.java
-//^^^^ meta.string.java string.quoted.triple.java
+// <- meta.string.java string.quoted.double.block.java
+//^^^^ meta.string.java string.quoted.double.block.java
 |||||||
 base
-// <- meta.string.java string.quoted.triple.java
-//^^ meta.string.java string.quoted.triple.java
+// <- meta.string.java string.quoted.double.block.java
+//^^ meta.string.java string.quoted.double.block.java
 >>>>>>> master
 // <- meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
 //^^^^^ meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
@@ -589,11 +589,11 @@ base
 //      ^^^^^^ meta.string.java meta.block.conflict.end.diff entity.name.section.diff
 //            ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
 after
-// <- meta.string.java string.quoted.triple.java
-//^^^ meta.string.java string.quoted.triple.java
+// <- meta.string.java string.quoted.double.block.java
+//^^^ meta.string.java string.quoted.double.block.java
 """
-// <- meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
-//^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+// <- meta.string.java string.quoted.double.block.java punctuation.definition.string.end.java
+//^ meta.string.java string.quoted.double.block.java punctuation.definition.string.end.java
 
 
 /******************************************************************************
@@ -11324,19 +11324,19 @@ class LiteralsTests {
   String stringLiteralTests() {
 
     String trippleQuotes = """
-//                         ^^^ meta.string.java string.quoted.triple.java punctuation.definition.string.begin.java
+//                         ^^^ meta.string.java string.quoted.double.block.java punctuation.definition.string.begin.java
         String with
         several lines.
         """;
-//      ^^^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+//      ^^^ meta.string.java string.quoted.double.block.java punctuation.definition.string.end.java
 //         ^ punctuation.terminator.java - string
 
     String trippleQuotes = """illegal content
-//                         ^^^ string.quoted.triple.java punctuation.definition.string.begin.java
-//                            ^^^^^^^^^^^^^^^ string.quoted.triple.java invalid.illegal.unexpected-content.java
+//                         ^^^ string.quoted.double.block.java punctuation.definition.string.begin.java
+//                            ^^^^^^^^^^^^^^^ string.quoted.double.block.java invalid.illegal.unexpected-content.java
         String with
         several lines.""";
-//      ^^^^^^^^^^^^^^^^^ string.quoted.triple.java
+//      ^^^^^^^^^^^^^^^^^ string.quoted.double.block.java
 //                    ^^^ punctuation.definition.string.end.java
 //                       ^ punctuation.terminator.java - string
 
