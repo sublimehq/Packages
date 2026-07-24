@@ -17,7 +17,7 @@
     { "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\"\"\"" }, "context":
         [
             { "key": "setting.auto_match_enabled" },
-            { "key": "selector", "operand": "source.java - source.java string" },
+            { "key": "selector", "operand": "source.java" },
             { "key": "selection_empty", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<!\")\"\"$", "match_all": true },
             { "key": "following_text", "operator": "not_regex_contains", "operand": "^\"", "match_all": true }
@@ -32,7 +32,7 @@
                 {"command": "left_delete" },
                 {"command": "right_delete" },
                 {"command": "left_delete" },
-                {"command": "right_delete" },
+                {"command": "right_delete" }
             ]
         },
         "context": [
@@ -73,7 +73,7 @@
     { "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'''" }, "context":
         [
             { "key": "setting.auto_match_enabled" },
-            { "key": "selector", "operand": "source.java - source.java string" },
+            { "key": "selector", "operand": "source.java" },
             { "key": "selection_empty", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<!')''$", "match_all": true },
             { "key": "following_text", "operator": "not_regex_contains", "operand": "^'", "match_all": true }
