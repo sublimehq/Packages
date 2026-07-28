@@ -785,7 +785,7 @@ contexts:
     - meta_include_prototype: false
     - match: '<'
       scope: keyword.operator.comparison.js
-      pop: 1
+      set: expression-begin
 
   ts-non-null-assertion:
     - match: '!(?!=)'
