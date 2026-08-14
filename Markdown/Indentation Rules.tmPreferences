@@ -4,6 +4,11 @@
 	<string>text.html.markdown</string>
 	<key>settings</key>
 	<dict>
+		<!--
+		Override indentation patterns of `text.html` scope
+		to clear and therefore disable them in inherited
+		`text.html.markdown` scope.
+		-->
 		<key>decreaseIndentPattern</key>
 		<string></string>
 		<key>increaseIndentPattern</key>
