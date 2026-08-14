@@ -9,8 +9,9 @@ extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - gohtml
+  - gotmpl
   - go.html
-  - tmpl
+  - go.tmpl
 
 variables:
 
