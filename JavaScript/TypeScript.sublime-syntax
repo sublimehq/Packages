@@ -847,12 +847,10 @@ contexts:
     - include: immediately-pop
 
   ts-type-expression-end:
-    - match: (?=\|\||&&)
-      fail: ts-function-type-arguments
-    - match: \&
+    - match: \&(?!\&)
       scope: keyword.operator.type.intersection.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
-    - match: \|
+    - match: \|(?!\|)
       scope: keyword.operator.type.union.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: is{{identifier_break}}

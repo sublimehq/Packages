@@ -391,6 +391,26 @@ import foo;
     declare();
 //  ^^^^^^^ meta.function-call variable.function
 
+    declare<T>();
+//         ^^^ meta.generic
+//         ^ punctuation.definition.generic.begin
+//          ^ support.class
+//           ^ punctuation.definition.generic.end
+
+    declare<T1 & T2>();
+//         ^^^^^^^^^ meta.generic.js
+//         ^ punctuation.definition.generic.begin.js
+//          ^^ support.class.js
+//             ^ keyword.operator.type.intersection.js
+//               ^^ support.class.js
+//                 ^ punctuation.definition.generic.end.js
+
+    declare<T1 && T2>();
+//         ^^^^^^^^^^ - meta.generic
+
+    declare<T1 & T2<T3 && T4>>();
+//         ^^^^^^^^^^^^^^^^^^^ - meta.generic
+
     declare con;
 //  ^^^^^^^ storage.modifier
 
