@@ -12,16 +12,37 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: literal-string-template-end-ahead
+    - include: scope:source.js.plain#text-interpolations
 
   comment-prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: literal-string-template-end-ahead
+    - include: scope:source.js.plain#text-interpolations
 
   identifier-prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: literal-string-template-end-ahead
+    - include: scope:source.js.plain#text-interpolations
 
   string-prototype:
     - meta_prepend: true
-    - include: scope:source.js#string-interpolations
+    - include: literal-string-template-end-ahead
+    - include: scope:source.js.plain#string-interpolations
+
+  backtick-quoted-identifier-part:
+    - match: \\\`
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-backtick-quoted-identifier-part
+
+  inside-backtick-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - match: \\\`
+      scope: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-prototype
+
+  literal-string-template-end-ahead:
+    - match: (?=`)
+      pop: 1

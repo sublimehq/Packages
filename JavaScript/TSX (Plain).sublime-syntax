@@ -1,0 +1,67 @@
+%YAML 1.2
+---
+name: TSX (Plain)
+scope: source.tsx.plain
+version: 2
+hidden: true
+
+extends:
+  - JSX (Plain).sublime-syntax
+  - TypeScript (Plain).sublime-syntax
+
+contexts:
+
+  ts-old-type-assertion:
+    # old type assertions are replaced by JSX tags
+    - match: <
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta
+        - jsx-tag-begin
+
+  jsx-tag: []  # replaced by `ts-old-type-assertion`
+
+  jsx-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    # note: type parameter modifiers indicate generic lambda
+    - match: (?=(?:in|out|const){{identifier_break}})
+      fail: arrow-function
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-expect-unmatched-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - tsx-tag-check
+        - jsx-tag-name
+
+  jsx-tag-name:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - jsx-tag-name-meta
+        - tsx-tag-generic-arguments
+        - jsx-tag-name-end
+        - jsx-tag-name-component-possibly-native
+
+  tsx-tag-generic-arguments:
+    - include: ts-generic-type-arguments
+    - include: else-pop
+
+  tsx-tag-check:
+    - match: extends{{jsx_identifier_break}}
+      scope: entity.other.attribute-name.js
+      set:
+        - meta_include_prototype: false
+        - match: (?=[>=])
+          pop: 1
+        - match: (?=\S)
+          fail: arrow-function
+
+    - match: (?=[/>{]|{{identifier_start}})
+      pop: 1
+    - match: (?=\S)
+      fail: arrow-function

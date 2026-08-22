@@ -14,14 +14,6 @@ variables:
 
 contexts:
 
-  prototype:
-    - meta_prepend: true
-    - include: scope:source.ts#text-interpolations
-
-  strings-content:
-    - meta_prepend: true
-    - include: scope:source.ts#string-interpolations
-
   main:
     # support properties in top-level context
     - meta_include_prototype: false
@@ -32,3 +24,17 @@ contexts:
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.ts.plain#literal-string-template-end-ahead
+    - include: scope:source.ts.plain#text-interpolations
+
+  property-end:
+    - meta_append: true
+    - include: scope:source.ts.plain#literal-string-template-end-ahead
+
+  strings-content:
+    - meta_prepend: true
+    - include: scope:source.ts.plain#literal-string-template-end-ahead
+    - include: scope:source.ts.plain#string-interpolations
