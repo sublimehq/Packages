@@ -69,7 +69,7 @@ variables:
   constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
-  other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
+  other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|contract_assert|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
   module_identifier: '{{identifier}}(?:\.{{identifier}})*'
@@ -89,7 +89,7 @@ variables:
   generic_lookahead: <{{generic_open}}{{generic_open}}{{regular}}{{generic_close}}\s*{{generic_close}}{{balance_parentheses}}>
 
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
-  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|contract_assert|static_assert'
 
   attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
   attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+({{attribute_token}}|\.\.\.))'
@@ -272,6 +272,35 @@ contexts:
   function-specifiers:
     - match: \b(const|final|noexcept|override)\b
       scope: storage.modifier.c++
+    # C++26 function contract specifiers (P2900): `pre (cond)`, `post (id : cond)`.
+    # `pre`/`post` are contextual keywords, recognised only in declarator position.
+    - match: \b(pre|post)\b\s*(?=\()
+      scope: storage.modifier.c++
+      push: contract-condition
+
+  contract-condition:
+    - match: \(
+      scope: meta.group.c++ punctuation.section.group.begin.c++
+      set: [inside-contract-condition, contract-result-name]
+    - match: (?=\S)
+      pop: true
+
+  contract-result-name:
+    # optional result-name-introducer of a postcondition -- `post (r : r > 0)`
+    - match: ({{identifier}})\s*(:)(?!:)
+      captures:
+        1: variable.parameter.c++
+        2: punctuation.separator.c++
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  inside-contract-condition:
+    - meta_content_scope: meta.group.c++
+    - match: \)
+      scope: meta.group.c++ punctuation.section.group.end.c++
+      pop: true
+    - include: expressions
 
   #############################################################################
   # The following are C++-specific contexts that should not be reused. This is
@@ -608,7 +637,7 @@ contexts:
             - include: expressions-minus-generic-type-function-call
 
   keywords-parens:
-    - match: '\b(alignof|typeid|static_assert|sizeof)\b\s*(\()'
+    - match: '\b(alignof|contract_assert|typeid|static_assert|sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.word.c++
         2: meta.group.c++ punctuation.section.group.begin.c++

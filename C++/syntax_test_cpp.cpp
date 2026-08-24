@@ -1822,6 +1822,27 @@ void f()
     /* ^ keyword.operator.word */
 }
 
+void contract_assert_test(int x)
+{
+    contract_assert(x >= 0);
+    /* ^ keyword.operator.word */
+}
+
+int fact(int n) pre(n >= 0) post(res: res > 0);
+/*              ^^^ storage.modifier.c++ */
+/*                          ^^^^ storage.modifier.c++ */
+/*                               ^^^ variable.parameter.c++ */
+/*                                  ^ punctuation.separator.c++ */
+
+void g() noexcept pre(x > 0) { }
+/*       ^^^^^^^^ storage.modifier.c++ */
+/*                ^^^ storage.modifier.c++ */
+/*                   ^^^^^^^ meta.group.c++ */
+
+auto h(int a) -> int post(out: out != a);
+/*                   ^^^^ storage.modifier.c++ */
+/*                        ^^^ variable.parameter.c++ */
+
 long double operator "" _km (long double x);
 /*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*                          ^^^^^^^^^^^^^^^ meta.function.parameters */
