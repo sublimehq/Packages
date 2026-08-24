@@ -326,6 +326,17 @@ static_assert(sizeof(int) == 4);
 _Static_assert(sizeof(int) == 4);
 /* <- keyword.operator.word */
 
+_Generic(x, int: 1, default: 0);
+/* <- keyword.operator.word */
+/*      ^ punctuation.section.group.begin */
+/*          ^^^ storage.type */
+/*                  ^^^^^^^ keyword.control */
+
+_Countof(arr);
+/* <- keyword.operator.word */
+/*      ^ punctuation.section.group.begin */
+/*          ^ punctuation.section.group.end */
+
 void build_default_prototype(Function *ret) {
     static typeof(*ret->params) params[4];
            /* <- keyword.declaration.type */
@@ -410,6 +421,33 @@ _Decimal64 d64;
 /* <- storage.type */
 
 _Decimal128 d128;
+/* <- storage.type */
+
+_Float16 f16;
+/* <- storage.type */
+
+_Float32 f32;
+/* <- storage.type */
+
+_Float32x f32x;
+/* <- storage.type */
+
+_Float64 f64;
+/* <- storage.type */
+
+_Float64x f64x;
+/* <- storage.type */
+
+_Float128 f128;
+/* <- storage.type */
+
+_Float128x f128x;
+/* <- storage.type */
+
+_Decimal64x d64x;
+/* <- storage.type */
+
+_Decimal128x d128x;
 /* <- storage.type */
 
 complex complex_t_var;

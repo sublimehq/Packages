@@ -129,6 +129,13 @@
             "kind": ["namespace", "h", "Header"]
         },
         {
+            // (since C29) Array element count macro
+            "trigger": "stdcountof.h",
+            "details": "Added in C29",
+            "contents": "stdcountof.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
             //  Common macro definitions
             "trigger": "stddef.h",
             "contents": "stddef.h",
