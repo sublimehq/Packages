@@ -1107,6 +1107,19 @@ class ExtendsTest extends @NonNull /**/ a /**/ . /**/ b /**/ . /**/ @a /**/ . b 
 //                                                                                            ^ punctuation.section.block.begin.java
 //                                                                                             ^ punctuation.section.block.end.java
 
+non-sealed class NonSealedClassTest extends SealedClassTest {}
+// <- meta.class.java storage.modifier.java
+//^^^^^^^^ storage.modifier.java
+//         ^^^^^ keyword.declaration.class.java
+//               ^^^^^^^^^^^^^^^^^^ entity.name.class.java
+//                                  ^^^^^^^ storage.modifier.extends.java
+
+non-sealed interface NonSealedInterfaceTest {}
+// <- meta.interface.java storage.modifier.java
+//^^^^^^^^ storage.modifier.java
+//         ^^^^^^^^^ keyword.declaration.interface.java
+//                   ^^^^^^^^^^^^^^^^^^^^^^ entity.name.interface.java
+
 public abstract sealed class SealedClassTest permits
 // <- meta.class.java storage.modifier.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java

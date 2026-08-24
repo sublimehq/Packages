@@ -51,25 +51,25 @@ variables:
   # Storage Modifiers
   #  excludes `default`, `synchronized` keywords
   storage_modifiers: |-
-    (?x: public | protected | private | abstract | final | native | sealed | static | strictfp | transient | volatile )
+    (?x: public | protected | private | abstract | final | native | non-sealed | sealed | static | strictfp | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
   class_modifier: |-
-    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
+    (?x: public | protected | private | abstract | final | non-sealed | sealed | static | strictfp )
   class_no_modifier: |-
     (?x: default | native | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
   constructor_modifier: |-
     (?x: public | protected | private )
   constructor_no_modifier: |-
-    (?x: abstract | default | final | native | sealed | static | strictfp | synchronized | transient | volatile )
+    (?x: abstract | default | final | native | non-sealed | sealed | static | strictfp | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
   field_modifier: |-
     (?x: public | protected | private | final | static | transient | volatile )
   field_no_modifier: |-
-    (?x: abstract | default | native | sealed | strictfp | synchronized )
+    (?x: abstract | default | native | non-sealed | sealed | strictfp | synchronized )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
   interface_modifier: |-
-    (?x: public | protected | private | abstract | sealed | static | strictfp )
+    (?x: public | protected | private | abstract | non-sealed | sealed | static | strictfp )
   interface_no_modifier: |-
     (?x: default | final | native | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
@@ -77,7 +77,7 @@ variables:
   method_modifier: |-
     (?x: public | protected | private | abstract | default | final | native | static | strictfp | synchronized )
   method_no_modifier: |-
-    (?x: sealed | transient | volatile )
+    (?x: non-sealed | sealed | transient | volatile )
 
   # Storage Types
   storage_types: |-
