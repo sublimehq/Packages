@@ -786,7 +786,7 @@ template <std::size_t Count = 128>
 /*           ^^ meta.template punctuation.accessor             */
 /*                          ^ meta.template keyword.operator   */
 /*                            ^ meta.template meta.number */
-class fixed_array : private std::array<int, Count> {};
+class FixedArray : private std::array<int, Count> {};
 
 constexpr std::size_t f() { return 128; }
 template <std::size_t Count = f()>
@@ -795,7 +795,7 @@ template <std::size_t Count = f()>
 /*                            ^ meta.template variable.function                */
 /*                             ^^ meta.template meta.function-call punctuation */
 /*                               ^ meta.template punctuation                   */
-class fixed_array : private std::array<int, Count> {};
+class FixedArray : private std::array<int, Count> {};
 
 template<class T> class A { /* ... */ };
 template<class T, class U = T> class B { /* ... */ };
@@ -843,7 +843,7 @@ template
 /*                       ^^ meta.template meta.function-call punctuation */
 >
 /* <- meta.template punctuation.definition.generic.end */
-class fixed_array : private std::array<int, Count> {};
+class FixedArray : private std::array<int, Count> {};
 
 template <class T>
 static bool decode(const Node& node, T& sequence) {
@@ -3291,13 +3291,13 @@ void test4()
 
 template <typename T>
 /* <- meta.template.c++ keyword.declaration.template.c++ */
-concept has_foo = requires(T t) {
+concept HasFoo = requires(T t) {
 /* <- meta.concept.c++ keyword.declaration.concept.c++ */
-/*      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ */
-/*      ^^^^^^^ meta.concept.c++ entity.name.concept.c++ */
-/*                ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
-/*                        ^^^^^ meta.function.parameters.c++ */
-/*                              ^ meta.function.c++  meta.block.c++ */
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ */
+/*      ^^^^^^ meta.concept.c++ entity.name.concept.c++ */
+/*               ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+/*                       ^^^^^ meta.function.parameters.c++ */
+/*                             ^ meta.function.c++  meta.block.c++ */
     t.foo();
 /*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.function.c++ meta.block.c++ */
 } && std::move_constructible<T>;
@@ -3347,14 +3347,14 @@ struct GTY1(42) bar {
 /*              ^^^ entity.name.struct.c++ */
 };
 
-enum GTY1("struct") baz {
+enum GTY1("struct") Baz {
 /*<- keyword.declaration.enum.type.c++ */
 /*   ^^^^ meta.function-call.c++ */
 /*        ^^^^^^^^ string */
 /*                  ^^^ entity.name.enum.c++ */
 };
 
-union GTY2("union struct", 42) bazz {
+union GTY2("union struct", 42) Bazz {
 /*<- keyword.declaration.union.type.c++ */
 /*    ^^^^ meta.function-call.c++ */
 /*         ^^^^^^^^^^^^^^ string */
@@ -3362,7 +3362,7 @@ union GTY2("union struct", 42) bazz {
 /*                             ^^^^ entity.name.union.c++ */
 };
 
-class GTY2("struct class", 42) bazzz {
+class GTY2("struct class", 42) Bazzz {
 /*<- keyword.declaration.class.c++ */
 /*    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
 /*                             ^^^^^ entity.name.class.c++ */
