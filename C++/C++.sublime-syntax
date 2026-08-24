@@ -94,7 +94,7 @@ variables:
   attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
   attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+({{attribute_token}}|\.\.\.))'
   attribute_namespace_list: '(using\s+{{identifier}}:\s*{{attribute_list}})'
-  attribute_body: '{{attribute_list}}|{{attribute_namespace_list}}'
+  attribute_body: '(?:{{attribute_list}}|{{attribute_namespace_list}})'
 
 
 contexts:
