@@ -745,3 +745,22 @@ class SomeClass
     private static partial Regex SomeRegex();
 
 }
+
+/**
+ * `scoped` modifier
+ * https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/declarations#scoped-ref
+ */
+
+class ScopedModifierTest
+{
+    static void M(scoped ref int r, scoped Span<int> s) { }
+///               ^^^^^^ storage.modifier.parameter.cs
+///                      ^^^ storage.modifier.parameter.cs
+///                                 ^^^^^^ storage.modifier.parameter.cs
+
+    static void N(ref int r)
+    {
+        scoped ref int local = ref r;
+///     ^^^^^^ storage.modifier.cs
+    }
+}

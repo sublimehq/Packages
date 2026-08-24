@@ -316,3 +316,13 @@ class Bar {
         }
     }
 }
+
+/**
+ * `extern alias` declarations
+ * https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern-alias
+ */
+
+extern alias LibV1;
+/// <- storage.modifier.cs
+///    ^^^^^ keyword.declaration.alias.cs
+///          ^^^^^ variable.namespace.cs

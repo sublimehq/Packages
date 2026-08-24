@@ -32,6 +32,7 @@ contexts:
     - include: stray-punctuation
     - include: terminators
     - include: attributes
+    - include: extern-alias-declarations
     - include: modifiers
     - include: visibility
     # global declarations
@@ -430,6 +431,17 @@ contexts:
     - include: csharp
 
 ###[ USING DECLARATIONS ]######################################################
+
+  extern-alias-declarations:
+    - match: (extern)\s+(alias)\b
+      captures:
+        1: storage.modifier.cs
+        2: keyword.declaration.alias.cs
+      push:
+        - match: '{{unreserved_name}}'
+          scope: variable.namespace.cs
+          pop: 1
+        - include: else-pop
 
   using-declarations:
     - match: (?:(global)\s+)?(using)\b
@@ -901,6 +913,12 @@ contexts:
     - include: secondary-type-constraint
 
   secondary-type-constraint:
+    - match: (allows)\s+(ref)\s+(struct)\b
+      captures:
+        1: storage.modifier.cs
+        2: storage.modifier.cs
+        3: storage.type.primitive.cs
+      pop: 1
     - match: (new)\s*((\()\s*(\)))
       scope: meta.constructor.cs
       captures:
@@ -1683,6 +1701,8 @@ contexts:
     # language variables
     - match: _\b
       scope: variable.language.anonymous.cs
+    - match: field\b
+      scope: variable.language.cs
     - match: value\b
       scope: variable.language.cs
     - include: namespace-variables
@@ -3394,7 +3414,7 @@ variables:
   integer_suffix: '[uU][lL]?|[lL][uU]?'
 
   # characters
-  escape_base: \\[0abfnrtv"'\\]
+  escape_base: \\[0abefnrtv"'\\]
   escape_hex: \\x\h{1,4}
   escape_uni16: \\u\h{4}
   escape_uni32: \\U\h{8}
@@ -3409,8 +3429,8 @@ variables:
     | {{language_literals}}
     )
 
-  modifiers: (?x:abstract|async|const|explicit|extern|implicit|new|override|partial|readonly|ref|required|sealed|static|unsafe|virtual|volatile)\b
-  method_param_type_modifier: (?:in|out|params|ref|this)\b
+  modifiers: (?x:abstract|async|const|explicit|extern|implicit|new|override|partial|readonly|ref|required|scoped|sealed|static|unsafe|virtual|volatile)\b
+  method_param_type_modifier: (?:in|out|params|ref|scoped|this)\b
   generic_param_type_modifier: (?:in|out|readonly|ref)\b
 
   visibility: (?:internal|private|protected|public)\b

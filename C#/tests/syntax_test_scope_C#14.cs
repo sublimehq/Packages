@@ -306,3 +306,18 @@ customer?.Order = GetCurrentOrder();
 //                               ^ punctuation.section.group.begin.cs
 //                                ^ punctuation.section.group.end.cs
 //                                 ^ punctuation.terminator.statement.cs
+
+// `field` keyword
+// https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword
+
+class FieldKeywordTest
+{
+    public int Prop
+    {
+        get => field;
+//             ^^^^^ variable.language.cs
+        set => field = value;
+//             ^^^^^ variable.language.cs
+//                     ^^^^^ variable.language.cs
+    }
+}
