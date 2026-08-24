@@ -337,6 +337,17 @@ _Countof(arr);
 /*      ^ punctuation.section.group.begin */
 /*          ^ punctuation.section.group.end */
 
+void stdlib_macro_test(void) {
+    countof(arr);
+/*  ^^^^^^^ support.function */
+    offsetof(struct S, member);
+/*  ^^^^^^^^ support.function */
+    unreachable();
+/*  ^^^^^^^^^^^ support.function */
+    ckd_add(&r, a, b);
+/*  ^^^^^^^ support.function */
+}
+
 void build_default_prototype(Function *ret) {
     static typeof(*ret->params) params[4];
            /* <- keyword.declaration.type */
