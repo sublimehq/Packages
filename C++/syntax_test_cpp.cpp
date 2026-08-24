@@ -1851,6 +1851,28 @@ inline [[nodiscard]] [[gnu::hot]] static auto nodiscard_func() -> void;
 /*                            ^^ punctuation.section.attribute.end.c++ */
 /*                                            ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.c++ */
 
+[[=Inject]] static auto annotated_func() -> void;
+/* <- meta.annotation.c++ punctuation.section.annotation.begin.c++ */
+/*^ punctuation.definition.annotation.c++ */
+/*       ^^ punctuation.section.annotation.end.c++ */
+/*          ^^^^^^ storage.modifier.c++ */
+/*                      ^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+[[=2, =3, =2]] static auto multi_annotated() -> void;
+/* <- meta.annotation.c++ punctuation.section.annotation.begin.c++ */
+/*  ^ punctuation.separator.c++ */
+/*          ^^ punctuation.section.annotation.end.c++ */
+/*                         ^^^^^^^^^^^^^^^ entity.name.function.c++ */
+
+struct AnnotatedMembers
+{
+    [[=JsonName("id")]] int annotated_member;
+/*  ^^ punctuation.section.annotation.begin.c++ */
+/*              ^^^^ string */
+/*                   ^^ punctuation.section.annotation.end.c++ */
+/*                      ^^^ storage.type */
+};
+
 inline [[gnu::always_inline, nodiscard]] constexpr auto gnu_attributes_func() -> void;
 /*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c++ */
 /*     ^^ meta.attribute.c++ punctuation.section.attribute.begin.c++ */

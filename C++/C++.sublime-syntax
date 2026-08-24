@@ -94,7 +94,8 @@ variables:
   attribute_token: '({{identifier}}|{{identifier}}::{{identifier}}|{{identifier}}\(.*\)|{{identifier}}::{{identifier}}\(.*\))'
   attribute_list: '({{attribute_token}}|({{attribute_token}},\s*)+({{attribute_token}}|\.\.\.))'
   attribute_namespace_list: '(using\s+{{identifier}}:\s*{{attribute_list}})'
-  attribute_body: '(?:{{attribute_list}}|{{attribute_namespace_list}})'
+  annotation_list: '(=[^\]]*)'
+  attribute_body: '(?:{{attribute_list}}|{{attribute_namespace_list}}|{{annotation_list}})'
 
 
 contexts:
@@ -472,6 +473,9 @@ contexts:
       pop: true
 
   attributes:
+    - match: '\[\[(?={{annotation_list}}\]\])'
+      scope: punctuation.section.annotation.begin.c++
+      push: annotation-body
     - match: '\[\[(?={{attribute_namespace_list}}\]\])'
       scope: punctuation.section.attribute.begin.c++
       push:
@@ -489,6 +493,19 @@ contexts:
     - match: '\[\[(?={{attribute_list}}\]\])'
       scope: punctuation.section.attribute.begin.c++
       push: attribute_list
+
+  annotation-body:
+    - meta_scope: meta.annotation.c++
+    - match: '='
+      scope: punctuation.definition.annotation.c++
+    - match: ','
+      scope: punctuation.separator.c++
+    - match: '\.\.\.'
+      scope: keyword.operator.variadic.c++
+    - match: \]\]
+      scope: punctuation.section.annotation.end.c++
+      pop: true
+    - include: expressions
 
   modifiers:
     - include: attributes
