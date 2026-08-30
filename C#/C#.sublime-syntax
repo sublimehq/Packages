@@ -430,19 +430,23 @@ contexts:
       pop: 1
     - include: csharp
 
-###[ USING DECLARATIONS ]######################################################
+###[ ALIAS DECLARATIONS ]######################################################
 
   extern-alias-declarations:
     - match: (extern)\s+(alias)\b
       captures:
         1: storage.modifier.cs
         2: keyword.declaration.alias.cs
-      push:
-        - match: '{{unreserved_name}}'
-          scope: variable.namespace.cs
-          pop: 1
-        - include: else-pop
+      push: extern-alias-declaration-name
 
+  extern-alias-declaration-name:
+    - meta_scope: meta.alias.cs
+    - match: '{{unreserved_name}}'
+      scope: variable.namespace.cs
+      pop: 1
+    - include: else-pop
+
+###[ USING DECLARATIONS ]######################################################
   using-declarations:
     - match: (?:(global)\s+)?(using)\b
       captures:
