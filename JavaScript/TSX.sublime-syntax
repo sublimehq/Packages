@@ -43,7 +43,7 @@ contexts:
       apply_prototype: true
 
   literal-string-template-html:
-    - match: (?i:((/\*)\s*html\s*(\*/))|(html))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*(?:html|svg)\s*(\*/))|(html|svg))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
         1: comment.block.js
         2: punctuation.definition.comment.begin.js

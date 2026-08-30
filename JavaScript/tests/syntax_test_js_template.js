@@ -98,6 +98,14 @@ var html = html`
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
+var svg = svg`<svg><style>g{color:red}</style></svg>`
+/*        ^^^ variable.function.tagged-template.js */
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.embedded.js */
+/*                        ^^^^^^^^^^^^ source.css.embedded.html */
+/*                                                  ^ string.quoted.other.js punctuation.definition.string.end.js */
+
 /*
  * JSON Templates
  */
