@@ -1971,11 +1971,11 @@ contexts:
     - include: separators
     - match: _\b
       scope: variable.language.anonymous.cs
-    - match: '{{name}}(?=\s*[,)])'
-      scope: variable.other.cs
     - match: var\b
       scope: storage.type.variant.cs
       push: var-declarator
+    - match: (?={{namespaced_name}}\s*[,)])
+      push: variable-declaration-name
     - match: (?=[@(]|{{start_char}})
       push:
         - variable-declaration-name

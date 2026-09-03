@@ -831,6 +831,30 @@ class Foo {
 ///                                      ^ punctuation.section.sequence.end.cs
 ///                                       ^ punctuation.terminator.statement.cs
 
+        (DistNear.x,DistFar.x) = (DistFar.x,DistNear.x);
+///     ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///     ^ punctuation.section.sequence.begin.cs
+///      ^^^^^^^^ variable.other.cs
+///              ^ punctuation.accessor.dot.cs
+///               ^ variable.other.cs
+///                ^ punctuation.separator.comma.cs
+///                 ^^^^^^^ variable.other.cs
+///                        ^ punctuation.accessor.dot.cs
+///                         ^ variable.other.cs
+///                          ^ punctuation.section.sequence.end.cs
+///                            ^ keyword.operator.assignment.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///                              ^ punctuation.section.sequence.begin.cs
+///                               ^^^^^^^ variable.other.cs
+///                                      ^ punctuation.accessor.dot.cs
+///                                       ^ variable.other.cs
+///                                        ^ punctuation.separator.comma.cs
+///                                         ^^^^^^^^ variable.other.cs
+///                                                 ^ punctuation.accessor.dot.cs
+///                                                  ^ variable.other.cs
+///                                                   ^ punctuation.section.sequence.end.cs
+///                                                    ^ punctuation.terminator.statement.cs
+
         var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
         foreach (var (name, age) in dic.Select(x => (x.Key, x.Value)))
 ///     ^^^^^^^ keyword.control.loop.foreach.cs
