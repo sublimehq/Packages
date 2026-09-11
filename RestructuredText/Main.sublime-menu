@@ -1,0 +1,112 @@
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "reStructuredText (reST)",
+                        "children":
+                        [
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Introduction",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/introduction.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Markup Specification",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Markup Specification ∙ Tables",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#tables" }
+                            },
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Markup Specification ∙ Substitution References",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#substitution-references" }
+                            },
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Directives",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/directives.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ Reference ∙ Interpreted Text Roles",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/roles.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ User ∙ Quickstart",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/user/rst/quickstart.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ User ∙ Examples",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/user/rst/demo.html" }
+                            },
+                            {
+                                "caption": "Docutils ∙ User ∙ Quick Reference",
+                                "command": "open_url",
+                                "args": { "url": "https://docutils.sourceforge.io/docs/user/rst/quickref.html" }
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Sphinx ∙ Command Line Tools",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/man/index.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ 'sphinx-build' Command Line",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/man/sphinx-build.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Documentation",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Usage ∙ Configuration",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/usage/configuration.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Usage ∙ reST ∙ Directives",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Usage ∙ reST ∙ Directives ∙ Admonitions",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#admonitions-messages-and-warnings" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Usage ∙ Referencing",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/usage/referencing.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Usage ∙ reST ∙ Interpreted Text Roles",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html" }
+                            },
+                            {
+                                "caption": "Sphinx ∙ Glossary",
+                                "command": "open_url",
+                                "args": { "url": "https://www.sphinx-doc.org/en/master/glossary.html" }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
