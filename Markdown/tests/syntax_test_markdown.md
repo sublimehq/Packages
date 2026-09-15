@@ -1107,7 +1107,7 @@ Foo *bar*
 Foo *bar
 | <- markup.heading.1.markdown entity.name.section.markdown
 |^^^^^^^^^ markup.heading.1.markdown entity.name.section.markdown
-|   ^^^^^ markup.italic.markdown
+|   ^^^^^ - markup.italic.markdown - punctuation.definition.italic
 =========
 | <- markup.heading.1.markdown punctuation.definition.heading.setext.markdown - markup.italic
 |^^^^^^^^ markup.heading.1.markdown punctuation.definition.heading.setext.markdown - markup.italic
@@ -1116,7 +1116,7 @@ Foo *bar
 Foo *bar
 | <- markup.heading.2.markdown entity.name.section.markdown
 |^^^^^^^^^ markup.heading.2.markdown entity.name.section.markdown
-|   ^^^^^ markup.italic.markdown
+|   ^^^^^ - markup.italic.markdown - punctuation.definition.italic
 ---------
 | <- markup.heading.2.markdown punctuation.definition.heading.setext.markdown - markup.italic
 |^^^^^^^^ markup.heading.2.markdown punctuation.definition.heading.setext.markdown - markup.italic
@@ -6279,14 +6279,14 @@ blah*
 |   ^ markup.list.unnumbered markup.italic punctuation.definition.italic.end
 - fgh
 - *ghgh
-| ^ markup.list.unnumbered markup.italic punctuation.definition.italic.begin
+| ^^^^^ - markup.italic - punctuation.definition.italic
 - fgfg
 | <- markup.list.unnumbered.bullet punctuation.definition.list_item
 - _test
+| ^^^^^ - markup.italic - punctuation.definition.italic
 
-| <- markup.list.unnumbered markup.italic invalid.illegal.non-terminated.bold-italic
   still a list item
-| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^^^^^^^^^^^^^^^^ - markup.italic
 
 ## https://custom-tests/list-blocks/items-with-inline-html-tags
 
@@ -6565,10 +6565,8 @@ foo
 ## https://spec.commonmark.org/0.30/#example-341
 
 *foo`*`
-| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
-|   ^^^ markup.italic.markdown markup.raw.inline.markdown
-
-| <- invalid.illegal.non-terminated.bold-italic
+|^^^^^^^ - markup.italic - punctuation.definition.italic
+|   ^^^ markup.raw.inline.markdown
 
 ## https://spec.commonmark.org/0.30/#example-342
 
@@ -6603,33 +6601,44 @@ foo
 
 # TEST: EMPHASIS ##############################################################
 
-## https://spec.commonmark.org/0.30/#example-350
+## https://spec.commonmark.org/0.31.2/#example-350
 
 *foo bar*
 | <- markup.italic.markdown punctuation.definition.italic.begin.markdown
 |^^^^^^^^ markup.italic.markdown
 |       ^ punctuation.definition.italic.end
 
-## https://spec.commonmark.org/0.30/#example-351
+## https://spec.commonmark.org/0.31.2/#example-351
 
 This is not emphasis, because the opening `*` is followed by whitespace, and hence not part of a left-flanking delimiter run:
 
 a * foo bar*
 | ^^^^^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-352
+## https://spec.commonmark.org/0.31.2/#example-352
 
 a*"foo"*
 | <- - markup.italic - punctuation
 |^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-353
+## https://spec.commonmark.org/0.31.2/#example-353
 
-* a *
-| <- markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown - markup.italic
-|^^^^^ markup.list.unnumbered.markdown - markup.italic - punctuation
+* a *
+| <- - markup.italic - punctuation.definition.italic
+|^^^^ - markup.italic - punctuation.definition.italic
 
-## https://spec.commonmark.org/0.30/#example-354
+## https://spec.commonmark.org/0.31.2/#example-354
+
+*$*alpha.
+|^^^^^^^^ - markup.italic - punctuation.definition.italic
+
+*£*bravo.
+|^^^^^^^^ - markup.italic - punctuation.definition.italic
+
+*€*charlie.
+|^^^^^^^^^ - markup.italic - punctuation.definition.italic
+
+## https://spec.commonmark.org/0.31.2/#example-355
 
 Intraword emphasis with `*` is permitted:
 
@@ -6640,7 +6649,7 @@ foo*bar*
 |  ^ punctuation.definition.italic.begin.markdown
 |      ^ punctuation.definition.italic.end.markdown
 
-## https://spec.commonmark.org/0.30/#example-355
+## https://spec.commonmark.org/0.31.2/#example-356
 
 5*6*78
 | <- - markup.italic
@@ -6649,14 +6658,14 @@ foo*bar*
 |  ^ punctuation.definition.italic.end.markdown
 |   ^^ - markup.italic
 
-## https://spec.commonmark.org/0.30/#example-356
+## https://spec.commonmark.org/0.31.2/#example-357
 
 _foo bar_
 | <- markup.italic.markdown punctuation.definition.italic.begin.markdown
 |^^^^^^^^ meta.paragraph.markdown markup.italic.markdown
 |       ^ punctuation.definition.italic.end.markdown
 
-## https://spec.commonmark.org/0.30/#example-357
+## https://spec.commonmark.org/0.31.2/#example-358
 
 This is not emphasis, because the opening `_` is followed by whitespace:
 
@@ -6664,7 +6673,7 @@ _ foo bar_
 | <- - markup.italic - punctuation
 |^^^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-358
+## https://spec.commonmark.org/0.31.2/#example-359
 
 This is not emphasis, because the opening `_` is preceded by an alphanumeric and followed by punctuation:
 
@@ -6672,7 +6681,7 @@ a_"foo"_
 | <- - markup.italic - punctuation
 |^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-359
+## https://spec.commonmark.org/0.31.2/#example-360
 
 Emphasis with `_` is not allowed inside words:
 
@@ -6680,19 +6689,19 @@ foo_bar_
 | <- - markup.italic - punctuation
 |^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-360
+## https://spec.commonmark.org/0.31.2/#example-361
 
 5_6_78
 | <- - markup.italic - punctuation
 |^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-361
+## https://spec.commonmark.org/0.31.2/#example-362
 
 пристаням_стремятся_
 | <- - markup.italic - punctuation
 |^^^^^^^^^^^^^^^^^^^ - markup.italic - punctuation
 
-## https://spec.commonmark.org/0.30/#example-362
+## https://spec.commonmark.org/0.31.2/#example-363
 
 Here `_` does not generate emphasis, because the first delimiter run is right-flanking
 and the second left-flanking:
@@ -6703,10 +6712,7 @@ aa_"bb"_cc
 
 > Note: Needs ST4's branching to get it right!
 
-## https://spec.commonmark.org/0.30/#example-363
-
-This is emphasis, even though the opening delimiter is both left- and right-flanking,
-because it is preceded by punctuation:
+## https://spec.commonmark.org/0.31.2/#example-364
 
 foo-_(bar)_
 | <- - markup.italic - punctuation
@@ -6715,52 +6721,39 @@ foo-_(bar)_
 |   ^ punctuation.definition.italic.begin.markdown
 |         ^ punctuation.definition.italic.end.markdown
 
-## https://spec.commonmark.org/0.30/#example-365
+## https://spec.commonmark.org/0.31.2/#example-365
 
-This is not emphasis, because the closing `*` is preceded by whitespace:
+_foo*
+|^^^^^ - markup.italic - punctuation.definition.italic
 
-*foo bar *
-| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
-|^^^^^^^^^^ markup.italic.markdown
-
-| <- markup.italic.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
-
-## https://spec.commonmark.org/0.30/#example-366
-
-A line ending also counts as whitespace:
+## https://spec.commonmark.org/0.31.2/#example-366
 
 *foo bar *
-| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
-|^^^^^^^^^^ markup.italic.markdown
-|        ^ - punctuation
+|^^^^^^^^^ - markup.italic - punctuation.definition.italic
+
+## https://spec.commonmark.org/0.31.2/#example-367
+
+*foo bar
+|^^^^^^^ - markup.italic - punctuation.definition.italic
 *
-| <- markup.italic.markdown - punctuation
-abc*
-| <- markup.italic.markdown
-|^^^ meta.paragraph.markdown markup.italic.markdown
-|  ^ punctuation.definition.italic.end.markdown
-|   ^ - markup.italic
+| <- - markup.italic - punctuation.definition.italic
 
-## https://spec.commonmark.org/0.30/#example-367
-
-This is not emphasis, because the second `*` is preceded by punctuation and followed
-by an alphanumeric (hence it is not part of a right-flanking delimiter run):
+## https://spec.commonmark.org/0.31.2/#example-368
 
 *(*foo)
+|^^^^^^^ - markup.italic - punctuation.definition.italic
 
-> Note: Needs ST4's branching to get it right!
-
-## https://spec.commonmark.org/0.30/#example-368
-
-The point of this restriction is more easily appreciated with this example:
+## https://spec.commonmark.org/0.31.2/#example-369
 
 *(*foo*)*
+| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
+|^^^^^^^^ markup.italic.markdown
+| ^^^^^ markup.italic.markdown markup.italic.markdown
+| ^ punctuation.definition.italic.begin.markdown
+|     ^ punctuation.definition.italic.end.markdown
+|       ^ punctuation.definition.italic.end.markdown
 
-> Note: Needs ST4's branching to get it right!
-
-## https://spec.commonmark.org/0.30/#example-369
+## https://spec.commonmark.org/0.31.2/#example-370
 
 Intraword emphasis with `*` is allowed:
 
@@ -6775,13 +6768,7 @@ Intraword emphasis with `*` is allowed:
 This is not emphasis, because the closing `_` is preceded by whitespace:
 
 _foo bar _
-| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
-|^^^^^^^^^^ markup.italic.markdown
-|        ^ - punctuation
-
-| <- markup.italic.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^ - markup.italic - punctuation.definition.italic
 
 _foo bar _
 | <- markup.italic.markdown punctuation.definition.italic.begin.markdown
@@ -6833,12 +6820,7 @@ abc_
 Intraword emphasis is disallowed for `_`:
 
 _пристаням_стремятся
-| <- markup.italic.markdown punctuation.definition.italic.begin.markdown
-|^^^^^^^^^^^^^^^^^^^^ markup.italic.markdown
-
-| <- markup.italic.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^^^^^^^^^^^^ - markup.italic - punctuation.definition.italic
 
 ## https://spec.commonmark.org/0.30/#example-375
 
@@ -6953,14 +6935,7 @@ foo-__(bar)__
 ## https://spec.commonmark.org/0.30/#example-390
 
 **foo bar **
-| <- markup.bold.markdown punctuation.definition.bold.begin.markdown
-|^^^^^^^^^^^^ markup.bold.markdown
-|^ punctuation.definition.bold.begin.markdown 
-|         ^^ - punctuation
-
-| <- markup.bold.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^^^ - markup.bold - markup.italic - punctuation.definition
 
 ## https://spec.commonmark.org/0.30/#example-394
 
@@ -6988,14 +6963,7 @@ Intraword emphasis:
 ## https://spec.commonmark.org/0.30/#example-396
 
 __foo bar __
-| <- markup.bold.markdown punctuation.definition.bold.begin.markdown
-|^^^^^^^^^^^^ markup.bold.markdown
-|^ punctuation.definition.bold.begin.markdown 
-|         ^^ - punctuation
-
-| <- markup.bold.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^^^ - markup.bold - markup.italic - punctuation.definition
 
 ## https://spec.commonmark.org/0.30/#example-397
 
@@ -7019,26 +6987,12 @@ _(__foo__)_
 
 Intraword strong emphasis is forbidden with `__`:
 __foo__bar
-| <- markup.bold.markdown punctuation.definition.bold.begin.markdown
-|^^^^^^^^^^ markup.bold.markdown
-|^ punctuation.definition.bold.begin.markdown 
-|    ^^ - punctuation
-
-| <- markup.bold.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^ - markup.bold - markup.italic - punctuation.definition
 
 ## https://spec.commonmark.org/0.30/#example-400
 
 __пристаням__стремятся
-| <- markup.bold.markdown punctuation.definition.bold.begin.markdown
-|^^^^^^^^^^^^^^^^^^^^^^ markup.bold.markdown
-|^ punctuation.definition.bold.begin.markdown 
-|          ^^ - punctuation
-
-| <- markup.bold.markdown invalid.illegal.non-terminated.bold-italic.markdown
-
-> Note: Needs ST4's branching to get it right!
+|^^^^^^^^^^^^^^^^^^^^^ - markup.bold - markup.italic - punctuation.definition
 
 ## https://spec.commonmark.org/0.30/#example-401
 
@@ -7374,6 +7328,16 @@ foo __*__
 
 ## https://custom-tests/emphasis
 
+This *is a test* ok.
+|    ^^^^^^^^^^^ markup.italic.markdown
+|    ^ punctuation.definition.italic.begin.markdown
+|              ^ punctuation.definition.italic.end.markdown
+
+This *is a test ok
+|^^^^^^^^^^^^^^^^ - markup.italic - punctuation.definition.italic
+
+| <- - markup.italic - invalid.illegal
+
 This text is _italic_, but this__text__is neither bold_nor_italic
 |            ^ punctuation.definition.italic
 |             ^^^^^^ markup.italic
@@ -7414,9 +7378,9 @@ more _tests <span class="test_">here</span>_
 |                                          ^ punctuation.definition.italic.end
 
 more _tests <span class="test_">_here</span>_
-|    ^ punctuation.definition.italic.begin
+|    ^ - punctuation.definition.italic
 |                            ^ - punctuation.definition
-|                               ^ - punctuation
+|                               ^ punctuation.definition.italic.begin
 |                                           ^ punctuation.definition.italic.end
 
 _more `tests_` here_
@@ -7770,26 +7734,26 @@ __test!*test__ Issue 1163
 |           ^^ punctuation.definition.bold.end
 
 *test
+|^^^^ - markup.italic - punctuation.definition.italic
 
-| <- invalid.illegal.non-terminated.bold-italic
 abc*
 |  ^ - punctuation
 
 _test
+|^^^^ - markup.italic - punctuation.definition.italic
 
-| <- invalid.illegal.non-terminated.bold-italic
 abc_
 |  ^ - punctuation
 
 **test
+|^^^^^ - markup.bold - markup.italic - punctuation.definition
 
-| <- invalid.illegal.non-terminated.bold-italic
 abc**
 |  ^^ - punctuation
 
 __test
+|^^^^^ - markup.bold - markup.italic - punctuation.definition
 
-| <- invalid.illegal.non-terminated.bold-italic
 abc__
 |  ^^ - punctuation
 
@@ -7973,11 +7937,11 @@ This ~~text~~~~ is ~~~~curious~~.
 This ~~has a
 |    ^^^^^^^^ meta.paragraph markup.strikethrough
 
-| <- meta.paragraph markup.strikethrough invalid.illegal.non-terminated.bold-italic
+| <- - markup.strikethrough - invalid.illegal
 new paragraph~~.
 |            ^^ meta.paragraph markup.strikethrough punctuation.definition.strikethrough.begin
 
-| <- invalid.illegal.non-terminated.bold-italic
+| <- - invalid.illegal
 
 A ~~[striked](https://link-url)~~
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown markup.strikethrough.markdown-gfm
