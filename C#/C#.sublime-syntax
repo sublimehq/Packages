@@ -1896,8 +1896,8 @@ contexts:
     # - `~`     : unary operator
     # - `--`    : unary operator
     # - `++`    : unary operator
-    # - literal : variable, type or method
-    - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(]|--|\+\+)
+    # - literal : char, digit, string, variable, type or method
+    - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(\d"']|--|\+\+)
       pop: 1
 
   paren-group:
