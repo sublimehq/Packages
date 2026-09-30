@@ -4273,6 +4273,35 @@ public class TestExpressions
 ///      ^^^^ storage.type.primitive.cs
 ///          ^ punctuation.section.group.end.cs
 
+        (byte) 0;
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///             ^ punctuation.terminator.statement.cs
+
+        (byte) 'c';
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^^ meta.string.cs string.quoted.single.cs
+///            ^ punctuation.definition.string.begin.cs
+///             ^ constant.character.literal.cs
+///              ^ punctuation.definition.string.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+        (byte) "b";
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^^ meta.string.cs string.quoted.double.cs
+///            ^ punctuation.definition.string.begin.cs
+///              ^ punctuation.definition.string.end.cs
+///               ^ punctuation.terminator.statement.cs
+
         (byte) var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs
 ///     ^ punctuation.section.group.begin.cs
