@@ -558,7 +558,7 @@ contexts:
           scope: punctuation.section.mapping.end.js
           pop: 1
         - include: variable-binding-spread
-        - match: (?={{identifier_start}}|\[|'|")
+        - match: (?={{identifier_start}}|\[|'|"|:)
           push:
             - initializer
             - variable-binding-object-alias
