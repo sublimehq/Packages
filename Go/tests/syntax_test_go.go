@@ -5594,6 +5594,23 @@ every function individually.
 //  ^^^ keyword.declaration.var.go
 //      ^^^^^ variable.other.readwrite.declaration.go - support
 
+    clear(ident)
+//  ^^^^^ variable.function.go support.function.builtin.go
+//        ^^^^^ variable.other.go
+
+    min(ident, ident)
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^^^ variable.other.go
+//             ^^^^^ variable.other.go
+
+    max(ident, ident)
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^^^ variable.other.go
+//             ^^^^^ variable.other.go
+
+    min
+//  ^^^ variable.other.go - support
+
 
 /*
 Templates
