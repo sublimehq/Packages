@@ -422,6 +422,49 @@ class TestOperatorDefinitions {
 ///           ^ keyword.operator.ternary
 ///                              ^ keyword.operator.ternary
 
+    (Radius != 1f) ? [a,b,c] : [e,f,g];
+/// ^^^^^^^^^^^^^^ meta.group.cs
+/// ^ punctuation.section.group.begin.cs
+///  ^^^^^^ variable.other.cs
+///         ^^ keyword.operator.comparison.cs
+///            ^^ meta.number.float.decimal.cs
+///            ^ constant.numeric.value.cs
+///             ^ constant.numeric.suffix.cs
+///              ^ punctuation.section.group.end.cs
+///                ^ keyword.operator.ternary.cs
+///                  ^^^^^^^ meta.brackets.cs
+///                  ^ punctuation.section.brackets.begin.cs
+///                   ^ variable.other.cs
+///                    ^ punctuation.separator.comma.cs
+///                     ^ variable.other.cs
+///                      ^ punctuation.separator.comma.cs
+///                       ^ variable.other.cs
+///                        ^ punctuation.section.brackets.end.cs
+///                          ^ keyword.operator.ternary.cs
+///                            ^^^^^^^ meta.brackets.cs
+///                            ^ punctuation.section.brackets.begin.cs
+///                             ^ variable.other.cs
+///                              ^ punctuation.separator.comma.cs
+///                               ^ variable.other.cs
+///                                ^ punctuation.separator.comma.cs
+///                                 ^ variable.other.cs
+///                                  ^ punctuation.section.brackets.end.cs
+///                                   ^ punctuation.terminator.statement.cs
+
+    C?[0]:[1];
+/// ^ variable.other.cs
+///  ^ keyword.operator.ternary.cs
+///   ^^^ meta.brackets.cs
+///   ^ punctuation.section.brackets.begin.cs
+///    ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///     ^ punctuation.section.brackets.end.cs
+///      ^ keyword.operator.ternary.cs
+///       ^^^ meta.brackets.cs
+///       ^ punctuation.section.brackets.begin.cs
+///        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///         ^ punctuation.section.brackets.end.cs
+///          ^ punctuation.terminator.statement.cs
+
     // Pointer Arithmetic
 
     a = &obj;
@@ -501,6 +544,19 @@ A?.B?.C?[0] ?? E;
 ///     ^ punctuation.section.brackets.begin
 ///         ^^ keyword.operator.null-coalescing
 ///             ^ punctuation.terminator
+
+A?.B?.C?[0] ?? [""];
+ /// <- keyword.operator.null-coalescing.cs
+  /// <- punctuation.accessor.dot.cs
+/// ^ keyword.operator.null-coalescing.cs
+///  ^ punctuation.accessor.dot.cs
+///     ^ punctuation.section.brackets.begin
+///         ^^ keyword.operator.null-coalescing
+///            ^^^^ meta.brackets.cs
+///            ^ punctuation.section.brackets.begin.cs
+///             ^^ string.quoted.double.cs
+///               ^ punctuation.section.brackets.end.cs
+///                ^ punctuation.terminator.statement.cs
 
 A?.B?.C?[0] == E;
  /// <- keyword.operator.null-coalescing.cs

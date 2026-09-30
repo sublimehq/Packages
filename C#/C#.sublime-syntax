@@ -1644,6 +1644,11 @@ contexts:
     - include: else-pop
 
   expression-common:
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push:
+        - inside-item-access
+        - maybe-pointer
     # accessors and operators (Note: order matters!)
     - match: ->
       scope: punctuation.accessor.arrow.cs
@@ -1674,21 +1679,13 @@ contexts:
         1: keyword.operator.null-coalescing.cs
         2: punctuation.accessor.dot.cs
       push: maybe-pointer
-    - match: (\?)?\s*(\[)
-      captures:
-        1: keyword.operator.null-coalescing.cs
-        2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push:
-        - inside-item-access
-        - maybe-pointer
     - match: \?\?
       scope: keyword.operator.null-coalescing.cs
-      push: maybe-pointer
-    - match: \?
-      scope: keyword.operator.ternary.cs
-      push:
-        - inside-ternary-expression
-        - maybe-pointer
+    - match: (?=\?)
+      branch_point: null-coalescing
+      branch:
+        - null-coalescing
+        - ternary-expression
     # keywords
     - match: '{{sql_keywords}}'
       scope: keyword.other.sql.cs
@@ -1741,10 +1738,39 @@ contexts:
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
 
+  null-coalescing:
+    - meta_include_prototype: false
+    - match: \?
+      scope: keyword.operator.null-coalescing.cs
+      set: null-coalescing-item-access
+    - include: immediately-pop
+
+  null-coalescing-item-access:
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set:
+        - null-coalescing-item-access-check
+        - inside-item-access
+        - maybe-pointer
+    - match: (?=\S)
+      fail: null-coalescing
+
+  null-coalescing-item-access-check:
+    - match: (?=:)
+      fail: null-coalescing
+    - include: else-pop
+
+  ternary-expression:
+    - meta_include_prototype: false
+    - match: \?
+      scope: keyword.operator.ternary.cs
+      set: inside-ternary-expression
+    - include: immediately-pop
+
   inside-ternary-expression:
     - match: ':'
       scope: keyword.operator.ternary.cs
-      pop: 1
+      set: expression
     - include: expression
 
   keywords:
