@@ -2673,7 +2673,6 @@ contexts:
     - match: '[*&]'
       scope: keyword.operator.pointer.cs
       pop: 1
-    - include: attributes
     - include: else-pop
 
   accessors:
