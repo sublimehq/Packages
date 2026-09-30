@@ -3479,7 +3479,7 @@ variables:
   unreserved_name: (?:@|(?!{{reserved}}\b)){{name_normal}}
   name: (?:@?{{name_normal}})
   name_normal: '{{start_char}}{{other_char}}*\b'
-  cap_name: '[[:upper:]]{{other_char}}*\b'
+  cap_name: '[[:upper:]]+[[:lower:]]{{other_char}}*\b'
   lower_name: '[[:lower:]]{{other_char}}*\b'
   start_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[:alpha:]])
   other_char: (?:{{escape_uni16}}|{{escape_uni32}}|[_[:alnum:]])

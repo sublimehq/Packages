@@ -199,6 +199,15 @@ public static decimal CalculateToll(object vehicle) =>
 ///                   ^ variable.language.anonymous
 ///                     ^^ meta.method meta.block punctuation.separator.case-expression
 
+        ANY_SHIP or OTHER_PLAIN => null,
+///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
+///                             ^^ meta.case.cs punctuation.separator.case-expression.cs
+///     ^^^^^^^^ variable.other.cs
+///              ^^ keyword.operator.logical.cs
+///                 ^^^^^^^^^^^ variable.other.cs
+///                                ^^^^ constant.language.null.cs
+///                                    ^ punctuation.separator.comma.cs
+
         _ => throw new ArgumentException("Not a known vehicle type", nameof(vehicle))
 ///     ^ variable.language.anonymous
 ///       ^^ punctuation.separator.case-expression
