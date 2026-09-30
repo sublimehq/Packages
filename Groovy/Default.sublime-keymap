@@ -1,5 +1,5 @@
 [
-	// Auto-Pair double qutoed block strings
+	// Auto-Pair double quoted block strings
 	// - ""| -> """|"""
 	{ "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\"\"\"" }, "context":
 		[
@@ -42,7 +42,7 @@
 		]
 	},
 
-	// Auto-Pair single qutoed block strings
+	// Auto-Pair single quoted block strings
 	// Example: key: ''| -> key: '''|'''
 	{ "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'''" }, "context":
 		[
