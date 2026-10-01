@@ -199,6 +199,18 @@ public static decimal CalculateToll(object vehicle) =>
 ///                   ^ variable.language.anonymous
 ///                     ^^ meta.method meta.block punctuation.separator.case-expression
 
+        DEliveryTruck _ => 10.00m,
+///     ^^^^^^^^^^^^^ support.type.cs
+
+        DELiveryTruck _ => 10.00m,
+///     ^^^^^^^^^^^^^ support.type.cs
+
+        D_LiveryTruck _ => 10.00m,
+///     ^^^^^^^^^^^^^ support.type.cs
+
+        D0liveryTruck _ => 10.00m,
+///     ^^^^^^^^^^^^^ support.type.cs
+
         ANY_SHIP or OTHER_PLAIN => null,
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.pattern.cs
 ///                             ^^ meta.case.cs punctuation.separator.case-expression.cs
