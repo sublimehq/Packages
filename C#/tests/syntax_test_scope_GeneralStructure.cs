@@ -1307,6 +1307,32 @@ namespace TestNamespace . Test
             };
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
+            var mech = new Mesh(4, 3) {
+                V = [0, 1, 2],
+///             ^ variable.other.member.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.comma.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.separator.comma.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.section.brackets.end.cs
+///                          ^ punctuation.separator.comma.cs
+                I = [3, 4, 5]
+///             ^ variable.other.member.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.comma.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.separator.comma.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.section.brackets.end.cs
+            };
+
             var anonymous = new {
 ///                         ^^^^^^ meta.instantiation.cs - meta.instantiation meta.instantiation
 ///                             ^ meta.braces.cs punctuation.section.braces.begin.cs
