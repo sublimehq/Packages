@@ -1674,14 +1674,14 @@ contexts:
         \{
           (\d+|{{identifier}})?
           (
-            :                     # format_spec delimiter
-            (.?[<>^])?            # [[fill]align]
-            [+-]?                 # [sign]
-            \#?                   # ['#']
-            0?                    # [0]
-            ((\d+\$?)|{{identifier}}\$)?           # [width]
-            (\.(\d+\$?|\*|{{identifier}}\$)?)?     # ['.' precision]
-            (([xX]?\?)|{{identifier}})?  # [type]
+            :                                   # format_spec delimiter
+            (.?[<>^])?                          # [[fill]align]
+            [+-]?                               # [sign]
+            \#?                                 # ['#']
+            0?                                  # [0]
+               (\d+\$?|{{identifier}}\$)?       # [width]
+            (\.(\d+\$?|{{identifier}}\$|\*)?)?  # ['.' precision]
+            (([xX]?\?)|[oxXpbeE])?              # [type]
           )?
         \}
       scope: constant.other.placeholder.rust
