@@ -2820,6 +2820,10 @@ class TestControlStatements
 /// ^ punctuation.section.block.end.cs
 ///  ^ meta.class.body.cs meta.block.cs - meta.method
 
+    abc:
+/// ^^^ entity.name.label.cs
+///    ^ punctuation.separator.colon.cs
+
     void testGotoStatements()
     {
         goto
