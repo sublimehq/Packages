@@ -31,11 +31,8 @@ contexts:
     - include: csharp-blocks
     - include: stray-punctuation
     - include: terminators
-    - include: attributes
-    - include: extern-alias-declarations
-    - include: modifiers
-    - include: visibility
     # global declarations
+    - include: extern-alias-declarations
     - include: namespace-declarations
     - include: using-declarations
     - include: class-declarations
@@ -49,10 +46,14 @@ contexts:
     - include: event-declarations
     - include: extension-declarations
     - include: conversion-declarations
+    # declaration modifiers
+    - include: attributes
+    - include: modifiers
+    - include: visibility
     # statements and expressions (fallback only)
     - include: embedded-statements
-    - include: local-declarations
     - include: label-declarations
+    - include: local-declarations
     - include: else-expression
 
 ###[ COMMENTS ]################################################################
@@ -447,6 +448,7 @@ contexts:
     - include: else-pop
 
 ###[ USING DECLARATIONS ]######################################################
+
   using-declarations:
     - match: (?:(global)\s+)?(using)\b
       captures:
@@ -577,11 +579,9 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
+    - include: statement-blocks
     - include: stray-punctuation
     - include: terminators
-    - include: attributes
-    - include: modifiers
-    - include: visibility
     # nested global declarations
     - include: class-declarations
     - include: enum-declarations
@@ -595,10 +595,14 @@ contexts:
     - include: extension-declarations
     - include: conversion-declarations
     - include: constructor-declarations
+    # declaration modifiers
+    - include: attributes
+    - include: modifiers
+    - include: visibility
+    # statements and expressions (fallback)
     - include: embedded-statements
+    - include: label-declarations
     - include: member-declarations
-    # fallbacks
-    - include: statement-blocks
     - include: else-expression
 
 ###[ ENUM DECLARATIONS ]#######################################################
