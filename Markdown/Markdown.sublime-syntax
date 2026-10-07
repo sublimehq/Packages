@@ -2812,6 +2812,7 @@ contexts:
         - no-emphasis
 
   bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -2821,11 +2822,13 @@ contexts:
       set: bold-italic-asterisk-body
 
   bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: bold-asterisk-body
 
   bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -2833,6 +2836,7 @@ contexts:
       set: bold-italic-underscore-body
 
   bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: bold-underscore-body
@@ -2923,11 +2927,13 @@ contexts:
         - no-emphasis
 
   italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: italic-asterisk-body
 
   italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: italic-underscore-body
@@ -2960,6 +2966,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: strikethrough-tilde-body
@@ -3043,6 +3050,7 @@ contexts:
         - no-emphasis
 
   block-quote-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3052,11 +3060,13 @@ contexts:
       set: block-quote-bold-italic-asterisk-body
 
   block-quote-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-bold-asterisk-body
 
   block-quote-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3064,6 +3074,7 @@ contexts:
       set: block-quote-bold-italic-underscore-body
 
   block-quote-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-bold-underscore-body
@@ -3154,11 +3165,13 @@ contexts:
         - no-emphasis
 
   block-quote-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-italic-asterisk-body
 
   block-quote-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-italic-underscore-body
@@ -3191,6 +3204,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   block-quote-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: block-quote-strikethrough-tilde-body
@@ -3271,6 +3285,7 @@ contexts:
         - no-emphasis
 
   block-quote-nested-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3280,11 +3295,13 @@ contexts:
       set: block-quote-nested-bold-italic-asterisk-body
 
   block-quote-nested-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-nested-bold-asterisk-body
 
   block-quote-nested-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3292,6 +3309,7 @@ contexts:
       set: block-quote-nested-bold-italic-underscore-body
 
   block-quote-nested-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-nested-bold-underscore-body
@@ -3382,11 +3400,13 @@ contexts:
         - no-emphasis
 
   block-quote-nested-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-nested-italic-asterisk-body
 
   block-quote-nested-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-nested-italic-underscore-body
@@ -3419,6 +3439,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   block-quote-nested-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: block-quote-nested-strikethrough-tilde-body
@@ -3499,6 +3520,7 @@ contexts:
         - no-emphasis
 
   list-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3508,11 +3530,13 @@ contexts:
       set: list-bold-italic-asterisk-body
 
   list-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: list-bold-asterisk-body
 
   list-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3520,6 +3544,7 @@ contexts:
       set: list-bold-italic-underscore-body
 
   list-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: list-bold-underscore-body
@@ -3610,11 +3635,13 @@ contexts:
         - no-emphasis
 
   list-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: list-italic-asterisk-body
 
   list-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: list-italic-underscore-body
@@ -3647,6 +3674,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   list-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: list-strikethrough-tilde-body
@@ -3721,6 +3749,7 @@ contexts:
         - no-emphasis
 
   footnote-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3730,11 +3759,13 @@ contexts:
       set: footnote-bold-italic-asterisk-body
 
   footnote-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: footnote-bold-asterisk-body
 
   footnote-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3742,6 +3773,7 @@ contexts:
       set: footnote-bold-italic-underscore-body
 
   footnote-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: footnote-bold-underscore-body
@@ -3832,11 +3864,13 @@ contexts:
         - no-emphasis
 
   footnote-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: footnote-italic-asterisk-body
 
   footnote-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: footnote-italic-underscore-body
@@ -3869,6 +3903,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   footnote-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: footnote-strikethrough-tilde-body
@@ -3943,6 +3978,7 @@ contexts:
         - no-emphasis
 
   block-quote-footnote-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3952,11 +3988,13 @@ contexts:
       set: block-quote-footnote-bold-italic-asterisk-body
 
   block-quote-footnote-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-footnote-bold-asterisk-body
 
   block-quote-footnote-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -3964,6 +4002,7 @@ contexts:
       set: block-quote-footnote-bold-italic-underscore-body
 
   block-quote-footnote-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-footnote-bold-underscore-body
@@ -4054,11 +4093,13 @@ contexts:
         - no-emphasis
 
   block-quote-footnote-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-footnote-italic-asterisk-body
 
   block-quote-footnote-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-footnote-italic-underscore-body
@@ -4091,6 +4132,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   block-quote-footnote-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: block-quote-footnote-strikethrough-tilde-body
@@ -4171,6 +4213,7 @@ contexts:
         - no-emphasis
 
   line-bold-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_italic_asterisk_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -4180,11 +4223,13 @@ contexts:
       set: line-bold-italic-asterisk-body
 
   line-bold-asterisk:
+    - meta_include_prototype: false
     - match: '{{bold_asterisk_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: line-bold-asterisk-body
 
   line-bold-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -4192,6 +4237,7 @@ contexts:
       set: line-bold-italic-underscore-body
 
   line-bold-underscore:
+    - meta_include_prototype: false
     - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: line-bold-underscore-body
@@ -4282,11 +4328,13 @@ contexts:
         - no-emphasis
 
   line-italic-asterisk:
+    - meta_include_prototype: false
     - match: '{{italic_asterisk_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: line-italic-asterisk-body
 
   line-italic-underscore:
+    - meta_include_prototype: false
     - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: line-italic-underscore-body
@@ -4319,6 +4367,7 @@ contexts:
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
   line-strikethrough-tilde:
+    - meta_include_prototype: false
     - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       set: line-strikethrough-tilde-body
@@ -4377,10 +4426,12 @@ contexts:
     - include: inline-common
 
   no-emphasis:
+    - meta_include_prototype: false
     - match: '[*_]'
       pop: 1
 
   no-strikethrough:
+    - meta_include_prototype: false
     - match: ~~
       pop: 1
 
