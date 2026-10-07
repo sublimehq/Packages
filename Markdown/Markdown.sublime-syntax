@@ -428,6 +428,18 @@ variables:
     | \B \* {{no_space_but_punct}}
     )
 
+  bold_italic_underscore_begin: \b(__)(_)(?![_\s])
+  bold_underscore_begin: \b__(?=\S)(?!_[_\s])
+  italic_underscore_begin: \b_(?=\S)(?!_)
+
+  # Closing delimiters (asterisk right-flanking checks are applied separately).
+  italic_asterisk_end: \*(?!\*[^\s*])
+  bold_underscore_end: __(?=_*\b)
+  italic_underscore_end: _(?=_*\b)
+
+  strikethrough_begin: ~~(?![~}>\s])
+  strikethrough_end: ~~(?:(?!~)|(?=~~}|~>))
+
   # EOF after a newline is indistinguishable from a multiline continuation.
   emphasis_eof: (?<!\n)\z
   emphasis_end: '{{setext_heading_escape}}|{{paragraph_end}}|{{emphasis_eof}}'
@@ -2785,12 +2797,12 @@ contexts:
       branch:
         - bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: bold-italic-underscore
       branch:
         - bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: bold-underscore
       branch:
         - bold-underscore-open
@@ -2811,14 +2823,14 @@ contexts:
       set: bold-asterisk
 
   bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: bold-italic-underscore
 
   bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: bold-underscore
 
@@ -2842,7 +2854,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: bold-after-bold-italic-asterisk
     - include: emphasis-common
@@ -2901,7 +2913,7 @@ contexts:
       branch:
         - italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: italic-underscore
       branch:
         - italic-underscore-open
@@ -2913,7 +2925,7 @@ contexts:
       set: italic-asterisk
 
   italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: italic-underscore
 
@@ -2937,7 +2949,7 @@ contexts:
 
   strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -3005,12 +3017,12 @@ contexts:
       branch:
         - block-quote-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: block-quote-bold-italic-underscore
       branch:
         - block-quote-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: block-quote-bold-underscore
       branch:
         - block-quote-bold-underscore-open
@@ -3031,14 +3043,14 @@ contexts:
       set: block-quote-bold-asterisk
 
   block-quote-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: block-quote-bold-italic-underscore
 
   block-quote-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-bold-underscore
 
@@ -3062,7 +3074,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: block-quote-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-bold-after-bold-italic-asterisk
     - include: block-quote-emphasis-common
@@ -3121,7 +3133,7 @@ contexts:
       branch:
         - block-quote-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: block-quote-italic-underscore
       branch:
         - block-quote-italic-underscore-open
@@ -3133,7 +3145,7 @@ contexts:
       set: block-quote-italic-asterisk
 
   block-quote-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-italic-underscore
 
@@ -3157,7 +3169,7 @@ contexts:
 
   block-quote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: block-quote-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -3223,12 +3235,12 @@ contexts:
       branch:
         - nested-block-quote-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: nested-block-quote-bold-italic-underscore
       branch:
         - nested-block-quote-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: nested-block-quote-bold-underscore
       branch:
         - nested-block-quote-bold-underscore-open
@@ -3249,14 +3261,14 @@ contexts:
       set: nested-block-quote-bold-asterisk
 
   nested-block-quote-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: nested-block-quote-bold-italic-underscore
 
   nested-block-quote-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: nested-block-quote-bold-underscore
 
@@ -3280,7 +3292,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: nested-block-quote-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: nested-block-quote-bold-after-bold-italic-asterisk
     - include: nested-block-quote-emphasis-common
@@ -3339,7 +3351,7 @@ contexts:
       branch:
         - nested-block-quote-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: nested-block-quote-italic-underscore
       branch:
         - nested-block-quote-italic-underscore-open
@@ -3351,7 +3363,7 @@ contexts:
       set: nested-block-quote-italic-asterisk
 
   nested-block-quote-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: nested-block-quote-italic-underscore
 
@@ -3375,7 +3387,7 @@ contexts:
 
   nested-block-quote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: nested-block-quote-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -3441,12 +3453,12 @@ contexts:
       branch:
         - list-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: list-bold-italic-underscore
       branch:
         - list-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: list-bold-underscore
       branch:
         - list-bold-underscore-open
@@ -3467,14 +3479,14 @@ contexts:
       set: list-bold-asterisk
 
   list-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: list-bold-italic-underscore
 
   list-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: list-bold-underscore
 
@@ -3498,7 +3510,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: list-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: list-bold-after-bold-italic-asterisk
     - include: list-emphasis-common
@@ -3557,7 +3569,7 @@ contexts:
       branch:
         - list-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: list-italic-underscore
       branch:
         - list-italic-underscore-open
@@ -3569,7 +3581,7 @@ contexts:
       set: list-italic-asterisk
 
   list-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: list-italic-underscore
 
@@ -3593,7 +3605,7 @@ contexts:
 
   list-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: list-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -3653,12 +3665,12 @@ contexts:
       branch:
         - footnote-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: footnote-bold-italic-underscore
       branch:
         - footnote-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: footnote-bold-underscore
       branch:
         - footnote-bold-underscore-open
@@ -3679,14 +3691,14 @@ contexts:
       set: footnote-bold-asterisk
 
   footnote-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: footnote-bold-italic-underscore
 
   footnote-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: footnote-bold-underscore
 
@@ -3710,7 +3722,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: footnote-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: footnote-bold-after-bold-italic-asterisk
     - include: footnote-emphasis-common
@@ -3769,7 +3781,7 @@ contexts:
       branch:
         - footnote-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: footnote-italic-underscore
       branch:
         - footnote-italic-underscore-open
@@ -3781,7 +3793,7 @@ contexts:
       set: footnote-italic-asterisk
 
   footnote-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: footnote-italic-underscore
 
@@ -3805,7 +3817,7 @@ contexts:
 
   footnote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: footnote-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -3865,12 +3877,12 @@ contexts:
       branch:
         - block-quote-footnote-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: block-quote-footnote-bold-italic-underscore
       branch:
         - block-quote-footnote-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: block-quote-footnote-bold-underscore
       branch:
         - block-quote-footnote-bold-underscore-open
@@ -3891,14 +3903,14 @@ contexts:
       set: block-quote-footnote-bold-asterisk
 
   block-quote-footnote-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: block-quote-footnote-bold-italic-underscore
 
   block-quote-footnote-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: block-quote-footnote-bold-underscore
 
@@ -3922,7 +3934,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: block-quote-footnote-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-footnote-bold-after-bold-italic-asterisk
     - include: block-quote-footnote-emphasis-common
@@ -3981,7 +3993,7 @@ contexts:
       branch:
         - block-quote-footnote-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: block-quote-footnote-italic-underscore
       branch:
         - block-quote-footnote-italic-underscore-open
@@ -3993,7 +4005,7 @@ contexts:
       set: block-quote-footnote-italic-asterisk
 
   block-quote-footnote-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: block-quote-footnote-italic-underscore
 
@@ -4017,7 +4029,7 @@ contexts:
 
   block-quote-footnote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: block-quote-footnote-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -4083,12 +4095,12 @@ contexts:
       branch:
         - line-bold-asterisk-open
         - no-emphasis
-    - match: (?=\b(__)(_)(?![_\s]))
+    - match: (?={{bold_italic_underscore_begin}})
       branch_point: line-bold-italic-underscore
       branch:
         - line-bold-italic-underscore-open
         - no-emphasis
-    - match: (?=\b__(?=\S)(?!_[_\s]))
+    - match: (?={{bold_underscore_begin}})
       branch_point: line-bold-underscore
       branch:
         - line-bold-underscore-open
@@ -4109,14 +4121,14 @@ contexts:
       set: line-bold-asterisk
 
   line-bold-italic-underscore-open:
-    - match: \b(__)(_)(?![_\s])
+    - match: '{{bold_italic_underscore_begin}}'
       captures:
         1: punctuation.definition.bold.begin.markdown
         2: markup.italic.markdown punctuation.definition.italic.begin.markdown
       set: line-bold-italic-underscore
 
   line-bold-underscore-open:
-    - match: \b__(?=\S)(?!_[_\s])
+    - match: '{{bold_underscore_begin}}'
       scope: punctuation.definition.bold.begin.markdown
       set: line-bold-underscore
 
@@ -4140,7 +4152,7 @@ contexts:
     - match: \*\*
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: line-italic-after-bold-italic-asterisk
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: line-bold-after-bold-italic-asterisk
     - include: line-emphasis-common
@@ -4199,7 +4211,7 @@ contexts:
       branch:
         - line-italic-asterisk-open
         - no-emphasis
-    - match: (?=\b_(?=\S)(?!_))
+    - match: (?={{italic_underscore_begin}})
       branch_point: line-italic-underscore
       branch:
         - line-italic-underscore-open
@@ -4211,7 +4223,7 @@ contexts:
       set: line-italic-asterisk
 
   line-italic-underscore-open:
-    - match: \b_(?=\S)(?!_)
+    - match: '{{italic_underscore_begin}}'
       scope: punctuation.definition.italic.begin.markdown
       set: line-italic-underscore
 
@@ -4235,7 +4247,7 @@ contexts:
 
   line-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: ~~(?![~}>\s])  # 2x ~ but no ~> or ~~}
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
       scope: punctuation.definition.strikethrough.begin.markdown
       push: line-strikethrough-content
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
@@ -4305,7 +4317,7 @@ contexts:
 
   bold-underscore-body:
     - match: '{{wspace}}_{2,}'
-    - match: __(?=_*\b)
+    - match: '{{bold_underscore_end}}'
       scope: punctuation.definition.bold.end.markdown
       pop: 1
     # Consume the asterisk that has no corresponding asterisk before the closing bold
@@ -4328,7 +4340,7 @@ contexts:
 
   italic-after-bold-italic-asterisk-close:
     - match: '{{wspace}}\*{3,}'
-    - match: \*(?!\*[^\s*])
+    - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       pop: 1
 
@@ -4342,30 +4354,30 @@ contexts:
 
   bold-after-bold-italic-underscore-close:
     - match: '{{wspace}}_{3,}'
-    - match: __(?=_*\b)
+    - match: '{{bold_underscore_end}}'
       scope: markup.bold.markdown punctuation.definition.bold.end.markdown
       pop: 1
 
   italic-after-bold-italic-underscore-close:
     - match: '{{wspace}}_{3,}'
-    - match: _(?=_*\b)
+    - match: '{{italic_underscore_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       pop: 1
 
   italic-asterisk-body:
     - match: '{{wspace}}\*(?!\*)'
-    - match: '{{asterisk_can_close}}\*(?!\*[^\s*])'
+    - match: '{{asterisk_can_close}}{{italic_asterisk_end}}'
       scope: punctuation.definition.italic.end.markdown
       pop: 1
 
   italic-underscore-body:
     - match: '{{wspace}}_(?!_)'
-    - match: _(?=_*\b)
+    - match: '{{italic_underscore_end}}'
       scope: punctuation.definition.italic.end.markdown
       pop: 1
 
   strikethrough-body:
-    - match: ~~(?:(?!~)|(?=~~}|~>))  # 2x ~ maybe followed by ~> or ~~}
+    - match: '{{strikethrough_end}}'  # 2x ~ maybe followed by ~> or ~~}
       scope: punctuation.definition.strikethrough.end.markdown
       pop: 1
     - match: ~+(?:(?!~)|(?=~~}|~>))  # any number of ~ maybe followed by ~> or ~~}
