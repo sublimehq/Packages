@@ -8,12 +8,12 @@ import sys
 
 
 SYNTAX_PATH = Path(__file__).with_name("Markdown.sublime-syntax")
-GENERATED_START = "###[ GENERATED: CONTAINER EMPHASIS ]#########################################"
-GENERATED_END = "###[ END GENERATED: CONTAINER EMPHASIS ]#####################################"
+GENERATED_START = "###[ GENERATED: CONTAINER EMPHASIS ]##########################################"
+GENERATED_END = "###[ END GENERATED: CONTAINER EMPHASIS ]######################################"
 BASE_START = "###[ INLINE: EMPHASIS ]#######################################################"
 BASE_END = "###[ INLINE: IMAGES ]#########################################################"
 OLD_GENERATED_START = (
-    "###[ INLINE: BLOCKQUOTE EMPHASIS ]##############################################"
+    "###[ INLINE: BLOCKQUOTE EMPHASIS ]############################################"
 )
 
 
@@ -92,7 +92,7 @@ def generate_variant(template: str, variant: Variant) -> str:
     context_names = re.findall(r"^  ([\w-]+):$", template, re.MULTILINE)
     body = transform_contexts(template, context_names, variant)
     heading = f"###[ GENERATED: {variant.title} EMPHASIS ]"
-    heading += "#" * (80 - len(heading))
+    heading += "#" * (78 - len(heading))
     prelude = generate_prelude(variant)
     return f"{heading}\n\n{prelude}\n\n{body}"
 
