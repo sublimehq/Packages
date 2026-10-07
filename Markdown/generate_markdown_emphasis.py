@@ -35,8 +35,8 @@ VARIANTS = (
         ("block-quote-punctuation-content",),
     ),
     Variant(
-        "nested-block-quote",
-        "NESTED BLOCK QUOTE",
+        "block-quote-nested",
+        "BLOCK QUOTE NESTED",
         "{{blockquote_nested_paragraph_end}}",
         True,
         ("block-quote-nested-punctuation-content",),
