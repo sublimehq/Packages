@@ -2952,18 +2952,29 @@ contexts:
 
   strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: strikethrough-tilde
+      branch:
+        - strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  strikethrough-body:
+  strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: strikethrough-tilde-body
+
+  strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: emphasis-end
+    - include: strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: emphasis-content
     - include: bold
     - include: italic
+
+  strikethrough-tilde-fail:
+    - match: '{{emphasis_end}}'
+      fail: strikethrough-tilde
 
   bold-asterisk-fail:
     - match: '{{emphasis_end}}'
@@ -2988,9 +2999,6 @@ contexts:
   italic-underscore-fail:
     - match: '{{emphasis_end}}'
       fail: italic-underscore
-
-  emphasis-end:
-    - include: paragraph-end
 
   emphasis-content:
     - include: emphasis-inline-common
@@ -3175,18 +3183,29 @@ contexts:
 
   block-quote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: block-quote-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: block-quote-strikethrough-tilde
+      branch:
+        - block-quote-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  block-quote-strikethrough-body:
+  block-quote-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: block-quote-strikethrough-tilde-body
+
+  block-quote-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: block-quote-emphasis-end
+    - include: block-quote-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: block-quote-emphasis-content
     - include: block-quote-bold
     - include: block-quote-italic
+
+  block-quote-strikethrough-tilde-fail:
+    - match: '{{block_quote_emphasis_end}}'
+      fail: block-quote-strikethrough-tilde
 
   block-quote-bold-asterisk-fail:
     - match: '{{block_quote_emphasis_end}}'
@@ -3211,10 +3230,6 @@ contexts:
   block-quote-italic-underscore-fail:
     - match: '{{block_quote_emphasis_end}}'
       fail: block-quote-italic-underscore
-
-  block-quote-emphasis-end:
-    - match: '{{blockquote_paragraph_end}}'
-      pop: 1
 
   block-quote-emphasis-content:
     - include: block-quote-punctuation-content
@@ -3396,18 +3411,29 @@ contexts:
 
   block-quote-nested-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: block-quote-nested-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: block-quote-nested-strikethrough-tilde
+      branch:
+        - block-quote-nested-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  block-quote-nested-strikethrough-body:
+  block-quote-nested-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: block-quote-nested-strikethrough-tilde-body
+
+  block-quote-nested-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: block-quote-nested-emphasis-end
+    - include: block-quote-nested-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: block-quote-nested-emphasis-content
     - include: block-quote-nested-bold
     - include: block-quote-nested-italic
+
+  block-quote-nested-strikethrough-tilde-fail:
+    - match: '{{block_quote_nested_emphasis_end}}'
+      fail: block-quote-nested-strikethrough-tilde
 
   block-quote-nested-bold-asterisk-fail:
     - match: '{{block_quote_nested_emphasis_end}}'
@@ -3432,10 +3458,6 @@ contexts:
   block-quote-nested-italic-underscore-fail:
     - match: '{{block_quote_nested_emphasis_end}}'
       fail: block-quote-nested-italic-underscore
-
-  block-quote-nested-emphasis-end:
-    - match: '{{blockquote_nested_paragraph_end}}'
-      pop: 1
 
   block-quote-nested-emphasis-content:
     - include: block-quote-nested-punctuation-content
@@ -3617,18 +3639,29 @@ contexts:
 
   list-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: list-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: list-strikethrough-tilde
+      branch:
+        - list-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  list-strikethrough-body:
+  list-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: list-strikethrough-tilde-body
+
+  list-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: list-emphasis-end
+    - include: list-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: list-emphasis-content
     - include: list-bold
     - include: list-italic
+
+  list-strikethrough-tilde-fail:
+    - match: '{{list_emphasis_end}}'
+      fail: list-strikethrough-tilde
 
   list-bold-asterisk-fail:
     - match: '{{list_emphasis_end}}'
@@ -3653,10 +3686,6 @@ contexts:
   list-italic-underscore-fail:
     - match: '{{list_emphasis_end}}'
       fail: list-italic-underscore
-
-  list-emphasis-end:
-    - match: '{{list_paragraph_end}}|{{list_setext_heading_escape}}'
-      pop: 1
 
   list-emphasis-content:
     - include: emphasis-inline-common
@@ -3832,18 +3861,29 @@ contexts:
 
   footnote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: footnote-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: footnote-strikethrough-tilde
+      branch:
+        - footnote-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  footnote-strikethrough-body:
+  footnote-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: footnote-strikethrough-tilde-body
+
+  footnote-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: footnote-emphasis-end
+    - include: footnote-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: footnote-emphasis-content
     - include: footnote-bold
     - include: footnote-italic
+
+  footnote-strikethrough-tilde-fail:
+    - match: '{{footnote_emphasis_end}}'
+      fail: footnote-strikethrough-tilde
 
   footnote-bold-asterisk-fail:
     - match: '{{footnote_emphasis_end}}'
@@ -3868,10 +3908,6 @@ contexts:
   footnote-italic-underscore-fail:
     - match: '{{footnote_emphasis_end}}'
       fail: footnote-italic-underscore
-
-  footnote-emphasis-end:
-    - match: '{{footnote_paragraph_end}}'
-      pop: 1
 
   footnote-emphasis-content:
     - include: emphasis-inline-common
@@ -4047,18 +4083,29 @@ contexts:
 
   block-quote-footnote-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: block-quote-footnote-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: block-quote-footnote-strikethrough-tilde
+      branch:
+        - block-quote-footnote-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  block-quote-footnote-strikethrough-body:
+  block-quote-footnote-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: block-quote-footnote-strikethrough-tilde-body
+
+  block-quote-footnote-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: block-quote-footnote-emphasis-end
+    - include: block-quote-footnote-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: block-quote-footnote-emphasis-content
     - include: block-quote-footnote-bold
     - include: block-quote-footnote-italic
+
+  block-quote-footnote-strikethrough-tilde-fail:
+    - match: '{{block_quote_footnote_emphasis_end}}'
+      fail: block-quote-footnote-strikethrough-tilde
 
   block-quote-footnote-bold-asterisk-fail:
     - match: '{{block_quote_footnote_emphasis_end}}'
@@ -4083,10 +4130,6 @@ contexts:
   block-quote-footnote-italic-underscore-fail:
     - match: '{{block_quote_footnote_emphasis_end}}'
       fail: block-quote-footnote-italic-underscore
-
-  block-quote-footnote-emphasis-end:
-    - match: '{{blockquote_footnote_paragraph_end}}'
-      pop: 1
 
   block-quote-footnote-emphasis-content:
     - include: block-quote-punctuation-content
@@ -4268,18 +4311,29 @@ contexts:
 
   line-strikethrough:
     # https://github.github.com/gfm/#strikethrough-extension-
-    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
-      scope: punctuation.definition.strikethrough.begin.markdown
-      push: line-strikethrough-body
+    - match: (?={{strikethrough_begin}})
+      branch_point: line-strikethrough-tilde
+      branch:
+        - line-strikethrough-tilde
+        - no-strikethrough
     - match: ~+(?![~}>\s])  # any number of ~ not looking like ~> or ~~}
 
-  line-strikethrough-body:
+  line-strikethrough-tilde:
+    - match: '{{strikethrough_begin}}'  # 2x ~ but no ~> or ~~}
+      scope: punctuation.definition.strikethrough.begin.markdown
+      set: line-strikethrough-tilde-body
+
+  line-strikethrough-tilde-body:
     - meta_scope: markup.strikethrough.markdown-gfm
-    - include: strikethrough-end
-    - include: line-emphasis-end
+    - include: line-strikethrough-tilde-fail
+    - include: strikethrough-tilde-end
     - include: line-emphasis-content
     - include: line-bold
     - include: line-italic
+
+  line-strikethrough-tilde-fail:
+    - match: '{{line_emphasis_end}}'
+      fail: line-strikethrough-tilde
 
   line-bold-asterisk-fail:
     - match: '{{line_emphasis_end}}'
@@ -4305,10 +4359,6 @@ contexts:
     - match: '{{line_emphasis_end}}'
       fail: line-italic-underscore
 
-  line-emphasis-end:
-    - match: '$'
-      pop: 1
-
   line-emphasis-content:
     - include: emphasis-inline-common
 
@@ -4328,6 +4378,10 @@ contexts:
 
   no-emphasis:
     - match: '[*_]'
+      pop: 1
+
+  no-strikethrough:
+    - match: ~~
       pop: 1
 
   bold-asterisk-end:
@@ -4400,7 +4454,7 @@ contexts:
       scope: punctuation.definition.italic.end.markdown
       pop: 1
 
-  strikethrough-end:
+  strikethrough-tilde-end:
     - match: '{{strikethrough_end}}'  # 2x ~ maybe followed by ~> or ~~}
       scope: punctuation.definition.strikethrough.end.markdown
       pop: 1

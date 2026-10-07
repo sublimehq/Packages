@@ -21,7 +21,6 @@ OLD_GENERATED_START = (
 class Variant:
     prefix: str
     title: str
-    termination: str
     with_inlines: bool = False
     common_includes: tuple[str, ...] = ()
 
@@ -30,31 +29,27 @@ VARIANTS = (
     Variant(
         "block-quote",
         "BLOCK QUOTE",
-        "{{blockquote_paragraph_end}}",
         True,
         ("block-quote-punctuation-content",),
     ),
     Variant(
         "block-quote-nested",
         "BLOCK QUOTE NESTED",
-        "{{blockquote_nested_paragraph_end}}",
         True,
         ("block-quote-nested-punctuation-content",),
     ),
     Variant(
         "list",
         "LIST",
-        "{{list_paragraph_end}}|{{list_setext_heading_escape}}",
         True,
     ),
-    Variant("footnote", "FOOTNOTE", "{{footnote_paragraph_end}}"),
+    Variant("footnote", "FOOTNOTE"),
     Variant(
         "block-quote-footnote",
         "BLOCK QUOTE FOOTNOTE",
-        "{{blockquote_footnote_paragraph_end}}",
         common_includes=("block-quote-punctuation-content",),
     ),
-    Variant("line", "SINGLE LINE", "$", True),
+    Variant("line", "SINGLE LINE", True),
 )
 
 
@@ -149,13 +144,6 @@ def transform_contexts(template: str, context_names: list[str], variant: Variant
     transformed = transformed.replace(generic_end, container_end)
     common_includes = "".join(
         f"    - include: {context}\n" for context in variant.common_includes
-    )
-    transformed = transformed.replace(
-        f"  {variant.prefix}-emphasis-end:\n"
-        "    - include: paragraph-end\n",
-        f"  {variant.prefix}-emphasis-end:\n"
-        f"    - match: '{variant.termination}'\n"
-        "      pop: 1\n",
     )
     transformed = transformed.replace(
         f"  {variant.prefix}-emphasis-content:\n",

@@ -56,8 +56,9 @@ outside_
 |  ^^^^^^^ - markup.italic.markdown - markup.bold.markdown
 
 1. ~~strike
+|  ^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
 2. test~~
-|  ^^^^^^ - markup.strikethrough.markdown-gfm
+|  ^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
 
 # Nested block quote/list paragraphs
 
@@ -116,5 +117,92 @@ outside_
 | ------- | ----- |
 | ^^^^^^^ - markup.italic.markdown - markup.bold.markdown
 
+# Strikethrough commits only within its current container
+
+> ~~strike
+| ^^^^^^^^ markup.strikethrough.markdown-gfm
+> continued~~
+| ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+> ~~unclosed
+| ^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+outside~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+1. ~~strike
+|  ^^^^^^^^ markup.strikethrough.markdown-gfm
+   continued~~
+|  ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+> 1. ~~strike
+|    ^^^^^^^^ markup.strikethrough.markdown-gfm
+>    continued~~
+|    ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+> 1. ~~strike
+|    ^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+> 2. test~~
+|    ^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+1. > ~~strike
+|    ^^^^^^^^ markup.strikethrough.markdown-gfm
+   > continued~~
+|    ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+[^strike]: ~~strike
+|          ^^^^^^^^ markup.strikethrough.markdown-gfm
+    continued~~
+|   ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+[^strike]: ~~strike
+|          ^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+[^other]: test~~
+|         ^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+> [^strike]: ~~strike
+|            ^^^^^^^^ markup.strikethrough.markdown-gfm
+>     continued~~
+|     ^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+> [^strike]: ~~strike
+|            ^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+> [^other]: test~~
+|           ^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+# ~~unclosed
+| ^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+outside~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~unclosed
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+==========
+| <- punctuation.definition.heading.setext.markdown - markup.strikethrough
+outside~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+1. ~~unclosed
+|  ^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+   ==========
+outside~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+!!! note "~~unclosed
+|         ^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+outside~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+| ~~strike | test~~ |
+| -------- | ------ |
+| ^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|            ^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
 The End.
-| <- - markup.italic.markdown - markup.bold.markdown
+| <- - markup.italic.markdown - markup.bold.markdown - markup.strikethrough

@@ -8013,13 +8013,82 @@ This ~~text~~~~ is ~~~~curious~~.
 |                             ^^ punctuation.definition.strikethrough.end
 
 This ~~has a
-|    ^^^^^^^^ meta.paragraph markup.strikethrough
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
 
 | <- - markup.strikethrough - invalid.illegal
 new paragraph~~.
-|            ^^ meta.paragraph markup.strikethrough punctuation.definition.strikethrough.begin
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
 
 | <- - invalid.illegal
+
+~~unclosed
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~closed~~
+| <- markup.strikethrough.markdown-gfm
+|^^^^^^^^^ markup.strikethrough.markdown-gfm
+| <- punctuation.definition.strikethrough.begin.markdown
+|^ punctuation.definition.strikethrough.begin.markdown
+|       ^^ punctuation.definition.strikethrough.end.markdown
+
+~~strike
+| <- markup.strikethrough.markdown-gfm
+|^^^^^^^ markup.strikethrough.markdown-gfm
+continued~~
+| <- markup.strikethrough.markdown-gfm
+|^^^^^^^^^^ markup.strikethrough.markdown-gfm
+
+~~unclosed
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+continuation
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~ not~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+a ~~~not strike~~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~escaped \~~
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~`~~`
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+~~[not closed](url)
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+
+*italic ~~unclosed*
+| <- markup.italic.markdown - markup.strikethrough - punctuation.definition.strikethrough
+|^^^^^^^^^^^^^^^^^^ markup.italic.markdown - markup.strikethrough - punctuation.definition.strikethrough
+
+**bold ~~unclosed**
+| <- markup.bold.markdown - markup.strikethrough - punctuation.definition.strikethrough
+|^^^^^^^^^^^^^^^^^^ markup.bold.markdown - markup.strikethrough - punctuation.definition.strikethrough
+
+~~unclosed *italic*
+| <- - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|^^^^^^^^^^^^^^^^^ - markup.strikethrough - punctuation.definition.strikethrough - invalid.illegal
+|          ^^^^^^^^ markup.italic.markdown
+
+~~strike *unclosed~~
+| <- markup.strikethrough.markdown-gfm - markup.italic
+|^^^^^^^^^^^^^^^^^^ markup.strikethrough.markdown-gfm - markup.italic
+
+~~strike **bold**~~
+| <- markup.strikethrough.markdown-gfm
+|^^^^^^^^^^^^^^^^^ markup.strikethrough.markdown-gfm
+|        ^^^^^^^^ markup.bold.markdown
 
 A ~~[striked](https://link-url)~~
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown markup.strikethrough.markdown-gfm
