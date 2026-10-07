@@ -2841,14 +2841,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: emphasis-end
     - include: bold-content
 
   bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: bold-underscore-fail
     - include: bold-underscore-end
-    - include: emphasis-end
     - include: bold-content
 
   bold-italic-asterisk-body:
@@ -2862,7 +2860,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: bold-after-bold-italic-asterisk-body
-    - include: emphasis-end
     - include: emphasis-content
     - include: strikethrough
 
@@ -2870,14 +2867,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: emphasis-end
     - include: bold-content
 
   italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: emphasis-end
     - include: italic-content
 
   bold-italic-underscore-body:
@@ -2891,7 +2886,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: bold-after-bold-italic-underscore-body
-    - include: emphasis-end
     - include: emphasis-content
     - include: strikethrough
 
@@ -2899,14 +2893,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: emphasis-end
     - include: bold-content
 
   italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: emphasis-end
     - include: italic-content
 
   bold-content:
@@ -2944,14 +2936,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: emphasis-end
     - include: italic-content
 
   italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: italic-underscore-fail
     - include: italic-underscore-end
-    - include: emphasis-end
     - include: italic-content
 
   italic-content:
@@ -3074,14 +3064,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: block-quote-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: block-quote-emphasis-end
     - include: block-quote-bold-content
 
   block-quote-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: block-quote-bold-underscore-fail
     - include: bold-underscore-end
-    - include: block-quote-emphasis-end
     - include: block-quote-bold-content
 
   block-quote-bold-italic-asterisk-body:
@@ -3095,7 +3083,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-bold-after-bold-italic-asterisk-body
-    - include: block-quote-emphasis-end
     - include: block-quote-emphasis-content
     - include: block-quote-strikethrough
 
@@ -3103,14 +3090,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: block-quote-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: block-quote-emphasis-end
     - include: block-quote-bold-content
 
   block-quote-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: block-quote-emphasis-end
     - include: block-quote-italic-content
 
   block-quote-bold-italic-underscore-body:
@@ -3124,7 +3109,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-bold-after-bold-italic-underscore-body
-    - include: block-quote-emphasis-end
     - include: block-quote-emphasis-content
     - include: block-quote-strikethrough
 
@@ -3132,14 +3116,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: block-quote-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: block-quote-emphasis-end
     - include: block-quote-bold-content
 
   block-quote-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: block-quote-emphasis-end
     - include: block-quote-italic-content
 
   block-quote-bold-content:
@@ -3177,14 +3159,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: block-quote-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: block-quote-emphasis-end
     - include: block-quote-italic-content
 
   block-quote-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: block-quote-italic-underscore-fail
     - include: italic-underscore-end
-    - include: block-quote-emphasis-end
     - include: block-quote-italic-content
 
   block-quote-italic-content:
@@ -3305,14 +3285,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: nested-block-quote-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-bold-content
 
   nested-block-quote-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: nested-block-quote-bold-underscore-fail
     - include: bold-underscore-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-bold-content
 
   nested-block-quote-bold-italic-asterisk-body:
@@ -3326,7 +3304,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: nested-block-quote-bold-after-bold-italic-asterisk-body
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-emphasis-content
     - include: nested-block-quote-strikethrough
 
@@ -3334,14 +3311,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: nested-block-quote-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-bold-content
 
   nested-block-quote-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: nested-block-quote-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-italic-content
 
   nested-block-quote-bold-italic-underscore-body:
@@ -3355,7 +3330,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: nested-block-quote-bold-after-bold-italic-underscore-body
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-emphasis-content
     - include: nested-block-quote-strikethrough
 
@@ -3363,14 +3337,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: nested-block-quote-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-bold-content
 
   nested-block-quote-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: nested-block-quote-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-italic-content
 
   nested-block-quote-bold-content:
@@ -3408,14 +3380,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: nested-block-quote-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-italic-content
 
   nested-block-quote-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: nested-block-quote-italic-underscore-fail
     - include: italic-underscore-end
-    - include: nested-block-quote-emphasis-end
     - include: nested-block-quote-italic-content
 
   nested-block-quote-italic-content:
@@ -3536,14 +3506,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: list-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: list-emphasis-end
     - include: list-bold-content
 
   list-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: list-bold-underscore-fail
     - include: bold-underscore-end
-    - include: list-emphasis-end
     - include: list-bold-content
 
   list-bold-italic-asterisk-body:
@@ -3557,7 +3525,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: list-bold-after-bold-italic-asterisk-body
-    - include: list-emphasis-end
     - include: list-emphasis-content
     - include: list-strikethrough
 
@@ -3565,14 +3532,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: list-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: list-emphasis-end
     - include: list-bold-content
 
   list-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: list-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: list-emphasis-end
     - include: list-italic-content
 
   list-bold-italic-underscore-body:
@@ -3586,7 +3551,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: list-bold-after-bold-italic-underscore-body
-    - include: list-emphasis-end
     - include: list-emphasis-content
     - include: list-strikethrough
 
@@ -3594,14 +3558,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: list-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: list-emphasis-end
     - include: list-bold-content
 
   list-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: list-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: list-emphasis-end
     - include: list-italic-content
 
   list-bold-content:
@@ -3639,14 +3601,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: list-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: list-emphasis-end
     - include: list-italic-content
 
   list-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: list-italic-underscore-fail
     - include: italic-underscore-end
-    - include: list-emphasis-end
     - include: list-italic-content
 
   list-italic-content:
@@ -3761,14 +3721,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: footnote-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: footnote-emphasis-end
     - include: footnote-bold-content
 
   footnote-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: footnote-bold-underscore-fail
     - include: bold-underscore-end
-    - include: footnote-emphasis-end
     - include: footnote-bold-content
 
   footnote-bold-italic-asterisk-body:
@@ -3782,7 +3740,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: footnote-bold-after-bold-italic-asterisk-body
-    - include: footnote-emphasis-end
     - include: footnote-emphasis-content
     - include: footnote-strikethrough
 
@@ -3790,14 +3747,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: footnote-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: footnote-emphasis-end
     - include: footnote-bold-content
 
   footnote-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: footnote-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: footnote-emphasis-end
     - include: footnote-italic-content
 
   footnote-bold-italic-underscore-body:
@@ -3811,7 +3766,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: footnote-bold-after-bold-italic-underscore-body
-    - include: footnote-emphasis-end
     - include: footnote-emphasis-content
     - include: footnote-strikethrough
 
@@ -3819,14 +3773,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: footnote-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: footnote-emphasis-end
     - include: footnote-bold-content
 
   footnote-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: footnote-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: footnote-emphasis-end
     - include: footnote-italic-content
 
   footnote-bold-content:
@@ -3864,14 +3816,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: footnote-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: footnote-emphasis-end
     - include: footnote-italic-content
 
   footnote-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: footnote-italic-underscore-fail
     - include: italic-underscore-end
-    - include: footnote-emphasis-end
     - include: footnote-italic-content
 
   footnote-italic-content:
@@ -3986,14 +3936,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: block-quote-footnote-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-bold-content
 
   block-quote-footnote-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: block-quote-footnote-bold-underscore-fail
     - include: bold-underscore-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-bold-content
 
   block-quote-footnote-bold-italic-asterisk-body:
@@ -4007,7 +3955,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-footnote-bold-after-bold-italic-asterisk-body
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-emphasis-content
     - include: block-quote-footnote-strikethrough
 
@@ -4015,14 +3962,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: block-quote-footnote-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-bold-content
 
   block-quote-footnote-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-footnote-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-italic-content
 
   block-quote-footnote-bold-italic-underscore-body:
@@ -4036,7 +3981,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: block-quote-footnote-bold-after-bold-italic-underscore-body
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-emphasis-content
     - include: block-quote-footnote-strikethrough
 
@@ -4044,14 +3988,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: block-quote-footnote-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-bold-content
 
   block-quote-footnote-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-footnote-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-italic-content
 
   block-quote-footnote-bold-content:
@@ -4089,14 +4031,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: block-quote-footnote-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-italic-content
 
   block-quote-footnote-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: block-quote-footnote-italic-underscore-fail
     - include: italic-underscore-end
-    - include: block-quote-footnote-emphasis-end
     - include: block-quote-footnote-italic-content
 
   block-quote-footnote-italic-content:
@@ -4217,14 +4157,12 @@ contexts:
     - meta_scope: markup.bold.markdown
     - include: line-bold-asterisk-fail
     - include: bold-asterisk-end
-    - include: line-emphasis-end
     - include: line-bold-content
 
   line-bold-underscore-body:
     - meta_scope: markup.bold.markdown
     - include: line-bold-underscore-fail
     - include: bold-underscore-end
-    - include: line-emphasis-end
     - include: line-bold-content
 
   line-bold-italic-asterisk-body:
@@ -4238,7 +4176,6 @@ contexts:
     - match: '{{italic_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: line-bold-after-bold-italic-asterisk-body
-    - include: line-emphasis-end
     - include: line-emphasis-content
     - include: line-strikethrough
 
@@ -4246,14 +4183,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: line-bold-italic-asterisk-fail
     - include: bold-after-bold-italic-asterisk-end
-    - include: line-emphasis-end
     - include: line-bold-content
 
   line-italic-after-bold-italic-asterisk-body:
     - meta_content_scope: markup.italic.markdown
     - include: line-bold-italic-asterisk-fail
     - include: italic-after-bold-italic-asterisk-end
-    - include: line-emphasis-end
     - include: line-italic-content
 
   line-bold-italic-underscore-body:
@@ -4267,7 +4202,6 @@ contexts:
     - match: _\b
       scope: markup.italic.markdown punctuation.definition.italic.end.markdown
       set: line-bold-after-bold-italic-underscore-body
-    - include: line-emphasis-end
     - include: line-emphasis-content
     - include: line-strikethrough
 
@@ -4275,14 +4209,12 @@ contexts:
     - meta_content_scope: markup.bold.markdown
     - include: line-bold-italic-underscore-fail
     - include: bold-after-bold-italic-underscore-end
-    - include: line-emphasis-end
     - include: line-bold-content
 
   line-italic-after-bold-italic-underscore-body:
     - meta_content_scope: markup.italic.markdown
     - include: line-bold-italic-underscore-fail
     - include: italic-after-bold-italic-underscore-end
-    - include: line-emphasis-end
     - include: line-italic-content
 
   line-bold-content:
@@ -4320,14 +4252,12 @@ contexts:
     - meta_scope: markup.italic.markdown
     - include: line-italic-asterisk-fail
     - include: italic-asterisk-end
-    - include: line-emphasis-end
     - include: line-italic-content
 
   line-italic-underscore-body:
     - meta_scope: markup.italic.markdown
     - include: line-italic-underscore-fail
     - include: italic-underscore-end
-    - include: line-emphasis-end
     - include: line-italic-content
 
   line-italic-content:
