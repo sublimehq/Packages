@@ -151,11 +151,15 @@ def transform_contexts(template: str, context_names: list[str], variant: Variant
         f"    - include: {context}\n" for context in variant.common_includes
     )
     transformed = transformed.replace(
-        f"  {variant.prefix}-emphasis-common:\n"
+        f"  {variant.prefix}-emphasis-end:\n"
         "    - include: paragraph-end\n",
-        f"  {variant.prefix}-emphasis-common:\n"
+        f"  {variant.prefix}-emphasis-end:\n"
         f"    - match: '{variant.termination}'\n"
-        "      pop: 1\n"
+        "      pop: 1\n",
+    )
+    transformed = transformed.replace(
+        f"  {variant.prefix}-emphasis-content:\n",
+        f"  {variant.prefix}-emphasis-content:\n"
         f"{common_includes}",
     )
     return transformed
