@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-"""Generate container-specific Markdown emphasis contexts."""
+"""Generate container-specific Markdown emphasis contexts.
+
+The handwritten INLINE: EMPHASIS section in Markdown.sublime-syntax is
+the template. For each container, prefix its contexts and branch points,
+substitute its termination variable, and add container-specific includes.
+Contexts outside the template remain shared.
+
+Only the marked GENERATED: CONTAINER EMPHASIS region is replaced.
+Edit the handwritten template, not the generated contexts, then run:
+
+    uv run Markdown/generate_markdown_emphasis.py
+
+Use --check to verify that the generated region is up to date.
+"""
 
 from dataclasses import dataclass
 from pathlib import Path
