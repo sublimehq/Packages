@@ -4436,7 +4436,6 @@ contexts:
       pop: 1
 
   bold-asterisk-end:
-    - match: '{{wspace}}\*{2,}'
     - match: '{{asterisk_can_close}}\*\*'
       scope: punctuation.definition.bold.end.markdown
       pop: 1
@@ -4494,7 +4493,6 @@ contexts:
       pop: 1
 
   italic-asterisk-end:
-    - match: '{{wspace}}\*(?!\*)'
     - match: '{{asterisk_can_close}}{{italic_asterisk_end}}'
       scope: punctuation.definition.italic.end.markdown
       pop: 1
