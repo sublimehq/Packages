@@ -52,16 +52,16 @@ VARIANTS = (
         ("block-quote-nested-punctuation-content",),
     ),
     Variant(
+        "block-quote-footnote",
+        "BLOCK QUOTE FOOTNOTE",
+        common_includes=("block-quote-punctuation-content",),
+    ),
+    Variant(
         "list",
         "LIST",
         True,
     ),
     Variant("footnote", "FOOTNOTE"),
-    Variant(
-        "block-quote-footnote",
-        "BLOCK QUOTE FOOTNOTE",
-        common_includes=("block-quote-punctuation-content",),
-    ),
     Variant("line", "SINGLE LINE", True),
 )
 
