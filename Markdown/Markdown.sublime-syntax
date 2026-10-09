@@ -415,26 +415,29 @@ variables:
          (\*\*)(\*) {{no_space_nor_punct}}
     | \B (\*\*)(\*) {{no_space_but_punct}}
     )
+  bold_italic_asterisk_end: (\*)(\*\*)
+
+  bold_italic_underscore_begin: \b(__)(_)(?![_\s])
+  bold_italic_underscore_end: (_)(__)(?=_*\b)
 
   bold_asterisk_begin: |-
     (?x:
          \*{2} {{no_space_nor_punct}}
     | \B \*{2} {{no_space_but_punct}}
     )
+  bold_asterisk_end: \*\*
+
+  bold_underscore_begin: \b__(?=\S)(?!_[_\s])
+  bold_underscore_end: __(?=_*\b)
 
   italic_asterisk_begin: |-
     (?x:
          \* {{no_space_nor_punct}}
     | \B \* {{no_space_but_punct}}
     )
-
-  bold_italic_underscore_begin: \b(__)(_)(?![_\s])
-  bold_underscore_begin: \b__(?=\S)(?!_[_\s])
-  italic_underscore_begin: \b_(?=\S)(?!_)
-
-  # Closing delimiters (asterisk right-flanking checks are applied separately).
   italic_asterisk_end: \*(?!\*[^\s*])
-  bold_underscore_end: __(?=_*\b)
+
+  italic_underscore_begin: \b_(?=\S)(?!_)
   italic_underscore_end: _(?=_*\b)
 
   strikethrough_begin: ~~(?![~}>\s])
@@ -2826,7 +2829,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -3064,7 +3067,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: block-quote-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -3299,7 +3302,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-nested-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: block-quote-nested-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -3529,7 +3532,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: block-quote-footnote-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: block-quote-footnote-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -3764,7 +3767,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: list-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: list-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -3993,7 +3996,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: footnote-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: footnote-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -4227,7 +4230,7 @@ contexts:
     - meta_content_scope: markup.italic.markdown
     - include: line-bold-italic-asterisk-fail
     - include: bold-italic-asterisk-end
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.italic.markdown punctuation.definition.bold.end.markdown
       set: line-italic-after-bold-italic-asterisk-body
     - match: '{{italic_asterisk_end}}'
@@ -4436,7 +4439,7 @@ contexts:
       pop: 1
 
   bold-asterisk-end:
-    - match: '{{asterisk_can_close}}\*\*'
+    - match: '{{asterisk_can_close}}{{bold_asterisk_end}}'
       scope: punctuation.definition.bold.end.markdown
       pop: 1
     # Consume the underscore that has no corresponding underscore before the closing bold
@@ -4454,7 +4457,7 @@ contexts:
 
   bold-italic-asterisk-end:
     - match: '{{wspace}}\*+'
-    - match: (\*)(\*\*)
+    - match: '{{bold_italic_asterisk_end}}'
       captures:
         1: markup.italic.markdown punctuation.definition.italic.end.markdown
         2: punctuation.definition.bold.end.markdown
@@ -4462,7 +4465,7 @@ contexts:
 
   bold-after-bold-italic-asterisk-end:
     - match: '{{wspace}}\*{3,}'
-    - match: \*\*
+    - match: '{{bold_asterisk_end}}'
       scope: markup.bold.markdown punctuation.definition.bold.end.markdown
       pop: 1
 
@@ -4474,7 +4477,7 @@ contexts:
 
   bold-italic-underscore-end:
     - match: '{{wspace}}_+'
-    - match: (_)(__)(?=_*\b)
+    - match: '{{bold_italic_underscore_end}}'
       captures:
         1: markup.italic.markdown punctuation.definition.italic.end.markdown
         2: punctuation.definition.bold.end.markdown
