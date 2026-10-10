@@ -2854,22 +2854,6 @@ contexts:
     - match: '{{emphasis_end}}'
       fail: bold-italic-asterisk
 
-  bold-asterisk:
-    - meta_include_prototype: false
-    - match: '{{bold_asterisk_begin}}'
-      scope: punctuation.definition.bold.begin.markdown
-      set: bold-asterisk-body
-
-  bold-asterisk-body:
-    - meta_scope: markup.bold.markdown
-    - include: bold-asterisk-fail
-    - include: bold-asterisk-end
-    - include: bold-content
-
-  bold-asterisk-fail:
-    - match: '{{emphasis_end}}'
-      fail: bold-asterisk
-
   bold-italic-underscore:
     - meta_include_prototype: false
     - match: '{{bold_italic_underscore_begin}}'
@@ -2907,6 +2891,22 @@ contexts:
   bold-italic-underscore-fail:
     - match: '{{emphasis_end}}'
       fail: bold-italic-underscore
+
+  bold-asterisk:
+    - meta_include_prototype: false
+    - match: '{{bold_asterisk_begin}}'
+      scope: punctuation.definition.bold.begin.markdown
+      set: bold-asterisk-body
+
+  bold-asterisk-body:
+    - meta_scope: markup.bold.markdown
+    - include: bold-asterisk-fail
+    - include: bold-asterisk-end
+    - include: bold-content
+
+  bold-asterisk-fail:
+    - match: '{{emphasis_end}}'
+      fail: bold-asterisk
 
   bold-underscore:
     - meta_include_prototype: false
