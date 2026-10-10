@@ -6826,7 +6826,6 @@ abc_
 |  ^ punctuation.definition.italic.end.markdown
 |   ^ - markup.italic
 
-
 ## https://spec.commonmark.org/0.31.2/#example-375
 
 Intraword emphasis is disallowed for `_`:
@@ -7398,12 +7397,12 @@ __<a href="__">
 | <- - markup.italic - markup.bold - punctuation.definition.italic - punctuation.definition.bold
 |^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.italic - markup.bold - punctuation.definition.italic - punctuation.definition.bold
 
-
 ## https://spec.commonmark.org/0.31.2/#example-481
 
 __a<https://foo.bar/?q=__>
 | <- - markup.italic - markup.bold - punctuation.definition.italic - punctuation.definition.bold
 |^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.italic - markup.bold - punctuation.definition.italic - punctuation.definition.bold
+
 ## https://custom-tests/emphasis
 
 This *is a test* ok.
