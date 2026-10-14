@@ -1013,3 +1013,19 @@ BEGIN
 --                    ^^^^^^^^ meta.table-name.sql
 --                      ^ punctuation.accessor.dot.sql
 --                            ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM sal_emp e
+LEFT JOIN LATERAL (
+-- <- keyword.other.dml.psql
+--   ^^^^ keyword.other.dml.psql
+--        ^^^^^^^ keyword.other.dml.psql
+  SELECT p.name
+--^^^^^^ keyword.other.dml.sql
+  FROM person p
+--^^^^ keyword.other.dml.sql
+  JOIN test1 t ON true
+--^^^^ keyword.other.dml.psql
+  WHERE p.name = e.name
+--^^^^^ keyword.other.dml.sql
+) result ON true;

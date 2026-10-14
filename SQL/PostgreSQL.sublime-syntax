@@ -103,6 +103,30 @@ contexts:
     - match: (?i:(?:with(?:out)?\s+)?hold)\b
       scope: storage.modifier.sql
 
+###[ DML STATEMENTS ]##########################################################
+
+  join-expressions:
+    # https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-LATERAL
+    - meta_prepend: true
+    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:full|left|right)(?:\s+outer)?)\s+)?join(?:\s+lateral)?)\b
+      scope: keyword.other.dml.psql
+      push:
+        - join-condition
+        - table-name-or-subquery
+    - match: \b(?i:lateral)\b
+      scope: keyword.other.dml.psql
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  table-subquery-begin:
+    # Permit formatted subqueries after LATERAL and JOIN.
+    - meta_prepend: true
+    - match: \s*(?=(?i:select)\b)
+      set:
+        - maybe-table-alias
+        - inside-group
+
 ###[ DDL CREATE STATEMENTS ]###################################################
 
   create-target:
