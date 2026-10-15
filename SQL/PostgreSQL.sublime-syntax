@@ -39,6 +39,24 @@ contexts:
   # PostgreSQL uses double quotes for identifiers, not string literals.
   double-quoted-strings: []
 
+  expect-column-names:
+    - meta_prepend: true
+    - match: (?=(?:{{simple_identifier}}|"(?:[^"]|"")*")\s*\.)
+      push: [maybe-operator, qualified-column-name]
+
+  qualified-column-name:
+    - match: ''
+      set:
+        - qualified-column-name-tail
+        - table-name
+        - identifier-part
+
+  qualified-column-name-tail:
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: [column-name, single-identifier]
+
   statements:
     - meta_prepend: true
     - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
