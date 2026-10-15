@@ -1,5 +1,18 @@
 -- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
+CREATE TABLE users (
+    id int,
+    "idFoo" UUID
+--  ^^^^^^^ meta.column-name variable.other.member.declaration
+--  ^ punctuation.definition.identifier.begin
+--        ^ punctuation.definition.identifier.end
+);
+
+SELECT x, "y" FROM a;
+--        ^^^ meta.column-name
+--        ^ punctuation.definition.identifier.begin
+--          ^ punctuation.definition.identifier.end
+
 CREATE TABLE test1 (a character(4));
 -- <- meta.statement.create.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
@@ -748,9 +761,9 @@ BEGIN
         ,"lBatchNum" INT
 --      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
 --      ^ punctuation.separator.sequence.sql
---       ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
---       ^ punctuation.definition.string.begin.sql
---                 ^ punctuation.definition.string.end.sql
+--       ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--       ^ punctuation.definition.identifier.begin.sql
+--                 ^ punctuation.definition.identifier.end.sql
 --                   ^^^ storage.type.sql
 
         ,"bLog" SMALLINT

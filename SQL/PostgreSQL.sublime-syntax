@@ -34,6 +34,11 @@ variables:
 
 contexts:
 
+###[ IDENTIFIERS ]#############################################################
+
+  # PostgreSQL uses double quotes for identifiers, not string literals.
+  double-quoted-strings: []
+
   statements:
     - meta_prepend: true
     - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
