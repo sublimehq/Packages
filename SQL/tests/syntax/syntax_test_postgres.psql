@@ -682,7 +682,7 @@ CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
 --                                               ^^ keyword.operator.cast.psql
 --                                                 ^^^^^^^^^^^^^^^^^ storage.type.sql
 --                                                                  ^ punctuation.section.group.end.sql
-    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying) 
+    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -1029,3 +1029,27 @@ LEFT JOIN LATERAL (
   WHERE p.name = e.name
 --^^^^^ keyword.other.dml.sql
 ) result ON true;
+
+COMMENT ON TABLE sal_emp IS 'Employee salaries';
+-- <- keyword.other.ddl.psql
+--      ^^ keyword.control.conditional.sql
+--         ^^^^^ keyword.other.ddl.psql
+--               ^^^^^^^ meta.table-name.sql
+--                       ^^ keyword.other.ddl.psql
+--                          ^ string.quoted.single.sql
+
+COMMENT ON COLUMN person.name IS 'Employee name';
+-- <- keyword.other.ddl.psql
+--      ^^ keyword.control.conditional.sql
+--         ^^^^^^ keyword.other.ddl.psql
+--                ^^^^^^^^^^^ meta.column-name.sql
+--                            ^^ keyword.other.ddl.psql
+--                               ^ string.quoted.single.sql
+
+CREATE TABLE users (
+  id BIGINT,
+  comment TEXT
+--^^^^^^^ meta.column-name variable.other.member.declaration
+--        ^^^^ storage.type
+);
+

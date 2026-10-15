@@ -127,7 +127,63 @@ contexts:
         - maybe-table-alias
         - inside-group
 
+###[ COMMENT STATEMENTS ]######################################################
+
+  other-statements:
+    - meta_prepend: true
+    # https://www.postgresql.org/docs/current/sql-comment.html
+    - match: \b(?i:(comment)\s+(on)\s+(table))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.control.conditional.sql
+        3: keyword.other.ddl.psql
+      set: comment-table
+    - match: \b(?i:(comment)\s+(on)\s+(column))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.control.conditional.sql
+        3: keyword.other.ddl.psql
+      set: comment-column
+    - match: \b(?i:(comment)\s+(on)\s+(access\s+method|aggregate|cast|collation|constraint|conversion|database|domain|extension|event\s+trigger|foreign\s+data\s+wrapper|foreign\s+table|function|index|large\s+object|materialized\s+view|operator(?:\s+(?:class|family))?|policy|(?:procedural\s+)?language|procedure|publication|role|routine|rule|schema|sequence|server|statistics|subscription|tablespace|text\s+search\s+(?:configuration|dictionary|parser|template)|transform|trigger|type|view))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.control.conditional.sql
+        3: keyword.other.ddl.psql
+      set: comment-object
+
+  comment-table:
+    - match: (?=\S)
+      set: [comment-value, table-name, single-identifier]
+
+  comment-column:
+    - match: (?=\S)
+      set: [comment-value, column-name, single-identifier]
+
+  comment-object:
+    - match: \b(?i:is)\b
+      scope: keyword.other.ddl.psql
+      set: single-string
+    - match: (?=;)
+      pop: 1
+    - match: \S+
+      scope: meta.comment-object.psql
+
+  comment-value:
+    - match: \b(?i:is)\b
+      scope: keyword.other.ddl.psql
+      set: single-string
+
 ###[ DDL CREATE STATEMENTS ]###################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    # `comment` is a valid PostgreSQL column name, unlike MySQL's COMMENT modifier.
+    - match: (?=\b(?i:comment)\b)
+      push:
+        - maybe-column-modifier
+        - expect-type
+        - column-name-declaration
+        - single-identifier
 
   create-target:
     - meta_prepend: true
