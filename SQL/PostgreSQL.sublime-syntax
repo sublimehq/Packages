@@ -109,6 +109,21 @@ contexts:
       scope: storage.modifier.sql
 
 ###[ DML STATEMENTS ]##########################################################
+  # https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-AGGREGATES
+  aggregate-filter:
+    - match: (\()\s*(where)\b
+      captures:
+        1: punctuation.section.group.begin.sql
+        2: keyword.other.dml.sql
+      set: inside-aggregate-filter
+    - include: else-pop
+
+  inside-aggregate-filter:
+    - meta_scope: meta.aggregate-filter.psql meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: expressions-or-column-names
 
   join-expressions:
     # https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-LATERAL
@@ -306,6 +321,9 @@ contexts:
 
   expressions:
     - meta_prepend: true
+    - match: \b(?i:filter)\b(?=\s*\(\s*(?i:where)\b)
+      scope: keyword.other.dml.sql
+      push: aggregate-filter
     - match: \b(?i:array)\b
       scope: keyword.declaration.psql
     - match: \[

@@ -13,6 +13,15 @@ SELECT x, "y" FROM a;
 --        ^ punctuation.definition.identifier.begin
 --          ^ punctuation.definition.identifier.end
 
+SELECT
+  sum(quantity) FILTER (WHERE sales_month = 1) jan_quantity,
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+  sum(quantity) FILTER (WHERE sales_month = 2) feb_quantity
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+FROM car_sales;
+
 CREATE TABLE test1 (a character(4));
 -- <- meta.statement.create.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
