@@ -474,7 +474,7 @@ contexts:
 ###[ INCLUDE COMMANDS ]########################################################
 
   includes:
-    - match: (\\)includegraphics{{endcs}}
+    - match: (\\)includegraphics(?:\*|{{endcs}})
       scope: support.function.includegraphics.latex
       captures:
         1: punctuation.definition.backslash.latex
