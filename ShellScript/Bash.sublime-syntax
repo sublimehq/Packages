@@ -24,6 +24,11 @@ hidden_file_extensions:
   - .bashrc
   - .profile
   - .textmate_init
+  - .xinitrc
+  - .xprofile
+  - .xserverrc
+  - .xsession
+  - .xsessionrc
   - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
