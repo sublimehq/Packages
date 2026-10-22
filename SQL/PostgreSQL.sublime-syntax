@@ -127,7 +127,8 @@ contexts:
       scope: storage.modifier.sql
 
 ###[ DML STATEMENTS ]##########################################################
-  # https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-AGGREGATES
+
+    # https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-AGGREGATES
   aggregate-filter:
     - match: (\()\s*(where)\b
       captures:
