@@ -340,7 +340,7 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: \b(?i:filter)\b(?=\s*\(\s*(?i:where)\b)
+    - match: \b(?i:filter)\b
       scope: keyword.other.dml.sql
       push: aggregate-filter
     - match: \b(?i:array)\b
