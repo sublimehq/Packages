@@ -1,5 +1,35 @@
 -- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
+CREATE TABLE users (
+    id int,
+    "idFoo" UUID
+--  ^^^^^^^ meta.column-name variable.other.member.declaration
+--  ^ punctuation.definition.identifier.begin
+--        ^ punctuation.definition.identifier.end
+);
+
+SELECT x, "y" FROM a;
+--        ^^^ meta.column-name
+--        ^ punctuation.definition.identifier.begin
+--          ^ punctuation.definition.identifier.end
+
+SELECT x.y
+--     ^ meta.table-name
+--       ^ meta.column-name
+FROM a x
+JOIN b ON foo.removed_at IS NULL;
+--        ^^^ meta.table-name
+--            ^^^^^^^^^^ meta.column-name
+
+SELECT
+  sum(quantity) FILTER (WHERE sales_month = 1) jan_quantity,
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+  sum(quantity) FILTER (WHERE sales_month = 2) feb_quantity
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+FROM car_sales;
+
 CREATE TABLE test1 (a character(4));
 -- <- meta.statement.create.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
@@ -682,7 +712,7 @@ CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
 --                                               ^^ keyword.operator.cast.psql
 --                                                 ^^^^^^^^^^^^^^^^^ storage.type.sql
 --                                                                  ^ punctuation.section.group.end.sql
-    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying) 
+    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -748,9 +778,9 @@ BEGIN
         ,"lBatchNum" INT
 --      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
 --      ^ punctuation.separator.sequence.sql
---       ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
---       ^ punctuation.definition.string.begin.sql
---                 ^ punctuation.definition.string.end.sql
+--       ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--       ^ punctuation.definition.identifier.begin.sql
+--                 ^ punctuation.definition.identifier.end.sql
 --                   ^^^ storage.type.sql
 
         ,"bLog" SMALLINT
@@ -1013,3 +1043,43 @@ BEGIN
 --                    ^^^^^^^^ meta.table-name.sql
 --                      ^ punctuation.accessor.dot.sql
 --                            ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM sal_emp e
+LEFT JOIN LATERAL (
+-- <- keyword.other.dml.psql
+--   ^^^^ keyword.other.dml.psql
+--        ^^^^^^^ keyword.other.dml.psql
+  SELECT p.name
+--^^^^^^ keyword.other.dml.sql
+  FROM person p
+--^^^^ keyword.other.dml.sql
+  JOIN test1 t ON true
+--^^^^ keyword.other.dml.psql
+  WHERE p.name = e.name
+--^^^^^ keyword.other.dml.sql
+) result ON true;
+
+COMMENT ON TABLE sal_emp IS 'Employee salaries';
+-- <- keyword.other.ddl.psql
+--      ^^ keyword.control.conditional.sql
+--         ^^^^^ keyword.other.ddl.psql
+--               ^^^^^^^ meta.table-name.sql
+--                       ^^ keyword.other.ddl.psql
+--                          ^ string.quoted.single.sql
+
+COMMENT ON COLUMN person.name IS 'Employee name';
+-- <- keyword.other.ddl.psql
+--      ^^ keyword.control.conditional.sql
+--         ^^^^^^ keyword.other.ddl.psql
+--                ^^^^^^^^^^^ meta.column-name.sql
+--                            ^^ keyword.other.ddl.psql
+--                               ^ string.quoted.single.sql
+
+CREATE TABLE users (
+  id BIGINT,
+  comment TEXT
+--^^^^^^^ meta.column-name variable.other.member.declaration
+--        ^^^^ storage.type
+);
+
