@@ -158,14 +158,6 @@ contexts:
         - join-condition
         - table-name-or-subquery
 
-  table-subquery-begin:
-    # Permit formatted subqueries after LATERAL and JOIN.
-    - meta_prepend: true
-    - match: \s*(?=(?i:select)\b)
-      set:
-        - maybe-table-alias
-        - inside-group
-
 ###[ COMMENT STATEMENTS ]######################################################
 
   other-statements:
