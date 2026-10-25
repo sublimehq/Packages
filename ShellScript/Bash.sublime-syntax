@@ -23,6 +23,7 @@ hidden_file_extensions:
   - .bash_variables
   - .bashrc
   - .profile
+  - .rvmrc    # https://rvm.rvm.io/workflow/rvmrc
   - .textmate_init
   - .xinitrc
   - .xprofile
@@ -33,6 +34,9 @@ hidden_file_extensions:
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
   - eclass
+  - gradlew   # grandle wrapper script
+  - mvnw      # maven wrapper script
+  - yarnw     # yarn wrapper script
 
 first_line_match: |-
   (?xi:
