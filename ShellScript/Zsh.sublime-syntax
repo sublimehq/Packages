@@ -11,6 +11,7 @@ extends: Packages/ShellScript/Bash.sublime-syntax
 
 file_extensions:
   - zsh
+  - zsh-theme
 
 hidden_file_extensions:
   - .zlogin
