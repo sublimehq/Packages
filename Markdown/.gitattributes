@@ -1,0 +1,2 @@
+.gitattributes export-ignore
+generate_markdown_emphasis.py export-ignore
