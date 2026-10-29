@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+<!--
+	https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#implicit-hyperlink-targets
+-->
+	<key>scope</key>
+	<string><![CDATA[
+		meta.link.footnote.def.restructuredtext constant.other.footnote.link.restructuredtext - punctuation
+	]]></string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>
