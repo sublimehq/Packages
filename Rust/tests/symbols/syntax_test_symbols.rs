@@ -14,7 +14,11 @@ mod my_mod { }
 
 struct MyStruct {
 //     @@@@@@@@ definition
+    pub field: i8;
+}
 
+impl MyStruct {
+//   @@@@@@@@ definition
     const A = 0;
 //        @ definition
 
