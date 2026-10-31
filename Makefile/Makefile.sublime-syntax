@@ -30,88 +30,6 @@ first_line_match: |-
     ^ \s* \# .*? -\*- .*? \bmakefile\b .*? -\*-  # editorconfig
   )
 
-#-------------------------------------------------------------------------------
-variables:
-
-  varassign: (\?|\+|::?)?=
-  shellassign: '!='
-  startdirective: ifn?(def|eq)
-  include: '[s-]?include'
-  ruleassign: :(?!=)
-  function_call_token_begin: \$\$?\(
-
-  # The big "rule lookahead". What we want to do here is detect if the
-  # line that we are parsing is going to define a rule. So we need to check
-  # if we have something of the form <rule-name> : <rule-prerequisites>
-  # However matters become complicated by the fact that we can have arbitrary
-  # variable substitutions anywhere. We try to remedy this by hacking in a
-  # regex that matches up to four levels of nested parentheses, and ignores
-  # whatever's inside the parentheses.
-  nps0: '[^()=]*'     # doesn't look like assignment
-  nps: '[^()]*'
-  open: '(?:\('
-  close: '\))?'       # ignore this invalid.illegal
-  just_eat: |         # WARNING: INSANITY FOLLOWS!
-    (?x)              # ignore whitespace in this regex
-      {{nps0}}        #       level 0
-      {{open}}        # start level 1                      __
-        {{nps}}       #       level 1          _______    /*_>-<
-        {{open}}      # start level 2      ___/ _____ \__/ /
-          {{nps}}     #       level 2     <____/     \____/
-          {{open}}    # start level 3     is like snek... (by Valerie Haecky)
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-        {{close}}     #   end level 2
-        {{nps}}       #       level 1
-        {{open}}      # start level 2
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-        {{close}}     #   end level 2
-        {{nps}}       #       level 1
-      {{close}}       #   end level 1
-      {{nps0}}        #       level 0
-  rule_lookahead: '{{just_eat}}{{ruleassign}}'
-
-  # Just as with rules we want to look ahead if we are going to define a var.
-  var_lookahead: '{{just_eat}}(?:{{varassign}}|{{shellassign}})'
-
-#-------------------------------------------------------------------------------
 contexts:
 
   # 3.1 What Makefiles Contain
@@ -708,3 +626,85 @@ contexts:
     - meta_include_prototype: false
     - match: ^
       pop: 1
+
+###############################################################################
+
+variables:
+
+  varassign: (\?|\+|::?)?=
+  shellassign: '!='
+  startdirective: ifn?(def|eq)
+  include: '[s-]?include'
+  ruleassign: :(?!=)
+  function_call_token_begin: \$\$?\(
+
+  # The big "rule lookahead". What we want to do here is detect if the
+  # line that we are parsing is going to define a rule. So we need to check
+  # if we have something of the form <rule-name> : <rule-prerequisites>
+  # However matters become complicated by the fact that we can have arbitrary
+  # variable substitutions anywhere. We try to remedy this by hacking in a
+  # regex that matches up to four levels of nested parentheses, and ignores
+  # whatever's inside the parentheses.
+  nps0: '[^()=]*'     # doesn't look like assignment
+  nps: '[^()]*'
+  open: '(?:\('
+  close: '\))?'       # ignore this invalid.illegal
+  just_eat: |         # WARNING: INSANITY FOLLOWS!
+    (?x)              # ignore whitespace in this regex
+      {{nps0}}        #       level 0
+      {{open}}        # start level 1                      __
+        {{nps}}       #       level 1          _______    /*_>-<
+        {{open}}      # start level 2      ___/ _____ \__/ /
+          {{nps}}     #       level 2     <____/     \____/
+          {{open}}    # start level 3     is like snek... (by Valerie Haecky)
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+        {{close}}     #   end level 2
+        {{nps}}       #       level 1
+        {{open}}      # start level 2
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+        {{close}}     #   end level 2
+        {{nps}}       #       level 1
+      {{close}}       #   end level 1
+      {{nps0}}        #       level 0
+  rule_lookahead: '{{just_eat}}{{ruleassign}}'
+
+  # Just as with rules we want to look ahead if we are going to define a var.
+  var_lookahead: '{{just_eat}}(?:{{varassign}}|{{shellassign}})'
