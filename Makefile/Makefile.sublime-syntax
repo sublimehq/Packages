@@ -328,7 +328,7 @@ contexts:
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         2: constant.language.makefile
-      push: shell-common
+      push: inside-shell
     - match: ^(\t)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.spaces.makefile
@@ -342,7 +342,7 @@ contexts:
     - match: ^\t([-@]{1,2})?
       captures:
         1: constant.language.makefile
-      push: shell-common
+      push: inside-shell
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.tab.makefile
@@ -354,16 +354,6 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-
-  shell-common:
-    - meta_content_scope: source.shell.embedded.makefile
-    - include: eol-pop
-    - include: shell-content
-
-  shell-content:
-    - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
-      apply_prototype: true
-
 
   quoted-string:
     - match: "'"
@@ -539,7 +529,7 @@ contexts:
           set:
             - match: '!='
               scope: keyword.operator.assignment.makefile
-              set: shell-common
+              set: inside-shell
         - match: (?=\s*(!|\?|\+|::?)?=)
           set:
             - match: (!|\?|\+|::?)?=
@@ -679,6 +669,17 @@ contexts:
       captures:
         0: variable.parameter.makefile
         1: keyword.other.single-character-variable.makefile
+
+###[ SHELLSCRIPT ]#############################################################
+
+  inside-shell:
+    - meta_content_scope: source.shell.embedded.makefile
+    - include: eol-pop
+    - include: shell-content
+
+  shell-content:
+    - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
+      apply_prototype: true
 
 ###[ PROTOTYPES ]##############################################################
 
