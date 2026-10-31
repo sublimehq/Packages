@@ -147,8 +147,9 @@ bar := ${foo:%.o=%.c}
 #                   ^ keyword.other.block.end
 
 foo = bar # a comment
-#    ^ - string.unquoted
-#        ^ string.unquoted
+#    ^ - string
+#     ^^^ string.unquoted
+#        ^ - string
 #         ^ comment.line punctuation - string.unquoted
 
 foo = bar # a multiline \

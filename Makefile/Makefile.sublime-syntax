@@ -126,7 +126,7 @@ contexts:
     - include: variable-substitutions
     - include: control-flow
     - include: escape-literals
-    - include: line-continuation
+    - include: line-continuations
     - match: ^\s*(endef)\b
       captures:
         1: invalid.illegal.stray.endef.makefile
@@ -147,7 +147,7 @@ contexts:
 
   inside-comment:
     - meta_content_scope: comment.line.number-sign.makefile
-    - include: line-continuation
+    - include: line-continuations
     - match: \\\\
     - match: $\n?
       scope: comment.line.number-sign.makefile
@@ -185,7 +185,7 @@ contexts:
           scope: punctuation.definition.string.end.makefile
           pop: 1
         - include: escape-literals
-        - include: line-continuation
+        - include: line-continuations
         - include: variable-substitutions
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
@@ -195,7 +195,7 @@ contexts:
           scope: punctuation.definition.string.end.makefile
           pop: 1
         - include: escape-literals
-        - include: line-continuation
+        - include: line-continuations
         - include: variable-substitutions
     - match: \(
       scope: punctuation.section.group.begin.makefile
@@ -208,7 +208,7 @@ contexts:
           scope: punctuation.separator.makefile
     - match: \)
       scope: invalid.illegal.stray.paren.makefile
-    - include: continuation-or-pop-on-line-end
+    - include: continuation-or-eol-pop
 
   control-flow:
     - match: ^\s*(vpath)\s
@@ -219,8 +219,8 @@ contexts:
         - match: \s
           set:
             - meta_content_scope: meta.string.makefile string.unquoted.makefile
-            - include: pop-on-line-end
-        - include: pop-on-line-end
+            - include: eol-pop
+        - include: eol-pop
     - match: ^\s*(vpath)$
       captures:
         1: keyword.control.vpath.makefile
@@ -229,9 +229,8 @@ contexts:
         1: keyword.control.import.makefile
       push:
         - meta_content_scope: meta.string.makefile string.unquoted.makefile
-        - include: continuation-or-pop-on-line-end
+        - include: continuation-or-eol-pop
         - include: variable-substitutions
-        - include: comments
     - match: \b{{startdirective}}\b
       scope: keyword.control.conditional.makefile
       push: inside-control-flow
@@ -241,13 +240,13 @@ contexts:
       push:
         - include: control-flow
         - include: comments
-        - include: pop-on-line-end
+        - include: eol-pop
     - match: ^\s*(endif)\b
       captures:
         1: keyword.control.conditional.makefile
       push:
         - include: comments
-        - include: pop-on-line-end
+        - include: eol-pop
 
   highlight-percentage-sign:
     - match: \%
@@ -260,7 +259,7 @@ contexts:
   expect-rule:
     # Anything before the colon is part of the rule's name.
     - meta_scope: meta.function.makefile entity.name.function.makefile
-    - include: line-continuation
+    - include: line-continuations
     - include: variable-substitutions
     - include: highlight-percentage-sign
     - match: (?= *::?[^=]+[!:?]?=)
@@ -270,7 +269,7 @@ contexts:
           set:
             - include: variable-definitions
             - include: variable-substitutions
-            - include: continuation-or-pop-on-line-end
+            - include: continuation-or-eol-pop
     - match: (?= *::?)
       set:
         - match: (::?)\s*
@@ -280,7 +279,7 @@ contexts:
             - meta_content_scope:
                 meta.function.arguments.makefile
                 string.unquoted.makefile
-            - include: line-continuation
+            - include: line-continuations
             - include: variable-substitutions
             - include: highlight-percentage-sign
             - match: (?=#)
@@ -358,29 +357,13 @@ contexts:
 
   shell-common:
     - meta_content_scope: source.shell.embedded.makefile
-    - include: pop-on-line-end
+    - include: eol-pop
     - include: shell-content
 
   shell-content:
     - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
       apply_prototype: true
 
-  line-continuation:
-    - match: (\\)([ ]*)$\n?
-      captures:
-        1: punctuation.separator.continuation.line.makefile
-      # make sure to resume parsing at next line
-      push:
-        - match: (?=\S|^\s*$)
-          pop: 1
-
-  pop-on-line-end:
-    - match: $
-      pop: 1
-
-  continuation-or-pop-on-line-end:
-    - include: line-continuation
-    - include: pop-on-line-end
 
   quoted-string:
     - match: "'"
@@ -392,7 +375,7 @@ contexts:
           scope: punctuation.definition.string.end.makefile
           pop: 1
         - include: escape-literals
-        - include: line-continuation
+        - include: line-continuations
         - include: variable-substitutions
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
@@ -403,7 +386,7 @@ contexts:
           scope: punctuation.definition.string.end.makefile
           pop: 1
         - include: escape-literals
-        - include: line-continuation
+        - include: line-continuations
         - include: variable-substitutions
 
   escape-literals:
@@ -544,7 +527,7 @@ contexts:
         1: keyword.control.makefile
       push:
         - meta_content_scope: variable.other.makefile
-        - include: continuation-or-pop-on-line-end
+        - include: continuation-or-eol-pop
         - include: variable-substitutions
         - match: (\?|\+|::?)?=
           scope: keyword.operator.assignment.makefile
@@ -563,7 +546,7 @@ contexts:
               scope: keyword.operator.assignment.makefile
               set: [value-maybe-shellscript, eat-whitespace-then-pop]
             - include: variable-substitutions
-            - include: continuation-or-pop-on-line-end
+            - include: continuation-or-eol-pop
         - include: variable-substitutions
 
   textual-parenthesis-balancer:
@@ -595,7 +578,7 @@ contexts:
     - match: (?=#)
       set: comment
     - include: variable-substitutions
-    - include: continuation-or-pop-on-line-end
+    - include: continuation-or-eol-pop
 
   inside-define-directive-context:
     - meta_content_scope: variable.other.makefile
@@ -696,3 +679,25 @@ contexts:
       captures:
         0: variable.parameter.makefile
         1: keyword.other.single-character-variable.makefile
+
+###[ PROTOTYPES ]##############################################################
+
+  continuation-or-eol-pop:
+    - include: eol-pop
+    - include: comment
+    - include: line-continuations
+
+  eol-pop:
+    - match: $
+      pop: 1
+
+  line-continuations:
+    - match: (\\)$
+      captures:
+        1: punctuation.separator.continuation.line.makefile
+      push: inside-line-continuation
+
+  inside-line-continuation:
+    - meta_include_prototype: false
+    - match: ^
+      pop: 1
