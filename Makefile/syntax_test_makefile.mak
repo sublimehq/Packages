@@ -99,19 +99,40 @@ endef
 #################################
 
 include foo *.mk $(bar)
-# <- keyword.control.import
+# <- keyword.control.import.makefile
 #^^^^^^ keyword.control.import.makefile
+#       ^^^^^^^^^^^^^^^ meta.string.glob.makefile
+#       ^^^^^^^^^ string.unquoted.makefile
 #           ^ constant.other.wildcard.asterisk.makefile
+#                ^^^^^^ meta.interpolation.makefile
+#                ^ punctuation.definition.interpolation.makefile
+#                 ^ punctuation.section.interpolation.begin.makefile
+#                  ^^^ variable.other.makefile
+#                     ^ punctuation.section.interpolation.end.makefile
 
 -include foo *.mk $(bar)
-# <- keyword.control.import
-#^^^^^^ keyword.control.import.makefile
+# <- keyword.control.import.makefile
+#^^^^^^^ keyword.control.import.makefile
+#        ^^^^^^^^^^^^^^^ meta.string.glob.makefile
+#        ^^^^^^^^^ string.unquoted.makefile
 #            ^ constant.other.wildcard.asterisk.makefile
+#                 ^^^^^^ meta.interpolation.makefile
+#                 ^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^ variable.other.makefile
+#                      ^ punctuation.section.interpolation.end.makefile
 
 sinclude foo *.mk $(bar)
-#<- keyword.control.import.makefile
+# <- keyword.control.import.makefile
 #^^^^^^^ keyword.control.import.makefile
+#        ^^^^^^^^^^^^^^^ meta.string.glob.makefile
+#        ^^^^^^^^^ string.unquoted.makefile
 #            ^ constant.other.wildcard.asterisk.makefile
+#                 ^^^^^^ meta.interpolation.makefile
+#                 ^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^ variable.other.makefile
+#                      ^ punctuation.section.interpolation.end.makefile
 
 s-include
 # <- - keyword
@@ -149,89 +170,133 @@ rule: asdf
   @rm -rf /
 # <- meta.function.body
 
+#####################################
+# 6.1 Basics of Variable References #
+#####################################
+
+ $
+#^ - punctuation
+
+ $F
+#^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ variable.other.makefile
+
+ $FOO
+#^^ meta.interpolation.makefile
+#  ^^ - meta.interpolation
+#^ punctuation.definition.interpolation.makefile - variable.language
+# ^ variable.other.makefile
+
+ $(
+#^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ punctuation.section.interpolation.begin.makefile
+
+ $(
+
+# <- - meta.variable - meta.interpolation
+
+ $()
+#^^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ punctuation.section.interpolation.begin.makefile
+#  ^ punctuation.section.interpolation.end.makefile
+
+ $(var$\
+#^^^^^^^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ punctuation.section.interpolation.begin.makefile
+#  ^^^^^^ variable.other.makefile
+#      ^ punctuation.separator.continuation.line.makefile
+
+ $(var$\
+   name)
+#^^^^^^^ meta.interpolation.makefile
+#^^^^^^ variable.other.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+
+ ${
+
+# <- - meta.variable - meta.interpolation
+
+ ${}
+#^^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ punctuation.section.interpolation.begin.makefile
+#  ^ punctuation.section.interpolation.end.makefile
+
+ ${var$\
+#^^^^^^^^ meta.interpolation.makefile
+#^ punctuation.definition.interpolation.makefile
+# ^ punctuation.section.interpolation.begin.makefile
+#  ^^^^^^ variable.other.makefile
+#      ^ punctuation.separator.continuation.line.makefile
+
+ ${var$\
+   name}
+#^^^^^^^ meta.interpolation.makefile
+#^^^^^^ variable.other.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+
 #################################
 # 6.3.1 substitution references #
 #################################
 
-P = Hello
-# <- variable.other
-# ^ keyword.operator.assignment
-#  ^ - string.unquoted
-#   ^ string.unquoted
-#       ^ string.unquoted
-#        ^ - string.unquoted
-
-FOO = $P
-# <- variable.other
-#   ^ keyword.operator.assignment
-#     ^ keyword.other
-#      ^ string variable
-BAR = $PATH
-# <- variable.other
-#   ^ keyword.operator.assignment
-#     ^ keyword.other
-#      ^ string variable
-#       ^ string - variable
-
-foo := a.o b.o c.o
-# <- variable
-#   ^^ keyword
-#      ^^^^^^^^^^^ string
-
 bar := $(foo)
-#     ^ - meta.string - meta.interpolation - string.unquoted
-#      ^^^^^^ meta.string.makefile meta.interpolation.makefile
-#      ^^ keyword.other.block.begin.makefile
-#        ^^^ variable.parameter.makefile
-#           ^ keyword.other.block.end.makefile
-#            ^ - meta.string - meta.interpolation - string.unquoted
+#      ^^^^^^ meta.string.makefile meta.interpolation.makefile - string
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.section.interpolation.end.makefile
 
 bar := $(foo:.o=.c)
-# <- variable
-#   ^^ keyword
-#      ^^ keyword.other.block.begin
-#        ^^^ variable.parameter
-#           ^ punctuation.definition.substitution
-#              ^ keyword.operator.assignment
-#                 ^ keyword.other.block.end
+#      ^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - string meta.interpolation
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#              ^ keyword.operator.assignment.makefile
+#                 ^ punctuation.section.interpolation.end.makefile
 
 bar := $(foo:%.o=%.c)
-# <- variable
-#   ^^ keyword
-#     ^ - meta.string - meta.interpolation - string.unquoted
-#      ^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
-#                    ^ - meta.string - meta.interpolation - string.unquoted
-#      ^^ keyword.other.block.begin
-#           ^ punctuation
-#            ^ variable.language
-#               ^ keyword.operator
-#                ^ variable.language
-#                   ^ keyword.other.block.end
+#      ^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - string meta.interpolation
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ variable.language.makefile
+#               ^ keyword.operator.assignment.makefile
+#                ^ variable.language.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
 
 bar := ${foo}
-#     ^ - meta.string - meta.interpolation - string.unquoted
-#      ^^^^^^ meta.string.makefile meta.interpolation.makefile
-#      ^^ keyword.other.block.begin.makefile
-#        ^^^ variable.parameter.makefile
-#           ^ keyword.other.block.end.makefile
-#            ^ - meta.string - meta.interpolation - string.unquoted
+#      ^^^^^^ meta.string.makefile meta.interpolation.makefile - string
+#      ^ punctuation.definition.interpolation.makefile - variable
+#       ^ punctuation.section.interpolation.begin.makefile - variable
+#        ^^^ variable.other.makefile
+#           ^ punctuation.section.interpolation.end.makefile - variable
 
 bar := ${foo:%.o=%.c}
-# <- variable
-#   ^^ keyword
-#     ^ - string.unquoted
-#      ^^ keyword.other.block.begin
-#           ^ punctuation
-#            ^ variable.language
-#               ^ keyword.operator
-#                ^ variable.language
-#                   ^ keyword.other.block.end
+#      ^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - string meta.interpolation
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ variable.language.makefile
+#               ^ keyword.operator.assignment.makefile
+#                ^ variable.language.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
 
 foo = bar # a comment
-#    ^ - string
+# <- meta.variable.makefile variable.other.makefile
+#^^ meta.variable.makefile variable.other.makefile
+#  ^^^ - meta.variable - variable - meta.string - string
+#   ^ keyword.operator.assignment.makefile
 #     ^^^ meta.string.makefile string.unquoted.makefile
-#        ^ - string
-#         ^ comment.line punctuation - string.unquoted
+#        ^ - meta.string - string
+#         ^^^^^^^^^^^^ comment.line.number-sign.makefile
+#         ^ punctuation.definition.comment.makefile
 
 foo = bar # a multiline \
               comment
@@ -248,19 +313,38 @@ a := $($(x))
 sources := $($(a1)_objects:.o=.c)
 dir = foo
 $(dir)_sources := $(wildcard $(dir)/*.c)
-# <- keyword.other.block.begin
-#^ keyword.other.block.begin
-#              ^^ keyword.operator.assignment
-#                 ^^ keyword.other.block.begin
-#                            ^^ keyword.other.block.begin
-#                                 ^ keyword.other.block.end
-#                                   ^ constant.other.wildcard.asterisk
-#                                      ^ keyword.other.block.end
+# <- meta.variable.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^ meta.variable.makefile meta.interpolation.makefile - variable variable
+#     ^^^^^^^^ meta.variable.makefile - meta.interpolation
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^ variable.other.makefile
+#    ^ punctuation.section.interpolation.end.makefile
+#     ^^^^^^^^ variable.other.makefile
+#              ^^ keyword.operator.assignment.makefile
+#                 ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#                 ^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^^^^^^^ meta.function-call.makefile
+#                   ^^^^^^^^ support.function.builtin.makefile
+#                            ^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.makefile
+#                            ^^^^^^ meta.interpolation.makefile
+#                            ^ punctuation.definition.interpolation.makefile
+#                             ^ punctuation.section.interpolation.begin.makefile
+#                              ^^^ variable.other.makefile
+#                                 ^ punctuation.section.interpolation.end.makefile
+#                                  ^^^^ string.unquoted.makefile
+#                                   ^ constant.other.wildcard.asterisk.makefile
+#                                      ^ punctuation.section.interpolation.end.makefile
 define $(dir)_print =
-# ^ keyword.control
-#      ^^ keyword.other.block.begin
-#           ^ keyword.other.block.end
-#                   ^ keyword.operator.assignment
+#^^^^^ keyword.control.makefile
+#     ^ - keyword - variable
+#      ^^^^^^ meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.section.interpolation.end.makefile
+#            ^^^^^^^ variable.other.makefile
+#                   ^ keyword.operator.assignment.makefile
 lpr $($(dir)_sources)
 endef
 
@@ -433,17 +517,62 @@ lib/%.o: CFLAGS := -fPIC -g
 # Line comment
 # <- comment
 
+#############################
+# Unsorted and legacy tests #
+#############################
+
+ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile
+#    ^ punctuation.section.group.begin.makefile
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#                                              ^ - meta.string
+#                                               ^ meta.string.makefile - meta.interpolation
+#       ^^^^^^ meta.function-call.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#             ^^^^ support.function.shell
+#                  ^^^^^^ meta.interpolation.makefile meta.interpolation.makefile
+#                         ^^^ keyword.operator.comparison.shell
+#                             ^^^^^^ constant.numeric.value.shell
+#                                   ^ punctuation.terminator.statement.shell
+#                                     ^^^^ support.function.shell
+#                                          ^^^ variable.language.special.shell
+#                                             ^ punctuation.section.interpolation.end.makefile
+#                                              ^ punctuation.separator.makefile
+#                                               ^ string.unquoted.makefile
+#                                                ^ punctuation.section.group.end.makefile
+endif
+
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
-# <- keyword.control
-#       ^ support.function
-#                     ^^ keyword.other.block.begin
-#                       ^^^^^^^^^^^^^ variable.parameter
-#                                    ^ keyword.other.block.end
-#                                                         ^^^ variable.language.automatic
+# <- keyword.control.conditional.makefile
+#^^^ keyword.control.conditional.makefile
+#    ^ meta.group.makefile - meta.group meta.interpolation
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile meta.interpolation.makefile
+#                                                             ^^^^ meta.group.makefile - meta.group meta.interpolation
+#     ^^ - meta.function-call
+#       ^^^^^^ meta.function-call.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#                                                            ^^^^^ - meta.function-call
+#       ^^^^^ support.function.builtin.makefile
+#            ^ - support
+#             ^^^^ meta.function-call.identifier.shell support.function.shell
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^^ variable.parameter.option.shell
+#                     ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.makefile - string
+#                                     ^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                                                  ^ punctuation.terminator.statement.shell
+#                                                    ^^^^ meta.function-call.identifier.shell support.function.shell
+#                                                        ^^^^ meta.function-call.arguments.shell
+#                                                         ^^^ meta.interpolation.parameter.shell variable.language.special.shell
+
     include $(MAKEFILE_PATH)Makefile.Defs
-    # <- keyword.control
-    #      ^ - string
-    #       ^ string
+    # <- keyword.control.import.makefile
+    #^^^^^^ keyword.control.import.makefile
+    #      ^ - meta.string - string - keyword
+    #       ^^^^^^^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile - string
+    #       ^ punctuation.definition.interpolation.makefile
+    #        ^ punctuation.section.interpolation.begin.makefile
+    #                      ^ punctuation.section.interpolation.end.makefile
+    #                       ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
     # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of
     # the line, but the first character must not be a tab (or the value of
     # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a
@@ -503,25 +632,31 @@ foo: qux
 	#                      ^ comment.line.number-sign.shell
 
 sources := $($(a1)_objects:.o=.c)
-# ^ variable
-#       ^^ keyword.operator
-#          ^^ string keyword.other.block.begin
-#            ^^ string variable keyword.other.block.begin
-#              ^^ string variable variable
-#                ^ meta.interpolation meta.interpolation keyword.other.block.end
-#                 ^^^^^^^^ string variable
-#                         ^ string punctuation.definition
-#                          ^^ string
-#                            ^ string keyword.operator
-#                             ^^ string
-#                               ^ string keyword.other.block.end
+#^^^^^^ meta.variable.makefile variable.other.makefile
+#          ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#          ^ punctuation.definition.interpolation.makefile
+#           ^ punctuation.section.interpolation.begin.makefile
+#            ^^^^^^^^^^^^^ variable.other.makefile
+#            ^^^^^ meta.interpolation.makefile meta.interpolation.makefile
+#            ^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.other.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                         ^ punctuation.definition.substitution.makefile
+#                            ^ keyword.operator.assignment.makefile
+#                               ^ punctuation.section.interpolation.end.makefile
 
 .build/vernum: ../meta/version
     sed -i.bak 's/.*automatically updated.*/version = "$(VER)" # automatically updated/' setup.py
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded meta.function-call
-#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - comment
-#                                                      ^^^^^^ meta.interpolation
-#                                                        ^^^ variable.parameter.makefile
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                                      ^^^^^^ meta.string.glob.shell meta.interpolation.makefile
+#                                                      ^ punctuation.definition.interpolation.makefile
+#                                                       ^ punctuation.section.interpolation.begin.makefile
+#                                                        ^^^ variable.other.makefile
+#                                                           ^ punctuation.section.interpolation.end.makefile
+#                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                                                                        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 CC=g++
 #<- variable.other
@@ -533,12 +668,13 @@ LDFLAGS=
 #      ^ keyword.operator.assignment
 SOURCES=main.cpp hello.cpp factorial.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-#<- variable.other
-#      ^ keyword.operator.assignment
-#       ^^ string.unquoted keyword.other.block.begin
-#                ^ string.unquoted punctuation.definition.substitution
-#                     ^ string.unquoted keyword.operator.assignment
-#                        ^ string.unquoted keyword.other.block.end
+#       ^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^^ variable.other.makefile
+#                ^ punctuation.definition.substitution.makefile
+#                     ^ keyword.operator.assignment.makefile
+#                        ^ punctuation.section.interpolation.end.makefile
 EXECUTABLE=hello
 
 lib: foo.o bar.o lose.o win.o
@@ -552,14 +688,21 @@ lib: foo.o bar.o lose.o win.o
 	# gets treated as comments, but for all intents and purposes it should.
 
 all: $(SOURCES) $(EXECUTABLE)
-#<- entity.name.function
-#  ^ keyword.operator.assignment
-#    ^^ keyword.other.block.begin
-#      ^^^^^^^ variable.parameter
-#             ^ keyword.other.block.end
-#               ^^ keyword.other.block.begin
-#                 ^^^^^^^^^^ variable.parameter
-#                           ^ keyword.other.block.end
+# <- meta.function.makefile entity.name.function.makefile
+#^^ meta.function.makefile entity.name.function.makefile
+#  ^ keyword.operator.assignment.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^^^^^ meta.interpolation.makefile
+#    ^ punctuation.definition.interpolation.makefile
+#     ^ punctuation.section.interpolation.begin.makefile
+#      ^^^^^^^ variable.other.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#               ^^^^^^^^^^^^^ meta.interpolation.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^^^^^^^^^^ variable.other.makefile
+#                           ^ punctuation.section.interpolation.end.makefile
+#                            ^ meta.function.body.makefile
 
 export FOO=foo
 # ^ keyword.control
@@ -575,66 +718,101 @@ $(EXECUTABLE): $(OBJECTS)
 .cpp.o: a.c b.c
 # <- meta.function entity.name.function
 	$(CC) $(CFLAGS) $< -o $@
-	#               ^^ meta.function.body variable.language.automatic
-	#                     ^^ meta.function.body variable.language.automatic
+	# <- meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile punctuation.definition.interpolation.makefile
+	#^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+	#    ^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.arguments.shell
+	#     ^^^^^^^^^ meta.string.glob.shell meta.interpolation.makefile
+	#               ^^ meta.string.glob.shell meta.interpolation.makefile
+	#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+	#                     ^^ meta.string.glob.shell meta.interpolation.makefile
 
 FOO = some \
       line \
       continuation \
       in \
       here
-#        ^ string.unquoted
+#     ^^^^ meta.string.makefile string.unquoted.makefile
 
 reverse = $(2) $(1)
 # <- variable.other
 #       ^ keyword.operator.assignment
-#         ^^ keyword.other.block.begin
-#           ^ string.unquoted variable.parameter
-#             ^ string.unquoted
-#              ^^ keyword.other.block.begin
-#                ^ string.unquoted variable.parameter
-#                 ^ keyword.other.block.end
+#         ^^^^ meta.string.makefile meta.interpolation.makefile - string
+#         ^ punctuation.definition.interpolation.makefile
+#          ^ punctuation.section.interpolation.begin.makefile
+#           ^ variable.other.makefile
+#            ^ punctuation.section.interpolation.end.makefile
+#             ^ meta.string.makefile string.unquoted.makefile
+#              ^^^^ meta.string.makefile meta.interpolation.makefile - string
+#              ^ punctuation.definition.interpolation.makefile
+#               ^ punctuation.section.interpolation.begin.makefile
+#                ^ variable.other.makefile
+#                 ^ punctuation.section.interpolation.end.makefile
 
 foo = $(call reverse,a,b)
-#       ^ constant.language.call
-#            ^ string.unquoted - meta.function-call.arguments
-#                   ^ string.unquoted punctuation.separator - meta.function-call.arguments
-#                    ^ string.unquoted meta.function-call.arguments
-#                     ^ string.unquoted meta.function-call.arguments punctuation.separator
-#                      ^ string.unquoted meta.function-call.arguments
-#                       ^ string.unquoted keyword.other.block.end
+#^^ meta.variable.makefile variable.other.makefile
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^^^ variable.function.makefile
+#                   ^ punctuation.separator.makefile
+#                    ^^^ meta.function-call.arguments.makefile
+#                    ^ meta.string.makefile string.unquoted.makefile
+#                     ^ punctuation.separator.makefile
+#                      ^ meta.string.makefile string.unquoted.makefile
+#                       ^ punctuation.section.interpolation.end.makefile
 
 foo = $(call something)
 #                     ^ - variable.function
 
 foo = $(eval $(call bar))
-#       ^ support.function
-#                 ^ constant.language
-#                     ^ variable.function
-#                      ^^ string.unquoted keyword.other.block.end - variable.function
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#            ^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^^^^^^^ meta.function-call.makefile
+#              ^^^^ support.function.builtin.makefile
+#                   ^^^ variable.function.makefile
+#                      ^ punctuation.section.interpolation.end.makefile
+#                       ^ punctuation.section.interpolation.end.makefile
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
-#              ^^^^^^^^^ meta.function-call support.function
-#                          ^^^^^^^^ meta.function-call.arguments meta.function-call support.function
-#                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
-#                                               ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments
-#                                                ^^ keyword.other.block.begin
-#                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter
-#                                                   ^ keyword.other.block.end
-#                                                    ^ punctuation.separator
-#                                                     ^^ keyword.other.block.begin
-#                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
-#                                                             ^ string.unquoted
-#                                                              ^ punctuation.separator
-#                                                               ^ string.unquoted
-#                                                                ^ punctuation.separator
-#                                                                 ^^ keyword.other.block.begin
-#                                                                   ^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter
-#                                                                       ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
-#                                                                        ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
-#                                                                         ^ meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
-#                                                                          ^ meta.function-call.arguments keyword.other.block.end
-#                                                                           ^ keyword.other.block.end
+#           ^ - meta.string.makefile - meta.interpolation
+#            ^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                        ^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                   ^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                ^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                    ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                     ^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                 ^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                                        ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                         ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                          ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                           ^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                            ^ - meta.string.makefile - meta.interpolation
+#              ^^^^^^^^^^ meta.function-call.makefile
+#                        ^^ meta.function-call.arguments.makefile - meta.function-call meta.function-call
+#                          ^^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.makefile
+#                                   ^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call
+#                                     ^^^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                               ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call meta.function-call
+#                                                       ^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile - meta.function-call meta.function-call meta.function-call meta.function-call meta.function-call
+#                                                             ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.string.makefile
+#                                                              ^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call meta.function-call meta.string
+#                                                                 ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.string.makefile
+#                                                                        ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call meta.function-call meta.function-call
+#                                                                         ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call meta.function-call
+#                                                                          ^ meta.function-call.arguments.makefile - meta.function-call meta.function-call meta.function-call
+#                                                                           ^ - meta.function-call
+#              ^^^^^^^^^ support.function.builtin.makefile
+#                          ^^^^^^^^ support.function.builtin.makefile
+#                                     ^^^^^^^^^ support.function.builtin.makefile
+#                                                       ^^^^^ support.function.builtin.makefile
 
 LS := $(call pathsearch,ls)
 
@@ -644,28 +822,36 @@ CC=g++
 #  ^ string.unquoted
 SOURCES=main.cpp
 SOURCES+=hello.cpp
-# <- variable.other
-#      ^ keyword.operator.assignment
-#        ^ string.unquoted
-
-EXECUTABLE=hello
-
-OBJECTS=$(SOURCES:.cpp=.o)
-#         ^ string.unquoted.makefile variable.parameter.makefile
+#^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^ keyword.operator
+#        ^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 all: $(SOURCES) hello.o
-# <- entity.name.function.makefile
-#    ^ keyword.other.block.begin
-#      ^ variable.parameter.makefile
+#^^ meta.function.makefile entity.name.function.makefile
+#  ^ keyword.operator.assignment.makefile
+#    ^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^^^^^ meta.interpolation.makefile
+#    ^ punctuation.definition.interpolation.makefile
+#     ^ punctuation.section.interpolation.begin.makefile
+#      ^^^^^^^ variable.other.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#                      ^ meta.function.body.makefile
 
 $(EXECUTABLE): $(OBJECTS)
-# <- keyword.other.block.begin
-# ^ variable.parameter.makefile
-#              ^ keyword.other.block.begin
-#                ^ variable.parameter.makefile
+#^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^^^^ variable.other.makefile
+#           ^ punctuation.section.interpolation.end.makefile
+#            ^ keyword.operator.assignment.makefile
+#              ^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#              ^ punctuation.definition.interpolation.makefile
+#               ^ punctuation.section.interpolation.begin.makefile
+#                ^^^^^^^ variable.other.makefile
+#                       ^ punctuation.section.interpolation.end.makefile
+#                        ^ meta.function.body.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	# <- constant.language
-	#                               ^^ variable.language.automatic
+	#                               ^^ meta.string.glob.shell meta.interpolation.makefile
 
 
 all: whatevs
@@ -693,18 +879,18 @@ help::
 $(warning he:llo)
 # ^ meta.function-call support.function
 #         ^^^ meta.function-call.arguments.makefile - punctuation
-#               ^ keyword.other.block.end
+#               ^ punctuation.section.interpolation.end
 
 all: deps
 	$(warning he:llo)
 	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
-	#               ^ keyword.other.block.end
+	#               ^ punctuation.section.interpolation.end
 deps:
 	$(warning he:llo)
 	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
-	#               ^ keyword.other.block.end
+	#               ^ punctuation.section.interpolation.end
 all:
 # ^ meta.function entity.name.function
 #  ^ keyword.operator.assignment
@@ -733,10 +919,16 @@ endif
 # ^ keyword.control
 
 a_percentage_%_sign := $(SOME_C%MPLEX:SUBSTITUTI%N)
-#            ^ variable.other - variable.language
-#                              ^ string.unquoted variable.parameter variable.language
-#                                    ^ punctuation
-#                                               ^ string.unquoted variable.language
+#^^^^^^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#            ^ - variable.language
+#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#                      ^ punctuation.definition.interpolation.makefile
+#                       ^ punctuation.section.interpolation.begin.makefile
+#                        ^^^^^^^^^^^^ variable.other.makefile
+#                              ^ variable.language.makefile
+#                                    ^ punctuation.definition.substitution.makefile
+#                                               ^ variable.language.makefile
+#                                                 ^ punctuation.section.interpolation.end.makefile
 
 %.cpp: %.o
 # <- meta.function entity.name.function variable.language
@@ -809,44 +1001,84 @@ a : b ; rm -rf /
 #       ^ source.shell
 
 a-$(b) := c
-# ^ keyword.other.block.begin
-#    ^ keyword.other.block.end
-#      ^^ keyword.operator
-#         ^ string.unquoted
+#^^^^^ meta.variable.makefile
+#^ variable.other.makefile
+# ^^^^ meta.interpolation.makefile
+# ^ punctuation.definition.interpolation.makefile
+#  ^ punctuation.section.interpolation.begin.makefile
+#   ^ variable.other.makefile
+#    ^ punctuation.section.interpolation.end.makefile
 
 $(a): b
-# <- keyword.other.block.begin
-#  ^ meta.function entity.name.function keyword.other.block.end
-#   ^ keyword.operator
-#     ^ meta.function.arguments string.unquoted
+#^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.section.interpolation.end.makefile
+#   ^ keyword.operator.assignment.makefile
+#     ^ meta.function.arguments.makefile string.unquoted.makefile
+#      ^ meta.function.body.makefile
 	$(Q)$(MAKE) $(build)=$@
 	# <- meta.function.body
-	#                    ^^ meta.function.body variable.language.automatic
+	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
+	#                    ^ punctuation.definition.interpolation.makefile
+	#                     ^ variable.language.automatic.makefile
 
 $(a:b=c) : d
-# <- meta.function entity.name.function
-#   ^ - meta.function.arguments
-#          ^ meta.function.arguments
+#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.definition.substitution.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+#        ^ keyword.operator.assignment.makefile
+#          ^ meta.function.arguments.makefile string.unquoted.makefile
+#           ^ meta.function.body.makefile
 	$(Q)$(MAKE) $(build)=$@
 	# <- meta.function.body
-	#                    ^^ meta.function.body variable.language.automatic
+	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
+	#                    ^ punctuation.definition.interpolation.makefile
+	#                     ^ variable.language.automatic.makefile
 
 $(X:a=b) : w ;
-# <- meta.function entity.name.function keyword.other.block.begin
-# ^ variable.parameter
-#        ^ keyword.operator
-#          ^ meta.function.arguments string.unquoted
-#           ^ - string.unquoted
-#            ^ punctuation.terminator
+#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.definition.substitution.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+#        ^ keyword.operator.assignment.makefile
+#          ^ meta.function.arguments.makefile string.unquoted.makefile
+#            ^ punctuation.terminator.makefile
+#             ^ meta.function.body.makefile
 
 $(Y:%.cpp=%.o) := $(Z)
-# <- - meta.function
-#              ^^ keyword.operator.assignment
+#^^^^^^^^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.definition.substitution.makefile
+#   ^ variable.language.makefile
+#        ^ keyword.operator.assignment.makefile
+#         ^ variable.language.makefile
+#            ^ punctuation.section.interpolation.end.makefile
+#              ^^ keyword.operator.assignment.makefile
+#                 ^^^^ meta.string.makefile meta.interpolation.makefile
+#                 ^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^ variable.other.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
 
 $(call my_func,my_arg): deps
-# <- meta.function entity.name.function
-#                     ^ keyword.operator.assignment
-#                      ^ - keyword.operator.assignment
+#^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^^^^^^^ meta.function-call.makefile
+# ^^^^ support.function.builtin.makefile
+#      ^^^^^^^ variable.function.makefile
+#             ^ punctuation.separator.makefile
+#              ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^ keyword.operator.assignment.makefile
+#                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
+#                           ^ meta.function.body.makefile
 	rm -rf /
 
 $(foreach i,j,k): deps
@@ -976,7 +1208,7 @@ ifeq ($(shell which inkscape >/dev/null 2>&1 && echo USING_INKSCAPE),USING_INKSC
 $(FIGS)/%.pdf: $(FIGS)/%.svg  ## Figures for the manuscript
 # <- meta.function entity.name.function
 #            ^ keyword.operator.assignment
-#              ^ meta.function.arguments string.unquoted
+#              ^ meta.function.arguments meta.string
     #                         ^ comment.line - string.unquoted
     inkscape -C -z --file=$< --export-pdf=$@ 2> /dev/null
     # <- meta.function.body
@@ -990,7 +1222,7 @@ revision.tex: $(VCSTURD)
     /bin/echo '\newcommand{\Revision}'"{$(subst _,\_,$(REVISION))}" > $@
     #           ^ - invalid.illegal
     #                                     ^ meta.function-call.makefile
-    #                                                  ^^ meta.function.body meta.function-call.arguments variable.parameter
+    #                                                  ^^ meta.function.body meta.function-call.arguments variable.other
 AUXFILES += revision.aux
 endif
 
@@ -1009,12 +1241,12 @@ ifndef ARDMK_DIR_MSG
     #      ^ variable.function
     #                                                               ^ support.function
     #                                                                        ^ support.function
-    #                                                                                                   ^ - keyword.other.block.end
-    #                                                                                                    ^ keyword.other.block.end
+    #                                                                                                   ^ - punctuation.section.interpolation.end
+    #                                                                                                    ^ punctuation.section.interpolation.end
 else
     $(call show_config_variable,ARDMK_DIR,[USER])
-    #    ^ constant.language
-    #      ^ variable.function
+    # ^^^^ support.function.builtin.makefile
+    #      ^^^^^^^^^^^^^^^^^^^^ variable.function.makefile
 endif
 
 kselftest-merge:
@@ -1033,9 +1265,9 @@ search:
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
-#                                                           ^ keyword.other.block.end
-#                                                            ^ - keyword.other.block.end
-#                                                             ^ keyword.other.block.end
+#                                                           ^ punctuation.section.interpolation.end
+#                                                            ^ - punctuation.section.interpolation.end
+#                                                             ^ punctuation.section.interpolation.end
 
 # A recipe may contain empty lines like below
 help:
@@ -1054,9 +1286,9 @@ help:
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
-#                                                           ^ keyword.other.block.end
-#                                                            ^ - keyword.other.block.end
-#                                                             ^ keyword.other.block.end
+#                                                           ^ punctuation.section.interpolation.end
+#                                                            ^ - punctuation.section.interpolation.end
+#                                                             ^ punctuation.section.interpolation.end
 
 LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*)), \
     $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SOURCES)))
@@ -1065,18 +1297,18 @@ LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*
 
 # FIX: https://github.com/sublimehq/Packages/issues/1941
 escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1))))
-#                    ^^^^^^^^ meta.function-call.makefile
+#                      ^^^^^^ meta.function-call.makefile
 #                            ^^^^^ meta.function-call.arguments.makefile - meta.function-call.makefile
-#                                 ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.makefile
+#                                   ^^^^^^ meta.function-call.arguments.makefile meta.function-call.makefile
 #                                         ^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
-#                                              ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                ^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
 #                                                      ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
-#                                                             ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                               ^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
 #                                                                     ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
-#                                                                            ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
-#                                                                             ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
-#                                                                              ^ meta.function-call.arguments.makefile keyword.other.block.end.makefile
-#                                                                               ^ keyword.other.block.end.makefile
+#                                                                            ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile punctuation.section.interpolation.end.makefile
+#                                                                             ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile punctuation.section.interpolation.end.makefile
+#                                                                              ^ meta.function-call.arguments.makefile punctuation.section.interpolation.end.makefile
+#                                                                               ^ punctuation.section.interpolation.end.makefile
 #                                                                                ^ - meta
 #                            ^ - punctuation
 #                             ^ punctuation.separator.makefile
@@ -1138,38 +1370,56 @@ html:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile - source.shell source.shell
 #   ^^^^^^^^^^ meta.function-call.identifier.shell
 #             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                ^^^^^^^^ variable.parameter.makefile
+#                ^^^^^^^^ variable.other.makefile
 #                          ^^ variable.parameter.option.shell
-#                               ^^^^^^^^^ variable.parameter.makefile
+#                               ^^^^^^^^^ variable.other.makefile
 #                                          ^^ variable.parameter.option.shell
-#                                               ^^^^^^^^ variable.parameter.makefile
-#                                                           ^^^^^^^^^^^ variable.parameter.makefile
+#                                               ^^^^^^^^ variable.other.makefile
+#                                                           ^^^^^^^^^^^ variable.other.makefile
 
 shell_string_interpolation:
     var1="double nquoted $(string) value"
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+    #   ^ meta.assignment.shell keyword.operator.assignment.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
     #    ^^^^^^^^^^^^^^^^ string.quoted.double.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
-    #                    ^^^^^^^^^ meta.interpolation
-    #                    ^^ keyword.other.block.begin.makefile
-    #                      ^^^^^^ variable.parameter.makefile
-    #                            ^ keyword.other.block.end.makefile
+    #    ^ punctuation.definition.string.begin.shell
+    #                    ^^^^^^^^^ meta.interpolation.makefile
+    #                    ^ punctuation.definition.interpolation.makefile
+    #                     ^ punctuation.section.interpolation.begin.makefile
+    #                      ^^^^^^ variable.other.makefile
+    #                            ^ punctuation.section.interpolation.end.makefile
     #                             ^^^^^^^ string.quoted.double.shell
+    #                                   ^ punctuation.definition.string.end.shell
     var1='single nquoted $(string) value'
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+    #   ^ meta.assignment.shell keyword.operator.assignment.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
     #    ^^^^^^^^^^^^^^^^ string.quoted.single.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
-    #                    ^^^^^^^^^ meta.interpolation
-    #                    ^^ keyword.other.block.begin.makefile
-    #                      ^^^^^^ variable.parameter.makefile
-    #                            ^ keyword.other.block.end.makefile
+    #    ^ punctuation.definition.string.begin.shell
+    #                    ^^^^^^^^^ meta.interpolation.makefile
+    #                    ^ punctuation.definition.interpolation.makefile
+    #                     ^ punctuation.section.interpolation.begin.makefile
+    #                      ^^^^^^ variable.other.makefile
+    #                            ^ punctuation.section.interpolation.end.makefile
     #                             ^^^^^^^ string.quoted.single.shell
+    #                                   ^ punctuation.definition.string.end.shell
     var1=unquoted\ $(string)\ value
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+    #   ^ meta.assignment.shell keyword.operator.assignment.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
     #    ^^^^^^^^^^ string.unquoted.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
-    #              ^^^^^^^^^ meta.interpolation
-    #              ^^ keyword.other.block.begin.makefile
-    #                ^^^^^^ variable.parameter.makefile
-    #                      ^ keyword.other.block.end.makefile
+    #            ^^ constant.character.escape.shell
+    #              ^^^^^^^^^ meta.interpolation.makefile
+    #              ^ punctuation.definition.interpolation.makefile
+    #               ^ punctuation.section.interpolation.begin.makefile
+    #                ^^^^^^ variable.other.makefile
+    #                      ^ punctuation.section.interpolation.end.makefile
     #                       ^^^^^^^ string.unquoted.shell
+    #                       ^^ constant.character.escape.shell
 
 # https://www.gnu.org/software/make/manual/html_node/Errors.html
 clean:
@@ -1179,21 +1429,20 @@ clean:
 
 foo:
 	echo $$foo
-	#    ^ constant.character.escape.makefile
-	#     ^ punctuation.definition.variable.shell
+	#    ^^ punctuation.definition.variable.shell
 	#     ^^^^ variable.other.readwrite.shell
 	foo $$(echo $$PATH)
-	#   ^ constant.character.escape.makefile
-	#    ^ punctuation
+	#   ^^ punctuation.definition.variable.shell
 	#     ^ punctuation.section.interpolation.begin.shell
 	#      ^^^^ support.function.shell
-	#           ^ constant.character.escape.makefile
-	#            ^ punctuation.definition.variable.shell
-	#            ^^^^^ variable.language.builtin.shell
+	#           ^^ punctuation.definition.variable.shell
+	#             ^^^^ variable.language.builtin.shell
 
 	test "$$abc" = "$$def"
 	# ^ support.function.shell
-	#    ^^^^^^^ string.quoted.double.shell
-	#     ^ constant.character.escape.makefile
-	#      ^ punctuation.definition.variable.shell
+	#    ^^^^^^^ meta.string.glob.shell
+	#     ^^ punctuation.definition.variable.shell
 	#       ^^^ variable.other.readwrite.shell
+	#              ^^^^^^^ meta.string.glob.shell
+	#               ^^ punctuation.definition.variable.shell
+	#                 ^^^ variable.other.readwrite.shell

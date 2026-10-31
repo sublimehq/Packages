@@ -8,9 +8,18 @@ extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
 
 contexts:
 
+  expression-variable-chars:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations
+
   parameter-expansions:
-    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
+    - meta_append: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#expansions
 
   string-prototype:
     - meta_append: true
-    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations
+
+variables:
+
+  interpolation_punct: \$\$
