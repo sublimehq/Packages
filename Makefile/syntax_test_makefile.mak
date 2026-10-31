@@ -69,6 +69,61 @@ ${ # not a comment }
 #             ^ meta.block.conflict.end.diff - entity - punctuation
 
 #################################
+# 3.3 Including Other Makefiles #
+#################################
+
+include foo *.mk $(bar)
+# <- keyword.control.import
+#^^^^^^ keyword.control.import.makefile
+#           ^ constant.other.wildcard.asterisk.makefile
+
+-include foo *.mk $(bar)
+# <- keyword.control.import
+#^^^^^^ keyword.control.import.makefile
+#            ^ constant.other.wildcard.asterisk.makefile
+
+sinclude foo *.mk $(bar)
+#<- keyword.control.import.makefile
+#^^^^^^^ keyword.control.import.makefile
+#            ^ constant.other.wildcard.asterisk.makefile
+
+s-include
+# <- - keyword
+#^^^^^^^^^ - keyword
+
+includes
+# <- - keyword
+#^^^^^^^ - keyword
+
+#################################
+# 4.5.2 The vpath Directive     #
+#################################
+
+vpath dir/*/whatevs whatevs
+# <- keyword.control.vpath.makefile
+#^^^^ keyword.control.vpath.makefile
+#     ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#         ^ constant.other.wildcard.asterisk.makefile
+#                   ^^^^^^^ meta.string.makefile string.unquoted.makefile
+
+vpath asdf/*
+# <- keyword.control.vpath.makefile
+#^^^^ keyword.control.vpath.makefile
+#     ^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#          ^ constant.other.wildcard.asterisk.makefile
+
+vpath
+# <- keyword.control.vpath.makefile
+#^^^^ keyword.control.vpath.makefile
+
+# a comment check
+# <- comment.line
+
+rule: asdf
+  @rm -rf /
+# <- meta.function.body
+
+#################################
 # 6.3.1 substitution references #
 #################################
 
@@ -548,16 +603,6 @@ pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
 
 LS := $(call pathsearch,ls)
 
--include $(MAKEFILE_PATH)Makefile.Defs
-# <- keyword.control.import
-
-sinclude $(MAKEFILE_PATH)Makefile.Defs
-# <- keyword.control.import
-#        ^ string.unquoted keyword.other.block.begin
-#          ^ string.unquoted variable.parameter
-#                       ^ string.unquoted keyword.other.block.end
-
-
 CC=g++
 # <- variable.other
 # ^ keyword.operator.assignment
@@ -902,24 +947,6 @@ $(FIGS)/%.pdf: $(FIGS)/%.svg  ## Figures for the manuscript
     # <- meta.function.body
 endif
 # <- keyword.control.conditional
-
-vpath dir/*/whatevs whatevs
-# ^ keyword.control.vpath
-#         ^ constant.other.wildcard.asterisk
-#                   ^ string.unquoted.makefile
-
-vpath asdf/*
-# ^ keyword.control.vpath
-#          ^ constant.other.wildcard.asterisk
-vpath
-# ^ keyword.control.vpath.makefile
-
-# a comment check
-# <- comment.line
-
-rule: asdf
-	@rm -rf /
-# <- meta.function.body
 
 ifneq ($(REVISION),)
 # ^ keyword.control.conditional

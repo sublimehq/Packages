@@ -91,81 +91,6 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
-###[ CONTROL FLOW STATEMENTS ]#################################################
-
-  inside-control-flow:
-    - meta_scope: meta.group.makefile
-    - match: "'"
-      scope: punctuation.definition.string.begin.makefile
-      push:
-        - meta_scope: meta.string.makefile string.quoted.single.makefile
-        - match: "'"
-          scope: punctuation.definition.string.end.makefile
-          pop: 1
-        - include: escape-literals
-        - include: line-continuations
-        - include: variable-substitutions
-    - match: '"'
-      scope: punctuation.definition.string.begin.makefile
-      push:
-        - meta_scope: meta.string.makefile string.quoted.double.makefile
-        - match: '"'
-          scope: punctuation.definition.string.end.makefile
-          pop: 1
-        - include: escape-literals
-        - include: line-continuations
-        - include: variable-substitutions
-    - match: \(
-      scope: punctuation.section.group.begin.makefile
-      push:
-        - match: \)
-          scope: punctuation.section.group.end.makefile
-          pop: 1
-        - include: variable-substitutions
-        - match: \,
-          scope: punctuation.separator.makefile
-    - match: \)
-      scope: invalid.illegal.stray.paren.makefile
-    - include: continuation-or-eol-pop
-
-  control-flow:
-    - match: ^\s*(vpath)\s
-      captures:
-        1: keyword.control.vpath.makefile
-      push:
-        - include: highlight-wildcard-sign
-        - match: \s
-          set:
-            - meta_content_scope: meta.string.makefile string.unquoted.makefile
-            - include: eol-pop
-        - include: eol-pop
-    - match: ^\s*(vpath)$
-      captures:
-        1: keyword.control.vpath.makefile
-    - match: ^\s*({{include}})\s+
-      captures:
-        1: keyword.control.import.makefile
-      push:
-        - meta_content_scope: meta.string.makefile string.unquoted.makefile
-        - include: continuation-or-eol-pop
-        - include: variable-substitutions
-    - match: \b{{startdirective}}\b
-      scope: keyword.control.conditional.makefile
-      push: inside-control-flow
-    - match: ^\s*(else)\b
-      captures:
-        1: keyword.control.conditional.makefile
-      push:
-        - include: control-flow
-        - include: comments
-        - include: eol-pop
-    - match: ^\s*(endif)\b
-      captures:
-        1: keyword.control.conditional.makefile
-      push:
-        - include: comments
-        - include: eol-pop
-
 ###[ RULE DEFINITIONS ]########################################################
 
   highlight-percentage-sign:
@@ -226,7 +151,7 @@ contexts:
       captures:
         1: keyword.control.conditional.makefile
       push:
-        - include: inside-control-flow
+        - include: inside-conditional-statement
         - include: recipe-junction-between-spaces-or-tabs
     - match: ^(?=[ ]+([-@]{1,2})?)
       set: recipe-with-spaces
@@ -274,6 +199,78 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
+
+###[ CONTROL FLOW STATEMENTS ]#################################################
+
+  control-flow:
+    - match: ^\s*(vpath)\b\s*
+      captures:
+        1: keyword.control.vpath.makefile
+      push: inside-vpath-pattern
+    - match: ^\s*([-s]?include)\b\s*
+      captures:
+        1: keyword.control.import.makefile
+      push: inside-include-statement
+    - match: ^\s*({{startdirective}})\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-conditional-statement
+    - match: ^\s*(else)\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-else-statement
+    - match: ^\s*(endif)\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-endif-statement
+
+  inside-conditional-statement:
+    - include: continuation-or-eol-pop
+    - include: groups
+    - include: quoted-string
+
+  inside-else-statement:
+    - include: continuation-or-eol-pop
+    - match: \b{{startdirective}}\b
+      scope: keyword.control.conditional.makefile
+      set: inside-conditional-statement
+
+  inside-endif-statement:
+    - include: continuation-or-eol-pop
+
+  inside-include-statement:
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: asterisk-placeholders
+    - include: variable-substitutions
+
+  inside-vpath-pattern:
+    - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: highlight-wildcard-sign
+    - match: \s+
+      set: inside-vpath-directory
+
+  inside-vpath-directory:
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.makefile
+      push: inside-group
+    - match: \)
+      scope: invalid.illegal.stray.paren.makefile
+
+  inside-group:
+    - meta_scope: meta.group.makefile
+    - match: \)
+      scope: punctuation.section.group.end.makefile
+      pop: 1
+    - match: \,
+      scope: punctuation.separator.makefile
+    - include: groups
+    - include: variable-substitutions
 
 ###[ STRINGS ]#################################################################
 
@@ -633,8 +630,7 @@ variables:
 
   varassign: (\?|\+|::?)?=
   shellassign: '!='
-  startdirective: ifn?(def|eq)
-  include: '[s-]?include'
+  startdirective: ifn?(?:def|eq)
   ruleassign: :(?!=)
   function_call_token_begin: \$\$?\(
 
