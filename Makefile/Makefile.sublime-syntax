@@ -93,20 +93,12 @@ contexts:
 
 ###[ RULE DEFINITIONS ]########################################################
 
-  highlight-percentage-sign:
-    - match: \%
-      scope: variable.language.makefile
-
-  highlight-wildcard-sign:
-    - match: \*
-      scope: constant.other.wildcard.asterisk.makefile
-
   expect-rule:
     # Anything before the colon is part of the rule's name.
     - meta_scope: meta.function.makefile entity.name.function.makefile
     - include: line-continuations
     - include: variable-substitutions
-    - include: highlight-percentage-sign
+    - include: percentage-placeholders
     - match: (?= *::?[^=]+[!:?]?=)
       set:
         - match: ::?
@@ -126,7 +118,7 @@ contexts:
                 string.unquoted.makefile
             - include: line-continuations
             - include: variable-substitutions
-            - include: highlight-percentage-sign
+            - include: percentage-placeholders
             - match: (?=#)
               set:
                 - match: \#
@@ -247,7 +239,7 @@ contexts:
   inside-vpath-pattern:
     - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
-    - include: highlight-wildcard-sign
+    - include: asterisk-placeholders
     - match: \s+
       set: inside-vpath-directory
 
@@ -345,7 +337,7 @@ contexts:
         2: support.function.builtin.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
-        - include: highlight-percentage-sign
+        - include: percentage-placeholders
         - include: inside-function-call
     - match: ({{function_call_token_begin}})(wildcard)\s
       captures:
@@ -355,7 +347,7 @@ contexts:
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: inside-function-call
-        - include: highlight-wildcard-sign
+        - include: asterisk-placeholders
     - match: ({{function_call_token_begin}})(info|warning|error)\s
       captures:
         0: meta.function-call.makefile
@@ -523,7 +515,7 @@ contexts:
     - match: ':'
       scope: punctuation.definition.substitution.makefile
       pop: 1
-    - include: highlight-percentage-sign
+    - include: percentage-placeholders
     - include: variable-substitutions
 
   variable-substitution-name-inside-paren:
@@ -557,7 +549,7 @@ contexts:
   variable-substitution-reference-common:
     - match: =
       scope: keyword.operator.assignment.makefile
-    - include: highlight-percentage-sign
+    - include: percentage-placeholders
     - include: variable-substitutions
 
   variable-substitutions:
@@ -590,6 +582,16 @@ contexts:
       captures:
         0: variable.parameter.makefile
         1: keyword.other.single-character-variable.makefile
+
+###[ PLACEHOLDERS ]############################################################
+
+  asterisk-placeholders:
+    - match: \*
+      scope: constant.other.wildcard.asterisk.makefile
+
+  percentage-placeholders:
+    - match: \%
+      scope: variable.language.makefile
 
 ###[ SHELLSCRIPT ]#############################################################
 
