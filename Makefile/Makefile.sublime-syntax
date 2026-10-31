@@ -129,6 +129,59 @@ contexts:
       captures:
         1: invalid.illegal.stray.endef.makefile
 
+###[ COMMENTS ]################################################################
+
+  comments:
+    # This hack is here in order to circumvent false-positives for the big
+    # rule lookahead. For example, if this match is not present, then things
+    # like
+    #
+    #     # A comment with a : colon
+    #
+    # will match the rule-lookahead.
+    - match: (?=^\s*#)
+      push: comment
+    # This is the "normal" comment parsing logic, but not sufficient in every
+    # case (see above).
+    - match: \#
+      scope: punctuation.definition.comment.makefile
+      push: comment-body
+    - include: merge-conflict-markers
+
+  comment:
+    - match: \#
+      scope: punctuation.definition.comment.makefile
+      set: comment-body
+
+  comment-body:
+    - meta_scope: comment.line.number-sign.makefile
+    - include: line-continuation
+    - match: \\\\
+    - match: \n
+      pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ CONTROL FLOW STATEMENTS ]#################################################
+
   inside-control-flow:
     - meta_scope: meta.group.makefile
     - match: "'"
@@ -362,53 +415,6 @@ contexts:
   escape-literals:
     - match: \\.
       scope: constant.character.escape.makefile
-
-  comments:
-    # This hack is here in order to circumvent false-positives for the big
-    # rule lookahead. For example, if this match is not present, then things
-    # like
-    #
-    #     # A comment with a : colon
-    #
-    # will match the rule-lookahead.
-    - match: (?=^\s*#)
-      push: comment
-    # This is the "normal" comment parsing logic, but not sufficient in every
-    # case (see above).
-    - match: \#
-      scope: punctuation.definition.comment.makefile
-      push: comment-body
-    - include: merge-conflict-markers
-
-  comment:
-    - match: \#
-      scope: punctuation.definition.comment.makefile
-      set: comment-body
-
-  comment-body:
-    - meta_scope: comment.line.number-sign.makefile
-    - include: line-continuation
-    - match: \\\\
-    - match: \n
-      pop: 1
-
-  merge-conflict-markers:
-    # see also: Diff.sublime-syntax#conflict-markers
-    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.begin.diff
-      captures:
-        1: punctuation.section.block.begin.diff
-        2: entity.name.section.diff
-    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.end.diff
-      captures:
-        1: punctuation.section.block.end.diff
-        2: entity.name.section.diff
-    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.separator.diff
-      captures:
-        1: punctuation.section.block.diff
-        2: entity.name.section.diff
 
   inside-function-call:
     - meta_content_scope: meta.function-call.arguments.makefile
