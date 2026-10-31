@@ -50,23 +50,49 @@ ${ # not a comment }
 #################################
 
 <<<<<<< HEAD
-#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
 # ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
 #      ^ meta.block.conflict.begin.diff - entity - punctuation
 #       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
 #           ^ meta.block.conflict.begin.diff - entity - punctuation
 
 =======
-#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
 # ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
 #      ^ meta.block.conflict.separator.diff - punctuation
 
 >>>>>>> master
-#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
 # ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
 #      ^ meta.block.conflict.end.diff - entity - punctuation
 #       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 #             ^ meta.block.conflict.end.diff - entity - punctuation
+
+define TEST_CONFLICT_IN_MULTILINE_VARS :=
+<<<<<<< HEAD
+# <- meta.string.makefile string.unquoted.makefile meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile meta.block.conflict.begin.diff
+# ^^^^^ punctuation.section.block.begin.diff
+#      ^ - entity - punctuation
+#       ^^^^ entity.name.section.diff
+#           ^ - entity - punctuation
+
+=======
+# <- meta.string.makefile string.unquoted.makefile meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.makefile string.unquoted.makefile meta.block.conflict.separator.diff
+# ^^^^^ punctuation.section.block.diff
+#      ^ - punctuation
+
+>>>>>>> master
+# <- meta.string.makefile string.unquoted.makefile meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#      ^ - entity - punctuation
+#       ^^^^^^ entity.name.section.diff
+#             ^ - entity - punctuation
+endef
+# <- keyword.control.makefile
+#^^^^ keyword.control.makefile
 
 #################################
 # 3.3 Including Other Makefiles #
@@ -203,7 +229,7 @@ bar := ${foo:%.o=%.c}
 
 foo = bar # a comment
 #    ^ - string
-#     ^^^ string.unquoted
+#     ^^^ meta.string.makefile string.unquoted.makefile
 #        ^ - string
 #         ^ comment.line punctuation - string.unquoted
 
@@ -342,17 +368,26 @@ endef
 # <- keyword.control.makefile
 
 
-#############################
-# 6.11 undefining variables #
-#############################
+############################
+# 6.9 Undefining Variables #
+############################
 
 undefine foo
 #^^^^^^^ keyword.control.makefile
-#       ^^^^ -keyword
+#       ^ - keyword - variable
+#        ^^^ meta.variable.makefile variable.other.makefile
 
   undefine foo
 # ^^^^^^^^ keyword.control.makefile
-#         ^^^^ -keyword
+#         ^ - keyword - variable
+#          ^^^ meta.variable.makefile variable.other.makefile
+#             ^ - variable
+
+override undefine CFLAGS
+#^^^^^^^ keyword.control.makefile
+#        ^^^^^^^^ keyword.control.makefile
+#                ^ - keyword - variable
+#                 ^^^^^^ meta.variable.makefile variable.other.makefile
 
 # Avoid false positives such as partial matches.
 
