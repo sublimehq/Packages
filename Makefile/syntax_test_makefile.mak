@@ -295,7 +295,7 @@ bar := ${foo:%.o=%.c}
 dir = foo
 $(dir)_sources := $(wildcard $(dir)/*.c)
 # <- meta.variable.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
-#^^^^^ meta.variable.makefile meta.interpolation.makefile - variable variable
+#^^^^^ meta.variable.makefile meta.interpolation.makefile
 #     ^^^^^^^^ meta.variable.makefile - meta.interpolation
 #^ punctuation.section.interpolation.begin.makefile
 # ^^^ variable.other.makefile

@@ -38,10 +38,10 @@ contexts:
   main:
     - include: comments
     - include: merge-conflict-markers
+    - include: directives
     - match: (?={{rule_lookahead}})
       push: expect-rule
     - include: variable-definitions
-    - include: control-flow
     - include: escaped-chars
     - include: expansions
     - include: line-continuations
@@ -153,7 +153,7 @@ contexts:
   recipe-inline:
     - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
     - include: recipe-junction-between-spaces-or-tabs
-    - include: control-flow
+    - include: directives
     - match: $
       set: recipe-junction-between-spaces-or-tabs
     - include: shell-content
@@ -187,36 +187,121 @@ contexts:
       pop: 1
 
   recipe-common:
-    - include: control-flow
+    - include: directives
     - match: ^\n
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   variable-definitions:
-    - match: \b(override)\b\s*
+    - match: (?={{var_lookahead}})
+      push: inside-variable-definition-name
+
+  inside-variable-definition-name:
+    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - match: \s*({{shell_assign}})\s*
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: inside-shell
+    - match: \s*({{var_assign}})\s*
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: variable-value
+    - include: continuation-or-eol-pop
+    - include: expansions
+
+  variable-value:
+    - match: ((?:bash|sh|zsh)\s+-c\s+)(['"`])
+      captures:
+        1: meta.string.makefile string.unquoted.makefile
+        2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
+      embed: shell-content
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded.makefile
+      escape: (?!<\\)\2
+      escape_captures:
+        0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+    - match: ''
+      set: inside-variable-value
+
+  inside-variable-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: escaped-chars
+    - include: interpolations
+
+###[ DIRECTIVES ]##############################################################
+
+  directives:
+    # definition directives
+    - match: ^\s*(override)\b\s*
       captures:
         1: keyword.control.makefile
-    - match: \b(define)\b\s*
+      push: inside-override-directive
+    - match: ^\s*(define)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-define-directive-name
-    - match: \b(export)\b\s*
+    - match: ^\s*(export)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-export-directive-name
+    - match: ^\s*(undefine)\b\s*
+      captures:
+        1: keyword.control.makefile
+      push: inside-undefine-directive-name
+    - match: ^\s*(unexport)\b\s*
+      captures:
+        1: keyword.control.makefile
+      push: inside-undefine-directive-name
+    - match: ^\s*(endef)\b\s*
+      captures:
+        1: invalid.illegal.stray.endef.makefile
+    - match: ^\s*(vpath)\b\s*
+      captures:
+        1: keyword.control.vpath.makefile
+      push: inside-vpath-pattern
+    # include directives
+    - match: ^\s*([-s]?include)\b\s*
+      captures:
+        1: keyword.control.import.makefile
+      push: inside-include-statement
+    # conditional directives
+    - match: ^\s*({{startdirective}})\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-conditional-statement
+    - match: ^\s*(else)\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-else-statement
+    - match: ^\s*(endif)\b
+      captures:
+        1: keyword.control.conditional.makefile
+      push: inside-endif-statement
+
+  inside-override-directive:
+    - match: \b(define)\b\s*
+      captures:
+        1: keyword.control.makefile
+      set: inside-define-directive-name
+    - match: \b(export)\b\s*
+      captures:
+        1: keyword.control.makefile
+      set: inside-export-directive-name
     - match: \b(undefine)\b\s*
       captures:
         1: keyword.control.makefile
-      push: inside-undefine-directive-name
+      set: inside-undefine-directive-name
     - match: \b(unexport)\b\s*
       captures:
         1: keyword.control.makefile
-      push: inside-undefine-directive-name
+      set: inside-undefine-directive-name
     - match: \b(endef)\b\s*
       captures:
         1: invalid.illegal.stray.endef.makefile
     - match: (?={{var_lookahead}})
-      push: inside-variable-definition-name
+      set: inside-variable-definition-name
+    - include: continuation-or-eol-pop
 
   inside-define-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
@@ -261,63 +346,6 @@ contexts:
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: interpolations
-
-  inside-variable-definition-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
-    - match: \s*({{shell_assign}})\s*
-      captures:
-        1: keyword.operator.assignment.makefile
-      set: inside-shell
-    - match: \s*({{var_assign}})\s*
-      captures:
-        1: keyword.operator.assignment.makefile
-      set: variable-value
-    - include: continuation-or-eol-pop
-    - include: interpolations
-
-  variable-value:
-    - match: ((?:bash|sh|zsh)\s+-c\s+)(['"`])
-      captures:
-        1: meta.string.makefile string.unquoted.makefile
-        2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
-      embed: shell-content
-      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded.makefile
-      escape: (?!<\\)\2
-      escape_captures:
-        0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
-    - match: ''
-      set: inside-variable-value
-
-  inside-variable-value:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: interpolations
-
-###[ CONTROL FLOW STATEMENTS ]#################################################
-
-  control-flow:
-    - match: ^\s*(vpath)\b\s*
-      captures:
-        1: keyword.control.vpath.makefile
-      push: inside-vpath-pattern
-    - match: ^\s*([-s]?include)\b\s*
-      captures:
-        1: keyword.control.import.makefile
-      push: inside-include-statement
-    - match: ^\s*({{startdirective}})\b
-      captures:
-        1: keyword.control.conditional.makefile
-      push: inside-conditional-statement
-    - match: ^\s*(else)\b
-      captures:
-        1: keyword.control.conditional.makefile
-      push: inside-else-statement
-    - match: ^\s*(endif)\b
-      captures:
-        1: keyword.control.conditional.makefile
-      push: inside-endif-statement
 
   inside-conditional-statement:
     - include: continuation-or-eol-pop
