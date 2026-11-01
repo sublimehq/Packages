@@ -48,7 +48,7 @@ contexts:
       branch_point: definitions
       branch:
         - inside-global-variable-definition-name
-        - inside-target-name
+        - inside-rule-target
 
 ###[ COMMENTS ]################################################################
 
@@ -94,106 +94,74 @@ contexts:
 
 ###[ RULE DEFINITIONS ]########################################################
 
-  inside-target-name:
+  inside-rule-target:
     # Anything before the colon is part of the rule's name.
-    - meta_scope: meta.function.makefile entity.name.function.makefile
+    - meta_content_scope: meta.function.makefile entity.name.function.makefile
+    - match: \s*(::?)
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: after-rule-target
     - include: line-continuations
     - include: escaped-chars
     - include: expansions
     - include: percentage-placeholders
-    - match: (?= *::?[^=]+[!:?]?=)
-      set:
-        - match: ::?
-          scope: keyword.operator.assignment.makefile
-          set:
-            - include: definitions
-            - include: expansions
-            - include: continuation-or-eol-pop
-    - match: (?= *::?)
-      set:
-        - match: (::?)\s*
-          captures:
-            1: keyword.operator.assignment.makefile
-          set:
-            - meta_include_prototype: false
-            - meta_content_scope: meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
-            - include: line-continuations
-            - include: escaped-chars
-            - include: interpolations
-            - include: percentage-placeholders
-            - match: (?=\s*#)
-              set:
-                - match: \#
-                  scope: punctuation.definition.comment.makefile
-                  set:
-                    - meta_scope: comment.line.number-sign.makefile
-                    - match: $
-                      set: recipe-junction-between-spaces-or-tabs
-            - match: \s*$
-              scope: meta.function.makefile
-              set: recipe-junction-between-spaces-or-tabs
-            - match: (?=\s*;)
-              set:
-                - match: ;
-                  scope: punctuation.terminator.makefile
-                  set: recipe-inline
 
-  recipe-junction-between-spaces-or-tabs:
+  after-rule-target:
+    - meta_scope: meta.function.makefile
+    - include: line-continuations
+    # target-specific variable (parsed by main context)
+    - match: (?=(?:override|(?:un)?(?:define|export)){{word_break}}|[^=#]+{{var_or_shell_assign}})
+      pop: 1
+    # prerequisites
+    - match: (?=\S)
+      set: inside-rule-prerequisites
+    # recipes
+    - match: $\n?
+      set: inside-rule-body
+
+  inside-rule-prerequisites:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      set: inside-rule-comment
+    - match: \s*$\n?
+      scope: meta.function.makefile
+      set: inside-rule-body
+    - match: (\s*(;))(\s*(-@?|@-?))?
+      captures:
+        1: meta.function.makefile
+        2: punctuation.terminator.makefile
+        3: meta.function.body.makefile
+        4: keyword.operator.suppress.makefile
+      set:
+        - inside-rule-body
+        - inside-shell
+    - include: line-continuations
+    - include: escaped-chars
+    - include: interpolations
+    - include: percentage-placeholders
+
+  inside-rule-comment:
+    - meta_scope: meta.function.makefile
+    - meta_content_scope: comment.line.number-sign.makefile
+    - match: $\n?
+      scope: comment.line.number-sign.makefile
+      set: inside-rule-body
+
+  inside-rule-body:
     - meta_content_scope: meta.function.body.makefile
     - include: comments
     - include: merge-conflict-markers
-    - match: ^\s*({{startdirective}}){{word_break}}
-      captures:
-        1: keyword.control.conditional.makefile
-      push:
-        - include: inside-conditional-statement
-        - include: recipe-junction-between-spaces-or-tabs
-    - match: ^(?=[ ]+([-@]{1,2})?)
-      set: recipe-with-spaces
-    - match: ^(?=\t([-@]{1,2})?)
-      set: recipe-with-tabs
-    - match: ^
-      pop: 1
-
-  recipe-inline:
-    - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
-    - include: recipe-junction-between-spaces-or-tabs
     - include: conditional-directives
-    - match: $
-      set: recipe-junction-between-spaces-or-tabs
-    - include: shell-content
-
-  recipe-with-spaces:
-    - meta_content_scope: meta.function.body.makefile
-    - match: ^([ ]+)([-@]{1,2})?
+    - match: ^({{receipe_prefix}})(?:\s*(-@?|@-?))?
       captures:
+        1: punctuation.definition.recipe.makefile
         2: keyword.operator.suppress.makefile
       push: inside-shell
-    - match: ^(\t)([-@]{1,2})?
-      captures:
-        1: invalid.illegal.inconsistent.expected.spaces.makefile
-        2: keyword.operator.suppress.makefile
-    - include: recipe-common
-    - match: ^(?![ ]+)
+    - match: ^(?!\n)
       pop: 1
-
-  recipe-with-tabs:
-    - meta_content_scope: meta.function.body.makefile
-    - match: ^\t([-@]{1,2})?
-      captures:
-        1: keyword.operator.suppress.makefile
-      push: inside-shell
-    - match: ^([ ]+)([-@]{1,2})?
-      captures:
-        1: invalid.illegal.inconsistent.expected.tab.makefile
-        2: keyword.operator.suppress.makefile
-    - include: recipe-common
-    - match: ^(?!\t)
-      pop: 1
-
-  recipe-common:
-    - include: conditional-directives
-    - match: ^\n
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
@@ -284,10 +252,8 @@ contexts:
       push: inside-conditional-statement
     - match: else{{word_break}}
       scope: keyword.control.conditional.makefile
-      push: inside-else-statement
     - match: endif{{word_break}}
       scope: keyword.control.conditional.makefile
-      push: inside-endif-statement
 
   inside-define-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
@@ -336,15 +302,6 @@ contexts:
   inside-conditional-statement:
     - include: continuation-or-eol-pop
     - include: groups
-
-  inside-else-statement:
-    - include: continuation-or-eol-pop
-    - match: '{{startdirective}}{{word_break}}'
-      scope: keyword.control.conditional.makefile
-      set: inside-conditional-statement
-
-  inside-endif-statement:
-    - include: continuation-or-eol-pop
 
   inside-include-statement:
     - meta_include_prototype: false
@@ -672,6 +629,8 @@ contexts:
 ###############################################################################
 
 variables:
+
+  receipe_prefix: \t
 
   word_begin: (?=\S)
   word_break: (?![^\s:#!?+=])

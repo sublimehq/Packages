@@ -94,6 +94,33 @@ endef
 # <- keyword.control.makefile
 #^^^^ keyword.control.makefile
 
+test_conflict_in_rules:
+<<<<<<< HEAD
+# <- meta.function.body.makefile meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.function.body.makefile meta.block.conflict.begin.diff
+# ^^^^^ punctuation.section.block.begin.diff
+#      ^ - entity - punctuation
+#       ^^^^ entity.name.section.diff
+#           ^ - entity - punctuation
+	rm ~/
+#^^^^^^ meta.function.body.makefile
+#^^^^^ source.shell.embedded.makefile
+=======
+# <- meta.function.body.makefile meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.function.body.makefile meta.block.conflict.separator.diff
+# ^^^^^ punctuation.section.block.diff
+#      ^ - punctuation
+	rm $$HOME/
+#^^^^^^^^^^^ meta.function.body.makefile
+#^^^^^^^^^^ source.shell.embedded.makefile
+>>>>>>> master
+# <- meta.function.body.makefile meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.function.body.makefile meta.block.conflict.end.diff
+# ^^^^^ punctuation.section.block.end.diff
+#      ^ - entity - punctuation
+#       ^^^^^^ entity.name.section.diff
+#             ^ - entity - punctuation
+
 #################################
 # 3.3 Including Other Makefiles #
 #################################
@@ -186,6 +213,38 @@ includes
 # <- - keyword
 #^^^^^^^ - keyword
 
+###################
+# 4.2 Rule Syntax #
+###################
+
+rule: # comment
+# <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
+#^^^^^^^^^^^^^^^ meta.function.makefile - meta.function meta.function
+#^^^ entity.name.function.makefile
+#   ^ keyword.operator.assignment.makefile
+#    ^ - comment - keyword
+#     ^^^^^^^^^^ comment.line.number-sign.makefile
+#     ^ punctuation.definition.comment.makefile
+
+# <- meta.function.body.makefile
+
+rule: prerequisites # comment
+# <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
+#^^^^^ meta.function.makefile - meta.function meta.function
+#^^^ entity.name.function.makefile
+#   ^ keyword.operator.assignment.makefile
+#    ^ - keyword - string
+#     ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile - meta.function meta.function
+#                  ^^^^^^^^^^^ meta.function.makefile - meta.function meta.function
+#                  ^ - comment - string
+#                   ^^^^^^^^^^ comment.line.number-sign.makefile
+#                   ^ punctuation.definition.comment.makefile
+
+# <- meta.function.body.makefile
+
+END_RULE = TRUE
+# <- meta.variable.makefile variable.other.makefile - meta.function
+
 #################################
 # 4.5.2 The vpath Directive     #
 #################################
@@ -210,9 +269,58 @@ vpath
 # a comment check
 # <- comment.line
 
-rule: asdf
-  @rm -rf /
-# <- meta.function.body
+#####################
+# 5.1 Recipe Syntax #
+#####################
+
+rule: ; ifdef receipe  # not a make directive but passed to shell as command
+#     ^ meta.function.makefile - source.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile
+#       ^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#            ^^^^^^^^ meta.function-call.arguments.shell
+#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+rule:
+	ifdef receipe  # not a make directive but passed to shell as command
+# <- meta.function.body.makefile - source.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile
+#^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#     ^^^^^^^^ meta.function-call.arguments.shell
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+######################
+# 5.2 Recipe Echoing #
+######################
+
+rule: prereq ; @rm -f *.o
+#            ^ meta.function.makefile punctuation.terminator.makefile
+#             ^^^^^^^^^^^ meta.function.body.makefile
+#              ^ keyword.operator.suppress.makefile - source.shell
+#               ^^^^^^^^ source.shell.embedded.makefile
+
+rule:
+	@rm -f *.o
+# <- meta.function.body.makefile - source.shell
+#^^^^^^^^^^ meta.function.body.makefile
+#^ keyword.operator.suppress.makefile - source.shell
+# ^^^^^^^^ source.shell.embedded.makefile
+
+#########################
+# 5.5 Errors in Recipes #
+#########################
+
+clean: prereq ; -rm -f *.o
+#             ^ meta.function.makefile punctuation.terminator.makefile
+#              ^^^^^^^^^^^ meta.function.body.makefile
+#               ^ keyword.operator.suppress.makefile - source.shell
+#                ^^^^^^^^ source.shell.embedded.makefile
+
+clean:
+	-rm -f *.o
+# <- meta.function.body.makefile - source.shell
+#^^^^^^^^^^^ meta.function.body.makefile
+#^ keyword.operator.suppress.makefile - source.shell
+# ^^^^^^^^^ source.shell.embedded.makefile
 
 #####################################
 # 6.1 Basics of Variable References #
@@ -734,18 +842,102 @@ nundefine
 ########################################
 
 prog : CFLAGS = -g
-#    ^ keyword.operator
-#      ^ variable - string
-#             ^ keyword
-#              ^ - string
-#               ^^ string - meta.function.arguments
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^ meta.variable.makefile variable.other.makefile
+#             ^ keyword.operator.assignment.makefile
+#               ^^ meta.string.makefile string.unquoted.makefile
 
 $(prog) : CFLAGS = -g
-#       ^ keyword.operator
-#         ^ variable - string
-#                ^ keyword
-#                 ^ - string
-#                  ^^ string - meta.function.arguments
+# <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^^^^ meta.function.makefile
+#^^^^^^ entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^ variable.other.makefile
+#     ^ punctuation.section.interpolation.end.makefile
+#       ^ keyword.operator.assignment.makefile
+#         ^^^^^^ meta.variable.makefile variable.other.makefile
+#                ^ keyword.operator.assignment.makefile
+#                  ^^ meta.string.makefile string.unquoted.makefile
+
+prog : define CFLAGS =
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^ keyword.control.makefile
+#             ^^^^^^^ meta.variable.makefile variable.other.makefile
+#                    ^ keyword.operator.assignment.makefile
+endef
+# <- keyword.control.makefile
+#^^^^ keyword.control.makefile
+
+prog : override define CFLAGS =
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^ keyword.control.makefile
+#                      ^^^^^^^ meta.variable.makefile variable.other.makefile
+#                             ^ keyword.operator.assignment.makefile
+endef
+# <- keyword.control.makefile
+#^^^^ keyword.control.makefile
+
+prog : undefine CFLAGS
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^ meta.variable.makefile variable.other.makefile
+
+prog : export CFLAGS = -g
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^ keyword.control.makefile
+#             ^^^^^^ meta.variable.makefile variable.other.makefile
+#                    ^ keyword.operator.assignment.makefile
+#                      ^^ meta.string.makefile string.unquoted.makefile
+
+prog : override export CFLAGS = -g
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^ keyword.control.makefile
+#                      ^^^^^^ meta.variable.makefile variable.other.makefile
+#                             ^ keyword.operator.assignment.makefile
+#                               ^^ meta.string.makefile string.unquoted.makefile
+
+prog : unexport CFLAGS
+# <- meta.function.makefile entity.name.function.makefile
+#^^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^ meta.variable.makefile variable.other.makefile
+
+prog : override CFLAGS = -g
+#^^^^^ meta.function.makefile
+#^^^ entity.name.function.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^ meta.variable.makefile variable.other.makefile
+#                      ^ keyword.operator.assignment.makefile
+#                        ^^ meta.string.makefile string.unquoted.makefile
+
+prog : no_variable # = -g
+#      ^^^^^^^^^^^^^^^^^^ - variable.other
+prog : \
+	no_variable # = -g
+#   ^^^^^^^^^^^^^^^^^^ - variable.other
 
 #########################################
 # 6.12 pattern-specific variable values #
@@ -842,24 +1034,14 @@ a_objects := a.o b.o c.o
 	# <- comment.line - meta.function - entity.name.function
 
 all: foo.o
-#   ^ - string
-#    ^ string
-#         ^ - string
-    ld a
-    ar b
-    asdf
-    @echo "that's, like, your opinion man!" # some movie?
-	asdf
-# <- invalid.illegal.inconsistent.expected.spaces
-
-all: foo.o
 	ld a
 	ar b
 	asdf
 	@echo "that's, like, your opinion man!" # some movie?
 	# <- keyword.operator.suppress.makefile
     asdf
-# <- invalid.illegal.inconsistent.expected.tab
+# <- - meta.function - source.shell
+#   ^^^^ meta.variable.makefile variable.other.makefile
 
 all: foo.o # a comment
 # <- meta.function entity.name.function
@@ -895,16 +1077,16 @@ sources := $($(a1)_objects:.o=.c)
 #                               ^ punctuation.section.interpolation.end.makefile
 
 .build/vernum: ../meta/version
-    sed -i.bak 's/.*automatically updated.*/version = "$(VER)" # automatically updated/' setup.py
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded meta.function-call
-#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
-#                                                      ^^^^^^ meta.string.glob.shell meta.interpolation.makefile
-#                                                      ^ punctuation.definition.interpolation.makefile
-#                                                       ^ punctuation.section.interpolation.begin.makefile
-#                                                        ^^^ variable.other.makefile
-#                                                           ^ punctuation.section.interpolation.end.makefile
-#                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
-#                                                                                        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+	sed -i.bak 's/.*automatically updated.*/version = "$(VER)" # automatically updated/' setup.py
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded meta.function-call
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                                   ^^^^^^ meta.string.glob.shell meta.interpolation.makefile
+#                                                   ^ punctuation.definition.interpolation.makefile
+#                                                    ^ punctuation.section.interpolation.begin.makefile
+#                                                     ^^^ variable.other.makefile
+#                                                        ^ punctuation.section.interpolation.end.makefile
+#                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                                                                     ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 CC=g++
 #<- variable.other
@@ -1202,23 +1384,23 @@ a = b # c
 #       ^ comment.line.number-sign
 
 _modinst_:
-    @rm -rf $(MODLIB)/kernel
-    # <- keyword.operator.suppress.makefile
-    @rm -f $(MODLIB)/source
-    # <- keyword.operator.suppress.makefile
-    @mkdir -p $(MODLIB)/kernel
-    # <- keyword.operator.suppress.makefile
-    @ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
-    # <- keyword.operator.suppress.makefile
-    @if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
-        rm -f $(MODLIB)/build ; \
-        ln -s $(CURDIR) $(MODLIB)/build ; \
-    fi
-    @cp -f $(objtree)/modules.order $(MODLIB)/
-    # <- keyword.operator.suppress.makefile
-    @cp -f $(objtree)/modules.builtin $(MODLIB)/
-    # <- keyword.operator.suppress.makefile
-    $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
+	@rm -rf $(MODLIB)/kernel
+	# <- keyword.operator.suppress.makefile
+	@rm -f $(MODLIB)/source
+	# <- keyword.operator.suppress.makefile
+	@mkdir -p $(MODLIB)/kernel
+	# <- keyword.operator.suppress.makefile
+	@ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
+	# <- keyword.operator.suppress.makefile
+	@if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
+	    rm -f $(MODLIB)/build ; \
+	    ln -s $(CURDIR) $(MODLIB)/build ; \
+	fi
+	@cp -f $(objtree)/modules.order $(MODLIB)/
+	# <- keyword.operator.suppress.makefile
+	@cp -f $(objtree)/modules.builtin $(MODLIB)/
+	# <- keyword.operator.suppress.makefile
+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
 
 
 $(sort $(a)): $(b) ;
@@ -1238,11 +1420,11 @@ a : b ;
 #     ^ punctuation.terminator
 
 a : b \
-    more prerequisites \
-    on a third line even
-    #                  ^ meta.function.arguments string.unquoted
-    @rm -rf /
-    # <- meta.function.body keyword.operator.suppress.makefile
+	more prerequisites \
+	on a third line even
+	#                  ^ meta.function.arguments string.unquoted
+	@rm -rf /
+	# <- meta.function.body keyword.operator.suppress.makefile
 
 a : b ; rm -rf /
 #     ^ punctuation.terminator
@@ -1457,9 +1639,9 @@ $(FIGS)/%.pdf: $(FIGS)/%.svg  ## Figures for the manuscript
 # <- meta.function entity.name.function
 #            ^ keyword.operator.assignment
 #              ^ meta.function.arguments meta.string
-    #                         ^ comment.line - string.unquoted
-    inkscape -C -z --file=$< --export-pdf=$@ 2> /dev/null
-    # <- meta.function.body
+#                             ^ comment.line - string.unquoted
+	inkscape -C -z --file=$< --export-pdf=$@ 2> /dev/null
+	# <- meta.function.body
 endif
 # <- keyword.control.conditional
 
@@ -1467,49 +1649,49 @@ ifneq ($(REVISION),)
 # ^ keyword.control.conditional
 REVDEPS += revision.tex
 revision.tex: $(VCSTURD)
-    /bin/echo '\newcommand{\Revision}'"{$(subst _,\_,$(REVISION))}" > $@
-    #           ^ - invalid.illegal
-    #                                     ^ meta.function-call.makefile
-    #                                                  ^^ meta.function.body meta.function-call.arguments variable.other
+	/bin/echo '\newcommand{\Revision}'"{$(subst _,\_,$(REVISION))}" > $@
+	#           ^ - invalid.illegal
+	#                                     ^ meta.function-call.makefile
+	#                                                  ^^ meta.function.body meta.function-call.arguments variable.other
 AUXFILES += revision.aux
 endif
 
 build_target:
-    @echo "${INFO_CLR}>> Building $(TARGET)...${RESTORE_CLR}${RESULT_CLR}"
-    # <- keyword.operator.suppress.makefile
+	@echo "${INFO_CLR}>> Building $(TARGET)...${RESTORE_CLR}${RESULT_CLR}"
+	# <- keyword.operator.suppress.makefile
 ifdef WORKSPACE
-    @xcodebuild -sdk iphoneos -workspace "$(WORKSPACE).xcworkspace" -target "$(TARGET)" -configuration "$(CONFIG)" SYMROOT="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-    # <- keyword.operator.suppress.makefile
+	@xcodebuild -sdk iphoneos -workspace "$(WORKSPACE).xcworkspace" -target "$(TARGET)" -configuration "$(CONFIG)" SYMROOT="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
+	# <- keyword.operator.suppress.makefile
 else
-    @xcodebuild -sdk iphoneos -project "$(PROJECT).xcodeproj" -target "$(TARGET)" -configuration "$(CONFIG)" CONFIGURATION_BUILD_DIR="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-    # <- keyword.operator.suppress.makefile
+	@xcodebuild -sdk iphoneos -project "$(PROJECT).xcodeproj" -target "$(TARGET)" -configuration "$(CONFIG)" CONFIGURATION_BUILD_DIR="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
+	# <- keyword.operator.suppress.makefile
 endif
 ifndef ARDMK_DIR_MSG
-    $(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
-    #      ^ variable.function
-    #                                                               ^ support.function
-    #                                                                        ^ support.function
-    #                                                                                                   ^ - punctuation.section.interpolation.end
-    #                                                                                                    ^ punctuation.section.interpolation.end
+	$(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
+	#      ^ variable.function
+	#                                                               ^ support.function
+	#                                                                        ^ support.function
+	#                                                                                                   ^ - punctuation.section.interpolation.end
+	#                                                                                                    ^ punctuation.section.interpolation.end
 else
-    $(call show_config_variable,ARDMK_DIR,[USER])
-    # ^^^^ support.function.builtin.makefile
-    #      ^^^^^^^^^^^^^^^^^^^^ variable.function.makefile
+	$(call show_config_variable,ARDMK_DIR,[USER])
+	# ^^^^ support.function.builtin.makefile
+	#      ^^^^^^^^^^^^^^^^^^^^ variable.function.makefile
 endif
 
 kselftest-merge:
-    $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
-    $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
-        -m $(objtree)/.config \
-    #   ^ - keyword.operator.suppress.makefile
-        $(srctree)/tools/testing/selftests/*/config
-    +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+	    -m $(objtree)/.config \
+	#   ^ - keyword.operator.suppress.makefile
+	    $(srctree)/tools/testing/selftests/*/config
+	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
 
 search:
-    @$(MAKE) --no-print-directory \
-        -f core/core.mk $(addprefix -f,$(wildcard index/*.mk)) -f core/index.mk \
-    #                                                   ^ constant.other.wildcard.asterisk
-        search
+	@$(MAKE) --no-print-directory \
+	    -f core/core.mk $(addprefix -f,$(wildcard index/*.mk)) -f core/index.mk \
+	#                                                   ^ constant.other.wildcard.asterisk
+	    search
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
@@ -1519,18 +1701,18 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 
 # A recipe may contain empty lines like below
 help:
-    @echo  'Cleaning targets:'
-    # <- meta.function.body keyword.operator.suppress.makefile
+	@echo  'Cleaning targets:'
+	# <- meta.function.body keyword.operator.suppress.makefile
 
-    @echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
-    # <- meta.function.body keyword.operator.suppress.makefile
-    #               ^ - keyword.operator.assignment
-    #                                                        ^ string.quoted.single.shell
-    @echo  '        1: warnings which may be relevant and do not occur too often'
-    # <- meta.function.body keyword.operator.suppress.makefile
-    #                ^ - keyword.operator.assignment
-    @echo  '        2: warnings which occur quite often but may still be relevant'
-    # <- meta.function.body keyword.operator.suppress.makefile
+	@echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
+	# <- meta.function.body keyword.operator.suppress.makefile
+	#               ^ - keyword.operator.assignment
+	#                                                        ^ string.quoted.single.shell
+	@echo  '        1: warnings which may be relevant and do not occur too often'
+	# <- meta.function.body keyword.operator.suppress.makefile
+	#                ^ - keyword.operator.assignment
+	@echo  '        2: warnings which occur quite often but may still be relevant'
+	# <- meta.function.body keyword.operator.suppress.makefile
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
@@ -1614,66 +1796,59 @@ TESTTOOL = sh -c '\
 
 # Fix https://github.com/sublimehq/Packages/issues/2388
 html:
-    $(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile - source.shell source.shell
-#   ^^^^^^^^^^ meta.function-call.identifier.shell
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                ^^^^^^^^ variable.other.makefile
-#                          ^^ variable.parameter.option.shell
-#                               ^^^^^^^^^ variable.other.makefile
-#                                          ^^ variable.parameter.option.shell
-#                                               ^^^^^^^^ variable.other.makefile
-#                                                           ^^^^^^^^^^^ variable.other.makefile
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile - source.shell source.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#             ^^^^^^^^ variable.other.makefile
+#                       ^^ variable.parameter.option.shell
+#                            ^^^^^^^^^ variable.other.makefile
+#                                       ^^ variable.parameter.option.shell
+#                                            ^^^^^^^^ variable.other.makefile
+#                                                        ^^^^^^^^^^^ variable.other.makefile
 
 shell_string_interpolation:
-    var1="double nquoted $(string) value"
-    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
-    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
-    #   ^ meta.assignment.shell keyword.operator.assignment.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
-    #    ^^^^^^^^^^^^^^^^ string.quoted.double.shell
-    #    ^ punctuation.definition.string.begin.shell
-    #                    ^^^^^^^^^ meta.interpolation.makefile
-    #                    ^ punctuation.definition.interpolation.makefile
-    #                     ^ punctuation.section.interpolation.begin.makefile
-    #                      ^^^^^^ variable.other.makefile
-    #                            ^ punctuation.section.interpolation.end.makefile
-    #                             ^^^^^^^ string.quoted.double.shell
-    #                                   ^ punctuation.definition.string.end.shell
-    var1='single nquoted $(string) value'
-    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
-    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
-    #   ^ meta.assignment.shell keyword.operator.assignment.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
-    #    ^^^^^^^^^^^^^^^^ string.quoted.single.shell
-    #    ^ punctuation.definition.string.begin.shell
-    #                    ^^^^^^^^^ meta.interpolation.makefile
-    #                    ^ punctuation.definition.interpolation.makefile
-    #                     ^ punctuation.section.interpolation.begin.makefile
-    #                      ^^^^^^ variable.other.makefile
-    #                            ^ punctuation.section.interpolation.end.makefile
-    #                             ^^^^^^^ string.quoted.single.shell
-    #                                   ^ punctuation.definition.string.end.shell
-    var1=unquoted\ $(string)\ value
-    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
-    #^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
-    #   ^ meta.assignment.shell keyword.operator.assignment.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
-    #    ^^^^^^^^^^ string.unquoted.shell
-    #            ^^ constant.character.escape.shell
-    #              ^^^^^^^^^ meta.interpolation.makefile
-    #              ^ punctuation.definition.interpolation.makefile
-    #               ^ punctuation.section.interpolation.begin.makefile
-    #                ^^^^^^ variable.other.makefile
-    #                      ^ punctuation.section.interpolation.end.makefile
-    #                       ^^^^^^^ string.unquoted.shell
-    #                       ^^ constant.character.escape.shell
-
-# https://www.gnu.org/software/make/manual/html_node/Errors.html
-clean:
-	-rm -f *.o
-	# <- keyword.operator.suppress.makefile
-	#^^ variable.function.shell
+	var1="double nquoted $(string) value"
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+	#   ^ meta.assignment.shell keyword.operator.assignment.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^^^^^^^^^^^^^ string.quoted.double.shell
+	#    ^ punctuation.definition.string.begin.shell
+	#                    ^^^^^^^^^ meta.interpolation.makefile
+	#                    ^ punctuation.definition.interpolation.makefile
+	#                     ^ punctuation.section.interpolation.begin.makefile
+	#                      ^^^^^^ variable.other.makefile
+	#                            ^ punctuation.section.interpolation.end.makefile
+	#                             ^^^^^^^ string.quoted.double.shell
+	#                                   ^ punctuation.definition.string.end.shell
+	var1='single nquoted $(string) value'
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+	#   ^ meta.assignment.shell keyword.operator.assignment.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^^^^^^^^^^^^^ string.quoted.single.shell
+	#    ^ punctuation.definition.string.begin.shell
+	#                    ^^^^^^^^^ meta.interpolation.makefile
+	#                    ^ punctuation.definition.interpolation.makefile
+	#                     ^ punctuation.section.interpolation.begin.makefile
+	#                      ^^^^^^ variable.other.makefile
+	#                            ^ punctuation.section.interpolation.end.makefile
+	#                             ^^^^^^^ string.quoted.single.shell
+	#                                   ^ punctuation.definition.string.end.shell
+	var1=unquoted\ $(string)\ value
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+	#   ^ meta.assignment.shell keyword.operator.assignment.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^^^^^^^ string.unquoted.shell
+	#            ^^ constant.character.escape.shell
+	#              ^^^^^^^^^ meta.interpolation.makefile
+	#              ^ punctuation.definition.interpolation.makefile
+	#               ^ punctuation.section.interpolation.begin.makefile
+	#                ^^^^^^ variable.other.makefile
+	#                      ^ punctuation.section.interpolation.end.makefile
+	#                       ^^^^^^^ string.unquoted.shell
 
 foo:
 	echo $$foo
