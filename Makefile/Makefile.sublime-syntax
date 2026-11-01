@@ -220,7 +220,7 @@ contexts:
 
   inside-define-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
-    - match: ((?:!|\?|\+|::?)?=)?\s*\n
+    - match: ({{var_or_shell_assign}})?\s*\n
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-define-directive-value
@@ -248,7 +248,7 @@ contexts:
 
   inside-export-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
-    - match: \s*((\?|\+|::?)?=)\s*
+    - match: \s*({{var_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-variable-value
@@ -264,11 +264,11 @@ contexts:
 
   inside-variable-definition-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
-    - match: \s*(!=)
+    - match: \s*({{shell_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-shell
-    - match: \s*((?:!|\?|\+|::?)?=)\s*
+    - match: \s*({{var_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
       set: variable-value
@@ -659,8 +659,9 @@ contexts:
 
 variables:
 
-  varassign: (\?|\+|::?)?=
-  shellassign: '!='
+  shell_assign: '!='
+  var_assign: (?:\?|\+|:{1,3})?=
+  var_or_shell_assign: (?:!|\?|\+|:{1,3})?=
   startdirective: ifn?(?:def|eq)
   ruleassign: :(?!=)
 
@@ -770,4 +771,4 @@ variables:
   rule_lookahead: '{{just_eat}}{{ruleassign}}'
 
   # Just as with rules we want to look ahead if we are going to define a var.
-  var_lookahead: '{{just_eat}}(?:{{varassign}}|{{shellassign}})'
+  var_lookahead: '{{just_eat}}{{var_or_shell_assign}}'
