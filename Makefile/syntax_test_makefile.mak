@@ -386,6 +386,18 @@ foo = bar # a multiline \
 #             ^ comment.line
 
 var \
+# <- meta.variable.makefile variable.other.makefile
+#^^^^^ meta.variable.makefile
+#^^ variable.other.makefile
+#   ^ punctuation.separator.continuation.line.makefile
+
+var \
+:= \
+# <- keyword.operator.assignment.makefile
+#^ keyword.operator.assignment.makefile
+#  ^ punctuation.separator.continuation.line.makefile
+
+var \
 := \
 word
 # <- meta.string.makefile string.unquoted.makefile
@@ -811,7 +823,7 @@ all: foo.o # a comment
 #   ^ - string
 #    ^ string
 #        ^ meta.function.arguments string.unquoted
-#         ^ string
+#         ^ - string
 #          ^ comment.line. punctuation - meta.function.arguments - string.unquoted
 #           ^ comment.line - punctuation - meta.function.arguments - string.unquoted
 	rm -rf /
@@ -894,7 +906,7 @@ all: $(SOURCES) $(EXECUTABLE)
 #                ^ punctuation.section.interpolation.begin.makefile
 #                 ^^^^^^^^^^ variable.other.makefile
 #                           ^ punctuation.section.interpolation.end.makefile
-#                            ^ meta.function.body.makefile
+#                            ^ meta.function.makefile
 
 export FOO=foo
 # ^ keyword.control
@@ -1027,7 +1039,7 @@ all: $(SOURCES) hello.o
 #     ^ punctuation.section.interpolation.begin.makefile
 #      ^^^^^^^ variable.other.makefile
 #             ^ punctuation.section.interpolation.end.makefile
-#                      ^ meta.function.body.makefile
+#                      ^ meta.function.makefile
 
 $(EXECUTABLE): $(OBJECTS)
 #^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
@@ -1040,7 +1052,7 @@ $(EXECUTABLE): $(OBJECTS)
 #               ^ punctuation.section.interpolation.begin.makefile
 #                ^^^^^^^ variable.other.makefile
 #                       ^ punctuation.section.interpolation.end.makefile
-#                        ^ meta.function.body.makefile
+#                        ^ meta.function.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	# <- constant.language
 	#                               ^^ meta.string.glob.shell meta.interpolation.makefile
@@ -1208,7 +1220,7 @@ $(a): b
 #  ^ punctuation.section.interpolation.end.makefile
 #   ^ keyword.operator.assignment.makefile
 #     ^ meta.function.arguments.makefile string.unquoted.makefile
-#      ^ meta.function.body.makefile
+#      ^ meta.function.makefile
 	$(Q)$(MAKE) $(build)=$@
 	# <- meta.function.body
 	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
@@ -1224,7 +1236,7 @@ $(a:b=c) : d
 #      ^ punctuation.section.interpolation.end.makefile
 #        ^ keyword.operator.assignment.makefile
 #          ^ meta.function.arguments.makefile string.unquoted.makefile
-#           ^ meta.function.body.makefile
+#           ^ meta.function.makefile
 	$(Q)$(MAKE) $(build)=$@
 	# <- meta.function.body
 	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
@@ -1270,7 +1282,7 @@ $(call my_func,my_arg): deps
 #                    ^ punctuation.section.interpolation.end.makefile
 #                     ^ keyword.operator.assignment.makefile
 #                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
-#                           ^ meta.function.body.makefile
+#                           ^ meta.function.makefile
 	rm -rf /
 
 $(foreach i,j,k): deps

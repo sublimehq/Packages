@@ -38,13 +38,17 @@ contexts:
   main:
     - include: comments
     - include: merge-conflict-markers
-    - include: directives
-    - match: (?={{rule_lookahead}})
-      push: expect-rule
-    - include: variable-definitions
-    - include: escaped-chars
-    - include: expansions
     - include: line-continuations
+    - include: definition-directives
+    - include: conditional-directives
+    - include: definitions
+
+  definitions:
+    - match: '{{word_begin}}'
+      branch_point: definitions
+      branch:
+        - inside-global-variable-definition-name
+        - inside-target-name
 
 ###[ COMMENTS ]################################################################
 
@@ -90,7 +94,7 @@ contexts:
 
 ###[ RULE DEFINITIONS ]########################################################
 
-  expect-rule:
+  inside-target-name:
     # Anything before the colon is part of the rule's name.
     - meta_scope: meta.function.makefile entity.name.function.makefile
     - include: line-continuations
@@ -102,7 +106,7 @@ contexts:
         - match: ::?
           scope: keyword.operator.assignment.makefile
           set:
-            - include: variable-definitions
+            - include: definitions
             - include: expansions
             - include: continuation-or-eol-pop
     - match: (?= *::?)
@@ -117,7 +121,7 @@ contexts:
             - include: escaped-chars
             - include: interpolations
             - include: percentage-placeholders
-            - match: (?=#)
+            - match: (?=\s*#)
               set:
                 - match: \#
                   scope: punctuation.definition.comment.makefile
@@ -125,7 +129,8 @@ contexts:
                     - meta_scope: comment.line.number-sign.makefile
                     - match: $
                       set: recipe-junction-between-spaces-or-tabs
-            - match: $
+            - match: \s*$
+              scope: meta.function.makefile
               set: recipe-junction-between-spaces-or-tabs
             - match: (?=\s*;)
               set:
@@ -153,7 +158,7 @@ contexts:
   recipe-inline:
     - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
     - include: recipe-junction-between-spaces-or-tabs
-    - include: directives
+    - include: conditional-directives
     - match: $
       set: recipe-junction-between-spaces-or-tabs
     - include: shell-content
@@ -187,14 +192,16 @@ contexts:
       pop: 1
 
   recipe-common:
-    - include: directives
+    - include: conditional-directives
     - match: ^\n
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
-  variable-definitions:
-    - match: (?={{var_lookahead}})
-      push: inside-variable-definition-name
+  inside-global-variable-definition-name:
+    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - include: inside-variable-definition-name
+    - match: ':'
+      fail: definitions
 
   inside-variable-definition-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
@@ -207,6 +214,7 @@ contexts:
         1: keyword.operator.assignment.makefile
       set: variable-value
     - include: continuation-or-eol-pop
+    - include: escaped-chars
     - include: expansions
 
   variable-value:
@@ -231,77 +239,53 @@ contexts:
 
 ###[ DIRECTIVES ]##############################################################
 
-  directives:
+  definition-directives:
     # definition directives
-    - match: ^\s*(override)\b\s*
+    - match: (override)\b\s*
       captures:
         1: keyword.control.makefile
-      push: inside-override-directive
-    - match: ^\s*(define)\b\s*
+    - match: (define)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-define-directive-name
-    - match: ^\s*(export)\b\s*
+    - match: (export)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-export-directive-name
-    - match: ^\s*(undefine)\b\s*
+    - match: (undefine)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
-    - match: ^\s*(unexport)\b\s*
+    - match: (unexport)\b\s*
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
-    - match: ^\s*(endef)\b\s*
+    - match: (endef)\b\s*
       captures:
         1: invalid.illegal.stray.endef.makefile
-    - match: ^\s*(vpath)\b\s*
+    - match: (vpath)\b\s*
       captures:
         1: keyword.control.vpath.makefile
       push: inside-vpath-pattern
     # include directives
-    - match: ^\s*([-s]?include)\b\s*
+    - match: ([-s]?include)\b\s*
       captures:
         1: keyword.control.import.makefile
       push: inside-include-statement
-    # conditional directives
-    - match: ^\s*({{startdirective}})\b
+
+  conditional-directives:
+    - match: ({{startdirective}})\b
       captures:
         1: keyword.control.conditional.makefile
       push: inside-conditional-statement
-    - match: ^\s*(else)\b
+    - match: (else)\b
       captures:
         1: keyword.control.conditional.makefile
       push: inside-else-statement
-    - match: ^\s*(endif)\b
+    - match: (endif)\b
       captures:
         1: keyword.control.conditional.makefile
       push: inside-endif-statement
-
-  inside-override-directive:
-    - match: \b(define)\b\s*
-      captures:
-        1: keyword.control.makefile
-      set: inside-define-directive-name
-    - match: \b(export)\b\s*
-      captures:
-        1: keyword.control.makefile
-      set: inside-export-directive-name
-    - match: \b(undefine)\b\s*
-      captures:
-        1: keyword.control.makefile
-      set: inside-undefine-directive-name
-    - match: \b(unexport)\b\s*
-      captures:
-        1: keyword.control.makefile
-      set: inside-undefine-directive-name
-    - match: \b(endef)\b\s*
-      captures:
-        1: invalid.illegal.stray.endef.makefile
-    - match: (?={{var_lookahead}})
-      set: inside-variable-definition-name
-    - include: continuation-or-eol-pop
 
   inside-define-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
@@ -687,11 +671,13 @@ contexts:
 
 variables:
 
+  word_begin: (?=\S)
+
   shell_assign: '!='
   var_assign: (?:\?|\+|:{1,3})?=
   var_or_shell_assign: (?:!|\?|\+|:{1,3})?=
+
   startdirective: ifn?(?:def|eq)
-  ruleassign: :(?![:=])
 
   is_interpolation: (?=\$[({{{var_auto_chars}}[:alpha:]])
 
@@ -729,74 +715,3 @@ variables:
     | wordlist
     | words
     )
-
-  # The big "rule lookahead". What we want to do here is detect if the
-  # line that we are parsing is going to define a rule. So we need to check
-  # if we have something of the form <rule-name> : <rule-prerequisites>
-  # However matters become complicated by the fact that we can have arbitrary
-  # variable substitutions anywhere. We try to remedy this by hacking in a
-  # regex that matches up to four levels of nested parentheses, and ignores
-  # whatever's inside the parentheses.
-  nps0: '[^()=]*'     # doesn't look like assignment
-  nps: '[^()]*'
-  open: '(?:\('
-  close: '\))?'       # ignore this invalid.illegal
-  just_eat: |         # WARNING: INSANITY FOLLOWS!
-    (?x)              # ignore whitespace in this regex
-      {{nps0}}        #       level 0
-      {{open}}        # start level 1                      __
-        {{nps}}       #       level 1          _______    /*_>-<
-        {{open}}      # start level 2      ___/ _____ \__/ /
-          {{nps}}     #       level 2     <____/     \____/
-          {{open}}    # start level 3     is like snek... (by Valerie Haecky)
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-        {{close}}     #   end level 2
-        {{nps}}       #       level 1
-        {{open}}      # start level 2
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-          {{open}}    # start level 3
-            {{nps}}   #       level 3
-            {{open}}  # start level 4
-              {{nps}} #       level 4
-            {{close}} #   end level 4
-            {{nps}}   #       level 3
-          {{close}}   #   end level 3
-          {{nps}}     #       level 2
-        {{close}}     #   end level 2
-        {{nps}}       #       level 1
-      {{close}}       #   end level 1
-      {{nps0}}        #       level 0
-  rule_lookahead: '{{just_eat}}{{ruleassign}}'
-
-  # Just as with rules we want to look ahead if we are going to define a var.
-  var_lookahead: '{{just_eat}}{{var_or_shell_assign}}'
