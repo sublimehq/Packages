@@ -1,7 +1,7 @@
 # SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
 
 #################################
-# comments                      #
+# Comments                      #
 #################################
 
 # this is a comment
@@ -22,6 +22,28 @@ multiline comment
 multiline comment
 # <- comment.line.number-sign.makefile
 #^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+
+#   echo I am a comment \
+    echo I am a comment, too!
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
+#   echo I am a comment \
+    echo I am a comment, too!
+    echo I am no comment...
+#   ^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
+
+\# not a comment
+# <- constant.character.escape.makefile
+#^ constant.character.escape.makefile
+#^^^^^^^^^^^^^^^^ - comment
+
+$( # not a comment )
+#^^^^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+# ^^^^^^^^^^^^^^^^^ - comment
+
+${ # not a comment }
+#^^^^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+# ^^^^^^^^^^^^^^^^^ - comment
 
 #################################
 # Merge Conflict Markers        #
@@ -471,15 +493,6 @@ FOO = some \
       in \
       here
 #        ^ string.unquoted
-
-#   echo I am a comment \
-    echo I am a comment, too!
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-
-#   echo I am a comment \
-    echo I am a comment, too!
-    echo I am no comment...
-#   ^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
 
 reverse = $(2) $(1)
 # <- variable.other
