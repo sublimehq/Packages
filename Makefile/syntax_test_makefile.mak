@@ -299,8 +299,29 @@ foo = bar # a comment
 #         ^ punctuation.definition.comment.makefile
 
 foo = bar # a multiline \
+#                       ^ comment.line.number-sign.makefile punctuation.separator.continuation.line.makefile
+foo = bar # a multiline \
               comment
 #             ^ comment.line
+
+var \
+#   ^ punctuation.separator.continuation.line.makefile
+
+var \
+:= \
+# <- keyword.operator.assignment.makefile
+#  ^ punctuation.separator.continuation.line.makefile
+
+var \
+:= \
+word
+# <- meta.string.makefile string.unquoted.makefile
+
+var := one$\
+#          ^ meta.string.makefile string.unquoted.makefile punctuation.separator.continuation.line.makefile
+var := one$\
+       word
+#^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 #################################
 # 6.3.2 computed variable names #
