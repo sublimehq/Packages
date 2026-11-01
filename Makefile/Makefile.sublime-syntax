@@ -663,7 +663,7 @@ variables:
   var_assign: (?:\?|\+|:{1,3})?=
   var_or_shell_assign: (?:!|\?|\+|:{1,3})?=
   startdirective: ifn?(?:def|eq)
-  ruleassign: :(?!=)
+  ruleassign: :(?![:=])
 
   is_interpolation: (?=\$[({{{var_auto_chars}}[:alpha:]])
 
