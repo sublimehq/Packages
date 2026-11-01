@@ -134,6 +134,50 @@ sinclude foo *.mk $(bar)
 #                   ^^^ variable.other.makefile
 #                      ^ punctuation.section.interpolation.end.makefile
 
+include $(addprefix $(srctree)/, $(include-y))
+#^^^^^^ keyword.control.import.makefile
+#       ^^ meta.string.glob.makefile meta.interpolation.makefile
+#         ^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.makefile
+#                   ^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#                             ^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile
+#                              ^^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.arguments.makefile - meta.function-call meta.string
+#                                ^^^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#                                            ^ meta.string.glob.makefile meta.interpolation.makefile - meta.function-call
+#                                             ^ - meta.string - meta.interpolation
+#       ^^^^^^^^^^^^^^^^^^^^^^ - string
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^^^^ support.function.builtin.makefile
+#                   ^ punctuation.definition.interpolation.makefile
+#                    ^ punctuation.section.interpolation.begin.makefile
+#                     ^^^^^^^ variable.other.makefile
+#                            ^ punctuation.section.interpolation.end.makefile
+#                             ^ string.unquoted.makefile
+#                              ^^^^^^^^^^^^^^^ - string
+#                              ^ punctuation.separator.makefile
+#                                ^ punctuation.definition.interpolation.makefile
+#                                 ^ punctuation.section.interpolation.begin.makefile
+#                                  ^^^^^^^^^ variable.other.makefile
+#                                           ^^ punctuation.section.interpolation.end.makefile
+
+include-y := scripts/Makefile.extrawarn
+# <- meta.variable.makefile variable.other.makefile - keyword
+#^^^^^^^^ meta.variable.makefile variable.other.makefile - keyword
+#         ^^ keyword.operator.assignment.makefile
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
+
+include-$(CONFIG_DEBUG_INFO) += scripts/Makefile.debug
+# <- meta.variable.makefile variable.other.makefile - keyword
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.makefile
+#^^^^^^^ variable.other.makefile - keyword
+#       ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^^^^^^^^^^^^ variable.other.makefile
+#                          ^ punctuation.section.interpolation.end.makefile
+#                            ^^ keyword.operator.assignment.makefile
+#                               ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
+
 s-include
 # <- - keyword
 #^^^^^^^^^ - keyword

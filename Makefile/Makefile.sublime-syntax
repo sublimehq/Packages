@@ -142,7 +142,7 @@ contexts:
     - meta_content_scope: meta.function.body.makefile
     - include: comments
     - include: merge-conflict-markers
-    - match: ^\s*({{startdirective}})\b
+    - match: ^\s*({{startdirective}}){{word_break}}
       captures:
         1: keyword.control.conditional.makefile
       push:
@@ -241,50 +241,47 @@ contexts:
 
   definition-directives:
     # definition directives
-    - match: (override)\b\s*
+    - match: (override)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.makefile
-    - match: (define)\b\s*
+    - match: (define)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.makefile
       push: inside-define-directive-name
-    - match: (export)\b\s*
+    - match: (export)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.makefile
       push: inside-export-directive-name
-    - match: (undefine)\b\s*
+    - match: (undefine)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
-    - match: (unexport)\b\s*
+    - match: (unexport)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
-    - match: (endef)\b\s*
+    - match: (endef)(?:\s+|{{word_break}})
       captures:
         1: invalid.illegal.stray.endef.makefile
-    - match: (vpath)\b\s*
+    - match: (vpath)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.vpath.makefile
       push: inside-vpath-pattern
     # include directives
-    - match: ([-s]?include)\b\s*
+    - match: ([-s]?include)(?:\s+|{{word_break}})
       captures:
         1: keyword.control.import.makefile
       push: inside-include-statement
 
   conditional-directives:
-    - match: ({{startdirective}})\b
-      captures:
-        1: keyword.control.conditional.makefile
+    - match: '{{startdirective}}{{word_break}}'
+      scope: keyword.control.conditional.makefile
       push: inside-conditional-statement
-    - match: (else)\b
-      captures:
-        1: keyword.control.conditional.makefile
+    - match: else{{word_break}}
+      scope: keyword.control.conditional.makefile
       push: inside-else-statement
-    - match: (endif)\b
-      captures:
-        1: keyword.control.conditional.makefile
+    - match: endif{{word_break}}
+      scope: keyword.control.conditional.makefile
       push: inside-endif-statement
 
   inside-define-directive-name:
@@ -299,19 +296,19 @@ contexts:
   inside-define-directive-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - match: ^\s*(endef)\b
+    - match: ^\s*(endef){{word_break}}
       captures:
         1: keyword.control.makefile
       pop: 1
     # keep in balance with nested define statements
     # see: https://github.com/sublimehq/Packages/issues/1998
-    - match: ^\s*define\b
+    - match: ^\s*define{{word_break}}
       push: inside-nested-define-directive
     - include: merge-conflict-markers
 
   inside-nested-define-directive:
     - meta_include_prototype: false
-    - match: ^\s*endef\b
+    - match: ^\s*endef{{word_break}}
       pop: 1
     - include: merge-conflict-markers
 
@@ -337,7 +334,7 @@ contexts:
 
   inside-else-statement:
     - include: continuation-or-eol-pop
-    - match: \b{{startdirective}}\b
+    - match: '{{startdirective}}{{word_break}}'
       scope: keyword.control.conditional.makefile
       set: inside-conditional-statement
 
@@ -672,6 +669,7 @@ contexts:
 variables:
 
   word_begin: (?=\S)
+  word_break: (?![^\s:#!?+=])
 
   shell_assign: '!='
   var_assign: (?:\?|\+|:{1,3})?=
