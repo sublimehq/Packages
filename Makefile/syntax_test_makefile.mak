@@ -111,7 +111,7 @@ include foo *.mk $(bar)
 #                     ^ punctuation.section.interpolation.end.makefile
 
 -include foo *.mk $(bar)
-# <- keyword.control.import.makefile
+# <- keyword.operator.suppress.makefile
 #^^^^^^^ keyword.control.import.makefile
 #        ^^^^^^^^^^^^^^^ meta.string.glob.makefile
 #        ^^^^^^^^^ string.unquoted.makefile
@@ -857,7 +857,7 @@ all: foo.o
 	ar b
 	asdf
 	@echo "that's, like, your opinion man!" # some movie?
-	# <- constant.language
+	# <- keyword.operator.suppress.makefile
     asdf
 # <- invalid.illegal.inconsistent.expected.tab
 
@@ -1098,18 +1098,18 @@ $(EXECUTABLE): $(OBJECTS)
 #                       ^ punctuation.section.interpolation.end.makefile
 #                        ^ meta.function.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
-	# <- constant.language
+	# <- keyword.operator.suppress.makefile
 	#                               ^^ meta.string.glob.shell meta.interpolation.makefile
 
 
 all: whatevs
 	@asdf
-	# <- constant.language
+	# <- keyword.operator.suppress.makefile
 
 all: whatevs
 	@asdf
 	@echo "Heyo!"
-	# <- constant.language
+	# <- keyword.operator.suppress.makefile
 
 export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
               -name CVS -o -name .pc -o -name .hg -o -name .git \) \
@@ -1122,7 +1122,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
 
 help::
 	@echo "Executable is $(EXECUTABLE)"
-	# <- constant.language
+	# <- keyword.operator.suppress.makefile
 
 $(warning he:llo)
 # ^ meta.function-call support.function
@@ -1184,8 +1184,8 @@ a_percentage_%_sign := $(SOME_C%MPLEX:SUBSTITUTI%N)
 #      ^ meta.function.arguments string.unquoted variable.language
 	@rm -rf /
 	@rm -rf /
-	# <- meta.function.body constant.language
-	#^ meta.function.body - constant.language
+	# <- meta.function.body keyword.operator.suppress.makefile
+	#^ meta.function.body - keyword.operator.suppress.makefile
 
 a = b # c
 #<- variable.other
@@ -1203,21 +1203,21 @@ a = b # c
 
 _modinst_:
     @rm -rf $(MODLIB)/kernel
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     @rm -f $(MODLIB)/source
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     @mkdir -p $(MODLIB)/kernel
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     @ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     @if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
         rm -f $(MODLIB)/build ; \
         ln -s $(CURDIR) $(MODLIB)/build ; \
     fi
     @cp -f $(objtree)/modules.order $(MODLIB)/
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     @cp -f $(objtree)/modules.builtin $(MODLIB)/
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
     $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
 
 
@@ -1242,7 +1242,7 @@ a : b \
     on a third line even
     #                  ^ meta.function.arguments string.unquoted
     @rm -rf /
-    # <- meta.function.body constant.language
+    # <- meta.function.body keyword.operator.suppress.makefile
 
 a : b ; rm -rf /
 #     ^ punctuation.terminator
@@ -1348,7 +1348,7 @@ ifneq ($(a),)
 $(b): ; rm -rf /
 #       ^ meta.function.body source.shell
 	@git clone asdf
-	# <- meta.function.body constant.language
+	# <- meta.function.body keyword.operator.suppress.makefile
 	# ^ meta.function.body
 endif
 
@@ -1476,13 +1476,13 @@ endif
 
 build_target:
     @echo "${INFO_CLR}>> Building $(TARGET)...${RESTORE_CLR}${RESULT_CLR}"
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
 ifdef WORKSPACE
     @xcodebuild -sdk iphoneos -workspace "$(WORKSPACE).xcworkspace" -target "$(TARGET)" -configuration "$(CONFIG)" SYMROOT="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
 else
     @xcodebuild -sdk iphoneos -project "$(PROJECT).xcodeproj" -target "$(TARGET)" -configuration "$(CONFIG)" CONFIGURATION_BUILD_DIR="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-    # <- constant.language
+    # <- keyword.operator.suppress.makefile
 endif
 ifndef ARDMK_DIR_MSG
     $(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
@@ -1501,7 +1501,7 @@ kselftest-merge:
     $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
     $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
         -m $(objtree)/.config \
-    #   ^ - constant.language.makefile
+    #   ^ - keyword.operator.suppress.makefile
         $(srctree)/tools/testing/selftests/*/config
     +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
 
@@ -1520,17 +1520,17 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 # A recipe may contain empty lines like below
 help:
     @echo  'Cleaning targets:'
-    # <- meta.function.body constant.language
+    # <- meta.function.body keyword.operator.suppress.makefile
 
     @echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
-    # <- meta.function.body constant.language
+    # <- meta.function.body keyword.operator.suppress.makefile
     #               ^ - keyword.operator.assignment
     #                                                        ^ string.quoted.single.shell
     @echo  '        1: warnings which may be relevant and do not occur too often'
-    # <- meta.function.body constant.language
+    # <- meta.function.body keyword.operator.suppress.makefile
     #                ^ - keyword.operator.assignment
     @echo  '        2: warnings which occur quite often but may still be relevant'
-    # <- meta.function.body constant.language
+    # <- meta.function.body keyword.operator.suppress.makefile
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
@@ -1672,7 +1672,7 @@ shell_string_interpolation:
 # https://www.gnu.org/software/make/manual/html_node/Errors.html
 clean:
 	-rm -f *.o
-	# <- constant.language.makefile
+	# <- keyword.operator.suppress.makefile
 	#^^ variable.function.shell
 
 foo:
