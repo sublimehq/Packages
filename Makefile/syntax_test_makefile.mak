@@ -113,6 +113,8 @@ test_conflict_in_rules:
 	rm $$HOME/
 #^^^^^^^^^^^ meta.function.body.makefile
 #^^^^^^^^^^ source.shell.embedded.makefile
+#   ^^^^^^ meta.interpolation.parameter.shell
+#   ^^ punctuation.definition.variable.shell
 >>>>>>> master
 # <- meta.function.body.makefile meta.block.conflict.end.diff punctuation.section.block.end.diff
 #^^^^^^^^^^^^^^ meta.function.body.makefile meta.block.conflict.end.diff
@@ -212,6 +214,146 @@ s-include
 includes
 # <- - keyword
 #^^^^^^^ - keyword
+
+###########################
+# 3.9 Secondary Expansion #
+###########################
+
+.SECONDEXPANSION:
+ONEVAR = onefile
+TWOVAR = twofile
+myfile: $(ONEVAR) $$(TWOVAR)
+#       ^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#       ^^^^^^^^^ meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^ variable.other.makefile
+#               ^ punctuation.section.interpolation.end.makefile
+#                ^ - meta.interpolation
+#                 ^^^^^^^^^^ meta.interpolation.makefile
+#                 ^^ punctuation.definition.interpolation.makefile
+#                   ^ punctuation.section.interpolation.begin.makefile
+#                    ^^^^^^ variable.other.makefile
+#                          ^ punctuation.section.interpolation.end.makefile
+#                           ^ meta.function.makefile - meta.interpolation
+
+.SECONDEXPANSION:
+$(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
+# <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#          ^^ meta.function.makefile
+#            ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#                         ^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile
+#                                  ^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                   ^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                           ^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                ^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                              ^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                                   ^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                    ^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                     ^ meta.function.makefile - meta.interpolation
+#          ^ keyword.operator.assignment.makefile
+#            ^^ punctuation.definition.interpolation.makefile
+#              ^ punctuation.section.interpolation.begin.makefile
+#               ^^^^^^^ support.function.builtin.makefile
+#                       ^ string.unquoted.makefile
+#                        ^ punctuation.separator.makefile
+#                         ^^ punctuation.definition.interpolation.makefile
+#                           ^ punctuation.section.interpolation.begin.makefile
+#                            ^^^^^ variable.other.makefile
+#                                 ^ punctuation.section.interpolation.end.makefile
+#                                  ^ punctuation.separator.makefile
+#                                   ^^ punctuation.definition.interpolation.makefile
+#                                     ^ punctuation.section.interpolation.begin.makefile
+#                                      ^^^^ support.function.builtin.makefile
+#                                           ^^ punctuation.definition.interpolation.makefile
+#                                             ^ punctuation.section.interpolation.begin.makefile
+#                                              ^ variable.language.automatic.makefile
+#                                               ^ punctuation.section.interpolation.end.makefile
+#                                                ^^^^^^^^^^^^^ variable.function.makefile
+#                                                             ^ punctuation.separator.makefile
+#                                                              ^^ punctuation.definition.interpolation.makefile
+#                                                                ^ punctuation.section.interpolation.begin.makefile
+#                                                                 ^ variable.other.makefile
+#                                                                  ^^^ punctuation.section.interpolation.end.makefile
+#
+
+.SECONDEXPANSION:
+$(foreach i,$(DO_IMPLS),$(foreach s,$(STEPS),$(i)^$(s))): $$(call $$(word 1,$$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$$(subst ^, ,$$(@))))
+# <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#                                                       ^ meta.function.makefile keyword.operator.assignment.makefile
+#                                                        ^ - keyword.operator.assignment
+#                                                         ^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                 ^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                           ^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                                        ^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                                                             ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                                              ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                                               ^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                                                             ^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                                                                       ^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                                                                                    ^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                                                                                                                         ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
+#                                                                                                                                          ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                                                                                            ^ - meta.string - meta.interpolation
+#                                                         ^^ punctuation.definition.interpolation.makefile
+#                                                           ^ punctuation.section.interpolation.begin.makefile
+#                                                                 ^^ punctuation.definition.interpolation.makefile
+#                                                                   ^ punctuation.section.interpolation.begin.makefile
+#                                                                           ^^ punctuation.definition.interpolation.makefile
+#                                                                             ^ punctuation.section.interpolation.begin.makefile
+#                                                                                        ^^ punctuation.definition.interpolation.makefile
+#                                                                                          ^ punctuation.section.interpolation.begin.makefile
+#                                                                                                             ^^ punctuation.definition.interpolation.makefile
+#                                                                                                               ^ punctuation.section.interpolation.begin.makefile
+#                                                                                                                       ^^ punctuation.definition.interpolation.makefile
+#                                                                                                                         ^ punctuation.section.interpolation.begin.makefile
+#                                                                                                                                    ^^ punctuation.definition.interpolation.makefile
+#                                                                                                                                      ^ punctuation.section.interpolation.begin.makefile
+#                                                                                                                                        ^^^^ punctuation.section.interpolation.end.makefile
+
+# test: no second expansion expands on any nesting level outside of prerequisites
+PREREQ = $$(call $$(word 1,$$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$$(subst ^, ,$$(@))))
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation - variable
+#        ^^ constant.character.escape.makefile
+#                ^^ constant.character.escape.makefile
+#                          ^^ constant.character.escape.makefile
+#                                       ^^ constant.character.escape.makefile
+#                                                            ^^ constant.character.escape.makefile
+#                                                                      ^^ constant.character.escape.makefile
+#                                                                                   ^^ constant.character.escape.makefile
+
+# test: all single but second expansions expand on all nesting levels outside of prerequisites
+PREREQ = $(call $(word 1,$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$(subst ^, ,$$(@))))
+#        ^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#               ^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                        ^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                    ^^^^^ meta.function-call.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                                          ^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                   ^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
+#                                                                                     ^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                                                                                       ^ - meta.string - meta.interpolation
+#        ^ punctuation.definition.interpolation.makefile
+#         ^ punctuation.section.interpolation.begin.makefile
+#          ^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.function.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^^^^ support.function.builtin.makefile
+#                        ^ punctuation.definition.interpolation.makefile
+#                         ^ punctuation.section.interpolation.begin.makefile
+#                          ^^^^^ support.function.builtin.makefile
+#                                    ^^^^^ string.unquoted.makefile
+#                                    ^^ constant.character.escape.makefile
+#                                                         ^^^^^^^^^^ string.unquoted.makefile
+#                                                         ^^ constant.character.escape.makefile
+#                                                                   ^ punctuation.definition.interpolation.makefile
+#                                                                    ^ punctuation.section.interpolation.begin.makefile
+#                                                                     ^^^^^ support.function.builtin.makefile
+#                                                                               ^^^^^ string.unquoted.makefile
+#                                                                               ^^ constant.character.escape.makefile
 
 ###################
 # 4.2 Rule Syntax #
@@ -390,6 +532,33 @@ clean:
 #^^^^^^^ meta.interpolation.makefile
 #^^^^^^ variable.other.makefile
 #      ^ punctuation.section.interpolation.end.makefile
+
+ $$
+#^^ meta.variable.makefile variable.other.makefile constant.character.escape.makefile
+
+ $$name
+#^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^ constant.character.escape.makefile
+
+ a$$name
+#^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+# ^^ constant.character.escape.makefile
+
+ $$()
+#^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^ constant.character.escape.makefile
+
+ $$(plain_var)
+#^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^ constant.character.escape.makefile
+
+ $${}
+#^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^ constant.character.escape.makefile
+
+ $${plain_var}
+#^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^ constant.character.escape.makefile
 
 #################################
 # 6.3.1 substitution references #
@@ -1747,25 +1916,6 @@ escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1)))
 #                                          ^ punctuation.separator.makefile
 #                                           ^^ - punctuation
 
-.SECONDEXPANSION:
-# <- meta.function entity.name.function
-#               ^ keyword.operator.assignment - entity.name.function
-#                ^ - keyword.operator.assignment - entity.name.function
-$(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
-# <- meta.function entity.name.function
-#          ^ keyword.operator.assignment - entity.name.function
-#           ^ - keyword.operator.assignment - entity.name.function
-#               ^ meta.function.arguments support.function
-#                                           ^^^^^^^^^^^^^^^^^^ variable.function
-#                                                             ^ punctuation.separator
-
-.SECONDEXPANSION:
-$(foreach i,$(DO_IMPLS),$(foreach s,$(STEPS),$(i)^$(s))): $$(call $$(word 1,$$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$$(subst ^, ,$$(@))))
-# <- meta.function entity.name.function
-#                                                       ^ keyword.operator.assignment
-#                                                        ^ - keyword.operator.assignment
-#                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.function
-#                                                                                                            ^ punctuation.separator
 NAME = FeedProcessorSIAC
 
 target2:
