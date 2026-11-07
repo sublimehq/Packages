@@ -440,6 +440,20 @@ contexts:
         4: support.function.builtin.makefile
       push: inside-shell-expansion
     # makefile variable expansions
+    - match: (\$)(\()([{{var_auto_chars}}][DF]?)(\))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+        3: variable.language.automatic.makefile
+        4: punctuation.section.interpolation.end.makefile
+    - match: (\$)(\{)([{{var_auto_chars}}][DF]?)(\})
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+        3: variable.language.automatic.makefile
+        4: punctuation.section.interpolation.end.makefile
     - match: (\$)(\()
       captures:
         1: punctuation.definition.interpolation.makefile
@@ -646,6 +660,20 @@ contexts:
         4: support.function.builtin.makefile
       push: inside-shell-second-expansion
     # makefile variable expansions
+    - match: (\$\$?)(\()([{{var_auto_chars}}][DF]?)(\))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+        3: variable.language.automatic.makefile
+        4: punctuation.section.interpolation.end.makefile
+    - match: (\$\$?)(\{)([{{var_auto_chars}}][DF]?)(\})
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+        3: variable.language.automatic.makefile
+        4: punctuation.section.interpolation.end.makefile
     - match: (\$\$?)(\()
       captures:
         1: punctuation.definition.interpolation.makefile
