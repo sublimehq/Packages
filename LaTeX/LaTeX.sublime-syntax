@@ -442,7 +442,7 @@ contexts:
     - include: optional-arguments
 
   document-class-args-body:
-    - meta_scope: meta.group.braces.tex
+    - meta_scope: meta.group.brace.tex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
@@ -461,7 +461,7 @@ contexts:
     - include: optional-arguments
 
   usepackage-args-body:
-    - meta_scope: meta.group.braces.tex
+    - meta_scope: meta.group.brace.tex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
@@ -494,7 +494,7 @@ contexts:
     - include: optional-arguments
 
   includegraphics-args-body:
-    - meta_scope: meta.group.braces.tex
+    - meta_scope: meta.group.brace.tex
     - meta_content_scope: markup.underline.link.latex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
@@ -516,7 +516,7 @@ contexts:
     - include: optional-arguments
 
   include-args-body:
-    - meta_scope: meta.group.braces.tex
+    - meta_scope: meta.group.brace.tex
     - meta_content_scope: markup.underline.link.latex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
