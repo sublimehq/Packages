@@ -931,18 +931,66 @@ The \emph{verbatim} environment sets everything in verbatim.
 %         ^ support.function.general.latex
 
 \includegraphics[width=0.33\textwidth, angle=30]{test.png}
-% ^ support.function.includegraphics.latex
-%                           ^ support.function.general.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.includegraphics.latex
+%^^^^^^^^^^^^^^^ support.function.includegraphics.latex
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.bracket.latex
+%               ^ punctuation.definition.group.bracket.begin.latex
+%                ^^^^^ variable.parameter.latex
+%                     ^ keyword.operator.assignment.latex
+%                      ^^^^ meta.number.float.decimal.tex constant.numeric.value.tex
+%                       ^ punctuation.separator.decimal.tex
+%                          ^^^^^^^^^^ support.function.general.latex
+%                          ^ punctuation.definition.backslash.latex
+%                                      ^^^^^ variable.parameter.latex
+%                                           ^ keyword.operator.assignment.latex
+%                                            ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                              ^ punctuation.definition.group.bracket.end.latex
+%                                               ^^^^^^^^^^ meta.group.brace.tex
+%                                               ^ punctuation.definition.group.brace.begin.tex
+%                                                ^^^^^^^^ markup.underline.link.latex
+%                                                        ^ punctuation.definition.group.brace.end.tex
 
 % Nested optional arguments
 \includegraphics[width={\foo[argument]{bar}}]{test.png}
-% ^ support.function.includegraphics.latex
-%                        ^ meta.group.bracket.latex
-%                          ^ support.function.general.latex
-%                               ^ meta.group.bracket.latex
-%                                     ^ punctuation.definition.group.brace.begin
-%                                        ^ meta.group.brace.tex
-%                                         ^ punctuation.definition.group.brace.end
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.includegraphics.latex
+%^^^^^^^^^^^^^^^ support.function.includegraphics.latex
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.bracket.latex
+%               ^ punctuation.definition.group.bracket.begin.latex
+%                ^^^^^ variable.parameter.latex
+%                     ^ keyword.operator.assignment.latex
+%                      ^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%                      ^ punctuation.definition.group.brace.begin.tex
+%                       ^^^^ support.function.general.latex
+%                       ^ punctuation.definition.backslash.latex
+%                                     ^^^^^ meta.group.brace.tex
+%                                     ^ punctuation.definition.group.brace.begin.tex
+%                                         ^ punctuation.definition.group.brace.end.tex
+%                                          ^ punctuation.definition.group.brace.end.tex
+%                                           ^ punctuation.definition.group.bracket.end.latex
+%                                            ^^^^^^^^^^ meta.group.brace.tex
+%                                            ^ punctuation.definition.group.brace.begin.tex
+%                                             ^^^^^^^^ markup.underline.link.latex
+%                                                     ^ punctuation.definition.group.brace.end.tex
+
+\includegraphics*[width=0.33\textwidth, angle=30]{test.png}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.includegraphics.latex
+%^^^^^^^^^^^^^^^^ support.function.includegraphics.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.bracket.latex
+%                ^ punctuation.definition.group.bracket.begin.latex
+%                 ^^^^^ variable.parameter.latex
+%                      ^ keyword.operator.assignment.latex
+%                       ^^^^ meta.number.float.decimal.tex constant.numeric.value.tex
+%                        ^ punctuation.separator.decimal.tex
+%                           ^^^^^^^^^^ support.function.general.latex
+%                           ^ punctuation.definition.backslash.latex
+%                                       ^^^^^ variable.parameter.latex
+%                                            ^ keyword.operator.assignment.latex
+%                                             ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                               ^ punctuation.definition.group.bracket.end.latex
+%                                                ^^^^^^^^^^ meta.group.brace.tex
+%                                                ^ punctuation.definition.group.brace.begin.tex
+%                                                 ^^^^^^^^ markup.underline.link.latex
+%                                                         ^ punctuation.definition.group.brace.end.tex
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
