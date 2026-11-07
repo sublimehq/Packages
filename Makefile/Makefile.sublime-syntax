@@ -404,7 +404,7 @@ contexts:
         3: meta.function-call.makefile
         4: support.function.builtin.makefile
       push: inside-call-function-expansion
-    - match: (\$)(\()((patsubst|filter)\s+)
+    - match: (\$)(\()(({{pattern_functions}})\s+)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
@@ -418,7 +418,7 @@ contexts:
         3: meta.function-call.makefile
         4: support.function.builtin.makefile
       push: inside-wildcard-function-expansion
-    - match: (\$)(\()((info|warning|error)\s+)
+    - match: (\$)(\()(({{message_functions}})\s+)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
@@ -610,7 +610,7 @@ contexts:
         3: meta.function-call.makefile
         4: support.function.builtin.makefile
       push: inside-call-function-second-expansion
-    - match: (\$\$?)(\()((patsubst|filter)\s+)
+    - match: (\$\$?)(\()(({{pattern_functions}})\s+)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
@@ -624,7 +624,7 @@ contexts:
         3: meta.function-call.makefile
         4: support.function.builtin.makefile
       push: inside-wildcard-function-second-expansion
-    - match: (\$\$?)(\()((info|warning|error)\s+)
+    - match: (\$\$?)(\()(({{message_functions}})\s+)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
@@ -891,13 +891,13 @@ variables:
     | dir
     | eval
     | file
-    | filter-out
     | findstring
     | firstword
     | flavor
     | foreach
     | guile
     | if
+    | intcmp
     | join
     | lastword
     | notdir
@@ -912,4 +912,18 @@ variables:
     | word
     | wordlist
     | words
+    )
+
+  message_functions: |-
+    (?x:
+      info
+    | warning
+    | error
+    )
+
+  pattern_functions: |-
+    (?x:
+      filter-out
+    | filter
+    | patsubst
     )
