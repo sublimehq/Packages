@@ -318,6 +318,8 @@ contexts:
     - include: escaped-dollars
     - include: interpolations
     - include: glob-placeholders
+    - match: \s+
+      set: inside-include-directive
 
   inside-vpath-pattern:
     - meta_include_prototype: false

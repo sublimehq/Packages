@@ -130,22 +130,29 @@ test_conflict_in_rules:
 include foo *.mk $(bar)
 # <- keyword.control.import.makefile
 #^^^^^^ keyword.control.import.makefile
-#       ^^^^^^^^^^^^^^^ meta.string.glob.makefile
-#       ^^^^^^^^^ string.unquoted.makefile
+#      ^ - meta.string - string
+#       ^^^ meta.string.glob.makefile string.unquoted.makefile
+#          ^ - meta.string - string
+#           ^^^^ meta.string.glob.makefile string.unquoted.makefile
 #           ^ constant.other.wildcard.asterisk.makefile
-#                ^^^^^^ meta.interpolation.makefile
+#               ^ - meta.string - string
+#                ^^^^^^ meta.string.glob.makefile meta.interpolation.makefile
 #                ^ punctuation.definition.interpolation.makefile
 #                 ^ punctuation.section.interpolation.begin.makefile
 #                  ^^^ variable.other.makefile
 #                     ^ punctuation.section.interpolation.end.makefile
+#                      ^ - meta.string - string
 
 -include foo *.mk $(bar)
 # <- keyword.operator.suppress.makefile
 #^^^^^^^ keyword.control.import.makefile
-#        ^^^^^^^^^^^^^^^ meta.string.glob.makefile
-#        ^^^^^^^^^ string.unquoted.makefile
+#       ^ - meta.string - string
+#        ^^^ meta.string.glob.makefile string.unquoted.makefile
+#           ^ - meta.string - string
+#            ^^^^ meta.string.glob.makefile string.unquoted.makefile
 #            ^ constant.other.wildcard.asterisk.makefile
-#                 ^^^^^^ meta.interpolation.makefile
+#                ^ - meta.string - string
+#                 ^^^^^^ meta.string.glob.makefile meta.interpolation.makefile
 #                 ^ punctuation.definition.interpolation.makefile
 #                  ^ punctuation.section.interpolation.begin.makefile
 #                   ^^^ variable.other.makefile
@@ -154,10 +161,13 @@ include foo *.mk $(bar)
 sinclude foo *.mk $(bar)
 # <- keyword.control.import.makefile
 #^^^^^^^ keyword.control.import.makefile
-#        ^^^^^^^^^^^^^^^ meta.string.glob.makefile
-#        ^^^^^^^^^ string.unquoted.makefile
+#       ^ - meta.string - string
+#        ^^^ meta.string.glob.makefile string.unquoted.makefile
+#           ^ - meta.string - string
+#            ^^^^ meta.string.glob.makefile string.unquoted.makefile
 #            ^ constant.other.wildcard.asterisk.makefile
-#                 ^^^^^^ meta.interpolation.makefile
+#                ^ - meta.string - string
+#                 ^^^^^^ meta.string.glob.makefile meta.interpolation.makefile
 #                 ^ punctuation.definition.interpolation.makefile
 #                  ^ punctuation.section.interpolation.begin.makefile
 #                   ^^^ variable.other.makefile
