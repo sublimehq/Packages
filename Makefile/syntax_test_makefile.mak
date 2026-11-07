@@ -387,15 +387,66 @@ rule: prerequisites # comment
 END_RULE = TRUE
 # <- meta.variable.makefile variable.other.makefile - meta.function
 
+###############################################
+# 4.4 Using Wildcard Characters in File Names #
+###############################################
+
+include a-[a-z]-f?le*.mk
+#       ^^^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#         ^^^^^ meta.character-class.glob.makefile
+#         ^ punctuation.definition.character-class.begin.glob.makefile
+#          ^^^ constant.other.range.glob.makefile
+#           ^ punctuation.separator.sequence.glob.makefile
+#             ^ punctuation.definition.character-class.end.glob.makefile
+#                ^ constant.other.wildcard.questionmark.makefile
+#                   ^ constant.other.wildcard.asterisk.makefile
+
+include a-[$(a)-${b}]?.*
+#       ^^^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#         ^^^^^^^^^^^ meta.character-class.glob.makefile
+#         ^ punctuation.definition.character-class.begin.glob.makefile
+#          ^^^^ meta.interpolation.makefile
+#          ^ punctuation.definition.interpolation.makefile
+#           ^ punctuation.section.interpolation.begin.makefile
+#            ^ variable.other.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#              ^ constant.other.range.glob.makefile punctuation.separator.sequence.glob.makefile
+#               ^^^^ meta.interpolation.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^ variable.other.makefile
+#                  ^ punctuation.section.interpolation.end.makefile
+#                   ^ punctuation.definition.character-class.end.glob.makefile
+#                    ^ constant.other.wildcard.questionmark.makefile
+#                      ^ constant.other.wildcard.asterisk.makefile
+
+include [[.alpha.][=punct=][:space:]]
+#^^^^^^ keyword.control.import.makefile
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.character-class.glob.makefile
+#       ^ punctuation.definition.character-class.begin.glob.makefile
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.character-class.glob.makefile
+#        ^^ punctuation.definition.character-class.begin.glob.makefile
+#          ^^^^^ constant.other.character-class.collate.glob.makefile
+#               ^^ punctuation.definition.character-class.end.glob.makefile
+#                 ^^ punctuation.definition.character-class.begin.glob.makefile
+#                   ^^^^^ constant.other.character-class.equivalence.glob.makefile
+#                        ^^ punctuation.definition.character-class.end.glob.makefile
+#                          ^^ punctuation.definition.character-class.begin.glob.makefile
+#                            ^^^^^ constant.other.character-class.posix.glob.makefile
+#                                 ^^ punctuation.definition.character-class.end.glob.makefile
+#                                   ^ punctuation.definition.character-class.end.glob.makefile
+
 #################################
 # 4.5.2 The vpath Directive     #
 #################################
 
-vpath dir/*/whatevs whatevs
+vpath dir/*/whatev? whatevs
 # <- keyword.control.vpath.makefile
 #^^^^ keyword.control.vpath.makefile
 #     ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
 #         ^ constant.other.wildcard.asterisk.makefile
+#                 ^ constant.other.wildcard.questionmark.makefile
 #                   ^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 vpath asdf/*
@@ -628,7 +679,7 @@ $(dir)_sources := $(wildcard $(dir)/*.c)
 #                  ^ punctuation.section.interpolation.begin.makefile
 #                   ^^^^^^^^^ meta.function-call.makefile
 #                   ^^^^^^^^ support.function.builtin.makefile
-#                            ^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.makefile
+#                            ^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile
 #                            ^^^^^^ meta.interpolation.makefile
 #                            ^ punctuation.definition.interpolation.makefile
 #                             ^ punctuation.section.interpolation.begin.makefile
