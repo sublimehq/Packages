@@ -1700,6 +1700,29 @@ var: $$(^F)
 #          ^ meta.function.makefile
 
 #############################
+# 12.2.1 The load Directive #
+#############################
+
+-load ../mk_funcs.so mk_meth.so
+# <- meta.directive.load.makefile keyword.operator.suppress.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.load.makefile
+#^^^^ keyword.control.import.makefile
+#     ^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#                   ^ - meta.string - string
+#                    ^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#                              ^ - meta.string - string
+
+load ../mk_funcs.so(init_mk_func)
+# <- meta.directive.load.makefile keyword.control.import.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.load.makefile
+#^^^ keyword.control.import.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+#                  ^^^^^^^^^^^^^^ meta.parens.makefile
+#                  ^ punctuation.section.parens.begin.makefile
+#                   ^^^^^^^^^^^^ entity.name.symbol.makefile
+#                               ^ punctuation.section.parens.end.makefile
+
+#############################
 # Unsorted and legacy tests #
 #############################
 

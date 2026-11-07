@@ -249,6 +249,12 @@ contexts:
       captures:
         1: keyword.control.import.makefile
       push: inside-include-directive
+    - match: (-?)(load)(?:\s+|{{word_break}})
+      scope: meta.directive.load.makefile
+      captures:
+        1: keyword.operator.suppress.makefile
+        2: keyword.control.import.makefile
+      push: inside-load-directive
 
   conditional-directives:
     - match: '{{startdirective}}{{word_break}}'
@@ -320,6 +326,24 @@ contexts:
     - include: glob-placeholders
     - match: \s+
       set: inside-include-directive
+
+  inside-load-directive:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.directive.load.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
+    - include: glob-placeholders
+    - match: (\()([^)]*)(\))
+      scope: meta.parens.makefile
+      captures:
+        1: punctuation.section.parens.begin.makefile
+        2: entity.name.symbol.makefile
+        3: punctuation.section.parens.end.makefile
+    - match: \s+
+      scope: meta.directive.load.makefile
+      set: inside-load-directive
 
   inside-vpath-pattern:
     - meta_include_prototype: false
