@@ -218,18 +218,22 @@ contexts:
       captures:
         1: keyword.control.makefile
     - match: (define)(?:\s+|{{word_break}})
+      scope: meta.directive.define.makefile
       captures:
         1: keyword.control.makefile
       push: inside-define-directive-name
     - match: (export)(?:\s+|{{word_break}})
+      scope: meta.directive.export.makefile
       captures:
         1: keyword.control.makefile
       push: inside-export-directive-name
     - match: (undefine)(?:\s+|{{word_break}})
+      scope: meta.directive.undefine.makefile
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
     - match: (unexport)(?:\s+|{{word_break}})
+      scope: meta.directive.undefine.makefile
       captures:
         1: keyword.control.makefile
       push: inside-undefine-directive-name
@@ -237,16 +241,19 @@ contexts:
       captures:
         1: invalid.illegal.stray.endef.makefile
     - match: (vpath)(?:\s+|{{word_break}})
+      scope: meta.directive.vpath.makefile
       captures:
         1: keyword.control.vpath.makefile
       push: inside-vpath-pattern
     # include directives
     - match: (-)(include)(?:\s+|{{word_break}})
+      scope: meta.directive.include.makefile
       captures:
         1: keyword.operator.suppress.makefile
         2: keyword.control.import.makefile
       push: inside-include-directive
     - match: (s?include)(?:\s+|{{word_break}})
+      scope: meta.directive.include.makefile
       captures:
         1: keyword.control.import.makefile
       push: inside-include-directive
@@ -258,7 +265,7 @@ contexts:
       push: inside-load-directive
 
   inside-define-directive-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.define.makefile meta.variable.makefile variable.other.makefile
     - match: ({{var_or_shell_assign}})?\s*\n
       captures:
         1: keyword.operator.assignment.makefile
@@ -269,6 +276,7 @@ contexts:
 
   inside-define-directive-value:
     - meta_include_prototype: false
+    - meta_scope: meta.directive.define.makefile
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - match: ^\s*(endef){{word_break}}
       captures:
@@ -287,25 +295,32 @@ contexts:
     - include: merge-conflict-markers
 
   inside-export-directive-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.export.makefile meta.variable.makefile variable.other.makefile
     - match: \s*({{var_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
-      set: inside-variable-value
+      set: inside-export-variable-value
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
 
+  inside-export-variable-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.directive.export.makefile
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: inside-variable-value
+
   inside-include-directive:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
+    - meta_content_scope: meta.directive.include.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
     - include: glob-placeholders
     - match: \s+
+      scope: meta.directive.include.makefile
       set: inside-include-directive
 
   inside-load-directive:
@@ -327,7 +342,7 @@ contexts:
       set: inside-load-directive
 
   inside-undefine-directive-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.undefine.makefile meta.variable.makefile variable.other.makefile
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
@@ -335,18 +350,19 @@ contexts:
 
   inside-vpath-pattern:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
+    - meta_content_scope: meta.directive.vpath.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
     - include: glob-placeholders
     - match: \s+
+      scope: meta.directive.vpath.makefile
       set: inside-vpath-directory
 
   inside-vpath-directory:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - meta_content_scope: meta.directive.vpath.makefile meta.string.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars

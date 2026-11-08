@@ -128,7 +128,8 @@ test_conflict_in_rules:
 #################################
 
 include foo *.mk $(bar)
-# <- keyword.control.import.makefile
+# <- meta.directive.include.makefile keyword.control.import.makefile
+#^^^^^^^^^^^^^^^^^^^^^^ meta.directive.include.makefile
 #^^^^^^ keyword.control.import.makefile
 #      ^ - meta.string - string
 #       ^^^ meta.string.glob.makefile string.unquoted.makefile
@@ -144,7 +145,8 @@ include foo *.mk $(bar)
 #                      ^ - meta.string - string
 
 -include foo *.mk $(bar)
-# <- keyword.operator.suppress.makefile
+# <- meta.directive.include.makefile keyword.operator.suppress.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.include.makefile
 #^^^^^^^ keyword.control.import.makefile
 #       ^ - meta.string - string
 #        ^^^ meta.string.glob.makefile string.unquoted.makefile
@@ -159,7 +161,8 @@ include foo *.mk $(bar)
 #                      ^ punctuation.section.interpolation.end.makefile
 
 sinclude foo *.mk $(bar)
-# <- keyword.control.import.makefile
+# <- meta.directive.include.makefile keyword.control.import.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.include.makefile
 #^^^^^^^ keyword.control.import.makefile
 #       ^ - meta.string - string
 #        ^^^ meta.string.glob.makefile string.unquoted.makefile
@@ -174,6 +177,8 @@ sinclude foo *.mk $(bar)
 #                      ^ punctuation.section.interpolation.end.makefile
 
 include $(addprefix $(srctree)/, $(include-y))
+# <- meta.directive.include.makefile keyword.control.import.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.include.makefile
 #^^^^^^ keyword.control.import.makefile
 #       ^^ meta.string.glob.makefile meta.interpolation.makefile
 #         ^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile meta.function-call.makefile
@@ -431,7 +436,6 @@ include a-[$(a)-${b}]?.*
 #                      ^ constant.other.wildcard.asterisk.makefile
 
 include [[.alpha.][=punct=][:space:]]
-#^^^^^^ keyword.control.import.makefile
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.character-class.glob.makefile
 #       ^ punctuation.definition.character-class.begin.glob.makefile
@@ -452,7 +456,8 @@ include [[.alpha.][=punct=][:space:]]
 #################################
 
 vpath dir/*/whatev? whatevs
-# <- keyword.control.vpath.makefile
+# <- meta.directive.vpath.makefile keyword.control.vpath.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.vpath.makefile
 #^^^^ keyword.control.vpath.makefile
 #     ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
 #         ^ constant.other.wildcard.asterisk.makefile
@@ -460,14 +465,15 @@ vpath dir/*/whatev? whatevs
 #                   ^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 vpath asdf/*
-# <- keyword.control.vpath.makefile
+# <- meta.directive.vpath.makefile keyword.control.vpath.makefile
+#^^^^^^^^^^^ meta.directive.vpath.makefile
 #^^^^ keyword.control.vpath.makefile
 #     ^^^^^^ meta.string.glob.makefile string.unquoted.makefile
 #          ^ constant.other.wildcard.asterisk.makefile
 
 vpath
-# <- keyword.control.vpath.makefile
-#^^^^ keyword.control.vpath.makefile
+# <- meta.directive.vpath.makefile keyword.control.vpath.makefile
+#^^^^ meta.directive.vpath.makefile keyword.control.vpath.makefile
 
 # a comment check
 # <- comment.line
@@ -1043,11 +1049,14 @@ definefoo
 ############################
 
 undefine foo
+# <- meta.directive.undefine.makefile keyword.control.makefile
+#^^^^^^^^^^^ meta.directive.undefine.makefile
 #^^^^^^^ keyword.control.makefile
 #       ^ - keyword - variable
 #        ^^^ meta.variable.makefile variable.other.makefile
 
   undefine foo
+# ^^^^^^^^^^^^ meta.directive.undefine.makefile
 # ^^^^^^^^ keyword.control.makefile
 #         ^ - keyword - variable
 #          ^^^ meta.variable.makefile variable.other.makefile
@@ -1055,6 +1064,7 @@ undefine foo
 
 override undefine CFLAGS
 #^^^^^^^ keyword.control.makefile
+#        ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #        ^^^^^^^^ keyword.control.makefile
 #                ^ - keyword - variable
 #                 ^^^^^^ meta.variable.makefile variable.other.makefile
@@ -1097,12 +1107,13 @@ prog : define CFLAGS =
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #      ^^^^^^ keyword.control.makefile
 #             ^^^^^^^ meta.variable.makefile variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
 endef
-# <- keyword.control.makefile
-#^^^^ keyword.control.makefile
+# <- meta.directive.define.makefile keyword.control.makefile
+#^^^^ meta.directive.define.makefile keyword.control.makefile
 
 prog : override define CFLAGS =
 # <- meta.function.makefile entity.name.function.makefile
@@ -1110,18 +1121,20 @@ prog : override define CFLAGS =
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #               ^^^^^^ keyword.control.makefile
 #                      ^^^^^^^ meta.variable.makefile variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
 endef
-# <- keyword.control.makefile
-#^^^^ keyword.control.makefile
+# <- meta.directive.define.makefile keyword.control.makefile
+#^^^^ meta.directive.define.makefile keyword.control.makefile
 
 prog : undefine CFLAGS
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.makefile
 #               ^^^^^^ meta.variable.makefile variable.other.makefile
 
@@ -1130,6 +1143,7 @@ prog : export CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #      ^^^^^^ keyword.control.makefile
 #             ^^^^^^ meta.variable.makefile variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
@@ -1141,6 +1155,7 @@ prog : override export CFLAGS = -g
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^ keyword.control.makefile
+#               ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #               ^^^^^^ keyword.control.makefile
 #                      ^^^^^^ meta.variable.makefile variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
@@ -1151,6 +1166,7 @@ prog : unexport CFLAGS
 #^^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
+#      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.makefile
 #               ^^^^^^ meta.variable.makefile variable.other.makefile
 
