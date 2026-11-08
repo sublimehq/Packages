@@ -1,13 +1,7 @@
 %YAML 1.2
-# http://www.sublimetext.com/docs/3/syntax.html
+---
 # https://www.gnu.org/software/make/manual/make.html
---- #---------------------------------------------------------------------------
-# Converted from Makefile Improved by Kay-Uwe (Kiwi) Lorenz
-# Includes a few improvement like special-target, a bit more shell command,
-# better variable recognition, fix ifeq/ifneq missing highlight ...
-# Rewritten by Raoul Wols on May 2017.
-#
-# All number references refer to the "Make manual" (see link above).
+# https://www.sublimetext.com/docs/syntax.html
 name: Makefile
 scope: source.makefile
 version: 2
