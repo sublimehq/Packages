@@ -304,6 +304,9 @@ contexts:
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
+    - match: \s+
+      scope: meta.directive.export.makefile
+      set: inside-export-directive-name
 
   inside-export-variable-value:
     - meta_include_prototype: false
@@ -347,6 +350,9 @@ contexts:
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
+    - match: \s+
+      scope: meta.directive.undefine.makefile
+      set: inside-undefine-directive-name
 
   inside-vpath-pattern:
     - meta_include_prototype: false

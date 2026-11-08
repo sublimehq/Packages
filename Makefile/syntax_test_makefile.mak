@@ -531,6 +531,93 @@ clean:
 #^ keyword.operator.suppress.makefile - source.shell
 # ^^^^^^^^^ source.shell.embedded.makefile
 
+###############################################
+# 5.7.2 Communicating Variables to a Sub-make #
+###############################################
+
+export
+# <- meta.directive.export.makefile keyword.control.export.makefile
+#^^^^^ meta.directive.export.makefile keyword.control.export.makefile
+
+export foo=bar
+# <- meta.directive.export.makefile keyword.control.export.makefile
+#^^^^^^^^^^^^^ meta.directive.export.makefile
+#^^^^^ keyword.control.export.makefile
+#      ^^^ meta.variable.makefile variable.other.makefile
+#         ^ keyword.operator.assignment.makefile
+#          ^^^ meta.string.makefile string.unquoted.makefile
+
+foo=bar
+export foo\ bar $(baz) ${buz}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
+#^^^^^ keyword.control.export.makefile
+#      ^^^^^^^^ meta.variable.makefile variable.other.makefile
+#         ^^ constant.character.escape.makefile
+#               ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^^^ variable.other.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                      ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                      ^ punctuation.definition.interpolation.makefile
+#                       ^ punctuation.section.interpolation.begin.makefile
+#                        ^^^ variable.other.makefile
+#                           ^ punctuation.section.interpolation.end.makefile
+
+export \
+#^^^^^^^^ meta.directive.export.makefile
+#^^^^^ keyword.control.export.makefile
+#      ^^ meta.variable.makefile variable.other.makefile
+#      ^ punctuation.separator.continuation.line.makefile
+
+export \
+    foo
+#^^^^^^ meta.directive.export.makefile
+#   ^^^ meta.variable.makefile variable.other.makefile
+
+export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
+              -name CVS -o -name .pc -o -name .hg -o -name .git \) \
+              -prune -o
+# <- meta.directive.export.makefile meta.string.makefile string.unquoted.makefile
+#^^^^^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile meta.string.makefile string.unquoted.makefile
+
+export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
+             --exclude CVS --exclude .pc --exclude .hg --exclude .git
+# <- meta.directive.export.makefile meta.string.makefile string.unquoted.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile meta.string.makefile string.unquoted.makefile
+
+unexport
+# <- meta.directive.undefine.makefile keyword.control.unexport.makefile
+#^^^^^^^^ meta.directive.undefine.makefile
+#^^^^^^^ keyword.control.unexport.makefile
+
+unexport foo\ bar $(baz) ${buz}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
+#^^^^^^^ keyword.control.unexport.makefile
+#        ^^^^^^^^ meta.variable.makefile variable.other.makefile
+#           ^^ constant.character.escape.makefile
+#                 ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                 ^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^ variable.other.makefile
+#                      ^ punctuation.section.interpolation.end.makefile
+#                        ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                        ^ punctuation.definition.interpolation.makefile
+#                         ^ punctuation.section.interpolation.begin.makefile
+#                          ^^^ variable.other.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
+unexport \
+#^^^^^^^^^^ meta.directive.undefine.makefile
+#^^^^^^^ keyword.control.unexport.makefile
+#        ^^ meta.variable.makefile variable.other.makefile
+#        ^ punctuation.separator.continuation.line.makefile
+
+unexport \
+    foo
+#^^^^^^ meta.directive.undefine.makefile
+#   ^^^ meta.variable.makefile variable.other.makefile
+
 #####################################
 # 6.1 Basics of Variable References #
 #####################################
@@ -2336,12 +2423,6 @@ all: whatevs
 	@asdf
 	@echo "Heyo!"
 	# <- keyword.operator.suppress.makefile
-
-export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
-              -name CVS -o -name .pc -o -name .hg -o -name .git \) \
-              -prune -o
-export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
-             --exclude CVS --exclude .pc --exclude .hg --exclude .git
 
 # Use spaces instead of tabs... This complicates matters.
 .RECIPEPREFIX +=
