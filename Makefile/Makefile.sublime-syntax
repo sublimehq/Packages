@@ -125,12 +125,12 @@ contexts:
     - match: \s*$\n?
       scope: meta.function.makefile
       set: inside-rule-body
-    - match: (\s*(;))(\s*(-@?|@-?))?
+    - match: (\s*(;))(\s*({{receipe_modifier}}))?
       captures:
         1: meta.function.makefile
         2: punctuation.terminator.makefile
         3: meta.function.body.makefile
-        4: keyword.operator.suppress.makefile
+        4: keyword.operator.recipe.makefile
       set:
         - inside-rule-body
         - inside-shell
@@ -152,12 +152,12 @@ contexts:
     - include: comments
     - include: merge-conflict-markers
     - include: conditional-directives
-    - match: ^({{receipe_prefix}})(?:\s*(-@?|@-?))?
+    - match: ^({{receipe_prefix}})(?:\s*({{receipe_modifier}}))?
       captures:
         1: punctuation.definition.recipe.makefile
-        2: keyword.operator.suppress.makefile
+        2: keyword.operator.recipe.makefile
       push: inside-shell
-    - match: ^(?!\n)
+    - match: ^(?!\s*(ifn?(def|eq)|else|endif){{word_break}}|\n)
       pop: 1
 
 ###[ VARIABLE DEFINITIONS ]####################################################
@@ -243,7 +243,7 @@ contexts:
     - match: (-)(include)(?:\s+|{{word_break}})
       scope: meta.directive.include.makefile
       captures:
-        1: keyword.operator.suppress.makefile
+        1: keyword.operator.recipe.makefile
         2: keyword.control.import.makefile
       push: inside-include-directive
     - match: (s?include)(?:\s+|{{word_break}})
@@ -254,7 +254,7 @@ contexts:
     - match: (-?)(load)(?:\s+|{{word_break}})
       scope: meta.directive.load.makefile
       captures:
-        1: keyword.operator.suppress.makefile
+        1: keyword.operator.recipe.makefile
         2: keyword.control.import.makefile
       push: inside-load-directive
 
@@ -1130,6 +1130,7 @@ contexts:
 variables:
 
   receipe_prefix: \t
+  receipe_modifier: '[-+]@?|@[-+]?'
 
   word_begin: (?=\S)
   word_break: (?![^\s:#!?+=])

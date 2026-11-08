@@ -145,7 +145,7 @@ include foo *.mk $(bar)
 #                      ^ - meta.string - string
 
 -include foo *.mk $(bar)
-# <- meta.directive.include.makefile keyword.operator.suppress.makefile
+# <- meta.directive.include.makefile keyword.operator.recipe.makefile
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.include.makefile
 #^^^^^^^ keyword.control.import.makefile
 #       ^ - meta.string - string
@@ -503,14 +503,14 @@ rule:
 rule: prereq ; @rm -f *.o
 #            ^ meta.function.makefile punctuation.terminator.makefile
 #             ^^^^^^^^^^^ meta.function.body.makefile
-#              ^ keyword.operator.suppress.makefile - source.shell
+#              ^ keyword.operator.recipe.makefile - source.shell
 #               ^^^^^^^^ source.shell.embedded.makefile
 
 rule:
 	@rm -f *.o
 # <- meta.function.body.makefile - source.shell
 #^^^^^^^^^^ meta.function.body.makefile
-#^ keyword.operator.suppress.makefile - source.shell
+#^ keyword.operator.recipe.makefile - source.shell
 # ^^^^^^^^ source.shell.embedded.makefile
 
 #########################
@@ -520,14 +520,14 @@ rule:
 clean: prereq ; -rm -f *.o
 #             ^ meta.function.makefile punctuation.terminator.makefile
 #              ^^^^^^^^^^^ meta.function.body.makefile
-#               ^ keyword.operator.suppress.makefile - source.shell
+#               ^ keyword.operator.recipe.makefile - source.shell
 #                ^^^^^^^^ source.shell.embedded.makefile
 
 clean:
 	-rm -f *.o
 # <- meta.function.body.makefile - source.shell
 #^^^^^^^^^^^ meta.function.body.makefile
-#^ keyword.operator.suppress.makefile - source.shell
+#^ keyword.operator.recipe.makefile - source.shell
 # ^^^^^^^^^ source.shell.embedded.makefile
 
 ###############################################
@@ -1616,6 +1616,35 @@ endif
 # <- meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
 #^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
 
+####################################
+# 7.3 Conditionals that Test Flags #
+####################################
+
+archive.a: …
+  ifneq (,$(findstring t,$(firstword -$(MAKEFLAGS))))
+# <- meta.function.body.makefile
+#^ meta.function.body.makefile
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile meta.directive.conditional.if.makefile
+# ^^^^^ keyword.control.conditional.if.makefile
+	+touch archive.a
+	#^^^^^^^^^^^^^^^^ meta.function.body.makefile
+	# <- keyword.operator.recipe.makefile
+	#^^^^^^^^^^^^^^^ source.shell.embedded
+	+ranlib -t archive.a
+	#^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
+	# <- keyword.operator.recipe.makefile
+	#^^^^^^^^^^^^^^^^^^^ source.shell.embedded
+  else
+# <- meta.function.body.makefile
+#^ meta.function.body.makefile
+# ^^^^ meta.function.body.makefile meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+	ranlib archive.a
+	# <- meta.function.body.makefile source.shell.embedded
+  endif
+# <- meta.function.body.makefile
+#^^^^^^^ meta.function.body.makefile
+# ^^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
 ##############################
 # 10.5.3 Automatic Variables #
 ##############################
@@ -2133,7 +2162,7 @@ var: $$(^F)
 #############################
 
 -load ../mk_funcs.so mk_meth.so
-# <- meta.directive.load.makefile keyword.operator.suppress.makefile
+# <- meta.directive.load.makefile keyword.operator.recipe.makefile
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.load.makefile
 #^^^^ keyword.control.import.makefile
 #     ^^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
@@ -2173,7 +2202,7 @@ all: foo.o
 	ar b
 	asdf
 	@echo "that's, like, your opinion man!" # some movie?
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
     asdf
 # <- - meta.function - source.shell
 #   ^^^^ variable.other.makefile
@@ -2409,25 +2438,25 @@ $(EXECUTABLE): $(OBJECTS)
 #                       ^ punctuation.section.interpolation.end.makefile
 #                        ^ meta.function.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	#                               ^^ meta.string.glob.shell meta.interpolation.makefile
 
 
 all: whatevs
 	@asdf
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 
 all: whatevs
 	@asdf
 	@echo "Heyo!"
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 
 # Use spaces instead of tabs... This complicates matters.
 .RECIPEPREFIX +=
 
 help::
 	@echo "Executable is $(EXECUTABLE)"
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 
 $(warning he:llo)
 # ^ meta.function-call support.function
@@ -2489,8 +2518,8 @@ a_percentage_%_sign := $(SOME_C%MPLEX:SUBSTITUTI%N)
 #      ^ meta.function.arguments string.unquoted variable.language
 	@rm -rf /
 	@rm -rf /
-	# <- meta.function.body keyword.operator.suppress.makefile
-	#^ meta.function.body - keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
+	#^ meta.function.body - keyword.operator.recipe.makefile
 
 a = b # c
 #<- variable.other
@@ -2508,21 +2537,21 @@ a = b # c
 
 _modinst_:
 	@rm -rf $(MODLIB)/kernel
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	@rm -f $(MODLIB)/source
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	@mkdir -p $(MODLIB)/kernel
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	@ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	@if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
 	    rm -f $(MODLIB)/build ; \
 	    ln -s $(CURDIR) $(MODLIB)/build ; \
 	fi
 	@cp -f $(objtree)/modules.order $(MODLIB)/
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	@cp -f $(objtree)/modules.builtin $(MODLIB)/
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
 
 
@@ -2547,7 +2576,7 @@ a : b \
 	on a third line even
 	#                  ^ meta.function.arguments string.unquoted
 	@rm -rf /
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 
 a : b ; rm -rf /
 #     ^ punctuation.terminator
@@ -2652,7 +2681,7 @@ ifneq ($(a),)
 $(b): ; rm -rf /
 #       ^ meta.function.body source.shell
 	@git clone asdf
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 	# ^ meta.function.body
 endif
 
@@ -2749,13 +2778,13 @@ endif
 
 build_target:
 	@echo "${INFO_CLR}>> Building $(TARGET)...${RESTORE_CLR}${RESULT_CLR}"
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 ifdef WORKSPACE
 	@xcodebuild -sdk iphoneos -workspace "$(WORKSPACE).xcworkspace" -target "$(TARGET)" -configuration "$(CONFIG)" SYMROOT="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 else
 	@xcodebuild -sdk iphoneos -project "$(PROJECT).xcodeproj" -target "$(TARGET)" -configuration "$(CONFIG)" CONFIGURATION_BUILD_DIR="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
-	# <- keyword.operator.suppress.makefile
+	# <- keyword.operator.recipe.makefile
 endif
 ifndef ARDMK_DIR_MSG
 	$(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
@@ -2774,7 +2803,7 @@ kselftest-merge:
 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
 	    -m $(objtree)/.config \
-	#   ^ - keyword.operator.suppress.makefile
+	#   ^ - keyword.operator.recipe.makefile
 	    $(srctree)/tools/testing/selftests/*/config
 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
 
@@ -2793,17 +2822,17 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 # A recipe may contain empty lines like below
 help:
 	@echo  'Cleaning targets:'
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 
 	@echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 	#               ^ - keyword.operator.assignment
 	#                                                        ^ string.quoted.single.shell
 	@echo  '        1: warnings which may be relevant and do not occur too often'
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 	#                ^ - keyword.operator.assignment
 	@echo  '        2: warnings which occur quite often but may still be relevant'
-	# <- meta.function.body keyword.operator.suppress.makefile
+	# <- meta.function.body keyword.operator.recipe.makefile
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
