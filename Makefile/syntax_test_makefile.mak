@@ -91,8 +91,8 @@ define TEST_CONFLICT_IN_MULTILINE_VARS :=
 #       ^^^^^^ entity.name.section.diff
 #             ^ - entity - punctuation
 endef
-# <- keyword.control.makefile
-#^^^^ keyword.control.makefile
+# <- keyword.control.endef.makefile
+#^^^^ keyword.control.endef.makefile
 
 test_conflict_in_rules:
 <<<<<<< HEAD
@@ -706,7 +706,6 @@ $(dir)_sources := $(wildcard $(dir)/*.c)
 #                                      ^ punctuation.section.interpolation.end.makefile
 
 define $(dir)_print =
-#^^^^^ keyword.control.makefile
 #     ^ - keyword - variable
 #      ^^^^^^ meta.interpolation.makefile
 #      ^ punctuation.definition.interpolation.makefile
@@ -900,7 +899,7 @@ CFLAGS += -pg # enable profiling
 ##############################
 
 override variable = value
-# ^ keyword.control
+# <- keyword.control.override.makefile
 override variable := value
 override variable += more text
 override CFLAGS += -g
@@ -931,21 +930,22 @@ override define foo :=
 #                     ^ - string
 bar
 endef
-# ^ keyword.control
+# <- meta.directive.define.makefile keyword.control.endef.makefile
 
 endef
 # <- invalid.illegal.stray
 
 override \
-# <- keyword.control.makefile
+# <- keyword.control.override.makefile
 #        ^ punctuation.separator.continuation.line.makefile
 
 override \
 	define foo
-	#^^^^^ keyword.control.makefile
+	#^^^^^^^^^^ meta.directive.define.makefile
+	#^^^^^ keyword.control.define.makefile
 	#      ^^^ variable.other.makefile
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 #####################################
 # 6.8 Defining Multi-Line Variables #
@@ -954,75 +954,75 @@ endef
 # operators specify when expansions are made
 
 define immediate
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^ meta.variable.makefile variable.other.makefile
   deferred
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate =
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^ keyword.operator.assignment.makefile
   deferred
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate ?=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   deferred
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate :=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   immediate
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate ::=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^^ keyword.operator.assignment.makefile
   immediate
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate :::=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^^^ keyword.operator.assignment.makefile
   immediate-with-escape
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate +=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   deferred or immediate
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define immediate !=
-# <- keyword.control.makefile
-#^^^^^ keyword.control.makefile
+# <- keyword.control.define.makefile
+#^^^^^ keyword.control.define.makefile
 #      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   immediate
 endef
-# <- keyword.control.makefile
+# <- keyword.control.endef.makefile
 
 define FOO
   BAR := 1
@@ -1033,7 +1033,7 @@ define FOO
 # ^^^^^^ string.unquoted.makefile - keyword
 Y := 3
 endef   # comment
-#^^^^ keyword.control.makefile
+#^^^^ keyword.control.endef.makefile
 #       ^^^ comment.line.number-sign.makefile
 
 # Avoid false positives such as partial matches.
@@ -1049,23 +1049,23 @@ definefoo
 ############################
 
 undefine foo
-# <- meta.directive.undefine.makefile keyword.control.makefile
+# <- meta.directive.undefine.makefile keyword.control.undefine.makefile
 #^^^^^^^^^^^ meta.directive.undefine.makefile
-#^^^^^^^ keyword.control.makefile
+#^^^^^^^ keyword.control.undefine.makefile
 #       ^ - keyword - variable
 #        ^^^ meta.variable.makefile variable.other.makefile
 
   undefine foo
 # ^^^^^^^^^^^^ meta.directive.undefine.makefile
-# ^^^^^^^^ keyword.control.makefile
+# ^^^^^^^^ keyword.control.undefine.makefile
 #         ^ - keyword - variable
 #          ^^^ meta.variable.makefile variable.other.makefile
 #             ^ - variable
 
 override undefine CFLAGS
-#^^^^^^^ keyword.control.makefile
+#^^^^^^^ keyword.control.override.makefile
 #        ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
-#        ^^^^^^^^ keyword.control.makefile
+#        ^^^^^^^^ keyword.control.undefine.makefile
 #                ^ - keyword - variable
 #                 ^^^^^^ meta.variable.makefile variable.other.makefile
 
@@ -1108,26 +1108,26 @@ prog : define CFLAGS =
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
-#      ^^^^^^ keyword.control.makefile
+#      ^^^^^^ keyword.control.define.makefile
 #             ^^^^^^^ meta.variable.makefile variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
 endef
-# <- meta.directive.define.makefile keyword.control.makefile
-#^^^^ meta.directive.define.makefile keyword.control.makefile
+# <- meta.directive.define.makefile keyword.control.endef.makefile
+#^^^^ meta.directive.define.makefile keyword.control.endef.makefile
 
 prog : override define CFLAGS =
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
-#      ^^^^^^^^ keyword.control.makefile
+#      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
-#               ^^^^^^ keyword.control.makefile
+#               ^^^^^^ keyword.control.define.makefile
 #                      ^^^^^^^ meta.variable.makefile variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
 endef
-# <- meta.directive.define.makefile keyword.control.makefile
-#^^^^ meta.directive.define.makefile keyword.control.makefile
+# <- meta.directive.define.makefile keyword.control.endef.makefile
+#^^^^ meta.directive.define.makefile keyword.control.endef.makefile
 
 prog : undefine CFLAGS
 # <- meta.function.makefile entity.name.function.makefile
@@ -1135,7 +1135,7 @@ prog : undefine CFLAGS
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
-#      ^^^^^^^^ keyword.control.makefile
+#      ^^^^^^^^ keyword.control.undefine.makefile
 #               ^^^^^^ meta.variable.makefile variable.other.makefile
 
 prog : export CFLAGS = -g
@@ -1144,7 +1144,7 @@ prog : export CFLAGS = -g
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
-#      ^^^^^^ keyword.control.makefile
+#      ^^^^^^ keyword.control.export.makefile
 #             ^^^^^^ meta.variable.makefile variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
 #                      ^^ meta.string.makefile string.unquoted.makefile
@@ -1154,9 +1154,9 @@ prog : override export CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
-#      ^^^^^^^^ keyword.control.makefile
+#      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
-#               ^^^^^^ keyword.control.makefile
+#               ^^^^^^ keyword.control.export.makefile
 #                      ^^^^^^ meta.variable.makefile variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
 #                               ^^ meta.string.makefile string.unquoted.makefile
@@ -1167,14 +1167,14 @@ prog : unexport CFLAGS
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
-#      ^^^^^^^^ keyword.control.makefile
+#      ^^^^^^^^ keyword.control.unexport.makefile
 #               ^^^^^^ meta.variable.makefile variable.other.makefile
 
 prog : override CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
-#      ^^^^^^^^ keyword.control.makefile
+#      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^ meta.variable.makefile variable.other.makefile
 #                      ^ keyword.operator.assignment.makefile
 #                        ^^ meta.string.makefile string.unquoted.makefile
@@ -2184,12 +2184,6 @@ all: $(SOURCES) $(EXECUTABLE)
 #                           ^ punctuation.section.interpolation.end.makefile
 #                            ^ meta.function.makefile
 
-export FOO=foo
-# ^ keyword.control
-#      ^ variable.other
-#         ^ keyword.operator.assignment
-#          ^ string.unquoted
-
 $(EXECUTABLE): $(OBJECTS)
 # <- meta.function entity.name.function
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
@@ -2591,7 +2585,7 @@ define filechk_utsrelease.h
     fi;                                                               \
     (echo \#define UTS_RELEASE \"$(KERNELRELEASE)\";)
 endef
-# <- keyword.control
+# <- keyword.control.endef.makefile
 
 endef
 # <- invalid.illegal.stray

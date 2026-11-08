@@ -214,28 +214,28 @@ contexts:
 
   definition-directives:
     # definition directives
-    - match: (override)(?:\s+|{{word_break}})
+    - match: (override){{word_break}}
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.override.makefile
     - match: (define)(?:\s+|{{word_break}})
       scope: meta.directive.define.makefile
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.define.makefile
       push: inside-define-directive-name
     - match: (export)(?:\s+|{{word_break}})
       scope: meta.directive.export.makefile
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.export.makefile
       push: inside-export-directive-name
     - match: (undefine)(?:\s+|{{word_break}})
       scope: meta.directive.undefine.makefile
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.undefine.makefile
       push: inside-undefine-directive-name
     - match: (unexport)(?:\s+|{{word_break}})
       scope: meta.directive.undefine.makefile
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.unexport.makefile
       push: inside-undefine-directive-name
     - match: (endef)(?:\s+|{{word_break}})
       captures:
@@ -280,7 +280,7 @@ contexts:
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - match: ^\s*(endef){{word_break}}
       captures:
-        1: keyword.control.makefile
+        1: keyword.control.endef.makefile
       pop: 1
     # keep in balance with nested define statements
     # see: https://github.com/sublimehq/Packages/issues/1998
