@@ -169,13 +169,13 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   inside-global-variable-definition-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: variable.other.makefile
     - include: inside-variable-definition-name
     - match: ':'
       fail: definitions
 
   inside-variable-definition-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: variable.other.makefile
     - match: \s*({{shell_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
@@ -265,14 +265,14 @@ contexts:
       push: inside-load-directive
 
   inside-define-directive-name:
-    - meta_content_scope: meta.directive.define.makefile meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.define.makefile variable.other.makefile
     - match: ({{var_or_shell_assign}})?\s*\n
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-define-directive-value
     - include: escaped-chars
     - include: escaped-dollars
-    - include: interpolations
+    - include: expansions
 
   inside-define-directive-value:
     - meta_include_prototype: false
@@ -295,7 +295,7 @@ contexts:
     - include: merge-conflict-markers
 
   inside-export-directive-name:
-    - meta_content_scope: meta.directive.export.makefile meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.export.makefile variable.other.makefile
     - match: \s*({{var_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
@@ -303,7 +303,7 @@ contexts:
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
-    - include: interpolations
+    - include: expansions
     - match: \s+
       scope: meta.directive.export.makefile
       set: inside-export-directive-name
@@ -345,11 +345,11 @@ contexts:
       set: inside-load-directive
 
   inside-undefine-directive-name:
-    - meta_content_scope: meta.directive.undefine.makefile meta.variable.makefile variable.other.makefile
+    - meta_content_scope: meta.directive.undefine.makefile variable.other.makefile
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
-    - include: interpolations
+    - include: expansions
     - match: \s+
       scope: meta.directive.undefine.makefile
       set: inside-undefine-directive-name
@@ -421,7 +421,7 @@ contexts:
 
   ifdef-directive-condition:
     - meta_scope: meta.directive.conditional.if.makefile
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - meta_content_scope: variable.other.makefile
     - include: if-directive-end
     - include: escaped-chars
     - include: escaped-dollars

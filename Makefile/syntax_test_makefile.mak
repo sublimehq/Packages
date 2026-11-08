@@ -205,16 +205,15 @@ include $(addprefix $(srctree)/, $(include-y))
 #                                           ^^ punctuation.section.interpolation.end.makefile
 
 include-y := scripts/Makefile.extrawarn
-# <- meta.variable.makefile variable.other.makefile - keyword
-#^^^^^^^^ meta.variable.makefile variable.other.makefile - keyword
+# <- variable.other.makefile - keyword
+#^^^^^^^^ variable.other.makefile - keyword
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 include-$(CONFIG_DEBUG_INFO) += scripts/Makefile.debug
-# <- meta.variable.makefile variable.other.makefile - keyword
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.makefile
+# <- variable.other.makefile - keyword
 #^^^^^^^ variable.other.makefile - keyword
-#       ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#       ^^^^^^^^^^^^^^^^^^^^ variable.other.makefile meta.interpolation.makefile
 #       ^ punctuation.definition.interpolation.makefile
 #        ^ punctuation.section.interpolation.begin.makefile
 #         ^^^^^^^^^^^^^^^^^ variable.other.makefile
@@ -400,7 +399,7 @@ rule: prerequisites # comment
 # <- meta.function.body.makefile
 
 END_RULE = TRUE
-# <- meta.variable.makefile variable.other.makefile - meta.function
+# <- variable.other.makefile - meta.function
 
 ###############################################
 # 4.4 Using Wildcard Characters in File Names #
@@ -543,7 +542,7 @@ export foo=bar
 # <- meta.directive.export.makefile keyword.control.export.makefile
 #^^^^^^^^^^^^^ meta.directive.export.makefile
 #^^^^^ keyword.control.export.makefile
-#      ^^^ meta.variable.makefile variable.other.makefile
+#      ^^^ variable.other.makefile
 #         ^ keyword.operator.assignment.makefile
 #          ^^^ meta.string.makefile string.unquoted.makefile
 
@@ -551,14 +550,14 @@ foo=bar
 export foo\ bar $(baz) ${buz}
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #^^^^^ keyword.control.export.makefile
-#      ^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^ variable.other.makefile
 #         ^^ constant.character.escape.makefile
-#               ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#               ^^^^^^ meta.interpolation.makefile
 #               ^ punctuation.definition.interpolation.makefile
 #                ^ punctuation.section.interpolation.begin.makefile
 #                 ^^^ variable.other.makefile
 #                    ^ punctuation.section.interpolation.end.makefile
-#                      ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                      ^^^^^^ meta.interpolation.makefile
 #                      ^ punctuation.definition.interpolation.makefile
 #                       ^ punctuation.section.interpolation.begin.makefile
 #                        ^^^ variable.other.makefile
@@ -567,13 +566,13 @@ export foo\ bar $(baz) ${buz}
 export \
 #^^^^^^^^ meta.directive.export.makefile
 #^^^^^ keyword.control.export.makefile
-#      ^^ meta.variable.makefile variable.other.makefile
+#      ^^ variable.other.makefile
 #      ^ punctuation.separator.continuation.line.makefile
 
 export \
     foo
 #^^^^^^ meta.directive.export.makefile
-#   ^^^ meta.variable.makefile variable.other.makefile
+#   ^^^ variable.other.makefile
 
 export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
               -name CVS -o -name .pc -o -name .hg -o -name .git \) \
@@ -594,29 +593,29 @@ unexport
 unexport foo\ bar $(baz) ${buz}
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #^^^^^^^ keyword.control.unexport.makefile
-#        ^^^^^^^^ meta.variable.makefile variable.other.makefile
+#        ^^^^^^^^ variable.other.makefile
 #           ^^ constant.character.escape.makefile
-#                 ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                 ^^^^^^ variable.other.makefile meta.interpolation.makefile
 #                 ^ punctuation.definition.interpolation.makefile
 #                  ^ punctuation.section.interpolation.begin.makefile
-#                   ^^^ variable.other.makefile
+#                   ^^^ variable.other.makefile variable.other.makefile
 #                      ^ punctuation.section.interpolation.end.makefile
-#                        ^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#                        ^^^^^^ variable.other.makefile meta.interpolation.makefile
 #                        ^ punctuation.definition.interpolation.makefile
 #                         ^ punctuation.section.interpolation.begin.makefile
-#                          ^^^ variable.other.makefile
+#                          ^^^ variable.other.makefile variable.other.makefile
 #                             ^ punctuation.section.interpolation.end.makefile
 
 unexport \
 #^^^^^^^^^^ meta.directive.undefine.makefile
 #^^^^^^^ keyword.control.unexport.makefile
-#        ^^ meta.variable.makefile variable.other.makefile
+#        ^^ variable.other.makefile
 #        ^ punctuation.separator.continuation.line.makefile
 
 unexport \
     foo
 #^^^^^^ meta.directive.undefine.makefile
-#   ^^^ meta.variable.makefile variable.other.makefile
+#   ^^^ variable.other.makefile
 
 #####################################
 # 6.1 Basics of Variable References #
@@ -688,30 +687,30 @@ unexport \
 #      ^ punctuation.section.interpolation.end.makefile
 
  $$
-#^^ meta.variable.makefile variable.other.makefile constant.character.escape.makefile
+#^^ variable.other.makefile constant.character.escape.makefile
 
  $$name
-#^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^^^ variable.other.makefile - meta.interpolation
 #^^ constant.character.escape.makefile
 
  a$$name
-#^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^^^^ variable.other.makefile - meta.interpolation
 # ^^ constant.character.escape.makefile
 
  $$()
-#^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^ variable.other.makefile - meta.interpolation
 #^^ constant.character.escape.makefile
 
  $$(plain_var)
-#^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^^^^^^^^^^ variable.other.makefile - meta.interpolation
 #^^ constant.character.escape.makefile
 
  $${}
-#^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^ variable.other.makefile - meta.interpolation
 #^^ constant.character.escape.makefile
 
  $${plain_var}
-#^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile - meta.interpolation
+#^^^^^^^^^^^^^ variable.other.makefile - meta.interpolation
 #^^ constant.character.escape.makefile
 
 #################################
@@ -769,9 +768,9 @@ bar := ${foo:%.o=%.c}
 
 dir = foo
 $(dir)_sources := $(wildcard $(dir)/*.c)
-# <- meta.variable.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
-#^^^^^ meta.variable.makefile meta.interpolation.makefile
-#     ^^^^^^^^ meta.variable.makefile - meta.interpolation
+# <- meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^ meta.interpolation.makefile
+#     ^^^^^^^^ - meta.interpolation
 #^ punctuation.section.interpolation.begin.makefile
 # ^^^ variable.other.makefile
 #    ^ punctuation.section.interpolation.end.makefile
@@ -811,37 +810,37 @@ endef
 # operators specify when expansions are made
 
 immediate = deferred
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^ keyword.operator.assignment.makefile
 #           ^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate ?= deferred
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate := immediate
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate ::= immediate
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^^ keyword.operator.assignment.makefile
 #             ^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate :::= immediate-with-escape
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^^^ keyword.operator.assignment.makefile
 #              ^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate += deferred or immediate
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
 immediate != immediate
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^ source.shell.embedded.makefile variable.function.shell
 
@@ -860,9 +859,8 @@ foo = bar # a multiline \
 #             ^ comment.line
 
 var \
-# <- meta.variable.makefile variable.other.makefile
-#^^^^^ meta.variable.makefile
-#^^ variable.other.makefile
+# <- variable.other.makefile
+#^^^^ variable.other.makefile
 #   ^ punctuation.separator.continuation.line.makefile
 
 var \
@@ -900,8 +898,8 @@ ifeq ($(origin FOO), undefined)
 #                  ^ punctuation.separator.makefile
 #                             ^ punctuation.section.group.end.makefile
 FOO = bar
-# <- meta.variable.makefile variable.other.makefile
-#^^ meta.variable.makefile variable.other.makefile
+# <- variable.other.makefile
+#^^ variable.other.makefile
 #   ^ keyword.operator.assignment.makefile
 #     ^^^ meta.string.makefile string.unquoted.makefile
 endif
@@ -911,8 +909,8 @@ endif
 # shell assignemts
 
 hash != printf '\043'
-# <- meta.variable.makefile variable.other.makefile
-#^^^ meta.variable.makefile variable.other.makefile
+# <- variable.other.makefile
+#^^^ variable.other.makefile
 #    ^^ keyword.operator.assignment.makefile
 #       ^^^^^^^^^^^^^ source.shell.embedded.makefile
 #       ^^^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -922,8 +920,8 @@ hash != printf '\043'
 #                   ^ punctuation.definition.string.end.shell
 
 file_list != find . -name '*.c'
-# <- meta.variable.makefile variable.other.makefile
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+# <- variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
 #            ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -936,8 +934,8 @@ file_list != find . -name '*.c'
 #                             ^ punctuation.definition.string.end.shell
 
 hash := $(shell printf '\043')
-# <- meta.variable.makefile variable.other.makefile
-#^^^ meta.variable.makefile variable.other.makefile
+# <- variable.other.makefile
+#^^^ variable.other.makefile
 #    ^^ keyword.operator.assignment.makefile
 #       ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #       ^ punctuation.definition.interpolation.makefile
@@ -953,8 +951,8 @@ hash := $(shell printf '\043')
 #                            ^ punctuation.section.interpolation.end.makefile
 
 file_list := $(shell find . -name "*.c")
-# <- meta.variable.makefile variable.other.makefile
-#^^^^^^^^ meta.variable.makefile variable.other.makefile
+# <- variable.other.makefile
+#^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #            ^ punctuation.definition.interpolation.makefile
@@ -1043,7 +1041,7 @@ endef
 define immediate
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^ variable.other.makefile
   deferred
 endef
 # <- keyword.control.endef.makefile
@@ -1051,7 +1049,7 @@ endef
 define immediate =
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^ keyword.operator.assignment.makefile
   deferred
 endef
@@ -1060,7 +1058,7 @@ endef
 define immediate ?=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   deferred
 endef
@@ -1069,7 +1067,7 @@ endef
 define immediate :=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   immediate
 endef
@@ -1078,7 +1076,7 @@ endef
 define immediate ::=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^^ keyword.operator.assignment.makefile
   immediate
 endef
@@ -1087,7 +1085,7 @@ endef
 define immediate :::=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^^^ keyword.operator.assignment.makefile
   immediate-with-escape
 endef
@@ -1096,7 +1094,7 @@ endef
 define immediate +=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   deferred or immediate
 endef
@@ -1105,7 +1103,7 @@ endef
 define immediate !=
 # <- keyword.control.define.makefile
 #^^^^^ keyword.control.define.makefile
-#      ^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^^^^^ variable.other.makefile
 #                ^^ keyword.operator.assignment.makefile
   immediate
 endef
@@ -1140,13 +1138,13 @@ undefine foo
 #^^^^^^^^^^^ meta.directive.undefine.makefile
 #^^^^^^^ keyword.control.undefine.makefile
 #       ^ - keyword - variable
-#        ^^^ meta.variable.makefile variable.other.makefile
+#        ^^^ variable.other.makefile
 
   undefine foo
 # ^^^^^^^^^^^^ meta.directive.undefine.makefile
 # ^^^^^^^^ keyword.control.undefine.makefile
 #         ^ - keyword - variable
-#          ^^^ meta.variable.makefile variable.other.makefile
+#          ^^^ variable.other.makefile
 #             ^ - variable
 
 override undefine CFLAGS
@@ -1154,7 +1152,7 @@ override undefine CFLAGS
 #        ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #        ^^^^^^^^ keyword.control.undefine.makefile
 #                ^ - keyword - variable
-#                 ^^^^^^ meta.variable.makefile variable.other.makefile
+#                 ^^^^^^ variable.other.makefile
 
 # Avoid false positives such as partial matches.
 
@@ -1173,7 +1171,7 @@ prog : CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
-#      ^^^^^^ meta.variable.makefile variable.other.makefile
+#      ^^^^^^ variable.other.makefile
 #             ^ keyword.operator.assignment.makefile
 #               ^^ meta.string.makefile string.unquoted.makefile
 
@@ -1185,7 +1183,7 @@ $(prog) : CFLAGS = -g
 # ^^^^ variable.other.makefile
 #     ^ punctuation.section.interpolation.end.makefile
 #       ^ keyword.operator.assignment.makefile
-#         ^^^^^^ meta.variable.makefile variable.other.makefile
+#         ^^^^^^ variable.other.makefile
 #                ^ keyword.operator.assignment.makefile
 #                  ^^ meta.string.makefile string.unquoted.makefile
 
@@ -1196,7 +1194,7 @@ prog : define CFLAGS =
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #      ^^^^^^ keyword.control.define.makefile
-#             ^^^^^^^ meta.variable.makefile variable.other.makefile
+#             ^^^^^^^ variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
 endef
 # <- meta.directive.define.makefile keyword.control.endef.makefile
@@ -1210,7 +1208,7 @@ prog : override define CFLAGS =
 #      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #               ^^^^^^ keyword.control.define.makefile
-#                      ^^^^^^^ meta.variable.makefile variable.other.makefile
+#                      ^^^^^^^ variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
 endef
 # <- meta.directive.define.makefile keyword.control.endef.makefile
@@ -1223,7 +1221,7 @@ prog : undefine CFLAGS
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.undefine.makefile
-#               ^^^^^^ meta.variable.makefile variable.other.makefile
+#               ^^^^^^ variable.other.makefile
 
 prog : export CFLAGS = -g
 # <- meta.function.makefile entity.name.function.makefile
@@ -1232,7 +1230,7 @@ prog : export CFLAGS = -g
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #      ^^^^^^ keyword.control.export.makefile
-#             ^^^^^^ meta.variable.makefile variable.other.makefile
+#             ^^^^^^ variable.other.makefile
 #                    ^ keyword.operator.assignment.makefile
 #                      ^^ meta.string.makefile string.unquoted.makefile
 
@@ -1244,7 +1242,7 @@ prog : override export CFLAGS = -g
 #      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #               ^^^^^^ keyword.control.export.makefile
-#                      ^^^^^^ meta.variable.makefile variable.other.makefile
+#                      ^^^^^^ variable.other.makefile
 #                             ^ keyword.operator.assignment.makefile
 #                               ^^ meta.string.makefile string.unquoted.makefile
 
@@ -1255,14 +1253,14 @@ prog : unexport CFLAGS
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.unexport.makefile
-#               ^^^^^^ meta.variable.makefile variable.other.makefile
+#               ^^^^^^ variable.other.makefile
 
 prog : override CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^^^^^^^^ keyword.control.override.makefile
-#               ^^^^^^ meta.variable.makefile variable.other.makefile
+#               ^^^^^^ variable.other.makefile
 #                      ^ keyword.operator.assignment.makefile
 #                        ^^ meta.string.makefile string.unquoted.makefile
 
@@ -1298,13 +1296,13 @@ ifdef X
 # <- meta.directive.conditional.if.makefile keyword.control.conditional.if.makefile
 #^^^^^^ meta.directive.conditional.if.makefile
 #^^^^ keyword.control.conditional.if.makefile
-#     ^ meta.variable.makefile variable.other.makefile
+#     ^ variable.other.makefile
     $(info X is defined)
 else ifndef Y
 # <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
 #^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
 #    ^^^^^^ keyword.control.conditional.if.makefile
-#           ^ meta.variable.makefile variable.other.makefile
+#           ^ variable.other.makefile
     $(info Y is not defined)
 else
 # <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
@@ -2178,7 +2176,7 @@ all: foo.o
 	# <- keyword.operator.suppress.makefile
     asdf
 # <- - meta.function - source.shell
-#   ^^^^ meta.variable.makefile variable.other.makefile
+#   ^^^^ variable.other.makefile
 
 all: foo.o # a comment
 # <- meta.function entity.name.function
@@ -2199,7 +2197,7 @@ foo: qux
 	#                      ^ comment.line.number-sign.shell
 
 sources := $($(a1)_objects:.o=.c)
-#^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^ variable.other.makefile
 #          ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #          ^ punctuation.definition.interpolation.makefile
 #           ^ punctuation.section.interpolation.begin.makefile
@@ -2310,7 +2308,7 @@ reverse = $(2) $(1)
 #                 ^ punctuation.section.interpolation.end.makefile
 
 foo = $(call reverse,a,b)
-#^^ meta.variable.makefile variable.other.makefile
+#^^ variable.other.makefile
 #     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
@@ -2383,7 +2381,7 @@ CC=g++
 #  ^ string.unquoted
 SOURCES=main.cpp
 SOURCES+=hello.cpp
-#^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^ variable.other.makefile
 #      ^^ keyword.operator
 #        ^^^^^^^^^ meta.string.makefile string.unquoted.makefile
 
@@ -2474,7 +2472,7 @@ endif
 # ^ keyword.control
 
 a_percentage_%_sign := $(SOME_C%MPLEX:SUBSTITUTI%N)
-#^^^^^^^^^^^^^^^^^^ meta.variable.makefile variable.other.makefile
+#^^^^^^^^^^^^^^^^^^ variable.other.makefile
 #            ^ - variable.language
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #                      ^ punctuation.definition.interpolation.makefile
@@ -2556,12 +2554,11 @@ a : b ; rm -rf /
 #       ^ source.shell
 
 a-$(b) := c
-#^^^^^ meta.variable.makefile
-#^ variable.other.makefile
+#^^^^^ variable.other.makefile
 # ^^^^ meta.interpolation.makefile
 # ^ punctuation.definition.interpolation.makefile
 #  ^ punctuation.section.interpolation.begin.makefile
-#   ^ variable.other.makefile
+#   ^ variable.other.makefile variable.other.makefile
 #    ^ punctuation.section.interpolation.end.makefile
 
 $(a): b
@@ -2607,7 +2604,7 @@ $(X:a=b) : w ;
 #             ^ meta.function.body.makefile
 
 $(Y:%.cpp=%.o) := $(Z)
-#^^^^^^^^^^^^^ meta.variable.makefile meta.interpolation.makefile
+#^^^^^^^^^^^^^ meta.interpolation.makefile
 #^ punctuation.section.interpolation.begin.makefile
 # ^ variable.other.makefile
 #  ^ punctuation.definition.substitution.makefile
