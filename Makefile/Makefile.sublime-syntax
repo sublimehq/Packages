@@ -68,8 +68,9 @@ contexts:
     - meta_content_scope: comment.line.number-sign.makefile
     - include: line-continuations
     - match: \\\\
+    # note: meta.eol is required for syntax based folding
     - match: $\n?
-      scope: comment.line.number-sign.makefile
+      scope: comment.line.number-sign.makefile meta.eol.makefile
       pop: 1
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
@@ -256,15 +257,6 @@ contexts:
         2: keyword.control.import.makefile
       push: inside-load-directive
 
-  conditional-directives:
-    - match: '{{startdirective}}{{word_break}}'
-      scope: keyword.control.conditional.makefile
-      push: inside-conditional-directive
-    - match: else{{word_break}}
-      scope: keyword.control.conditional.makefile
-    - match: endif{{word_break}}
-      scope: keyword.control.conditional.makefile
-
   inside-define-directive-name:
     - meta_content_scope: meta.variable.makefile variable.other.makefile
     - match: ({{var_or_shell_assign}})?\s*\n
@@ -305,17 +297,6 @@ contexts:
     - include: escaped-dollars
     - include: interpolations
 
-  inside-undefine-directive-name:
-    - meta_content_scope: meta.variable.makefile variable.other.makefile
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
-
-  inside-conditional-directive:
-    - include: continuation-or-eol-pop
-    - include: groups
-
   inside-include-directive:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
@@ -345,6 +326,13 @@ contexts:
       scope: meta.directive.load.makefile
       set: inside-load-directive
 
+  inside-undefine-directive-name:
+    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - include: continuation-or-eol-pop
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
+
   inside-vpath-pattern:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.glob.makefile string.unquoted.makefile
@@ -364,21 +352,123 @@ contexts:
     - include: escaped-dollars
     - include: interpolations
 
-  groups:
+###[ CONDITIONAL DIRECTIVES ]##################################################
+
+  conditional-directives:
+    # 7.2 Syntax of Conditionals
+    - match: (ifn?def)(?:\s+|{{word_break}})
+      captures:
+        1: keyword.control.conditional.if.makefile
+      push: ifdef-directive-condition
+    - match: ifn?eq{{word_break}}
+      scope: keyword.control.conditional.if.makefile
+      push: ifeq-directive-condition
+    - match: else{{word_break}}
+      scope: meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+      branch_point: maybe-elseif
+      branch:
+        - else-if-directive
+        - else-directive
+    - match: endif{{word_break}}
+      scope: meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
+  else-if-directive:
+    # Note: required for syntax based folding
+    # When followed by an if directive else keyword acts as fold region terminator,
+    # but only the eol after the if directive starts a new fold region.
+    - include: comments
+    - match: (ifn?def)(?:\s+|{{word_break}})
+      captures:
+        1: keyword.control.conditional.if.makefile
+      set: ifdef-directive-condition
+    - match: ifn?eq{{word_break}}
+      scope: keyword.control.conditional.if.makefile
+      set: ifeq-directive-condition
+    - match: (?=\S)
+      fail: maybe-elseif
+
+  else-directive:
+    # Note: required for syntax based folding
+    # The eol after a plain else directive starts a new fold region.
+    - meta_content_scope: meta.directive.conditional.else.makefile
+    - match: \s*$
+      scope: meta.directive.conditional.else.makefile meta.eol.makefile
+      pop: 1
+    - include: comments
+    - include: line-continuations
+
+  ifdef-directive-condition:
+    - meta_scope: meta.directive.conditional.if.makefile
+    - meta_content_scope: meta.variable.makefile variable.other.makefile
+    - include: if-directive-end
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: expansions
+
+  ifeq-directive-condition:
+    - meta_scope: meta.directive.conditional.if.makefile
+    - include: if-directive-end
     - match: \(
       scope: punctuation.section.group.begin.makefile
-      push: inside-group
-    - match: \)
-      scope: invalid.illegal.stray.paren.makefile
+      push: inside-ifeq-group
+    - match: \"
+      scope: punctuation.definition.string.begin.makefile
+      push: inside-ifeq-double-quoted-arg
+    - match: \'
+      scope: punctuation.definition.string.begin.makefile
+      push: inside-ifeq-single-quoted-arg
+    - match: '[^\s#]+'
+      scope: invalid.illegal.stray.makefile
 
-  inside-group:
+  inside-ifeq-group:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
     - meta_scope: meta.group.makefile
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - match: \)
       scope: punctuation.section.group.end.makefile
       pop: 1
+    - include: continuation-or-eol-pop
+    - include: escaped-dollars
+    - include: interpolations
     - include: comma-separators
-    - include: string-content
+
+  inside-ifeq-double-quoted-arg:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
+    - meta_scope: meta.string.makefile string.quoted.double.makefile
+    - match: \"
+      scope: punctuation.definition.string.end.makefile
+      pop: 1
+    - match: $\n?
+      scope: meta.eol.makefile invalid.illegal.unclosed-string.makefile
+      pop: 1
+    - include: line-continuations
+    - include: escaped-dollars
+    - include: interpolations
+
+  inside-ifeq-single-quoted-arg:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
+    - meta_scope: meta.string.makefile string.quoted.single.makefile
+    - match: \'
+      scope: punctuation.definition.string.end.makefile
+      pop: 1
+    - match: $\n?
+      scope: meta.eol.makefile invalid.illegal.unclosed-string.makefile
+      pop: 1
+    - include: line-continuations
+    - include: escaped-dollars
+    - include: interpolations
+
+  if-directive-end:
+    # Note: required for syntax based folding
+    # The eol after an if directive starts a new fold region.
+    - match: \s*$
+      scope: meta.eol.makefile
+      pop: 1
+    - include: comments
+    - include: line-continuations
 
 ###[ STRINGS ]#################################################################
 
@@ -1031,8 +1121,6 @@ variables:
   shell_assign: '!='
   var_assign: (?:\?|\+|:{1,3})?=
   var_or_shell_assign: (?:!|\?|\+|:{1,3})?=
-
-  startdirective: ifn?(?:def|eq)
 
   is_interpolation: (?=\$[({{{var_auto_chars}}[:alpha:]])
   is_2nd_interpolation: (?=\$\$?[({{{var_auto_chars}}[:alpha:]])

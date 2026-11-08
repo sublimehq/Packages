@@ -794,8 +794,8 @@ var := one$\
 # conditional assignemts
 
 ifeq ($(origin FOO), undefined)
-# <- keyword.control.conditional.makefile
-#^^^ keyword.control.conditional.makefile
+# <- keyword.control.conditional.if.makefile
+#^^^ keyword.control.conditional.if.makefile
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile
 #    ^ punctuation.section.group.begin.makefile
 #     ^^^^^^^^^^^^^ meta.interpolation.makefile
@@ -813,8 +813,8 @@ FOO = bar
 #   ^ keyword.operator.assignment.makefile
 #     ^^^ meta.string.makefile string.unquoted.makefile
 endif
-# <- keyword.control.conditional.makefile
-#^^^^ keyword.control.conditional.makefile
+# <- keyword.control.conditional.endif.makefile
+#^^^^ keyword.control.conditional.endif.makefile
 
 # shell assignemts
 
@@ -1186,6 +1186,334 @@ lib/%.o: CFLAGS := -fPIC -g
 
 # Line comment
 # <- comment
+
+##############################
+# 7.2 Syntax of Conditionals #
+##############################
+
+ifdef X
+# <- meta.directive.conditional.if.makefile keyword.control.conditional.if.makefile
+#^^^^^^ meta.directive.conditional.if.makefile
+#^^^^ keyword.control.conditional.if.makefile
+#     ^ meta.variable.makefile variable.other.makefile
+    $(info X is defined)
+else ifndef Y
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^ keyword.control.conditional.if.makefile
+#           ^ meta.variable.makefile variable.other.makefile
+    $(info Y is not defined)
+else
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+    $(warning nothing defined)
+endif
+# <- meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+#^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
+ifeq (0,1)
+# <- meta.directive.conditional.if.makefile keyword.control.conditional.if.makefile
+#^^^^^^^^^^ meta.directive.conditional.if.makefile
+#^^^ keyword.control.conditional.if.makefile
+#    ^^^^^ meta.group.makefile
+#    ^ punctuation.section.group.begin.makefile
+#     ^ meta.string.makefile string.unquoted.makefile
+#      ^ punctuation.separator.makefile
+#       ^ meta.string.makefile string.unquoted.makefile
+#        ^ punctuation.section.group.end.makefile
+    $(info zero is one)
+
+else ifneq (1,2)
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^^ keyword.control.conditional.if.makefile
+#          ^^^^^ meta.group.makefile
+#          ^ punctuation.section.group.begin.makefile
+#           ^ meta.string.makefile string.unquoted.makefile
+#            ^ punctuation.separator.makefile
+#             ^ meta.string.makefile string.unquoted.makefile
+#              ^ punctuation.section.group.end.makefile
+#               ^ meta.eol.makefile
+    $(info one is not equal to two)
+
+else ifeq ("foo",bar")
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^^^^^^^^ meta.group.makefile
+#         ^ punctuation.section.group.begin.makefile
+#          ^^^^^ meta.string.makefile string.unquoted.makefile
+#               ^ punctuation.separator.makefile
+#                ^^^^ meta.string.makefile string.unquoted.makefile
+#                    ^ punctuation.section.group.end.makefile
+#                     ^ meta.eol.makefile
+
+else ifneq (\",")
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^^ keyword.control.conditional.if.makefile
+#          ^^^^^^ meta.group.makefile
+#          ^ punctuation.section.group.begin.makefile
+#           ^^ meta.string.makefile string.unquoted.makefile
+#             ^ punctuation.separator.makefile
+#              ^ meta.string.makefile string.unquoted.makefile
+#               ^ punctuation.section.group.end.makefile
+#                ^ meta.eol.makefile
+
+else ifneq ((,))  # nested parens are not balanced
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^^ keyword.control.conditional.if.makefile
+#          ^^^^ meta.group.makefile
+#          ^ punctuation.section.group.begin.makefile
+#           ^ meta.string.makefile string.unquoted.makefile
+#            ^ punctuation.separator.makefile
+#             ^ punctuation.section.group.end.makefile
+#              ^ invalid.illegal.stray.makefile
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+#                                                 ^ meta.eol.makefile
+
+else ifeq (${foo}, $${bar})
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^^^^^^^^^^^^^ meta.group.makefile
+#         ^ punctuation.section.group.begin.makefile
+#          ^^^^^^ meta.string.makefile meta.interpolation.makefile
+#          ^ punctuation.definition.interpolation.makefile
+#           ^ punctuation.section.interpolation.begin.makefile
+#            ^^^ variable.other.makefile
+#               ^ punctuation.section.interpolation.end.makefile
+#                ^ punctuation.separator.makefile
+#                  ^^^^^^^ meta.string.makefile string.unquoted.makefile
+#                  ^^ constant.character.escape.makefile
+#                         ^ punctuation.section.group.end.makefile
+#                          ^ meta.eol.makefile
+
+else ifeq "2" "3"
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.double.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.double.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                ^ meta.eol.makefile
+
+else ifeq '2' "3"  # quoted arguments
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.single.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.double.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                  ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+#                                    ^ meta.eol.makefile
+
+else ifeq "2" '3'
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.double.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.single.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                ^ meta.eol.makefile
+
+else ifeq '2' '3'
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.single.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.single.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                ^ meta.eol.makefile
+
+else ifeq "\" "'"
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.double.makefile - constant
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.double.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                ^ meta.eol.makefile
+
+else ifeq '\' '"'
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^ meta.string.makefile string.quoted.single.makefile - constant
+#         ^ punctuation.definition.string.begin.makefile
+#           ^ punctuation.definition.string.end.makefile
+#             ^^^ meta.string.makefile string.quoted.single.makefile
+#             ^ punctuation.definition.string.begin.makefile
+#               ^ punctuation.definition.string.end.makefile
+#                ^ meta.eol.makefile
+
+else ifeq "foo
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^ meta.string.makefile string.quoted.double.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#             ^ meta.eol.makefile invalid.illegal.unclosed-string.makefile
+
+else ifeq 'foo
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^ meta.string.makefile string.quoted.single.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#             ^ meta.eol.makefile invalid.illegal.unclosed-string.makefile
+
+else ifeq """foo
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^^ meta.string.makefile string.quoted.double.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#          ^ punctuation.definition.string.end.makefile
+#           ^ punctuation.definition.string.begin.makefile
+#               ^ meta.eol.makefile invalid.illegal.unclosed-string.makefile
+
+else ifeq '''foo
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^^ meta.string.makefile string.quoted.single.makefile
+#         ^ punctuation.definition.string.begin.makefile
+#          ^ punctuation.definition.string.end.makefile
+#           ^ punctuation.definition.string.begin.makefile
+#               ^ meta.eol.makefile invalid.illegal.unclosed-string.makefile
+
+else ifeq '${foo}' "$$(bar)"
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#    ^^^^ keyword.control.conditional.if.makefile
+#         ^^^^^^^^ meta.string.makefile
+#         ^ string.quoted.single.makefile punctuation.definition.string.begin.makefile
+#          ^^^^^^ meta.interpolation.makefile
+#          ^ punctuation.definition.interpolation.makefile
+#           ^ punctuation.section.interpolation.begin.makefile
+#            ^^^ variable.other.makefile
+#               ^ punctuation.section.interpolation.end.makefile
+#                ^ string.quoted.single.makefile punctuation.definition.string.end.makefile
+#                  ^^^^^^^^^ meta.string.makefile string.quoted.double.makefile
+#                  ^ punctuation.definition.string.begin.makefile
+#                   ^^ constant.character.escape.makefile
+#                          ^ punctuation.definition.string.end.makefile
+#                           ^ meta.eol.makefile
+
+else
+#^^^^ meta.directive.conditional.else.makefile
+#^^^ keyword.control.conditional.else.makefile
+#   ^ meta.eol.makefile
+
+endif
+# <- meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+#^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
+ifeq (0,1)
+    $(info foo)
+else
+# <- meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+#^^^ meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+ifeq (0,1)
+#^^^ keyword.control.conditional.if.makefile
+#    ^^^^^ meta.group.makefile
+#    ^ punctuation.section.group.begin.makefile
+#     ^ meta.string.makefile string.unquoted.makefile
+#      ^ punctuation.separator.makefile
+#       ^ meta.string.makefile string.unquoted.makefile
+#        ^ punctuation.section.group.end.makefile
+    $(info bar)
+endif
+# <- meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+#^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
+ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
+# <- meta.directive.conditional.if.makefile keyword.control.conditional.if.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#^^^ keyword.control.conditional.if.makefile
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile
+#    ^ punctuation.section.group.begin.makefile
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#                                              ^ - meta.string
+#                                               ^ meta.string.makefile - meta.interpolation
+#       ^^^^^^ meta.function-call.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#             ^^^^ support.function.shell
+#                  ^^^^^^ meta.interpolation.makefile meta.interpolation.makefile
+#                         ^^^ keyword.operator.comparison.shell
+#                             ^^^^^^ constant.numeric.value.shell
+#                                   ^ punctuation.terminator.statement.shell
+#                                     ^^^^ support.function.shell
+#                                          ^^^ variable.language.special.shell
+#                                             ^ punctuation.section.interpolation.end.makefile
+#                                              ^ punctuation.separator.makefile
+#                                               ^ string.unquoted.makefile
+#                                                ^ punctuation.section.group.end.makefile
+endif
+
+ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
+# <- meta.directive.conditional.if.makefile keyword.control.conditional.if.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.conditional.if.makefile
+#^^^ keyword.control.conditional.if.makefile
+#    ^ meta.group.makefile - meta.group meta.interpolation
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile meta.interpolation.makefile
+#                                                             ^^^^ meta.group.makefile - meta.group meta.interpolation
+#     ^^ - meta.function-call
+#       ^^^^^^ meta.function-call.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#                                                            ^^^^^ - meta.function-call
+#       ^^^^^ support.function.builtin.makefile
+#            ^ - support
+#             ^^^^ meta.function-call.identifier.shell support.function.shell
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^^ variable.parameter.option.shell
+#                     ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.makefile - string
+#                                     ^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                                                  ^ punctuation.terminator.statement.shell
+#                                                    ^^^^ meta.function-call.identifier.shell support.function.shell
+#                                                        ^^^^ meta.function-call.arguments.shell
+#                                                         ^^^ meta.interpolation.parameter.shell variable.language.special.shell
+    include $(MAKEFILE_PATH)Makefile.Defs
+    # <- keyword.control.import.makefile
+    #^^^^^^ keyword.control.import.makefile
+    #      ^ - meta.string - string - keyword
+    #       ^^^^^^^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile - string
+    #       ^ punctuation.definition.interpolation.makefile
+    #        ^ punctuation.section.interpolation.begin.makefile
+    #                      ^ punctuation.section.interpolation.end.makefile
+    #                       ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
+    # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of
+    # the line, but the first character must not be a tab (or the value of
+    # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a
+    # recipe line.
+endif
+# <- meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+#^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
 
 ##############################
 # 10.5.3 Automatic Variables #
@@ -1725,65 +2053,6 @@ load ../mk_funcs.so(init_mk_func)
 #############################
 # Unsorted and legacy tests #
 #############################
-
-ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile
-#    ^ punctuation.section.group.begin.makefile
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
-#                                              ^ - meta.string
-#                                               ^ meta.string.makefile - meta.interpolation
-#       ^^^^^^ meta.function-call.makefile
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
-#             ^^^^ support.function.shell
-#                  ^^^^^^ meta.interpolation.makefile meta.interpolation.makefile
-#                         ^^^ keyword.operator.comparison.shell
-#                             ^^^^^^ constant.numeric.value.shell
-#                                   ^ punctuation.terminator.statement.shell
-#                                     ^^^^ support.function.shell
-#                                          ^^^ variable.language.special.shell
-#                                             ^ punctuation.section.interpolation.end.makefile
-#                                              ^ punctuation.separator.makefile
-#                                               ^ string.unquoted.makefile
-#                                                ^ punctuation.section.group.end.makefile
-endif
-
-ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
-# <- keyword.control.conditional.makefile
-#^^^ keyword.control.conditional.makefile
-#    ^ meta.group.makefile - meta.group meta.interpolation
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.makefile meta.interpolation.makefile
-#                                                             ^^^^ meta.group.makefile - meta.group meta.interpolation
-#     ^^ - meta.function-call
-#       ^^^^^^ meta.function-call.makefile
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
-#                                                            ^^^^^ - meta.function-call
-#       ^^^^^ support.function.builtin.makefile
-#            ^ - support
-#             ^^^^ meta.function-call.identifier.shell support.function.shell
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                  ^^ variable.parameter.option.shell
-#                     ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.makefile - string
-#                                     ^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                                                  ^ punctuation.terminator.statement.shell
-#                                                    ^^^^ meta.function-call.identifier.shell support.function.shell
-#                                                        ^^^^ meta.function-call.arguments.shell
-#                                                         ^^^ meta.interpolation.parameter.shell variable.language.special.shell
-
-    include $(MAKEFILE_PATH)Makefile.Defs
-    # <- keyword.control.import.makefile
-    #^^^^^^ keyword.control.import.makefile
-    #      ^ - meta.string - string - keyword
-    #       ^^^^^^^^^^^^^^^^ meta.string.glob.makefile meta.interpolation.makefile - string
-    #       ^ punctuation.definition.interpolation.makefile
-    #        ^ punctuation.section.interpolation.begin.makefile
-    #                      ^ punctuation.section.interpolation.end.makefile
-    #                       ^^^^^^^^^^^^^ meta.string.glob.makefile string.unquoted.makefile
-    # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of
-    # the line, but the first character must not be a tab (or the value of
-    # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a
-    # recipe line.
-endif
-# <- keyword.control
 
 a_objects := a.o b.o c.o
 # ^ variable.other
@@ -2351,37 +2620,6 @@ else ifeq ($(shell svn info >/dev/null && echo USING_SVN),USING_SVN)
   #                                                                                                        ^ string.quoted.single.shell punctuation.definition.string.end.shell
 endif
 # <- keyword.control
-
-ifeq (0,1)
-	$(info zero is one)
-else ifneq (1,2)
-	$(info one is not equal to two)
-else ifeq ("asf",asdf")
-	$(info foo)
-else ifeq (2,3)
-	$(info one is equal to three)
-else ifeq "2" "3"
-	$(info asdf)
-else ifeq '2' "3"
-	$(info asdf)
-else ifeq "2" '3'
-	$(info asdf)
-else ifeq '2' '3'
-	$(info asdf)
-else ifdef X
-	$(info X is defined)
-else ifndef Y
-	$(info Y is not defined)
-endif
-# <- keyword
-
-ifeq (0,1)
-	$(info asdf)
-else
-ifeq (0,1)
-	$(info asdf)
-endif
-# <- keyword
 
 a:b
 ifeq (0,1)
