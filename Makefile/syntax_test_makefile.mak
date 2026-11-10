@@ -373,6 +373,10 @@ PREREQ = $(call $(word 1,$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$(subst ^, ,
 # 4.2 Rule Syntax #
 ###################
 
+# This is NOT the start of a rule...
+	# A comment with a tab and with a : colon
+	# <- comment.line - meta.function - entity.name.function
+
 rule: # comment
 # <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
 #^^^^^^^^^^^^^^^ meta.function.makefile - meta.function meta.function
@@ -495,6 +499,15 @@ rule:
 #^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #     ^^^^^^^^ meta.function-call.arguments.shell
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+# A make comment.
+# ^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+rule: comments
+	# A shell comment.
+	# <- comment.line.number-sign.shell
+	#^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+	bar # A shell comment.
+	#   ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 ######################
 # 5.2 Recipe Echoing #
@@ -2193,38 +2206,6 @@ a_objects := a.o b.o c.o
 #         ^^ keyword.operator.assignment
 #            ^^^^^^^^^^^ string.unquoted
 
-# This is NOT the start of a rule...
-	# A comment with a tab and with a : colon
-	# <- comment.line - meta.function - entity.name.function
-
-all: foo.o
-	ld a
-	ar b
-	asdf
-	@echo "that's, like, your opinion man!" # some movie?
-	# <- keyword.operator.recipe.makefile
-    asdf
-# <- - meta.function - source.shell
-#   ^^^^ variable.other.makefile
-
-all: foo.o # a comment
-# <- meta.function entity.name.function
-#  ^ keyword.operator.assignment
-#   ^ - string
-#    ^ string
-#        ^ meta.function.arguments string.unquoted
-#         ^ - string
-#          ^ comment.line. punctuation - meta.function.arguments - string.unquoted
-#           ^ comment.line - punctuation - meta.function.arguments - string.unquoted
-	rm -rf /
-# <- meta.function.body
-
-# A make comment.
-#                ^ comment.line.number-sign.makefile
-foo: qux
-	@bar # A shell comment.
-	#                      ^ comment.line.number-sign.shell
-
 sources := $($(a1)_objects:.o=.c)
 #^^^^^^ variable.other.makefile
 #          ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -2270,16 +2251,6 @@ OBJECTS=$(SOURCES:.cpp=.o)
 #                     ^ keyword.operator.assignment.makefile
 #                        ^ punctuation.section.interpolation.end.makefile
 EXECUTABLE=hello
-
-lib: foo.o bar.o lose.o win.o
-	ar r lib $@
-	ar whatevs
-# <- meta.function.body
-	# <- meta.function.body
-	# BIG NOTE: This comment is actually a shell comment, not a makefile
-	# comment. Everything on a recipe line is passed to the shell; even lines
-	# starting with a number sign! It depends on the particular shell if it
-	# gets treated as comments, but for all intents and purposes it should.
 
 all: $(SOURCES) $(EXECUTABLE)
 # <- meta.function.makefile entity.name.function.makefile

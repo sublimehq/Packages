@@ -149,14 +149,14 @@ contexts:
 
   inside-rule-body:
     - meta_content_scope: meta.function.body.makefile
-    - include: comments
-    - include: merge-conflict-markers
-    - include: conditional-directives
     - match: ^({{receipe_prefix}})(?:\s*({{receipe_modifier}}))?
       captures:
         1: punctuation.definition.recipe.makefile
         2: keyword.operator.recipe.makefile
       push: inside-shell
+    - include: comments
+    - include: merge-conflict-markers
+    - include: conditional-directives
     - match: ^(?!\s*(ifn?(def|eq)|else|endif){{word_break}}|\n)
       pop: 1
 
