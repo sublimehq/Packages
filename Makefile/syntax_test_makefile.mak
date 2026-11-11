@@ -1885,29 +1885,90 @@ archive.a: …
 # 8.8 The call Function #
 #########################
 
-foo = $(call something)
-#     ^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+foo = $(call something,arg,arg)
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^^^^^^^^^^^^^^^ meta.function-call.makefile
+#                      ^^^^^^^ meta.function-call.arguments.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
-#       ^^^^^^^^^^^^^^ meta.function-call.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^ variable.function.makefile
-#                     ^ punctuation.section.interpolation.end.makefile
+#                     ^ punctuation.separator.makefile
+#                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                         ^ punctuation.separator.makefile - string
+#                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
 
-reverse = $(2) $(1)
-foo = $(call reverse,a,b)
-#     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+foo = ${call something,arg,arg}
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^^^^^^^^^^^^^^^ meta.function-call.makefile
+#                      ^^^^^^^ meta.function-call.arguments.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
-#       ^^^^^^^^^^^^^ meta.function-call.makefile
 #       ^^^^ support.function.builtin.makefile
-#            ^^^^^^^ variable.function.makefile
-#                   ^ punctuation.separator.makefile
-#                    ^^^ meta.function-call.arguments.makefile
-#                    ^ meta.string.makefile string.unquoted.makefile
+#            ^^^^^^^^^ variable.function.makefile
 #                     ^ punctuation.separator.makefile
-#                      ^ meta.string.makefile string.unquoted.makefile
-#                       ^ punctuation.section.interpolation.end.makefile
+#                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                         ^ punctuation.separator.makefile - string
+#                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
+foo: $$(call something,arg,arg)
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^^^^^^^^^^^^^^^ meta.function-call.makefile
+#                      ^^^^^^^ meta.function-call.arguments.makefile
+#    ^^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^^^^^ variable.function.makefile
+#                     ^ punctuation.separator.makefile
+#                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                         ^ punctuation.separator.makefile - string
+#                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
+foo: $${call something,arg,arg}
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^^^^^^^^^^^^^^^ meta.function-call.makefile
+#                      ^^^^^^^ meta.function-call.arguments.makefile
+#    ^^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^^^^^ variable.function.makefile
+#                     ^ punctuation.separator.makefile
+#                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                         ^ punctuation.separator.makefile - string
+#                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
+$(call my_func,my_arg): deps
+#^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^^^^^^^ meta.function-call.makefile
+# ^^^^ support.function.builtin.makefile
+#      ^^^^^^^ variable.function.makefile
+#             ^ punctuation.separator.makefile
+#              ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^ keyword.operator.assignment.makefile
+#                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
+#                           ^ meta.function.makefile
+
+sh = $(shell run $(call something))
+#                ^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
+#                ^ punctuation.definition.interpolation.makefile
+#                 ^ punctuation.section.interpolation.begin.makefile
+#                  ^^^^ support.function.builtin.makefile
+#                       ^^^^^^^^^ variable.function.makefile
+#                                ^^ punctuation.section.interpolation.end.makefile
+
+sh = $(shell run ${call something})
+#                ^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
+#                ^ punctuation.definition.interpolation.makefile
+#                 ^ punctuation.section.interpolation.begin.makefile
+#                  ^^^^ support.function.builtin.makefile
+#                       ^^^^^^^^^ variable.function.makefile
+#                                ^^ punctuation.section.interpolation.end.makefile
 
 foo = $(eval $(call bar))
 #     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -2145,103 +2206,201 @@ var = $* $(*) ${*}
 #               ^ variable.language.automatic.makefile
 #                ^ punctuation.section.interpolation.end.makefile
 
-var = $(%D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(%D) ${%D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(%F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(%F) ${%F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(*D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(*D) ${*D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(*F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(*F) ${*F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(+D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(+D) ${+D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(+F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(+F) ${+F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(<D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(<D) ${<D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(<F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(<F) ${<F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(?D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(?D) ${?D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(?F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(?F) ${?F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(@D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(@D) ${@D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(@F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(@F) ${@F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(^D)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(^D) ${^D}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
-var = $(^F)
-#     ^^^^^ meta.string.makefile meta.interpolation.makefile
+var = $(^F) ${^F}
+#     ^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^ meta.interpolation.makefile
 #     ^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^ meta.interpolation.makefile
+#           ^ punctuation.definition.interpolation.makefile
+#            ^ punctuation.section.interpolation.begin.makefile
+#             ^^ variable.language.automatic.makefile
+#               ^ punctuation.section.interpolation.end.makefile
 
 #######
 
@@ -2397,117 +2556,215 @@ var: $$* $$(*) $${*}
 #                  ^ punctuation.section.interpolation.end.makefile
 #                   ^ meta.function.makefile
 
-var: $$(%D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(%D) $${%D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(%F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(%F) $${%F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(*D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(*D) $${*D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(*F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(*F) $${*F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(+D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(+D) $${+D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(+F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(+F) $${+F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(<D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(<D) $${<D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(<F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(<F) $${<F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(?D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(?D) $${?D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(?F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(?F) $${?F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(@D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(@D) $${@D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(@F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(@F) $${@F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(^D)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(^D) $${^D}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
-var: $$(^F)
-#    ^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+var: $$(^F) $${^F}
+#    ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile
+#    ^^^^^^ meta.interpolation.makefile
 #    ^^ punctuation.definition.interpolation.makefile
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^ variable.language.automatic.makefile
 #         ^ punctuation.section.interpolation.end.makefile
-#          ^ meta.function.makefile
+#          ^ string.unquoted.makefile
+#           ^^^^^^ meta.interpolation.makefile
+#           ^^ punctuation.definition.interpolation.makefile
+#             ^ punctuation.section.interpolation.begin.makefile
+#              ^^ variable.language.automatic.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^ meta.function.makefile
 
 #############################
 # 12.2.1 The load Directive #
@@ -2638,20 +2895,6 @@ $(X:a=b) : w ;
 #          ^ meta.function.arguments.makefile string.unquoted.makefile
 #            ^ punctuation.terminator.makefile
 #             ^ meta.function.body.makefile
-
-$(call my_func,my_arg): deps
-#^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
-#^ punctuation.section.interpolation.begin.makefile
-# ^^^^^^^^^^^^^ meta.function-call.makefile
-# ^^^^ support.function.builtin.makefile
-#      ^^^^^^^ variable.function.makefile
-#             ^ punctuation.separator.makefile
-#              ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
-#                    ^ punctuation.section.interpolation.end.makefile
-#                     ^ keyword.operator.assignment.makefile
-#                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
-#                           ^ meta.function.makefile
-	rm -rf /
 
 $(foreach i,j,k): deps
 # <- meta.function entity.name.function
