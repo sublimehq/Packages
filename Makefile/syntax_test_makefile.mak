@@ -482,6 +482,39 @@ include [[.alpha.][=punct=][:space:]]
 #                                 ^^ punctuation.definition.character-class.end.glob.makefile
 #                                   ^ punctuation.definition.character-class.end.glob.makefile
 
+###############################
+# 4.4.3 The Function wildcard #
+###############################
+
+$(wildcard *.c): $$(wildcard a-[$$(a)-$${b}]?.*)
+# <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^^^^^^^^^^^^ meta.function.makefile
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^^ support.function.builtin.makefile
+#          ^^^ string.unquoted.makefile
+#          ^ constant.other.wildcard.asterisk.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#              ^ keyword.operator.assignment.makefile
+#                ^^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^^^^^^ support.function.builtin.makefile
+#                            ^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+#                              ^^^^^^^^^^^^^ meta.character-class.glob.makefile
+#                              ^ punctuation.definition.character-class.begin.glob.makefile
+#                               ^^^^^ meta.interpolation.makefile meta.interpolation.makefile
+#                               ^^ punctuation.definition.interpolation.makefile
+#                                 ^ punctuation.section.interpolation.begin.makefile
+#                                  ^ variable.other.makefile
+#                                   ^ punctuation.section.interpolation.end.makefile
+#                                    ^  punctuation.separator.sequence.glob.makefile
+#                                     ^^^^^ meta.interpolation.makefile meta.interpolation.makefile
+#                                     ^^ punctuation.definition.interpolation.makefile
+#                                       ^ punctuation.section.interpolation.begin.makefile
+#                                        ^ variable.other.makefile
+#                                         ^ punctuation.section.interpolation.end.makefile
+#                                              ^ punctuation.section.interpolation.end.makefile
+
 #################################
 # 4.5.2 The vpath Directive     #
 #################################
