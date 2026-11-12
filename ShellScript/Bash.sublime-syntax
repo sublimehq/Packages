@@ -1781,7 +1781,7 @@ contexts:
 
   subscript-plain-common:
     - include: string-quotes
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: string-interpolations
 
@@ -2046,7 +2046,7 @@ contexts:
     # expansion, command substitution, and arithmetic expansion, the character
     # sequence \newline is ignored, and ‘\’ must be used to quote the
     # characters ‘\’, ‘$’, and ‘`’.
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: string-escapes
     - include: brace-interpolations
     - include: string-interpolations
@@ -2252,7 +2252,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.begin.shell
       push: literal-single-quoted-body
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations
@@ -2262,7 +2262,7 @@ contexts:
       scope: punctuation.definition.quoted.end.shell
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-single-quoted-prototype
     - include: string-escapes-ansi-c
 
   literal-double-quoted-body:
@@ -2270,7 +2270,7 @@ contexts:
       scope: punctuation.definition.quoted.end.shell
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-double-quoted-prototype
     - include: string-escapes
     - include: string-interpolations
 
@@ -2278,13 +2278,13 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.end.shell
       pop: 1
-    - include: string-prototype
+    - include: string-single-quoted-prototype
 
 ###[ STRINGS ]#################################################################
 
   string-unquoted-content:
     - include: string-quotes
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations
@@ -2310,7 +2310,7 @@ contexts:
       scope: punctuation.definition.string.end.shell
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-single-quoted-prototype
     - include: string-escapes-ansi-c
 
   string-double-quoted-body:
@@ -2321,7 +2321,7 @@ contexts:
       scope: punctuation.definition.string.end.shell
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-double-quoted-prototype
     - include: string-escapes
     - include: string-interpolations
 
@@ -2332,7 +2332,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-prototype
+    - include: string-single-quoted-prototype
 
   any-escapes:
     - match: \\.
@@ -2360,6 +2360,16 @@ contexts:
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
+
+  string-double-quoted-prototype:
+    - include: string-prototype
+
+  string-single-quoted-prototype:
+    - include: string-prototype
+
+  string-unquoted-prototype:
+    - include: string-prototype
+
   string-prototype:
     - include: merge-conflict-markers
 
@@ -2417,7 +2427,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push: string-path-pattern-single-quoted-body
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations
@@ -2484,7 +2494,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.begin.shell
       push: path-pattern-single-quoted-body
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations

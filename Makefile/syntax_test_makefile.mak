@@ -571,47 +571,56 @@ rule: comments
 	#   ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 makefile_interpolation:
-	var1="double nquoted $(string) value"
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	var1="double $$quoted $(string) value"
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
 	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 	#   ^ meta.assignment.shell keyword.operator.assignment.shell
-	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
-	#    ^^^^^^^^^^^^^^^^ string.quoted.double.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^^^^^ string.quoted.double.shell
 	#    ^ punctuation.definition.string.begin.shell
-	#                    ^^^^^^^^^ meta.interpolation.makefile
-	#                    ^ punctuation.definition.interpolation.makefile
-	#                     ^ punctuation.section.interpolation.begin.makefile
-	#                      ^^^^^^ variable.other.makefile
-	#                            ^ punctuation.section.interpolation.end.makefile
-	#                             ^^^^^^^ string.quoted.double.shell
-	#                                   ^ punctuation.definition.string.end.shell
-	var1='single nquoted $(string) value'
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#            ^^^^^^^^ meta.interpolation.parameter.shell
+	#            ^^ punctuation.definition.variable.shell
+	#              ^^^^^^ variable.other.readwrite.shell
+	#                    ^ string.quoted.double.shell
+	#                     ^^^^^^^^^ meta.interpolation.makefile
+	#                     ^ punctuation.definition.interpolation.makefile
+	#                      ^ punctuation.section.interpolation.begin.makefile
+	#                       ^^^^^^ variable.other.makefile
+	#                             ^ punctuation.section.interpolation.end.makefile
+	#                              ^^^^^^^ string.quoted.double.shell
+	#                                    ^ punctuation.definition.string.end.shell
+	var1='single $$quoted $(string) value'
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
 	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 	#   ^ meta.assignment.shell keyword.operator.assignment.shell
-	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
 	#    ^^^^^^^^^^^^^^^^ string.quoted.single.shell
 	#    ^ punctuation.definition.string.begin.shell
+	#            ^^ constant.character.escape.makefile
+	#                     ^^^^^^^^^ meta.interpolation.makefile
+	#                     ^ punctuation.definition.interpolation.makefile
+	#                      ^ punctuation.section.interpolation.begin.makefile
+	#                       ^^^^^^ variable.other.makefile
+	#                             ^ punctuation.section.interpolation.end.makefile
+	#                              ^^^^^^^ string.quoted.single.shell
+	#                                    ^ punctuation.definition.string.end.shell
+	var1=an\ $$unquoted\ $(string)\ value
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+	#   ^ meta.assignment.shell keyword.operator.assignment.shell
+	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
+	#    ^^^^ string.unquoted.shell
+	#      ^^ constant.character.escape.shell
+	#        ^^^^^^^^^^ meta.interpolation.parameter.shell
+	#        ^^ punctuation.definition.variable.shell
+	#          ^^^^^^^^ variable.other.readwrite.shell
+	#                  ^^ constant.character.escape.shell
 	#                    ^^^^^^^^^ meta.interpolation.makefile
 	#                    ^ punctuation.definition.interpolation.makefile
 	#                     ^ punctuation.section.interpolation.begin.makefile
 	#                      ^^^^^^ variable.other.makefile
 	#                            ^ punctuation.section.interpolation.end.makefile
-	#                             ^^^^^^^ string.quoted.single.shell
-	#                                   ^ punctuation.definition.string.end.shell
-	var1=unquoted\ $(string)\ value
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
-	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
-	#   ^ meta.assignment.shell keyword.operator.assignment.shell
-	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
-	#    ^^^^^^^^^^ string.unquoted.shell
-	#            ^^ constant.character.escape.shell
-	#              ^^^^^^^^^ meta.interpolation.makefile
-	#              ^ punctuation.definition.interpolation.makefile
-	#               ^ punctuation.section.interpolation.begin.makefile
-	#                ^^^^^^ variable.other.makefile
-	#                      ^ punctuation.section.interpolation.end.makefile
-	#                       ^^^^^^^ string.unquoted.shell
+	#                             ^^^^^^^ string.unquoted.shell
 
 shell_interpolation:
 	echo $$foo

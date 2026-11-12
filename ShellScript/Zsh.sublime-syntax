@@ -1599,7 +1599,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.begin.shell.zsh
       push: zsh-modifier-literal-string-single-quoted-body
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
     - include: zsh-modifier-interpolations
 
@@ -1608,7 +1608,7 @@ contexts:
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-double-quoted-prototype
     - include: string-escapes
     - include: zsh-modifier-interpolations
 
@@ -1698,7 +1698,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.begin.shell.zsh
       push: zsh-modifier-literal-string-single-quoted-body
-    - include: string-prototype
+    - include: string-unquoted-prototype
     - include: any-escapes
 
   zsh-modifier-literal-string-double-quoted-body:
@@ -1706,14 +1706,14 @@ contexts:
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
     - include: line-continuations
-    - include: string-prototype
+    - include: string-double-quoted-prototype
     - include: string-escapes
 
   zsh-modifier-literal-string-single-quoted-body:
     - match: \'
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
-    - include: string-prototype
+    - include: string-single-quoted-prototype
 
 ###[ PROTOTYPES ]##############################################################
 
