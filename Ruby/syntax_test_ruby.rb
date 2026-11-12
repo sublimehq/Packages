@@ -1592,6 +1592,24 @@ a = /(bot\ is\ not\ a\ member\ of\ the\ (super)?group\ chat)|
      (bot\ can't\ send\ messages\ to\ bots)/x
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
 
+PATTERN =
+  /
+# ^ meta.string.regexp.ruby string.regexp.classic.ruby punctuation.definition.string.begin.ruby
+    don't | stop
+#   ^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+  /ix
+# ^ meta.string.regexp.ruby string.regexp.classic.ruby punctuation.definition.string.end.ruby
+#  ^^ meta.string.regexp.ruby string.regexp.classic.ruby keyword.other.ruby
+#    ^ - meta.string - string
+
+foo(bar,
+  /baz qux/)
+# ^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+
+a = b /
+  2
+# ^ meta.number.integer.decimal.ruby constant.numeric.value.ruby - string
+
 a = (File.size().to_f / 1024).ceil.to_s.reverse.scan(/\d/)
 #                     ^ keyword.operator.arithmetic.ruby
 #                                                    ^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
