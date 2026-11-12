@@ -173,19 +173,19 @@ contexts:
     - match: \b(?i:(comment)\s+(on)\s+(table))\b
       captures:
         1: keyword.other.ddl.psql
-        2: keyword.control.conditional.sql
+        2: keyword.other.ddl.psql
         3: keyword.other.ddl.psql
       set: comment-table
     - match: \b(?i:(comment)\s+(on)\s+(column))\b
       captures:
         1: keyword.other.ddl.psql
-        2: keyword.control.conditional.sql
+        2: keyword.other.ddl.psql
         3: keyword.other.ddl.psql
       set: comment-column
     - match: \b(?i:(comment)\s+(on)\s+(access\s+method|aggregate|cast|collation|constraint|conversion|database|domain|extension|event\s+trigger|foreign\s+data\s+wrapper|foreign\s+table|function|index|large\s+object|materialized\s+view|operator(?:\s+(?:class|family))?|policy|(?:procedural\s+)?language|procedure|publication|role|routine|rule|schema|sequence|server|statistics|subscription|tablespace|text\s+search\s+(?:configuration|dictionary|parser|template)|transform|trigger|type|view))\b
       captures:
         1: keyword.other.ddl.psql
-        2: keyword.control.conditional.sql
+        2: keyword.other.ddl.psql
         3: keyword.other.ddl.psql
       set: comment-object
 

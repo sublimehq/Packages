@@ -1088,7 +1088,7 @@ SELECT * FROM LATERAL generate_series(1, 3) AS s;
 
 COMMENT ON TABLE sal_emp IS 'Employee salaries';
 -- <- keyword.other.ddl.psql
---      ^^ keyword.control.conditional.sql
+--      ^^ keyword.other.ddl.psql
 --         ^^^^^ keyword.other.ddl.psql
 --               ^^^^^^^ meta.table-name.sql
 --                       ^^ keyword.other.ddl.psql
@@ -1096,11 +1096,14 @@ COMMENT ON TABLE sal_emp IS 'Employee salaries';
 
 COMMENT ON COLUMN person.name IS 'Employee name';
 -- <- keyword.other.ddl.psql
---      ^^ keyword.control.conditional.sql
+--      ^^ keyword.other.ddl.psql
 --         ^^^^^^ keyword.other.ddl.psql
 --                ^^^^^^^^^^^ meta.column-name.sql
 --                            ^^ keyword.other.ddl.psql
 --                               ^ string.quoted.single.sql
+
+COMMENT ON SCHEMA public IS 'Application schema';
+--      ^^ keyword.other.ddl.psql
 
 CREATE TABLE users (
   id BIGINT,
