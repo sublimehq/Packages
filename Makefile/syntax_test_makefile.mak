@@ -198,7 +198,7 @@ include $(addprefix $(srctree)/, $(include-y))
 #                            ^ punctuation.section.interpolation.end.makefile
 #                             ^ string.unquoted.makefile
 #                              ^^^^^^^^^^^^^^^ - string
-#                              ^ punctuation.separator.makefile
+#                              ^ punctuation.separator.sequence.makefile
 #                                ^ punctuation.definition.interpolation.makefile
 #                                 ^ punctuation.section.interpolation.begin.makefile
 #                                  ^^^^^^^^^ variable.other.makefile
@@ -271,12 +271,12 @@ $(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
 #              ^ punctuation.section.interpolation.begin.makefile
 #               ^^^^^^^ support.function.builtin.makefile
 #                       ^ variable.other.makefile
-#                        ^ punctuation.separator.makefile
+#                        ^ punctuation.separator.sequence.makefile
 #                         ^^ punctuation.definition.interpolation.makefile
 #                           ^ punctuation.section.interpolation.begin.makefile
 #                            ^^^^^ variable.other.makefile
 #                                 ^ punctuation.section.interpolation.end.makefile
-#                                  ^ punctuation.separator.makefile
+#                                  ^ punctuation.separator.sequence.makefile
 #                                   ^^ punctuation.definition.interpolation.makefile
 #                                     ^ punctuation.section.interpolation.begin.makefile
 #                                      ^^^^ support.function.builtin.makefile
@@ -285,7 +285,7 @@ $(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
 #                                              ^ variable.language.automatic.makefile
 #                                               ^ punctuation.section.interpolation.end.makefile
 #                                                ^^^^^^^^^^^^^ variable.function.makefile
-#                                                             ^ punctuation.separator.makefile
+#                                                             ^ punctuation.separator.sequence.makefile
 #                                                              ^^ punctuation.definition.interpolation.makefile
 #                                                                ^ punctuation.section.interpolation.begin.makefile
 #                                                                 ^ variable.other.makefile
@@ -1131,7 +1131,7 @@ ifeq ($(origin FOO), undefined)
 #       ^^^^^^ support.function.builtin.makefile
 #              ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                 ^ punctuation.section.interpolation.end.makefile
-#                  ^ punctuation.separator.makefile
+#                  ^ punctuation.separator.sequence.makefile
 #                             ^ punctuation.section.group.end.makefile
 FOO = bar
 # <- variable.other.makefile
@@ -1555,7 +1555,7 @@ ifeq (0,1)
 #    ^^^^^ meta.group.makefile
 #    ^ punctuation.section.group.begin.makefile
 #     ^ meta.string.makefile string.unquoted.makefile
-#      ^ punctuation.separator.makefile
+#      ^ punctuation.separator.sequence.makefile
 #       ^ meta.string.makefile string.unquoted.makefile
 #        ^ punctuation.section.group.end.makefile
     $(info zero is one)
@@ -1567,7 +1567,7 @@ else ifneq (1,2)
 #          ^^^^^ meta.group.makefile
 #          ^ punctuation.section.group.begin.makefile
 #           ^ meta.string.makefile string.unquoted.makefile
-#            ^ punctuation.separator.makefile
+#            ^ punctuation.separator.sequence.makefile
 #             ^ meta.string.makefile string.unquoted.makefile
 #              ^ punctuation.section.group.end.makefile
 #               ^ meta.eol.makefile
@@ -1580,7 +1580,7 @@ else ifeq ("foo",bar")
 #         ^^^^^^^^^^^^ meta.group.makefile
 #         ^ punctuation.section.group.begin.makefile
 #          ^^^^^ meta.string.makefile string.unquoted.makefile
-#               ^ punctuation.separator.makefile
+#               ^ punctuation.separator.sequence.makefile
 #                ^^^^ meta.string.makefile string.unquoted.makefile
 #                    ^ punctuation.section.group.end.makefile
 #                     ^ meta.eol.makefile
@@ -1592,7 +1592,7 @@ else ifneq (\",")
 #          ^^^^^^ meta.group.makefile
 #          ^ punctuation.section.group.begin.makefile
 #           ^^ meta.string.makefile string.unquoted.makefile
-#             ^ punctuation.separator.makefile
+#             ^ punctuation.separator.sequence.makefile
 #              ^ meta.string.makefile string.unquoted.makefile
 #               ^ punctuation.section.group.end.makefile
 #                ^ meta.eol.makefile
@@ -1604,7 +1604,7 @@ else ifneq ((,))  # nested parens are not balanced
 #          ^^^^ meta.group.makefile
 #          ^ punctuation.section.group.begin.makefile
 #           ^ meta.string.makefile string.unquoted.makefile
-#            ^ punctuation.separator.makefile
+#            ^ punctuation.separator.sequence.makefile
 #             ^ punctuation.section.group.end.makefile
 #              ^ invalid.illegal.stray.makefile
 #                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
@@ -1622,7 +1622,7 @@ else ifeq (${foo}, $${bar})
 #           ^ punctuation.section.interpolation.begin.makefile
 #            ^^^ variable.other.makefile
 #               ^ punctuation.section.interpolation.end.makefile
-#                ^ punctuation.separator.makefile
+#                ^ punctuation.separator.sequence.makefile
 #                  ^^^^^^^ meta.string.makefile string.unquoted.makefile
 #                  ^^ constant.character.escape.makefile
 #                         ^ punctuation.section.group.end.makefile
@@ -1781,7 +1781,7 @@ ifeq (0,1)
 #    ^^^^^ meta.group.makefile
 #    ^ punctuation.section.group.begin.makefile
 #     ^ meta.string.makefile string.unquoted.makefile
-#      ^ punctuation.separator.makefile
+#      ^ punctuation.separator.sequence.makefile
 #       ^ meta.string.makefile string.unquoted.makefile
 #        ^ punctuation.section.group.end.makefile
     $(info bar)
@@ -1808,7 +1808,7 @@ ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
 #                                     ^^^^ support.function.shell
 #                                          ^^^ variable.language.special.shell
 #                                             ^ punctuation.section.interpolation.end.makefile
-#                                              ^ punctuation.separator.makefile
+#                                              ^ punctuation.separator.sequence.makefile
 #                                               ^ string.unquoted.makefile
 #                                                ^ punctuation.section.group.end.makefile
 endif
@@ -1893,9 +1893,9 @@ foo = $(foreach var,list,text)
 #       ^^^^^^^ support.function.builtin.makefile
 #               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
 #               ^^^ variable.other.makefile
-#                  ^ punctuation.separator.makefile
+#                  ^ punctuation.separator.sequence.makefile
 #                   ^^^^ meta.string.makefile string.unquoted.makefile
-#                       ^ punctuation.separator.makefile
+#                       ^ punctuation.separator.sequence.makefile
 #                        ^^^^ meta.string.makefile string.unquoted.makefile
 #                            ^ punctuation.section.interpolation.end.makefile
 
@@ -1907,9 +1907,9 @@ foo = ${foreach var,list,text}
 #       ^^^^^^^ support.function.builtin.makefile
 #               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
 #               ^^^ variable.other.makefile
-#                  ^ punctuation.separator.makefile
+#                  ^ punctuation.separator.sequence.makefile
 #                   ^^^^ meta.string.makefile string.unquoted.makefile
-#                       ^ punctuation.separator.makefile
+#                       ^ punctuation.separator.sequence.makefile
 #                        ^^^^ meta.string.makefile string.unquoted.makefile
 #                            ^ punctuation.section.interpolation.end.makefile
 
@@ -1921,9 +1921,9 @@ foo: $$(foreach var,list,text)
 #       ^^^^^^^ support.function.builtin.makefile
 #               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
 #               ^^^ variable.other.makefile
-#                  ^ punctuation.separator.makefile
+#                  ^ punctuation.separator.sequence.makefile
 #                   ^^^^ meta.string.makefile string.unquoted.makefile
-#                       ^ punctuation.separator.makefile
+#                       ^ punctuation.separator.sequence.makefile
 #                        ^^^^ meta.string.makefile string.unquoted.makefile
 #                            ^ punctuation.section.interpolation.end.makefile
 
@@ -1935,9 +1935,9 @@ foo: $${foreach var,list,text}
 #       ^^^^^^^ support.function.builtin.makefile
 #               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
 #               ^^^ variable.other.makefile
-#                  ^ punctuation.separator.makefile
+#                  ^ punctuation.separator.sequence.makefile
 #                   ^^^^ meta.string.makefile string.unquoted.makefile
-#                       ^ punctuation.separator.makefile
+#                       ^ punctuation.separator.sequence.makefile
 #                        ^^^^ meta.string.makefile string.unquoted.makefile
 #                            ^ punctuation.section.interpolation.end.makefile
 
@@ -1949,9 +1949,9 @@ $(foreach i,j,k): deps
 # ^^^^^^^ support.function.builtin.makefile
 #         ^^^^^ meta.function-call.arguments.makefile
 #         ^ variable.other.makefile
-#          ^ punctuation.separator.makefile
+#          ^ punctuation.separator.sequence.makefile
 #           ^ meta.string.makefile string.unquoted.makefile
-#            ^ punctuation.separator.makefile
+#            ^ punctuation.separator.sequence.makefile
 #             ^ meta.string.makefile string.unquoted.makefile
 #              ^ punctuation.section.interpolation.end.makefile
 #               ^ keyword.operator.assignment.makefile
@@ -1988,9 +1988,9 @@ foo = $(call something,arg,arg)
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^ variable.function.makefile
-#                     ^ punctuation.separator.makefile
+#                     ^ punctuation.separator.sequence.makefile
 #                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
-#                         ^ punctuation.separator.makefile - string
+#                         ^ punctuation.separator.sequence.makefile - string
 #                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
 #                             ^ punctuation.section.interpolation.end.makefile
 
@@ -2002,9 +2002,9 @@ foo = ${call something,arg,arg}
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^ variable.function.makefile
-#                     ^ punctuation.separator.makefile
+#                     ^ punctuation.separator.sequence.makefile
 #                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
-#                         ^ punctuation.separator.makefile - string
+#                         ^ punctuation.separator.sequence.makefile - string
 #                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
 #                             ^ punctuation.section.interpolation.end.makefile
 
@@ -2016,9 +2016,9 @@ foo: $$(call something,arg,arg)
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^ variable.function.makefile
-#                     ^ punctuation.separator.makefile
+#                     ^ punctuation.separator.sequence.makefile
 #                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
-#                         ^ punctuation.separator.makefile - string
+#                         ^ punctuation.separator.sequence.makefile - string
 #                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
 #                             ^ punctuation.section.interpolation.end.makefile
 
@@ -2030,9 +2030,9 @@ foo: $${call something,arg,arg}
 #      ^ punctuation.section.interpolation.begin.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^ variable.function.makefile
-#                     ^ punctuation.separator.makefile
+#                     ^ punctuation.separator.sequence.makefile
 #                      ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
-#                         ^ punctuation.separator.makefile - string
+#                         ^ punctuation.separator.sequence.makefile - string
 #                          ^^^ meta.string.makefile meta.string.makefile string.unquoted.makefile
 #                             ^ punctuation.section.interpolation.end.makefile
 
@@ -2042,7 +2042,7 @@ $(call my_func,my_arg): deps
 # ^^^^^^^^^^^^^ meta.function-call.makefile
 # ^^^^ support.function.builtin.makefile
 #      ^^^^^^^ variable.function.makefile
-#             ^ punctuation.separator.makefile
+#             ^ punctuation.separator.sequence.makefile
 #              ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                    ^ punctuation.section.interpolation.end.makefile
 #                     ^ keyword.operator.assignment.makefile
@@ -2120,7 +2120,7 @@ LS := $(call pathsearch,ls)
 #       ^^^^^^^^^^^^^^^^ meta.function-call.makefile
 #       ^^^^ support.function.builtin.makefile
 #            ^^^^^^^^^^ variable.function.makefile
-#                      ^ punctuation.separator.makefile
+#                      ^ punctuation.separator.sequence.makefile
 #                       ^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                         ^ punctuation.section.interpolation.end.makefile
 
@@ -3176,10 +3176,10 @@ escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1)))
 #                                                                               ^ punctuation.section.interpolation.end.makefile
 #                                                                                ^ - meta
 #                            ^ - punctuation
-#                             ^ punctuation.separator.makefile
+#                             ^ punctuation.separator.sequence.makefile
 #                              ^^ - punctuation
 #                                         ^ - punctuation
-#                                          ^ punctuation.separator.makefile
+#                                          ^ punctuation.separator.sequence.makefile
 #                                           ^^ - punctuation
 
 NAME = FeedProcessorSIAC

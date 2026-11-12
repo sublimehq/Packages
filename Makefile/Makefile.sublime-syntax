@@ -578,7 +578,7 @@ contexts:
   inside-brace-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
     - include: brace-expansion-end
     - include: eol-pop
@@ -590,7 +590,7 @@ contexts:
   inside-brace-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
     - include: brace-expansion-end
     - include: variable-expansion-content
@@ -711,7 +711,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: paren-expansion-end
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
     - include: eol-pop
     - include: line-continuations
@@ -722,7 +722,7 @@ contexts:
   inside-paren-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
     - include: brace-expansion-end
     - include: variable-expansion-content
@@ -914,7 +914,7 @@ contexts:
   inside-brace-second-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
     - include: brace-expansion-end
     - include: eol-pop
@@ -926,7 +926,7 @@ contexts:
   inside-brace-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
     - include: brace-expansion-end
     - include: variable-second-expansion-content
@@ -1042,7 +1042,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: paren-expansion-end
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
     - include: eol-pop
     - include: line-continuations
@@ -1053,7 +1053,7 @@ contexts:
   inside-paren-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - match: \,
-      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
     - include: brace-expansion-end
     - include: variable-second-expansion-content
@@ -1257,7 +1257,7 @@ contexts:
   comma-separators:
     - match: \s*(\,)\s*
       captures:
-        1: punctuation.separator.makefile
+        1: punctuation.separator.sequence.makefile
       push: clear-pop
 
   escaped-chars:
