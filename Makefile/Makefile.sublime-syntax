@@ -543,6 +543,11 @@ contexts:
       captures:
         1: support.function.builtin.makefile
       set: inside-brace-expansion-shell-function
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: inside-brace-expansion-foreach-function
     - match: (wildcard)\s+
       scope: meta.function-call.makefile
       captures:
@@ -581,6 +586,14 @@ contexts:
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
+
+  inside-brace-expansion-foreach-function:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      set: inside-brace-expansion-function
+    - include: brace-expansion-end
+    - include: variable-expansion-content
 
   inside-brace-expansion-message-function:
     - meta_include_prototype: false
@@ -662,6 +675,11 @@ contexts:
       captures:
         1: support.function.builtin.makefile
       set: inside-paren-expansion-shell-function
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: inside-paren-expansion-foreach-function
     - match: (wildcard)\s+
       scope: meta.function-call.makefile
       captures:
@@ -700,6 +718,14 @@ contexts:
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
+
+  inside-paren-expansion-foreach-function:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      set: inside-paren-expansion-function
+    - include: brace-expansion-end
+    - include: variable-expansion-content
 
   inside-paren-expansion-message-function:
     - meta_include_prototype: false
@@ -853,6 +879,11 @@ contexts:
       captures:
         1: support.function.builtin.makefile
       set: inside-brace-second-expansion-shell-function
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: inside-brace-second-expansion-foreach-function
     - match: (wildcard)\s+
       scope: meta.function-call.makefile
       captures:
@@ -891,6 +922,14 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
+
+  inside-brace-second-expansion-foreach-function:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      set: inside-brace-second-expansion-function
+    - include: brace-expansion-end
+    - include: variable-second-expansion-content
 
   inside-brace-second-expansion-message-function:
     - meta_include_prototype: false
@@ -967,6 +1006,11 @@ contexts:
       captures:
         1: support.function.builtin.makefile
       set: inside-paren-second-expansion-shell-function
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: inside-paren-second-expansion-foreach-function
     - match: (wildcard)\s+
       scope: meta.function-call.makefile
       captures:
@@ -1005,6 +1049,14 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
+
+  inside-paren-second-expansion-foreach-function:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.makefile
+      set: inside-paren-second-expansion-function
+    - include: brace-expansion-end
+    - include: variable-second-expansion-content
 
   inside-paren-second-expansion-message-function:
     - meta_include_prototype: false
@@ -1303,7 +1355,6 @@ variables:
     | findstring
     | firstword
     | flavor
-    | foreach
     | guile
     | if
     | intcmp

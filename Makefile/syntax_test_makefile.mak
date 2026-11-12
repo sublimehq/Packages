@@ -270,7 +270,7 @@ $(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
 #            ^^ punctuation.definition.interpolation.makefile
 #              ^ punctuation.section.interpolation.begin.makefile
 #               ^^^^^^^ support.function.builtin.makefile
-#                       ^ string.unquoted.makefile
+#                       ^ variable.other.makefile
 #                        ^ punctuation.separator.makefile
 #                         ^^ punctuation.definition.interpolation.makefile
 #                           ^ punctuation.section.interpolation.begin.makefile
@@ -1881,6 +1881,101 @@ archive.a: …
 #^^^^^^^ meta.function.body.makefile
 # ^^^^^ meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
 
+############################
+# 8.6 The foreach Function #
+############################
+
+foo = $(foreach var,list,text)
+#     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
+#               ^^^ variable.other.makefile
+#                  ^ punctuation.separator.makefile
+#                   ^^^^ meta.string.makefile string.unquoted.makefile
+#                       ^ punctuation.separator.makefile
+#                        ^^^^ meta.string.makefile string.unquoted.makefile
+#                            ^ punctuation.section.interpolation.end.makefile
+
+foo = ${foreach var,list,text}
+#     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
+#               ^^^ variable.other.makefile
+#                  ^ punctuation.separator.makefile
+#                   ^^^^ meta.string.makefile string.unquoted.makefile
+#                       ^ punctuation.separator.makefile
+#                        ^^^^ meta.string.makefile string.unquoted.makefile
+#                            ^ punctuation.section.interpolation.end.makefile
+
+foo: $$(foreach var,list,text)
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
+#               ^^^ variable.other.makefile
+#                  ^ punctuation.separator.makefile
+#                   ^^^^ meta.string.makefile string.unquoted.makefile
+#                       ^ punctuation.separator.makefile
+#                        ^^^^ meta.string.makefile string.unquoted.makefile
+#                            ^ punctuation.section.interpolation.end.makefile
+
+foo: $${foreach var,list,text}
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile
+#               ^^^ variable.other.makefile
+#                  ^ punctuation.separator.makefile
+#                   ^^^^ meta.string.makefile string.unquoted.makefile
+#                       ^ punctuation.separator.makefile
+#                        ^^^^ meta.string.makefile string.unquoted.makefile
+#                            ^ punctuation.section.interpolation.end.makefile
+
+$(foreach i,j,k): deps
+#^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^ entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^^ meta.function-call.makefile
+# ^^^^^^^ support.function.builtin.makefile
+#         ^^^^^ meta.function-call.arguments.makefile
+#         ^ variable.other.makefile
+#          ^ punctuation.separator.makefile
+#           ^ meta.string.makefile string.unquoted.makefile
+#            ^ punctuation.separator.makefile
+#             ^ meta.string.makefile string.unquoted.makefile
+#              ^ punctuation.section.interpolation.end.makefile
+#               ^ keyword.operator.assignment.makefile
+#                 ^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                     ^ meta.function.makefile
+	rm -rf /
+	# <- meta.function.body
+
+$(foreach i,$(a),$(foreach j,$(b),x)): deps
+# <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile
+#                                      ^^^^ meta.function.arguments.makefile meta.string.makefile
+#^^^^^^^^^^^^^^^^ entity.name.function.makefile meta.interpolation.makefile
+#                ^^^^^^^^^^^^^^^^^^^ entity.name.function.makefile meta.interpolation.makefile meta.interpolation.makefile
+#                                   ^ entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^^^ support.function.builtin.makefile
+#         ^ variable.other.makefile
+#                  ^^^^^^^ support.function.builtin.makefile
+#                          ^ variable.other.makefile
+#                                  ^^ punctuation.section.interpolation.end.makefile
+	rm -rf /
+	# <- meta.function.body
+
 #########################
 # 8.8 The call Function #
 #########################
@@ -2895,20 +2990,6 @@ $(X:a=b) : w ;
 #          ^ meta.function.arguments.makefile string.unquoted.makefile
 #            ^ punctuation.terminator.makefile
 #             ^ meta.function.body.makefile
-
-$(foreach i,j,k): deps
-# <- meta.function entity.name.function
-#               ^ keyword.operator.assignment
-#                ^ - keyword.operator.assignment
-	rm -rf /
-	# <- meta.function.body
-
-$(foreach i,$(a),$(foreach j,$(b),x)): deps
-# <- meta.function entity.name.function
-#                                    ^ keyword.operator.assignment
-#                                     ^ - keyword.operator.assignment
-	rm -rf /
-	# <- meta.function.body
 
 include $(c)
 ifneq ($(a),)
