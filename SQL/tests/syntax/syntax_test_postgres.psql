@@ -1048,8 +1048,11 @@ SELECT *
 FROM sal_emp e
 LEFT JOIN LATERAL (
 -- <- keyword.other.dml.psql
+--  ^ - keyword
 --   ^^^^ keyword.other.dml.psql
+--       ^ - keyword
 --        ^^^^^^^ keyword.other.dml.psql
+--               ^ - keyword
   SELECT p.name
 --^^^^^^ keyword.other.dml.sql
   FROM person p
@@ -1059,6 +1062,29 @@ LEFT JOIN LATERAL (
   WHERE p.name = e.name
 --^^^^^ keyword.other.dml.sql
 ) result ON true;
+
+SELECT * FROM sal_emp
+NATURAL LEFT OUTER JOIN person;
+-- <- keyword.other.dml.psql
+--     ^ - keyword
+--      ^^^^ keyword.other.dml.psql
+--          ^ - keyword
+--           ^^^^^ keyword.other.dml.psql
+--                ^ - keyword
+--                 ^^^^ keyword.other.dml.psql
+--                      ^^^^^^ meta.table-name.sql
+
+SELECT * FROM sal_emp
+CROSS JOIN LATERAL generate_series(1, 3) AS s;
+-- <- keyword.other.dml.psql
+--   ^ - keyword
+--    ^^^^ keyword.other.dml.psql
+--         ^^^^^^^ keyword.other.dml.psql
+--                 ^^^^^^^^^^^^^^^ meta.table-valued-function-name.sql
+
+SELECT * FROM LATERAL generate_series(1, 3) AS s;
+--            ^^^^^^^ keyword.other.dml.psql
+--                    ^^^^^^^^^^^^^^^ meta.table-valued-function-name.sql
 
 COMMENT ON TABLE sal_emp IS 'Employee salaries';
 -- <- keyword.other.ddl.psql

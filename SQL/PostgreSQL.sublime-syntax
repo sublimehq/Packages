@@ -146,17 +146,24 @@ contexts:
 
   join-expressions:
     # https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-LATERAL
-    - meta_prepend: true
-    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:full|left|right)(?:\s+outer)?)\s+)?join(?:\s+lateral)?)\b
+    - match: \b(?i:cross|inner|natural|full|left|right|outer)\b
+      scope: keyword.other.dml.psql
+    - match: \b(?i:join)\b
       scope: keyword.other.dml.psql
       push:
         - join-condition
         - table-name-or-subquery
+
+  table-name-or-subquery:
+    - meta_prepend: true
     - match: \b(?i:lateral)\b
       scope: keyword.other.dml.psql
-      push:
-        - join-condition
-        - table-name-or-subquery
+
+  maybe-table-alias:
+    - meta_prepend: true
+    # Leave NATURAL for the following join expression.
+    - match: (?=\b(?i:natural)\b)
+      pop: 1
 
 ###[ COMMENT STATEMENTS ]######################################################
 
