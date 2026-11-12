@@ -1105,6 +1105,19 @@ COMMENT ON COLUMN person.name IS 'Employee name';
 COMMENT ON SCHEMA public IS 'Application schema';
 --      ^^ keyword.other.ddl.psql
 
+COMMENT ON TABLE users
+SELECT * FROM assets;
+-- <- keyword.other.dml.sql
+--^^^^ keyword.other.dml.sql
+--       ^^^^ keyword.other.dml.sql
+--            ^^^^^^ meta.table-name.sql
+
+COMMENT ON COLUMN users.id;
+SELECT id FROM users;
+-- <- keyword.other.dml.sql
+--^^^^ keyword.other.dml.sql
+--     ^^ meta.column-name.sql
+
 CREATE TABLE users (
   id BIGINT,
   comment TEXT
