@@ -542,6 +542,90 @@ vpath
 # a comment check
 # <- comment.line
 
+#####################################
+# 4.9 Special Built-in Target Names #
+#####################################
+
+.PHONY:
+#^^^^^^^ meta.function.makefile
+#^^^^^ entity.name.function.makefile
+#     ^ keyword.operator.assignment.makefile
+
+.SUFFIXES:
+#^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^ entity.name.function.makefile
+#        ^ keyword.operator.assignment.makefile
+
+.DEFAULT:
+#^^^^^^^^^ meta.function.makefile
+#^^^^^^^ entity.name.function.makefile
+#       ^ keyword.operator.assignment.makefile
+
+.PRECIOUS:
+#^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^ entity.name.function.makefile
+#        ^ keyword.operator.assignment.makefile
+
+.INTERMEDIATE:
+#^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^ entity.name.function.makefile
+#            ^ keyword.operator.assignment.makefile
+
+.NOTINTERMEDIATE:
+#^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^ entity.name.function.makefile
+#               ^ keyword.operator.assignment.makefile
+
+.SECONDARY:
+#^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^ entity.name.function.makefile
+#         ^ keyword.operator.assignment.makefile
+
+.SECONDEXPANSION:
+#^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^ entity.name.function.makefile
+#               ^ keyword.operator.assignment.makefile
+
+.DELETE_ON_ERROR:
+#^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^ entity.name.function.makefile
+#               ^ keyword.operator.assignment.makefile
+
+.IGNORE:
+#^^^^^^^^ meta.function.makefile
+#^^^^^^ entity.name.function.makefile
+#      ^ keyword.operator.assignment.makefile
+
+.LOW_RESOLUTION_TIME:
+#^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^^^^^ entity.name.function.makefile
+#                   ^ keyword.operator.assignment.makefile
+
+.SILENT:
+#^^^^^^^^ meta.function.makefile
+#^^^^^^ entity.name.function.makefile
+#      ^ keyword.operator.assignment.makefile
+
+.EXPORT_ALL_VARIABLES:
+#^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^^^^^^^^^^ entity.name.function.makefile
+#                    ^ keyword.operator.assignment.makefile
+
+.NOTPARALLEL:
+#^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^ entity.name.function.makefile
+#           ^ keyword.operator.assignment.makefile
+
+.ONESHELL:
+#^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^ entity.name.function.makefile
+#        ^ keyword.operator.assignment.makefile
+
+.POSIX:
+#^^^^^^^ meta.function.makefile
+#^^^^^ entity.name.function.makefile
+#     ^ keyword.operator.assignment.makefile
+
 #####################
 # 5.1 Recipe Syntax #
 #####################
