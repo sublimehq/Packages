@@ -138,6 +138,7 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-interpolations
+    - include: interpolations
     - include: percentage-placeholders
 
   inside-rule-comment:
@@ -623,7 +624,8 @@ contexts:
   inside-brace-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: brace-expansion-end
-    - include: inside-shell
+    - include: eol-pop
+    - include: shell-content
 
   inside-brace-expansion-automatic-variable-name:
     - match: ':'
@@ -755,7 +757,8 @@ contexts:
   inside-paren-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: paren-expansion-end
-    - include: inside-shell
+    - include: eol-pop
+    - include: shell-content
 
   inside-paren-expansion-automatic-variable-name:
     - match: ':'
@@ -933,21 +936,21 @@ contexts:
   #  - valid only within rule prerequisites
 
   second-interpolations:
-    - match: (\$\$?)(\{)
+    - match: (\$\$)(\{)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
       push:
         - clear-meta
         - brace-second-expansion-begin
-    - match: (\$\$?)(\()
+    - match: (\$\$)(\()
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
       push:
         - clear-meta
         - paren-second-expansion-begin
-    - match: (\$\$?)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+    - match: (\$\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
       scope: meta.interpolation.makefile
       captures:
         1: punctuation.definition.interpolation.makefile
@@ -956,17 +959,17 @@ contexts:
       push: clear-meta
 
   second-expansions:
-    - match: (\$\$?)(\{)
+    - match: (\$\$)(\{)
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
       push: brace-second-expansion-begin
-    - match: (\$\$?)(\()
+    - match: (\$\$)(\()
       captures:
         1: punctuation.definition.interpolation.makefile
         2: punctuation.section.interpolation.begin.makefile
       push: paren-second-expansion-begin
-    - match: (\$\$?)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+    - match: (\$\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
       scope: meta.interpolation.makefile
       captures:
         1: punctuation.definition.interpolation.makefile
@@ -1030,6 +1033,7 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
+    - include: expansions
 
   inside-brace-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -1067,7 +1071,8 @@ contexts:
   inside-brace-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: brace-expansion-end
-    - include: inside-shell
+    - include: eol-pop
+    - include: second-shell-content
 
   inside-brace-second-expansion-automatic-variable-name:
     - match: ':'
@@ -1157,6 +1162,7 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
+    - include: expansions
 
   inside-paren-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -1194,7 +1200,8 @@ contexts:
   inside-paren-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: paren-expansion-end
-    - include: inside-shell
+    - include: eol-pop
+    - include: second-shell-content
 
   inside-paren-second-expansion-automatic-variable-name:
     - match: ':'
@@ -1233,6 +1240,7 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
+    - include: expansions
     - include: percentage-placeholders
 
   variable-second-substitution-content:
@@ -1246,6 +1254,7 @@ contexts:
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-interpolations
+    - include: interpolations
 
   inside-second-string-paren:
     - match: \)
@@ -1301,6 +1310,7 @@ contexts:
         3: constant.character.escape.glob.makefile
     - include: escaped-chars
     - include: second-expansions
+    - include: expansions
     - include: continuation-or-eol-pop
 
   second-glob-character-class-collate-body:
@@ -1311,6 +1321,7 @@ contexts:
       pop: 1
     - include: escaped-chars
     - include: second-expansions
+    - include: expansions
     - include: continuation-or-eol-pop
 
   second-glob-character-class-equivalence-body:
@@ -1321,6 +1332,7 @@ contexts:
       pop: 1
     - include: escaped-chars
     - include: second-expansions
+    - include: expansions
     - include: continuation-or-eol-pop
 
   second-glob-character-class-posix-body:
@@ -1333,6 +1345,7 @@ contexts:
       pop: 1
     - include: escaped-chars
     - include: second-expansions
+    - include: expansions
     - include: continuation-or-eol-pop
 
 ###[ LITERALS ]################################################################
@@ -1367,7 +1380,11 @@ contexts:
     - include: shell-content
 
   shell-content:
-    - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
+    - include: Packages/Makefile/Embeddings/Shell (for Makefile 1).sublime-syntax
+      apply_prototype: true
+
+  second-shell-content:
+    - include: Packages/Makefile/Embeddings/Shell (for Makefile 2).sublime-syntax
       apply_prototype: true
 
 ###[ PROTOTYPES ]##############################################################

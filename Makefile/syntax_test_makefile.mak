@@ -2195,6 +2195,108 @@ info:
 	# ^^^^ support.function.builtin.makefile
 	#            ^ punctuation.section.interpolation.end
 
+###########################
+# 8.14 The shell Function #
+###########################
+
+shell = $(shell echo *.c)
+#       ^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^ meta.function-call.makefile
+#         ^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^ meta.function-call.identifier.shell support.function.shell
+#                   ^^^^ meta.function-call.arguments.shell
+#                    ^^^ meta.string.glob.shell string.unquoted.shell
+#                    ^ constant.other.wildcard.asterisk.shell
+#                       ^ punctuation.section.interpolation.end.makefile
+
+shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^ meta.function-call.makefile
+#         ^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^^^^ variable.other.makefile
+#                     ^ punctuation.section.interpolation.end.makefile
+#                      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                       ^ punctuation.definition.parameter.shell
+#                          ^^^^^^^ meta.string.glob.shell
+#                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                          ^^ punctuation.definition.variable.shell
+#                                ^ string.unquoted.shell
+#                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                  ^ punctuation.definition.string.begin.shell
+#                                   ^^ constant.character.escape.makefile
+#                                         ^ punctuation.definition.string.end.shell
+#                                          ^ punctuation.section.interpolation.end.makefile
+
+shell = $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
+#^^^^ variable.other.makefile
+#     ^ keyword.operator.assignment.makefile
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile string.unquoted.makefile
+#       ^^ constant.character.escape.makefile
+#                ^^ constant.character.escape.makefile
+#                            ^^^^ constant.character.escape.makefile
+#                                       ^^^^ constant.character.escape.makefile
+
+shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#       ^ punctuation.definition.interpolation.makefile
+#        ^ punctuation.section.interpolation.begin.makefile
+#         ^^^^^^ meta.function-call.makefile
+#         ^^^^^ support.function.builtin.makefile
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+#               ^ punctuation.definition.interpolation.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^^^^ variable.other.makefile
+#                     ^ punctuation.section.interpolation.end.makefile
+#                      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                       ^ punctuation.definition.parameter.shell
+#                          ^^^^^^^ meta.string.glob.shell
+#                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                          ^^ punctuation.definition.variable.shell
+#                                ^ string.unquoted.shell
+#                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                  ^ punctuation.definition.string.begin.shell
+#                                   ^^ constant.character.escape.makefile
+#                                         ^ punctuation.definition.string.end.shell
+#                                          ^ punctuation.section.interpolation.end.makefile
+
+shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#       ^^ punctuation.definition.interpolation.makefile
+#         ^ punctuation.section.interpolation.begin.makefile
+#          ^^^^^^ meta.function-call.makefile
+#          ^^^^^ support.function.builtin.makefile
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#                ^^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+#                ^^ punctuation.definition.interpolation.makefile
+#                  ^ punctuation.section.interpolation.begin.makefile
+#                   ^^^^ variable.other.makefile
+#                       ^ punctuation.section.interpolation.end.makefile
+#                        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                         ^ punctuation.definition.parameter.shell
+#                            ^^^^^^^^^ meta.string.glob.shell
+#                            ^^^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                            ^^^^ punctuation.definition.variable.shell
+#                                    ^ string.unquoted.shell
+#                                      ^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                      ^ punctuation.definition.string.begin.shell
+#                                       ^^^^ constant.character.escape.makefile
+#                                               ^ punctuation.definition.string.end.shell
+#                                                ^ punctuation.section.interpolation.end.makefile
+#                                                 ^ meta.function.makefile
+
 ##############################
 # 10.5.3 Automatic Variables #
 ##############################

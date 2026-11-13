@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-scope: source.shell.embedded.makefile
+scope: source.shell.embedded.makefile.expansion
 version: 2
 hidden: true
 
@@ -24,10 +24,10 @@ contexts:
 variables:
 
   # makefile or shell interpolation
-  is_interpolation: (?=\$\$?[({\[{{identifier_char}}{{special_variables}}{{var_auto_chars}}]|`)
+  is_interpolation: (?=\${1,2}[({\[{{identifier_char}}{{special_variables}}{{var_auto_chars}}]|`)
 
   # makefile auto variables
   var_auto_chars: '@%<\?\^\+\|\*'
 
   # shell specific interpolation
-  interpolation_punct: \$\$
+  interpolation_punct: \${2}
