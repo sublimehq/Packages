@@ -266,7 +266,7 @@ $(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
 #                                                                   ^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
 #                                                                    ^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
 #                                                                     ^ meta.function.makefile - meta.interpolation
-#          ^ keyword.operator.assignment.makefile
+#          ^ punctuation.definition.rule.makefile
 #            ^^ punctuation.definition.interpolation.makefile
 #              ^ punctuation.section.interpolation.begin.makefile
 #               ^^^^^^^ support.function.builtin.makefile
@@ -296,8 +296,8 @@ $(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
 $(foreach i,$(DO_IMPLS),$(foreach s,$(STEPS),$(i)^$(s))): $$(call $$(word 1,$$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$$(subst ^, ,$$(@))))
 # <- meta.function.makefile entity.name.function.makefile meta.interpolation.makefile punctuation.definition.interpolation.makefile
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
-#                                                       ^ meta.function.makefile keyword.operator.assignment.makefile
-#                                                        ^ - keyword.operator.assignment
+#                                                       ^ meta.function.makefile punctuation.definition.rule.makefile
+#                                                        ^ - punctuation
 #                                                         ^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
 #                                                                 ^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation
 #                                                                           ^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile meta.interpolation.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation meta.interpolation meta.interpolation
@@ -381,8 +381,8 @@ rule: # comment
 # <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
 #^^^^^^^^^^^^^^^ meta.function.makefile - meta.function meta.function
 #^^^ entity.name.function.makefile
-#   ^ keyword.operator.assignment.makefile
-#    ^ - comment - keyword
+#   ^ punctuation.definition.rule.makefile
+#    ^ - comment - punctuation
 #     ^^^^^^^^^^ comment.line.number-sign.makefile
 #     ^ punctuation.definition.comment.makefile
 
@@ -392,8 +392,8 @@ rule: prerequisites # comment
 # <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
 #^^^^^ meta.function.makefile - meta.function meta.function
 #^^^ entity.name.function.makefile
-#   ^ keyword.operator.assignment.makefile
-#    ^ - keyword - string
+#   ^ punctuation.definition.rule.makefile
+#    ^ - punctuation - string
 #     ^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile - meta.function meta.function
 #                  ^^^^^^^^^^^ meta.function.makefile - meta.function meta.function
 #                  ^ - comment - string
@@ -409,7 +409,7 @@ all:: foo.o
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^ entity.name.function.makefile
-#  ^^ keyword.operator.assignment.makefile
+#  ^^ punctuation.definition.rule.makefile
 #     ^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #          ^ meta.function.makefile
 	ld a
@@ -426,7 +426,7 @@ all: foo \
 # <- meta.function.makefile entity.name.function.makefile variable.language.makefile
 #^^^^^^ meta.function.makefile
 #^^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #      ^ variable.language.makefile
 #         ^ meta.function.makefile
@@ -495,7 +495,7 @@ $(wildcard *.c): $$(wildcard a-[$$(a)-$${b}]?.*)
 #          ^^^ string.unquoted.makefile
 #          ^ constant.other.wildcard.asterisk.makefile
 #             ^ punctuation.section.interpolation.end.makefile
-#              ^ keyword.operator.assignment.makefile
+#              ^ punctuation.definition.rule.makefile
 #                ^^ punctuation.definition.interpolation.makefile
 #                  ^ punctuation.section.interpolation.begin.makefile
 #                   ^^^^^^^^ support.function.builtin.makefile
@@ -549,82 +549,82 @@ vpath
 .PHONY:
 #^^^^^^^ meta.function.makefile
 #^^^^^ entity.name.function.makefile
-#     ^ keyword.operator.assignment.makefile
+#     ^ punctuation.definition.rule.makefile
 
 .SUFFIXES:
 #^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^ entity.name.function.makefile
-#        ^ keyword.operator.assignment.makefile
+#        ^ punctuation.definition.rule.makefile
 
 .DEFAULT:
 #^^^^^^^^^ meta.function.makefile
 #^^^^^^^ entity.name.function.makefile
-#       ^ keyword.operator.assignment.makefile
+#       ^ punctuation.definition.rule.makefile
 
 .PRECIOUS:
 #^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^ entity.name.function.makefile
-#        ^ keyword.operator.assignment.makefile
+#        ^ punctuation.definition.rule.makefile
 
 .INTERMEDIATE:
 #^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^ entity.name.function.makefile
-#            ^ keyword.operator.assignment.makefile
+#            ^ punctuation.definition.rule.makefile
 
 .NOTINTERMEDIATE:
 #^^^^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^^^^ entity.name.function.makefile
-#               ^ keyword.operator.assignment.makefile
+#               ^ punctuation.definition.rule.makefile
 
 .SECONDARY:
 #^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^ entity.name.function.makefile
-#         ^ keyword.operator.assignment.makefile
+#         ^ punctuation.definition.rule.makefile
 
 .SECONDEXPANSION:
 #^^^^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^^^^ entity.name.function.makefile
-#               ^ keyword.operator.assignment.makefile
+#               ^ punctuation.definition.rule.makefile
 
 .DELETE_ON_ERROR:
 #^^^^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^^^^ entity.name.function.makefile
-#               ^ keyword.operator.assignment.makefile
+#               ^ punctuation.definition.rule.makefile
 
 .IGNORE:
 #^^^^^^^^ meta.function.makefile
 #^^^^^^ entity.name.function.makefile
-#      ^ keyword.operator.assignment.makefile
+#      ^ punctuation.definition.rule.makefile
 
 .LOW_RESOLUTION_TIME:
 #^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^^^^^^^^ entity.name.function.makefile
-#                   ^ keyword.operator.assignment.makefile
+#                   ^ punctuation.definition.rule.makefile
 
 .SILENT:
 #^^^^^^^^ meta.function.makefile
 #^^^^^^ entity.name.function.makefile
-#      ^ keyword.operator.assignment.makefile
+#      ^ punctuation.definition.rule.makefile
 
 .EXPORT_ALL_VARIABLES:
 #^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^^^^^^^^^^ entity.name.function.makefile
-#                    ^ keyword.operator.assignment.makefile
+#                    ^ punctuation.definition.rule.makefile
 
 .NOTPARALLEL:
 #^^^^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^^^^ entity.name.function.makefile
-#           ^ keyword.operator.assignment.makefile
+#           ^ punctuation.definition.rule.makefile
 
 .ONESHELL:
 #^^^^^^^^^^ meta.function.makefile
 #^^^^^^^^ entity.name.function.makefile
-#        ^ keyword.operator.assignment.makefile
+#        ^ punctuation.definition.rule.makefile
 
 .POSIX:
 #^^^^^^^ meta.function.makefile
 #^^^^^ entity.name.function.makefile
-#     ^ keyword.operator.assignment.makefile
+#     ^ punctuation.definition.rule.makefile
 
 #####################
 # 5.1 Recipe Syntax #
@@ -737,7 +737,7 @@ $(EXECUTABLE): $(OBJECTS)
 #^ punctuation.section.interpolation.begin.makefile
 # ^^^^^^^^^^ variable.other.makefile
 #           ^ punctuation.section.interpolation.end.makefile
-#            ^ keyword.operator.assignment.makefile
+#            ^ punctuation.definition.rule.makefile
 #              ^ punctuation.definition.interpolation.makefile
 #               ^ punctuation.section.interpolation.begin.makefile
 #                ^^^^^^^ variable.other.makefile
@@ -1532,7 +1532,7 @@ prog : CFLAGS = -g
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^ variable.other.makefile
 #             ^ keyword.operator.assignment.makefile
 #               ^^ meta.string.makefile string.unquoted.makefile
@@ -1544,7 +1544,7 @@ $(prog) : CFLAGS = -g
 #^ punctuation.section.interpolation.begin.makefile
 # ^^^^ variable.other.makefile
 #     ^ punctuation.section.interpolation.end.makefile
-#       ^ keyword.operator.assignment.makefile
+#       ^ punctuation.definition.rule.makefile
 #         ^^^^^^ variable.other.makefile
 #                ^ keyword.operator.assignment.makefile
 #                  ^^ meta.string.makefile string.unquoted.makefile
@@ -1553,7 +1553,7 @@ prog : define CFLAGS =
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #      ^^^^^^ keyword.control.define.makefile
 #             ^^^^^^^ variable.other.makefile
@@ -1566,7 +1566,7 @@ prog : override define CFLAGS =
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^ meta.directive.define.makefile
 #               ^^^^^^ keyword.control.define.makefile
@@ -1580,7 +1580,7 @@ prog : undefine CFLAGS
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.undefine.makefile
 #               ^^^^^^ variable.other.makefile
@@ -1589,7 +1589,7 @@ prog : export CFLAGS = -g
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #      ^^^^^^ keyword.control.export.makefile
 #             ^^^^^^ variable.other.makefile
@@ -1600,7 +1600,7 @@ prog : override export CFLAGS = -g
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^^^^^^^^^^^^^ meta.directive.export.makefile
 #               ^^^^^^ keyword.control.export.makefile
@@ -1612,7 +1612,7 @@ prog : unexport CFLAGS
 # <- meta.function.makefile entity.name.function.makefile
 #^^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^^^^^^^^ meta.directive.undefine.makefile
 #      ^^^^^^^^ keyword.control.unexport.makefile
 #               ^^^^^^ variable.other.makefile
@@ -1620,7 +1620,7 @@ prog : unexport CFLAGS
 prog : override CFLAGS = -g
 #^^^^^ meta.function.makefile
 #^^^ entity.name.function.makefile
-#    ^ keyword.operator.assignment.makefile
+#    ^ punctuation.definition.rule.makefile
 #      ^^^^^^^^ keyword.control.override.makefile
 #               ^^^^^^ variable.other.makefile
 #                      ^ keyword.operator.assignment.makefile
@@ -1637,12 +1637,12 @@ prog : \
 #########################################
 
 lib/%.o: CFLAGS := -fPIC -g
-#      ^ keyword.operator
+#      ^ punctuation.definition.rule.makefile
 #                 ^ - string
 #                  ^ string
 #                          ^ - string
 %.o: CFLAGS := -g
-#  ^ keyword.operator
+#  ^ punctuation.definition.rule.makefile
 #             ^ - string
 #              ^^ string
 #                ^ - string
@@ -2080,7 +2080,7 @@ $(foreach i,j,k): deps
 #            ^ punctuation.separator.sequence.makefile
 #             ^ meta.string.makefile string.unquoted.makefile
 #              ^ punctuation.section.interpolation.end.makefile
-#               ^ keyword.operator.assignment.makefile
+#               ^ punctuation.definition.rule.makefile
 #                 ^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                     ^ meta.function.makefile
 	rm -rf /
@@ -2171,7 +2171,7 @@ $(call my_func,my_arg): deps
 #             ^ punctuation.separator.sequence.makefile
 #              ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                    ^ punctuation.section.interpolation.end.makefile
-#                     ^ keyword.operator.assignment.makefile
+#                     ^ punctuation.definition.rule.makefile
 #                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
 #                           ^ meta.function.makefile
 
@@ -3151,16 +3151,16 @@ _modinst_:
 
 
 $(sort $(a)): $(b) ;
-#           ^ keyword.operator
+#           ^ punctuation.definition.rule.makefile
 
 %:x
 # <- meta.function entity.name.function variable.language
-#^ keyword.operator
+#^ punctuation.definition.rule.makefile
 	rm -rf /
 
 a : b ;
 # <- meta.function entity.name.function
-# ^ keyword.operator - entity.name.function
+# ^ punctuation.definition.rule.makefile - entity.name.function
 #  ^ - string.unquoted
 #   ^ meta.function.arguments string.unquoted
 #    ^ - string.unquoted
@@ -3182,7 +3182,7 @@ $(a): b
 #^ punctuation.section.interpolation.begin.makefile
 # ^ variable.other.makefile
 #  ^ punctuation.section.interpolation.end.makefile
-#   ^ keyword.operator.assignment.makefile
+#   ^ punctuation.definition.rule.makefile
 #     ^ meta.function.arguments.makefile string.unquoted.makefile
 #      ^ meta.function.makefile
 	$(Q)$(MAKE) $(build)=$@
@@ -3198,7 +3198,7 @@ $(a:b=c) : d
 #  ^ punctuation.definition.substitution.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^ punctuation.section.interpolation.end.makefile
-#        ^ keyword.operator.assignment.makefile
+#        ^ punctuation.definition.rule.makefile
 #          ^ meta.function.arguments.makefile string.unquoted.makefile
 #           ^ meta.function.makefile
 	$(Q)$(MAKE) $(build)=$@
@@ -3214,7 +3214,7 @@ $(X:a=b) : w ;
 #  ^ punctuation.definition.substitution.makefile
 #    ^ keyword.operator.assignment.makefile
 #      ^ punctuation.section.interpolation.end.makefile
-#        ^ keyword.operator.assignment.makefile
+#        ^ punctuation.definition.rule.makefile
 #          ^ meta.function.arguments.makefile string.unquoted.makefile
 #            ^ punctuation.terminator.makefile
 #             ^ meta.function.body.makefile
@@ -3300,7 +3300,7 @@ ifeq ($(shell which inkscape >/dev/null 2>&1 && echo USING_INKSCAPE),USING_INKSC
 # <- keyword.control.conditional
 $(FIGS)/%.pdf: $(FIGS)/%.svg  ## Figures for the manuscript
 # <- meta.function entity.name.function
-#            ^ keyword.operator.assignment
+#            ^ punctuation.definition.rule.makefile
 #              ^ meta.function.arguments meta.string
 #                             ^ comment.line - string.unquoted
 	inkscape -C -z --file=$< --export-pdf=$@ 2> /dev/null

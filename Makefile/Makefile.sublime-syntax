@@ -94,7 +94,7 @@ contexts:
     - meta_content_scope: meta.function.makefile entity.name.function.makefile
     - match: \s*(::?)
       captures:
-        1: keyword.operator.assignment.makefile
+        1: punctuation.definition.rule.makefile
       set: after-rule-target
     - include: line-continuations
     - include: escaped-chars
