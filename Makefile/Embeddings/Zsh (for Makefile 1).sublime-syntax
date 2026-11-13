@@ -1,0 +1,36 @@
+%YAML 1.2
+---
+scope: source.shell.zsh.embedded.makefile.expansion
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Zsh.sublime-syntax
+
+contexts:
+
+  main:
+    - include: statements
+
+  expression-variable-chars:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations
+
+  parameter-expansions:
+    - meta_append: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#expansions
+
+  string-single-quoted-prototype:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#escaped-dollars
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations
+
+variables:
+
+  # makefile or shell interpolation
+  is_interpolation: (?=\${1,2}[({\[{{identifier_char}}{{special_variables}}{{var_auto_chars}}]|`)
+
+  # makefile auto variables
+  var_auto_chars: '@%<\?\^\+\|\*'
+
+  # shell specific interpolation
+  interpolation_punct: \${2}

@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+# https://www.gnu.org/software/make/manual/make.html
+# https://www.sublimetext.com/docs/syntax.html
+name: Makefile (Bash)
+scope: source.makefile.bash
+version: 2
+
+extends: Makefile (Plain).sublime-syntax
+
+contexts:
+
+###[ SHELLSCRIPT ]#############################################################
+
+  shell-content:
+    - include: Packages/Makefile/Embeddings/Bash (for Makefile 1).sublime-syntax
+      apply_prototype: true
+
+  second-shell-content:
+    - include: Packages/Makefile/Embeddings/Bash (for Makefile 2).sublime-syntax
+      apply_prototype: true

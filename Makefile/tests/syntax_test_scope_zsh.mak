@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
+# SYNTAX TEST "Packages/Makefile/Makefile (Zsh).sublime-syntax"
 
 #################################
 # Comments                      #
@@ -1418,6 +1418,36 @@ file_list := $(shell find . -name "*.c")
 #                                 ^ punctuation.definition.string.begin.shell
 #                                     ^ punctuation.definition.string.end.shell
 #                                      ^ punctuation.section.interpolation.end.makefile
+
+BASH_CMD = sh -c '\
+#        ^ keyword.operator.assignment.makefile
+#          ^^^^^^ meta.string.makefile - meta.interpolation
+#                ^^^ meta.string.makefile meta.interpolation.makefile
+#          ^^^^^^ string.unquoted.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^ source.shell.bash.embedded punctuation.separator.continuation.line.shell - source.shell source.shell
+  if something; then
+    build_thisway $$1 $$2;
+  fi' BASH_CMD
+# ^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
+# ^^ source.shell.bash.embedded keyword.control.conditional.endif.shell - source.shell source.shell
+#   ^ punctuation.section.interpolation.end.makefile
+
+ZSH_CMD = zsh -c '\
+#       ^ keyword.operator.assignment.makefile
+#         ^^^^^^^ meta.string.makefile - meta.interpolation
+#                ^^^ meta.string.makefile meta.interpolation.makefile
+#         ^^^^^^^ string.unquoted.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^ source.shell.zsh.embedded punctuation.separator.continuation.line.shell - source.shell source.shell
+  if something; then
+    build_thisway $$1 $$2;
+  fi' ZSH_CMD
+# ^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
+# ^^ source.shell.zsh.embedded keyword.control.conditional.endif.shell - source.shell source.shell
+#   ^ punctuation.section.interpolation.end.makefile
 
 ########################################
 # 6.6 appending more text to variables #
@@ -3371,19 +3401,3 @@ escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1)))
 #                                           ^^ - punctuation
 
 NAME = FeedProcessorSIAC
-
-TESTTOOL = sh -c '\
-#        ^ keyword.operator.assignment.makefile
-#          ^^^^^^ meta.string.makefile - meta.interpolation
-#                ^^^ meta.string.makefile meta.interpolation.makefile
-#          ^^^^^^ string.unquoted.makefile
-#                ^ punctuation.section.interpolation.begin.makefile
-#                 ^ source.shell.embedded punctuation.separator.continuation.line.shell - source.shell source.shell
-  if something; then
-    build_thisway $$1 $$2;
-  fi' TESTTOOL
-# ^^^ meta.string.makefile meta.interpolation.makefile
-#    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
-# ^^ source.shell.embedded keyword.control.conditional.endif.shell - source.shell source.shell
-#   ^ punctuation.section.interpolation.end.makefile
-
