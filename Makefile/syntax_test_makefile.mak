@@ -422,6 +422,21 @@ all: foo \
 #^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #        ^ meta.function.makefile
 
+a : b \
+	more prerequisites \
+	on a third line even
+	# ^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
+	recipe
+	# <- meta.function.body source.shell.embedded.makefile
+
+%:x
+# <- meta.function entity.name.function variable.language
+#^ meta.function.makefile punctuation.definition.rule.makefile
+# ^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
+#  ^ meta.function.makefile
+	recipe
+	# <- meta.function.body source.shell.embedded.makefile
+
 %.cpp: %.o
 # <- meta.function.makefile entity.name.function.makefile variable.language.makefile
 #^^^^^^ meta.function.makefile
@@ -432,6 +447,60 @@ all: foo \
 #         ^ meta.function.makefile
 	recipe
 	# <- meta.function.body source.shell.embedded.makefile
+
+$(a): b
+#^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.section.interpolation.end.makefile
+#   ^ punctuation.definition.rule.makefile
+#     ^ meta.function.arguments.makefile string.unquoted.makefile
+#      ^ meta.function.makefile
+
+$(a:b=c) : d
+#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.definition.substitution.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+#        ^ punctuation.definition.rule.makefile
+#          ^ meta.function.arguments.makefile string.unquoted.makefile
+#           ^ meta.function.makefile
+
+$(X:a=b) : w ;
+#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^ variable.other.makefile
+#  ^ punctuation.definition.substitution.makefile
+#    ^ keyword.operator.assignment.makefile
+#      ^ punctuation.section.interpolation.end.makefile
+#        ^ punctuation.definition.rule.makefile
+#          ^ meta.function.arguments.makefile string.unquoted.makefile
+#            ^ punctuation.terminator.makefile
+#             ^ meta.function.body.makefile
+
+$(sort $(a)): $(b) ;
+#^^^^^^^^^^^^^ meta.function.makefile
+#^^^^^^^^^^^ entity.name.function.makefile meta.interpolation.makefile
+#^ punctuation.section.interpolation.begin.makefile
+# ^^^^^ meta.function-call.makefile
+# ^^^^ support.function.builtin.makefile
+#      ^^^^ meta.function-call.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^ variable.other.makefile
+#         ^ punctuation.section.interpolation.end.makefile
+#          ^ punctuation.section.interpolation.end.makefile
+#           ^ punctuation.definition.rule.makefile
+#             ^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
+#             ^ punctuation.definition.interpolation.makefile
+#              ^ punctuation.section.interpolation.begin.makefile
+#               ^ variable.other.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^^ meta.function.makefile
+#                  ^ punctuation.terminator.makefile
+#                   ^ meta.function.body.makefile
 
 ###############################################
 # 4.4 Using Wildcard Characters in File Names #
@@ -810,6 +879,24 @@ expansions:
 	#          ^ punctuation.section.interpolation.begin.makefile
 	#           ^^^^^^ variable.other.makefile
 	#                 ^ punctuation.section.interpolation.end.makefile
+
+_modinst_:
+	@rm -rf $(MODLIB)/kernel
+	# <- keyword.operator.recipe.makefile
+	@rm -f $(MODLIB)/source
+	# <- keyword.operator.recipe.makefile
+	@mkdir -p $(MODLIB)/kernel
+	# <- keyword.operator.recipe.makefile
+	@ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
+	# <- keyword.operator.recipe.makefile
+	@if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
+	    rm -f $(MODLIB)/build ; \
+	    ln -s $(CURDIR) $(MODLIB)/build ; \
+	fi
+	@cp -f $(objtree)/modules.order $(MODLIB)/
+	# <- keyword.operator.recipe.makefile
+	@cp -f $(objtree)/modules.builtin $(MODLIB)/
+	# <- keyword.operator.recipe.makefile
 
 #########################
 # 5.5 Errors in Recipes #
@@ -1482,6 +1569,18 @@ Y := 3
 endef   # comment
 #^^^^ keyword.control.endef.makefile
 #       ^^^ comment.line.number-sign.makefile
+
+define filechk_utsrelease.h
+    if [ `echo -n "$(KERNELRELEASE)" | wc -c ` -gt $(uts_len) ]; then \
+      echo '"$(KERNELRELEASE)" exceeds $(uts_len) characters' >&2;    \
+      exit 1;                                                         \
+    fi;                                                               \
+    (echo \#define UTS_RELEASE \"$(KERNELRELEASE)\";)
+endef
+# <- keyword.control.endef.makefile
+
+endef
+# <- invalid.illegal.stray.endef.makefile
 
 # Avoid false positives such as partial matches.
 
@@ -3116,130 +3215,6 @@ load ../mk_funcs.so(init_mk_func)
 # Unsorted and legacy tests #
 #############################
 
-a = b # c
-#<- variable.other
-# ^ keyword.operator.assignment
-#   ^ string.unquoted
-#     ^ comment.line.number-sign punctuation.definition.comment
-#       ^ comment.line.number-sign
-
-a = b # c
-#<- variable.other
-# ^ keyword.operator.assignment
-#   ^ string.unquoted
-#     ^ comment.line.number-sign punctuation.definition.comment
-#       ^ comment.line.number-sign
-
-_modinst_:
-	@rm -rf $(MODLIB)/kernel
-	# <- keyword.operator.recipe.makefile
-	@rm -f $(MODLIB)/source
-	# <- keyword.operator.recipe.makefile
-	@mkdir -p $(MODLIB)/kernel
-	# <- keyword.operator.recipe.makefile
-	@ln -s `cd $(srctree) && /bin/pwd` $(MODLIB)/source
-	# <- keyword.operator.recipe.makefile
-	@if [ ! $(objtree) -ef  $(MODLIB)/build ]; then \
-	    rm -f $(MODLIB)/build ; \
-	    ln -s $(CURDIR) $(MODLIB)/build ; \
-	fi
-	@cp -f $(objtree)/modules.order $(MODLIB)/
-	# <- keyword.operator.recipe.makefile
-	@cp -f $(objtree)/modules.builtin $(MODLIB)/
-	# <- keyword.operator.recipe.makefile
-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
-
-
-$(sort $(a)): $(b) ;
-#           ^ punctuation.definition.rule.makefile
-
-%:x
-# <- meta.function entity.name.function variable.language
-#^ punctuation.definition.rule.makefile
-	rm -rf /
-
-a : b ;
-# <- meta.function entity.name.function
-# ^ punctuation.definition.rule.makefile - entity.name.function
-#  ^ - string.unquoted
-#   ^ meta.function.arguments string.unquoted
-#    ^ - string.unquoted
-#     ^ punctuation.terminator
-
-a : b \
-	more prerequisites \
-	on a third line even
-	#                  ^ meta.function.arguments string.unquoted
-	@rm -rf /
-	# <- meta.function.body keyword.operator.recipe.makefile
-
-a : b ; rm -rf /
-#     ^ punctuation.terminator
-#       ^ source.shell
-
-$(a): b
-#^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
-#^ punctuation.section.interpolation.begin.makefile
-# ^ variable.other.makefile
-#  ^ punctuation.section.interpolation.end.makefile
-#   ^ punctuation.definition.rule.makefile
-#     ^ meta.function.arguments.makefile string.unquoted.makefile
-#      ^ meta.function.makefile
-	$(Q)$(MAKE) $(build)=$@
-	# <- meta.function.body
-	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
-	#                    ^ punctuation.definition.interpolation.makefile
-	#                     ^ variable.language.automatic.makefile
-
-$(a:b=c) : d
-#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
-#^ punctuation.section.interpolation.begin.makefile
-# ^ variable.other.makefile
-#  ^ punctuation.definition.substitution.makefile
-#    ^ keyword.operator.assignment.makefile
-#      ^ punctuation.section.interpolation.end.makefile
-#        ^ punctuation.definition.rule.makefile
-#          ^ meta.function.arguments.makefile string.unquoted.makefile
-#           ^ meta.function.makefile
-	$(Q)$(MAKE) $(build)=$@
-	# <- meta.function.body
-	#                    ^^ meta.string.glob.shell meta.interpolation.makefile
-	#                    ^ punctuation.definition.interpolation.makefile
-	#                     ^ variable.language.automatic.makefile
-
-$(X:a=b) : w ;
-#^^^^^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
-#^ punctuation.section.interpolation.begin.makefile
-# ^ variable.other.makefile
-#  ^ punctuation.definition.substitution.makefile
-#    ^ keyword.operator.assignment.makefile
-#      ^ punctuation.section.interpolation.end.makefile
-#        ^ punctuation.definition.rule.makefile
-#          ^ meta.function.arguments.makefile string.unquoted.makefile
-#            ^ punctuation.terminator.makefile
-#             ^ meta.function.body.makefile
-
-include $(c)
-ifneq ($(a),)
-$(b): ; rm -rf /
-#       ^ meta.function.body source.shell
-	@git clone asdf
-	# <- meta.function.body keyword.operator.recipe.makefile
-	# ^ meta.function.body
-endif
-
-define filechk_utsrelease.h
-    if [ `echo -n "$(KERNELRELEASE)" | wc -c ` -gt $(uts_len) ]; then \
-      echo '"$(KERNELRELEASE)" exceeds $(uts_len) characters' >&2;    \
-      exit 1;                                                         \
-    fi;                                                               \
-    (echo \#define UTS_RELEASE \"$(KERNELRELEASE)\";)
-endef
-# <- keyword.control.endef.makefile
-
-endef
-# <- invalid.illegal.stray
-
 # meta.group.conditional balancing
 ifeq ($(shell git status >/dev/null 2>&1 && echo USING_GIT),USING_GIT)
   ifeq ($(shell git svn info >/dev/null 2>&1 && echo USING_GIT_SVN),USING_GIT_SVN)
@@ -3361,21 +3336,6 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 #                                                           ^ punctuation.section.interpolation.end
 #                                                            ^ - punctuation.section.interpolation.end
 #                                                             ^ punctuation.section.interpolation.end
-
-# A recipe may contain empty lines like below
-help:
-	@echo  'Cleaning targets:'
-	# <- meta.function.body keyword.operator.recipe.makefile
-
-	@echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
-	# <- meta.function.body keyword.operator.recipe.makefile
-	#               ^ - keyword.operator.assignment
-	#                                                        ^ string.quoted.single.shell
-	@echo  '        1: warnings which may be relevant and do not occur too often'
-	# <- meta.function.body keyword.operator.recipe.makefile
-	#                ^ - keyword.operator.assignment
-	@echo  '        2: warnings which occur quite often but may still be relevant'
-	# <- meta.function.body keyword.operator.recipe.makefile
 
 CC_VERSION := $(shell $(CC) -dumpversion)
 $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
