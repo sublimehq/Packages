@@ -1,0 +1,91 @@
+{
+	"scope": "source.makefile - source.makefile meta.keyword - source.makefile meta.interpolation",
+	"completions": [
+
+		// Definitions
+
+		{
+			"trigger": "define",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "endef",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "export",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "include",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "sinclude",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "load",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "override",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "undefine",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "unexport",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "vpath",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+
+		// Conditionals
+
+		{
+			"trigger": "ifdef",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "ifndef",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "ifeq",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "ifneq",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "else",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+		{
+			"trigger": "endif",
+			"kind": ["keyword", "d", "Directive"],
+			"details": " "
+		},
+	]
+}

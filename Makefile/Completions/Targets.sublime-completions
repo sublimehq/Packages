@@ -1,0 +1,85 @@
+{
+	"scope": "source.makefile - source.makefile meta.function - source.makefile meta.interpolation",
+	"completions": [
+		{
+			"trigger": ".PHONY",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".SUFFIXES",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".DEFAULT",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".PRECIOUS",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".INTERMEDIATE",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".NOTINTERMEDIATE",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".SECONDARY",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".SECONDEXPANSION",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".DELETE_ON_ERROR",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".IGNORE",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".LOW_RESOLUTION_TIME",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".SILENT",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".EXPORT_ALL_VARIABLES",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".NOTPARALLEL",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".ONESHELL",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+		{
+			"trigger": ".POSIX",
+			"kind": ["function", "f", "Target"],
+			"details": " "
+		},
+	]
+}
