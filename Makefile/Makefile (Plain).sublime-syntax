@@ -118,8 +118,7 @@ contexts:
         - inside-rule-body
         - inside-shell
     - include: line-continuations
-    - include: second-string-content
-    - include: percentage-placeholders
+    - include: second-pattern-content
 
   inside-rule-comment:
     - meta_scope: meta.function.makefile
@@ -590,8 +589,10 @@ contexts:
   inside-brace-expansion-pattern-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
-    - include: inside-brace-expansion-function
-    - include: percentage-placeholders
+    - include: brace-expansion-end
+    - include: continuation-or-eol-pop
+    - include: comma-separators
+    - include: brace-pattern-content
 
   inside-brace-expansion-wildcard-function:
     - meta_include_prototype: false
@@ -639,14 +640,14 @@ contexts:
       set: inside-brace-variable-replacement
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-substitution-content
+    - include: pattern-content
 
   inside-brace-variable-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-substitution-content
+    - include: pattern-content
 
   brace-expansion-end:
     - match: \}
@@ -729,8 +730,10 @@ contexts:
   inside-paren-expansion-pattern-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
-    - include: inside-paren-expansion-function
-    - include: percentage-placeholders
+    - include: paren-expansion-end
+    - include: continuation-or-eol-pop
+    - include: comma-separators
+    - include: paren-pattern-content
 
   inside-paren-expansion-wildcard-function:
     - meta_include_prototype: false
@@ -778,14 +781,14 @@ contexts:
       set: inside-paren-variable-replacement
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-substitution-content
+    - include: pattern-content
 
   inside-paren-variable-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-substitution-content
+    - include: pattern-content
 
   paren-expansion-end:
     - match: \)
@@ -798,7 +801,29 @@ contexts:
     - include: expansions
     - include: percentage-placeholders
 
-  variable-substitution-content:
+  brace-pattern-content:
+    - match: \{
+      push: inside-pattern-brace
+    - include: pattern-content
+
+  inside-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-pattern-content
+
+  paren-pattern-content:
+    - match: \(
+      push: inside-pattern-paren
+    - include: pattern-content
+
+  inside-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-pattern-content
+
+  pattern-content:
     - include: string-content
     - include: percentage-placeholders
 
@@ -1079,8 +1104,10 @@ contexts:
   inside-brace-second-expansion-pattern-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
-    - include: inside-brace-second-expansion-function
-    - include: percentage-placeholders
+    - include: brace-expansion-end
+    - include: continuation-or-eol-pop
+    - include: comma-separators
+    - include: brace-second-pattern-content
 
   inside-brace-second-expansion-wildcard-function:
     - meta_include_prototype: false
@@ -1128,14 +1155,14 @@ contexts:
       set: inside-brace-variable-second-replacement
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-second-substitution-content
+    - include: second-pattern-content
 
   inside-brace-variable-second-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-second-substitution-content
+    - include: second-pattern-content
 
   paren-second-expansion-begin:
     - meta_include_prototype: false
@@ -1214,8 +1241,10 @@ contexts:
   inside-paren-second-expansion-pattern-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
-    - include: inside-paren-second-expansion-function
-    - include: percentage-placeholders
+    - include: paren-expansion-end
+    - include: continuation-or-eol-pop
+    - include: comma-separators
+    - include: paren-second-pattern-content
 
   inside-paren-second-expansion-wildcard-function:
     - meta_include_prototype: false
@@ -1263,14 +1292,14 @@ contexts:
       set: inside-paren-variable-second-replacement
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-second-substitution-content
+    - include: second-pattern-content
 
   inside-paren-variable-second-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: variable-second-substitution-content
+    - include: second-pattern-content
 
   variable-second-expansion-content:
     - include: escaped-chars
@@ -1279,8 +1308,30 @@ contexts:
     - include: expansions
     - include: percentage-placeholders
 
-  variable-second-substitution-content:
-    - include: paren-second-string-content
+  brace-second-pattern-content:
+    - match: \{
+      push: inside-second-pattern-brace
+    - include: second-pattern-content
+
+  inside-second-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-pattern-content
+
+  paren-second-pattern-content:
+    - match: \(
+      push: inside-second-pattern-paren
+    - include: second-pattern-content
+
+  inside-second-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-pattern-content
+
+  second-pattern-content:
+    - include: second-string-content
     - include: percentage-placeholders
 
   brace-second-string-content:
