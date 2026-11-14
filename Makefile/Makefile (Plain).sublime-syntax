@@ -304,23 +304,14 @@ contexts:
   inside-include-directive:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.include.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
-    - include: glob-placeholders
     - match: \s+
       scope: meta.directive.include.makefile
       set: inside-include-directive
+    - include: glob-content
 
   inside-load-directive:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.load.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
-    - include: glob-placeholders
     - match: (\()([^)]*)(\))
       scope: meta.parens.makefile
       captures:
@@ -330,6 +321,7 @@ contexts:
     - match: \s+
       scope: meta.directive.load.makefile
       set: inside-load-directive
+    - include: glob-content
 
   inside-undefine-directive-name:
     - meta_content_scope: meta.directive.undefine.makefile variable.other.makefile
@@ -344,14 +336,10 @@ contexts:
   inside-vpath-pattern:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.vpath.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
-    - include: glob-placeholders
     - match: \s+
       scope: meta.directive.vpath.makefile
       set: inside-vpath-directory
+    - include: glob-content
 
   inside-vpath-directory:
     - meta_include_prototype: false
@@ -603,8 +591,9 @@ contexts:
   inside-brace-expansion-wildcard-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: inside-brace-expansion-function
-    - include: glob-placeholders
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: glob-content
 
   inside-brace-expansion-function:
     - meta_include_prototype: false
@@ -736,8 +725,9 @@ contexts:
   inside-paren-expansion-wildcard-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: inside-paren-expansion-function
-    - include: glob-placeholders
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: glob-content
 
   inside-paren-expansion-function:
     - meta_include_prototype: false
@@ -815,6 +805,17 @@ contexts:
 
 ###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
 
+  glob-content:
+    - match: \(
+      push: inside-glob-paren
+    - include: glob-placeholders
+    - include: glob-common
+
+  inside-glob-paren:
+    - match: \)
+      pop: 1
+    - include: glob-content
+
   glob-placeholders:
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
@@ -877,7 +878,7 @@ contexts:
         1: constant.character.escape.glob.makefile
         2: punctuation.separator.sequence.glob.makefile
         3: constant.character.escape.glob.makefile
-    - include: glob-character-class-common
+    - include: glob-common
 
   glob-character-class-collate-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -885,7 +886,7 @@ contexts:
     - match: \.\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-character-class-common
+    - include: glob-common
 
   glob-character-class-equivalence-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -893,7 +894,7 @@ contexts:
     - match: =\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-character-class-common
+    - include: glob-common
 
   glob-character-class-posix-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -903,13 +904,7 @@ contexts:
         1: constant.other.character-class.posix.glob.makefile
         2: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-character-class-common
-
-  glob-character-class-common:
-    - include: continuation-or-eol-pop
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
+    - include: glob-common
 
   glob-character-class-end:
     - match: \]
@@ -920,6 +915,12 @@ contexts:
     - meta_include_prototype: false
     - match: \[
       pop: 1
+
+  glob-common:
+    - include: continuation-or-eol-pop
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
 
 ###[ SECOND EXPANSIONS ]#######################################################
 
@@ -1050,8 +1051,9 @@ contexts:
   inside-brace-second-expansion-wildcard-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: inside-brace-second-expansion-function
-    - include: second-glob-placeholders
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: second-glob-content
 
   inside-brace-second-expansion-function:
     - meta_include_prototype: false
@@ -1179,8 +1181,9 @@ contexts:
   inside-paren-second-expansion-wildcard-function:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
-    - include: inside-paren-second-expansion-function
-    - include: second-glob-placeholders
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: second-glob-content
 
   inside-paren-second-expansion-function:
     - meta_include_prototype: false
@@ -1259,6 +1262,17 @@ contexts:
   #  - idendical to glob-placeholders, but with $$ punctuation
   #  - valid only within second expansions
 
+  second-glob-content:
+    - match: \(
+      push: inside-second-glob-paren
+    - include: second-glob-placeholders
+    - include: second-glob-common
+
+  inside-second-glob-paren:
+    - match: \)
+      pop: 1
+    - include: second-glob-content
+
   second-glob-placeholders:
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
@@ -1306,7 +1320,7 @@ contexts:
         1: constant.character.escape.glob.makefile
         2: punctuation.separator.sequence.glob.makefile
         3: constant.character.escape.glob.makefile
-    - include: second-glob-character-class-common
+    - include: second-glob-common
 
   second-glob-character-class-collate-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1314,7 +1328,7 @@ contexts:
     - match: \.\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-character-class-common
+    - include: second-glob-common
 
   second-glob-character-class-equivalence-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1322,7 +1336,7 @@ contexts:
     - match: =\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-character-class-common
+    - include: second-glob-common
 
   second-glob-character-class-posix-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1332,9 +1346,9 @@ contexts:
         1: constant.other.character-class.posix.glob.makefile
         2: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-character-class-common
+    - include: second-glob-common
 
-  second-glob-character-class-common:
+  second-glob-common:
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
