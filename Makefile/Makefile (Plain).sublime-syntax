@@ -285,18 +285,18 @@ contexts:
 
   inside-export-directive-name:
     - meta_content_scope: meta.directive.export.makefile variable.other.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
     - match: \s*({{var_assign}})\s*
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-export-variable-value
-    - include: continuation-or-eol-pop
-    - include: comment
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
     - match: \s+
       scope: meta.directive.export.makefile
       set: inside-export-directive-name
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: expansions
 
   inside-export-variable-value:
     - meta_include_prototype: false
@@ -307,6 +307,8 @@ contexts:
   inside-include-directive:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.include.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
     - match: \s+
       scope: meta.directive.include.makefile
       set: inside-include-directive
@@ -315,31 +317,35 @@ contexts:
   inside-load-directive:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.load.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s+
+      scope: meta.directive.load.makefile
+      set: inside-load-directive
     - match: (\()([^)]*)(\))
       scope: meta.parens.makefile
       captures:
         1: punctuation.section.parens.begin.makefile
         2: entity.name.symbol.makefile
         3: punctuation.section.parens.end.makefile
-    - match: \s+
-      scope: meta.directive.load.makefile
-      set: inside-load-directive
     - include: glob-content
 
   inside-undefine-directive-name:
     - meta_content_scope: meta.directive.undefine.makefile variable.other.makefile
     - include: continuation-or-eol-pop
     - include: comment
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
     - match: \s+
       scope: meta.directive.undefine.makefile
       set: inside-undefine-directive-name
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: expansions
 
   inside-vpath-pattern:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.vpath.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
     - match: \s+
       scope: meta.directive.vpath.makefile
       set: inside-vpath-directory
@@ -564,10 +570,10 @@ contexts:
   inside-brace-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -575,6 +581,7 @@ contexts:
   inside-brace-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
@@ -584,6 +591,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: string-content
 
   inside-brace-expansion-pattern-function:
@@ -596,6 +604,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: glob-content
 
@@ -603,13 +612,14 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: string-content
 
   inside-brace-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: brace-expansion-end
-    - include: eol-pop
+    - include: continuation-or-eol-pop
     - include: shell-content
 
   inside-brace-expansion-automatic-variable-name:
@@ -625,6 +635,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-substitution
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-expansion-content
 
   inside-brace-variable-substitution:
@@ -634,12 +645,14 @@ contexts:
       scope: meta.interpolation.makefile keyword.operator.assignment.makefile
       set: inside-brace-variable-replacement
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-substitution-content
 
   inside-brace-variable-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-substitution-content
 
   brace-expansion-end:
@@ -696,10 +709,10 @@ contexts:
   inside-paren-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -707,6 +720,7 @@ contexts:
   inside-paren-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
@@ -716,6 +730,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: string-content
 
   inside-paren-expansion-pattern-function:
@@ -728,6 +743,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: glob-content
 
@@ -735,13 +751,14 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: string-content
 
   inside-paren-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: paren-expansion-end
-    - include: eol-pop
+    - include: continuation-or-eol-pop
     - include: shell-content
 
   inside-paren-expansion-automatic-variable-name:
@@ -757,6 +774,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-substitution
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-expansion-content
 
   inside-paren-variable-substitution:
@@ -766,12 +784,14 @@ contexts:
       scope: meta.interpolation.makefile keyword.operator.assignment.makefile
       set: inside-paren-variable-replacement
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-substitution-content
 
   inside-paren-variable-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-substitution-content
 
   paren-expansion-end:
@@ -780,7 +800,6 @@ contexts:
       pop: 1
 
   variable-expansion-content:
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -793,7 +812,6 @@ contexts:
   string-content:
     - match: \(
       push: inside-string-paren
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
@@ -801,6 +819,7 @@ contexts:
   inside-string-paren:
     - match: \)
       pop: 1
+    - include: continuation-or-eol-pop
     - include: string-content
 
 ###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
@@ -814,6 +833,7 @@ contexts:
   inside-glob-paren:
     - match: \)
       pop: 1
+    - include: continuation-or-eol-pop
     - include: glob-content
 
   glob-placeholders:
@@ -860,6 +880,7 @@ contexts:
     - match: (?!\S) # also fail at eof
       fail: glob-character-class
     - include: glob-character-class-end
+    - include: continuation-or-eol-pop
     - include: glob-character-class-content
 
   glob-character-class-content:
@@ -917,7 +938,6 @@ contexts:
       pop: 1
 
   glob-common:
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
@@ -1018,10 +1038,10 @@ contexts:
   inside-brace-second-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1030,6 +1050,7 @@ contexts:
   inside-brace-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
@@ -1039,6 +1060,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: second-string-content
 
   inside-brace-second-expansion-pattern-function:
@@ -1051,6 +1073,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: second-glob-content
 
@@ -1058,13 +1081,14 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: second-string-content
 
   inside-brace-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: brace-expansion-end
-    - include: eol-pop
+    - include: continuation-or-eol-pop
     - include: second-shell-content
 
   inside-brace-second-expansion-automatic-variable-name:
@@ -1080,6 +1104,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-second-substitution
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-expansion-content
 
   inside-brace-variable-second-substitution:
@@ -1089,12 +1114,14 @@ contexts:
       scope: meta.interpolation.makefile keyword.operator.assignment.makefile
       set: inside-brace-variable-second-replacement
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-substitution-content
 
   inside-brace-variable-second-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-substitution-content
 
   paren-second-expansion-begin:
@@ -1146,10 +1173,10 @@ contexts:
   inside-paren-second-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1158,6 +1185,7 @@ contexts:
   inside-paren-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
     - include: brace-expansion-end
+    - include: continuation-or-eol-pop
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
@@ -1167,6 +1195,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: second-string-content
 
   inside-paren-second-expansion-pattern-function:
@@ -1179,6 +1208,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: second-glob-content
 
@@ -1186,13 +1216,14 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: comma-separators
     - include: second-string-content
 
   inside-paren-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
     - include: paren-expansion-end
-    - include: eol-pop
+    - include: continuation-or-eol-pop
     - include: second-shell-content
 
   inside-paren-second-expansion-automatic-variable-name:
@@ -1208,6 +1239,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-second-substitution
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-expansion-content
 
   inside-paren-variable-second-substitution:
@@ -1217,16 +1249,17 @@ contexts:
       scope: meta.interpolation.makefile keyword.operator.assignment.makefile
       set: inside-paren-variable-second-replacement
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-substitution-content
 
   inside-paren-variable-second-replacement:
     - meta_include_prototype: false
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: paren-expansion-end
+    - include: continuation-or-eol-pop
     - include: variable-second-substitution-content
 
   variable-second-expansion-content:
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1240,7 +1273,6 @@ contexts:
   second-string-content:
     - match: \(
       push: inside-second-string-paren
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-interpolations
@@ -1249,6 +1281,7 @@ contexts:
   inside-second-string-paren:
     - match: \)
       pop: 1
+    - include: continuation-or-eol-pop
     - include: second-string-content
 
 ###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
@@ -1266,6 +1299,7 @@ contexts:
   inside-second-glob-paren:
     - match: \)
       pop: 1
+    - include: continuation-or-eol-pop
     - include: second-glob-content
 
   second-glob-placeholders:
@@ -1297,6 +1331,7 @@ contexts:
     - match: (?!\S) # also fail at eof
       fail: second-glob-character-class
     - include: glob-character-class-end
+    - include: continuation-or-eol-pop
     - include: second-glob-character-class-content
 
   second-glob-character-class-content:
@@ -1344,7 +1379,6 @@ contexts:
     - include: second-glob-common
 
   second-glob-common:
-    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-interpolations
