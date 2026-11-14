@@ -27,6 +27,12 @@
                     keyword.control.conditional.endif.makefile
                 </string>
             </dict>
+            <dict>
+                <key>begin</key>
+                <string>meta.directive.define keyword.operator.assignment</string>
+                <key>end</key>
+                <string>keyword.control.endef</string>
+            </dict>
         </array>
     </dict>
 </dict>
