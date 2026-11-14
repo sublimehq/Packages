@@ -819,15 +819,15 @@ contexts:
   glob-placeholders:
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
-    - match: \*
-      scope: constant.other.wildcard.asterisk.makefile
-    - match: \?
-      scope: constant.other.wildcard.questionmark.makefile
     - match: (?=\[)
       branch_point: glob-character-class
       branch:
         - glob-character-class
         - glob-character-class-fallback
+    - match: \*
+      scope: constant.other.wildcard.asterisk.makefile
+    - match: \?
+      scope: constant.other.wildcard.questionmark.makefile
 
   glob-character-class:
     - clear_scopes: 2
@@ -1276,15 +1276,15 @@ contexts:
   second-glob-placeholders:
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
-    - match: \*
-      scope: constant.other.wildcard.asterisk.makefile
-    - match: \?
-      scope: constant.other.wildcard.questionmark.makefile
     - match: (?=\[)
       branch_point: second-glob-character-class
       branch:
         - second-glob-character-class
         - glob-character-class-fallback
+    - match: \*
+      scope: constant.other.wildcard.asterisk.makefile
+    - match: \?
+      scope: constant.other.wildcard.questionmark.makefile
 
   second-glob-character-class:
     - clear_scopes: 2
