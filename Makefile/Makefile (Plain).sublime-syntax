@@ -118,10 +118,7 @@ contexts:
         - inside-rule-body
         - inside-shell
     - include: line-continuations
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-interpolations
-    - include: interpolations
+    - include: second-string-content
     - include: percentage-placeholders
 
   inside-rule-comment:
@@ -195,9 +192,7 @@ contexts:
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
     - include: comment
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
+    - include: string-content
 
 ###[ DIRECTIVES ]##############################################################
 
@@ -356,9 +351,7 @@ contexts:
     - meta_content_scope: meta.directive.vpath.makefile meta.string.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
     - include: comment
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
+    - include: string-content
 
 ###[ CONDITIONAL DIRECTIVES ]##################################################
 
@@ -592,7 +585,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: string-content
+    - include: brace-string-content
 
   inside-brace-expansion-pattern-function:
     - meta_include_prototype: false
@@ -606,7 +599,7 @@ contexts:
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: glob-content
+    - include: brace-glob-content
 
   inside-brace-expansion-function:
     - meta_include_prototype: false
@@ -614,7 +607,7 @@ contexts:
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: string-content
+    - include: brace-string-content
 
   inside-brace-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
@@ -731,7 +724,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: string-content
+    - include: paren-string-content
 
   inside-paren-expansion-pattern-function:
     - meta_include_prototype: false
@@ -745,7 +738,7 @@ contexts:
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: glob-content
+    - include: paren-glob-content
 
   inside-paren-expansion-function:
     - meta_include_prototype: false
@@ -753,7 +746,7 @@ contexts:
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: string-content
+    - include: paren-string-content
 
   inside-paren-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
@@ -809,34 +802,59 @@ contexts:
     - include: string-content
     - include: percentage-placeholders
 
-  string-content:
+  brace-string-content:
+    - match: \{
+      push: inside-string-brace
+    - include: string-content
+
+  inside-string-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-string-content
+
+  paren-string-content:
     - match: \(
       push: inside-string-paren
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
+    - include: string-content
 
   inside-string-paren:
     - match: \)
       pop: 1
     - include: continuation-or-eol-pop
-    - include: string-content
+    - include: paren-string-content
+
+  string-content:
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
 
 ###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
 
-  glob-content:
+  brace-glob-content:
+    - match: \{
+      push: inside-glob-brace
+    - include: glob-content
+
+  inside-glob-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-glob-content
+
+  paren-glob-content:
     - match: \(
       push: inside-glob-paren
-    - include: glob-placeholders
-    - include: glob-common
+    - include: glob-content
 
   inside-glob-paren:
     - match: \)
       pop: 1
     - include: continuation-or-eol-pop
-    - include: glob-content
+    - include: paren-glob-content
 
-  glob-placeholders:
+  glob-content:
+    - include: string-content
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
     - match: (?=\[)
@@ -899,7 +917,7 @@ contexts:
         1: constant.character.escape.glob.makefile
         2: punctuation.separator.sequence.glob.makefile
         3: constant.character.escape.glob.makefile
-    - include: glob-common
+    - include: string-content
 
   glob-character-class-collate-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -907,7 +925,7 @@ contexts:
     - match: \.\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-common
+    - include: string-content
 
   glob-character-class-equivalence-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -915,7 +933,7 @@ contexts:
     - match: =\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-common
+    - include: string-content
 
   glob-character-class-posix-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -925,7 +943,7 @@ contexts:
         1: constant.other.character-class.posix.glob.makefile
         2: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: glob-common
+    - include: string-content
 
   glob-character-class-end:
     - match: \]
@@ -936,11 +954,6 @@ contexts:
     - meta_include_prototype: false
     - match: \[
       pop: 1
-
-  glob-common:
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
 
 ###[ SECOND EXPANSIONS ]#######################################################
 
@@ -1061,7 +1074,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
-    - include: second-string-content
+    - include: brace-second-string-content
 
   inside-brace-second-expansion-pattern-function:
     - meta_include_prototype: false
@@ -1075,7 +1088,7 @@ contexts:
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: second-glob-content
+    - include: brace-second-glob-content
 
   inside-brace-second-expansion-function:
     - meta_include_prototype: false
@@ -1083,7 +1096,7 @@ contexts:
     - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: second-string-content
+    - include: brace-second-string-content
 
   inside-brace-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
@@ -1196,7 +1209,7 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
-    - include: second-string-content
+    - include: paren-second-string-content
 
   inside-paren-second-expansion-pattern-function:
     - meta_include_prototype: false
@@ -1210,7 +1223,7 @@ contexts:
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: second-glob-content
+    - include: paren-second-glob-content
 
   inside-paren-second-expansion-function:
     - meta_include_prototype: false
@@ -1218,7 +1231,7 @@ contexts:
     - include: paren-expansion-end
     - include: continuation-or-eol-pop
     - include: comma-separators
-    - include: second-string-content
+    - include: paren-second-string-content
 
   inside-paren-second-expansion-shell-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
@@ -1267,22 +1280,36 @@ contexts:
     - include: percentage-placeholders
 
   variable-second-substitution-content:
-    - include: second-string-content
+    - include: paren-second-string-content
     - include: percentage-placeholders
 
-  second-string-content:
+  brace-second-string-content:
+    - match: \{
+      push: inside-second-string-brace
+    - include: second-string-content
+
+  inside-second-string-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-string-content
+
+  paren-second-string-content:
     - match: \(
       push: inside-second-string-paren
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-interpolations
-    - include: interpolations
+    - include: second-string-content
 
   inside-second-string-paren:
     - match: \)
       pop: 1
     - include: continuation-or-eol-pop
-    - include: second-string-content
+    - include: paren-second-string-content
+
+  second-string-content:
+    - include: escaped-chars
+    - include: second-escaped-dollars
+    - include: second-interpolations
+    - include: interpolations
 
 ###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
 
@@ -1290,19 +1317,30 @@ contexts:
   #  - idendical to glob-placeholders, but with $$ punctuation
   #  - valid only within second expansions
 
-  second-glob-content:
+  brace-second-glob-content:
+    - match: \{
+      push: inside-second-glob-brace
+    - include: second-glob-content
+
+  inside-second-glob-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-glob-content
+
+  paren-second-glob-content:
     - match: \(
       push: inside-second-glob-paren
-    - include: second-glob-placeholders
-    - include: second-glob-common
+    - include: second-glob-content
 
   inside-second-glob-paren:
     - match: \)
       pop: 1
     - include: continuation-or-eol-pop
-    - include: second-glob-content
+    - include: paren-second-glob-content
 
-  second-glob-placeholders:
+  second-glob-content:
+    - include: second-string-content
     # 4.4 Using Wildcard Characters in File Names
     # Note: Copied from Bash.sublime-syntax
     - match: (?=\[)
@@ -1350,7 +1388,7 @@ contexts:
         1: constant.character.escape.glob.makefile
         2: punctuation.separator.sequence.glob.makefile
         3: constant.character.escape.glob.makefile
-    - include: second-glob-common
+    - include: second-string-content
 
   second-glob-character-class-collate-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1358,7 +1396,7 @@ contexts:
     - match: \.\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-common
+    - include: second-string-content
 
   second-glob-character-class-equivalence-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1366,7 +1404,7 @@ contexts:
     - match: =\]
       scope: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-common
+    - include: second-string-content
 
   second-glob-character-class-posix-body:
     - meta_scope: meta.character-class.glob.makefile
@@ -1376,13 +1414,7 @@ contexts:
         1: constant.other.character-class.posix.glob.makefile
         2: punctuation.definition.character-class.end.glob.makefile
       pop: 1
-    - include: second-glob-common
-
-  second-glob-common:
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-interpolations
-    - include: interpolations
+    - include: second-string-content
 
 ###[ LITERALS ]################################################################
 

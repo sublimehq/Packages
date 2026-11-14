@@ -557,6 +557,112 @@ include [[.alpha.][=punct=][:space:]]
 # 4.4.3 The Function wildcard #
 ###############################
 
+var = $(wildcard \(\()))))   # unbalanced parentheses must be escaped
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile constant.character.escape.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile
+
+var = $(wildcard (()))))))   # parentheses must be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = $(wildcard {{{)}}}}}   # braces don't need to be balanced
+#^^ variable.other.makefile
+#   ^ keyword.operator.assignment.makefile
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
+#                    ^^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${wildcard \{\{}}}}}   # unbalanced braces must be escaped
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile constant.character.escape.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile
+
+var = ${wildcard {{}}}}}}}   # braces must be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${wildcard (((})))))   # parentheses don't need to be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^ meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
+#                    ^^^^^ string.unquoted.makefile - meta.interpolation
+
+var = $(wildcard (a*b?-[a-z])?) # wildcards in balanced parentheses
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile
+#                ^^^^^^ string.unquoted.makefile
+#                  ^ constant.other.wildcard.asterisk.makefile
+#                    ^ constant.other.wildcard.questionmark.makefile
+#                      ^^^^^ meta.character-class.glob.makefile string.unquoted.makefile
+#                      ^ punctuation.definition.character-class.begin.glob.makefile
+#                       ^^^ constant.other.range.glob.makefile
+#                        ^ punctuation.separator.sequence.glob.makefile
+#                          ^ punctuation.definition.character-class.end.glob.makefile
+#                           ^^ string.unquoted.makefile
+#                            ^ constant.other.wildcard.questionmark.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
+var = ${wildcard {a*b?-[a-z]}?} # wildcards in balanced braces
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^^^^^ support.function.builtin.makefile
+#                ^^^^^^^^^^^^^ meta.function-call.arguments.makefile meta.string.glob.makefile
+#                ^^^^^^ string.unquoted.makefile
+#                  ^ constant.other.wildcard.asterisk.makefile
+#                    ^ constant.other.wildcard.questionmark.makefile
+#                      ^^^^^ meta.character-class.glob.makefile string.unquoted.makefile
+#                      ^ punctuation.definition.character-class.begin.glob.makefile
+#                       ^^^ constant.other.range.glob.makefile
+#                        ^ punctuation.separator.sequence.glob.makefile
+#                          ^ punctuation.definition.character-class.end.glob.makefile
+#                           ^^ string.unquoted.makefile
+#                            ^ constant.other.wildcard.questionmark.makefile
+#                             ^ punctuation.section.interpolation.end.makefile
+
 wildcard: $(wildcard a-[a-b]?.*)
 #         ^^^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
 #         ^ punctuation.definition.interpolation.makefile
@@ -1201,6 +1307,29 @@ bar := $(foo:%.o=%.c)
 #                ^ variable.language.makefile
 #                   ^ punctuation.section.interpolation.end.makefile
 
+bar := $(foo:()=()) # parentheses are not balanced in substitutions
+#      ^^^^^^^^^^^^ meta.string.makefile
+#      ^^^^^^^^ meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ string.unquoted.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#              ^^^^ string.unquoted.makefile - meta.interpolation
+
+bar := $(foo:(=))   # parentheses are not balanced in substitutions
+#      ^^^^^^^^^^ meta.string.makefile
+#      ^^^^^^^^^ meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ string.unquoted.makefile
+#             ^ keyword.operator.assignment.makefile
+#              ^ punctuation.section.interpolation.end.makefile
+#               ^ string.unquoted.makefile - meta.interpolation
+
 bar := ${foo}
 #      ^^^^^^ meta.string.makefile meta.interpolation.makefile - string
 #      ^ punctuation.definition.interpolation.makefile - variable
@@ -1218,6 +1347,29 @@ bar := ${foo:%.o=%.c}
 #               ^ keyword.operator.assignment.makefile
 #                ^ variable.language.makefile
 #                   ^ punctuation.section.interpolation.end.makefile
+
+bar := ${foo:{}={}} # parentheses are not balanced in substitutions
+#      ^^^^^^^^^^^^ meta.string.makefile
+#      ^^^^^^^^ meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ string.unquoted.makefile
+#             ^ punctuation.section.interpolation.end.makefile
+#              ^^^^ string.unquoted.makefile - meta.interpolation
+
+bar := ${foo:{=}}   # parentheses are not balanced in substitutions
+#      ^^^^^^^^^^ meta.string.makefile
+#      ^^^^^^^^^ meta.interpolation.makefile
+#      ^ punctuation.definition.interpolation.makefile
+#       ^ punctuation.section.interpolation.begin.makefile
+#        ^^^ variable.other.makefile
+#           ^ punctuation.definition.substitution.makefile
+#            ^ string.unquoted.makefile
+#             ^ keyword.operator.assignment.makefile
+#              ^ punctuation.section.interpolation.end.makefile
+#               ^ string.unquoted.makefile - meta.interpolation
 
 var := $($(a1)_objects:.o=.c)
 #      ^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -2362,6 +2514,76 @@ $(call my_func,my_arg): deps
 #                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
 #                           ^ meta.function.makefile
 
+var = $(call fun,\(\()))))   # unbalanced parentheses must be escaped
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^ variable.function.makefile
+#               ^ punctuation.separator.sequence.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile constant.character.escape.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile
+
+var = $(call fun,(()))))))   # parentheses must be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = $(call fun,{{{)}}}}}   # braces don't need to be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#                ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
+#                    ^^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${call fun,\{\{}}}}}   # unbalanced braces must be escaped
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^ variable.function.makefile
+#               ^ punctuation.separator.sequence.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile constant.character.escape.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile
+
+var = ${call fun,{{}}}}}}}   # braces must be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#                ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                    ^ punctuation.section.interpolation.end.makefile
+#                     ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${call fun,(((})))))   # parentheses don't need to be balanced
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#                ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                   ^ punctuation.section.interpolation.end.makefile
+#                    ^^^^^ string.unquoted.makefile - meta.interpolation
+
 sh = $(shell run $(call something))
 #                ^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
 #                ^ punctuation.definition.interpolation.makefile
@@ -2465,6 +2687,50 @@ info:
 	#      ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile - punctuation
 	# ^^^^ support.function.builtin.makefile
 	#            ^ punctuation.section.interpolation.end
+
+var = $(info (()))))))   # parentheses must be balanced
+#     ^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = $(info {{{)}}}}}   # braces don't need to be balanced
+#     ^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#               ^ punctuation.section.interpolation.end.makefile
+#                ^^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${info {{}}}}}}}   # braces must be balanced
+#     ^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#                ^ punctuation.section.interpolation.end.makefile
+#                 ^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${info (((})))))   # parentheses don't need to be balanced
+#     ^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+#               ^ punctuation.section.interpolation.end.makefile
+#                ^^^^^ string.unquoted.makefile - meta.interpolation
 
 ###########################
 # 8.14 The shell Function #
