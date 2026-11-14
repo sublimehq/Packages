@@ -555,7 +555,7 @@ contexts:
     # makefile variable expansions
     - match: '[{{var_auto_chars}}][DF]?'
       scope: variable.language.automatic.makefile
-      set: inside-brace-expansion-automatic-variable-name
+      set: brace-variable-substitution
     - match: ''
       set: inside-brace-expansion-variable-name
 
@@ -609,19 +609,16 @@ contexts:
     - include: brace-expansion-end
     - include: shell-content
 
-  inside-brace-expansion-automatic-variable-name:
-    - match: ':'
-      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
-      set: inside-brace-variable-substitution
-    - include: brace-expansion-end
-
   inside-brace-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: brace-variable-substitution
+    - include: variable-expansion-content
+
+  brace-variable-substitution:
     - match: ':'
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-substitution
     - include: brace-expansion-end
-    - include: variable-expansion-content
 
   inside-brace-variable-substitution:
     - meta_include_prototype: false
@@ -686,7 +683,7 @@ contexts:
     # makefile variable expansions
     - match: '[{{var_auto_chars}}][DF]?'
       scope: variable.language.automatic.makefile
-      set: inside-paren-expansion-automatic-variable-name
+      set: paren-variable-substitution
     - match: ''
       set: inside-paren-expansion-variable-name
 
@@ -740,19 +737,16 @@ contexts:
     - include: paren-expansion-end
     - include: shell-content
 
-  inside-paren-expansion-automatic-variable-name:
-    - match: ':'
-      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
-      set: inside-paren-variable-substitution
-    - include: paren-expansion-end
-
   inside-paren-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: paren-variable-substitution
+    - include: variable-expansion-content
+
+  paren-variable-substitution:
     - match: ':'
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-substitution
     - include: paren-expansion-end
-    - include: variable-expansion-content
 
   inside-paren-variable-substitution:
     - meta_include_prototype: false
@@ -1053,7 +1047,7 @@ contexts:
     # makefile variable expansions
     - match: '[{{var_auto_chars}}][DF]?'
       scope: variable.language.automatic.makefile
-      set: inside-brace-second-expansion-automatic-variable-name
+      set: brace-second-variable-substitution
     - match: ''
       set: inside-brace-second-expansion-variable-name
 
@@ -1108,19 +1102,16 @@ contexts:
     - include: brace-expansion-end
     - include: second-shell-content
 
-  inside-brace-second-expansion-automatic-variable-name:
-    - match: ':'
-      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
-      set: inside-brace-variable-second-substitution
-    - include: brace-expansion-end
-
   inside-brace-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: brace-second-variable-substitution
+    - include: variable-second-expansion-content
+
+  brace-second-variable-substitution:
     - match: ':'
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-second-substitution
     - include: brace-expansion-end
-    - include: variable-second-expansion-content
 
   inside-brace-variable-second-substitution:
     - meta_include_prototype: false
@@ -1179,7 +1170,7 @@ contexts:
     # makefile variable expansions
     - match: '[{{var_auto_chars}}][DF]?'
       scope: variable.language.automatic.makefile
-      set: inside-paren-second-expansion-automatic-variable-name
+      set: paren-second-variable-substitution
     - match: ''
       set: inside-paren-second-expansion-variable-name
 
@@ -1234,19 +1225,16 @@ contexts:
     - include: paren-expansion-end
     - include: second-shell-content
 
-  inside-paren-second-expansion-automatic-variable-name:
-    - match: ':'
-      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
-      set: inside-paren-variable-second-substitution
-    - include: paren-expansion-end
-
   inside-paren-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: paren-second-variable-substitution
+    - include: variable-second-expansion-content
+
+  paren-second-variable-substitution:
     - match: ':'
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-second-substitution
     - include: paren-expansion-end
-    - include: variable-second-expansion-content
 
   inside-paren-variable-second-substitution:
     - meta_include_prototype: false
