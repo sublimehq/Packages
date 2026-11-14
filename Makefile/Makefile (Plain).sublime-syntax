@@ -801,59 +801,6 @@ contexts:
     - include: expansions
     - include: percentage-placeholders
 
-  brace-pattern-content:
-    - match: \{
-      push: inside-pattern-brace
-    - include: pattern-content
-
-  inside-pattern-brace:
-    - match: \}
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: brace-pattern-content
-
-  paren-pattern-content:
-    - match: \(
-      push: inside-pattern-paren
-    - include: pattern-content
-
-  inside-pattern-paren:
-    - match: \)
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: paren-pattern-content
-
-  pattern-content:
-    - include: string-content
-    - include: percentage-placeholders
-
-  brace-string-content:
-    - match: \{
-      push: inside-string-brace
-    - include: string-content
-
-  inside-string-brace:
-    - match: \}
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: brace-string-content
-
-  paren-string-content:
-    - match: \(
-      push: inside-string-paren
-    - include: string-content
-
-  inside-string-paren:
-    - match: \)
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: paren-string-content
-
-  string-content:
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: interpolations
-
 ###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
 
   brace-glob-content:
@@ -979,6 +926,63 @@ contexts:
     - meta_include_prototype: false
     - match: \[
       pop: 1
+
+###[ SINGLE EXPANSIONS MAKE PATTERNS ]#########################################
+
+  brace-pattern-content:
+    - match: \{
+      push: inside-pattern-brace
+    - include: pattern-content
+
+  inside-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-pattern-content
+
+  paren-pattern-content:
+    - match: \(
+      push: inside-pattern-paren
+    - include: pattern-content
+
+  inside-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-pattern-content
+
+  pattern-content:
+    - include: string-content
+    - include: percentage-placeholders
+
+###[ SINGLE EXPANSIONS STRINGS ]###############################################
+
+  brace-string-content:
+    - match: \{
+      push: inside-string-brace
+    - include: string-content
+
+  inside-string-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-string-content
+
+  paren-string-content:
+    - match: \(
+      push: inside-string-paren
+    - include: string-content
+
+  inside-string-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-string-content
+
+  string-content:
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
 
 ###[ SECOND EXPANSIONS ]#######################################################
 
@@ -1308,60 +1312,6 @@ contexts:
     - include: expansions
     - include: percentage-placeholders
 
-  brace-second-pattern-content:
-    - match: \{
-      push: inside-second-pattern-brace
-    - include: second-pattern-content
-
-  inside-second-pattern-brace:
-    - match: \}
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: brace-second-pattern-content
-
-  paren-second-pattern-content:
-    - match: \(
-      push: inside-second-pattern-paren
-    - include: second-pattern-content
-
-  inside-second-pattern-paren:
-    - match: \)
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: paren-second-pattern-content
-
-  second-pattern-content:
-    - include: second-string-content
-    - include: percentage-placeholders
-
-  brace-second-string-content:
-    - match: \{
-      push: inside-second-string-brace
-    - include: second-string-content
-
-  inside-second-string-brace:
-    - match: \}
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: brace-second-string-content
-
-  paren-second-string-content:
-    - match: \(
-      push: inside-second-string-paren
-    - include: second-string-content
-
-  inside-second-string-paren:
-    - match: \)
-      pop: 1
-    - include: continuation-or-eol-pop
-    - include: paren-second-string-content
-
-  second-string-content:
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-interpolations
-    - include: interpolations
-
 ###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
 
   # Note:
@@ -1466,6 +1416,64 @@ contexts:
         2: punctuation.definition.character-class.end.glob.makefile
       pop: 1
     - include: second-string-content
+
+###[ SECOND EXPANSIONS MAKE PATTERNS ]#########################################
+
+  brace-second-pattern-content:
+    - match: \{
+      push: inside-second-pattern-brace
+    - include: second-pattern-content
+
+  inside-second-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-pattern-content
+
+  paren-second-pattern-content:
+    - match: \(
+      push: inside-second-pattern-paren
+    - include: second-pattern-content
+
+  inside-second-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-pattern-content
+
+  second-pattern-content:
+    - include: second-string-content
+    - include: percentage-placeholders
+
+###[ SECOND EXPANSIONS STRINGS ]###############################################
+
+  brace-second-string-content:
+    - match: \{
+      push: inside-second-string-brace
+    - include: second-string-content
+
+  inside-second-string-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-string-content
+
+  paren-second-string-content:
+    - match: \(
+      push: inside-second-string-paren
+    - include: second-string-content
+
+  inside-second-string-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-string-content
+
+  second-string-content:
+    - include: escaped-chars
+    - include: second-escaped-dollars
+    - include: second-interpolations
+    - include: interpolations
 
 ###[ LITERALS ]################################################################
 
