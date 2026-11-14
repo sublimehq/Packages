@@ -829,11 +829,14 @@ contexts:
         - glob-character-class-fallback
 
   glob-character-class:
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.makefile meta.character-class.glob.makefile string.unquoted.makefile
     - match: (\[)([!^]?)
       captures:
         1: punctuation.definition.character-class.begin.glob.makefile
         2: keyword.operator.logical.glob.makefile
-      set:
+      push:
         - glob-character-class-body
         - glob-character-class-begin
 
@@ -853,7 +856,6 @@ contexts:
     - include: immediately-pop
 
   glob-character-class-body:
-    - meta_scope: meta.character-class.glob.makefile
     - match: (?!\S) # also fail at eof
       fail: glob-character-class
     - include: glob-character-class-end
@@ -907,12 +909,12 @@ contexts:
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
-    - include: expansions
+    - include: interpolations
 
   glob-character-class-end:
     - match: \]
       scope: punctuation.definition.character-class.end.glob.makefile
-      pop: 1
+      pop: 2
 
   glob-character-class-fallback:
     - meta_include_prototype: false
@@ -1271,16 +1273,18 @@ contexts:
         - glob-character-class-fallback
 
   second-glob-character-class:
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.makefile meta.character-class.glob.makefile string.unquoted.makefile
     - match: (\[)([!^]?)
       captures:
         1: punctuation.definition.character-class.begin.glob.makefile
         2: keyword.operator.logical.glob.makefile
-      set:
+      push:
         - second-glob-character-class-body
         - glob-character-class-begin
 
   second-glob-character-class-body:
-    - meta_scope: meta.character-class.glob.makefile
     - match: (?!\S) # also fail at eof
       fail: second-glob-character-class
     - include: glob-character-class-end
@@ -1334,8 +1338,8 @@ contexts:
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
-    - include: second-expansions
-    - include: expansions
+    - include: second-interpolations
+    - include: interpolations
 
 ###[ LITERALS ]################################################################
 
