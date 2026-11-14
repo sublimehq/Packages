@@ -163,6 +163,7 @@ contexts:
         1: keyword.operator.assignment.makefile
       set: variable-value
     - include: continuation-or-eol-pop
+    - include: comment
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -193,6 +194,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
+    - include: comment
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
@@ -288,6 +290,7 @@ contexts:
         1: keyword.operator.assignment.makefile
       set: inside-export-variable-value
     - include: continuation-or-eol-pop
+    - include: comment
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -326,6 +329,7 @@ contexts:
   inside-undefine-directive-name:
     - meta_content_scope: meta.directive.undefine.makefile variable.other.makefile
     - include: continuation-or-eol-pop
+    - include: comment
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -345,6 +349,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.directive.vpath.makefile meta.string.makefile string.unquoted.makefile
     - include: continuation-or-eol-pop
+    - include: comment
     - include: escaped-chars
     - include: escaped-dollars
     - include: interpolations
@@ -562,8 +567,7 @@ contexts:
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
     - include: brace-expansion-end
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -613,8 +617,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-substitution
     - include: brace-expansion-end
-    - include: line-continuations
-    - include: eol-pop
+    - include: continuation-or-eol-pop
 
   inside-brace-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
@@ -696,8 +699,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -747,8 +749,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-substitution
     - include: paren-expansion-end
-    - include: line-continuations
-    - include: eol-pop
+    - include: continuation-or-eol-pop
 
   inside-paren-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
@@ -779,8 +780,7 @@ contexts:
       pop: 1
 
   variable-expansion-content:
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
     - include: expansions
@@ -1021,8 +1021,7 @@ contexts:
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
     - include: brace-expansion-end
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1073,8 +1072,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-brace-variable-second-substitution
     - include: brace-expansion-end
-    - include: line-continuations
-    - include: eol-pop
+    - include: continuation-or-eol-pop
 
   inside-brace-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
@@ -1151,8 +1149,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1203,8 +1200,7 @@ contexts:
       scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
       set: inside-paren-variable-second-substitution
     - include: paren-expansion-end
-    - include: line-continuations
-    - include: eol-pop
+    - include: continuation-or-eol-pop
 
   inside-paren-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
@@ -1230,8 +1226,7 @@ contexts:
     - include: variable-second-substitution-content
 
   variable-second-expansion-content:
-    - include: eol-pop
-    - include: line-continuations
+    - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
     - include: second-expansions
@@ -1396,7 +1391,6 @@ contexts:
 
   continuation-or-eol-pop:
     - include: eol-pop
-    - include: comment
     - include: line-continuations
 
   eol-pop:
