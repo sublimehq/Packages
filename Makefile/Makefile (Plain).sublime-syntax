@@ -396,8 +396,8 @@ contexts:
     - match: \s*$
       scope: meta.directive.conditional.else.makefile meta.eol.makefile
       pop: 1
-    - include: comments
     - include: line-continuations
+    - include: comments
 
   ifdef-directive-condition:
     - meta_scope: meta.directive.conditional.if.makefile
@@ -469,8 +469,8 @@ contexts:
     - match: \s*$
       scope: meta.eol.makefile
       pop: 1
-    - include: comments
     - include: line-continuations
+    - include: comments
 
 ###[ SINGLE EXPANSIONS ]#######################################################
 
@@ -563,10 +563,10 @@ contexts:
 
   inside-brace-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
-    - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: escaped-dollars
@@ -574,10 +574,10 @@ contexts:
 
   inside-brace-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
-    - include: brace-expansion-end
     - include: variable-expansion-content
 
   inside-brace-expansion-message-function:
@@ -706,10 +706,10 @@ contexts:
 
   inside-paren-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
-    - include: brace-expansion-end
     - include: variable-expansion-content
 
   inside-paren-expansion-message-function:
@@ -1017,10 +1017,10 @@ contexts:
 
   inside-brace-second-expansion-call-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
-    - include: brace-expansion-end
     - include: continuation-or-eol-pop
     - include: escaped-chars
     - include: second-escaped-dollars
@@ -1029,10 +1029,10 @@ contexts:
 
   inside-brace-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
-    - include: brace-expansion-end
     - include: variable-second-expansion-content
 
   inside-brace-second-expansion-message-function:
@@ -1157,10 +1157,10 @@ contexts:
 
   inside-paren-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
-    - include: brace-expansion-end
     - include: variable-second-expansion-content
 
   inside-paren-second-expansion-message-function:
