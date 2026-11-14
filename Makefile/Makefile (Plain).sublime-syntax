@@ -837,13 +837,6 @@ contexts:
         - glob-character-class-body
         - glob-character-class-begin
 
-  glob-character-class-body:
-    - meta_scope: meta.character-class.glob.makefile
-    - match: (?!\S) # also fail at eof
-      fail: glob-character-class
-    - include: glob-character-class-end
-    - include: glob-character-class-content
-
   glob-character-class-begin:
     - meta_include_prototype: false
     # a range may start with `]` at the beginning of a set
@@ -859,15 +852,12 @@ contexts:
       pop: 1
     - include: immediately-pop
 
-  glob-character-class-end:
-    - match: \]
-      scope: punctuation.definition.character-class.end.glob.makefile
-      pop: 1
-
-  glob-character-class-fallback:
-    - meta_include_prototype: false
-    - match: \[
-      pop: 1
+  glob-character-class-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - match: (?!\S) # also fail at eof
+      fail: glob-character-class
+    - include: glob-character-class-end
+    - include: glob-character-class-content
 
   glob-character-class-content:
     - match: \[\.(?=\S*\.\])
@@ -920,6 +910,16 @@ contexts:
     - include: escaped-chars
     - include: expansions
     - include: continuation-or-eol-pop
+
+  glob-character-class-end:
+    - match: \]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+
+  glob-character-class-fallback:
+    - meta_include_prototype: false
+    - match: \[
+      pop: 1
 
 ###[ SECOND EXPANSIONS ]#######################################################
 
@@ -1254,6 +1254,10 @@ contexts:
     - include: second-string-content
 
 ###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
+
+  # Note:
+  #  - idendical to glob-placeholders, but with $$ punctuation
+  #  - valid only within second expansions
 
   second-glob-placeholders:
     # 4.4 Using Wildcard Characters in File Names
