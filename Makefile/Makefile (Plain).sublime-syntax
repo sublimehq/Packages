@@ -80,10 +80,7 @@ contexts:
         1: punctuation.definition.rule.makefile
       set: after-rule-target
     - include: line-continuations
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
-    - include: percentage-placeholders
+    - include: variable-pattern-content
 
   after-rule-target:
     - meta_scope: meta.function.makefile
@@ -160,9 +157,7 @@ contexts:
       set: variable-value
     - include: continuation-or-eol-pop
     - include: comment
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: variable-name-content
 
   variable-value:
     - match: ((?:bash|sh)\s+-c\s+)(['"`])
@@ -253,9 +248,7 @@ contexts:
       captures:
         1: keyword.operator.assignment.makefile
       set: inside-define-directive-value
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: variable-name-content
 
   inside-define-directive-value:
     - meta_include_prototype: false
@@ -288,9 +281,7 @@ contexts:
     - match: \s+
       scope: meta.directive.export.makefile
       set: inside-export-directive-name
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: variable-name-content
 
   inside-export-variable-value:
     - meta_include_prototype: false
@@ -331,9 +322,7 @@ contexts:
     - match: \s+
       scope: meta.directive.undefine.makefile
       set: inside-undefine-directive-name
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: variable-name-content
 
   inside-vpath-pattern:
     - meta_include_prototype: false
@@ -401,9 +390,7 @@ contexts:
     - meta_scope: meta.directive.conditional.if.makefile
     - meta_content_scope: variable.other.makefile
     - include: if-directive-end
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: variable-name-content
 
   ifeq-directive-condition:
     - meta_scope: meta.directive.conditional.if.makefile
@@ -565,9 +552,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: brace-variable-name-content
 
   inside-brace-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -575,7 +560,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-expansion-function
-    - include: variable-expansion-content
+    - include: brace-variable-pattern-content
 
   inside-brace-expansion-message-function:
     - meta_include_prototype: false
@@ -612,7 +597,7 @@ contexts:
   inside-brace-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
     - include: brace-variable-substitution
-    - include: variable-expansion-content
+    - include: brace-variable-pattern-content
 
   brace-variable-substitution:
     - match: ':'
@@ -693,9 +678,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
+    - include: paren-variable-name-content
 
   inside-paren-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -703,7 +686,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-expansion-function
-    - include: variable-expansion-content
+    - include: paren-variable-pattern-content
 
   inside-paren-expansion-message-function:
     - meta_include_prototype: false
@@ -740,7 +723,7 @@ contexts:
   inside-paren-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
     - include: paren-variable-substitution
-    - include: variable-expansion-content
+    - include: paren-variable-pattern-content
 
   paren-variable-substitution:
     - match: ':'
@@ -768,12 +751,6 @@ contexts:
       scope: meta.interpolation.makefile punctuation.section.interpolation.end.makefile
       pop: 1
     - include: continuation-or-eol-pop
-
-  variable-expansion-content:
-    - include: escaped-chars
-    - include: escaped-dollars
-    - include: expansions
-    - include: percentage-placeholders
 
 ###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
 
@@ -958,6 +935,63 @@ contexts:
     - include: escaped-dollars
     - include: interpolations
 
+###[ SINGLE EXPANSIONS VARIABLE PATTERNS ]#####################################
+
+  brace-variable-pattern-content:
+    - match: \{
+      push: inside-variable-pattern-brace
+    - include: variable-pattern-content
+
+  inside-variable-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-variable-pattern-content
+
+  paren-variable-pattern-content:
+    - match: \(
+      push: inside-variable-pattern-paren
+    - include: variable-pattern-content
+
+  inside-variable-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-variable-pattern-content
+
+  variable-pattern-content:
+    - include: variable-name-content
+    - include: percentage-placeholders
+
+###[ SINGLE EXPANSIONS VARIABLE NAMES ]########################################
+
+  brace-variable-name-content:
+    - match: \{
+      push: inside-variable-name-brace
+    - include: variable-name-content
+
+  inside-variable-name-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-variable-name-content
+
+  paren-variable-name-content:
+    - match: \(
+      push: inside-variable-name-paren
+    - include: variable-name-content
+
+  inside-variable-name-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-variable-name-content
+
+  variable-name-content:
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: expansions
+
 ###[ SECOND EXPANSIONS ]#######################################################
 
   # Note:
@@ -1057,10 +1091,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-expansions
-    - include: expansions
+    - include: brace-second-variable-name-content
 
   inside-brace-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -1068,7 +1099,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-brace-second-expansion-function
-    - include: variable-second-expansion-content
+    - include: brace-second-variable-pattern-content
 
   inside-brace-second-expansion-message-function:
     - meta_include_prototype: false
@@ -1105,7 +1136,7 @@ contexts:
   inside-brace-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
     - include: brace-second-variable-substitution
-    - include: variable-second-expansion-content
+    - include: brace-second-variable-pattern-content
 
   brace-second-variable-substitution:
     - match: ':'
@@ -1180,10 +1211,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-expansions
-    - include: expansions
+    - include: paren-second-variable-name-content
 
   inside-paren-second-expansion-foreach-function:
     - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
@@ -1191,7 +1219,7 @@ contexts:
     - match: \,
       scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
       set: inside-paren-second-expansion-function
-    - include: variable-second-expansion-content
+    - include: paren-second-variable-pattern-content
 
   inside-paren-second-expansion-message-function:
     - meta_include_prototype: false
@@ -1228,7 +1256,7 @@ contexts:
   inside-paren-second-expansion-variable-name:
     - meta_content_scope: meta.interpolation.makefile variable.other.makefile
     - include: paren-second-variable-substitution
-    - include: variable-second-expansion-content
+    - include: paren-second-variable-pattern-content
 
   paren-second-variable-substitution:
     - match: ':'
@@ -1250,13 +1278,6 @@ contexts:
     - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
     - include: paren-expansion-end
     - include: second-pattern-content
-
-  variable-second-expansion-content:
-    - include: escaped-chars
-    - include: second-escaped-dollars
-    - include: second-expansions
-    - include: expansions
-    - include: percentage-placeholders
 
 ###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
 
@@ -1421,6 +1442,64 @@ contexts:
     - include: second-interpolations
     - include: interpolations
 
+###[ SECOND EXPANSIONS VARIABLE PATTERNS ]#####################################
+
+  brace-second-variable-pattern-content:
+    - match: \{
+      push: inside-second-variable-pattern-brace
+    - include: second-variable-pattern-content
+
+  inside-second-variable-pattern-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-variable-pattern-content
+
+  paren-second-variable-pattern-content:
+    - match: \(
+      push: inside-second-variable-pattern-paren
+    - include: second-variable-pattern-content
+
+  inside-second-variable-pattern-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-variable-pattern-content
+
+  second-variable-pattern-content:
+    - include: second-variable-name-content
+    - include: percentage-placeholders
+
+###[ SECOND EXPANSIONS VARIABLE NAMES ]########################################
+
+  brace-second-variable-name-content:
+    - match: \{
+      push: inside-second-variable-name-brace
+    - include: second-variable-name-content
+
+  inside-second-variable-name-brace:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-variable-name-content
+
+  paren-second-variable-name-content:
+    - match: \(
+      push: inside-second-variable-name-paren
+    - include: second-variable-name-content
+
+  inside-second-variable-name-paren:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-variable-name-content
+
+  second-variable-name-content:
+    - include: escaped-chars
+    - include: second-escaped-dollars
+    - include: second-expansions
+    - include: expansions
+
 ###[ LITERALS ]################################################################
 
   comma-separators:
@@ -1453,10 +1532,12 @@ contexts:
     - include: shell-content
 
   # Note: target context for shell syntax
-  shell-content: []
+  shell-content:
+    - include: variable-name-content
 
   # Note: target context for shell syntax
-  second-shell-content: []
+  second-shell-content:
+    - include: second-variable-name-content
 
 ###[ PROTOTYPES ]##############################################################
 

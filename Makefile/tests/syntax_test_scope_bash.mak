@@ -2514,6 +2514,28 @@ $(call my_func,my_arg): deps
 #                       ^^^^ meta.function.arguments.makefile string.unquoted.makefile
 #                           ^ meta.function.makefile
 
+var = $(call fun()))         # parentheses must be balanced
+#     ^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^ variable.function.makefile
+#                 ^ punctuation.section.interpolation.end.makefile
+#                  ^ string.unquoted.makefile
+
+var = $(call fu)n,(()))))    # parentheses must be balanced
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^ variable.function.makefile
+#              ^ punctuation.section.interpolation.end.makefile
+#               ^^^^^^^^^ string.unquoted.makefile
+
 var = $(call fun,\(\()))))   # unbalanced parentheses must be escaped
 #     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
 #     ^^^^^^^^^^^^^^^^ meta.interpolation.makefile
@@ -2548,6 +2570,28 @@ var = $(call fun,{{{)}}}}}   # braces don't need to be balanced
 #                ^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
 #                   ^ punctuation.section.interpolation.end.makefile
 #                    ^^^^^ string.unquoted.makefile - meta.interpolation
+
+var = ${call fun{}}}         # braces must be balanced
+#     ^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^^^^ variable.function.makefile
+#                 ^ punctuation.section.interpolation.end.makefile
+#                  ^ string.unquoted.makefile
+
+var = ${call fu}n,{{}}}}}    # braces must be balanced
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.makefile
+#     ^^^^^^^^^^ meta.interpolation.makefile
+#     ^ punctuation.definition.interpolation.makefile
+#      ^ punctuation.section.interpolation.begin.makefile
+#       ^^^^^^^ meta.function-call.makefile
+#       ^^^^ support.function.builtin.makefile
+#            ^^ variable.function.makefile
+#              ^ punctuation.section.interpolation.end.makefile
+#               ^^^^^^^^^ string.unquoted.makefile
 
 var = ${call fun,\{\{}}}}}   # unbalanced braces must be escaped
 #     ^^^^^^^^^^^^^^^^^^^^ meta.string.makefile
