@@ -104,7 +104,7 @@ test_conflict_in_rules:
 #           ^ - entity - punctuation
 	rm ~/
 #^^^^^^ meta.function.body.makefile
-#^^^^^ source.shell.embedded.makefile
+#^^^^^ source.shell.zsh.embedded.makefile
 =======
 # <- meta.function.body.makefile meta.block.conflict.separator.diff punctuation.section.block.diff
 #^^^^^^^ meta.function.body.makefile meta.block.conflict.separator.diff
@@ -112,7 +112,7 @@ test_conflict_in_rules:
 #      ^ - punctuation
 	rm $$HOME/
 #^^^^^^^^^^^ meta.function.body.makefile
-#^^^^^^^^^^ source.shell.embedded.makefile
+#^^^^^^^^^^ source.shell.zsh.embedded.makefile
 #   ^^^^^^ meta.interpolation.parameter.shell
 #   ^^ punctuation.definition.variable.shell
 >>>>>>> master
@@ -427,7 +427,7 @@ a : b \
 	on a third line even
 	# ^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.shell.zsh.embedded.makefile
 
 %:x
 # <- meta.function entity.name.function variable.language
@@ -435,7 +435,7 @@ a : b \
 # ^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #  ^ meta.function.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.shell.zsh.embedded.makefile
 
 %.cpp: %.o
 # <- meta.function.makefile entity.name.function.makefile variable.language.makefile
@@ -446,7 +446,7 @@ a : b \
 #      ^ variable.language.makefile
 #         ^ meta.function.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.shell.zsh.embedded.makefile
 
 $(a): b
 #^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
@@ -865,7 +865,7 @@ vpath
 
 rule: ; ifdef receipe  # not a make directive but passed to shell as command
 #     ^ meta.function.makefile - source.shell
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile
 #       ^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #            ^^^^^^^^ meta.function-call.arguments.shell
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
@@ -873,7 +873,7 @@ rule: ; ifdef receipe  # not a make directive but passed to shell as command
 rule:
 	ifdef receipe  # not a make directive but passed to shell as command
 # <- meta.function.body.makefile - source.shell
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile
 #^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #     ^^^^^^^^ meta.function-call.arguments.shell
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
@@ -889,7 +889,7 @@ rule: comments
 
 makefile_interpolation:
 	var1="double $$quoted $(string) value"
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 	#   ^ meta.assignment.shell keyword.operator.assignment.shell
 	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
@@ -907,7 +907,7 @@ makefile_interpolation:
 	#                              ^^^^^^^ string.quoted.double.shell
 	#                                    ^ punctuation.definition.string.end.shell
 	var1='single $$quoted $(string) value'
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 	#   ^ meta.assignment.shell keyword.operator.assignment.shell
 	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
@@ -922,7 +922,7 @@ makefile_interpolation:
 	#                              ^^^^^^^ string.quoted.single.shell
 	#                                    ^ punctuation.definition.string.end.shell
 	var1=an\ $$unquoted\ $(string)\ value
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 	#^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 	#   ^ meta.assignment.shell keyword.operator.assignment.shell
 	#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell
@@ -976,9 +976,9 @@ $(EXECUTABLE): $(OBJECTS)
 #                ^^^^^^^ variable.other.makefile
 #                       ^ punctuation.section.interpolation.end.makefile
 	$(CC) $(CFLAGS) $< -o $@
-	# <- meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile punctuation.definition.interpolation.makefile
-	#^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
-	#    ^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.arguments.shell
+	# <- meta.function.body.makefile source.shell.zsh.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile punctuation.definition.interpolation.makefile
+	#^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+	#    ^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.function-call.arguments.shell
 	#     ^^^^^^^^^ meta.string.glob.shell meta.interpolation.makefile
 	#               ^^ meta.string.glob.shell meta.interpolation.makefile
 	#               ^ punctuation.definition.interpolation.makefile
@@ -988,7 +988,7 @@ $(EXECUTABLE): $(OBJECTS)
 	#                     ^ punctuation.definition.interpolation.makefile
 	#                      ^ variable.language.automatic.makefile
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile - source.shell source.shell
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile - source.shell source.shell
 	#^^^^^^^^^ meta.function-call.identifier.shell
 	#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 	#            ^^^^^^^^ variable.other.makefile
@@ -1006,14 +1006,14 @@ rule: prereq ; @rm -f *.o
 #            ^ meta.function.makefile punctuation.terminator.makefile
 #             ^^^^^^^^^^^ meta.function.body.makefile
 #              ^ keyword.operator.recipe.makefile - source.shell
-#               ^^^^^^^^ source.shell.embedded.makefile
+#               ^^^^^^^^ source.shell.zsh.embedded.makefile
 
 rule:
 	@rm -f *.o
 # <- meta.function.body.makefile - source.shell
 #^^^^^^^^^^ meta.function.body.makefile
 #^ keyword.operator.recipe.makefile - source.shell
-# ^^^^^^^^ source.shell.embedded.makefile
+# ^^^^^^^^ source.shell.zsh.embedded.makefile
 
 comments:
 	@# Comment Text
@@ -1029,7 +1029,7 @@ expansions:
 	@$(CC) -o $(CFLAGS)
 	#^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
 	# <- keyword.operator.recipe.makefile
-	#^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+	#^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 	#^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 	#^ punctuation.definition.interpolation.makefile
 	# ^ punctuation.section.interpolation.begin.makefile
@@ -1047,7 +1047,7 @@ expansions:
 heredocs:
 	var=<<HEREDOC
 		Heredoc $(make) $$shell text.
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.assignment.r-value.shell meta.redirection.shell meta.string.heredoc.shell
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.assignment.r-value.shell meta.redirection.shell meta.string.heredoc.shell
 	#^^^^^^^^ string.unquoted.heredoc.shell
 	#        ^^^^^^^ meta.interpolation.makefile
 	#        ^ punctuation.definition.interpolation.makefile
@@ -1059,7 +1059,7 @@ heredocs:
 	#                ^^ punctuation.definition.variable.shell
 	#                       ^^^^^^^ string.unquoted.heredoc.shell
 	HEREDOC
-#^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 
 # <- meta.function.body.makefile - source.shell
 
@@ -1089,20 +1089,20 @@ clean: prereq ; -rm -f *.o
 #             ^ meta.function.makefile punctuation.terminator.makefile
 #              ^^^^^^^^^^^ meta.function.body.makefile
 #               ^ keyword.operator.recipe.makefile - source.shell
-#                ^^^^^^^^ source.shell.embedded.makefile
+#                ^^^^^^^^ source.shell.zsh.embedded.makefile
 
 clean:
 	-rm -f *.o
 # <- meta.function.body.makefile - source.shell
 #^^^^^^^^^^^ meta.function.body.makefile
 #^ keyword.operator.recipe.makefile - source.shell
-# ^^^^^^^^^ source.shell.embedded.makefile
+# ^^^^^^^^^ source.shell.zsh.embedded.makefile
 
 clean:
 	-$(RM) *.o
 #^^^^^^^^^^^ meta.function.body.makefile
 #^ keyword.operator.recipe.makefile
-# ^^^^^^^^^ source.shell.embedded.makefile
+# ^^^^^^^^^ source.shell.zsh.embedded.makefile
 # ^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 # ^ punctuation.definition.interpolation.makefile
 #  ^ punctuation.section.interpolation.begin.makefile
@@ -1520,7 +1520,7 @@ immediate += deferred or immediate
 immediate != immediate
 #^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
-#            ^^^^^^^^^ source.shell.embedded.makefile variable.function.shell
+#            ^^^^^^^^^ source.shell.zsh.embedded.makefile variable.function.shell
 
 foo = bar # a comment
 #  ^^^ - meta.variable - variable - meta.string - string
@@ -1590,7 +1590,7 @@ hash != printf '\043'
 # <- variable.other.makefile
 #^^^ variable.other.makefile
 #    ^^ keyword.operator.assignment.makefile
-#       ^^^^^^^^^^^^^ source.shell.embedded.makefile
+#       ^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 #       ^^^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
 #             ^^^^^^^ meta.function-call.arguments.shell
 #              ^^^^^^ meta.string.glob.shell string.quoted.single.shell
@@ -1601,7 +1601,7 @@ file_list != find . -name '*.c'
 # <- variable.other.makefile
 #^^^^^^^^ variable.other.makefile
 #         ^^ keyword.operator.assignment.makefile
-#            ^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+#            ^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 #            ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #                ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                 ^ meta.string.glob.shell string.unquoted.shell
@@ -1620,7 +1620,7 @@ hash := $(shell printf '\043')
 #        ^ punctuation.section.interpolation.begin.makefile
 #         ^^^^^^ meta.function-call.makefile
 #         ^^^^^ support.function.builtin.makefile
-#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #               ^^^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
 #                     ^^^^^^^ meta.function-call.arguments.shell
 #                      ^^^^^^ meta.string.glob.shell string.quoted.single.shell
@@ -1637,7 +1637,7 @@ file_list := $(shell find . -name "*.c")
 #             ^ punctuation.section.interpolation.begin.makefile
 #              ^^^^^^ meta.function-call.makefile
 #              ^^^^^ support.function.builtin.makefile
-#                    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#                    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #                    ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #                        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                         ^ meta.string.glob.shell string.unquoted.shell
@@ -2283,7 +2283,7 @@ ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
 #                                              ^ - meta.string
 #                                               ^ meta.string.makefile - meta.interpolation
 #       ^^^^^^ meta.function-call.makefile
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #             ^^^^ support.function.shell
 #                  ^^^^^^ meta.interpolation.makefile meta.interpolation.makefile
 #                         ^^^ keyword.operator.comparison.shell
@@ -2306,7 +2306,7 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 #                                                             ^^^^ meta.group.makefile - meta.group meta.interpolation
 #     ^^ - meta.function-call
 #       ^^^^^^ meta.function-call.makefile
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #                                                            ^^^^^ - meta.function-call
 #       ^^^^^ support.function.builtin.makefile
 #            ^ - support
@@ -2349,17 +2349,17 @@ archive.a: …
 	+touch archive.a
 	#^^^^^^^^^^^^^^^^ meta.function.body.makefile
 	# <- keyword.operator.recipe.makefile
-	#^^^^^^^^^^^^^^^ source.shell.embedded
+	#^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
 	+ranlib -t archive.a
 	#^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
 	# <- keyword.operator.recipe.makefile
-	#^^^^^^^^^^^^^^^^^^^ source.shell.embedded
+	#^^^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile
   else
 # <- meta.function.body.makefile
 #^ meta.function.body.makefile
 # ^^^^ meta.function.body.makefile meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
 	ranlib archive.a
-	# <- meta.function.body.makefile source.shell.embedded
+	# <- meta.function.body.makefile source.shell.zsh.embedded.makefile
   endif
 # <- meta.function.body.makefile
 #^^^^^^^ meta.function.body.makefile
@@ -2648,7 +2648,7 @@ var = ${call fun,(((})))))   # parentheses don't need to be balanced
 #                    ^^^^^ string.unquoted.makefile - meta.interpolation
 
 sh = $(shell run $(call something))
-#                ^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
+#                ^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
 #                ^ punctuation.definition.interpolation.makefile
 #                 ^ punctuation.section.interpolation.begin.makefile
 #                  ^^^^ support.function.builtin.makefile
@@ -2656,7 +2656,7 @@ sh = $(shell run $(call something))
 #                                ^^ punctuation.section.interpolation.end.makefile
 
 sh = $(shell run ${call something})
-#                ^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
+#                ^^^^^^^^^^^^^^^^^ source.shell.zsh.embedded.makefile meta.string.glob.shell meta.interpolation.makefile
 #                ^ punctuation.definition.interpolation.makefile
 #                 ^ punctuation.section.interpolation.begin.makefile
 #                  ^^^^ support.function.builtin.makefile
@@ -2737,7 +2737,7 @@ $(warning he:llo)
 error:
 	$(error he:llo)
 	# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile punctuation.definition.interpolation.makefile
-	#^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+	#^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 	# ^^^^^^ meta.function-call.makefile
 	#       ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile - punctuation
 	# ^^^^^ support.function.builtin.makefile
@@ -2745,7 +2745,7 @@ error:
 info:
 	$(info he:llo)
 	# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile punctuation.definition.interpolation.makefile
-	#^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
+	#^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 	# ^^^^^ meta.function-call.makefile
 	#      ^^^^^^ meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile - punctuation
 	# ^^^^ support.function.builtin.makefile
@@ -2805,7 +2805,7 @@ shell = $(shell echo *.c)
 #        ^ punctuation.section.interpolation.begin.makefile
 #         ^^^^^^ meta.function-call.makefile
 #         ^^^^^ support.function.builtin.makefile
-#               ^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #               ^^^^ meta.function-call.identifier.shell support.function.shell
 #                   ^^^^ meta.function-call.arguments.shell
 #                    ^^^ meta.string.glob.shell string.unquoted.shell
@@ -2818,7 +2818,7 @@ shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
 #        ^ punctuation.section.interpolation.begin.makefile
 #         ^^^^^^ meta.function-call.makefile
 #         ^^^^^ support.function.builtin.makefile
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #               ^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 #               ^ punctuation.definition.interpolation.makefile
 #                ^ punctuation.section.interpolation.begin.makefile
@@ -2852,7 +2852,7 @@ shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
 #        ^ punctuation.section.interpolation.begin.makefile
 #         ^^^^^^ meta.function-call.makefile
 #         ^^^^^ support.function.builtin.makefile
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #               ^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 #               ^ punctuation.definition.interpolation.makefile
 #                ^ punctuation.section.interpolation.begin.makefile
@@ -2877,7 +2877,7 @@ shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #         ^ punctuation.section.interpolation.begin.makefile
 #          ^^^^^^ meta.function-call.makefile
 #          ^^^^^ support.function.builtin.makefile
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.embedded.makefile
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.makefile source.shell.zsh.embedded.makefile
 #                ^^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.makefile
 #                ^^ punctuation.definition.interpolation.makefile
 #                  ^ punctuation.section.interpolation.begin.makefile

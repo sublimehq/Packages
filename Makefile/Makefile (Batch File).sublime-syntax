@@ -10,7 +10,34 @@ extends: Makefile (Plain).sublime-syntax
 
 contexts:
 
+###[ EXPANSIONS ]##############################################################
+
+  brace-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.dosbatch.embedded.makefile
+    - include: brace-expansion-end
+    - include: shell-content
+
+  paren-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.dosbatch.embedded.makefile
+    - include: paren-expansion-end
+    - include: shell-content
+
+  brace-second-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.dosbatch.embedded.makefile
+    - include: brace-expansion-end
+    - include: second-shell-content
+
+  paren-second-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.dosbatch.embedded.makefile
+    - include: paren-expansion-end
+    - include: second-shell-content
+
 ###[ SHELLSCRIPT ]#############################################################
+
+  shell-body:
+    - meta_content_scope: source.dosbatch.embedded.makefile
+    - include: eol-pop
+    - include: shell-content
 
   shell-content:
     - include: Packages/Makefile/Embeddings/Batch File (for Makefile 1).sublime-syntax
