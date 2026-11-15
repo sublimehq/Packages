@@ -26,11 +26,22 @@ contexts:
 
 variables:
 
+  # ShellScript variables
+  # ---------------------
+
   # makefile or shell interpolation
   is_interpolation: (?=\${1,4}[({\[{{identifier_char}}{{special_variables}}{{var_auto_chars}}]|`)
+  # shell specific interpolation
+  interpolation_punct: \${4}
+
+  # Indentation and whitespace patterns
+  no_indent: ^{{recipe_prefix}}
+  tab_indent: ^{{recipe_prefix}}\t*
+
+  # Makefile variables
+  # ------------------
+
+  recipe_prefix: \t
 
   # makefile auto variables
   var_auto_chars: '@%<\?\^\+\|\*'
-
-  # shell specific interpolation
-  interpolation_punct: \${4}

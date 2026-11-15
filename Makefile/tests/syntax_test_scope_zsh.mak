@@ -1044,6 +1044,25 @@ expansions:
 	#           ^^^^^^ variable.other.makefile
 	#                 ^ punctuation.section.interpolation.end.makefile
 
+heredocs:
+	var=<<HEREDOC
+		Heredoc $(make) $$shell text.
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.assignment.r-value.shell meta.redirection.shell meta.string.heredoc.shell
+	#^^^^^^^^ string.unquoted.heredoc.shell
+	#        ^^^^^^^ meta.interpolation.makefile
+	#        ^ punctuation.definition.interpolation.makefile
+	#         ^ punctuation.section.interpolation.begin.makefile
+	#          ^^^^ variable.other.makefile
+	#              ^ punctuation.section.interpolation.end.makefile
+	#               ^ string.unquoted.heredoc.shell
+	#                ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+	#                ^^ punctuation.definition.variable.shell
+	#                       ^^^^^^^ string.unquoted.heredoc.shell
+	HEREDOC
+#^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+
+# <- meta.function.body.makefile - source.shell
+
 _modinst_:
 	@rm -rf $(MODLIB)/kernel
 	# <- keyword.operator.recipe.makefile
