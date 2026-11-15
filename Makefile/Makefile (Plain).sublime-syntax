@@ -105,7 +105,7 @@ contexts:
     - match: \s*$\n?
       scope: meta.function.makefile
       set: rule-recipes
-    - match: (\s*(;))(\s*({{receipe_modifier}}))?
+    - match: (\s*(;))(\s*({{recipe_modifier}}))?
       captures:
         1: meta.function.makefile
         2: punctuation.terminator.makefile
@@ -126,7 +126,7 @@ contexts:
 
   rule-recipes:
     - meta_content_scope: meta.function.body.makefile
-    - match: ^({{receipe_prefix}})(?:\s*({{receipe_modifier}}))?
+    - match: ^({{recipe_prefix}})(?:\s*({{recipe_modifier}}))?
       captures:
         1: punctuation.definition.recipe.makefile
         2: keyword.operator.recipe.makefile
@@ -1581,8 +1581,8 @@ contexts:
 
 variables:
 
-  receipe_prefix: \t
-  receipe_modifier: '[-+]@?|@[-+]?'
+  recipe_prefix: \t
+  recipe_modifier: '[-+]@?|@[-+]?'
 
   word_begin: (?=\S)
   word_break: (?![^\s:#!?+=])
