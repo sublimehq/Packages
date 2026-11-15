@@ -104,7 +104,7 @@ test_conflict_in_rules:
 #           ^ - entity - punctuation
 	rm ~/
 #^^^^^^ meta.function.body.makefile
-#^^^^^ source.shell.embedded.makefile
+#^^^^^ source.dosbatch.embedded.makefile
 =======
 # <- meta.function.body.makefile meta.block.conflict.separator.diff punctuation.section.block.diff
 #^^^^^^^ meta.function.body.makefile meta.block.conflict.separator.diff
@@ -112,7 +112,7 @@ test_conflict_in_rules:
 #      ^ - punctuation
 	rm %USERPROFILE%/
 #^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
-#^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+#^^^^^^^^^^^^^^^^^ source.dosbatch.embedded.makefile
 #^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 #  ^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 #   ^^^^^^^^^^^^^^ meta.string.dosbatch
@@ -293,7 +293,7 @@ a : b \
 	on a third line even
 	# ^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.dosbatch.embedded.makefile
 
 %:x
 # <- meta.function entity.name.function variable.language
@@ -301,7 +301,7 @@ a : b \
 # ^ meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
 #  ^ meta.function.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.dosbatch.embedded.makefile
 
 %.cpp: %.o
 # <- meta.function.makefile entity.name.function.makefile variable.language.makefile
@@ -312,7 +312,7 @@ a : b \
 #      ^ variable.language.makefile
 #         ^ meta.function.makefile
 	recipe
-	# <- meta.function.body source.shell.embedded.makefile
+	# <- meta.function.body source.dosbatch.embedded.makefile
 
 $(a): b
 #^^^ meta.function.makefile entity.name.function.makefile meta.interpolation.makefile
@@ -386,7 +386,7 @@ ifeq ($(SHELL), windows)
 	@echo $(MAKE) shell is %SHELL%!
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
 #^ keyword.operator.recipe.makefile
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile meta.command.echo.dosbatch
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.dosbatch.embedded.makefile meta.command.echo.dosbatch
 # ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch
@@ -406,7 +406,7 @@ endif
 	@$(CC) /link $(FILES)
 #^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile
 #^ keyword.operator.recipe.makefile
-# ^^^^^^^^^^^^^^^^^^^^ source.shell.embedded.makefile
+# ^^^^^^^^^^^^^^^^^^^^ source.dosbatch.embedded.makefile
 # ^^^^^ meta.function-call.identifier.dosbatch meta.interpolation.makefile
 # ^ punctuation.definition.interpolation.makefile
 #  ^ punctuation.section.interpolation.begin.makefile
