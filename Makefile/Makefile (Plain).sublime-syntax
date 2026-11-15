@@ -752,7 +752,7 @@ contexts:
       pop: 1
     - include: continuation-or-eol-pop
 
-###[ SINGLE EXPANSIONS GLOB PATTERNS ]#########################################
+###[ SINGLE EXPANSIONS / GLOB PATTERNS ]#######################################
 
   brace-glob-content:
     - match: \{
@@ -878,7 +878,7 @@ contexts:
     - match: \[
       pop: 1
 
-###[ SINGLE EXPANSIONS MAKE PATTERNS ]#########################################
+###[ SINGLE EXPANSIONS / MAKE PATTERNS ]#######################################
 
   brace-pattern-content:
     - match: \{
@@ -906,7 +906,7 @@ contexts:
     - include: string-content
     - include: percentage-placeholders
 
-###[ SINGLE EXPANSIONS STRINGS ]###############################################
+###[ SINGLE EXPANSIONS / STRINGS ]#############################################
 
   brace-string-content:
     - match: \{
@@ -935,7 +935,7 @@ contexts:
     - include: escaped-dollars
     - include: interpolations
 
-###[ SINGLE EXPANSIONS VARIABLE PATTERNS ]#####################################
+###[ SINGLE EXPANSIONS / VARIABLE PATTERNS ]###################################
 
   brace-variable-pattern-content:
     - match: \{
@@ -963,7 +963,7 @@ contexts:
     - include: variable-name-content
     - include: percentage-placeholders
 
-###[ SINGLE EXPANSIONS VARIABLE NAMES ]########################################
+###[ SINGLE EXPANSIONS / VARIABLE NAMES ]######################################
 
   brace-variable-name-content:
     - match: \{
@@ -1279,7 +1279,7 @@ contexts:
     - include: paren-expansion-end
     - include: second-pattern-content
 
-###[ SECOND EXPANSIONS GLOB PATTERNS ]#########################################
+###[ SECOND EXPANSIONS / GLOB PATTERNS ]#######################################
 
   # Note:
   #  - idendical to glob-placeholders, but with $$ punctuation
@@ -1384,7 +1384,7 @@ contexts:
       pop: 1
     - include: second-string-content
 
-###[ SECOND EXPANSIONS MAKE PATTERNS ]#########################################
+###[ SECOND EXPANSIONS / MAKE PATTERNS ]#######################################
 
   brace-second-pattern-content:
     - match: \{
@@ -1412,7 +1412,7 @@ contexts:
     - include: second-string-content
     - include: percentage-placeholders
 
-###[ SECOND EXPANSIONS STRINGS ]###############################################
+###[ SECOND EXPANSIONS / STRINGS ]#############################################
 
   brace-second-string-content:
     - match: \{
@@ -1442,7 +1442,7 @@ contexts:
     - include: second-interpolations
     - include: interpolations
 
-###[ SECOND EXPANSIONS VARIABLE PATTERNS ]#####################################
+###[ SECOND EXPANSIONS / VARIABLE PATTERNS ]###################################
 
   brace-second-variable-pattern-content:
     - match: \{
@@ -1470,7 +1470,7 @@ contexts:
     - include: second-variable-name-content
     - include: percentage-placeholders
 
-###[ SECOND EXPANSIONS VARIABLE NAMES ]########################################
+###[ SECOND EXPANSIONS / VARIABLE NAMES ]######################################
 
   brace-second-variable-name-content:
     - match: \{
