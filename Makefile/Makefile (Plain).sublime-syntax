@@ -192,50 +192,50 @@ contexts:
 
   definition-directives:
     # definition directives
-    - match: (override){{word_break}}
+    - match: (override){{directive_break}}
       captures:
         1: keyword.control.override.makefile
-    - match: (define)(?:\s+|{{word_break}})
+    - match: (define){{directive_break}}
       scope: meta.directive.define.makefile
       captures:
         1: keyword.control.define.makefile
       push: define-directive-name-body
-    - match: (export)(?:\s+|{{word_break}})
+    - match: (export){{directive_break}}
       scope: meta.directive.export.makefile
       captures:
         1: keyword.control.export.makefile
       push: export-directive-name-body
-    - match: (undefine)(?:\s+|{{word_break}})
+    - match: (undefine){{directive_break}}
       scope: meta.directive.undefine.makefile
       captures:
         1: keyword.control.undefine.makefile
       push: undefine-directive-name-body
-    - match: (unexport)(?:\s+|{{word_break}})
+    - match: (unexport){{directive_break}}
       scope: meta.directive.undefine.makefile
       captures:
         1: keyword.control.unexport.makefile
       push: undefine-directive-name-body
-    - match: (endef)(?:\s+|{{word_break}})
+    - match: (endef){{directive_break}}
       captures:
         1: invalid.illegal.stray.endef.makefile
-    - match: (vpath)(?:\s+|{{word_break}})
+    - match: (vpath){{directive_break}}
       scope: meta.directive.vpath.makefile
       captures:
         1: keyword.control.vpath.makefile
       push: vpath-pattern-body
     # include directives
-    - match: (-)(include)(?:\s+|{{word_break}})
+    - match: (-)(include){{directive_break}}
       scope: meta.directive.include.makefile
       captures:
         1: keyword.operator.recipe.makefile
         2: keyword.control.import.makefile
       push: include-directive-body
-    - match: (s?include)(?:\s+|{{word_break}})
+    - match: (s?include){{directive_break}}
       scope: meta.directive.include.makefile
       captures:
         1: keyword.control.import.makefile
       push: include-directive-body
-    - match: (-?)(load)(?:\s+|{{word_break}})
+    - match: (-?)(load){{directive_break}}
       scope: meta.directive.load.makefile
       captures:
         1: keyword.operator.recipe.makefile
@@ -345,7 +345,7 @@ contexts:
 
   conditional-directives:
     # 7.2 Syntax of Conditionals
-    - match: (ifn?def)(?:\s+|{{word_break}})
+    - match: (ifn?def){{directive_break}}
       captures:
         1: keyword.control.conditional.if.makefile
       push: ifdef-directive-condition
@@ -366,7 +366,7 @@ contexts:
     # When followed by an if directive else keyword acts as fold region terminator,
     # but only the eol after the if directive starts a new fold region.
     - include: comments
-    - match: (ifn?def)(?:\s+|{{word_break}})
+    - match: (ifn?def){{directive_break}}
       captures:
         1: keyword.control.conditional.if.makefile
       set: ifdef-directive-condition
@@ -1583,6 +1583,8 @@ variables:
 
   recipe_prefix: \t
   recipe_modifier: '[-+]@?|@[-+]?'
+
+  directive_break: (?:\s+|{{word_break}})
 
   word_begin: (?=\S)
   word_break: (?![^\s:#!?+=])
