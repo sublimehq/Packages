@@ -527,6 +527,23 @@ $$
 %               ^ punctuation.definition.group.brace.begin
 %                                                                 ^ punctuation.definition.group.brace.end
 
+\footnote{See \citet{key}, p.~\ref{sec} and {a group}.}
+% <- meta.function.footnote.latex support.function.footnote.latex
+%        ^ meta.function.footnote.latex meta.group.brace.tex punctuation.definition.group.brace.begin.tex
+%         ^^^^ markup.italic.footnote.latex
+%             ^^^^^^ meta.function.footnote.latex meta.function.citation.latex support.function.cite.latex
+%                   ^ meta.function.citation.latex punctuation.definition.group.brace.begin.tex
+%                    ^^^ meta.function.footnote.latex meta.function.citation.latex constant.other.citation.latex
+%                       ^ meta.function.citation.latex punctuation.definition.group.brace.end.tex
+%                        ^^^^ markup.italic.footnote.latex - meta.function.citation
+%                             ^^^^ meta.function.footnote.latex meta.function.reference.latex support.function.reference.latex
+%                                  ^^^ meta.function.footnote.latex constant.other.reference.latex
+%                                           ^ meta.group.brace.tex meta.group.brace.tex punctuation.definition.group.brace.begin.tex
+%                                                   ^ meta.group.brace.tex meta.group.brace.tex punctuation.definition.group.brace.end.tex
+%                                                    ^ meta.function.footnote.latex markup.italic.footnote.latex
+%                                                     ^ meta.function.footnote.latex punctuation.definition.group.brace.end.tex
+%                                                      ^ - meta.function.footnote
+
 \footnotetext{Footnote text without creating a mark}
 % ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex - meta.function meta.function
 %            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function

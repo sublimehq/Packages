@@ -1274,6 +1274,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
+    - include: expressions
 
   label-args:
     - meta_scope: meta.function.label.latex

@@ -23,11 +23,20 @@ hidden_file_extensions:
   - .bash_variables
   - .bashrc
   - .profile
+  - .rvmrc    # https://rvm.rvm.io/workflow/rvmrc
   - .textmate_init
+  - .xinitrc
+  - .xprofile
+  - .xserverrc
+  - .xsession
+  - .xsessionrc
   - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
   - eclass
+  - gradlew   # grandle wrapper script
+  - mvnw      # maven wrapper script
+  - yarnw     # yarn wrapper script
 
 first_line_match: |-
   (?xi:
@@ -394,6 +403,7 @@ contexts:
       pop: 1
     - match: (?=\))
       fail: cmd-arithmetic
+    - include: terminators
     - include: expression-content
     - include: expression-illegals
 
@@ -1888,7 +1898,6 @@ contexts:
     - match: \:|\?
       scope: keyword.operator.ternary.shell
     - include: comma-separators
-    - include: terminators
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
@@ -2911,6 +2920,7 @@ contexts:
       pop: 1
     - match: (?=\))
       fail: arithmetic-expansion
+    - include: terminators
     - include: expression-content
     - include: expression-illegals
 
@@ -2919,6 +2929,7 @@ contexts:
     - match: \]
       scope: punctuation.section.interpolation.end.shell.shell
       pop: 1
+    - include: terminators
     - include: expression-content
     - include: expression-illegals
 

@@ -4797,6 +4797,78 @@ second line
 |                                          ^^ markup.bold.markdown punctuation.definition.bold.end.markdown
 |                                                 ^^^^^^^^^^^^^^^^^ markup.strikethrough.markdown-gfm
 
+> _foo > bar > baz_
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|      ^ - punctuation.definition
+|            ^ - punctuation.definition
+
+> - _foo > bar > baz_
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|        ^ - punctuation.definition
+|              ^ - punctuation.definition
+
+> 1. _foo > bar > baz_
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|         ^ - punctuation.definition
+|               ^ - punctuation.definition
+
+> *foo > bar > baz*
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|      ^ - punctuation.definition
+|            ^ - punctuation.definition
+
+> - *foo > bar > baz*
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|        ^ - punctuation.definition
+|              ^ - punctuation.definition
+
+> 1. *foo > bar > baz*
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|         ^ - punctuation.definition
+|               ^ - punctuation.definition
+
+> __foo > bar > baz__
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|       ^ - punctuation.definition
+|             ^ - punctuation.definition
+
+> - __foo > bar > baz__
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|         ^ - punctuation.definition
+|               ^ - punctuation.definition
+
+> 1. __foo > bar > baz__
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|          ^ - punctuation.definition
+|                ^ - punctuation.definition
+ 
+> **foo > bar > baz**
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|       ^ - punctuation.definition
+|             ^ - punctuation.definition
+
+> - **foo > bar > baz**
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|         ^ - punctuation.definition
+|               ^ - punctuation.definition
+
+> 1. **foo > bar > baz**
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
+|          ^ - punctuation.definition
+|                ^ - punctuation.definition
+ 
 
 # TEST: LIST BLOCKS ###########################################################
 
@@ -8968,6 +9040,7 @@ not a hard line break`
 !!! bug "Bug Title"
 |^^^^^^^^^^^^^^^^^^^ meta.admonition.error.markdown markup.heading.admonition.error.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^ entity.name.admonition.markdown
 |       ^^^^^^^^^^^ meta.title.markdown
 |       ^ punctuation.definition.title.begin.markdown
 |                 ^ punctuation.definition.title.end.markdown
@@ -8975,6 +9048,7 @@ not a hard line break`
 !!! danger "Be very careful"
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.admonition.caution.markdown markup.heading.admonition.caution.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^^^^ entity.name.admonition.markdown
 |          ^^^^^^^^^^^^^^^^^ meta.title.markdown
 |          ^ punctuation.definition.title.begin.markdown
 |                          ^ punctuation.definition.title.end.markdown
@@ -8982,14 +9056,17 @@ not a hard line break`
 !!! failure
 |^^^^^^^^^^^ meta.admonition.error.markdown markup.heading.admonition.error.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^^^^^ entity.name.admonition.markdown
 
 !!! failure blinking
 |^^^^^^^^^^^^^^^^^^^^ meta.admonition.error.markdown markup.heading.admonition.error.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^^^^^ entity.name.admonition.markdown
 
 !!! failure "Error Title"
 |^^^^^^^^^^^^^^^^^^^^^^^^^ meta.admonition.error.markdown markup.heading.admonition.error.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^^^^^ entity.name.admonition.markdown
 |           ^^^^^^^^^^^^^ meta.title.markdown
 |           ^ punctuation.definition.title.begin.markdown
 |                       ^ punctuation.definition.title.end.markdown
@@ -8997,6 +9074,7 @@ not a hard line break`
 !!! quote
 |^^^^^^^^^ meta.admonition.quote.markdown markup.heading.admonition.quote.markdown
 |^^ punctuation.definition.admonition.markdown
+|   ^^^^^ entity.name.admonition.markdown
 
 !!! danger "Be very careful"
 
@@ -9064,12 +9142,14 @@ not a hard line break`
   !!! tip "Title"
 |^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.admonition.tip.markdown markup.heading.admonition.tip.markdown
 | ^^^ punctuation.definition.admonition.markdown
+|     ^^^ entity.name.admonition.markdown
 
 - list item
   
   !!! warning "Title"
 |^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.admonition.warning.markdown markup.heading.admonition.warning.markdown
 | ^^^ punctuation.definition.admonition.markdown
+|     ^^^^^^^ entity.name.admonition.markdown
 
   !!! success "Title"
 

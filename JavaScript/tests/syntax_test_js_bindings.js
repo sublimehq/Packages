@@ -53,6 +53,19 @@ const { 'a': x, "b": y, [c]: z } = value;
 //                         ^ punctuation.separator.key-value
 //                           ^ meta.binding.name variable.other.readwrite
 
+const { 0 : {} } = value;  // invalid 0, but keep braces balanced
+//    ^^^^^^^^^^ meta.binding.destructuring.mapping.js
+//              ^^^^^^^^^^ - meta.binding.destructuring
+//    ^ punctuation.section.mapping.begin.js
+//        ^ punctuation.separator.key-value.js
+//          ^^ meta.binding.destructuring.mapping.js
+//          ^ punctuation.section.mapping.begin.js
+//           ^ punctuation.section.mapping.end.js
+//             ^ punctuation.section.mapping.end.js
+//               ^ keyword.operator.assignment.js
+//                 ^^^^^ variable.other.readwrite.js
+//                      ^ punctuation.terminator.statement.js
+
 const x;
 //    ^ meta.binding.name variable.other.readwrite
 

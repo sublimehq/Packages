@@ -1307,6 +1307,32 @@ namespace TestNamespace . Test
             };
 ///         ^ meta.instantiation meta.braces punctuation.section.braces.end
 
+            var mech = new Mesh(4, 3) {
+                V = [0, 1, 2],
+///             ^ variable.other.member.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.comma.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.separator.comma.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.section.brackets.end.cs
+///                          ^ punctuation.separator.comma.cs
+                I = [3, 4, 5]
+///             ^ variable.other.member.cs
+///               ^ keyword.operator.assignment.cs
+///                 ^^^^^^^^^ meta.brackets.cs
+///                 ^ punctuation.section.brackets.begin.cs
+///                  ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                   ^ punctuation.separator.comma.cs
+///                     ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                      ^ punctuation.separator.comma.cs
+///                        ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                         ^ punctuation.section.brackets.end.cs
+            };
+
             var anonymous = new {
 ///                         ^^^^^^ meta.instantiation.cs - meta.instantiation meta.instantiation
 ///                             ^ meta.braces.cs punctuation.section.braces.begin.cs
@@ -2794,6 +2820,10 @@ class TestControlStatements
 /// ^ punctuation.section.block.end.cs
 ///  ^ meta.class.body.cs meta.block.cs - meta.method
 
+    abc:
+/// ^^^ entity.name.label.cs
+///    ^ punctuation.separator.colon.cs
+
     void testGotoStatements()
     {
         goto
@@ -4272,6 +4302,35 @@ public class TestExpressions
 ///     ^ punctuation.section.group.begin.cs
 ///      ^^^^ storage.type.primitive.cs
 ///          ^ punctuation.section.group.end.cs
+
+        (byte) 0;
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///             ^ punctuation.terminator.statement.cs
+
+        (byte) 'c';
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^^ meta.string.cs string.quoted.single.cs
+///            ^ punctuation.definition.string.begin.cs
+///             ^ constant.character.literal.cs
+///              ^ punctuation.definition.string.end.cs
+///               ^ punctuation.terminator.statement.cs
+
+        (byte) "b";
+///     ^^^^^^ meta.cast.cs meta.group.cs
+///     ^ punctuation.section.group.begin.cs
+///      ^^^^ storage.type.primitive.cs
+///          ^ punctuation.section.group.end.cs
+///            ^^^ meta.string.cs string.quoted.double.cs
+///            ^ punctuation.definition.string.begin.cs
+///              ^ punctuation.definition.string.end.cs
+///               ^ punctuation.terminator.statement.cs
 
         (byte) var;
 ///     ^^^^^^ meta.cast.cs meta.group.cs

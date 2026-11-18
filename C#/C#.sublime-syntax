@@ -31,11 +31,8 @@ contexts:
     - include: csharp-blocks
     - include: stray-punctuation
     - include: terminators
-    - include: attributes
-    - include: extern-alias-declarations
-    - include: modifiers
-    - include: visibility
     # global declarations
+    - include: extern-alias-declarations
     - include: namespace-declarations
     - include: using-declarations
     - include: class-declarations
@@ -49,10 +46,14 @@ contexts:
     - include: event-declarations
     - include: extension-declarations
     - include: conversion-declarations
+    # declaration modifiers
+    - include: attributes
+    - include: modifiers
+    - include: visibility
     # statements and expressions (fallback only)
     - include: embedded-statements
-    - include: local-declarations
     - include: label-declarations
+    - include: local-declarations
     - include: else-expression
 
 ###[ COMMENTS ]################################################################
@@ -447,6 +448,7 @@ contexts:
     - include: else-pop
 
 ###[ USING DECLARATIONS ]######################################################
+
   using-declarations:
     - match: (?:(global)\s+)?(using)\b
       captures:
@@ -577,11 +579,9 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: 1
+    - include: statement-blocks
     - include: stray-punctuation
     - include: terminators
-    - include: attributes
-    - include: modifiers
-    - include: visibility
     # nested global declarations
     - include: class-declarations
     - include: enum-declarations
@@ -595,10 +595,14 @@ contexts:
     - include: extension-declarations
     - include: conversion-declarations
     - include: constructor-declarations
+    # declaration modifiers
+    - include: attributes
+    - include: modifiers
+    - include: visibility
+    # statements and expressions (fallback)
     - include: embedded-statements
+    - include: label-declarations
     - include: member-declarations
-    # fallbacks
-    - include: statement-blocks
     - include: else-expression
 
 ###[ ENUM DECLARATIONS ]#######################################################
@@ -1644,6 +1648,11 @@ contexts:
     - include: else-pop
 
   expression-common:
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      push:
+        - inside-item-access
+        - maybe-pointer
     # accessors and operators (Note: order matters!)
     - match: ->
       scope: punctuation.accessor.arrow.cs
@@ -1674,21 +1683,13 @@ contexts:
         1: keyword.operator.null-coalescing.cs
         2: punctuation.accessor.dot.cs
       push: maybe-pointer
-    - match: (\?)?\s*(\[)
-      captures:
-        1: keyword.operator.null-coalescing.cs
-        2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push:
-        - inside-item-access
-        - maybe-pointer
     - match: \?\?
       scope: keyword.operator.null-coalescing.cs
-      push: maybe-pointer
-    - match: \?
-      scope: keyword.operator.ternary.cs
-      push:
-        - inside-ternary-expression
-        - maybe-pointer
+    - match: (?=\?)
+      branch_point: null-coalescing
+      branch:
+        - null-coalescing
+        - ternary-expression
     # keywords
     - match: '{{sql_keywords}}'
       scope: keyword.other.sql.cs
@@ -1741,10 +1742,39 @@ contexts:
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
 
+  null-coalescing:
+    - meta_include_prototype: false
+    - match: \?
+      scope: keyword.operator.null-coalescing.cs
+      set: null-coalescing-item-access
+    - include: immediately-pop
+
+  null-coalescing-item-access:
+    - match: \[
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set:
+        - null-coalescing-item-access-check
+        - inside-item-access
+        - maybe-pointer
+    - match: (?=\S)
+      fail: null-coalescing
+
+  null-coalescing-item-access-check:
+    - match: (?=:)
+      fail: null-coalescing
+    - include: else-pop
+
+  ternary-expression:
+    - meta_include_prototype: false
+    - match: \?
+      scope: keyword.operator.ternary.cs
+      set: inside-ternary-expression
+    - include: immediately-pop
+
   inside-ternary-expression:
     - match: ':'
       scope: keyword.operator.ternary.cs
-      pop: 1
+      set: expression
     - include: expression
 
   keywords:
@@ -1896,8 +1926,8 @@ contexts:
     # - `~`     : unary operator
     # - `--`    : unary operator
     # - `++`    : unary operator
-    # - literal : variable, type or method
-    - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(]|--|\+\+)
+    # - literal : char, digit, string, variable, type or method
+    - match: (?=(?!and|not|or|as|is|switch\b){{start_char}}|[!~(\d"']|--|\+\+)
       pop: 1
 
   paren-group:
@@ -2673,7 +2703,6 @@ contexts:
     - match: '[*&]'
       scope: keyword.operator.pointer.cs
       pop: 1
-    - include: attributes
     - include: else-pop
 
   accessors:

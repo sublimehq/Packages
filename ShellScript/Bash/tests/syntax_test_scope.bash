@@ -12853,6 +12853,18 @@ let 'test -z $2 && { }'
 #                    ^ invalid.illegal.unexpected-token.shell
 #                     ^ punctuation.definition.quoted.end.shell
 
+let test -z $2; echo tested
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^^ variable.other.readwrite.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^ variable.other.readwrite.shell
+#           ^^ meta.interpolation.parameter.shell variable.language.positional.shell
+#           ^ punctuation.definition.variable.shell
+#             ^ punctuation.terminator.statement.shell
+#               ^^^^ meta.function-call.identifier.shell support.function.shell
+#                   ^^^^^^^ meta.function-call.arguments.shell
+#                    ^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 ###############################################################################
 # 4.2 Bash Builtin Commands (local)                                           #
@@ -13887,6 +13899,21 @@ if test "$VAR" != ";";then;fi
 #                         ^ punctuation.terminator.statement.shell
 #                          ^^ keyword.control.conditional.endif.shell
 
+test ${VAR} -lt 130000; echo $?
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^ meta.arithmetic.shell meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+#           ^^^ keyword.operator.comparison.shell
+#               ^^^^^^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#                     ^ punctuation.terminator.statement.shell
+#                       ^^^^ meta.function-call.identifier.shell support.function.shell
+#                           ^^^ meta.function-call.arguments.shell
+#                            ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                            ^ punctuation.definition.variable.shell
 
 ###############################################################################
 # 4.2 Bash Builtin Commands (time)                                            #
