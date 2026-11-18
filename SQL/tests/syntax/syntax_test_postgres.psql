@@ -3,13 +3,13 @@
 CREATE TABLE users (
     id int,
     "idFoo" UUID
---  ^^^^^^^ meta.column-name variable.other.member.declaration
+--  ^^^^^^^ meta.column-name variable.other.member.declaration - string
 --  ^ punctuation.definition.identifier.begin
 --        ^ punctuation.definition.identifier.end
 );
 
 SELECT x, "y" FROM a;
---        ^^^ meta.column-name
+--        ^^^ meta.column-name - string
 --        ^ punctuation.definition.identifier.begin
 --          ^ punctuation.definition.identifier.end
 
@@ -778,7 +778,7 @@ BEGIN
         ,"lBatchNum" INT
 --      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
 --      ^ punctuation.separator.sequence.sql
---       ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--       ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql - string
 --       ^ punctuation.definition.identifier.begin.sql
 --                 ^ punctuation.definition.identifier.end.sql
 --                   ^^^ storage.type.sql
