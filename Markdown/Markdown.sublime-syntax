@@ -2729,6 +2729,12 @@ contexts:
     - include: emphasis
     - include: inline-common
 
+  inline-common:
+    - include: images
+    - include: literals
+    - include: links
+    - include: markups
+
   emphasis:
     - include: bold
     - include: italic
@@ -3019,12 +3025,6 @@ contexts:
     - include: emphasis-inline-common
 
 ###[ INLINE: EMPHASIS PROTOTYPES ]############################################
-
-  inline-common:
-    - include: images
-    - include: literals
-    - include: links
-    - include: markups
 
   emphasis-inline-common:
     - include: hard-line-breaks
