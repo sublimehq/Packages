@@ -20,13 +20,6 @@ contexts:
     - include: conditional-directives
     - include: definitions
 
-  definitions:
-    - match: '{{word_begin}}'
-      branch_point: definitions
-      branch:
-        - global-variable-definition-name-body
-        - rule-target-body
-
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -70,9 +63,16 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
-###[ RULE DEFINITIONS ]########################################################
+###[ DEFINITIONS ]#############################################################
 
-  rule-target-body:
+  definitions:
+    - match: '{{word_begin}}'
+      branch_point: definitions
+      branch:
+        - variable-definition-name
+        - rule-targets
+
+  rule-targets:
     # Anything before the colon is part of the rule's name.
     - meta_content_scope: meta.function.makefile entity.name.function.makefile
     - match: \s*(::?)
@@ -137,15 +137,7 @@ contexts:
     - match: ^(?!\s*(ifn?(def|eq)|else|endif){{word_break}}|\n)
       pop: 1
 
-###[ VARIABLE DEFINITIONS ]####################################################
-
-  global-variable-definition-name-body:
-    - meta_content_scope: variable.other.makefile
-    - include: variable-definition-name-body
-    - match: ':'
-      fail: definitions
-
-  variable-definition-name-body:
+  variable-definition-name:
     - meta_content_scope: variable.other.makefile
     - match: \s*({{shell_assign}})\s*
       captures:
@@ -158,6 +150,8 @@ contexts:
     - include: continuation-or-eol-pop
     - include: comment
     - include: variable-name-content
+    - match: ':'
+      fail: definitions
 
   variable-value:
     - match: ((?:bash|sh)\s+-c\s+)(['"`])
