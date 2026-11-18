@@ -10,52 +10,11 @@ file_extensions:
   - pgsql
   - psql
 
-variables:
-
-  like_keyword: |-
-    (?xi: ilike | like )
-
-  simple_types: |-
-    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
-    | smallserial | serial | bigserial
-    | money
-    | bytea
-    | boolean
-    | times? | timestamp(?:s | tz)? | date | interval
-    | int4range | int8range | numrange | tsrange | tstzrange | daterange
-    | point | line | lseg | box | path | polygon | circle
-    | cidr | inet | macaddr | macaddr8
-    | tsvector | tsquery
-    | uuid
-    | text | xml | jsonb? )
-
-  types_with_optional_number: |-
-    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
+###[ CONTEXTS ]################################################################
 
 contexts:
 
-###[ IDENTIFIERS ]#############################################################
-
-  # PostgreSQL uses double quotes for identifiers, not string literals.
-  double-quoted-strings: []
-
-  expect-column-names:
-    - meta_prepend: true
-    - match: (?=(?:{{simple_identifier}}|"(?:[^"]|"")*")\s*\.)
-      push: [maybe-operator, qualified-column-name]
-
-  qualified-column-name:
-    - match: ''
-      set:
-        - qualified-column-name-tail
-        - table-name
-        - identifier-part
-
-  qualified-column-name-tail:
-    - match: \s*(\.)
-      captures:
-        1: punctuation.accessor.dot.sql
-      set: [column-name, single-identifier]
+###[ STATEMENTS ]##############################################################
 
   statements:
     - meta_prepend: true
@@ -374,6 +333,24 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  expect-column-names:
+    - meta_prepend: true
+    - match: (?=(?:{{simple_identifier}}|"(?:[^"]|"")*")\s*\.)
+      push: [maybe-operator, qualified-column-name]
+
+  qualified-column-name:
+    - match: ''
+      set:
+        - qualified-column-name-tail
+        - table-name
+        - identifier-part
+
+  qualified-column-name-tail:
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: [column-name, single-identifier]
+
   expect-extension-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -467,6 +444,8 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ STRINGS ]#################################################################
+
   strings:
     - meta_prepend: true
     # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
@@ -476,6 +455,9 @@ contexts:
     - match: \'(?=[^']+'::bytea\b)
       scope: punctuation.definition.string.begin.sql
       push: inside-single-quoted-bytea-string
+
+  # PostgreSQL uses double quotes for identifiers, not string literals.
+  double-quoted-strings: []
 
   inside-single-quoted-escape-string:
     - meta_include_prototype: false
@@ -510,3 +492,27 @@ contexts:
     - match: \\x\h{8}
       scope: constant.character.escape.sql
     - include: string-escapes
+
+###[ VARIABLES ]###############################################################
+
+variables:
+
+  like_keyword: |-
+    (?xi: ilike | like )
+
+  simple_types: |-
+    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
+    | smallserial | serial | bigserial
+    | money
+    | bytea
+    | boolean
+    | times? | timestamp(?:s | tz)? | date | interval
+    | int4range | int8range | numrange | tsrange | tstzrange | daterange
+    | point | line | lseg | box | path | polygon | circle
+    | cidr | inet | macaddr | macaddr8
+    | tsvector | tsquery
+    | uuid
+    | text | xml | jsonb? )
+
+  types_with_optional_number: |-
+    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
