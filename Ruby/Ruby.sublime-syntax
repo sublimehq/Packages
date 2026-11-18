@@ -1499,7 +1499,19 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.ruby
       push: regex-body
+    - match: \s*$\n?
+      set: after-operator-at-eol
     - match: ''
+      pop: true
+
+  after-operator-at-eol:
+    # An operator at the end of a line expects its operand on the next one,
+    # so a slash starting the next line begins a (possibly multiline) regex.
+    - match: ^\s*(/)
+      captures:
+        1: punctuation.definition.string.begin.ruby
+      set: regex-body
+    - match: (?=\S)
       pop: true
 
   try-regex:
