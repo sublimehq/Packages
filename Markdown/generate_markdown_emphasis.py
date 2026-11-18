@@ -20,10 +20,10 @@ import sys
 
 
 SYNTAX_PATH = Path(__file__).with_name("Markdown.sublime-syntax")
-GENERATED_START = "###[ GENERATED: CONTAINER EMPHASIS ]##########################################"
-GENERATED_END = "###[ END GENERATED: CONTAINER EMPHASIS ]######################################"
+GENERATED_START = "###[ GENERATED: CONTAINER INLINES ]###########################################"
+GENERATED_END = "###[ END GENERATED: CONTAINER INLINES ]#######################################"
 BASE_START = "###[ INLINE: EMPHASIS ]#######################################################"
-BASE_END = "###[ INLINE: IMAGES ]#########################################################"
+BASE_END = "###[ INLINE: EMPHASIS PROTOTYPES ]############################################"
 OLD_GENERATED_START = (
     "###[ INLINE: BLOCKQUOTE EMPHASIS ]############################################"
 )
