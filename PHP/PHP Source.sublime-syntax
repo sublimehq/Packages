@@ -2130,6 +2130,8 @@ contexts:
   constants:
     - match: \.\.\.
       scope: constant.other.wildcard.php
+    - match: \?(?!>)
+      scope: constant.other.wildcard.questionmark.php
     - match: (?i:false)\b
       scope: constant.language.boolean.false.php
     - match: (?i:true)\b
@@ -2905,7 +2907,7 @@ contexts:
       scope: keyword.operator.variadic.php
     - match: \.(?!\.)
       scope: keyword.operator.concatenation.php
-    - match: \?(?!>)
+    - match: \?(?!>|\s*[,)])
       scope: keyword.operator.ternary.php
       push: ternary-expression
     - match: ':(?!:)'

@@ -2659,6 +2659,36 @@ $f10 = (new MyClass)->myMethod(...);
 //                                ^ punctuation.section.group.end.php
 //                                 ^ punctuation.terminator.statement.php
 
+// PHP 8.6 Partial Function Application
+
+$f11 = version_compare(?, '8.6', ?, ?, ...);
+//     ^^^^^^^^^^^^^^^ meta.function-call.identifier.php meta.function-call.identifier.php support.function.info.php
+//                    ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//                    ^ punctuation.section.group.begin.php
+//                     ^ constant.other.wildcard.questionmark.php
+//                      ^ punctuation.separator.sequence.php
+//                        ^^^^^ meta.string.php string.quoted.single.php
+//                        ^ punctuation.definition.string.begin.php
+//                            ^ punctuation.definition.string.end.php
+//                             ^ punctuation.separator.sequence.php
+//                               ^ constant.other.wildcard.questionmark.php
+//                                ^ punctuation.separator.sequence.php
+//                                  ^ constant.other.wildcard.questionmark.php
+//                                   ^ punctuation.separator.sequence.php
+//                                     ^^^ constant.other.wildcard.php
+//                                        ^ punctuation.section.group.end.php
+
+$f12 = 'strlen'(?, ...);
+//     ^^^^^^^^ meta.string.php string.quoted.single.php
+//     ^ punctuation.definition.string.begin.php
+//            ^ punctuation.definition.string.end.php
+//             ^^^^^^^^ meta.group.php
+//             ^ punctuation.section.group.begin.php
+//              ^ constant.other.wildcard.questionmark.php
+//               ^ punctuation.separator.sequence.php
+//                 ^^^ constant.other.wildcard.php
+//                    ^ punctuation.section.group.end.php
+//                     ^ punctuation.terminator.statement.php
 
 /******************************************************************************
  * Label Declaration Tests
