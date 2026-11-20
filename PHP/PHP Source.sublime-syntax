@@ -1198,8 +1198,9 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
       pop: 1
+    - match: \.\.\.
+      scope: keyword.operator.variadic.php
     - include: reference-modifiers
-    - include: variadic-operators
     - include: comments
     - include: else-pop
 
@@ -1534,12 +1535,6 @@ contexts:
 ###[ EXPRESSION GROUPS ]######################################################
 
   groups:
-    - match: (\()\s*(\.\.\.)\s*(\))
-      scope: meta.group.php
-      captures:
-        1: punctuation.section.group.begin.php
-        2: constant.other.placeholder.php
-        3: punctuation.section.group.end.php
     - match: \(
       scope: punctuation.section.group.begin.php
       push: group-body
@@ -1685,13 +1680,6 @@ contexts:
   function-call-arguments:
     - meta_include_prototype: false
     - meta_content_scope: meta.function-call.identifier.php
-    - match: (\()\s*(\.\.\.)\s*(\))
-      scope: meta.function-call.arguments.php meta.group.php
-      captures:
-        1: punctuation.section.group.begin.php
-        2: constant.other.placeholder.php
-        3: punctuation.section.group.end.php
-      pop: 1
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-call-arguments-body
@@ -2140,6 +2128,8 @@ contexts:
 ###[ CONSTANTS ]##############################################################
 
   constants:
+    - match: \.\.\.
+      scope: constant.other.wildcard.php
     - match: (?i:false)\b
       scope: constant.language.boolean.false.php
     - match: (?i:true)\b
@@ -2881,7 +2871,6 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - include: variadic-operators
     - match: <\?(?i:php\b|(?!php)ph?|=)?
       scope: punctuation.section.embedded.begin.php
     - match: =>
@@ -2912,7 +2901,9 @@ contexts:
       scope: keyword.operator.error-control.php
     - match: \!
       scope: keyword.operator.logical.php
-    - match: \.
+    - match: \.\.\.(?=\s*\$)
+      scope: keyword.operator.variadic.php
+    - match: \.(?!\.)
       scope: keyword.operator.concatenation.php
     - match: \?(?!>)
       scope: keyword.operator.ternary.php
@@ -2945,10 +2936,6 @@ contexts:
       scope: keyword.operator.ternary.php
       pop: 1
     - include: nested-expressions
-
-  variadic-operators:
-    - match: \.\.\.
-      scope: keyword.operator.variadic.php
 
   punctuation-separators:
     - match: ','

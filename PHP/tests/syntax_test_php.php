@@ -2555,7 +2555,7 @@ $f1 = strlen(...);
 //          ^^^^^ meta.function-call.arguments.php meta.group.php
 //    ^^^^^^ support.function.string.php
 //          ^ punctuation.section.group.begin.php
-//           ^^^ constant.other.placeholder.php
+//           ^^^ constant.other.wildcard.php
 //              ^ punctuation.section.group.end.php
 //               ^ punctuation.terminator.statement.php
 
@@ -2564,7 +2564,7 @@ $f2 = $obj(...);  // invokable object
 //        ^^^^^ meta.function-call.arguments.php meta.group.php
 //    ^^^^ variable.other.php
 //        ^ punctuation.section.group.begin.php
-//         ^^^ constant.other.placeholder.php
+//         ^^^ constant.other.wildcard.php
 //            ^ punctuation.section.group.end.php
 //             ^ punctuation.terminator.statement.php
 
@@ -2573,7 +2573,7 @@ $f3 = $obj->method(...);
 //                ^^^^^ meta.function-call.arguments.php meta.group.php
 //          ^^^^^^ variable.function.php
 //                ^ punctuation.section.group.begin.php
-//                 ^^^ constant.other.placeholder.php
+//                 ^^^ constant.other.wildcard.php
 //                    ^ punctuation.section.group.end.php
 //                     ^ punctuation.terminator.statement.php
 
@@ -2582,7 +2582,7 @@ $f4 = $obj->$methodStr(...);
 //                    ^^^^^ meta.function-call.arguments.php meta.group.php
 //          ^^^^^^^^^^ variable.other.member.php
 //                    ^ punctuation.section.group.begin.php
-//                     ^^^ constant.other.placeholder.php
+//                     ^^^ constant.other.wildcard.php
 //                        ^ punctuation.section.group.end.php
 //                         ^ punctuation.terminator.statement.php
 
@@ -2591,7 +2591,7 @@ $f5 = Foo::staticmethod(...);
 //                     ^^^^^ meta.function-call.arguments.php meta.group.php
 //         ^^^^^^^^^^^^ variable.function.php
 //                     ^ punctuation.section.group.begin.php
-//                      ^^^ constant.other.placeholder.php
+//                      ^^^ constant.other.wildcard.php
 //                         ^ punctuation.section.group.end.php
 //                          ^ punctuation.terminator.statement.php
 
@@ -2600,7 +2600,7 @@ $f6 = $classStr::$staticmethodStr(...);
 //                               ^^^^^ meta.function-call.arguments.php meta.group.php
 //               ^^^^^^^^^^^^^^^^ variable.other.member.php
 //                               ^ punctuation.section.group.begin.php
-//                                ^^^ constant.other.placeholder.php
+//                                ^^^ constant.other.wildcard.php
 //                                   ^ punctuation.section.group.end.php
 //                                    ^ punctuation.terminator.statement.php
 
@@ -2610,7 +2610,7 @@ $f7 = 'strlen'(...);
 //    ^^^^^^^^ meta.string.php string.quoted.single.php
 //            ^^^^^ meta.group.php
 //            ^ punctuation.section.group.begin.php
-//             ^^^ constant.other.placeholder.php
+//             ^^^ constant.other.wildcard.php
 //                ^ punctuation.section.group.end.php
 //                 ^ punctuation.terminator.statement.php
 
@@ -2623,7 +2623,7 @@ $f8 = [$obj, 'method'](...);
 //           ^^^^^^^^ meta.string.php string.quoted.single.php
 //                   ^ punctuation.section.sequence.end.php
 //                    ^ punctuation.section.group.begin.php
-//                     ^^^ constant.other.placeholder.php
+//                     ^^^ constant.other.wildcard.php
 //                        ^ punctuation.section.group.end.php
 //                         ^ punctuation.terminator.statement.php
 
@@ -2638,7 +2638,7 @@ $f9 = [Foo::class, 'staticmethod'](...);
 //                 ^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
 //                               ^ punctuation.section.sequence.end.php
 //                                ^ punctuation.section.group.begin.php
-//                                 ^^^ constant.other.placeholder.php
+//                                 ^^^ constant.other.wildcard.php
 //                                    ^ punctuation.section.group.end.php
 //                                     ^ punctuation.terminator.statement.php
 
@@ -2655,7 +2655,7 @@ $f10 = (new MyClass)->myMethod(...);
 //                  ^^ punctuation.accessor.arrow.php
 //                    ^^^^^^^^ variable.function.php
 //                            ^ punctuation.section.group.begin.php
-//                             ^^^ constant.other.placeholder.php
+//                             ^^^ constant.other.wildcard.php
 //                                ^ punctuation.section.group.end.php
 //                                 ^ punctuation.terminator.statement.php
 
@@ -3895,7 +3895,7 @@ $foo = (unset) $bar;
 
     . ...
 //  ^ keyword.operator.concatenation.php
-//    ^^^ keyword.operator.variadic.php
+//    ^^^ constant.other.wildcard.php
 
 
 $a += .5;
