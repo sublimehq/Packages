@@ -1,4 +1,6 @@
-# SYNTAX TEST "Packages/Makefile/Makefile (Batch File).sublime-syntax"
+# SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
+
+SHELL=cmd.exe
 
 #################################
 # Comments                      #

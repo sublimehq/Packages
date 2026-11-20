@@ -18,6 +18,7 @@ contexts:
     - include: line-continuations
     - include: definition-directives
     - include: conditional-directives
+    - include: shells
     - include: definitions
 
 ###[ COMMENTS ]################################################################
@@ -62,6 +63,65 @@ contexts:
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
+
+###[ SHELLS ]##################################################################
+
+  shells:
+    - match: (?i)(SHELL)\s*(=)\s*
+      captures:
+        1: variable.other.makefile
+        2: keyword.operator.assignment.makefile
+      set: shell-value
+
+  shell-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: shell-selector
+
+  shell-selector:
+    - match: \b(?:cmd\.exe|command\.com)\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-dosbatch-value
+    - match: \b(?:ba)?sh\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-bash-value
+    - match: \bzsh\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-zsh-value
+
+  shell-dosbatch-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^
+      set: make-with-dosbatch
+    - include: line-continuations
+    - include: shell-selector
+
+  make-with-dosbatch:
+    - include: scope:source.makefile.dosbatch
+
+  shell-bash-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^
+      set: make-with-bash
+    - include: line-continuations
+    - include: shell-selector
+
+  make-with-bash:
+    - include: scope:source.makefile.bash
+
+  shell-zsh-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^
+      set: make-with-zsh
+    - include: line-continuations
+    - include: shell-selector
+
+  make-with-zsh:
+    - include: scope:source.makefile.zsh
 
 ###[ DEFINITIONS ]#############################################################
 
