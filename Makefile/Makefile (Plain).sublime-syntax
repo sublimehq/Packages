@@ -1,0 +1,1730 @@
+%YAML 1.2
+---
+# https://www.gnu.org/software/make/manual/make.html
+# https://www.sublimetext.com/docs/syntax.html
+name: Makefile (Plain)
+scope: source.makefile.plain
+version: 2
+hidden: true
+
+contexts:
+
+  # 3.1 What Makefiles Contain
+  # Makefiles contain five kinds of things: explicit rules, implicit rules,
+  # variable definitions, directives, and comments.
+  main:
+    - include: comments
+    - include: merge-conflict-markers
+    - include: line-continuations
+    - include: definition-directives
+    - include: conditional-directives
+    - include: shells
+    - include: definitions
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      push: comment-body
+
+  comment:
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      set: comment-body
+
+  comment-body:
+    - meta_content_scope: comment.line.number-sign.makefile
+    - include: line-continuations
+    - match: \\\\
+    # note: meta.eol is required for syntax based folding
+    - match: $\n?
+      scope: comment.line.number-sign.makefile meta.eol.makefile
+      pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ SHELLS ]##################################################################
+
+  shells:
+    - match: (?i)(SHELL)\s*(=)\s*
+      captures:
+        1: variable.other.makefile
+        2: keyword.operator.assignment.makefile
+      set: shell-value
+
+  shell-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: \s*$
+      set: main
+    - include: shell-value-content
+
+  shell-value-content:
+    # note: no escapes to avoid windows path separators augmenting e.g. cmd.exe
+    - include: line-continuations
+    - include: shell-value-comment
+    - include: shell-selector
+    - include: escaped-dollars
+    - include: interpolations
+
+  shell-value-comment:
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      push: shell-value-comment-body
+
+  shell-value-comment-body:
+    - clear_scopes: 2
+    - meta_content_scope: comment.line.number-sign.makefile
+    - include: comment-body
+
+  shell-selector:
+    - match: \b(?:cmd\.exe|command\.com)\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-dosbatch-value
+    - match: \b(?:ba)?sh\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-bash-value
+    - match: \bzsh\b
+      scope: meta.string.makefile string.unquoted.makefile constant.other.language-name.makefile
+      set: shell-zsh-value
+
+  shell-dosbatch-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: \s*$
+      set: make-with-dosbatch
+    - include: shell-value-content
+
+  make-with-dosbatch:
+    - include: scope:source.makefile.dosbatch
+
+  shell-bash-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: \s*$
+      set: make-with-bash
+    - include: shell-value-content
+
+  make-with-bash:
+    - include: scope:source.makefile.bash
+
+  shell-zsh-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: \s*$
+      set: make-with-zsh
+    - include: shell-value-content
+
+  make-with-zsh:
+    - include: scope:source.makefile.zsh
+
+###[ DEFINITIONS ]#############################################################
+
+  definitions:
+    - match: '{{word_begin}}'
+      branch_point: definitions
+      branch:
+        - variable-definition-name
+        - rule-targets
+
+  rule-targets:
+    # Anything before the colon is part of the rule's name.
+    - meta_content_scope: meta.function.makefile entity.name.function.makefile
+    - match: \s*(::?)
+      captures:
+        1: punctuation.definition.rule.makefile
+      set: after-rule-targets
+    - include: line-continuations
+    - include: variable-pattern-content
+
+  after-rule-targets:
+    - meta_scope: meta.function.makefile
+    - include: line-continuations
+    # target-specific variable (parsed by main context)
+    - match: (?=(?:override|(?:un)?(?:define|export)){{word_break}}|[^=#]+{{var_or_shell_assign}})
+      pop: 1
+    # prerequisites
+    - match: (?=\S)
+      set: rule-prerequisites
+    # recipes
+    - match: $\n?
+      set: rule-recipes
+
+  rule-prerequisites:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      set: rule-comment-body
+    - match: \s*$\n?
+      scope: meta.function.makefile
+      set: rule-recipes
+    - match: (\s*(;))(\s*({{recipe_modifier}}))?
+      captures:
+        1: meta.function.makefile
+        2: punctuation.terminator.makefile
+        3: meta.function.body.makefile
+        4: keyword.operator.recipe.makefile
+      set:
+        - rule-recipes
+        - shell-body
+    - include: line-continuations
+    - include: second-pattern-content
+
+  rule-comment-body:
+    - meta_scope: meta.function.makefile
+    - meta_content_scope: comment.line.number-sign.makefile
+    - match: $\n?
+      scope: comment.line.number-sign.makefile
+      set: rule-recipes
+    - include: line-continuations
+
+  rule-recipes:
+    - meta_content_scope: meta.function.body.makefile
+    - match: ^({{recipe_prefix}})(?:\s*({{recipe_modifier}}))?
+      captures:
+        1: punctuation.definition.recipe.makefile
+        2: keyword.operator.recipe.makefile
+      push: shell-body
+    - include: comments
+    - include: merge-conflict-markers
+    - include: conditional-directives
+    - match: ^(?!\s*(ifn?(def|eq)|else|endif){{word_break}}|\n)
+      pop: 1
+
+  variable-definition-name:
+    - meta_content_scope: variable.other.makefile
+    - match: \s*({{shell_assign}})\s*
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: shell-body
+    - match: \s*({{var_assign}})\s*
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: variable-value
+    - include: continuation-or-eol-pop
+    - include: comment
+    - include: variable-name-content
+    - match: ':'
+      fail: definitions
+
+  variable-value:
+    - match: ((?:bash|sh)\s+-c\s+)(['"`])
+      captures:
+        1: meta.string.makefile string.unquoted.makefile
+        2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
+      embed: scope:source.shell.bash.embedded.makefile.expansion
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.bash.embedded.makefile
+      escape: (?!<\\)\2
+      escape_captures:
+        0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+    - match: (zsh\s+-c\s+)(['"`])
+      captures:
+        1: meta.string.makefile string.unquoted.makefile
+        2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
+      embed: scope:source.shell.zsh.embedded.makefile.expansion
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.zsh.embedded.makefile
+      escape: (?!<\\)\2
+      escape_captures:
+        0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+    - match: ''
+      set: variable-value-body
+
+  variable-value-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - include: string-content
+
+###[ DIRECTIVES ]##############################################################
+
+  definition-directives:
+    # definition directives
+    - match: (override){{directive_break}}
+      captures:
+        1: keyword.control.override.makefile
+    - match: (define){{directive_break}}
+      scope: meta.directive.define.makefile
+      captures:
+        1: keyword.control.define.makefile
+      push: define-directive-name-body
+    - match: (export){{directive_break}}
+      scope: meta.directive.export.makefile
+      captures:
+        1: keyword.control.export.makefile
+      push: export-directive-name-body
+    - match: (undefine){{directive_break}}
+      scope: meta.directive.undefine.makefile
+      captures:
+        1: keyword.control.undefine.makefile
+      push: undefine-directive-name-body
+    - match: (unexport){{directive_break}}
+      scope: meta.directive.undefine.makefile
+      captures:
+        1: keyword.control.unexport.makefile
+      push: undefine-directive-name-body
+    - match: (endef){{directive_break}}
+      captures:
+        1: invalid.illegal.stray.endef.makefile
+    - match: (vpath){{directive_break}}
+      scope: meta.directive.vpath.makefile
+      captures:
+        1: keyword.control.vpath.makefile
+      push: vpath-pattern-body
+    # include directives
+    - match: (-)(include){{directive_break}}
+      scope: meta.directive.include.makefile
+      captures:
+        1: keyword.operator.recipe.makefile
+        2: keyword.control.import.makefile
+      push: include-directive-body
+    - match: (s?include){{directive_break}}
+      scope: meta.directive.include.makefile
+      captures:
+        1: keyword.control.import.makefile
+      push: include-directive-body
+    - match: (-?)(load){{directive_break}}
+      scope: meta.directive.load.makefile
+      captures:
+        1: keyword.operator.recipe.makefile
+        2: keyword.control.import.makefile
+      push: load-directive-body
+
+  define-directive-name-body:
+    - meta_content_scope: meta.directive.define.makefile variable.other.makefile
+    - match: ({{var_or_shell_assign}})?\s*\n
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: define-directive-value-body
+    - include: variable-name-content
+
+  define-directive-value-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.directive.define.makefile
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^\s*(endef){{word_break}}
+      captures:
+        1: keyword.control.endef.makefile
+      pop: 1
+    # keep in balance with nested define statements
+    # see: https://github.com/sublimehq/Packages/issues/1998
+    - match: ^\s*define{{word_break}}
+      push: nested-define-directive-body
+    - include: merge-conflict-markers
+
+  nested-define-directive-body:
+    - meta_include_prototype: false
+    - match: ^\s*endef{{word_break}}
+      pop: 1
+    - include: merge-conflict-markers
+
+  export-directive-name-body:
+    - meta_content_scope: meta.directive.export.makefile variable.other.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s*({{var_assign}})\s*
+      captures:
+        1: keyword.operator.assignment.makefile
+      set: export-variable-value-body
+    - match: \s+
+      scope: meta.directive.export.makefile
+      set: export-directive-name-body
+    - include: variable-name-content
+
+  export-variable-value-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.directive.export.makefile
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - include: variable-value-body
+
+  include-directive-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.directive.include.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s+
+      scope: meta.directive.include.makefile
+      set: include-directive-body
+    - include: glob-content
+
+  load-directive-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.directive.load.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s+
+      scope: meta.directive.load.makefile
+      set: load-directive-body
+    - match: (\()([^)]*)(\))
+      scope: meta.parens.makefile
+      captures:
+        1: punctuation.section.parens.begin.makefile
+        2: entity.name.symbol.makefile
+        3: punctuation.section.parens.end.makefile
+    - include: glob-content
+
+  undefine-directive-name-body:
+    - meta_content_scope: meta.directive.undefine.makefile variable.other.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s+
+      scope: meta.directive.undefine.makefile
+      set: undefine-directive-name-body
+    - include: variable-name-content
+
+  vpath-pattern-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.directive.vpath.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - match: \s+
+      scope: meta.directive.vpath.makefile
+      set: vpath-directory-body
+    - include: glob-content
+
+  vpath-directory-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.directive.vpath.makefile meta.string.makefile string.unquoted.makefile
+    - include: continuation-or-eol-pop
+    - include: comment
+    - include: string-content
+
+###[ CONDITIONAL DIRECTIVES ]##################################################
+
+  conditional-directives:
+    # 7.2 Syntax of Conditionals
+    - match: (ifn?def){{directive_break}}
+      captures:
+        1: keyword.control.conditional.if.makefile
+      push: ifdef-directive-condition
+    - match: ifn?eq{{word_break}}
+      scope: keyword.control.conditional.if.makefile
+      push: ifeq-directive-condition
+    - match: else{{word_break}}
+      scope: meta.directive.conditional.else.makefile keyword.control.conditional.else.makefile
+      branch_point: maybe-elseif
+      branch:
+        - else-if-directive
+        - else-directive
+    - match: endif{{word_break}}
+      scope: meta.directive.conditional.endif.makefile keyword.control.conditional.endif.makefile
+
+  else-if-directive:
+    # Note: required for syntax based folding
+    # When followed by an if directive else keyword acts as fold region terminator,
+    # but only the eol after the if directive starts a new fold region.
+    - include: comments
+    - match: (ifn?def){{directive_break}}
+      captures:
+        1: keyword.control.conditional.if.makefile
+      set: ifdef-directive-condition
+    - match: ifn?eq{{word_break}}
+      scope: keyword.control.conditional.if.makefile
+      set: ifeq-directive-condition
+    - match: (?=\S)
+      fail: maybe-elseif
+
+  else-directive:
+    # Note: required for syntax based folding
+    # The eol after a plain else directive starts a new fold region.
+    - meta_content_scope: meta.directive.conditional.else.makefile
+    - match: \s*$
+      scope: meta.directive.conditional.else.makefile meta.eol.makefile
+      pop: 1
+    - include: line-continuations
+    - include: comments
+
+  ifdef-directive-condition:
+    - meta_scope: meta.directive.conditional.if.makefile
+    - meta_content_scope: variable.other.makefile
+    - include: if-directive-end
+    - include: variable-name-content
+
+  ifeq-directive-condition:
+    - meta_scope: meta.directive.conditional.if.makefile
+    - include: if-directive-end
+    - match: \(
+      scope: punctuation.section.group.begin.makefile
+      push: ifeq-group-body
+    - match: \"
+      scope: punctuation.definition.string.begin.makefile
+      push: ifeq-double-quoted-arg-body
+    - match: \'
+      scope: punctuation.definition.string.begin.makefile
+      push: ifeq-single-quoted-arg-body
+    - match: '[^\s#]+'
+      scope: invalid.illegal.stray.makefile
+
+  ifeq-group-body:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
+    - meta_scope: meta.group.makefile
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: \)
+      scope: punctuation.section.group.end.makefile
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: escaped-dollars
+    - include: interpolations
+    - include: comma-separators
+
+  ifeq-double-quoted-arg-body:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
+    - meta_scope: meta.string.makefile string.quoted.double.makefile
+    - match: \"
+      scope: punctuation.definition.string.end.makefile
+      pop: 1
+    - match: $\n?
+      scope: meta.eol.makefile invalid.illegal.unclosed-string.makefile
+      pop: 1
+    - include: line-continuations
+    - include: escaped-dollars
+    - include: interpolations
+
+  ifeq-single-quoted-arg-body:
+    # note: no escape sequences supported!
+    - meta_include_prototype: false
+    - meta_scope: meta.string.makefile string.quoted.single.makefile
+    - match: \'
+      scope: punctuation.definition.string.end.makefile
+      pop: 1
+    - match: $\n?
+      scope: meta.eol.makefile invalid.illegal.unclosed-string.makefile
+      pop: 1
+    - include: line-continuations
+    - include: escaped-dollars
+    - include: interpolations
+
+  if-directive-end:
+    # Note: required for syntax based folding
+    # The eol after an if directive starts a new fold region.
+    - match: \s*$
+      scope: meta.eol.makefile
+      pop: 1
+    - include: line-continuations
+    - include: comments
+
+###[ SINGLE EXPANSIONS ]#######################################################
+
+  interpolations:
+    - match: (\$)(\{)
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push:
+        - clear-pop
+        - brace-expansion-begin
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push:
+        - clear-pop
+        - paren-expansion-begin
+    - match: (\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: variable.language.automatic.makefile
+        3: variable.other.makefile
+      push: clear-pop
+
+  expansions:
+    - match: (\$)(\{)
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push: brace-expansion-begin
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push: paren-expansion-begin
+    - match: (\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: variable.language.automatic.makefile
+        3: variable.other.makefile
+
+  brace-expansion-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.makefile
+    # makefile command expansions
+    - match: (call)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-call-function-body
+    - match: (shell)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-shell-function-body
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-foreach-function-body
+    - match: (wildcard)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-wildcard-function-body
+    - match: ({{pattern_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-pattern-function-body
+    - match: ({{message_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-message-function-body
+    - match: ({{builtin_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-expansion-function-body
+    # makefile variable expansions
+    - match: '[{{var_auto_chars}}][DF]?'
+      scope: variable.language.automatic.makefile
+      set: brace-variable-substitution
+    - match: ''
+      set: brace-expansion-variable-name-body
+
+  brace-expansion-call-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
+      set: brace-expansion-function-body
+    - include: brace-variable-name-content
+
+  brace-expansion-foreach-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
+      set: brace-expansion-function-body
+    - include: brace-variable-pattern-content
+
+  brace-expansion-message-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: brace-string-content
+
+  brace-expansion-pattern-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-pattern-content
+
+  brace-expansion-wildcard-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-glob-content
+
+  brace-expansion-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-string-content
+
+  brace-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
+    - include: brace-expansion-end
+    - include: shell-content
+
+  brace-expansion-variable-name-body:
+    - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: brace-variable-substitution
+    - include: brace-variable-pattern-content
+
+  brace-variable-substitution:
+    - match: ':'
+      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
+      set: brace-variable-substitution-body
+    - include: brace-expansion-end
+
+  brace-variable-substitution-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - match: =
+      scope: meta.interpolation.makefile keyword.operator.assignment.makefile
+      set: brace-variable-replacement-body
+    - include: brace-expansion-end
+    - include: pattern-content
+
+  brace-variable-replacement-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: pattern-content
+
+  brace-expansion-end:
+    - match: \}
+      scope: meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+      pop: 1
+    - include: continuation-or-eol-pop
+
+  paren-expansion-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.makefile
+    # makefile command expansions
+    - match: (call)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-call-function-body
+    - match: (shell)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-shell-function-body
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-foreach-function-body
+    - match: (wildcard)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-wildcard-function-body
+    - match: ({{builtin_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-function-body
+    - match: ({{message_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-message-function-body
+    - match: ({{pattern_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-expansion-pattern-function-body
+    # makefile variable expansions
+    - match: '[{{var_auto_chars}}][DF]?'
+      scope: variable.language.automatic.makefile
+      set: paren-variable-substitution
+    - match: ''
+      set: paren-expansion-variable-name-body
+
+  paren-expansion-call-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: paren-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
+      set: paren-expansion-function-body
+    - include: paren-variable-name-content
+
+  paren-expansion-foreach-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
+      set: paren-expansion-function-body
+    - include: paren-variable-pattern-content
+
+  paren-expansion-message-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: paren-string-content
+
+  paren-expansion-pattern-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-pattern-content
+
+  paren-expansion-wildcard-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-glob-content
+
+  paren-expansion-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-string-content
+
+  paren-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
+    - include: paren-expansion-end
+    - include: shell-content
+
+  paren-expansion-variable-name-body:
+    - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: paren-variable-substitution
+    - include: paren-variable-pattern-content
+
+  paren-variable-substitution:
+    - match: ':'
+      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
+      set: paren-variable-substitution-body
+    - include: paren-expansion-end
+
+  paren-variable-substitution-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - match: =
+      scope: meta.interpolation.makefile keyword.operator.assignment.makefile
+      set: paren-variable-replacement-body
+    - include: paren-expansion-end
+    - include: pattern-content
+
+  paren-variable-replacement-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: pattern-content
+
+  paren-expansion-end:
+    - match: \)
+      scope: meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+      pop: 1
+    - include: continuation-or-eol-pop
+
+###[ SINGLE EXPANSIONS / GLOB PATTERNS ]#######################################
+
+  brace-glob-content:
+    - match: \{
+      push: glob-brace-body
+    - include: glob-content
+
+  glob-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-glob-content
+
+  paren-glob-content:
+    - match: \(
+      push: glob-paren-body
+    - include: glob-content
+
+  glob-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-glob-content
+
+  glob-content:
+    - include: string-content
+    # 4.4 Using Wildcard Characters in File Names
+    # Note: Copied from Bash.sublime-syntax
+    - match: (?=\[)
+      branch_point: glob-character-class
+      branch:
+        - glob-character-class
+        - glob-character-class-fallback
+    - match: \*
+      scope: constant.other.wildcard.asterisk.makefile
+    - match: \?
+      scope: constant.other.wildcard.questionmark.makefile
+
+  glob-character-class:
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.makefile meta.character-class.glob.makefile string.unquoted.makefile
+    - match: (\[)([!^]?)
+      captures:
+        1: punctuation.definition.character-class.begin.glob.makefile
+        2: keyword.operator.logical.glob.makefile
+      push:
+        - glob-character-class-body
+        - glob-character-class-begin
+
+  glob-character-class-begin:
+    - meta_include_prototype: false
+    # a range may start with `]` at the beginning of a set
+    - match: (?:(\\.)|.)(-)(?:(\\.)|[^\]$]|(?!\]))
+      scope: constant.other.range.glob.makefile
+      captures:
+        1: constant.character.escape.glob.makefile
+        2: punctuation.separator.sequence.glob.makefile
+        3: constant.character.escape.glob.makefile
+      pop: 1
+    # the following are treated literal at the beginning of a set
+    - match: '[]-]'
+      pop: 1
+    - include: immediately-pop
+
+  glob-character-class-body:
+    - match: (?!\S) # also fail at eof
+      fail: glob-character-class
+    - include: glob-character-class-end
+    - include: continuation-or-eol-pop
+    - include: glob-character-class-content
+
+  glob-character-class-content:
+    - match: \[\.(?=\S*\.\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: glob-character-class-collate-body
+    - match: \[=(?=\S*=\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: glob-character-class-equivalence-body
+    - match: \[:(?=(?:{{posix_classes}}|\$+(?:\{.*?\}|\w+)):\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: glob-character-class-posix-body
+    - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]$]|(?!\]))
+      scope: constant.other.range.glob.makefile
+      captures:
+        1: constant.character.escape.glob.makefile
+        2: punctuation.separator.sequence.glob.makefile
+        3: constant.character.escape.glob.makefile
+    - include: string-content
+
+  glob-character-class-collate-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.collate.glob.makefile
+    - match: \.\]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: string-content
+
+  glob-character-class-equivalence-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.equivalence.glob.makefile
+    - match: =\]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: string-content
+
+  glob-character-class-posix-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.posix.glob.makefile
+    - match: ({{posix_classes}}?)(:\])
+      captures:
+        1: constant.other.character-class.posix.glob.makefile
+        2: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: string-content
+
+  glob-character-class-end:
+    - match: \]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 2
+
+  glob-character-class-fallback:
+    - meta_include_prototype: false
+    - match: \[
+      pop: 1
+
+###[ SINGLE EXPANSIONS / MAKE PATTERNS ]#######################################
+
+  brace-pattern-content:
+    - match: \{
+      push: pattern-brace-body
+    - include: pattern-content
+
+  pattern-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-pattern-content
+
+  paren-pattern-content:
+    - match: \(
+      push: pattern-paren-body
+    - include: pattern-content
+
+  pattern-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-pattern-content
+
+  pattern-content:
+    - include: string-content
+    - include: percentage-placeholders
+
+###[ SINGLE EXPANSIONS / STRINGS ]#############################################
+
+  brace-string-content:
+    - match: \{
+      push: string-brace-body
+    - include: string-content
+
+  string-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-string-content
+
+  paren-string-content:
+    - match: \(
+      push: string-paren-body
+    - include: string-content
+
+  string-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-string-content
+
+  string-content:
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: interpolations
+
+###[ SINGLE EXPANSIONS / VARIABLE PATTERNS ]###################################
+
+  brace-variable-pattern-content:
+    - match: \{
+      push: variable-pattern-brace-body
+    - include: variable-pattern-content
+
+  variable-pattern-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-variable-pattern-content
+
+  paren-variable-pattern-content:
+    - match: \(
+      push: variable-pattern-paren-body
+    - include: variable-pattern-content
+
+  variable-pattern-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-variable-pattern-content
+
+  variable-pattern-content:
+    - include: variable-name-content
+    - include: percentage-placeholders
+
+###[ SINGLE EXPANSIONS / VARIABLE NAMES ]######################################
+
+  brace-variable-name-content:
+    - match: \{
+      push: variable-name-brace-body
+    - include: variable-name-content
+
+  variable-name-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-variable-name-content
+
+  paren-variable-name-content:
+    - match: \(
+      push: variable-name-paren-body
+    - include: variable-name-content
+
+  variable-name-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-variable-name-content
+
+  variable-name-content:
+    - include: escaped-chars
+    - include: escaped-dollars
+    - include: expansions
+
+###[ SECOND EXPANSIONS ]#######################################################
+
+  # Note:
+  #  - idendical to expansions, but with $$ punctuation
+  #  - valid only within rule prerequisites
+
+  second-interpolations:
+    - match: (\$\$)(\{)
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push:
+        - clear-pop
+        - brace-second-expansion-begin
+    - match: (\$\$)(\()
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push:
+        - clear-pop
+        - paren-second-expansion-begin
+    - match: (\$\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: variable.language.automatic.makefile
+        3: variable.other.makefile
+      push: clear-pop
+
+  second-expansions:
+    - match: (\$\$)(\{)
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push: brace-second-expansion-begin
+    - match: (\$\$)(\()
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: punctuation.section.interpolation.begin.makefile
+      push: paren-second-expansion-begin
+    - match: (\$\$)(?:([{{var_auto_chars}}])|([[:alpha:]]))
+      scope: meta.interpolation.makefile
+      captures:
+        1: punctuation.definition.interpolation.makefile
+        2: variable.language.automatic.makefile
+        3: variable.other.makefile
+
+  brace-second-expansion-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.makefile
+    # makefile command expansions
+    - match: (call)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-call-function-body
+    - match: (shell)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-shell-function-body
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-foreach-function-body
+    - match: (wildcard)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-wildcard-function-body
+    - match: ({{pattern_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-pattern-function-body
+    - match: ({{message_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-message-function-body
+    - match: ({{builtin_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: brace-second-expansion-function-body
+    # makefile variable expansions
+    - match: '[{{var_auto_chars}}][DF]?'
+      scope: variable.language.automatic.makefile
+      set: brace-second-variable-substitution
+    - match: ''
+      set: brace-second-expansion-variable-name-body
+
+  brace-second-expansion-call-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
+      set: brace-second-expansion-function-body
+    - include: brace-second-variable-name-content
+
+  brace-second-expansion-foreach-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
+      set: brace-second-expansion-function-body
+    - include: brace-second-variable-pattern-content
+
+  brace-second-expansion-message-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: brace-second-string-content
+
+  brace-second-expansion-pattern-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-second-pattern-content
+
+  brace-second-expansion-wildcard-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-second-glob-content
+
+  brace-second-expansion-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: comma-separators
+    - include: brace-second-string-content
+
+  brace-second-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
+    - include: brace-expansion-end
+    - include: second-shell-content
+
+  brace-second-expansion-variable-name-body:
+    - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: brace-second-variable-substitution
+    - include: brace-second-variable-pattern-content
+
+  brace-second-variable-substitution:
+    - match: ':'
+      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
+      set: brace-variable-second-substitution-body
+    - include: brace-expansion-end
+
+  brace-variable-second-substitution-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - match: =
+      scope: meta.interpolation.makefile keyword.operator.assignment.makefile
+      set: brace-variable-second-replacement-body
+    - include: brace-expansion-end
+    - include: second-pattern-content
+
+  brace-variable-second-replacement-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - include: brace-expansion-end
+    - include: second-pattern-content
+
+  paren-second-expansion-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.makefile
+    # makefile command expansions
+    - match: (call)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-call-function-body
+    - match: (shell)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-shell-function-body
+    - match: (foreach)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-foreach-function-body
+    - match: (wildcard)\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-wildcard-function-body
+    - match: ({{builtin_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-function-body
+    - match: ({{message_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-message-function-body
+    - match: ({{pattern_functions}})\s+
+      scope: meta.function-call.makefile
+      captures:
+        1: support.function.builtin.makefile
+      set: paren-second-expansion-pattern-function-body
+    # makefile variable expansions
+    - match: '[{{var_auto_chars}}][DF]?'
+      scope: variable.language.automatic.makefile
+      set: paren-second-variable-substitution
+    - match: ''
+      set: paren-second-expansion-variable-name-body
+
+  paren-second-expansion-call-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.makefile variable.function.makefile
+    - include: paren-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.makefile punctuation.separator.sequence.makefile
+      set: paren-second-expansion-function-body
+    - include: paren-second-variable-name-content
+
+  paren-second-expansion-foreach-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile variable.other.makefile
+    - include: brace-expansion-end
+    - match: \,
+      scope: meta.interpolation.makefile meta.function-call.arguments.makefile punctuation.separator.sequence.makefile
+      set: paren-second-expansion-function-body
+    - include: paren-second-variable-pattern-content
+
+  paren-second-expansion-message-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: paren-second-string-content
+
+  paren-second-expansion-pattern-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-second-pattern-content
+
+  paren-second-expansion-wildcard-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.glob.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-second-glob-content
+
+  paren-second-expansion-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile meta.string.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: comma-separators
+    - include: paren-second-string-content
+
+  paren-second-expansion-shell-function-body:
+    - meta_content_scope: meta.interpolation.makefile meta.function-call.arguments.makefile source.shell.embedded.makefile
+    - include: paren-expansion-end
+    - include: second-shell-content
+
+  paren-second-expansion-variable-name-body:
+    - meta_content_scope: meta.interpolation.makefile variable.other.makefile
+    - include: paren-second-variable-substitution
+    - include: paren-second-variable-pattern-content
+
+  paren-second-variable-substitution:
+    - match: ':'
+      scope: meta.interpolation.makefile punctuation.definition.substitution.makefile
+      set: paren-variable-second-substitution-body
+    - include: paren-expansion-end
+
+  paren-variable-second-substitution-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - match: =
+      scope: meta.interpolation.makefile keyword.operator.assignment.makefile
+      set: paren-variable-second-replacement-body
+    - include: paren-expansion-end
+    - include: second-pattern-content
+
+  paren-variable-second-replacement-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.makefile string.unquoted.makefile
+    - include: paren-expansion-end
+    - include: second-pattern-content
+
+###[ SECOND EXPANSIONS / GLOB PATTERNS ]#######################################
+
+  # Note:
+  #  - idendical to glob-placeholders, but with $$ punctuation
+  #  - valid only within second expansions
+
+  brace-second-glob-content:
+    - match: \{
+      push: second-glob-brace-body
+    - include: second-glob-content
+
+  second-glob-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-glob-content
+
+  paren-second-glob-content:
+    - match: \(
+      push: second-glob-paren-body
+    - include: second-glob-content
+
+  second-glob-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-glob-content
+
+  second-glob-content:
+    - include: second-string-content
+    # 4.4 Using Wildcard Characters in File Names
+    # Note: Copied from Bash.sublime-syntax
+    - match: (?=\[)
+      branch_point: second-glob-character-class
+      branch:
+        - second-glob-character-class
+        - glob-character-class-fallback
+    - match: \*
+      scope: constant.other.wildcard.asterisk.makefile
+    - match: \?
+      scope: constant.other.wildcard.questionmark.makefile
+
+  second-glob-character-class:
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.makefile meta.character-class.glob.makefile string.unquoted.makefile
+    - match: (\[)([!^]?)
+      captures:
+        1: punctuation.definition.character-class.begin.glob.makefile
+        2: keyword.operator.logical.glob.makefile
+      push:
+        - second-glob-character-class-body
+        - glob-character-class-begin
+
+  second-glob-character-class-body:
+    - match: (?!\S) # also fail at eof
+      fail: second-glob-character-class
+    - include: glob-character-class-end
+    - include: continuation-or-eol-pop
+    - include: second-glob-character-class-content
+
+  second-glob-character-class-content:
+    - match: \[\.(?=\S*\.\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: second-glob-character-class-collate-body
+    - match: \[=(?=\S*=\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: second-glob-character-class-equivalence-body
+    - match: \[:(?=(?:{{posix_classes}}|\$+(?:\{.*?\}|\w+)):\])
+      scope: punctuation.definition.character-class.begin.glob.makefile
+      push: second-glob-character-class-posix-body
+    - match: (?:(\\.)|[^\\\]])?(-)(?:(\\.)|[^\]$]|(?!\]))
+      scope: constant.other.range.glob.makefile
+      captures:
+        1: constant.character.escape.glob.makefile
+        2: punctuation.separator.sequence.glob.makefile
+        3: constant.character.escape.glob.makefile
+    - include: second-string-content
+
+  second-glob-character-class-collate-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.collate.glob.makefile
+    - match: \.\]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: second-string-content
+
+  second-glob-character-class-equivalence-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.equivalence.glob.makefile
+    - match: =\]
+      scope: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: second-string-content
+
+  second-glob-character-class-posix-body:
+    - meta_scope: meta.character-class.glob.makefile
+    - meta_content_scope: constant.other.character-class.posix.glob.makefile
+    - match: ({{posix_classes}}?)(:\])
+      captures:
+        1: constant.other.character-class.posix.glob.makefile
+        2: punctuation.definition.character-class.end.glob.makefile
+      pop: 1
+    - include: second-string-content
+
+###[ SECOND EXPANSIONS / MAKE PATTERNS ]#######################################
+
+  brace-second-pattern-content:
+    - match: \{
+      push: second-pattern-brace-body
+    - include: second-pattern-content
+
+  second-pattern-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-pattern-content
+
+  paren-second-pattern-content:
+    - match: \(
+      push: second-pattern-paren-body
+    - include: second-pattern-content
+
+  second-pattern-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-pattern-content
+
+  second-pattern-content:
+    - include: second-string-content
+    - include: percentage-placeholders
+
+###[ SECOND EXPANSIONS / STRINGS ]#############################################
+
+  brace-second-string-content:
+    - match: \{
+      push: second-string-brace-body
+    - include: second-string-content
+
+  second-string-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-string-content
+
+  paren-second-string-content:
+    - match: \(
+      push: second-string-paren-body
+    - include: second-string-content
+
+  second-string-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-string-content
+
+  second-string-content:
+    - include: escaped-chars
+    - include: second-escaped-dollars
+    - include: second-interpolations
+    - include: interpolations
+
+###[ SECOND EXPANSIONS / VARIABLE PATTERNS ]###################################
+
+  brace-second-variable-pattern-content:
+    - match: \{
+      push: second-variable-pattern-brace-body
+    - include: second-variable-pattern-content
+
+  second-variable-pattern-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-variable-pattern-content
+
+  paren-second-variable-pattern-content:
+    - match: \(
+      push: second-variable-pattern-paren-body
+    - include: second-variable-pattern-content
+
+  second-variable-pattern-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-variable-pattern-content
+
+  second-variable-pattern-content:
+    - include: second-variable-name-content
+    - include: percentage-placeholders
+
+###[ SECOND EXPANSIONS / VARIABLE NAMES ]######################################
+
+  brace-second-variable-name-content:
+    - match: \{
+      push: second-variable-name-brace-body
+    - include: second-variable-name-content
+
+  second-variable-name-brace-body:
+    - match: \}
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: brace-second-variable-name-content
+
+  paren-second-variable-name-content:
+    - match: \(
+      push: second-variable-name-paren-body
+    - include: second-variable-name-content
+
+  second-variable-name-paren-body:
+    - match: \)
+      pop: 1
+    - include: continuation-or-eol-pop
+    - include: paren-second-variable-name-content
+
+  second-variable-name-content:
+    - include: escaped-chars
+    - include: second-escaped-dollars
+    - include: second-expansions
+    - include: expansions
+
+###[ LITERALS ]################################################################
+
+  comma-separators:
+    - match: \s*(\,)\s*
+      captures:
+        1: punctuation.separator.sequence.makefile
+      push: clear2-pop
+
+  escaped-chars:
+    - match: \\.
+      scope: constant.character.escape.makefile
+
+  escaped-dollars:
+    - match: \${2}
+      scope: constant.character.escape.makefile
+
+  second-escaped-dollars:
+    - match: \${4}
+      scope: constant.character.escape.makefile
+
+  percentage-placeholders:
+    - match: \%
+      scope: variable.language.makefile
+
+###[ SHELLSCRIPT ]#############################################################
+
+  shell-body:
+    - meta_content_scope: source.shell.embedded.makefile
+    - include: eol-pop
+    - include: shell-content
+
+  # Note: target context for shell syntax
+  shell-content:
+    - include: variable-name-content
+
+  # Note: target context for shell syntax
+  second-shell-content:
+    - include: second-variable-name-content
+
+###[ PROTOTYPES ]##############################################################
+
+  continuation-or-eol-pop:
+    - include: eol-pop
+    - include: line-continuations
+
+  eol-pop:
+    - match: $
+      pop: 1
+
+  clear-pop:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+
+  clear2-pop:
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+
+  immediately-pop:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+
+  line-continuations:
+    - match: (\\)$
+      captures:
+        1: punctuation.separator.continuation.line.makefile
+      push: line-continuation-body
+
+  line-continuation-body:
+    - meta_include_prototype: false
+    - match: ^
+      pop: 1
+
+###############################################################################
+
+variables:
+
+  recipe_prefix: \t
+  recipe_modifier: '[-+]@?|@[-+]?'
+
+  directive_break: (?:\s+|{{word_break}})
+
+  word_begin: (?=\S)
+  word_break: (?![^\s:#!?+=])
+
+  shell_assign: '!='
+  var_assign: (?:\?|\+|:{1,3})?=
+  var_or_shell_assign: (?:!|\?|\+|:{1,3})?=
+
+  var_auto_chars: '@%<\?\^\+\|\*'
+
+  builtin_functions: |-
+    (?x:
+      abspath
+    | addprefix
+    | addsuffix
+    | and
+    | basename
+    | dir
+    | eval
+    | file
+    | findstring
+    | firstword
+    | flavor
+    | guile
+    | if
+    | intcmp
+    | join
+    | lastword
+    | notdir
+    | or
+    | origin
+    | realpath
+    | sort
+    | strip
+    | subst
+    | suffix
+    | value
+    | word
+    | wordlist
+    | words
+    )
+
+  message_functions: |-
+    (?x:
+      info
+    | warning
+    | error
+    )
+
+  pattern_functions: |-
+    (?x:
+      filter-out
+    | filter
+    | patsubst
+    )
+
+  posix_classes: |-
+    (?x:
+      alnum
+    | alpha
+    | blank
+    | cntrl
+    | digit
+    | graph
+    | lower
+    | print
+    | punct
+    | space
+    | upper
+    | xdigit
+    )

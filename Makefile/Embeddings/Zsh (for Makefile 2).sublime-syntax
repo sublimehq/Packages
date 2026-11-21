@@ -1,0 +1,47 @@
+%YAML 1.2
+---
+scope: source.shell.zsh.embedded.makefile.second-expansion
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Zsh.sublime-syntax
+
+contexts:
+
+  main:
+    - include: statements
+
+  expression-variable-chars:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#second-interpolations
+
+  parameter-expansions:
+    - meta_append: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#second-expansions
+
+  string-single-quoted-prototype:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#second-escaped-dollars
+    - include: Packages/Makefile/Makefile.sublime-syntax#second-interpolations
+
+variables:
+
+  # ShellScript variables
+  # ---------------------
+
+  # makefile or shell interpolation
+  is_interpolation: (?=\${1,4}[({\[{{identifier_char}}{{special_variables}}{{var_auto_chars}}]|`)
+  # shell specific interpolation
+  interpolation_punct: \${4}
+
+  # Indentation and whitespace patterns
+  no_indent: ^{{recipe_prefix}}
+  tab_indent: ^{{recipe_prefix}}\t*
+
+  # Makefile variables
+  # ------------------
+
+  recipe_prefix: \t
+
+  # makefile auto variables
+  var_auto_chars: '@%<\?\^\+\|\*'
