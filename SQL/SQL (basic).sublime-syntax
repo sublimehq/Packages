@@ -753,10 +753,13 @@ contexts:
 
   inside-group:
     - meta_scope: meta.group.sql
+    - include: group-end
+    - include: sql
+
+  group-end:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - include: sql
 
 ###[ COLUMN EXPRESSIONS ]######################################################
 
