@@ -390,6 +390,13 @@ rule: # comment
 
 # <- meta.function.body.makefile
 
+rule: # comment \
+      # 2nd comment line
+# <- meta.function.makefile comment.line.number-sign.makefile
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.makefile comment.line.number-sign.makefile - punctuation
+
+# <- meta.function.body.makefile
+
 rule: prerequisites # comment
 # <- meta.function.makefile entity.name.function.makefile - meta.function meta.function
 #^^^^^ meta.function.makefile - meta.function meta.function

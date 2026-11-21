@@ -200,6 +200,7 @@ contexts:
     - match: $\n?
       scope: comment.line.number-sign.makefile
       set: rule-recipes
+    - include: line-continuations
 
   rule-recipes:
     - meta_content_scope: meta.function.body.makefile
