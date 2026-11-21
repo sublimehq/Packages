@@ -76,8 +76,28 @@ contexts:
   shell-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - include: continuation-or-eol-pop
+    - match: \s*$
+      set: main
+    - include: shell-value-content
+
+  shell-value-content:
+    # note: no escapes to avoid windows path separators augmenting e.g. cmd.exe
+    - include: line-continuations
+    - include: shell-value-comment
     - include: shell-selector
+    - include: escaped-dollars
+    - include: interpolations
+
+  shell-value-comment:
+    - match: \s*(\#)
+      captures:
+        1: comment.line.number-sign.makefile punctuation.definition.comment.makefile
+      push: shell-value-comment-body
+
+  shell-value-comment-body:
+    - clear_scopes: 2
+    - meta_content_scope: comment.line.number-sign.makefile
+    - include: comment-body
 
   shell-selector:
     - match: \b(?:cmd\.exe|command\.com)\b
@@ -93,10 +113,9 @@ contexts:
   shell-dosbatch-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - match: ^
+    - match: \s*$
       set: make-with-dosbatch
-    - include: line-continuations
-    - include: shell-selector
+    - include: shell-value-content
 
   make-with-dosbatch:
     - include: scope:source.makefile.dosbatch
@@ -104,10 +123,9 @@ contexts:
   shell-bash-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - match: ^
+    - match: \s*$
       set: make-with-bash
-    - include: line-continuations
-    - include: shell-selector
+    - include: shell-value-content
 
   make-with-bash:
     - include: scope:source.makefile.bash
@@ -115,10 +133,9 @@ contexts:
   shell-zsh-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
-    - match: ^
+    - match: \s*$
       set: make-with-zsh
-    - include: line-continuations
-    - include: shell-selector
+    - include: shell-value-content
 
   make-with-zsh:
     - include: scope:source.makefile.zsh
