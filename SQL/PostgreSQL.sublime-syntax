@@ -387,24 +387,6 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
-  expect-column-names:
-    - meta_prepend: true
-    - match: (?=(?:{{simple_identifier}}|"(?:[^"]|"")*")\s*\.)
-      push: [maybe-operator, qualified-column-name]
-
-  qualified-column-name:
-    - match: ''
-      set:
-        - qualified-column-name-tail
-        - table-name
-        - identifier-part
-
-  qualified-column-name-tail:
-    - match: \s*(\.)
-      captures:
-        1: punctuation.accessor.dot.sql
-      set: [column-name, single-identifier]
-
   expect-extension-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false

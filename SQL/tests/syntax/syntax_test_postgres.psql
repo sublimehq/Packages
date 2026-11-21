@@ -14,12 +14,10 @@ SELECT x, "y" FROM a;
 --          ^ punctuation.definition.identifier.end
 
 SELECT x.y
---     ^ meta.table-name
---       ^ meta.column-name
+--     ^^^ meta.column-name.sql
 FROM a x
 JOIN b ON foo.removed_at IS NULL;
---        ^^^ meta.table-name
---            ^^^^^^^^^^ meta.column-name
+--        ^^^^^^^^^^^^^^ meta.column-name.sql
 
 SELECT
   sum(quantity) FILTER (WHERE sales_month = 1) jan_quantity,
