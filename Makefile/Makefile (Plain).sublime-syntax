@@ -118,7 +118,7 @@ contexts:
     - include: shell-value-content
 
   make-with-dosbatch:
-    - include: scope:source.makefile.dosbatch
+    - include: Packages/Makefile/Makefile (Batch File).sublime-syntax
 
   shell-bash-value:
     - meta_include_prototype: false
@@ -128,7 +128,7 @@ contexts:
     - include: shell-value-content
 
   make-with-bash:
-    - include: scope:source.makefile.bash
+    - include: Packages/Makefile/Makefile (Bash).sublime-syntax
 
   shell-zsh-value:
     - meta_include_prototype: false
@@ -138,7 +138,7 @@ contexts:
     - include: shell-value-content
 
   make-with-zsh:
-    - include: scope:source.makefile.zsh
+    - include: Packages/Makefile/Makefile (Zsh).sublime-syntax
 
 ###[ DEFINITIONS ]#############################################################
 
