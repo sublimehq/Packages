@@ -687,7 +687,7 @@ contexts:
   parameter-expansions:
     - match: ({{interpolation_punct}})(\{)
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: punctuation.section.interpolation.begin.shell
       push:
         - parameter-expansion-meta
@@ -708,26 +708,26 @@ contexts:
     - match: ({{interpolation_punct}})\d
       scope: variable.language.positional.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
       pop: 1
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Set-By-The-Shell
     - match: ({{interpolation_punct}}){{builtin_variables}}
       scope: variable.language.builtin.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
       pop: 1
     # length operator has precedence over special parameters in ZSH
     - match: ({{interpolation_punct}})(\#?){{identifier}}
       scope: variable.other.readwrite.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: keyword.operator.expansion.length.shell
       pop: 1
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Description-1
     - match: ({{interpolation_punct}}){{special_variables}}
       scope: variable.language.special.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
       pop: 1
     - include: immediately-pop
 

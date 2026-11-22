@@ -28,7 +28,7 @@ def call() {
 //        ^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash comment.line.number-sign.shell punctuation.definition.comment.shell
           echo "hello ${world}"
 //        ^^^^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash meta.function-call.identifier.shell support.function.shell
-//                    ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
+//                    ^ meta.interpolation.parameter.shell punctuation.definition.interpolation.shell
 //                     ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 //                      ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 //                           ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell

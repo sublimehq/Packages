@@ -116,7 +116,7 @@ test_conflict_in_rules:
 #^^^^^^^^^^^ meta.function.body.makefile
 #^^^^^^^^^^ source.shell.zsh.embedded.makefile
 #   ^^^^^^ meta.interpolation.parameter.shell
-#   ^^ punctuation.definition.variable.shell
+#   ^^ punctuation.definition.interpolation.shell
 >>>>>>> master
 # <- meta.function.body.makefile meta.block.conflict.end.diff punctuation.section.block.end.diff
 #^^^^^^^^^^^^^^ meta.function.body.makefile meta.block.conflict.end.diff
@@ -905,7 +905,7 @@ makefile_interpolation:
 	#    ^^^^^^^^ string.quoted.double.shell
 	#    ^ punctuation.definition.string.begin.shell
 	#            ^^^^^^^^ meta.interpolation.parameter.shell
-	#            ^^ punctuation.definition.variable.shell
+	#            ^^ punctuation.definition.interpolation.shell
 	#              ^^^^^^ variable.other.readwrite.shell
 	#                    ^ string.quoted.double.shell
 	#                     ^^^^^^^^^ meta.interpolation.makefile
@@ -938,7 +938,7 @@ makefile_interpolation:
 	#    ^^^^ string.unquoted.shell
 	#      ^^ constant.character.escape.shell
 	#        ^^^^^^^^^^ meta.interpolation.parameter.shell
-	#        ^^ punctuation.definition.variable.shell
+	#        ^^ punctuation.definition.interpolation.shell
 	#          ^^^^^^^^ variable.other.readwrite.shell
 	#                  ^^ constant.character.escape.shell
 	#                    ^^^^^^^^^ meta.interpolation.makefile
@@ -951,23 +951,23 @@ makefile_interpolation:
 shell_interpolation:
 	echo $$foo
 	#    ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
-	#    ^^ punctuation.definition.variable.shell
+	#    ^^ punctuation.definition.interpolation.shell
 	#      ^^^ variable.other.readwrite.shell
 	foo $$(echo $$PATH)
 	#   ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell
-	#   ^^ punctuation.definition.variable.shell
+	#   ^^ punctuation.definition.interpolation.shell
 	#     ^ punctuation.section.interpolation.begin.shell
 	#      ^^^^ support.function.shell
-	#           ^^ punctuation.definition.variable.shell
+	#           ^^ punctuation.definition.interpolation.shell
 	#             ^^^^ variable.language.builtin.shell
 
 	test "$$abc" = "$$def"
 	# ^ support.function.shell
 	#    ^^^^^^^ meta.string.glob.shell
-	#     ^^ punctuation.definition.variable.shell
+	#     ^^ punctuation.definition.interpolation.shell
 	#       ^^^ variable.other.readwrite.shell
 	#              ^^^^^^^ meta.string.glob.shell
-	#               ^^ punctuation.definition.variable.shell
+	#               ^^ punctuation.definition.interpolation.shell
 	#                 ^^^ variable.other.readwrite.shell
 
 $(EXECUTABLE): $(OBJECTS)
@@ -1065,7 +1065,7 @@ heredocs:
 	#              ^ punctuation.section.interpolation.end.makefile
 	#               ^ string.unquoted.heredoc.shell
 	#                ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-	#                ^^ punctuation.definition.variable.shell
+	#                ^^ punctuation.definition.interpolation.shell
 	#                       ^^^^^^^ string.unquoted.heredoc.shell
 	HEREDOC
 #^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
@@ -2840,7 +2840,7 @@ shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                       ^ punctuation.definition.parameter.shell
 #                          ^^^^^^^ meta.string.glob.shell
 #                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
-#                          ^^ punctuation.definition.variable.shell
+#                          ^^ punctuation.definition.interpolation.shell
 #                                ^ string.unquoted.shell
 #                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                  ^ punctuation.definition.string.begin.shell
@@ -2878,7 +2878,7 @@ shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                       ^ punctuation.definition.parameter.shell
 #                          ^^^^^^^ meta.string.glob.shell
 #                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
-#                          ^^ punctuation.definition.variable.shell
+#                          ^^ punctuation.definition.interpolation.shell
 #                                ^ string.unquoted.shell
 #                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                  ^ punctuation.definition.string.begin.shell
@@ -2905,7 +2905,7 @@ shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #                         ^ punctuation.definition.parameter.shell
 #                            ^^^^^^^^^ meta.string.glob.shell
 #                            ^^^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
-#                            ^^^^ punctuation.definition.variable.shell
+#                            ^^^^ punctuation.definition.interpolation.shell
 #                                    ^ string.unquoted.shell
 #                                      ^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                      ^ punctuation.definition.string.begin.shell
