@@ -6788,6 +6788,31 @@ esac
 #                       ^ variable.language.tilde.shell
 #                        ^^^^ string.unquoted.shell
 
+# pattern matching in commands
+
+  ~/@([^:]*)
+# ^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^^^^^^^^^ variable.function.shell
+#  ^ punctuation.separator.path.shell
+
+  ~/@(foo~^~/bar|buz/buz)/app
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell - string
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.function.shell
+#  ^ punctuation.separator.path.shell
+#   ^ keyword.operator.quantifier.glob.shell
+#    ^^^^^^ meta.group.glob.shell
+#    ^ punctuation.section.group.begin.glob.shell
+#        ^^ keyword.operator.logical.glob.shell.zsh
+#          ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#           ^^^^^^^^^^^^^ meta.group.glob.shell
+#           ^ punctuation.separator.path.shell
+#               ^ keyword.operator.alternation.glob.shell
+#                   ^ punctuation.separator.path.shell
+#                       ^ punctuation.section.group.end.glob.shell
+#                        ^ punctuation.separator.path.shell
+
 
 ###############################################################################
 # 14.8.2 ksh-like Glob Operators
