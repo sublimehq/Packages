@@ -97,7 +97,9 @@ for in in in word2; do echo $in; done
 #                   ^^ keyword.control.loop.do.shell
 #                      ^^^^ meta.function-call.identifier.shell support.function.shell
 #                          ^^^^ meta.function-call.arguments.shell
-#                           ^^^ variable.other.readwrite.shell
+#                           ^^^ meta.interpolation.parameter.shell
+#                           ^ punctuation.definition.interpolation.shell - variable
+#                            ^^ variable.other.readwrite.shell - punctuation
 #                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ keyword.control.loop.end.shell
 
@@ -115,9 +117,12 @@ for a b c in word1 word2 word3; do echo $c $b $a; done
 #                             ^ punctuation.terminator.statement.shell
 #                               ^^ keyword.control.loop.do.shell
 #                                  ^^^^ support.function.shell
-#                                       ^^ variable.other.readwrite.shell
-#                                          ^^ variable.other.readwrite.shell
-#                                             ^^ variable.other.readwrite.shell
+#                                       ^ punctuation.definition.interpolation.shell - variable
+#                                        ^ variable.other.readwrite.shell - punctuation
+#                                          ^ punctuation.definition.interpolation.shell - variable
+#                                           ^ variable.other.readwrite.shell - punctuation
+#                                             ^ punctuation.definition.interpolation.shell - variable
+#                                              ^ variable.other.readwrite.shell - punctuation
 #                                               ^ punctuation.terminator.statement.shell
 #                                                 ^^^^ keyword.control.loop.end.shell
 
@@ -149,7 +154,8 @@ repeat $i+10 do echo .; done
 # <- meta.statement.loop.repeat.shell keyword.control.loop.repeat.shell
 #^^^^^^^^^^^ meta.statement.loop.repeat.shell
 #^^^^^ keyword.control.loop.repeat.shell
-#      ^^ variable.other.readwrite.shell
+#      ^ punctuation.definition.interpolation.shell
+#       ^ variable.other.readwrite.shell
 #        ^ keyword.operator.arithmetic.shell
 #         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^ keyword.control.loop.do.shell
@@ -273,7 +279,9 @@ for name ( word1 $word2 | & ; < > ) print $name
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #        ^ punctuation.section.sequence.begin.shell
 #          ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                ^ punctuation.definition.interpolation.shell - variable
+#                 ^^^^^ variable.other.readwrite.shell - punctuation
 #                       ^ invalid.illegal.unexpected-token.shell
 #                         ^ invalid.illegal.unexpected-token.shell
 #                           ^ invalid.illegal.unexpected-token.shell
@@ -282,7 +290,9 @@ for name ( word1 $word2 | & ; < > ) print $name
 #                                 ^ punctuation.section.sequence.end.shell
 #                                   ^^^^^^^^^^^ meta.function-call
 #                                   ^^^^^ support.function.shell
-#                                         ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                         ^^^^^ meta.interpolation.parameter.shell
+#                                         ^ punctuation.definition.interpolation.shell - variable
+#                                          ^^^^ variable.other.readwrite.shell - punctuation
 
 for a b 3 ( word1 $word2 | & ; < > ) print $name
 # <- keyword.control.loop.for.shell
@@ -293,7 +303,9 @@ for a b 3 ( word1 $word2 | & ; < > ) print $name
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #         ^ punctuation.section.sequence.begin.shell
 #           ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                 ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                 ^ punctuation.definition.interpolation.shell - variable
+#                  ^^^^^ variable.other.readwrite.shell - punctuation
 #                        ^ invalid.illegal.unexpected-token.shell
 #                          ^ invalid.illegal.unexpected-token.shell
 #                            ^ invalid.illegal.unexpected-token.shell
@@ -302,7 +314,9 @@ for a b 3 ( word1 $word2 | & ; < > ) print $name
 #                                  ^ punctuation.section.sequence.end.shell
 #                                    ^^^^^^^^^^^ meta.function-call
 #                                    ^^^^^ support.function.shell
-#                                          ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                          ^^^^^ meta.interpolation.parameter.shell
+#                                          ^ punctuation.definition.interpolation.shell - variable
+#                                           ^^^^ variable.other.readwrite.shell - punctuation
 
 # for name ... [ in word ... ] term sublist
 for name in word1 word2; echo me;
@@ -336,7 +350,8 @@ for (( i = 1; i < 10; i++ )) echo $i;
 #                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.compound.end.shell
 #                            ^^^^ support.function.shell
-#                                 ^^ variable.other.readwrite.shell
+#                                 ^ punctuation.definition.interpolation.shell
+#                                  ^ variable.other.readwrite.shell
 #                                   ^ punctuation.terminator.statement.shell
 
 # foreach name ... ( word ... ) list end
@@ -352,7 +367,8 @@ foreach name ( word1 word2 ) echo $name; end
 #                          ^ punctuation.section.sequence.end.shell.zsh
 #                            ^^^^^^^^^^ meta.function-call
 #                            ^^^^ support.function.shell
-#                                 ^^^^^ variable.other.readwrite.shell
+#                                 ^ punctuation.definition.interpolation.shell
+#                                  ^^^^ variable.other.readwrite.shell
 #                                      ^ punctuation.terminator.statement.shell
 #                                        ^^^ keyword.control.loop.endforeach.shell.zsh
 
@@ -381,7 +397,8 @@ foreach \
 #                 ^ punctuation.section.sequence.end.shell.zsh
 #                   ^^^^^^^^^^ meta.function-call
 #                   ^^^^ support.function.shell
-#                        ^^^^^ variable.other.readwrite.shell
+#                        ^ punctuation.definition.interpolation.shell
+#                         ^^^^ variable.other.readwrite.shell
 #                             ^ punctuation.terminator.statement.shell
 #                               ^^^ keyword.control.loop.endforeach.shell.zsh
 
@@ -398,7 +415,8 @@ foreach \
 #   ^ meta.statement.loop.foreach.shell.zsh meta.sequence.list.shell.zsh punctuation.section.sequence.end.shell.zsh
 #     ^^^^^^^^^^ meta.function-call
 #     ^^^^ support.function.shell
-#          ^^^^^ variable.other.readwrite.shell
+#          ^ punctuation.definition.interpolation.shell
+#           ^^^^ variable.other.readwrite.shell
 #               ^ punctuation.terminator.statement.shell
 #                 ^^^ keyword.control.loop.endforeach.shell.zsh
 
@@ -416,7 +434,8 @@ foreach in 1 new ( word1 word2 ) echo $name; end
 #                              ^ punctuation.section.sequence.end.shell.zsh
 #                                ^^^^^^^^^^ meta.function-call
 #                                ^^^^ support.function.shell
-#                                     ^^^^^ variable.other.readwrite.shell
+#                                     ^ punctuation.definition.interpolation.shell
+#                                      ^^^^ variable.other.readwrite.shell
 #                                          ^ punctuation.terminator.statement.shell
 #                                            ^^^ keyword.control.loop.endforeach.shell.zsh
 
@@ -425,7 +444,9 @@ repeat $i+10 echo .;
 # <- meta.statement.loop.repeat.shell.zsh keyword.control.loop.repeat.shell.zsh
 #^^^^^^^^^^^ meta.statement.loop.repeat.shell.zsh
 #^^^^^ keyword.control.loop.repeat.shell.zsh
-#      ^^ variable.other.readwrite.shell
+#      ^^ meta.interpolation.parameter.shell
+#      ^ punctuation.definition.interpolation.shell - variable
+#       ^ variable.other.readwrite.shell - punctuation
 #        ^ keyword.operator.arithmetic.shell
 #         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^^^^^ meta.function-call
@@ -436,11 +457,16 @@ until (( i > 10 )) { echo $i; (( i += 1 )); }
 # <- keyword.control.loop.until.shell
 #^^^^ keyword.control.loop.until.shell
 #     ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#        ^ variable.other.readwrite.shell - punctuation
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.shell
 #                  ^ punctuation.section.block.begin.shell
 #                    ^^^^^^^ meta.function-call
+#                         ^^ meta.interpolation.parameter.shell
+#                         ^ punctuation.definition.interpolation.shell - variable
+#                          ^ variable.other.readwrite.shell - punctuation
 #                           ^ punctuation.terminator.statement.shell
 #                             ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                                ^ variable.other.readwrite.shell
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^ punctuation.section.block.end.shell
 
@@ -479,7 +505,8 @@ case $word {
 #   ^^^^^^^ meta.statement.conditional.case.word.shell
 #          ^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh
 #^^^ keyword.control.conditional.case.shell
-#    ^^^^^ variable.other.readwrite.shell
+#    ^ punctuation.definition.interpolation.shell
+#     ^^^^ variable.other.readwrite.shell
 #          ^ punctuation.section.block.begin.shell
     pattern | pa*?ern )
 # ^^ meta.statement.conditional.case.body.shell
@@ -838,8 +865,14 @@ heredoc=<<__HERE.DOC-TAG__
 
     if [[ -z "~/$file" ]] then echo "${msg}"; fi;
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell
-#               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.interpolation.shell - variable
+#                ^^^^ variable.other.readwrite.shell - punctuation
 #                                    ^^^^^^ meta.interpolation.parameter.shell
+#                                    ^ punctuation.definition.interpolation.shell
+#                                     ^ punctuation.section.interpolation.begin.shell
+#                                      ^^^ variable.other.readwrite.shell
+#                                         ^ punctuation.section.interpolation.end.shell
 __HERE.DOC-TAG__
 # <- meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 #^^^^^^^^^^^^^^^ meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
@@ -879,7 +912,9 @@ heredoc=<<-__HERE.DOC-TAG__
 
     if [[ -z "~/$file" ]] then echo "${msg}"; fi;
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell
-#               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.interpolation.shell - variable
+#                ^^^^ variable.other.readwrite.shell - punctuation
 #                                    ^^^^^^ meta.interpolation.parameter.shell
 __HERE.DOC-TAG__
 # <- meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
@@ -964,8 +999,8 @@ herestring=<<<"This is a \\$here \"\$string.\""
 #          ^^^ keyword.operator.assignment.herestring
 #             ^ punctuation.definition.string.begin.shell
 #                        ^^ constant.character.escape.shell
-#                          ^^^^^ variable.other.readwrite.shell
 #                          ^ punctuation.definition.interpolation.shell
+#                           ^^^^ variable.other.readwrite.shell
 #                                ^^^^ constant.character.escape.shell
 #                                           ^^ constant.character.escape.shell
 #                                             ^ punctuation.definition.string.end.shell
@@ -986,8 +1021,8 @@ cat <<< "This is a \\$here \"\$string.\"" ; cat more stuff | bar | qux
 #   ^^^ keyword.operator.assignment.herestring
 #       ^ punctuation.definition.string.begin.shell
 #                  ^^ constant.character.escape.shell
-#                    ^^^^^ variable.other.readwrite.shell
 #                    ^ punctuation.definition.interpolation.shell
+#                     ^^^^ variable.other.readwrite.shell
 #                          ^^^^ constant.character.escape.shell
 #                                     ^^ constant.character.escape.shell
 #                                       ^ punctuation.definition.string.end.shell
@@ -1225,8 +1260,8 @@ function $foo() { : }
 #              ^ meta.function.shell
 #               ^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^ keyword.declaration.function.shell
-#        ^^^^ variable.other.readwrite.shell
-#        ^ punctuation.definition.interpolation.shell
+#        ^ punctuation.definition.interpolation.shell - variable
+#         ^^^ variable.other.readwrite.shell
 #            ^ punctuation.section.parameters.begin.shell
 #             ^ punctuation.section.parameters.end.shell
 #               ^ punctuation.section.block.begin.shell
@@ -1242,8 +1277,8 @@ function $foo[key]() { : }
 #                   ^ meta.function.shell
 #                    ^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^ keyword.declaration.function.shell
-#        ^^^^ variable.other.readwrite.shell
-#        ^ punctuation.definition.interpolation.shell
+#        ^ punctuation.definition.interpolation.shell - variable
+#         ^^^ variable.other.readwrite.shell
 #            ^ punctuation.section.item-access.begin.shell
 #                ^ punctuation.section.item-access.end.shell
 #                 ^ punctuation.section.parameters.begin.shell
@@ -1260,10 +1295,10 @@ function ${foo}() { : }
 #                ^ meta.function.shell
 #                 ^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^ keyword.declaration.function.shell
-#        ^ punctuation.definition.interpolation.shell
-#         ^ punctuation.section.interpolation.begin.shell
+#        ^ punctuation.definition.interpolation.shell - variable
+#         ^ punctuation.section.interpolation.begin.shell - variable
 #          ^^^ variable.other.readwrite.shell
-#             ^ punctuation.section.interpolation.end.shell
+#             ^ punctuation.section.interpolation.end.shell - variable
 #              ^ punctuation.section.parameters.begin.shell
 #               ^ punctuation.section.parameters.end.shell
 #                 ^ punctuation.section.block.begin.shell
@@ -1298,7 +1333,9 @@ function "foo() \($bar\)[ba-z]"() { : }  # nonsense just to verify theoretical r
 #^^^^^^^ keyword.declaration.function.shell
 #        ^^^^^^^^^ entity.name.function.shell
 #        ^ punctuation.definition.quoted.begin.shell
-#                 ^^^^ variable.other.readwrite.shell
+#                 ^^^^ meta.interpolation.parameter.shell
+#                 ^ punctuation.definition.interpolation.shell
+#                  ^^^ variable.other.readwrite.shell
 #                     ^^^^^^^^^ entity.name.function.shell
 #                             ^ punctuation.definition.quoted.end.shell
 #                              ^ punctuation.section.parameters.begin.shell
@@ -1418,7 +1455,7 @@ $foo() { : }
 #   ^^ meta.function.parameters.shell
 #     ^ meta.function.shell
 #      ^^^^^ meta.function.body.shell meta.block.shell
-# <- variable.other.readwrite.shell punctuation.definition.interpolation.shell
+# <- punctuation.definition.interpolation.shell
 #^^^ variable.other.readwrite.shell
 #   ^ punctuation.section.parameters.begin.shell
 #    ^ punctuation.section.parameters.end.shell
@@ -1433,7 +1470,7 @@ $foo[key]() { : }
 #        ^^ meta.function.parameters.shell
 #          ^ meta.function.shell
 #           ^^^^^ meta.function.body.shell meta.block.shell
-# <- variable.other.readwrite.shell punctuation.definition.interpolation.shell
+# <- punctuation.definition.interpolation.shell
 #^^^ variable.other.readwrite.shell
 #   ^ punctuation.section.item-access.begin.shell
 #       ^ punctuation.section.item-access.end.shell
@@ -1500,7 +1537,9 @@ ${foo/b([a-z]r|buuz)/baz)}() { : }
 #                       ^ meta.function.shell
 #                        ^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^^ entity.name.function.shell
-#        ^^^^ variable.other.readwrite.shell
+#        ^^^^ meta.interpolation.parameter.shell
+#        ^ punctuation.definition.interpolation.shell
+#         ^^^ variable.other.readwrite.shell
 #            ^^^^^^^^^ entity.name.function.shell
 #                    ^ punctuation.definition.quoted.end.shell
 #                     ^ punctuation.section.parameters.begin.shell
@@ -1594,8 +1633,9 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 #^^^^^^^ meta.function-call.identifier.shell support.function.shell
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #        ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
-#        ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#        ^ punctuation.definition.interpolation.shell
+#        ^^^^ meta.interpolation.parameter.shell
+#        ^ punctuation.definition.interpolation.shell - variable
+#         ^^^ variable.other.readwrite.shell
 #            ^^^^^^^^^^ string.unquoted.shell
 #             ^ constant.other.wildcard.asterisk.shell
 #               ^ constant.other.wildcard.asterisk.shell
@@ -2005,7 +2045,9 @@ function {
 #            ^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell - meta.modifier
 #                        ^^ meta.compound.arithmetic.shell punctuation.section.compound.end.shell - meta.arithmetic
 #    ^^ punctuation.definition.modifier.begin.shell.zsh
-#      ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^^^^ meta.interpolation.parameter.shell
+#      ^ punctuation.definition.interpolation.shell - variable
+#       ^^^^ variable.other.readwrite.shell - punctuation
 #           ^ punctuation.definition.modifier.end.shell.zsh
 #             ^^^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^^ keyword.operator.arithmetic.shell
@@ -2284,7 +2326,8 @@ ip=10.10.20.14
 # <- meta.compound.conditional.shell - meta.group
 #^^^^ meta.compound.conditional.shell - meta.group
 #    ^ meta.compound.conditional.shell meta.group.shell - meta.string
-#     ^^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#     ^^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell meta.interpolation.parameter.shell
+#      ^^^ variable.other.readwrite.shell
 #         ^^^^ meta.compound.conditional.shell meta.group.shell - meta.string
 #             ^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell
 #                ^ meta.compound.conditional.shell meta.group.shell - meta.string
@@ -2294,7 +2337,8 @@ ip=10.10.20.14
 # <- meta.compound.conditional.shell - meta.group
 #^^^^ meta.compound.conditional.shell - meta.group
 #    ^ meta.compound.conditional.shell meta.group.shell - meta.string
-#     ^^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#     ^^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell meta.interpolation.parameter.shell
+#      ^^^ variable.other.readwrite.shell
 #         ^^^^ meta.compound.conditional.shell meta.group.shell - meta.string
 #             ^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell constant.character.escape.shell
 #               ^ meta.compound.conditional.shell meta.group.shell - meta.string
@@ -2303,15 +2347,15 @@ ip=10.10.20.14
 [[ $foo == 'bar' || $foo == "baz" && $bar == baz ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^ variable.other.readwrite.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^ meta.string.glob.shell
 #                ^^ keyword.operator.logical.shell
-#                   ^^^^ variable.other.readwrite.shell
+#                    ^^^ variable.other.readwrite.shell
 #                        ^^ keyword.operator.comparison.shell
 #                           ^^^^^ meta.string.glob.shell
 #                                 ^^ keyword.operator.logical.shell
-#                                    ^^^^ variable.other.readwrite.shell
+#                                     ^^^ variable.other.readwrite.shell
 #                                         ^^ keyword.operator.comparison.shell
 #                                            ^^^ meta.string.glob.shell
 #                                                ^^ punctuation.section.compound.end.shell
@@ -2322,16 +2366,16 @@ ip=10.10.20.14
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
 #                                    ^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell - meta.group
 #  ^ punctuation.section.group.begin.shell
-#    ^^^^ variable.other.readwrite.shell
+#     ^^^ variable.other.readwrite.shell
 #         ^^ keyword.operator.comparison.shell
 #            ^^^^^ meta.string.glob.shell
 #                  ^^ keyword.operator.logical.shell
-#                     ^^^^ variable.other.readwrite.shell
+#                      ^^^ variable.other.readwrite.shell
 #                          ^^ keyword.operator.comparison.shell
 #                             ^^^^^ meta.string.glob.shell
 #                                   ^ punctuation.section.group.end.shell
 #                                     ^^ keyword.operator.logical.shell
-#                                        ^^^^ variable.other.readwrite.shell
+#                                         ^^^ variable.other.readwrite.shell
 #                                             ^^ keyword.operator.comparison.shell
 #                                                ^^^ meta.string.glob.shell
 #                                                    ^^ punctuation.section.compound.end.shell
@@ -2349,18 +2393,18 @@ ip=10.10.20.14
 #                                                            ^^^ meta.compound.conditional.shell - meta.group
 #                                                               ^ - meta.compound
 #    ^^^ punctuation.section.group.begin.shell
-#        ^^^^ variable.other.readwrite.shell
+#         ^^^ variable.other.readwrite.shell
 #             ^^ keyword.operator.comparison.shell
 #                ^^^^^ meta.string.glob.shell
 #                      ^ punctuation.section.group.end.shell
 #                        ^^ keyword.operator.logical.shell
-#                           ^^^^ variable.other.readwrite.shell
+#                            ^^^ variable.other.readwrite.shell
 #                                ^^ keyword.operator.comparison.shell
 #                                   ^^^^^ meta.string.glob.shell
 #                                         ^ punctuation.section.group.end.shell
 #                                           ^^ keyword.operator.logical.shell
 #                                              ^ punctuation.section.group.begin.shell
-#                                               ^^^^ variable.other.readwrite.shell
+#                                                ^^^ variable.other.readwrite.shell
 #                                                    ^^ keyword.operator.comparison.shell
 #                                                       ^^^ meta.string.glob.shell
 #                                                          ^^ punctuation.section.group.end.shell
@@ -2383,8 +2427,9 @@ ip=10.10.20.14
 [[ $foo == bar&baz ]]       # top-level `&` not valid in ZSH or Bash
 #^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ invalid.illegal.unexpected-token.shell
@@ -2394,8 +2439,9 @@ ip=10.10.20.14
 [[ $foo == bar|baz ]]       # top-level `|` not valid in ZSH or Bash
 #^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ invalid.illegal.unexpected-token.shell
@@ -2405,8 +2451,9 @@ ip=10.10.20.14
 [[ $foo == co{{mm{[a-d]?}}}{} ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^^^^^ meta.character-class.glob.shell
@@ -2424,8 +2471,9 @@ ip=10.10.20.14
 [[ $foo =~ bar && baz =~ buz || $foo =~ baz ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^ meta.string.regexp.shell string.unquoted.shell
 #              ^^ keyword.operator.logical.shell
@@ -2433,8 +2481,9 @@ ip=10.10.20.14
 #                     ^^ keyword.operator.comparison.shell
 #                        ^^^ meta.string.regexp.shell string.unquoted.shell
 #                            ^^ keyword.operator.logical.shell
-#                               ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                               ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #                               ^ punctuation.definition.interpolation.shell
+#                                ^^^ variable.other.readwrite.shell
 #                                    ^^ keyword.operator.comparison.shell
 #                                       ^^^ meta.string.regexp.shell string.unquoted.shell
 #                                           ^^ punctuation.section.compound.end.shell
@@ -2442,8 +2491,9 @@ ip=10.10.20.14
 [[ $var =~ bar&baz ]]   # top-level `&` not valid in ZSH or Bash
 #^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^ meta.string.regexp.shell string.unquoted.shell
 #             ^ invalid.illegal.unexpected-token.shell
@@ -2453,8 +2503,9 @@ ip=10.10.20.14
 [[ $var =~ bar|baz ]]   # top-level `|` not valid in ZSH (but in Bash)
 #^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^ meta.string.regexp.shell string.unquoted.shell
 #             ^ invalid.illegal.unexpected-token.shell
@@ -2464,8 +2515,9 @@ ip=10.10.20.14
 [[ $var =~ co{{mm{[a-d]?}}}} ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^ punctuation.section.compound.begin.shell
-#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
 #                 ^^^^^ meta.character-class.regexp.shell
@@ -2514,8 +2566,9 @@ ip=10.10.20.14
 #  ^ punctuation.definition.quoted.begin.shell
 #   ^ variable.other.readwrite.shell
 #     ^ keyword.operator.arithmetic.shell
-#       ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ meta.interpolation.parameter.shell
 #       ^ punctuation.definition.interpolation.shell
+#        ^ variable.other.readwrite.shell
 #         ^ punctuation.definition.quoted.end.shell
 #           ^^^ keyword.operator.comparison.shell
 #               ^ punctuation.definition.quoted.begin.shell
@@ -3225,8 +3278,9 @@ ip=10.10.20.14
 #  Special Parameters
 
 : $* ${*} ${!*} ${#*} _$*_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3246,12 +3300,15 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 : $@ ${@} ${!@} ${#@} _$@_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3271,12 +3328,15 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 : $? ${?} ${!?} ${#?} _$?_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3296,12 +3356,15 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 : $- ${-} ${!-} ${#-} _$-_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3321,12 +3384,15 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 : $$ ${$} ${!$} ${#$} _$$_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3346,12 +3412,15 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 : $! ${!} ${!!} ${#!} _$!_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.special.shell - punctuation
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3371,13 +3440,16 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^^^^ meta.string.glob.shell
 #                     ^ string.unquoted.shell
-#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                      ^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell - variable
+#                       ^ variable.language.special.shell - punctuation
 #                        ^ string.unquoted.shell
 
 # Expands to the number of positional parameters in decimal.
 : $# ${#} ${!#} ${##} _$#_ _$#1_ _$#a_
-# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^ variable.language.special.shell
 #    ^^^^ meta.interpolation.parameter.shell
 #    ^ punctuation.definition.interpolation.shell
 #     ^ punctuation.section.interpolation.begin.shell
@@ -3396,31 +3468,41 @@ ip=10.10.20.14
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^ meta.string.glob.shell string.unquoted.shell
-#                      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell
+#                       ^ keyword.operator.expansion.length.shell
+#                        ^ variable.other.readwrite.shell
 #                          ^ meta.string.glob.shell string.unquoted.shell
-#                           ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                           ^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                           ^ punctuation.definition.interpolation.shell
+#                            ^ variable.language.special.shell
 #                             ^^ meta.string.glob.shell string.unquoted.shell
 #                                ^ meta.string.glob.shell string.unquoted.shell
-#                                 ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                 ^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                 ^ punctuation.definition.interpolation.shell - variable
+#                                  ^ keyword.operator.expansion.length.shell
+#                                   ^ variable.other.readwrite.shell
 
 # `#` is not a special variable, if followed by identifiers
 : $#__ints {1..$#__hits}
-# ^^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.interpolation.shell
 #  ^ keyword.operator.expansion.length.shell
+#   ^^^^^^ variable.other.readwrite.shell
 #          ^^^^^^^^^^^^^ meta.interpolation.brace.shell
 #          ^ punctuation.section.interpolation.begin.shell
 #           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^ keyword.operator.range.shell
-#              ^^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#              ^^^^^^^^ meta.interpolation.parameter.shell
 #              ^ punctuation.definition.interpolation.shell
 #               ^ keyword.operator.expansion.length.shell
+#                ^^^^^^ variable.other.readwrite.shell
 #                      ^ punctuation.section.interpolation.end.shell
 
 # User Parameter/Variable Expansions
 
 : $var      # Substitute contents of var, no splitting
-# ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.interpolation.shell
 #  ^^^ variable.other.readwrite.shell
 
@@ -4497,8 +4579,9 @@ ip=10.10.20.14
 #    ^^ storage.modifier.expansion.flag.shell.zsh
 #      ^^^^^^ meta.quoted.glob.shell.zsh
 #      ^ punctuation.definition.quoted.begin.shell.zsh
-#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#       ^^^^ meta.interpolation.parameter.shell - string
 #       ^ punctuation.definition.interpolation.shell
+#        ^^^ variable.other.readwrite.shell
 #           ^ punctuation.definition.quoted.end.shell.zsh
 #            ^ punctuation.definition.modifier.end.shell.zsh
 #             ^^^ variable.other.readwrite.shell
@@ -4512,8 +4595,9 @@ ip=10.10.20.14
 #                       ^^^^^^^^^^ meta.quoted.glob.shell.zsh
 #                       ^ punctuation.definition.quoted.begin.shell.zsh
 #                        ^^^^ string.quoted.other.shell.zsh
-#                            ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                            ^^^^ meta.interpolation.parameter.shell - string
 #                            ^ punctuation.definition.interpolation.shell
+#                             ^^^ variable.other.readwrite.shell
 #                                ^ punctuation.definition.quoted.end.shell.zsh
 #                                 ^ punctuation.definition.modifier.end.shell.zsh
 #                                  ^^^ variable.other.readwrite.shell
@@ -4528,8 +4612,9 @@ ip=10.10.20.14
 #                                            ^ punctuation.definition.quoted.begin.shell.zsh
 #                                             ^^^^^ string.quoted.other.shell.zsh
 #                                               ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                                                  ^^^^ meta.interpolation.parameter.shell - string
 #                                                  ^ punctuation.definition.interpolation.shell
+#                                                   ^^^ variable.other.readwrite.shell
 #                                                      ^ string.quoted.other.shell.zsh punctuation.definition.quoted.end.shell.zsh
 #                                                       ^ punctuation.definition.quoted.end.shell.zsh
 #                                                        ^ punctuation.definition.modifier.end.shell.zsh
@@ -4561,8 +4646,9 @@ ip=10.10.20.14
 #      ^^^^^^^^ meta.quoted.glob.shell.zsh
 #      ^ punctuation.definition.quoted.begin.shell.zsh
 #       ^^^ string.quoted.other.shell.zsh - variable
-#          ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#          ^^^ meta.interpolation.parameter.shell - string
 #          ^ punctuation.definition.interpolation.shell
+#           ^^ variable.other.readwrite.shell
 #             ^ punctuation.definition.quoted.end.shell.zsh
 #              ^ punctuation.definition.modifier.end.shell.zsh
 #               ^^^ variable.other.readwrite.shell
@@ -4577,8 +4663,9 @@ ip=10.10.20.14
 #    ^^ storage.modifier.expansion.flag.shell.zsh
 #      ^^^^^^ meta.quoted.glob.shell.zsh
 #      ^ punctuation.definition.quoted.begin.shell.zsh
-#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^^^ meta.interpolation.parameter.shell
 #       ^ punctuation.definition.interpolation.shell
+#        ^^^ variable.other.readwrite.shell
 #           ^ punctuation.definition.quoted.end.shell.zsh
 #            ^ punctuation.definition.modifier.end.shell.zsh
 #             ^^^ variable.other.readwrite.shell
@@ -6324,9 +6411,13 @@ cat =( <<< foo )
 
 : <$start-$end>  # Matches numbers from $start to $end
 # ^ meta.range.shell.zsh punctuation.definition.range.begin.shell.zsh
-#  ^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell
+#  ^ punctuation.definition.interpolation.shell
+#   ^^^^^ variable.other.readwrite.shell
 #        ^ meta.range.shell.zsh keyword.operator.range.shell.zsh
-#         ^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell
+#         ^ punctuation.definition.interpolation.shell
+#          ^^^ variable.other.readwrite.shell
 #             ^ meta.range.shell.zsh punctuation.definition.range.end.shell.zsh
 
 : <${start: 1 + 2 : 5}-${end:${pt0}:${len}}>  # Matches numbers from calculated start to end
@@ -6349,7 +6440,8 @@ cat =( <<< foo )
 # ^^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #   ^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #              ^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.glob.shell meta.range.shell.zsh - string
-#                 ^^^^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                 ^^^^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell
+#                  ^^^ variable.other.readwrite.shell - string
 #                     ^ meta.range.shell.zsh meta.number.integer.decimal.shell meta.interpolation.parameter.shell meta.string.glob.shell meta.range.shell.zsh - string
 #                      ^^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #                                  ^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
@@ -6943,9 +7035,11 @@ esac
 #               ^ meta.modifier.glob.shell.zsh - meta.interpolation
 # ^^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.mode.glob.shell.zsh
-#    ^^^^^^ variable.other.readwrite.shell
+#    ^ punctuation.definition.interpolation.shell
+#     ^^^^^ variable.other.readwrite.shell
 #          ^ punctuation.separator.sequence.shell
-#           ^^^^ variable.other.readwrite.shell
+#           ^ punctuation.definition.interpolation.shell
+#            ^^^ variable.other.readwrite.shell
 #               ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#m)       #  Match in MATCH, MBEGIN, MEND
@@ -7489,16 +7583,20 @@ a=(/*(#qD))   # extended glob qualifiers are valid in arrays
 
 : /(f$mode) /(f=$mode) /(f+$mode) /(f-$mode)  # octal access right specification
 #   ^ storage.modifier.glob.shell.zsh
-#    ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#    ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
+#     ^^^^ variable.other.readwrite.shell
 #             ^ storage.modifier.glob.shell.zsh
 #              ^ keyword.operator.logical.shell.zsh
-#               ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#               ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
+#                ^^^^ variable.other.readwrite.shell
 #                        ^ storage.modifier.glob.shell.zsh
 #                         ^ keyword.operator.logical.shell.zsh
-#                          ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                          ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
+#                           ^^^^ variable.other.readwrite.shell
 #                                   ^ storage.modifier.glob.shell.zsh
 #                                    ^ keyword.operator.logical.shell.zsh
-#                                     ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                     ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
+#                                      ^^^^ variable.other.readwrite.shell
 
 : /(f{gu+w,0-rx}) /(f[gu+w,0-rx]) /(f:gu+w,0-rx:)
 #  ^^ meta.modifier.glob.shell.zsh
@@ -8005,7 +8103,9 @@ a=(/*(#qD))   # extended glob qualifiers are valid in arrays
 #                     ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh
 #                                      ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.range
 #                     ^ punctuation.definition.range.begin.shell.zsh
-#                      ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                      ^^^^^^ meta.interpolation.parameter.shell
+#                      ^ punctuation.definition.interpolation.shell
+#                       ^^^^^ variable.other.readwrite.shell
 #                            ^ punctuation.separator.sequence.shell
 #                             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                              ^^^^^^ meta.number.integer.decimal.shell meta.interpolation.parameter.shell - constant
@@ -8369,8 +8469,9 @@ ls *(e:'file $REPLY | grep -q JPEG':) # Match all files of which file says that 
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #       ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #           ^^^^^^^ meta.function-call.arguments.shell
-#            ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.builtin.shell
+#            ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #            ^ punctuation.definition.interpolation.shell
+#             ^^^^^ variable.language.builtin.shell
 #                   ^ keyword.operator.assignment.pipe.shell
 #                     ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #                         ^^^^^^^^ meta.function-call.arguments.shell
@@ -8618,8 +8719,9 @@ print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directorie
 #                                  ^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
 #                                  ^ punctuation.section.sequence.begin.shell
 #                                   ^^^^^^^^^^^^^^^^^ meta.string.glob.shell
-#                                   ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                                   ^^^^^^ meta.interpolation.parameter.shell
 #                                   ^ punctuation.definition.interpolation.shell
+#                                    ^^^^^ variable.language.builtin.shell
 #                                         ^^ string.unquoted.shell
 #                                          ^ constant.other.wildcard.asterisk.shell
 #                                           ^^^^^^^^^ meta.modifier.glob.shell.zsh
@@ -8801,7 +8903,8 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 #                        ^^ keyword.control.loop.do.shell
 #                           ^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #                             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                              ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                              ^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                               ^ variable.other.readwrite.shell
 #                              ^ punctuation.definition.interpolation.shell
 #                                 ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #                                 ^^^^^^ meta.interpolation.parameter.shell
@@ -8880,6 +8983,8 @@ echo $var[1] World
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#    ^ punctuation.definition.interpolation.shell
+#     ^^^ variable.other.readwrite.shell
 #        ^^^ meta.item-access.shell - variable
 #        ^ punctuation.section.item-access.begin.shell
 #         ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -8891,8 +8996,8 @@ echo $var[1] World
 #     ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell
 #         ^ meta.string.glob.shell meta.interpolation.parameter.shell
 #          ^^^ meta.string.glob.shell - meta.interpolation
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ punctuation.separator.sequence.shell
@@ -8907,8 +9012,8 @@ echo $var[1] World
 #  ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #         ^^^^ meta.string.glob.shell - meta.interpolation
 # ^ string.quoted.double.shell punctuation.definition.string.begin.shell
-#  ^^^^ variable.other.readwrite.shell
 #  ^ punctuation.definition.interpolation.shell
+#   ^^^ variable.other.readwrite.shell
 #      ^^^ meta.item-access.shell
 #      ^ punctuation.section.item-access.begin.shell
 #       ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -8922,8 +9027,8 @@ echo $var[1] World
 #      ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
 #                 ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
 #                  ^ - meta.string
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^^^^^^^ variable.other.readwrite.shell
 #              ^ keyword.operator.arithmetic.shell
@@ -8936,8 +9041,8 @@ echo $var[1] World
 #      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell meta.group.shell
 #                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
 #                    ^ - meta.string
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^^^ variable.other.readwrite.shell
@@ -8952,8 +9057,8 @@ echo $var[1] World
 #      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
 #                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
 #                    ^ - meta.string
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^ punctuation.definition.quoted.begin.shell
 #       ^^^^^^^ variable.other.readwrite.shell
@@ -8968,8 +9073,8 @@ echo $var[1] World
 #      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
 #                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
 #                    ^ - meta.string
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^ punctuation.definition.quoted.begin.shell
 #       ^^^^^^^ variable.other.readwrite.shell
@@ -8985,8 +9090,8 @@ echo $var[1] World
 : $var[my.key]
 # ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
 #     ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell
-# ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
+#  ^^^ variable.other.readwrite.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^^^^^^ meta.string.shell string.unquoted.shell - meta.arithmetic
 #            ^ punctuation.section.item-access.end.shell
@@ -9536,87 +9641,128 @@ foo[${bar[$baz]}]=buz
 ##############################################################################
 
 : $ARGC
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $argv
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $status
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $pipestatus
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $CPUTYPE
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $EGID
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $EUID
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $ERRNO
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $FUNCNEST
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $GID
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $HISTCMD
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $HOST
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $LINENO
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $LOGNAME
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $MACHTYPE
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $OLDPWD
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $OPTARG
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $OPTIND
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $OSTYPE
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $PPID
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $PWD
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $RANDOM
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $SECONDS
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $SHLVL
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $signals
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $TRY_BLOCK_ERROR
-# ^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $TRY_BLOCK_INTERRUPT
-# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $TTY
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $TTYIDLE
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $UID
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $USERNAME
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $VENDOR
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $zsh_eval_context
-# ^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_ARGZERO
-# ^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_EXECUTION_STRING
-# ^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_NAME
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_PATCHLEVEL
-# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $zsh_scheduled_events
-# ^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_SCRIPT
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_SUBSHELL
-# ^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZSH_VERSION
-# ^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 
 ##############################################################################
 # 15.6 Parameters Used By The Shell
@@ -9624,169 +9770,251 @@ foo[${bar[$baz]}]=buz
 ##############################################################################
 
 : $ARGV0
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $BAUD
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $cdpath
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $COLUMNS
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $CORRECT_IGNORE
-# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $CORRECT_IGNORE_FILE
-# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $DIRSTACKSIZE
-# ^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ENV
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $FCEDIT
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $fignore
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $fpath
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $histchars
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $HISTCHARS
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $HISTFILE
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $HISTORY_IGNORE
-# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $HISTSIZE
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $HOME
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $IFS
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $KEYBOARD_HACK
-# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $KEYTIMEOUT
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $LANG
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $LC_ALL
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $LC_COLLATE
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $LC_CTYPE
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $LC_MESSAGES
-# ^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $LC_NUMERIC
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $LC_TIME
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $LINES
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $LISTMAX
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $MAIL
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $MAILCHECK
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $mailpath
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $manpath
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $match
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $mbegin
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $mend
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $MATCH
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $MBEGIN
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $MEND
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $module_path
-# ^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $NULLCMD
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $path
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $POSTEDIT
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $PROMPT
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $PROMPT2
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $PROMPT3
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $PROMPT4
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $prompt
-# ^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^ variable.language.builtin.shell - punctuation
 : $PROMPT_EOL_MARK
-# ^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $PS1
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $PS2
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $PS3
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $PS4
-# ^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^ variable.language.builtin.shell - punctuation
 : $psvar
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $READNULLCMD
-# ^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $REPORTMEMORY
-# ^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $REPORTTIME
-# ^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $REPLY
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $reply
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $RPROMPT
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $RPS1
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $RPROMPT2
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $RPS2
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $SAVEHIST
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $SPROMPT
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $STTY
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $TERM
-# ^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^ variable.language.builtin.shell - punctuation
 : $TERMINFO
-# ^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^ variable.language.builtin.shell - punctuation
 : $TERMINFO_DIRS
-# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $TIMEFMT
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $TMOUT
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $TMPPREFIX
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $TMPSUFFIX
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $WORDCHARS
-# ^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZBEEP
-# ^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^ variable.language.builtin.shell - punctuation
 : $ZDOTDIR
-# ^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^ variable.language.builtin.shell - punctuation
 : $zle_bracketed_paste
-# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $zle_highlight
-# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZLE_LINE_ABORTED
-# ^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZLE_REMOVE_SUFFIX_CHARS
-# ^^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZLE_SPACE_SUFFIX_CHARS
-# ^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 : $ZLE_RPROMPT_INDENT
-# ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell - punctuation
 
 
 ##############################################################################
@@ -9912,13 +10140,15 @@ cmd
 
 [ $var = true -a $var != false ]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#  ^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.interpolation.shell
 #      ^ keyword.operator.comparison.shell
 #        ^^^^ constant.language.boolean.true.shell
 #             ^^ keyword.operator.logical.shell
-#                ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #                ^ punctuation.definition.interpolation.shell
+#                 ^^^ variable.other.readwrite.shell
 #                     ^^ keyword.operator.comparison.shell
 #                        ^^^^^ constant.language.boolean.false.shell
 #                              ^ punctuation.section.compound.end.shell
@@ -10210,8 +10440,9 @@ typeset $foo       # interpolated variable name
 #^^^^^^^^^^^ meta.declaration.variable.shell
 #           ^ - meta.declaration
 # <- keyword.declaration.variable.shell
-#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^^^ meta.interpolation.parameter.shell
 #       ^ punctuation.definition.interpolation.shell
+#        ^^^ variable.other.readwrite.shell
 #           ^ - variable.other.readwrite
 #                  ^ - meta.declaration.variable
 
@@ -10304,7 +10535,8 @@ typeset bar=\
 foo?bar+2*baz/$buz # comment
 # <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
-#             ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#             ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#              ^^^ variable.other.readwrite.shell - string
 #                 ^ - meta.declaration
 #                  ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10322,7 +10554,8 @@ foo?bar+2*baz/$buz # comment
 #        ^ keyword.operator.arithmetic.shell
 #         ^^^ variable.other.readwrite.shell
 #            ^ keyword.operator.arithmetic.shell
-#             ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#             ^^^^ meta.interpolation.parameter.shell
+#              ^^^ variable.other.readwrite.shell
 #                  ^^^^^^^^^^ comment.line.number-sign.shell
 
 # Normal builtin interface

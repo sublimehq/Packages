@@ -3176,27 +3176,27 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
-    - match: ({{interpolation_punct}})\d
-      scope: variable.language.positional.shell
+    - match: ({{interpolation_punct}})(\d)
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.positional.shell
       pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
-    - match: ({{interpolation_punct}}){{builtin_variables}}
-      scope: variable.language.builtin.shell
+    - match: ({{interpolation_punct}})({{builtin_variables}})
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.builtin.shell
       pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
-    - match: ({{interpolation_punct}}){{special_variables}}
-      scope: variable.language.special.shell
+    - match: ({{interpolation_punct}})({{special_variables}})
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.special.shell
       pop: 1
-    - match: ({{interpolation_punct}}){{identifier}}
-      scope: variable.other.readwrite.shell
+    - match: ({{interpolation_punct}})({{identifier}})
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.other.readwrite.shell
       pop: 1
     - include: immediately-pop
 

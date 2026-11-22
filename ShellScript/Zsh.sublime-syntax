@@ -705,29 +705,29 @@ contexts:
   simple-parmeter-expansion:
     - meta_include_prototype: false
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Positional-Parameters
-    - match: ({{interpolation_punct}})\d
-      scope: variable.language.positional.shell
+    - match: ({{interpolation_punct}})(\d)
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.positional.shell
       pop: 1
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Set-By-The-Shell
-    - match: ({{interpolation_punct}}){{builtin_variables}}
-      scope: variable.language.builtin.shell
+    - match: ({{interpolation_punct}})({{builtin_variables}})
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.builtin.shell
       pop: 1
     # length operator has precedence over special parameters in ZSH
-    - match: ({{interpolation_punct}})(\#?){{identifier}}
-      scope: variable.other.readwrite.shell
+    - match: ({{interpolation_punct}})(\#?)({{identifier}})
       captures:
         1: punctuation.definition.interpolation.shell
         2: keyword.operator.expansion.length.shell
+        3: variable.other.readwrite.shell
       pop: 1
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Description-1
-    - match: ({{interpolation_punct}}){{special_variables}}
-      scope: variable.language.special.shell
+    - match: ({{interpolation_punct}})({{special_variables}})
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.special.shell
       pop: 1
     - include: immediately-pop
 

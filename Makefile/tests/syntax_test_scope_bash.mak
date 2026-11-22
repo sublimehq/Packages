@@ -1064,8 +1064,9 @@ heredocs:
 	#          ^^^^ variable.other.makefile
 	#              ^ punctuation.section.interpolation.end.makefile
 	#               ^ string.unquoted.heredoc.shell
-	#                ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+	#                ^^^^^^^ meta.interpolation.parameter.shell 
 	#                ^^ punctuation.definition.interpolation.shell
+	#                  ^^^^^ variable.other.readwrite.shell
 	#                       ^^^^^^^ string.unquoted.heredoc.shell
 	HEREDOC
 #^^^^^^^ meta.function.body.makefile source.shell.bash.embedded.makefile meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
@@ -2299,7 +2300,8 @@ ifeq ($(shell test $(var) -lt 130000; echo $$?),0)
 #                             ^^^^^^ constant.numeric.value.shell
 #                                   ^ punctuation.terminator.statement.shell
 #                                     ^^^^ support.function.shell
-#                                          ^^^ variable.language.special.shell
+#                                          ^^ punctuation.definition.interpolation.shell
+#                                            ^ variable.language.special.shell
 #                                             ^ punctuation.section.interpolation.end.makefile
 #                                              ^ punctuation.separator.sequence.makefile
 #                                               ^ string.unquoted.makefile
@@ -2327,7 +2329,9 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 #                                                  ^ punctuation.terminator.statement.shell
 #                                                    ^^^^ meta.function-call.identifier.shell support.function.shell
 #                                                        ^^^^ meta.function-call.arguments.shell
-#                                                         ^^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                                                         ^^^ meta.interpolation.parameter.shell 
+#                                                         ^^ punctuation.definition.interpolation.shell
+#                                                           ^ variable.language.special.shell
     include $(MAKEFILE_PATH)Makefile.Defs
     # <- keyword.control.import.makefile
     #^^^^^^ keyword.control.import.makefile
@@ -2839,8 +2843,9 @@ shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                       ^ punctuation.definition.parameter.shell
 #                          ^^^^^^^ meta.string.glob.shell
-#                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                          ^^^^^^ meta.interpolation.parameter.shell 
 #                          ^^ punctuation.definition.interpolation.shell
+#                            ^^^^ variable.language.builtin.shell
 #                                ^ string.unquoted.shell
 #                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                  ^ punctuation.definition.string.begin.shell
@@ -2877,8 +2882,9 @@ shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                       ^ punctuation.definition.parameter.shell
 #                          ^^^^^^^ meta.string.glob.shell
-#                          ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                          ^^^^^^ meta.interpolation.parameter.shell 
 #                          ^^ punctuation.definition.interpolation.shell
+#                            ^^^^ variable.language.builtin.shell
 #                                ^ string.unquoted.shell
 #                                  ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                  ^ punctuation.definition.string.begin.shell
@@ -2904,8 +2910,9 @@ shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #                         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                         ^ punctuation.definition.parameter.shell
 #                            ^^^^^^^^^ meta.string.glob.shell
-#                            ^^^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                            ^^^^^^^^ meta.interpolation.parameter.shell 
 #                            ^^^^ punctuation.definition.interpolation.shell
+#                                ^^^^ variable.language.builtin.shell
 #                                    ^ string.unquoted.shell
 #                                      ^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                      ^ punctuation.definition.string.begin.shell
