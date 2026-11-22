@@ -13306,7 +13306,9 @@ readonly -A var=(key1 1+2 key2 4-foo key3 val%10)
 #                              ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^^^^ entity.name.key.shell
 #                                         ^^^ meta.string.glob.shell string.unquoted.shell
-#                                            ^^^ meta.string.glob.shell meta.interpolation.job.shell variable.language.job.shell
+#                                            ^^^ meta.string.glob.shell meta.interpolation.job.shell
+#                                            ^ punctuation.definition.interpolation.shell
+#                                             ^^ variable.language.job.shell
 #                                               ^ punctuation.section.sequence.end.shell
 
 readonly -A -f foo   # 'foo' is a variable name
@@ -15111,41 +15113,49 @@ ip=10.10.20.14
 ###############################################################################
 
 : %
-# ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.interpolation.shell
+# ^ meta.interpolation.job.shell punctuation.definition.interpolation.shell
 : %%
-# ^^ meta.interpolation.job.shell variable.language.job.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.job.shell - punctuation
 #   ^ - meta.interpolation - variable
 : %+
-# ^^ meta.interpolation.job.shell variable.language.job.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.job.shell - punctuation
 #   ^ - meta.interpolation - variable
 : %-
-# ^^ meta.interpolation.job.shell variable.language.job.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.job.shell - punctuation
 #   ^ - meta.interpolation - variable
 : %1 %2 %3
-# ^^ meta.interpolation.job.shell variable.language.job.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^ variable.language.job.shell - punctuation
 #   ^ - meta.interpolation - variable
-#    ^^ meta.interpolation.job.shell variable.language.job.shell
-#    ^ punctuation.definition.interpolation.shell
+#    ^^ meta.interpolation.job.shell
+#    ^ punctuation.definition.interpolation.shell - variable
+#     ^ variable.language.job.shell - punctuation
 #      ^ - meta.interpolation - variable
-#       ^^ meta.interpolation.job.shell variable.language.job.shell
-#       ^ punctuation.definition.interpolation.shell
+#       ^^ meta.interpolation.job.shell
+#       ^ punctuation.definition.interpolation.shell - variable
+#        ^ variable.language.job.shell - punctuation
 #         ^ - meta.interpolation - variable
 : %ce
-# ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
+#  ^^ variable.other.readwrite.shell - punctuation
 #    ^ - meta.interpolation - variable
 : %?ce
-# ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-# ^ punctuation.definition.interpolation.shell
+# ^^^^ meta.interpolation.job.shell
+# ^ punctuation.definition.interpolation.shell - variable
 #  ^ keyword.operator.match.shell
+#   ^^ variable.other.readwrite.shell - punctuation - keyword
 #     ^ - meta.interpolation - variable
 
 %1
-# <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.interpolation.shell
+# <- meta.interpolation.job.shell punctuation.definition.interpolation.shell
 #^ meta.interpolation.job.shell variable.language.job.shell
 # ^ - meta.interpolation - variable
 

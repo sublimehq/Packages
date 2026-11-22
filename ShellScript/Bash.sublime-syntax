@@ -3138,11 +3138,10 @@ contexts:
     # the background. The previous job may be referenced using ‘%-’.
     # Job number n may be referred to as ‘%n’.
     - match: (%)([-+%]|\d+)
-      scope:
-        meta.interpolation.job.shell
-        variable.language.job.shell
+      scope: meta.interpolation.job.shell
       captures:
         1: punctuation.definition.interpolation.shell
+        2: variable.language.job.shell
     # A job may also be referred to using a prefix of the name used to start it,
     # or using a substring that appears in its command line. For example, ‘%ce’
     # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
@@ -3150,13 +3149,12 @@ contexts:
     # substring matches more than one job, Bash reports an error.
     # A single ‘%’ (with no accompanying job specification) also refers to the
     # current job.
-    - match: (%)(?:(\??)\w+)?
-      scope:
-        meta.interpolation.job.shell
-        variable.other.readwrite.shell
+    - match: (%)(?:(\??)(\w+))?
+      scope: meta.interpolation.job.shell
       captures:
         1: punctuation.definition.interpolation.shell
         2: keyword.operator.match.shell
+        3: variable.other.readwrite.shell
 
 ###[ PARAMETER EXPANSIONS ]####################################################
 
