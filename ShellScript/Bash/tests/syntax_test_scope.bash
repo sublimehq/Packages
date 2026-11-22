@@ -9530,6 +9530,27 @@ $[var + 1]
 #           ^ keyword.operator.assignment.pipe.shell
 #            ^^^ variable.function.shell
 
+# pattern matching in commands
+
+  ~/@([^:]*)
+# ^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^^^^^^^^^ variable.function.shell
+#  ^ punctuation.separator.path.shell
+
+  ~/@(foo/bar|buz/buz)/app
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell - meta.string
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^ variable.function.shell - string
+#  ^ punctuation.separator.path.shell
+#   ^ keyword.operator.quantifier.glob.shell
+#    ^^^^^^^^^^^^^^^^^ meta.group.glob.shell
+#    ^ punctuation.section.group.begin.glob.shell
+#        ^ punctuation.separator.path.shell
+#            ^ keyword.operator.alternation.glob.shell
+#                ^ punctuation.separator.path.shell
+#                    ^ punctuation.section.group.end.glob.shell
+#                     ^ punctuation.separator.path.shell
 
 ###############################################################################
 # 3.5.8.1 Pattern Matching                                                    #
