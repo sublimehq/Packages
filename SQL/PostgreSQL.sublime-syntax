@@ -276,9 +276,7 @@ contexts:
 
   inside-aggregate-filter:
     - meta_scope: meta.aggregate-filter.psql meta.group.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
+    - include: group-end
     - include: expressions-or-column-names
 
   join-expressions:
