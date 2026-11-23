@@ -1602,6 +1602,16 @@ PATTERN =
 #  ^^ meta.string.regexp.ruby string.regexp.classic.ruby keyword.other.ruby
 #    ^ - meta.string - string
 
+PATTERN = # comment
+  /
+# ^ meta.string.regexp.ruby string.regexp.classic.ruby punctuation.definition.string.begin.ruby
+    don't | stop
+#   ^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+  /ix
+# ^ meta.string.regexp.ruby string.regexp.classic.ruby punctuation.definition.string.end.ruby
+#  ^^ meta.string.regexp.ruby string.regexp.classic.ruby keyword.other.ruby
+#    ^ - meta.string - string
+
 foo(bar,
   /baz qux/)
 # ^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby

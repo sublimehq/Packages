@@ -1499,7 +1499,7 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.ruby
       push: regex-body
-    - match: \s*$\n?
+    - match: \s*(?=$|\#)
       set: after-operator-at-eol
     - match: ''
       pop: true
@@ -1511,6 +1511,9 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.ruby
       set: regex-body
+    - match: ^
+      pop: true
+    - include: comments
     - match: (?=\S)
       pop: true
 
