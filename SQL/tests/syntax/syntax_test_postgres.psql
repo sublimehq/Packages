@@ -1,5 +1,33 @@
 -- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
+CREATE TABLE users (
+    id int,
+    "idFoo" UUID
+--  ^^^^^^^ meta.column-name variable.other.member.declaration - string
+--  ^ punctuation.definition.identifier.begin
+--        ^ punctuation.definition.identifier.end
+);
+
+SELECT x, "y" FROM a;
+--        ^^^ meta.column-name - string
+--        ^ punctuation.definition.identifier.begin
+--          ^ punctuation.definition.identifier.end
+
+SELECT x.y
+--     ^^^ meta.column-name.sql
+FROM a x
+JOIN b ON foo.removed_at IS NULL;
+--        ^^^^^^^^^^^^^^ meta.column-name.sql
+
+SELECT
+  sum(quantity) FILTER (WHERE sales_month = 1) jan_quantity,
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+  sum(quantity) FILTER (WHERE sales_month = 2) feb_quantity
+--              ^^^^^^ keyword.other.dml
+--                      ^^^^^ keyword.other.dml
+FROM car_sales;
+
 CREATE TABLE test1 (a character(4));
 -- <- meta.statement.create.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
@@ -242,6 +270,557 @@ SELECT columns FROM table WHERE
 --                   ^ constant.other.wildcard.underscore.sql
 --                     ^ constant.other.wildcard.percent.sql
 --                      ^ punctuation.definition.string.end.sql
+
+-- ----------------------------------------------------------------------------
+-- COMMENT ON
+-- https://www.postgresql.org/docs/current/sql-comment.html
+--
+-- COMMENT ON
+-- {
+--   ACCESS METHOD object_name |
+--   AGGREGATE aggregate_name ( aggregate_signature ) |
+--   CAST (source_type AS target_type) |
+--   COLLATION object_name |
+--   COLUMN relation_name.column_name |
+--   CONSTRAINT constraint_name ON table_name |
+--   CONSTRAINT constraint_name ON DOMAIN domain_name |
+--   CONVERSION object_name |
+--   DATABASE object_name |
+--   DOMAIN object_name |
+--   EXTENSION object_name |
+--   EVENT TRIGGER object_name |
+--   FOREIGN DATA WRAPPER object_name |
+--   FOREIGN TABLE object_name |
+--   FUNCTION function_name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] |
+--   INDEX object_name |
+--   LARGE OBJECT large_object_oid |
+--   MATERIALIZED VIEW object_name |
+--   OPERATOR operator_name (left_type, right_type) |
+--   OPERATOR CLASS object_name USING index_method |
+--   OPERATOR FAMILY object_name USING index_method |
+--   POLICY policy_name ON table_name |
+--   [ PROCEDURAL ] LANGUAGE object_name |
+--   PROCEDURE procedure_name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] |
+--   PUBLICATION object_name |
+--   ROLE object_name |
+--   ROUTINE routine_name [ ( [ [ argmode ] [ argname ] argtype [, ...] ] ) ] |
+--   RULE rule_name ON table_name |
+--   SCHEMA object_name |
+--   SEQUENCE object_name |
+--   SERVER object_name |
+--   STATISTICS object_name |
+--   SUBSCRIPTION object_name |
+--   TABLE object_name |
+--   TABLESPACE object_name |
+--   TEXT SEARCH CONFIGURATION object_name |
+--   TEXT SEARCH DICTIONARY object_name |
+--   TEXT SEARCH PARSER object_name |
+--   TEXT SEARCH TEMPLATE object_name |
+--   TRANSFORM FOR type_name LANGUAGE lang_name |
+--   TRIGGER trigger_name ON table_name |
+--   TYPE object_name |
+--   VIEW object_name
+-- } IS { string_literal | NULL }
+-- ----------------------------------------------------------------------------
+
+    COMMENT ON ACCESS METHOD object_name IS NULL;
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                           ^^^^^^^^^^^ meta.other-name.sql
+--                                       ^^ keyword.operator.assignment.is.sql
+--                                          ^^^^ constant.language.null.sql
+--                                              ^ punctuation.terminator.statement.sql
+
+    COMMENT ON AGGREGATE aggregate_name ( aggregate_signature ) IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^ keyword.other.ddl.psql
+--                       ^^^^^^^^^^^^^^ meta.other-name.sql
+--                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                      ^ punctuation.section.group.begin.sql
+--                                        ^^^^^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                                            ^ punctuation.section.group.end.sql
+--                                                              ^^ keyword.operator.logical.sql
+--                                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                 ^ punctuation.definition.string.begin.sql
+--                                                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON CAST (source_type AS target_type) IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--             ^^^^ support.function.psql
+--                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                  ^ punctuation.section.arguments.begin.sql
+--                   ^^^^^^^^^^^ meta.column-name.sql
+--                               ^^ keyword.operator.assignment.psql
+--                                  ^^^^^^^^^^^ support.type.sql
+--                                             ^ punctuation.section.arguments.end.sql
+--                                               ^^ keyword.operator.assignment.is.sql
+--                                                  ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                  ^ punctuation.definition.string.begin.sql
+--                                                          ^ punctuation.definition.string.end.sql
+--                                                           ^ punctuation.terminator.statement.sql
+
+    COMMENT ON COLLATION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^ keyword.other.ddl.psql
+--                       ^^^^^^^^^^^ meta.other-name.sql
+--                                   ^^ keyword.operator.assignment.is.sql
+--                                      ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^ punctuation.definition.string.begin.sql
+--                                              ^ punctuation.definition.string.end.sql
+
+    COMMENT ON COLUMN relation_name.column_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^ keyword.other.ddl.sql
+--                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                 ^ punctuation.accessor.dot.sql
+--                                              ^^ keyword.operator.assignment.is.sql
+--                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.definition.string.begin.sql
+--                                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON CONSTRAINT constraint_name ON table_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^ keyword.other.ddl.sql
+--                        ^^^^^^^^^^^^^^^ meta.constraint-name.sql
+--                                        ^^ keyword.other.sql
+--                                           ^^^^^^^^^^ meta.table-name.sql
+--                                                      ^^ keyword.operator.assignment.is.sql
+--                                                         ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                         ^ punctuation.definition.string.begin.sql
+--                                                                 ^ punctuation.definition.string.end.sql
+
+    COMMENT ON CONSTRAINT constraint_name ON DOMAIN domain_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^ keyword.other.ddl.sql
+--                        ^^^^^^^^^^^^^^^ meta.constraint-name.sql
+--                                        ^^ keyword.other.sql
+--                                           ^^^^^^ keyword.other.ddl.sql
+--                                                  ^^^^^^^^^^^ meta.other-name.sql
+--                                                              ^^ keyword.operator.assignment.is.sql
+--                                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                 ^ punctuation.definition.string.begin.sql
+--                                                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON CONVERSION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^ keyword.other.ddl.psql
+--                        ^^^^^^^^^^^ meta.other-name.sql
+--                                    ^^ keyword.operator.assignment.is.sql
+--                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                       ^ punctuation.definition.string.begin.sql
+--                                               ^ punctuation.definition.string.end.sql
+
+    COMMENT ON DATABASE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^ keyword.other.ddl.psql
+--                      ^^^^^^^^^^^ meta.other-name.sql
+--                                  ^^ keyword.operator.assignment.is.sql
+--                                     ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                     ^ punctuation.definition.string.begin.sql
+--                                             ^ punctuation.definition.string.end.sql
+
+    COMMENT ON DOMAIN object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^ keyword.other.ddl.psql
+--                    ^^^^^^^^^^^ meta.other-name.sql
+--                                ^^ keyword.operator.assignment.is.sql
+--                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.definition.string.begin.sql
+--                                           ^ punctuation.definition.string.end.sql
+
+    COMMENT ON EXTENSION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^ keyword.other.ddl.psql
+--                       ^^^^^^^^^^^ meta.extension-name.psql
+--                                   ^^ keyword.operator.assignment.is.sql
+--                                      ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^ punctuation.definition.string.begin.sql
+--                                              ^ punctuation.definition.string.end.sql
+
+    COMMENT ON EVENT TRIGGER object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                           ^^^^^^^^^^^ meta.other-name.sql
+--                                       ^^ keyword.operator.assignment.is.sql
+--                                          ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                          ^ punctuation.definition.string.begin.sql
+--                                                  ^ punctuation.definition.string.end.sql
+
+    COMMENT ON FOREIGN DATA WRAPPER object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                  ^^^^^^^^^^^ meta.other-name.sql
+--                                              ^^ keyword.operator.assignment.is.sql
+--                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.definition.string.begin.sql
+--                                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON FOREIGN TABLE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                           ^^^^^^^^^^^ meta.other-name.sql
+--                                       ^^ keyword.operator.assignment.is.sql
+--                                          ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                          ^ punctuation.definition.string.begin.sql
+--                                                  ^ punctuation.definition.string.end.sql
+
+    COMMENT ON FUNCTION function_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^ keyword.other.ddl.psql
+--                      ^^^^^^^^^^^^^ meta.procedure-name.sql
+--                                    ^^ keyword.operator.assignment.is.sql
+--                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                       ^ punctuation.definition.string.begin.sql
+--                                               ^ punctuation.definition.string.end.sql
+--                                                ^ punctuation.terminator.statement.sql
+
+    COMMENT ON INDEX object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^ keyword.other.ddl.psql
+--                   ^^^^^^^^^^^ meta.other-name.sql
+--                               ^^ keyword.operator.assignment.is.sql
+--                                  ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                  ^ punctuation.definition.string.begin.sql
+--                                          ^ punctuation.definition.string.end.sql
+
+    COMMENT ON LARGE OBJECT large_object_oid IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                          ^^^^^^^^^^^^^^^^ meta.other-name.sql
+--                                           ^^ keyword.operator.assignment.is.sql
+--                                              ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                              ^ punctuation.definition.string.begin.sql
+--                                                      ^ punctuation.definition.string.end.sql
+
+    COMMENT ON MATERIALIZED VIEW object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                               ^^^^^^^^^^^ meta.other-name.sql
+--                                           ^^ keyword.operator.assignment.is.sql
+--                                              ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                              ^ punctuation.definition.string.begin.sql
+--                                                      ^ punctuation.definition.string.end.sql
+
+    COMMENT ON OPERATOR operator_name (left_type, right_type) IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^ keyword.other.ddl.psql
+--                      ^^^^^^^^^^^^^ meta.other-name.sql
+--                                    ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                    ^ punctuation.section.group.begin.sql
+--                                     ^^^^^^^^^ support.type.sql
+--                                              ^ punctuation.separator.sequence.sql
+--                                                ^^^^^^^^^^ support.type.sql
+--                                                          ^ punctuation.section.group.end.sql
+--                                                            ^^ keyword.operator.assignment.is.sql
+--                                                               ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                               ^ punctuation.definition.string.begin.sql
+--                                                                       ^ punctuation.definition.string.end.sql
+
+    COMMENT ON OPERATOR CLASS object_name USING BTREE IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                            ^^^^^^^^^^^ meta.other-name.sql
+--                                        ^^^^^ keyword.other.ddl.sql
+--                                              ^^^^^ constant.language.sql
+--                                                    ^^ keyword.operator.assignment.is.sql
+--                                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                       ^ punctuation.definition.string.begin.sql
+--                                                               ^ punctuation.definition.string.end.sql
+--                                                                ^ punctuation.terminator.statement.sql
+
+    COMMENT ON OPERATOR FAMILY object_name USING BTREE IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                             ^^^^^^^^^^^ meta.other-name.sql
+--                                         ^^^^^ keyword.other.ddl.sql
+--                                               ^^^^^ constant.language.sql
+--                                                     ^^ keyword.operator.assignment.is.sql
+--                                                        ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                        ^ punctuation.definition.string.begin.sql
+--                                                                ^ punctuation.definition.string.end.sql
+--                                                                 ^ punctuation.terminator.statement.sql
+
+    COMMENT ON POLICY policy_name ON table_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^ keyword.other.ddl.psql
+--                    ^^^^^^^^^^^ meta.other-name.sql
+--                                ^^ keyword.other.sql
+--                                   ^^^^^^^^^^ meta.table-name.sql
+--                                              ^^ keyword.operator.assignment.is.sql
+--                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.definition.string.begin.sql
+--                                                         ^ punctuation.definition.string.end.sql
+--                                                          ^ punctuation.terminator.statement.sql
+
+    COMMENT ON LANGUAGE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^ keyword.other.ddl.psql
+--                      ^^^^^^^^^^^ meta.other-name.sql
+--                                  ^^ keyword.operator.assignment.is.sql
+--                                     ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                     ^ punctuation.definition.string.begin.sql
+--                                             ^ punctuation.definition.string.end.sql
+
+    COMMENT ON PROCEDURAL LANGUAGE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                 ^^^^^^^^^^^ meta.other-name.sql
+--                                             ^^ keyword.operator.assignment.is.sql
+--                                                ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                ^ punctuation.definition.string.begin.sql
+--                                                        ^ punctuation.definition.string.end.sql
+
+    COMMENT ON PROCEDURE procedure_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^ keyword.other.ddl.psql
+--                       ^^^^^^^^^^^^^^ meta.procedure-name.sql
+--                                      ^^ keyword.operator.assignment.is.sql
+--                                         ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                         ^ punctuation.definition.string.begin.sql
+--                                                 ^ punctuation.definition.string.end.sql
+--                                                  ^ punctuation.terminator.statement.sql
+
+    COMMENT ON PUBLICATION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^ keyword.other.ddl.psql
+--                         ^^^^^^^^^^^ meta.other-name.sql
+--                                     ^^ keyword.operator.assignment.is.sql
+--                                        ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                        ^ punctuation.definition.string.begin.sql
+--                                                ^ punctuation.definition.string.end.sql
+
+    COMMENT ON ROLE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^ keyword.other.ddl.psql
+--                  ^^^^^^^^^^^ meta.other-name.sql
+--                              ^^ keyword.operator.assignment.is.sql
+--                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                 ^ punctuation.definition.string.begin.sql
+--                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON ROUTINE routine_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^ keyword.other.ddl.psql
+--                     ^^^^^^^^^^^^ meta.procedure-name.sql
+--                                  ^^ keyword.operator.assignment.is.sql
+--                                     ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                     ^ punctuation.definition.string.begin.sql
+--                                             ^ punctuation.definition.string.end.sql
+--                                              ^ punctuation.terminator.statement.sql
+
+    COMMENT ON ROUTINE routine_name (arg int) IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^ keyword.other.ddl.psql
+--                     ^^^^^^^^^^^^ meta.procedure-name.sql
+--                                  ^^^^^^^^^ meta.group.sql
+--                                  ^ punctuation.section.group.begin.sql
+--                                   ^^^ variable.parameter.sql
+--                                       ^^^ storage.type.sql
+--                                          ^ punctuation.section.group.end.sql
+--                                            ^^ keyword.operator.assignment.is.sql
+--                                               ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                               ^ punctuation.definition.string.begin.sql
+--                                                       ^ punctuation.definition.string.end.sql
+--                                                        ^ punctuation.terminator.statement.sql
+
+    COMMENT ON RULE rule_name ON table_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^ keyword.other.ddl.psql
+--                  ^^^^^^^^^ meta.other-name.sql
+--                            ^^ keyword.other.sql
+--                               ^^^^^^^^^^ meta.table-name.sql
+--                                          ^^ keyword.operator.assignment.is.sql
+--                                             ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                             ^ punctuation.definition.string.begin.sql
+--                                                     ^ punctuation.definition.string.end.sql
+--                                                      ^ punctuation.terminator.statement.sql
+
+    COMMENT ON SCHEMA object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^ keyword.other.ddl.psql
+--                    ^^^^^^^^^^^ meta.other-name.sql
+--                                ^^ keyword.operator.assignment.is.sql
+--                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.definition.string.begin.sql
+--                                           ^ punctuation.definition.string.end.sql
+
+    COMMENT ON SEQUENCE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^ keyword.other.ddl.psql
+--                      ^^^^^^^^^^^ meta.other-name.sql
+--                                  ^^ keyword.operator.assignment.is.sql
+--                                     ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                     ^ punctuation.definition.string.begin.sql
+--                                             ^ punctuation.definition.string.end.sql
+
+    COMMENT ON SERVER object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^ keyword.other.ddl.psql
+--                    ^^^^^^^^^^^ meta.other-name.sql
+--                                ^^ keyword.operator.assignment.is.sql
+--                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.definition.string.begin.sql
+--                                           ^ punctuation.definition.string.end.sql
+
+    COMMENT ON STATISTICS object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^ keyword.other.ddl.psql
+--                        ^^^^^^^^^^^ meta.other-name.sql
+--                                    ^^ keyword.operator.assignment.is.sql
+--                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                       ^ punctuation.definition.string.begin.sql
+--                                               ^ punctuation.definition.string.end.sql
+
+    COMMENT ON SUBSCRIPTION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                          ^^^^^^^^^^^ meta.other-name.sql
+--                                      ^^ keyword.operator.assignment.is.sql
+--                                         ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                         ^ punctuation.definition.string.begin.sql
+--                                                 ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TABLE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^ keyword.other.ddl.sql
+--                   ^^^^^^^^^^^ meta.table-name.sql
+--                               ^^ keyword.operator.assignment.is.sql
+--                                  ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                  ^ punctuation.definition.string.begin.sql
+--                                          ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TABLESPACE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^ keyword.other.ddl.psql
+--                        ^^^^^^^^^^^ meta.other-name.sql
+--                                    ^^ keyword.operator.assignment.is.sql
+--                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                       ^ punctuation.definition.string.begin.sql
+--                                               ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TEXT SEARCH CONFIGURATION object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                       ^^^^^^^^^^^ meta.other-name.sql
+--                                                   ^^ keyword.operator.assignment.is.sql
+--                                                      ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                      ^ punctuation.definition.string.begin.sql
+--                                                              ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TEXT SEARCH DICTIONARY object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                    ^^^^^^^^^^^ meta.other-name.sql
+--                                                ^^ keyword.operator.assignment.is.sql
+--                                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                   ^ punctuation.definition.string.begin.sql
+--                                                           ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TEXT SEARCH PARSER object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                ^^^^^^^^^^^ meta.other-name.sql
+--                                            ^^ keyword.operator.assignment.is.sql
+--                                               ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                               ^ punctuation.definition.string.begin.sql
+--                                                       ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TEXT SEARCH TEMPLATE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.psql
+--                                  ^^^^^^^^^^^ meta.other-name.sql
+--                                              ^^ keyword.operator.assignment.is.sql
+--                                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.definition.string.begin.sql
+--                                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TRANSFORM FOR type_name LANGUAGE lang_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^^^ keyword.other.ddl.psql
+--                       ^^^ keyword.other.ddl.psql
+--                           ^^^^^^^^^ meta.other-name.sql
+--                                     ^^^^^^^^ keyword.other.ddl.psql
+--                                              ^^^^^^^^^ meta.other-name.sql
+--                                                        ^^ keyword.operator.assignment.is.sql
+--                                                           ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                           ^ punctuation.definition.string.begin.sql
+--                                                                   ^ punctuation.definition.string.end.sql
+
+    COMMENT ON TRIGGER trigger_name ON table_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^^^^ keyword.other.ddl.psql
+--                     ^^^^^^^^^^^^ meta.other-name.sql
+--                                  ^^ keyword.other.sql
+--                                     ^^^^^^^^^^ meta.table-name.sql
+--                                                ^^ keyword.operator.assignment.is.sql
+--                                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                   ^ punctuation.definition.string.begin.sql
+--                                                           ^ punctuation.definition.string.end.sql
+--                                                            ^ punctuation.terminator.statement.sql
+
+    COMMENT ON TYPE object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^ keyword.other.ddl.psql
+--                  ^^^^^^^^^^^ meta.other-name.sql
+--                              ^^ keyword.operator.assignment.is.sql
+--                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                 ^ punctuation.definition.string.begin.sql
+--                                         ^ punctuation.definition.string.end.sql
+
+    COMMENT ON VIEW object_name IS 'comment';
+--  ^^^^^^^ keyword.other.ddl.psql
+--          ^^ keyword.other.ddl.psql
+--             ^^^^ keyword.other.ddl.psql
+--                  ^^^^^^^^^^^ meta.other-name.sql
+--                              ^^ keyword.operator.assignment.is.sql
+--                                 ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                 ^ punctuation.definition.string.begin.sql
+--                                         ^ punctuation.definition.string.end.sql
 
 -- ----------------------------------------------------------------------------
 -- CREATE EXTENSION
@@ -682,7 +1261,7 @@ CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
 --                                               ^^ keyword.operator.cast.psql
 --                                                 ^^^^^^^^^^^^^^^^^ storage.type.sql
 --                                                                  ^ punctuation.section.group.end.sql
-    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying) 
+    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -748,9 +1327,9 @@ BEGIN
         ,"lBatchNum" INT
 --      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
 --      ^ punctuation.separator.sequence.sql
---       ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
---       ^ punctuation.definition.string.begin.sql
---                 ^ punctuation.definition.string.end.sql
+--       ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql - string
+--       ^ punctuation.definition.identifier.begin.sql
+--                 ^ punctuation.definition.identifier.end.sql
 --                   ^^^ storage.type.sql
 
         ,"bLog" SMALLINT
@@ -792,7 +1371,6 @@ BEGIN
     WHERE  D."sKey" = 'dtEff'
     AND A."sKey" = 'AutApprBLog'
     ;
-
 
 -- ----------------------------------------------------------------------------
 -- DECLARE Cursor
@@ -1013,3 +1591,66 @@ BEGIN
 --                    ^^^^^^^^ meta.table-name.sql
 --                      ^ punctuation.accessor.dot.sql
 --                            ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM sal_emp e
+LEFT JOIN LATERAL (
+-- <- keyword.other.dml.psql
+--  ^ - keyword
+--   ^^^^ keyword.other.dml.psql
+--       ^ - keyword
+--        ^^^^^^^ keyword.other.dml.psql
+--               ^ - keyword
+  SELECT p.name
+--^^^^^^ keyword.other.dml.sql
+  FROM person p
+--^^^^ keyword.other.dml.sql
+  JOIN test1 t ON true
+--^^^^ keyword.other.dml.psql
+  WHERE p.name = e.name
+--^^^^^ keyword.other.dml.sql
+) result ON true;
+
+SELECT * FROM sal_emp
+NATURAL LEFT OUTER JOIN person;
+-- <- keyword.other.dml.psql
+--     ^ - keyword
+--      ^^^^ keyword.other.dml.psql
+--          ^ - keyword
+--           ^^^^^ keyword.other.dml.psql
+--                ^ - keyword
+--                 ^^^^ keyword.other.dml.psql
+--                      ^^^^^^ meta.table-name.sql
+
+SELECT * FROM sal_emp
+CROSS JOIN LATERAL generate_series(1, 3) AS s;
+-- <- keyword.other.dml.psql
+--   ^ - keyword
+--    ^^^^ keyword.other.dml.psql
+--         ^^^^^^^ keyword.other.dml.psql
+--                 ^^^^^^^^^^^^^^^ meta.table-valued-function-name.sql
+
+SELECT * FROM LATERAL generate_series(1, 3) AS s;
+--            ^^^^^^^ keyword.other.dml.psql
+--                    ^^^^^^^^^^^^^^^ meta.table-valued-function-name.sql
+
+COMMENT ON TABLE users
+SELECT * FROM assets;
+-- <- keyword.other.dml.sql
+--^^^^ keyword.other.dml.sql
+--       ^^^^ keyword.other.dml.sql
+--            ^^^^^^ meta.table-name.sql
+
+COMMENT ON COLUMN users.id;
+SELECT id FROM users;
+-- <- keyword.other.dml.sql
+--^^^^ keyword.other.dml.sql
+--     ^^ meta.column-name.sql
+
+CREATE TABLE users (
+  id BIGINT,
+  comment TEXT
+--^^^^^^^ meta.column-name variable.other.member.declaration
+--        ^^^^ storage.type
+);
+

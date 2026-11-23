@@ -10,32 +10,15 @@ file_extensions:
   - pgsql
   - psql
 
-variables:
-
-  like_keyword: |-
-    (?xi: ilike | like )
-
-  simple_types: |-
-    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
-    | smallserial | serial | bigserial
-    | money
-    | bytea
-    | boolean
-    | times? | timestamp(?:s | tz)? | date | interval
-    | int4range | int8range | numrange | tsrange | tstzrange | daterange
-    | point | line | lseg | box | path | polygon | circle
-    | cidr | inet | macaddr | macaddr8
-    | tsvector | tsquery
-    | uuid
-    | text | xml | jsonb? )
-
-  types_with_optional_number: |-
-    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
+###[ CONTEXTS ]################################################################
 
 contexts:
 
+###[ STATEMENTS ]##############################################################
+
   statements:
     - meta_prepend: true
+    - include: comment-statements
     - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
       captures:
         1: punctuation.section.block.end.psql
@@ -103,7 +86,79 @@ contexts:
     - match: (?i:(?:with(?:out)?\s+)?hold)\b
       scope: storage.modifier.sql
 
+###[ DDL COMMENT STATEMENTS ]##################################################
+
+  comment-statements:
+    # https://www.postgresql.org/docs/current/sql-comment.html
+    - match: \b(?i:(comment)\s+(on))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.other.ddl.psql
+      push: comment-target
+
+  comment-target:
+    # final comment value
+    - match: \b(?i:is)\b
+      scope: keyword.operator.assignment.is.sql
+      set: single-string
+    # some lazy to match target modifiers
+    - match: \b(?i:on)\b
+      scope: keyword.other.sql
+      push: constraint-target-type
+    - match: \b(?i:using)\b
+      scope: keyword.other.ddl.sql
+      push: index-type-value
+    # targets
+    - match: \b(?i:cast)\b
+      scope: support.function.psql
+      push: cast-arguments
+    - match: \b(?i:column)\b
+      scope: keyword.other.ddl.sql
+      push: expect-column-name
+    - match: \b(?i:extension)\b
+      scope: keyword.other.ddl.psql
+      push: expect-extension-name
+    - match: \b(?i:constraint)\b
+      scope: keyword.other.ddl.sql
+      push: expect-constraint-name
+    - match: \b(?i:function|procedure|routine)\b
+      scope: keyword.other.ddl.psql
+      push:
+        - expect-function-parameters
+        - expect-function-name
+    - match: \b(?i:operator\s+(?:class|family))\b
+      scope: keyword.other.ddl.psql
+      push: expect-other-name
+    - match: \b(?i:operator)\b
+      scope: keyword.other.ddl.psql
+      push:
+        - maybe-type-group
+        - expect-other-name
+    - match: \b(?i:table)\b
+      scope: keyword.other.ddl.sql
+      push: expect-table-name
+    - match: \b{{other_comment_target_types}}\b
+      scope: keyword.other.ddl.psql
+      push: expect-other-name
+    - include: else-pop
+
+  constraint-target-type:
+    - match: (?i:domain)\b
+      scope: keyword.other.ddl.sql
+      set: expect-other-name
+    - include: expect-table-name
+
 ###[ DDL CREATE STATEMENTS ]###################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    # `comment` is a valid PostgreSQL column name, unlike MySQL's COMMENT modifier.
+    - match: (?=\b(?i:comment)\b)
+      push:
+        - maybe-column-modifier
+        - expect-type
+        - column-name-declaration
+        - single-identifier
 
   create-target:
     - meta_prepend: true
@@ -208,19 +263,50 @@ contexts:
     - include: numbers
     - include: else-pop
 
-###[ DDL STATEMENT PROTOTYPES ]################################################
+###[ DML STATEMENTS ]##########################################################
 
-  on-table-names:
-    - match: \b(?i:(on)(?:\s+(only))?)\b
+  # https://www.postgresql.org/docs/18/sql-expressions.html#SYNTAX-AGGREGATES
+  aggregate-filter:
+    - match: (\()\s*(where)\b
       captures:
-        1: keyword.other.sql
-        2: keyword.other.psql
-      push: expect-table-name
+        1: punctuation.section.group.begin.sql
+        2: keyword.other.dml.sql
+      set: inside-aggregate-filter
+    - include: else-pop
+
+  inside-aggregate-filter:
+    - meta_scope: meta.aggregate-filter.psql meta.group.sql
+    - include: group-end
+    - include: expressions-or-column-names
+
+  join-expressions:
+    # https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-LATERAL
+    - match: \b(?i:cross|inner|natural|full|left|right|outer)\b
+      scope: keyword.other.dml.psql
+    - match: \b(?i:join)\b
+      scope: keyword.other.dml.psql
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  table-name-or-subquery:
+    - meta_prepend: true
+    - match: \b(?i:lateral)\b
+      scope: keyword.other.dml.psql
+
+  maybe-table-alias:
+    - meta_prepend: true
+    # Leave NATURAL for the following join expression.
+    - match: (?=\b(?i:natural)\b)
+      pop: 1
 
 ###[ EXPRESSIONS ]#############################################################
 
   expressions:
     - meta_prepend: true
+    - match: \b(?i:filter)\b
+      scope: keyword.other.dml.sql
+      push: aggregate-filter
     - match: \b(?i:array)\b
       scope: keyword.declaration.psql
     - match: \[
@@ -249,6 +335,53 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.other.ddl.sql
       pop: 1
+
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: \b(?i:cast)\b
+      scope: support.function.psql
+      push: cast-arguments
+
+  cast-arguments:
+    - meta_scope: meta.function-call.sql
+    - match: \(
+      scope: meta.group.sql punctuation.section.arguments.begin.sql
+      set: inside-cast-arguments
+    - include: else-pop
+
+  inside-cast-arguments:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.psql
+      push: expect-type
+    - include: expressions-or-column-names
+
+###[ ON TARGET EXPRESSIONS ]###################################################
+
+  on-table-names:
+    - match: \b(?i:(on)(?:\s+(only))?)\b
+      captures:
+        1: keyword.other.sql
+        2: keyword.other.psql
+      push: expect-table-name
+
+###[ TYPES ]###################################################################
+
+  maybe-type-group:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-type-group
+    - include: else-pop
+
+  inside-type-group:
+    - meta_scope: meta.group.sql
+    - include: group-end
+    - include: comma-separators
+    - match: (?=\S)
+      push: expect-type
 
 ###[ IDENTIFIERS ]#############################################################
 
@@ -345,6 +478,8 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ STRINGS ]#################################################################
+
   strings:
     - meta_prepend: true
     # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
@@ -354,6 +489,9 @@ contexts:
     - match: \'(?=[^']+'::bytea\b)
       scope: punctuation.definition.string.begin.sql
       push: inside-single-quoted-bytea-string
+
+  # PostgreSQL uses double quotes for identifiers, not string literals.
+  double-quoted-strings: []
 
   inside-single-quoted-escape-string:
     - meta_include_prototype: false
@@ -388,3 +526,60 @@ contexts:
     - match: \\x\h{8}
       scope: constant.character.escape.sql
     - include: string-escapes
+
+###[ VARIABLES ]###############################################################
+
+variables:
+
+  like_keyword: |-
+    (?xi: ilike | like )
+
+  simple_types: |-
+    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
+    | smallserial | serial | bigserial
+    | money
+    | bytea
+    | boolean
+    | times? | timestamp(?:s | tz)? | date | interval
+    | int4range | int8range | numrange | tsrange | tstzrange | daterange
+    | point | line | lseg | box | path | polygon | circle
+    | cidr | inet | macaddr | macaddr8
+    | tsvector | tsquery
+    | uuid
+    | text | xml | jsonb? )
+
+  types_with_optional_number: |-
+    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
+
+  other_comment_target_types: |-
+    (?xi:
+      access\s+method
+    | aggregate
+    | collation
+    | conversion
+    | database
+    | domain
+    | event\s+trigger
+    | foreign\s+data\s+wrapper
+    | foreign\s+table
+    | index
+    | large\s+object
+    | materialized\s+view
+    | operator(?:\s+(?:class|family))?
+    | policy
+    | (?:procedural\s+)?language
+    | publication
+    | role
+    | rule
+    | schema
+    | sequence
+    | server
+    | statistics
+    | subscription
+    | tablespace
+    | text\s+search\s+(?:configuration|dictionary|parser|template)
+    | transform\s+for
+    | trigger
+    | type
+    | view
+    )
