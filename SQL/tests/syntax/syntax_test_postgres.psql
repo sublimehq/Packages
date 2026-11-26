@@ -1655,10 +1655,8 @@ CREATE TABLE users (
 );
 
 
-/* NOTES:
-    Ensure Operators containing '#' are correctly matched to operators
-    And that they dont get matched to comments from the inherited mysql definition
-*/
+-- NOTE: Ensure operators containing '#' are scoped as operator and that
+--       they dont get scoped as comments by the inherited MySQL definition
 
 SELECT 17 # 5;
 --        ^ keyword.operator.psql - comment
@@ -1688,9 +1686,7 @@ SELECT # p FROM polygons;
 --     ^ keyword.operator.psql - comment
 
 
-/* NOTES:
-    Ensure `#` inside actual comments and strings remains unaffected
-*/
+-- NOTE: Ensure `#` remains unaffected inside comments and strings
 
 SELECT '#';
 --     ^^^ string.quoted.single - keyword.operator

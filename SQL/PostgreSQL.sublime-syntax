@@ -463,7 +463,7 @@ contexts:
     - match: \.\.
       scope: keyword.operator.psql
 
-      # NOTES: PostgreSQL 'number-sign-operators'
+      # NOTE: PostgreSQL 'number-sign-operators'
       #
       #      | ?#|   |  |  |  | |   Geometric intersection test
       #      |   |#>>|  |  |  | |   JSON path extraction as text
