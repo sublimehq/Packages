@@ -1654,3 +1654,49 @@ CREATE TABLE users (
 --        ^^^^ storage.type
 );
 
+
+/* NOTES:
+    Ensure Operators containing '#' are correctly matched to operators
+    And that they dont get matched to comments from the inherited mysql definition
+*/
+
+SELECT 17 # 5;
+--        ^ keyword.operator.psql - comment
+
+SELECT a # b FROM t;
+--       ^ keyword.operator.psql - comment
+
+SELECT a##b FROM t;
+--      ^^ keyword.operator.psql - comment
+
+SELECT a ?# b FROM t;
+--       ^^ keyword.operator.psql - comment
+
+SELECT doc #> '{a,b}' FROM t;
+--         ^^ keyword.operator.psql - comment
+--            ^^^^^^^ string.quoted.single - comment
+
+SELECT doc#>>'{a,b}' FROM t;
+--        ^^^ keyword.operator.psql - comment
+--           ^^^^^^^ string.quoted.single - comment
+
+SELECT doc #- '{a,b}' FROM t;
+--         ^^ keyword.operator.psql - comment
+--            ^^^^^^^ string.quoted.single - comment
+
+SELECT # p FROM polygons;
+--     ^ keyword.operator.psql - comment
+
+
+/* NOTES:
+    Ensure `#` inside actual comments and strings remains unaffected
+*/
+
+SELECT '#';
+--     ^^^ string.quoted.single - keyword.operator
+
+-- # this is a comment
+-- ^^^^^^^^^^^^^^^^^^ comment.line.double-dash
+
+/* # */
+-- ^ comment.block - keyword.operator
