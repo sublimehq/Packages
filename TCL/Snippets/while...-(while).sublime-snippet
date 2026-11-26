@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[while {${1:condition}} {
-	${2}
+	${0}
 }
 ]]></content>
 	<tabTrigger>while</tabTrigger>

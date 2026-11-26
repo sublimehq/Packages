@@ -3,7 +3,7 @@
 	${3:match} {
 		${4}
 	}
-	default {${5}}
+	default {${0}}
 }
 ]]></content>
 	<tabTrigger>switch</tabTrigger>
