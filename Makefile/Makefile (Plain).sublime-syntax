@@ -9,10 +9,13 @@ hidden: true
 
 contexts:
 
-  # 3.1 What Makefiles Contain
-  # Makefiles contain five kinds of things: explicit rules, implicit rules,
-  # variable definitions, directives, and comments.
   main:
+    - include: makefile
+
+  makefile:
+    # 3.1 What Makefiles Contain
+    # Makefiles contain five kinds of things: explicit rules, implicit rules,
+    # variable definitions, directives, and comments.
     - include: comments
     - include: merge-conflict-markers
     - include: line-continuations
@@ -77,7 +80,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - match: \s*$
-      set: main
+      set: makefile
     - include: shell-value-content
 
   shell-value-content:

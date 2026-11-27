@@ -14,6 +14,8 @@ SHELL = $(shell ls ~/dir/)
 #                   ^^^^^ string.unquoted.shell
 #                        ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell:
 	ls ~/dir/
 #^^^^^^^^^ meta.function.body.makefile source.shell.bash.embedded.makefile
@@ -22,6 +24,8 @@ shell:
 #   ^^^^^^ meta.string.glob.shell
 #   ^ meta.interpolation.tilde.shell variable.language.tilde.shell
 #    ^^^^^ string.unquoted.shell
+
+# <- source.makefile - source source
 
 SHELL=/usr/bin/zsh # comment
 #^^^^ variable.other.makefile
@@ -32,6 +36,8 @@ SHELL=/usr/bin/zsh # comment
 #                  ^^^^^^^^^^ comment.line.number-sign.makefile
 #                  ^ punctuation.definition.comment.makefile
 #                           ^ meta.eol.makefile
+
+# <- source.makefile - source source
 
 SHELL = $(shell ls ~/dir<1-2>/)
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -49,6 +55,8 @@ SHELL = $(shell ls ~/dir<1-2>/)
 #                            ^ string.unquoted.shell
 #                             ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell:
 	ls ~/dir<1-2>/
 #^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.zsh.embedded.makefile
@@ -60,6 +68,8 @@ shell:
 #        ^^^^^ meta.range.shell.zsh
 #             ^ string.unquoted.shell
 
+# <- source.makefile - source source
+
 SHELL=%SystemRoot%\System32\cmd.exe # comment
 #^^^^ variable.other.makefile
 #    ^ keyword.operator.assignment.makefile
@@ -68,6 +78,8 @@ SHELL=%SystemRoot%\System32\cmd.exe # comment
 #                                   ^^^^^^^^^^ comment.line.number-sign.makefile
 #                                   ^ punctuation.definition.comment.makefile
 #                                            ^ meta.eol.makefile
+
+# <- source.makefile - source source
 
 SHELL = $(shell dir %USERPROFILE%/)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -86,6 +98,8 @@ SHELL = $(shell dir %USERPROFILE%/)
 #                                ^ string.unquoted.dosbatch
 #                                 ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell:
 	dir %USERPROFILE%/
 #^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.dosbatch.embedded.makefile
@@ -98,6 +112,8 @@ shell:
 #                ^ punctuation.section.interpolation.end.dosbatch
 #                 ^ string.unquoted.dosbatch
 
+# <- source.makefile - source source
+
 SHELL=/usr/bin/env bash  # comment
 #^^^^ variable.other.makefile
 #    ^ keyword.operator.assignment.makefile
@@ -108,6 +124,8 @@ SHELL=/usr/bin/env bash  # comment
 #                        ^ punctuation.definition.comment.makefile
 #                                 ^ meta.eol.makefile
 
+# <- source.makefile - source source
+
 shell:
 	ls ~/dir/
 #^^^^^^^^^ meta.function.body.makefile source.shell.bash.embedded.makefile
@@ -116,3 +134,5 @@ shell:
 #   ^^^^^^ meta.string.glob.shell
 #   ^ meta.interpolation.tilde.shell variable.language.tilde.shell
 #    ^^^^^ string.unquoted.shell
+
+# <- source.makefile - source source

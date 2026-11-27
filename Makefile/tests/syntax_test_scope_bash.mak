@@ -8,7 +8,7 @@ SHELL=bash
 
 # this is a comment
 # <- comment.line.number-sign.makefile punctuation.definition.comment.makefile
-#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile - source source
 
 # this is a \
 multiline comment
@@ -2821,6 +2821,8 @@ shell = $(shell echo *.c)
 #                    ^ constant.other.wildcard.asterisk.shell
 #                       ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
 #       ^ punctuation.definition.interpolation.makefile
@@ -2846,6 +2848,8 @@ shell = $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                                         ^ punctuation.definition.string.end.shell
 #                                          ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell = $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #^^^^ variable.other.makefile
 #     ^ keyword.operator.assignment.makefile
@@ -2854,6 +2858,8 @@ shell = $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #                ^^ constant.character.escape.makefile
 #                            ^^^^ constant.character.escape.makefile
 #                                       ^^^^ constant.character.escape.makefile
+
+# <- source.makefile - source source
 
 shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile
@@ -2880,6 +2886,8 @@ shell : $(shell $(LIST) -d $$HOME/ '$$NAME')
 #                                         ^ punctuation.definition.string.end.shell
 #                                          ^ punctuation.section.interpolation.end.makefile
 
+# <- source.makefile - source source
+
 shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.arguments.makefile meta.string.makefile meta.interpolation.makefile
 #       ^^ punctuation.definition.interpolation.makefile
@@ -2905,6 +2913,8 @@ shell : $$(shell $$(LIST) -d $$$$HOME/ '$$$$NAME')
 #                                               ^ punctuation.definition.string.end.shell
 #                                                ^ punctuation.section.interpolation.end.makefile
 #                                                 ^ meta.function.makefile
+
+# <- source.makefile - source source
 
 ##############################
 # 10.5.3 Automatic Variables #
