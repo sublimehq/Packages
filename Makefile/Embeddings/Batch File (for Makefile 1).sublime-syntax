@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+scope: source.dosbatch.embedded.makefile.expansion
+version: 2
+hidden: true
+
+# Use compound variant to ensure contexts are popped off stack by ) in $(shell...)
+extends: Packages/Batch File/Batch File (Compound).sublime-syntax
+
+contexts:
+
+  line-continuations:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#line-continuations
+
+  quoted-escapes-and-interpolations:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#escaped-dollars
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations
+
+  string-common:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#escaped-dollars
+    - include: Packages/Makefile/Makefile.sublime-syntax#interpolations

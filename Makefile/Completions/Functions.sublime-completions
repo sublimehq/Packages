@@ -1,0 +1,233 @@
+{
+	"scope": "meta.interpolation.makefile > variable",
+	"completions": [
+		{
+			"trigger": "abspath",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "addprefix",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "addsuffix",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "and",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "basename",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "call",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "dir",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "error",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "eval",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "file",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "filter",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "filter-out",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "findstring",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "firstword",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "flavor",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "foreach",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "guile",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "if",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "info",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "intcmp",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "join",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "lastword",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "notdir",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "or",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "origin",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "patsubst",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "realpath",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "shell",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "sort",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "strip",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "subst",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "suffix",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "value",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "warning",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "wildcard",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "word",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "wordlist",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+		{
+			"trigger": "words",
+			"annotation": "built-in",
+			"kind": "function",
+			"details": " "
+		},
+	]
+}
