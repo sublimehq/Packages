@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[for {${1:set i 0}} {${2:\$i < \$n}} {${3:incr i}} {
-	${4}
+	${0}
 }
 ]]></content>
 	<tabTrigger>for</tabTrigger>
