@@ -1959,6 +1959,10 @@ using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
 
+using enum myEnum;
+/* <- keyword.control */
+/*    ^ keyword.declaration */
+
 namespace ns :: abc /* Neither this comment... */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace */
 /*        ^^^^^^^^^ entity.name.namespace */
