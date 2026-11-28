@@ -2949,14 +2949,14 @@ contexts:
         - command-expansion
     - match: ({{interpolation_punct}})(\[)
       captures:
-        1: punctuation.definition.variable.shell.shell
-        2: punctuation.section.interpolation.begin.shell.shell
+        1: punctuation.definition.interpolation.shell
+        2: punctuation.section.interpolation.begin.shell
       push: arithmetic-expansion-bracket-body
 
   arithmetic-expansion:
     - match: ({{interpolation_punct}})(\(\()
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: punctuation.section.interpolation.begin.shell
       set: arithmetic-expansion-parens-body
 
@@ -2972,9 +2972,9 @@ contexts:
     - include: expression-illegals
 
   arithmetic-expansion-bracket-body:
-    - meta_scope: meta.interpolation.arithmetic.shell.shell
+    - meta_scope: meta.interpolation.arithmetic.shell
     - match: \]
-      scope: punctuation.section.interpolation.end.shell.shell
+      scope: punctuation.section.interpolation.end.shell
       pop: 1
     - include: terminators
     - include: expression-content
@@ -3086,7 +3086,7 @@ contexts:
   command-expansions:
     - match: ({{interpolation_punct}})(\()
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: punctuation.section.interpolation.begin.shell
       push: command-expansion-body
     # scope backtick command expansion containing only line comment
@@ -3117,7 +3117,7 @@ contexts:
   command-expansion:
     - match: ({{interpolation_punct}})(\()
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: punctuation.section.interpolation.begin.shell
       set: command-expansion-body
 
@@ -3138,11 +3138,10 @@ contexts:
     # the background. The previous job may be referenced using ‘%-’.
     # Job number n may be referred to as ‘%n’.
     - match: (%)([-+%]|\d+)
-      scope:
-        meta.interpolation.job.shell
-        variable.language.job.shell
+      scope: meta.interpolation.job.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
+        2: variable.language.job.shell
     # A job may also be referred to using a prefix of the name used to start it,
     # or using a substring that appears in its command line. For example, ‘%ce’
     # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
@@ -3150,20 +3149,19 @@ contexts:
     # substring matches more than one job, Bash reports an error.
     # A single ‘%’ (with no accompanying job specification) also refers to the
     # current job.
-    - match: (%)(?:(\??)\w+)?
-      scope:
-        meta.interpolation.job.shell
-        variable.other.readwrite.shell
+    - match: (%)(?:(\??)(\w+))?
+      scope: meta.interpolation.job.shell
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: keyword.operator.match.shell
+        3: variable.other.readwrite.shell
 
 ###[ PARAMETER EXPANSIONS ]####################################################
 
   parameter-expansions:
     - match: ({{interpolation_punct}})(\{)
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
         2: punctuation.section.interpolation.begin.shell
       push:
         - parameter-expansion-meta
@@ -3178,27 +3176,27 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
-    - match: ({{interpolation_punct}})\d
-      scope: variable.language.positional.shell
+    - match: ({{interpolation_punct}})(\d)
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
+        2: variable.language.positional.shell
       pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
-    - match: ({{interpolation_punct}}){{builtin_variables}}
-      scope: variable.language.builtin.shell
+    - match: ({{interpolation_punct}})({{builtin_variables}})
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
+        2: variable.language.builtin.shell
       pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
-    - match: ({{interpolation_punct}}){{special_variables}}
-      scope: variable.language.special.shell
+    - match: ({{interpolation_punct}})({{special_variables}})
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
+        2: variable.language.special.shell
       pop: 1
-    - match: ({{interpolation_punct}}){{identifier}}
-      scope: variable.other.readwrite.shell
+    - match: ({{interpolation_punct}})({{identifier}})
       captures:
-        1: punctuation.definition.variable.shell
+        1: punctuation.definition.interpolation.shell
+        2: variable.other.readwrite.shell
       pop: 1
     - include: immediately-pop
 
